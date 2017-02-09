@@ -30,6 +30,7 @@ public class APICalling extends AsyncTask<String, Void, String> {
         try {
             if (params[2]!= null)
             parameters = new JSONObject(params[2]) ;
+            Log.v("Params2",parameters.toString() );
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -47,7 +48,8 @@ public class APICalling extends AsyncTask<String, Void, String> {
             Uri builtUri;
             if (params[0].equals("POST")){
                 builtUri = Uri.parse(API_BASE_URL).buildUpon()
-                        .appendQueryParameter("firstParam", parameters.toString())
+                        .appendQueryParameter("email", parameters.getString("email"))
+                        .appendQueryParameter("password", parameters.getString("password"))
                         .build();
             } else {
                 builtUri = Uri.parse(API_BASE_URL).buildUpon()
@@ -87,6 +89,8 @@ public class APICalling extends AsyncTask<String, Void, String> {
                 return null;
             }
             responseJsonStr = buffer.toString();
+            JSONObject temp = new JSONObject(responseJsonStr);
+            Log.v("token", urlConnection.getHeaderFields().toString());
             Log.v(LOG_TAG,"Json String is" + responseJsonStr);
             Log.v(LOG_TAG,"Response" + urlConnection.getInputStream());
             return responseJsonStr;
@@ -95,6 +99,8 @@ public class APICalling extends AsyncTask<String, Void, String> {
             // If the code didn't successfully get the weather data, there's no point in attemping
             // to parse it.
             return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -108,5 +114,6 @@ public class APICalling extends AsyncTask<String, Void, String> {
                 }
             }
         }
+        return responseJsonStr;
     }
 }
