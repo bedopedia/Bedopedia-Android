@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+
+    <ImageView
+        android:layout_width="113dp"
+        android:layout_height="100dp"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar"
+        android:id="@+id/notificationLogo"
+        android:src="@drawable/notification"
+        android:layout_alignTop="@+id/notificationContent"
+        android:layout_toLeftOf="@+id/notificationContent"
+        android:layout_toStartOf="@+id/notificationContent"
+        android:layout_above="@+id/notificationDate"
+        android:layout_alignParentLeft="true"
+        android:scaleType="fitCenter"/>
+
+    <TextView
+        android:text="Today 9:00 Am"
+        android:layout_width="232dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/notificationDate"
+        android:layout_below="@+id/notificationContent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="44dp"
+        android:layout_marginEnd="44dp"
+        android:layout_alignParentLeft="true"
+        android:textSize="16sp" />
+
+    <TextView
+        android:text="Math Quiz subbmitted successfully  and autograded"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/notificationContent"
+        android:layout_marginTop="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/notificationDate"
+        android:layout_alignStart="@+id/notificationDate"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:textSize="20sp"
+        android:textColorLink="?android:attr/colorForeground"
+        android:textStyle="normal|bold"
+        tools:textColor="@android:color/black" />
+</RelativeLayout>
