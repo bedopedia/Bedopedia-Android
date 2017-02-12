@@ -35,19 +35,13 @@ public class User {
         this.mobile = "";
     }
 
-    public User(String firstName, String middleName, String lastName, Date dateOfBirth, String gender, String email, Date createdAt, Date updatedAt, String avatar, String userType, String phone, String mobile) {
+    public User(String firstName, String lastName, String gender, String email, String avatar, String userType) {
         this.firstName = firstName;
-        this.middleName = middleName;
         this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.email = email;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
         this.avatar = avatar;
         this.userType = userType;
-        this.phone = phone;
-        this.mobile = mobile;
     }
 
     public String getFirstName() {
