@@ -25,8 +25,8 @@ public class Student extends User{
         courses = new ArrayList<Course>();
     }
 
-    public Student(String firstName, String middleName, String lastName, Date dateOfBirth, String gender, String email, Date createdAt, Date updatedAt, String avatar, String userType, String phone, String mobile, String level, String section, String stage, int bedoPoints, Parent parent,ArrayList<Course> courses) {
-        super(firstName, middleName, lastName, dateOfBirth, gender, email, createdAt, updatedAt, avatar, userType, phone, mobile);
+    public Student(String firstName, String lastName, String gender, String email, String avatar, String userType, String level, String section, String stage, int bedoPoints, Parent parent, ArrayList<Course> courses) {
+        super(firstName, lastName, gender, email, avatar, userType);
         this.level = level;
         this.section = section;
         this.stage = stage;
