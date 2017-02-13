@@ -1,5 +1,7 @@
 package Models;
 
+import java.util.Date;
+
 /**
  * Created by ali on 12/02/17.
  */
@@ -7,13 +9,14 @@ package Models;
 public class NotificationModel {
 
     private String content;
-    private String Date;
+    private Date date;
     private String logoUrl;
 
-
-    public NotificationModel(String content, String date, String logoUrl) {
+    public NotificationModel() {
+    }
+    public NotificationModel(String content, Date date, String logoUrl) {
         this.content = content;
-        Date = date;
+        this.date = date;
         this.logoUrl = logoUrl;
     }
 
@@ -25,12 +28,12 @@ public class NotificationModel {
         this.content = content;
     }
 
-    public String getDate() {
-        return Date;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDate(String date) {
-        Date = date;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getLogoUrl() {

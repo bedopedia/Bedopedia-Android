@@ -47,12 +47,12 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
         }
         item=new Holder();
 
-        //item.logo = (ImageView) view.findViewById(R.id.notificationLogo);
+        //TODO notification logo
         item.content = (TextView) view.findViewById(R.id.notificationContent);
         item.date =  (TextView) view.findViewById(R.id.notificationDate);
 
         item.content.setText(notification.getContent());
-        item.date.setText(notification.getDate());
+        item.date.setText(notification.getDate().toString());
 
 
         return view;
