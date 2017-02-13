@@ -19,6 +19,7 @@ import Models.Student;
 public class MyKidsActivity extends AppCompatActivity{
 
     List<Student> myKids;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
