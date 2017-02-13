@@ -13,6 +13,7 @@ public class Course {
     private Date updatedAt;
     private float totalGrade;
     private float passLimit;
+    private float grade;
 
     public Course() {
         this.name = "";
@@ -21,12 +22,14 @@ public class Course {
         this.updatedAt = new Date();
         this.totalGrade = 0;
         this.passLimit = 0;
+        this.grade = 0;
     }
 
-    public Course(String name, String discription, float passLimit) {
+    public Course(String name, String discription, float passLimit, float grade) {
         this.name = name;
         this.discription = discription;
         this.passLimit = passLimit;
+        this.grade = grade;
     }
 
     public String getName() {
@@ -75,5 +78,13 @@ public class Course {
 
     public void setPassLimit(float passLimit) {
         this.passLimit = passLimit;
+    }
+
+    public float getGrade() {
+        return grade;
+    }
+
+    public void setGrade(float grade) {
+        this.grade = grade;
     }
 }

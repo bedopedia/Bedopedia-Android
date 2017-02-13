@@ -1,4 +1,3 @@
 <resources>
-    <string name="app_name">Bedopedia-Android</string>
-    <string name="title_activity_client">ClientActivity</string>
+    <string name="app_name">Bedopedia</string>
 </resources>
