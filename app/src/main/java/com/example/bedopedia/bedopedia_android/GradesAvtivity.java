@@ -12,7 +12,6 @@ import java.util.List;
 
 import Adapters.GradesAdapter;
 import Models.Course;
-import Models.Grade;
 import Models.Student;
 
 /**
@@ -20,7 +19,7 @@ import Models.Student;
  */
 
 public class GradesAvtivity extends AppCompatActivity {
-    List<Grade> grades;
+    List<Course> courses;
     ImageButton back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +38,13 @@ public class GradesAvtivity extends AppCompatActivity {
                 //TODO go to another activity
             }
         });
-        //setTitle("Grades");
-        grades = new ArrayList<Grade>();
-        grades.add(new Grade((float) 96.0, new Course("Math" , "discription" , 50) , new Student()));
-        grades.add(new Grade((float) 94.0, new Course("English" , "discription" , 50) , new Student()));
-        grades.add(new Grade((float) 92.0, new Course("Science" , "discription" , 50) , new Student()));
 
-        GradesAdapter adapter = new GradesAdapter(this, R.layout.single_grade, grades);
+        courses = new ArrayList<Course>();
+        courses.add(new Course("Math" , "discription" , 50, 94));
+        courses.add(new Course("English" , "discription" , 50, 92));
+        courses.add(new Course("Science" , "discription" , 50, 97));
+
+        GradesAdapter adapter = new GradesAdapter(this, R.layout.single_grade, courses);
         GridView gradesList = (GridView) findViewById(R.id.grades_list);
         gradesList.setAdapter(adapter);
     }
