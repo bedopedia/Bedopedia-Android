@@ -23,9 +23,16 @@ public class Notification extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
+        getSupportActionBar().setTitle("Notifications");
+
 
         notifications = new  ArrayList<NotificationModel>();
 
+        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", "Today 9:00 AM", null));
+        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", "Today 9:00 AM", null));
+        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", "Today 9:00 AM", null));
+        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", "Today 9:00 AM", null));
+        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", "Today 9:00 AM", null));
         notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", "Today 9:00 AM", null));
         notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", "Today 9:00 AM", null));
         notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", "Today 9:00 AM", null));
