@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.bedopedia.bedopedia_android.R;
 
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import Models.NotificationModel;
@@ -52,7 +53,8 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
         item.date =  (TextView) view.findViewById(R.id.notificationDate);
 
         item.content.setText(notification.getContent());
-        item.date.setText(notification.getDate().toString());
+        SimpleDateFormat dt = new SimpleDateFormat("d MMM, h:mm a");
+        item.date.setText(dt.format(notification.getDate()));
 
 
         return view;

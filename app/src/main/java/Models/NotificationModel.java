@@ -1,5 +1,6 @@
 package Models;
 
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ public class NotificationModel {
 
     public NotificationModel() {
     }
-    public NotificationModel(String content, Date date, String logoUrl) {
+    public NotificationModel(String content, Date date, String logoUrl) throws ParseException {
         this.content = content;
         this.date = date;
         this.logoUrl = logoUrl;
