@@ -4,7 +4,7 @@ package Services;
  *
  */
 
-import android.app.Activity;
+import android.content.SharedPreferences;
 
 import java.io.IOException;
 
@@ -15,28 +15,19 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "http://192.168.6.115:3000";
+    private static final String BASE_URL = "http://192.168.1.6:3000/";
     private static Retrofit retrofit = null;
-    private static String accessToken = null;
 
-    public static Retrofit getClient() {
-        if (retrofit==null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit;
-    }
 
-    public static Retrofit addHeader(final String key, final String value) {
+    public static Retrofit getClient(SharedPreferences sharedPreferences) {
 
+        final String authToken = sharedPreferences.getString("access-token", "");
 
         Interceptor interceptor = new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
                 Request newRequest = chain.request()
-                        .newBuilder().addHeader(key, value).build();
+                        .newBuilder().addHeader("access-token", authToken).build();
                 return chain.proceed(newRequest);
             }
         };
@@ -52,4 +43,5 @@ public class ApiClient {
                 .build();
         return retrofit;
     }
+
 }

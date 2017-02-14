@@ -19,7 +19,4 @@ public interface ApiInterface {
     @GET
     Call<JsonObject> getServise(@Url String url,@QueryMap Map<String,String> params);
 
-    @GET
-    Call<JsonObject> getUser(@Url String url);
-
 }

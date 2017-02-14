@@ -1,15 +1,13 @@
 package com.example.bedopedia.bedopedia_android;
 
-import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
@@ -24,11 +22,21 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static SharedPreferences sharedPreferences = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
+        sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+        String authToken = sharedPreferences.getString("access-token", "");
+        if(!authToken.equals("")) {
+            String userId = sharedPreferences.getString("user_id", "");
+            String username = sharedPreferences.getString("username", "");
+            if(!(userId.equals("") && username.equals(""))) {
+                Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
+                startActivity(i);
+            }
+        }
     }
 
 
@@ -42,7 +50,8 @@ public class LoginActivity extends AppCompatActivity {
         params.put("password",password);
         String url = "api/auth/sign_in";
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+        ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
         Call<JsonObject> call = apiService.postServise(url, params);
 
         call.enqueue(new Callback<JsonObject>() {
@@ -53,15 +62,28 @@ public class LoginActivity extends AppCompatActivity {
                     String errorText = "wrong username or password";
                     Toast.makeText(getApplicationContext(),errorText,Toast.LENGTH_SHORT).show();
                 } else if (statusCode == 200) {
+
                     String token = response.headers().get("access-token").toString();
-                    JsonElement body = response.body().get("data");
-                    String username = body.getAsJsonObject().get("username").toString();
+                    JsonObject body = response.body().get("data").getAsJsonObject();
+                    String username = body.get("username").toString();
+                    String userId = body.get("id").toString();
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("access-token", token);
+                    editor.putString("user_id", userId);
+                    editor.putString("username", username);
+                    editor.commit();
+
+                    Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
+                    startActivity(i);
+
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(),"connection failed",Toast.LENGTH_SHORT).show();
             }
         });
     }
