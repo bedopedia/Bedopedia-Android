@@ -20,6 +20,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.R.attr.data;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,12 +31,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
-        String authToken = sharedPreferences.getString("access-token", "");
-        String userId = sharedPreferences.getString("user_id", "");
-        String username = sharedPreferences.getString("username", "");
-        if(!(authToken.equals("") || userId.equals("") || username.equals(""))) {
+
+        String authToken = sharedPreferences.getString("header_access-token", "");
+        String userData = sharedPreferences.getString("user_data", "");
+        if(!(authToken.equals("") || userData.equals(""))) {
             Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
-//            startActivity(i);
+            startActivity(i);
         }
     }
 
@@ -61,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                     String errorText = "wrong username or password";
                     Toast.makeText(getApplicationContext(),errorText,Toast.LENGTH_SHORT).show();
                 } else if (statusCode == 200) {
-
                     String accessToken = response.headers().get("access-token").toString();
                     String tokenType = response.headers().get("token-type").toString();
                     String clientCode = response.headers().get("client").toString();
@@ -78,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("header_token-type", tokenType);
                     editor.putString("header_client", clientCode);
                     editor.putString("header_uid", uid);
+
                     editor.putString("user_id", userId);
                     editor.putString("id", id);
                     editor.putString("username", username);

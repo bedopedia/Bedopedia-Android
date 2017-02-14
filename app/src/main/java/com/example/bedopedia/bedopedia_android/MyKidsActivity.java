@@ -48,7 +48,8 @@ public class MyKidsActivity extends AppCompatActivity{
         studentsList.setAdapter(adapter);
 
         SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
-        ApiInterface apiService = ApiClient.getClient(sharedPreferences ).create(ApiInterface.class);
+        String id = sharedPreferences.getString("id", "");
+        ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
         String url = "api/parents/" + id + "/children";
         Map <String, String> m = new HashMap<>();
         m.put("parent_id" , "" + id);
@@ -63,7 +64,7 @@ public class MyKidsActivity extends AppCompatActivity{
                 } else if (statusCode == 200) {
 
                     JsonObject data = response.body().get(0);
-                    Log.e("data" , data.toString());
+//                    Log.e("data" , data.toString());
                 }
             }
 

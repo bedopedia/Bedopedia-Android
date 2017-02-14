@@ -22,6 +22,7 @@ public class ApiClient {
 
 
     public static Retrofit getClient(SharedPreferences sharedPreferences) {
+
         final String accessToken = sharedPreferences.getString("header_access-token", "");
         final String tokenType = sharedPreferences.getString("header_token-type", "");
         final String clientCode = sharedPreferences.getString("header_client", "");
@@ -32,9 +33,9 @@ public class ApiClient {
             public okhttp3.Response intercept(Chain chain) throws IOException {
                 Request newRequest = chain.request()
                         .newBuilder().addHeader("access-token", accessToken)
-                                 .addHeader("token-type", tokenType)
-                                 .addHeader("uid", uid)
-                                 .addHeader("client", clientCode).build();
+                                .addHeader("uid", uid)
+                                 .addHeader("client", clientCode)
+                                .addHeader("token-type", tokenType).build();
                 return chain.proceed(newRequest);
             }
         };
