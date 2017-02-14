@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
@@ -29,13 +30,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login);
         sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
         String authToken = sharedPreferences.getString("access-token", "");
-        if(!authToken.equals("")) {
-            String userId = sharedPreferences.getString("user_id", "");
-            String username = sharedPreferences.getString("username", "");
-            if(!(userId.equals("") && username.equals(""))) {
-                Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
-                startActivity(i);
-            }
+        String userId = sharedPreferences.getString("user_id", "");
+        String username = sharedPreferences.getString("username", "");
+        if(!(authToken.equals("") || userId.equals("") || username.equals(""))) {
+            Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
+//            startActivity(i);
         }
     }
 
@@ -63,16 +62,26 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),errorText,Toast.LENGTH_SHORT).show();
                 } else if (statusCode == 200) {
 
-                    String token = response.headers().get("access-token").toString();
-                    JsonObject body = response.body().get("data").getAsJsonObject();
-                    String username = body.get("username").toString();
-                    String userId = body.get("id").toString();
+                    String accessToken = response.headers().get("access-token").toString();
+                    String tokenType = response.headers().get("token-type").toString();
+                    String clientCode = response.headers().get("client").toString();
+                    String uid = response.headers().get("uid").toString();
+
+                    JsonObject data = response.body().get("data").getAsJsonObject();
+                    String username = data.get("username").toString();
+                    String userId = data.get("id").toString();
+                    String id = data.get("actable_id").toString();
 
                     SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("access-token", token);
+                    editor.putString("header_access-token", accessToken);
+                    editor.putString("header_token-type", tokenType);
+                    editor.putString("header_client", clientCode);
+                    editor.putString("header_uid", uid);
                     editor.putString("user_id", userId);
+                    editor.putString("id", id);
                     editor.putString("username", username);
+                    editor.putString("user_data", data.toString());
                     editor.commit();
 
                     Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
