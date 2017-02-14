@@ -15,7 +15,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="2">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -39,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView2"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:text="Grade 9"
@@ -54,11 +55,12 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:text="TextView"
+                android:text="12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView5"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textAlignment="viewEnd" />
 
             <Button
                 android:text="Button"
@@ -74,7 +76,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -125,7 +128,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -169,7 +173,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -213,7 +218,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <FrameLayout
             android:layout_width="wrap_content"
