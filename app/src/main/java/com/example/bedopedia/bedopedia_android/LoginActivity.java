@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -25,23 +26,55 @@ import static android.R.attr.data;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static SharedPreferences sharedPreferences = null;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
 
+
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("header_access-token", "");
+
+
+        editor.commit();
+
         String authToken = sharedPreferences.getString("header_access-token", "");
         String userData = sharedPreferences.getString("user_data", "");
-        if(!(authToken.equals("") || userData.equals(""))) {
+        String uid = sharedPreferences.getString("header_uid", "");
+
+        if(!(authToken.equals("") || userData.equals("") || uid.equals(""))) {
             Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
             startActivity(i);
+            finish();
         }
+
+        ((Button) findViewById(R.id.loginSubmit)).setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  loginService();
+                  finish();
+              }
+        });
+
+        ((View) findViewById(R.id.forget_password)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i =  new Intent(getApplicationContext(), ForgetPasswordActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 
 
-    public void loginService (View view) {
+
+
+     private void loginService () {
 
         String email = ((AutoCompleteTextView)findViewById(R.id.email)).getText().toString();
         String password = ((AutoCompleteTextView)findViewById(R.id.password)).getText().toString();
