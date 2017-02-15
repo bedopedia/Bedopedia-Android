@@ -1,6 +1,11 @@
 package Models;
 
+import android.util.Pair;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by mohamed on 2/9/17.
@@ -13,6 +18,8 @@ public class Course {
     private Date updatedAt;
     private float totalGrade;
     private float passLimit;
+    private ArrayList<Pair<String, String>> classWorks;
+    private ArrayList<Pair<String, String>> assignments;
     private float grade;
 
     public Course() {
@@ -78,6 +85,22 @@ public class Course {
 
     public void setPassLimit(float passLimit) {
         this.passLimit = passLimit;
+    }
+
+    public void setClassWorks(ArrayList<Pair<String, String>> classWorks ) {
+        this.classWorks = classWorks;
+    }
+
+    public void setAssignments(ArrayList<Pair<String, String>> assignments ) {
+        this.assignments = assignments;
+    }
+
+    public ArrayList<Pair<String, String>> getClassWorks() {
+        return classWorks;
+    }
+
+    public ArrayList<Pair<String, String>> getAssignments() {
+        return assignments;
     }
 
     public float getGrade() {
