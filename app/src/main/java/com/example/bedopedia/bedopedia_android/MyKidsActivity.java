@@ -65,15 +65,15 @@ public class MyKidsActivity extends AppCompatActivity{
                 } else if (statusCode == 200) {
                     for (int i = 0 ; i < response.body().size() ; i++){
                         JsonObject studentData = response.body().get(i);
-                        myKids.add(new Student(studentData.get("firstname").toString().substring(1),
+                        myKids.add(new Student(studentData.get("firstname").toString().substring(1,studentData.get("firstname").toString().length()-1),
                                 studentData.get("lastname").toString().substring(1, studentData.get("lastname").toString().length()-1),
                                 studentData.get("gender").toString().substring(1,studentData.get("gender").toString().length()-1),
                                 studentData.get("email").toString().substring(1,studentData.get("email").toString().length()-1),
-                                studentData.get("avatar_url").toString().substring(1),
-                                studentData.get("user_type").toString(),
-                                studentData.get("level_name").toString(),
-                                studentData.get("section_name").toString(),
-                                studentData.get("stage_name").toString(),
+                                studentData.get("avatar_url").toString().substring(1,studentData.get("avatar_url").toString().length()-1),
+                                studentData.get("user_type").toString().substring(1,studentData.get("user_type").toString().length()-1),
+                                studentData.get("level_name").toString().substring(1,studentData.get("level_name").toString().length()-1),
+                                studentData.get("section_name").toString().substring(1,studentData.get("section_name").toString().length()-1),
+                                studentData.get("stage_name").toString().substring(1,studentData.get("stage_name").toString().length()-1),
                                 0,null,null));
                     }
 
