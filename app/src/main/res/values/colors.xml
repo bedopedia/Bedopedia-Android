@@ -3,5 +3,6 @@
     <color name="colorPrimary">#3fb54d</color>
     <color name="colorPrimaryDark">#349f30</color>
     <color name="colorAccent">#40c6ff</color>
+    <color name="gainsboro">#DCDCDC</color>
     <color name="white">#ffffff</color>
 </resources>

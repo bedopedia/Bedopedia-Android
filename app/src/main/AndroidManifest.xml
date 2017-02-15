@@ -17,10 +17,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Notification" />
-        <activity android:name=".MyKidsActivity" />
-        <activity android:name=".GradesAvtivity" />
+
+        <activity android:name=".Notification" ></activity>
+
+        <activity android:name=".MyKidsActivity"></activity>
+
+        <activity android:name=".GradesAvtivity"></activity>
+
         <activity android:name=".ForgetPasswordActivity"></activity>
+
+        <activity android:name=".ActivityCourse"></activity>
     </application>
 
 </manifest>
