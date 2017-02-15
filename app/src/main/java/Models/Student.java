@@ -1,5 +1,7 @@
 package Models;
 
+import android.content.Intent;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -77,5 +79,38 @@ public class Student extends User{
 
     public void addCourse(Course course){
         courses.add(course);
+    }
+
+    public String getAverageGrade(){
+        Double temp = 0.0, sum = 0.0;
+        for (int i = 0; i< courses.size() ; i++) {
+            temp += courses.get(i).getGrade();
+            sum += courses.get(i).getTotalGrade();
+        }
+        temp = sum / temp;
+        //TODO Average Grading
+        return temp.toString();
+    }
+
+    public String getNext () {
+
+        String next = "Math K1, Sunday 9:00 AM";
+        return next;
+
+    }
+
+    public String getAttendanceData() {
+        String data = "16 / 25 Days";
+        return data;
+    }
+
+    public String getNumOfGoodBN() {
+        String good = "3";
+        return good;
+    }
+
+    public String getNumOfBadBN() {
+        String bad = "3";
+        return bad;
     }
 }
