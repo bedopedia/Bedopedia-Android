@@ -24,6 +24,8 @@
 
         <activity android:name=".GradesAvtivity"></activity>
 
+        <activity android:name=".ForgetPasswordActivity"></activity>
+
         <activity android:name=".ActivityCourse"></activity>
     </application>
 
