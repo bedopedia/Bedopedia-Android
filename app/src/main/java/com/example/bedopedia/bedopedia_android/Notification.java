@@ -1,23 +1,16 @@
 package com.example.bedopedia.bedopedia_android;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import Models.NotificationModel;
-import adapters.NotificationAdapter;
+import Adapters.NotificationAdapter;
 
 public class Notification extends AppCompatActivity {
 

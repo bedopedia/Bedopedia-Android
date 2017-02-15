@@ -41,9 +41,6 @@ public class MyKidsActivity extends AppCompatActivity{
         setContentView(R.layout.my_kids);
         setTitle("My kids");
         myKids = new ArrayList<Student>();
-//        myKids.add(new Student("Heba", "Ashraf", "female", "h@gmail.com", "avatar", "student", "level-0", "Section A", "Stage-1", 25, null, null));
-//        myKids.add(new Student("Abeer", "El-sayed", "female", "a@gmail.com", "avatar", "student", "level-1", "Section B", "Stage-2", 25, null, null));
-//        myKids.add(new Student("Khadeja", "Hussein", "female", "k@gmail.com", "avatar", "student", "level-2", "Section C", "Stage-3", 25, null, null));
 
         final Context context = this;
 
