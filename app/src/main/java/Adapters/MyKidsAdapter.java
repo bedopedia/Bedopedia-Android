@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,12 @@ import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.MyKidsActivity;
 import com.example.bedopedia.bedopedia_android.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import Models.Student;
+import Services.ApiClient;
 
 /**
  * Created by mohamed on 2/9/17.
@@ -50,8 +53,9 @@ public class MyKidsAdapter extends ArrayAdapter<Student> {
         item.avatar = (ImageView) view.findViewById(R.id.student_avatar);
         item.name = (TextView) view.findViewById(R.id.student_name);
         item.openStudent = (ImageButton) view.findViewById(R.id.open_student);
-
+        Log.d("student", student.toString());
         item.name.setText(student.getFirstName() + " " + student.getLastName());
+        Picasso.with(context).load(ApiClient.BASE_URL+student.getAvatar()).into(item.avatar);
         item.openStudent.setOnClickListener(new View.OnClickListener() {
 
             @Override
