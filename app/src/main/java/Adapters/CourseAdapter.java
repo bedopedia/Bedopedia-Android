@@ -39,7 +39,7 @@ public class CourseAdapter extends ArrayAdapter  {
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
-        Pair<String,String> assignment = (Pair<String,String>) getItem(position);
+        Pair<String,String> courseItem = (Pair<String,String>) getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
 
             CourseAdapter.Holder item;
@@ -52,8 +52,8 @@ public class CourseAdapter extends ArrayAdapter  {
         item.name = (TextView) view.findViewById(R.id.assignmentName);
         item.grade =  (TextView) view.findViewById(R.id.assignmentGrade);
 
-        item.name.setText(assignment.first);
-        item.grade.setText(assignment.second);
+        item.name.setText(courseItem.first);
+        item.grade.setText(courseItem.second);
 
 
         return view;
