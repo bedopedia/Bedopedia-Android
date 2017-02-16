@@ -20,7 +20,7 @@ public class Course {
     private float passLimit;
     private ArrayList<Pair<String, String>> classWorks;
     private ArrayList<Pair<String, String>> assignments;
-    private float grade;
+    private String grade;
 
     public Course() {
         this.name = "";
@@ -29,10 +29,10 @@ public class Course {
         this.updatedAt = new Date();
         this.totalGrade = 0;
         this.passLimit = 0;
-        this.grade = 0;
+        this.grade = "";
     }
 
-    public Course(String name, String discription, float passLimit, float grade) {
+    public Course(String name, String discription, float passLimit, String grade) {
         this.name = name;
         this.discription = discription;
         this.passLimit = passLimit;
@@ -103,11 +103,11 @@ public class Course {
         return assignments;
     }
 
-    public float getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(float grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 }

@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_weight=".30"
-        app:srcCompat="@drawable/math"
+        app:srcCompat="@drawable/math_ico"
         android:id="@+id/course_image"
          />
 
@@ -23,13 +23,15 @@
         android:id="@+id/course_name"
         android:textSize="30sp" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/grade"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_weight=".20"
-        android:src="@drawable/a"
-        app:civ_border_width="2dp"
-        app:civ_border_color="#FF000000"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_layout"
+        android:id="@+id/course_grade"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="test"
+        android:gravity="center"
+        android:foregroundGravity="center_vertical" />
+
 
 </LinearLayout>

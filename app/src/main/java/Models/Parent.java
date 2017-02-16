@@ -15,8 +15,8 @@ public class Parent extends User{
         this.children = new ArrayList<Student>();
     }
 
-    public Parent(String firstName, String lastName, String gender, String email, String avatar, String userType, ArrayList<Student> children) {
-        super(firstName, lastName, gender, email, avatar, userType);
+    public Parent(int id, String firstName, String lastName, String gender, String email, String avatar, String userType, ArrayList<Student> children) {
+        super(id, firstName, lastName, gender, email, avatar, userType);
         this.children = children;
     }
 

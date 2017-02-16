@@ -7,6 +7,7 @@ import java.util.Date;
  */
 
 public class User {
+    private int id;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -21,6 +22,7 @@ public class User {
     private String mobile;
 
     public User() {
+        this.id = 0;
         this.firstName = "";
         this.middleName = "";
         this.lastName = "";
@@ -35,7 +37,8 @@ public class User {
         this.mobile = "";
     }
 
-    public User(String firstName, String lastName, String gender, String email, String avatar, String userType) {
+    public User(int id, String firstName, String lastName, String gender, String email, String avatar, String userType) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -46,6 +49,14 @@ public class User {
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setFirstName(String firstName) {
