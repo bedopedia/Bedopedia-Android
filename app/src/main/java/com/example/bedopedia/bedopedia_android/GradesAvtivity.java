@@ -77,9 +77,6 @@ public class GradesAvtivity extends AppCompatActivity {
                     if (statusCode == 200) {
                         for (int i = 0; i < response.body().size()-1; i++) {
                             JsonObject courseData = response.body().get(i);
-                            Log.d("grades: " , ""+courseData);
-                            Log.d("grades: ", ""+courseData.get("name"));
-                            Log.d("grades123:" , courseData.get("icon").toString());
                             courses.add(new Course(
                                     courseData.get("name").toString().substring(1,courseData.get("name").toString().length()-1),
                                     "",
