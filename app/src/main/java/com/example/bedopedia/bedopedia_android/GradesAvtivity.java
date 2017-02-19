@@ -79,11 +79,13 @@ public class GradesAvtivity extends AppCompatActivity {
                             JsonObject courseData = response.body().get(i);
                             Log.d("grades: " , ""+courseData);
                             Log.d("grades: ", ""+courseData.get("name"));
+                            Log.d("grades123:" , courseData.get("icon").toString());
                             courses.add(new Course(
                                     courseData.get("name").toString().substring(1,courseData.get("name").toString().length()-1),
                                     "",
                                     0,
-                                    courseData.get("grade").toString().substring(1,courseData.get("grade").toString().length()-1)
+                                    courseData.get("grade").toString().substring(1,courseData.get("grade").toString().length()-1),
+                                    courseData.get("icon").toString().substring(1,courseData.get("icon").toString().length()-1)
                             ));
                         }
 

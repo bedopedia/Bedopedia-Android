@@ -21,6 +21,7 @@ public class Course {
     private ArrayList<Pair<String, String>> classWorks;
     private ArrayList<Pair<String, String>> assignments;
     private String grade;
+    private String icon;
 
     public Course() {
         this.name = "";
@@ -30,13 +31,16 @@ public class Course {
         this.totalGrade = 0;
         this.passLimit = 0;
         this.grade = "";
+        this.icon = "";
     }
 
-    public Course(String name, String discription, float passLimit, String grade) {
+    public Course(String name, String discription, float passLimit, String grade, String icon) {
         this.name = name;
         this.discription = discription;
         this.passLimit = passLimit;
         this.grade = grade;
+        this.icon = icon;
+        updateIconName();
     }
 
     public String getName() {
@@ -110,4 +114,18 @@ public class Course {
     public void setGrade(String grade) {
         this.grade = grade;
     }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+        updateIconName();
+    }
+
+    public void updateIconName() {
+        icon = icon.replace('-' , '_');
+    }
 }
+

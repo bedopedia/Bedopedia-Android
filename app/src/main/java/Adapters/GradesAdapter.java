@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,15 +56,23 @@ public class GradesAdapter extends ArrayAdapter<Course> {
 
         item.courseName.setText(course.getName());
         item.courseGrade.setText(course.getGrade());
-//        if(course.getGrade().indexOf(0) == 'A'){
-//            item.courseGrade.setBackgroundColor(Color.parseColor("#9655ca"));
-//        } else if(course.getGrade().indexOf(0) == 'B'){
-//            item.courseGrade.setBackgroundColor(Color.parseColor("#3a45c3"));
-//        } else if(course.getGrade().indexOf(0) == 'F'){
-//            item.courseGrade.setBackgroundColor(Color.parseColor("#ff423d"));
-//        } else {
-//            item.courseGrade.setBackgroundColor(Color.parseColor("#f8812a"));
-//        }
+
+
+        String imageName = course.getIcon();
+        int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
+        item.courseImage.setImageResource(res);
+
+
+        Log.d("icon" , course.getIcon());
+        if(course.getGrade().charAt(0) == 'A'){
+            item.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
+        } else if(course.getGrade().charAt(0) == 'B'){
+            item.courseGrade.setBackgroundResource(R.drawable.grade_b_circle);
+        } else if(course.getGrade().charAt(0) == 'F'){
+            item.courseGrade.setBackgroundResource(R.drawable.grade_f_circle);
+        } else {
+            item.courseGrade.setBackgroundResource(R.drawable.grade_c_circle);
+        }
         return view;
     }
 }

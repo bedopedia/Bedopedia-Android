@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_weight=".30"
-        app:srcCompat="@drawable/math_ico"
+        app:srcCompat="@drawable/math_icon"
         android:id="@+id/course_image"
          />
 
@@ -26,9 +26,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_layout"
+        android:background="@drawable/grade_a_circle"
         android:id="@+id/course_grade"
-        android:backgroundTint="@color/colorPrimary"
         android:text="test"
         android:gravity="center"
         android:foregroundGravity="center_vertical" />
