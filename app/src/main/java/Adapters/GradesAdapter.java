@@ -30,16 +30,16 @@ public class GradesAdapter extends ArrayAdapter<Course> {
     public static  class Holder{
         ImageView courseImage;
         TextView courseName;
-        ImageView grade;
+        TextView courseGrade;
     }
 
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
         Course course = (Course) getItem(position);
-        // Check if an existing view is being reused, otherwise inflate the view
-
         Holder item;
+
+        // Check if an existing view is being reused, otherwise inflate the view
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.single_grade, parent, false);
         }
@@ -47,10 +47,25 @@ public class GradesAdapter extends ArrayAdapter<Course> {
 
         item.courseImage = (ImageView) view.findViewById(R.id.course_image);
         item.courseName = (TextView) view.findViewById(R.id.course_name);
-        item.grade = (ImageView) view.findViewById(R.id.grade);
+        item.courseGrade = (TextView) view.findViewById(R.id.course_grade);
 
         item.courseName.setText(course.getName());
+        item.courseGrade.setText(course.getGrade());
 
+
+        String imageName = course.getIcon();
+        int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
+        item.courseImage.setImageResource(res);
+
+        if(course.getGrade().charAt(0) == 'A'){
+            item.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
+        } else if(course.getGrade().charAt(0) == 'B'){
+            item.courseGrade.setBackgroundResource(R.drawable.grade_b_circle);
+        } else if(course.getGrade().charAt(0) == 'F'){
+            item.courseGrade.setBackgroundResource(R.drawable.grade_f_circle);
+        } else {
+            item.courseGrade.setBackgroundResource(R.drawable.grade_c_circle);
+        }
         return view;
     }
 }

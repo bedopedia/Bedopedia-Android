@@ -42,9 +42,9 @@ public class MyKidsAdapter extends ArrayAdapter<Student> {
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
         Student student = (Student) getItem(position);
-        // Check if an existing view is being reused, otherwise inflate the view
-
         Holder item;
+
+        // Check if an existing view is being reused, otherwise inflate the view
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.single_student, parent, false);
         }

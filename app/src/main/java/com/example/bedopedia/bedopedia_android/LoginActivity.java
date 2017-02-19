@@ -37,11 +37,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
         SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("header_access-token", "");
 
-
-        editor.commit();
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString("header_access-token", "");
+//        editor.commit();
 
         String authToken = sharedPreferences.getString("header_access-token", "");
         String userData = sharedPreferences.getString("user_data", "");
@@ -57,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
               @Override
               public void onClick(View v) {
                   loginService();
-                  finish();
+
               }
         });
 
@@ -121,6 +120,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
                     startActivity(i);
+                    finish();
 
                 }
             }
