@@ -1,7 +1,10 @@
 package com.example.bedopedia.bedopedia_android;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,97 +31,148 @@ import java.util.Set;
 import Adapters.CourseAdapter;
 import Services.ApiClient;
 import Services.ApiInterface;
+import Tools.Dialogue;
+import Tools.InternetConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+
+
+
+
 public class ActivityCourse extends AppCompatActivity {
+
+    ProgressDialog progress;
+    Context context;
     private Double totalStudent = 0.0;
     private Double totalCategory = 0.0 ;
+
+
+    public void loading(){
+        progress.setTitle("Loading");
+        progress.setMessage("Wait while loading...");
+    }
+
+
+
+    private class GradesAsyncTask extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading();
+            progress.show();
+        }
+
+        protected void onProgressUpdate(String... progress) {
+            loading();
+        }
+
+        @Override
+        protected Object doInBackground(Object... param) {
+
+            Map<String,String> params = new HashMap();
+            params.put("student_id","122");
+            String url = "api/courses/9/course_groups/33/student_grade";
+
+            SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+            ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
+            Call<JsonObject> call = apiService. getServise(url, params);
+
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    int statusCode = response.code();
+                    if(statusCode == 401) {
+                        String errorText = "wrong username or password";
+                        Toast.makeText(getApplicationContext(),errorText,Toast.LENGTH_SHORT).show();
+                    } else if (statusCode == 200) {
+                        ArrayList<ArrayList<String>> header = new ArrayList<>();
+                        ArrayList<ArrayList<Pair<String,String>>> courseItemsTempData = new ArrayList<ArrayList<Pair<String,String>>>();
+
+                        JsonObject body = response.body();
+                        JsonObject categories = (JsonObject) body.get("categories");
+
+                        Set<Map.Entry<String, JsonElement>> entries = categories.entrySet();//will return members of your object
+                        for (Map.Entry<String, JsonElement> entry: entries) { // loop through all categories
+                            ArrayList<String> temp = new ArrayList<String>();
+                            temp.add(entry.getKey().toString());
+
+
+                            ArrayList<Pair<String,String>> assignmentTempData = new ArrayList<>();
+                            JsonObject item = entry.getValue().getAsJsonObject();
+                            if (item.has("assignments")) {
+                                addAssignmentsToList(item.get("assignments").getAsJsonArray(), assignmentTempData, body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_assignments").getAsJsonArray());
+                            }
+
+                            if (item.has("quizzes")) {
+                                addQuizzesToList(item.get("quizzes").getAsJsonArray(), assignmentTempData,body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_quizzes").getAsJsonArray());
+                            }
+
+                            if (item.has("grade_items")) {
+                                addGradeItemsToList(item.get("grade_items").getAsJsonArray(), assignmentTempData, body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_grades").getAsJsonArray());
+                            }
+
+                            if(totalStudent == totalStudent.intValue()){
+                                temp.add(totalStudent.intValue()+"");
+                            }else{
+                                temp.add(totalStudent.toString());
+                            }
+                            if(totalCategory == totalCategory.intValue()){
+                                temp.add(totalCategory.intValue()+"");
+                            }else{
+                                temp.add(totalCategory.toString());
+                            }
+
+
+                            totalCategory = 0.0;
+                            totalStudent = 0.0;
+                            header.add(temp);
+                            courseItemsTempData.add(assignmentTempData);
+
+                        }
+
+                        CourseAdapter courseItemAdapter = new CourseAdapter(ActivityCourse.this, R.layout.activity_course, courseItemsTempData ,  header );
+                        ListView courseListView = (ListView) findViewById(R.id.category_list_view);
+                        courseListView.setAdapter(courseItemAdapter);
+
+
+                    }
+                    progress.dismiss();
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    progress.dismiss();
+                    Log.e("Error",t.toString());
+                    Toast.makeText(getApplicationContext(),"connection failed",Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            return null;
+        }
+
+
+    }
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
-
-        Map<String,String> params = new HashMap();
-        params.put("student_id","122");
-        String url = "api/courses/9/course_groups/33/student_grade";
-
-        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
-        ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
-        Call<JsonObject> call = apiService. getServise(url, params);
-
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                int statusCode = response.code();
-                if(statusCode == 401) {
-                    String errorText = "wrong username or password";
-                    Toast.makeText(getApplicationContext(),errorText,Toast.LENGTH_SHORT).show();
-                } else if (statusCode == 200) {
-                            ArrayList<ArrayList<String>> header = new ArrayList<>();
-                            ArrayList<ArrayList<Pair<String,String>>> courseItemsTempData = new ArrayList<ArrayList<Pair<String,String>>>();
-
-                            JsonObject body = response.body();
-                            JsonObject categories = (JsonObject) body.get("categories");
-
-                            Set<Map.Entry<String, JsonElement>> entries = categories.entrySet();//will return members of your object
-                            for (Map.Entry<String, JsonElement> entry: entries) { // loop through all categories
-                                ArrayList<String> temp = new ArrayList<String>();
-                                temp.add(entry.getKey().toString());
-
-
-                                ArrayList<Pair<String,String>> assignmentTempData = new ArrayList<>();
-                                JsonObject item = entry.getValue().getAsJsonObject();
-                                if (item.has("assignments")) {
-                                    addAssignmentsToList(item.get("assignments").getAsJsonArray(), assignmentTempData, body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_assignments").getAsJsonArray());
-                                }
-
-                                if (item.has("quizzes")) {
-                                    addQuizzesToList(item.get("quizzes").getAsJsonArray(), assignmentTempData,body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_quizzes").getAsJsonArray());
-                                }
-
-                                if (item.has("grade_items")) {
-                                    addGradeItemsToList(item.get("grade_items").getAsJsonArray(), assignmentTempData, body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_grades").getAsJsonArray());
-                                }
-
-                                if(totalStudent == totalStudent.intValue()){
-                                    temp.add(totalStudent.intValue()+"");
-                                }else{
-                                    temp.add(totalStudent.toString());
-                                }
-                                if(totalCategory == totalCategory.intValue()){
-                                    temp.add(totalCategory.intValue()+"");
-                                }else{
-                                    temp.add(totalCategory.toString());
-                                }
-
-
-                                totalCategory = 0.0;
-                                totalStudent = 0.0;
-                                header.add(temp);
-                                courseItemsTempData.add(assignmentTempData);
-
-                            }
-
-                    CourseAdapter courseItemAdapter = new CourseAdapter(ActivityCourse.this, R.layout.activity_course, courseItemsTempData ,  header );
-                    ListView courseListView = (ListView) findViewById(R.id.category_list_view);
-                    courseListView.setAdapter(courseItemAdapter);
-
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e("Error",t.toString());
-                Toast.makeText(getApplicationContext(),"connection failed",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
+        progress = new ProgressDialog(this);
+        context = this;
+        if (InternetConnection.isInternetAvailable(this)){
+            new GradesAsyncTask().execute();
+        } else {
+            Dialogue.AlertDialog(this,"No NetworkConnection","Check your Netwotk connection and Try again");
+        }
 
     }
 
