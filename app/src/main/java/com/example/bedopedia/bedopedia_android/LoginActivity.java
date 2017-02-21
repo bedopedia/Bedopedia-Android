@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("user_data", data.toString());
                     editor.commit();
 
-                    Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
+                    Intent i =  new Intent(getApplicationContext(), ActivityCourse.class);
                     startActivity(i);
 
                 }
