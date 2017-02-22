@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("user_data", data.toString());
                     editor.commit();
 
-                    Intent i =  new Intent(getApplicationContext(), ActivityCourse.class);
+                    Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
                     startActivity(i);
                     finish();
 
