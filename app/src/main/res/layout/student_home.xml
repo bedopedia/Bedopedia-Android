@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/attendance_text" />
+
+    <Button
+        android:text="Attendace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/attendance_btn" />
+
+    <Button
+        android:text="Tima table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/timetable_btn" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/average_grade" />
+
+    <Button
+        android:text="Grades"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/grades_btn" />
+
+    <Button
+        android:text="Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/behavior_notes_btn" />
+</LinearLayout>
