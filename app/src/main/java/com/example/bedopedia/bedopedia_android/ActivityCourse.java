@@ -48,7 +48,7 @@ public class ActivityCourse extends AppCompatActivity {
     Context context;
     private Double totalStudent = 0.0;
     private Double totalCategory = 0.0 ;
-
+    String student_id, course_group_id,course_id;
 
     public void loading(){
         progress.setTitle("Loading");
@@ -74,9 +74,8 @@ public class ActivityCourse extends AppCompatActivity {
         protected Object doInBackground(Object... param) {
 
             Map<String,String> params = new HashMap();
-            params.put("student_id","122");
-            String url = "api/courses/9/course_groups/33/student_grade";
-
+            params.put("student_id",student_id);
+            String url = "api/courses/"+ course_id +"/course_groups/"+course_group_id+"/student_grade";
             SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
             Call<JsonObject> call = apiService. getServise(url, params);
@@ -166,6 +165,10 @@ public class ActivityCourse extends AppCompatActivity {
         setContentView(R.layout.activity_course);
         progress = new ProgressDialog(this);
         context = this;
+        Bundle extras= getIntent().getExtras();
+        student_id = extras.getString("student_id");
+        course_group_id = extras.getString("course_group_id");
+        course_id = extras.getString("course_id");
         if (InternetConnection.isInternetAvailable(this)){
             new GradeBookAsyncTask().execute();
         } else {

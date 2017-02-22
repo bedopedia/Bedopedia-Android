@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Models.CourseGroup;
 import Tools.Dialogue;
 import Adapters.GradesAdapter;
 import Models.Course;
@@ -88,18 +90,7 @@ public class GradesAvtivity extends AppCompatActivity {
                                 ));
                             }
 
-                            GradesAdapter adapter = new GradesAdapter(context, R.layout.single_grade, courses);
-                            GridView gradesList = (GridView) findViewById(R.id.grades_list);
-                            gradesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                public void onItemClick(AdapterView<?> parent, View view,
-                                                        int position, long id) {
-                                    // When clicked, show a toast with the TextView text
-                                    Intent i =  new Intent(getApplicationContext(), ActivityCourse.class);
-                                    startActivity(i);
 
-                                }
-                            });
-                            gradesList.setAdapter(adapter);
                         }
                     }
                 }
@@ -124,6 +115,7 @@ public class GradesAvtivity extends AppCompatActivity {
         progress = new ProgressDialog(this);
         Bundle extras= getIntent().getExtras();
         student_id = extras.getString("student_id");
+        final List<CourseGroup> courseGroups = (List<CourseGroup>) getIntent().getSerializableExtra("courseGroups");
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
         back = (ImageButton) findViewById(R.id.back);
@@ -139,11 +131,22 @@ public class GradesAvtivity extends AppCompatActivity {
 
         courses = new ArrayList<Course>();
         context = this;
-        if (InternetConnection.isInternetAvailable(this)){
-            new GradesAsyncTask().execute();
-        } else {
-            Dialogue.AlertDialog(this,"No NetworkConnection","Check your Netwotk connection and Try again");
-        }
+
+        GradesAdapter adapter = new GradesAdapter(context, R.layout.single_grade, courseGroups);
+        GridView gradesList = (GridView) findViewById(R.id.grades_list);
+        gradesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // When clicked, show a toast with the TextView text
+                Intent i =  new Intent(getApplicationContext(), ActivityCourse.class);
+                i.putExtra("student_id",student_id);
+                i.putExtra("course_group_id", String.valueOf(courseGroups.get(position).getId()));
+                i.putExtra("course_id", String.valueOf(courseGroups.get(position).getCourseId()));
+                startActivity(i);
+
+            }
+        });
+        gradesList.setAdapter(adapter);
 
 
     }

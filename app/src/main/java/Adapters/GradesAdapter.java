@@ -14,15 +14,16 @@ import com.example.bedopedia.bedopedia_android.R;
 import java.util.List;
 
 import Models.Course;
+import Models.CourseGroup;
 
 /**
  * Created by mohamedkhaled on 2/13/17.
  */
 
-public class GradesAdapter extends ArrayAdapter<Course> {
+public class GradesAdapter extends ArrayAdapter<CourseGroup> {
     public GradesAvtivity context;
 
-    public GradesAdapter(Context context, int resource, List<Course> items) {
+    public GradesAdapter(Context context, int resource, List<CourseGroup> items) {
         super(context, resource, items);
         this.context = (GradesAvtivity) context;
     }
@@ -36,7 +37,7 @@ public class GradesAdapter extends ArrayAdapter<Course> {
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
-        Course course = (Course) getItem(position);
+        CourseGroup courseGroup = (CourseGroup) getItem(position);
         Holder item;
 
         // Check if an existing view is being reused, otherwise inflate the view
@@ -49,19 +50,19 @@ public class GradesAdapter extends ArrayAdapter<Course> {
         item.courseName = (TextView) view.findViewById(R.id.course_name);
         item.courseGrade = (TextView) view.findViewById(R.id.course_grade);
 
-        item.courseName.setText(course.getName());
-        item.courseGrade.setText(course.getGrade());
+        item.courseName.setText(courseGroup.getCourseName());
+        item.courseGrade.setText(courseGroup.getGrade());
 
 
-        String imageName = course.getIcon();
+        String imageName = courseGroup.getIcon();
         int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
         item.courseImage.setImageResource(res);
 
-        if(course.getGrade().charAt(0) == 'A'){
+        if(courseGroup.getGrade().charAt(0) == 'A'){
             item.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
-        } else if(course.getGrade().charAt(0) == 'B'){
+        } else if(courseGroup.getGrade().charAt(0) == 'B'){
             item.courseGrade.setBackgroundResource(R.drawable.grade_b_circle);
-        } else if(course.getGrade().charAt(0) == 'F'){
+        } else if(courseGroup.getGrade().charAt(0) == 'F'){
             item.courseGrade.setBackgroundResource(R.drawable.grade_f_circle);
         } else {
             item.courseGrade.setBackgroundResource(R.drawable.grade_c_circle);
