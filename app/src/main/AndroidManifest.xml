@@ -14,7 +14,11 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".Notification" ></activity>
@@ -27,13 +31,9 @@
 
         <activity android:name=".ActivityCourse"></activity>
 
-        <activity android:name=".AttendanceActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".AttendanceActivity"></activity>
+        
+        <activity android:name=".StudentActivity"></activity>
     </application>
 
 </manifest>

@@ -11,9 +11,11 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class MyKidsActivity extends AppCompatActivity{
     String id;
     Context context;
     ProgressDialog progress;
-
+    ArrayList<JsonArray> kidsAttendances;
     public void loading(){
         progress.setTitle("Loading");
         progress.setMessage("Wait while loading...");
@@ -81,6 +83,8 @@ public class MyKidsActivity extends AppCompatActivity{
                     } else if (statusCode == 200) {
                         for (int i = 0 ; i < response.body().size() ; i++){
                             JsonObject studentData = response.body().get(i);
+                            JsonArray attenobdances = studentData.get("attendances").getAsJsonArray();
+                            kidsAttendances.add(attenobdances);
                             myKids.add(new Student(Integer.parseInt(studentData.get("id").toString()),
                                     studentData.get("firstname").toString().substring(1,studentData.get("firstname").toString().length()-1),
                                     studentData.get("lastname").toString().substring(1, studentData.get("lastname").toString().length()-1),
@@ -122,6 +126,7 @@ public class MyKidsActivity extends AppCompatActivity{
         myKids = new ArrayList<Student>();
         context = this;
         progress = new ProgressDialog(this);
+        kidsAttendances = new ArrayList<JsonArray>();
 
         if (InternetConnection.isInternetAvailable(this)){
             new KidsAsyncTask().execute();
@@ -133,8 +138,10 @@ public class MyKidsActivity extends AppCompatActivity{
     }
 
     public void itemClicked (int index){
-        Intent intent = new Intent(this, GradesAvtivity.class);
+        Intent intent = new Intent(this, StudentActivity.class);
         intent.putExtra("student_id", String.valueOf(myKids.get(index).getId()));
+        intent.putExtra("student_name", myKids.get(index).getFirstName() + " " + myKids.get(index).getLastName());
+        intent.putExtra("attendances",kidsAttendances.get(index).toString());
         startActivity(intent);
 
 //        Toast.makeText(getApplicationContext(),"you clicked " + myKids.get(index).getFirstName(),
