@@ -57,7 +57,7 @@ public class ActivityCourse extends AppCompatActivity {
 
 
 
-    private class GradesAsyncTask extends AsyncTask {
+    private class GradeBookAsyncTask extends AsyncTask {
 
         @Override
         protected void onPreExecute() {
@@ -86,8 +86,7 @@ public class ActivityCourse extends AppCompatActivity {
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     int statusCode = response.code();
                     if(statusCode == 401) {
-                        String errorText = "wrong username or password";
-                        Toast.makeText(getApplicationContext(),errorText,Toast.LENGTH_SHORT).show();
+                        Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
                     } else if (statusCode == 200) {
                         ArrayList<ArrayList<String>> header = new ArrayList<>();
                         ArrayList<ArrayList<Pair<String,String>>> courseItemsTempData = new ArrayList<ArrayList<Pair<String,String>>>();
@@ -146,8 +145,7 @@ public class ActivityCourse extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
                     progress.dismiss();
-                    Log.e("Error",t.toString());
-                    Toast.makeText(getApplicationContext(),"connection failed",Toast.LENGTH_SHORT).show();
+                    Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
                 }
             });
 
@@ -169,7 +167,7 @@ public class ActivityCourse extends AppCompatActivity {
         progress = new ProgressDialog(this);
         context = this;
         if (InternetConnection.isInternetAvailable(this)){
-            new GradesAsyncTask().execute();
+            new GradeBookAsyncTask().execute();
         } else {
             Dialogue.AlertDialog(this,"No NetworkConnection","Check your Netwotk connection and Try again");
         }
