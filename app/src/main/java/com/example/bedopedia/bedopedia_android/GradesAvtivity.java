@@ -2,12 +2,15 @@ package com.example.bedopedia.bedopedia_android;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.GridView;
 import android.widget.ImageButton;
 
@@ -87,6 +90,15 @@ public class GradesAvtivity extends AppCompatActivity {
 
                             GradesAdapter adapter = new GradesAdapter(context, R.layout.single_grade, courses);
                             GridView gradesList = (GridView) findViewById(R.id.grades_list);
+                            gradesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                public void onItemClick(AdapterView<?> parent, View view,
+                                                        int position, long id) {
+                                    // When clicked, show a toast with the TextView text
+                                    Intent i =  new Intent(getApplicationContext(), ActivityCourse.class);
+                                    startActivity(i);
+
+                                }
+                            });
                             gradesList.setAdapter(adapter);
                         }
                     }
