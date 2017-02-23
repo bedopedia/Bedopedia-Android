@@ -35,6 +35,7 @@ public class MyKidsAdapter extends ArrayAdapter<Student> {
     public static  class Holder{
         ImageView avatar;
         TextView name;
+        TextView level;
         ImageButton openStudent;
     }
 
@@ -52,6 +53,8 @@ public class MyKidsAdapter extends ArrayAdapter<Student> {
 
         item.avatar = (ImageView) view.findViewById(R.id.student_avatar);
         item.name = (TextView) view.findViewById(R.id.student_name);
+        item.level = (TextView) view.findViewById(R.id.student_level);
+        item.level.setText(student.getLevel());
         item.openStudent = (ImageButton) view.findViewById(R.id.open_student);
         item.name.setText(student.getFirstName() + " " + student.getLastName());
         Picasso.with(context).load(ApiClient.BASE_URL+student.getAvatar()).into(item.avatar);
