@@ -7,14 +7,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/calendar"
-        android:id="@+id/course_grade"
+        android:id="@+id/date_image"
         android:text="16\nMay"
         android:gravity="center"
         android:foregroundGravity="center_vertical" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/late_date"
+        android:id="@+id/date_text"
         android:layout_margin="10dp"
         android:text="16 May 2016">
 

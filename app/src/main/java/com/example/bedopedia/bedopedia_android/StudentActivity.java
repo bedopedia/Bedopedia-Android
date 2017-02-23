@@ -179,7 +179,7 @@ public class StudentActivity extends AppCompatActivity {
         attendance = extras.getString("attendances");
         JsonParser parser = new JsonParser();
         JsonElement tradeElement = parser.parse(attendance);
-        JsonArray attenobdances = tradeElement.getAsJsonArray();
+        final JsonArray attenobdances = tradeElement.getAsJsonArray();
         Set<Date> attendaceDates = new HashSet<>();
         presentDays=0;
 
@@ -199,7 +199,16 @@ public class StudentActivity extends AppCompatActivity {
 
         attendaceText.setText(presentDays + " / " + attendaceDates.size());
         Button attendanceBtn = (Button) findViewById(R.id.attendance_btn);
+        attendanceBtn.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(StudentActivity.this, AttendanceActivity.class);
+                intent.putExtra("attendances",attendance);
+                startActivity(intent);
+            }
+        });
         Button gradesBtn = (Button) findViewById(R.id.grades_btn);
         gradesBtn.setOnClickListener(new View.OnClickListener() {
 
