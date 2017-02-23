@@ -1,6 +1,11 @@
 package Models;
 
+import android.util.Pair;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by mohamed on 2/9/17.
@@ -13,7 +18,10 @@ public class Course {
     private Date updatedAt;
     private float totalGrade;
     private float passLimit;
-    private float grade;
+    private ArrayList<Pair<String, String>> classWorks;
+    private ArrayList<Pair<String, String>> assignments;
+    private String grade;
+    private String icon;
 
     public Course() {
         this.name = "";
@@ -22,14 +30,17 @@ public class Course {
         this.updatedAt = new Date();
         this.totalGrade = 0;
         this.passLimit = 0;
-        this.grade = 0;
+        this.grade = "";
+        this.icon = "";
     }
 
-    public Course(String name, String discription, float passLimit, float grade) {
+    public Course(String name, String discription, float passLimit, String grade, String icon) {
         this.name = name;
         this.discription = discription;
         this.passLimit = passLimit;
         this.grade = grade;
+        this.icon = icon;
+        updateIconName();
     }
 
     public String getName() {
@@ -80,11 +91,41 @@ public class Course {
         this.passLimit = passLimit;
     }
 
-    public float getGrade() {
+    public void setClassWorks(ArrayList<Pair<String, String>> classWorks ) {
+        this.classWorks = classWorks;
+    }
+
+    public void setAssignments(ArrayList<Pair<String, String>> assignments ) {
+        this.assignments = assignments;
+    }
+
+    public ArrayList<Pair<String, String>> getClassWorks() {
+        return classWorks;
+    }
+
+    public ArrayList<Pair<String, String>> getAssignments() {
+        return assignments;
+    }
+
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(float grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+        updateIconName();
+    }
+
+    public void updateIconName() {
+        icon = icon.replace('-' , '_');
+    }
 }
+
