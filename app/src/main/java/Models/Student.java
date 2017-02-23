@@ -81,25 +81,5 @@ public class Student extends User{
         courses.add(course);
     }
 
-    public String getNext () {
 
-        String next = "Math K1, Sunday 9:00 AM";
-        return next;
-
-    }
-
-    public String getAttendanceData() {
-        String data = "16 / 25 Days";
-        return data;
-    }
-
-    public String getNumOfGoodBN() {
-        String good = "3";
-        return good;
-    }
-
-    public String getNumOfBadBN() {
-        String bad = "3";
-        return bad;
-    }
 }
