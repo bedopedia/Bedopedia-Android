@@ -1,5 +1,7 @@
 package Models;
 
+import android.content.Intent;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -78,4 +80,6 @@ public class Student extends User{
     public void addCourse(Course course){
         courses.add(course);
     }
+
+
 }
