@@ -81,17 +81,6 @@ public class Student extends User{
         courses.add(course);
     }
 
-    public String getAverageGrade(){
-        Double temp = 0.0, sum = 0.0;
-        for (int i = 0; i< courses.size() ; i++) {
-            temp += courses.get(i).getGrade();
-            sum += courses.get(i).getTotalGrade();
-        }
-        temp = sum / temp;
-        //TODO Average Grading
-        return temp.toString();
-    }
-
     public String getNext () {
 
         String next = "Math K1, Sunday 9:00 AM";

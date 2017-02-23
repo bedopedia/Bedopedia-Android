@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.gson.JsonArray;
@@ -129,7 +130,7 @@ public class StudentActivity extends AppCompatActivity {
 
                         }
                         totalGrade = response.body().get(i).get("total_grade").getAsString();
-                        totalGradeText.setText(totalGrade);
+                        totalGradeText.setText("Average : "+totalGrade);
 
                     }
                 }
@@ -197,10 +198,11 @@ public class StudentActivity extends AppCompatActivity {
 
         totalGradeText = (TextView) findViewById(R.id.average_grade);
 
-        attendaceText.setText(presentDays + " / " + attendaceDates.size());
-        Button attendanceBtn = (Button) findViewById(R.id.attendance_btn);
 
-        Button gradesBtn = (Button) findViewById(R.id.grades_btn);
+        attendaceText.setText(presentDays + " / " + attendaceDates.size());
+        ImageButton attendanceBtn = (ImageButton) findViewById(R.id.attendance_btn);
+
+        ImageButton gradesBtn = (ImageButton) findViewById(R.id.grades_btn);
         gradesBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
