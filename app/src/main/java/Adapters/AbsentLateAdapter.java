@@ -68,7 +68,7 @@ public class AbsentLateAdapter extends ArrayAdapter {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        item.dateImage.setText(day + "\n" + months[month]);
+        item.dateImage.setText(day + "\n" + months[month].substring(0,3));
         item.dateText.setText(date.toString());
 
         return view;

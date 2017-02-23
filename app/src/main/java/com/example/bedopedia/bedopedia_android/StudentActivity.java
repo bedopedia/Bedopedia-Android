@@ -122,7 +122,7 @@ public class StudentActivity extends AppCompatActivity {
                         for (; i < response.body().size()-1; i++) {
                             JsonObject courseData = response.body().get(i);
                             for(int j = 0 ; j < courseGroups.size() ; j++){
-                                if(courseGroups.get(j).getCourseId() == courseData.get("id").getAsInt()){
+                                if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt()){
                                     courseGroups.get(j).setGrade(courseData.get("grade").getAsString());
                                     courseGroups.get(j).setIcon(courseData.get("icon").getAsString());
                                 }
