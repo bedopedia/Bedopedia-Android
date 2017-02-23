@@ -122,7 +122,7 @@ public class StudentActivity extends AppCompatActivity {
                         for (; i < response.body().size()-1; i++) {
                             JsonObject courseData = response.body().get(i);
                             for(int j = 0 ; j < courseGroups.size() ; j++){
-                                if(courseGroups.get(j).getCourseId() == courseData.get("id").getAsInt()){
+                                if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt()){
                                     courseGroups.get(j).setGrade(courseData.get("grade").getAsString());
                                     courseGroups.get(j).setIcon(courseData.get("icon").getAsString());
                                 }
@@ -180,7 +180,7 @@ public class StudentActivity extends AppCompatActivity {
         attendance = extras.getString("attendances");
         JsonParser parser = new JsonParser();
         JsonElement tradeElement = parser.parse(attendance);
-        JsonArray attenobdances = tradeElement.getAsJsonArray();
+        final JsonArray attenobdances = tradeElement.getAsJsonArray();
         Set<Date> attendaceDates = new HashSet<>();
         presentDays=0;
 
@@ -200,7 +200,19 @@ public class StudentActivity extends AppCompatActivity {
 
 
         attendaceText.setText(presentDays + " / " + attendaceDates.size());
+
+
         ImageButton attendanceBtn = (ImageButton) findViewById(R.id.attendance_btn);
+        attendanceBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(StudentActivity.this, AttendanceActivity.class);
+                intent.putExtra("attendances",attendance);
+                startActivity(intent);
+            }
+        });
 
         ImageButton gradesBtn = (ImageButton) findViewById(R.id.grades_btn);
         gradesBtn.setOnClickListener(new View.OnClickListener() {

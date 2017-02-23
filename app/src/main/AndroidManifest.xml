@@ -31,6 +31,8 @@
 
         <activity android:name=".ActivityCourse"></activity>
 
+        <activity android:name=".AttendanceActivity"></activity>
+
         <activity android:name=".StudentActivity"></activity>
     </application>
 
