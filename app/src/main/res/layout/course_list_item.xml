@@ -18,24 +18,27 @@
 
             <TextView
                 android:text="ClassWork"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/CategoryName"
-                android:layout_weight="1" />
+                android:layout_weight=".80" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:background="@drawable/grades_circle"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:id="@+id/numOfCategory"
-                android:layout_weight="1"
+                android:layout_weight=".10"
+                android:layout_marginRight="10dp"
                 android:text="20" />
 
             <TextView
                 android:text="100"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/maxGrade"
-                android:layout_weight="1" />
+                android:layout_weight=".10" />
 
         </LinearLayout>
         <ListView

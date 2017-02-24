@@ -8,6 +8,7 @@ import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +44,7 @@ import Models.Student;
 import Services.ApiClient;
 import Services.ApiInterface;
 import Tools.Dialogue;
+import Tools.InternetConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -196,6 +198,19 @@ public class StudentActivity extends AppCompatActivity {
         studentLevelView.setText(studentLevel);
         Picasso.with(this).load(ApiClient.BASE_URL+studentAvatar).into(studentAvatarImage);
 
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
+        TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
+        actionBarTitle.setText(studentName);
+        ImageButton back = (ImageButton) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                onBackPressed();
+            }
+        });
 
         JsonParser parser = new JsonParser();
         JsonElement tradeElement = parser.parse(attendance);
@@ -245,15 +260,17 @@ public class StudentActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        getSupportActionBar().setTitle(studentName);
         context = this;
         courseGroups = new ArrayList<CourseGroup>();
 
         sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
         apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
 
-
-        new StudentAsyncTask().execute();
+        if (InternetConnection.isInternetAvailable(this)) {
+            new StudentAsyncTask().execute();
+        } else {
+            Dialogue.AlertDialog(this,"No NetworkConnection","Check your Netwotk connection and Try again");
+        }
 
     }
 }
