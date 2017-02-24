@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.JsonArray;
@@ -21,6 +23,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.internal.Streams;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -50,7 +53,8 @@ import retrofit2.Response;
 
 public class StudentActivity extends AppCompatActivity {
 
-    String student_id, student_name;
+    String studentId, studentName;
+    String studentAvatar, studentLevel;
     Context context;
     ProgressDialog progress;
     ArrayList<CourseGroup> courseGroups;
@@ -60,6 +64,9 @@ public class StudentActivity extends AppCompatActivity {
     int presentDays;
     String totalGrade;
     TextView totalGradeText;
+    ImageView studentAvatarImage;
+    TextView studentLevelView;
+    TextView studentNameView;
 
     public void loading(){
         progress.setTitle("Loading");
@@ -67,7 +74,7 @@ public class StudentActivity extends AppCompatActivity {
     }
 
     public void getStudentCourseGroups(){
-        String url = "api/students/" + student_id + "/course_groups";
+        String url = "api/students/" + studentId + "/course_groups";
         Map<String, String> params = new HashMap<>();
         Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
 
@@ -105,7 +112,7 @@ public class StudentActivity extends AppCompatActivity {
     }
 
     public void getStudentGrades(){
-        String url = "api/students/" + student_id + "/grade_certificate";
+        String url = "api/students/" + studentId + "/grade_certificate";
         Map<String, String> params = new HashMap<>();
         Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
         call.enqueue(new Callback<ArrayList<JsonObject> >() {
@@ -175,9 +182,21 @@ public class StudentActivity extends AppCompatActivity {
 
         progress = new ProgressDialog(this);
         Bundle extras= getIntent().getExtras();
-        student_id = extras.getString("student_id");
-        student_name = extras.getString("student_name");
+        studentId = extras.getString("student_id");
+        studentName = extras.getString("student_name");
+        studentAvatar = extras.getString("student_avatar");
+        studentLevel = extras.getString("student_level");
         attendance = extras.getString("attendances");
+
+        studentAvatarImage = (ImageView) findViewById(R.id.home_student_avatar);
+        studentLevelView = (TextView) findViewById(R.id.home_student_level);
+        studentNameView = (TextView) findViewById(R.id.home_student_name);
+
+        studentNameView.setText(studentName);
+        studentLevelView.setText(studentLevel);
+        Picasso.with(this).load(ApiClient.BASE_URL+studentAvatar).into(studentAvatarImage);
+
+
         JsonParser parser = new JsonParser();
         JsonElement tradeElement = parser.parse(attendance);
         final JsonArray attenobdances = tradeElement.getAsJsonArray();
@@ -202,7 +221,7 @@ public class StudentActivity extends AppCompatActivity {
         attendaceText.setText(presentDays + " / " + attendaceDates.size());
 
 
-        ImageButton attendanceBtn = (ImageButton) findViewById(R.id.attendance_btn);
+        ImageButton attendanceBtn = (ImageButton) findViewById(R.id.attendance_button);
         attendanceBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -221,12 +240,12 @@ public class StudentActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(StudentActivity.this, GradesAvtivity.class);
-                intent.putExtra("student_id", student_id);
+                intent.putExtra("student_id", studentId);
                 intent.putExtra("courseGroups", courseGroups);
                 startActivity(intent);
             }
         });
-        getSupportActionBar().setTitle(student_name);
+        getSupportActionBar().setTitle(studentName);
         context = this;
         courseGroups = new ArrayList<CourseGroup>();
 
@@ -235,11 +254,6 @@ public class StudentActivity extends AppCompatActivity {
 
 
         new StudentAsyncTask().execute();
-
-
-
-
-
 
     }
 }

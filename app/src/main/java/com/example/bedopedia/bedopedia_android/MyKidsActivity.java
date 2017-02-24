@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.GridView;
@@ -128,6 +129,9 @@ public class MyKidsActivity extends AppCompatActivity{
         progress = new ProgressDialog(this);
         kidsAttendances = new ArrayList<JsonArray>();
 
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.home_actionbar);
+
         if (InternetConnection.isInternetAvailable(this)){
             new KidsAsyncTask().execute();
         } else {
@@ -141,6 +145,8 @@ public class MyKidsActivity extends AppCompatActivity{
         Intent intent = new Intent(this, StudentActivity.class);
         intent.putExtra("student_id", String.valueOf(myKids.get(index).getId()));
         intent.putExtra("student_name", myKids.get(index).getFirstName() + " " + myKids.get(index).getLastName());
+        intent.putExtra("student_avatar", myKids.get(index).getAvatar());
+        intent.putExtra("student_level", myKids.get(index).getLevel());
         intent.putExtra("attendances",kidsAttendances.get(index).toString());
         startActivity(intent);
 
