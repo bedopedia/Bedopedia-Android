@@ -4,9 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.JsonArray;
@@ -21,6 +26,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.internal.Streams;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -40,6 +46,7 @@ import Models.Student;
 import Services.ApiClient;
 import Services.ApiInterface;
 import Tools.Dialogue;
+import Tools.InternetConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,7 +57,8 @@ import retrofit2.Response;
 
 public class StudentActivity extends AppCompatActivity {
 
-    String student_id, student_name;
+    String studentId, studentName;
+    String studentAvatar, studentLevel;
     Context context;
     ProgressDialog progress;
     ArrayList<CourseGroup> courseGroups;
@@ -60,6 +68,15 @@ public class StudentActivity extends AppCompatActivity {
     int presentDays;
     String totalGrade;
     TextView totalGradeText;
+    ImageView studentAvatarImage;
+    TextView studentLevelView;
+    TextView studentNameView;
+    LinearLayout attendanceLayer;
+    LinearLayout gradesLayer;
+    LinearLayout timeTableLayer;
+    LinearLayout notesLayer;
+
+    ProgressBar attendanceProgress;
 
     public void loading(){
         progress.setTitle("Loading");
@@ -67,7 +84,7 @@ public class StudentActivity extends AppCompatActivity {
     }
 
     public void getStudentCourseGroups(){
-        String url = "api/students/" + student_id + "/course_groups";
+        String url = "api/students/" + studentId + "/course_groups";
         Map<String, String> params = new HashMap<>();
         Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
 
@@ -105,7 +122,7 @@ public class StudentActivity extends AppCompatActivity {
     }
 
     public void getStudentGrades(){
-        String url = "api/students/" + student_id + "/grade_certificate";
+        String url = "api/students/" + studentId + "/grade_certificate";
         Map<String, String> params = new HashMap<>();
         Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
         call.enqueue(new Callback<ArrayList<JsonObject> >() {
@@ -175,9 +192,39 @@ public class StudentActivity extends AppCompatActivity {
 
         progress = new ProgressDialog(this);
         Bundle extras= getIntent().getExtras();
-        student_id = extras.getString("student_id");
-        student_name = extras.getString("student_name");
+        studentId = extras.getString("student_id");
+        studentName = extras.getString("student_name");
+        studentAvatar = extras.getString("student_avatar");
+        studentLevel = extras.getString("student_level");
         attendance = extras.getString("attendances");
+
+        attendanceLayer = (LinearLayout) findViewById(R.id.open_attendance);
+        gradesLayer = (LinearLayout) findViewById(R.id.open_grades);
+        timeTableLayer = (LinearLayout) findViewById(R.id.open_timetable);
+        notesLayer = (LinearLayout) findViewById(R.id.open_notes);
+
+        studentAvatarImage = (ImageView) findViewById(R.id.home_student_avatar);
+        studentLevelView = (TextView) findViewById(R.id.home_student_level);
+        studentNameView = (TextView) findViewById(R.id.home_student_name);
+        attendanceProgress = (ProgressBar) findViewById(R.id.attendance_progress);
+        studentNameView.setText(studentName);
+        studentLevelView.setText(studentLevel);
+        Picasso.with(this).load(ApiClient.BASE_URL+studentAvatar).into(studentAvatarImage);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
+        TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
+        actionBarTitle.setText(studentName);
+        ImageButton back = (ImageButton) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                onBackPressed();
+            }
+        });
+
         JsonParser parser = new JsonParser();
         JsonElement tradeElement = parser.parse(attendance);
         final JsonArray attenobdances = tradeElement.getAsJsonArray();
@@ -197,13 +244,12 @@ public class StudentActivity extends AppCompatActivity {
         TextView attendaceText = (TextView) findViewById(R.id.attendance_text);
 
         totalGradeText = (TextView) findViewById(R.id.average_grade);
+        if (attendaceDates.size() != 0)
+            attendanceProgress.setProgress((presentDays*100)/attendaceDates.size());
+        attendaceText.setText(presentDays + " / " + attendaceDates.size() +" days");
 
 
-        attendaceText.setText(presentDays + " / " + attendaceDates.size());
-
-
-        ImageButton attendanceBtn = (ImageButton) findViewById(R.id.attendance_btn);
-        attendanceBtn.setOnClickListener(new View.OnClickListener() {
+        attendanceLayer.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -214,32 +260,28 @@ public class StudentActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton gradesBtn = (ImageButton) findViewById(R.id.grades_btn);
-        gradesBtn.setOnClickListener(new View.OnClickListener() {
+        gradesLayer.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(StudentActivity.this, GradesAvtivity.class);
-                intent.putExtra("student_id", student_id);
+                intent.putExtra("student_id", studentId);
                 intent.putExtra("courseGroups", courseGroups);
                 startActivity(intent);
             }
         });
-        getSupportActionBar().setTitle(student_name);
         context = this;
         courseGroups = new ArrayList<CourseGroup>();
 
         sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
         apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
 
-
-        new StudentAsyncTask().execute();
-
-
-
-
-
+        if (InternetConnection.isInternetAvailable(this)) {
+            new StudentAsyncTask().execute();
+        } else {
+            Dialogue.AlertDialog(this,"No NetworkConnection","Check your Netwotk connection and Try again");
+        }
 
     }
 }

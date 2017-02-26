@@ -4,11 +4,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/grades_list"
         android:numColumns="1"
+        android:layout_marginTop="10dp"
         android:choiceMode="singleChoice"
         android:columnOrderPreserved="true"
         android:rowOrderPreserved="true"

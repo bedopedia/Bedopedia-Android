@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import com.google.gson.JsonObject;
 
@@ -43,6 +44,7 @@ public class GradesAvtivity extends AppCompatActivity {
     String student_id;
     ProgressDialog progress;
     Context context;
+    List<CourseGroup> courseGroups;
 
     public void loading(){
         progress.setTitle("Loading");
@@ -115,7 +117,7 @@ public class GradesAvtivity extends AppCompatActivity {
         progress = new ProgressDialog(this);
         Bundle extras= getIntent().getExtras();
         student_id = extras.getString("student_id");
-        final List<CourseGroup> courseGroups = (List<CourseGroup>) getIntent().getSerializableExtra("courseGroups");
+        courseGroups = (List<CourseGroup>) getIntent().getSerializableExtra("courseGroups");
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
         back = (ImageButton) findViewById(R.id.back);
@@ -125,7 +127,7 @@ public class GradesAvtivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //TODO go to another activity
+                onBackPressed();
             }
         });
 
@@ -133,22 +135,19 @@ public class GradesAvtivity extends AppCompatActivity {
         context = this;
 
         GradesAdapter adapter = new GradesAdapter(context, R.layout.single_grade, courseGroups);
-        GridView gradesList = (GridView) findViewById(R.id.grades_list);
-        gradesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                // When clicked, show a toast with the TextView text
-                Intent i =  new Intent(getApplicationContext(), ActivityCourse.class);
-                i.putExtra("student_id",student_id);
-                i.putExtra("course_group_id", String.valueOf(courseGroups.get(position).getId()));
-                i.putExtra("course_id", String.valueOf(courseGroups.get(position).getCourseId()));
-                startActivity(i);
-
-            }
-        });
+        ListView gradesList = (ListView) findViewById(R.id.grades_list);
         gradesList.setAdapter(adapter);
 
 
+    }
+
+    public void itemClicked(int position){
+        Intent i =  new Intent(getApplicationContext(), ActivityCourse.class);
+        i.putExtra("student_id",student_id);
+        i.putExtra("course_group_id", String.valueOf(courseGroups.get(position).getId()));
+        i.putExtra("course_id", String.valueOf(courseGroups.get(position).getCourseId()));
+        i.putExtra("course_name", courseGroups.get(position).getCourseName());
+        startActivity(i);
     }
 
 }
