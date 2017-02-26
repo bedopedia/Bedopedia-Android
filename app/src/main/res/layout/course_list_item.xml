@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/gainsboro"
-            android:padding="20dp">
+            android:padding="10dp">
 
             <TextView
                 android:text="ClassWork"
@@ -24,12 +24,11 @@
                 android:layout_weight=".80" />
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="35dp"
                 android:background="@drawable/grades_circle"
                 android:gravity="center"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:id="@+id/numOfCategory"
-                android:layout_weight=".10"
                 android:layout_marginRight="10dp"
                 android:text="20" />
 

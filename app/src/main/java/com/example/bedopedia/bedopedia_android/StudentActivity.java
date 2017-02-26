@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.JsonArray;
@@ -69,6 +70,8 @@ public class StudentActivity extends AppCompatActivity {
     ImageView studentAvatarImage;
     TextView studentLevelView;
     TextView studentNameView;
+
+    ProgressBar attendanceProgress;
 
     public void loading(){
         progress.setTitle("Loading");
@@ -193,7 +196,7 @@ public class StudentActivity extends AppCompatActivity {
         studentAvatarImage = (ImageView) findViewById(R.id.home_student_avatar);
         studentLevelView = (TextView) findViewById(R.id.home_student_level);
         studentNameView = (TextView) findViewById(R.id.home_student_name);
-
+        attendanceProgress = (ProgressBar) findViewById(R.id.attendance_progress);
         studentNameView.setText(studentName);
         studentLevelView.setText(studentLevel);
         Picasso.with(this).load(ApiClient.BASE_URL+studentAvatar).into(studentAvatarImage);
@@ -231,9 +234,9 @@ public class StudentActivity extends AppCompatActivity {
         TextView attendaceText = (TextView) findViewById(R.id.attendance_text);
 
         totalGradeText = (TextView) findViewById(R.id.average_grade);
-
-
-        attendaceText.setText(presentDays + " / " + attendaceDates.size());
+        if (attendaceDates.size() != 0)
+            attendanceProgress.setProgress((presentDays*100)/attendaceDates.size());
+        attendaceText.setText(presentDays + " / " + attendaceDates.size() +" days");
 
 
         ImageButton attendanceBtn = (ImageButton) findViewById(R.id.attendance_button);
