@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/bg"
     tools:context="com.example.bedopedia.bedopedia_android.LoginActivity">
 
 
@@ -18,9 +19,11 @@
         android:paddingTop="56dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="18dp">
 
         <TextView android:id="@+id/head_text"
             android:layout_width="fill_parent"
@@ -68,21 +71,31 @@
             android:textColor="@color/white"/>
 
         <!-- forget password text lable-->
+        <TextView android:id="@+id/forget_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:gravity="center"
+            android:textSize="20dip"
+            android:text="Forget password?" />
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
 
-            <TextView android:id="@+id/forget_password"
-                android:layout_width="321dp"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:gravity="center"
-                android:textSize="20dip"
-                android:text="Forget password?" />
         </android.support.design.widget.TextInputLayout>
 
-
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="90dp"
+        android:src="@drawable/logo_icon"
+        android:layout_marginTop="41dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

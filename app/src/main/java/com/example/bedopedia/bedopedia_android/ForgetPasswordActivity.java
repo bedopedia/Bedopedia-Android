@@ -33,6 +33,10 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forget_password);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         requestBtn = (Button) findViewById(R.id.request_btn);

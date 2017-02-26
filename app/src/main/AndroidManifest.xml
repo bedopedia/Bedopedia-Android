@@ -13,12 +13,15 @@
         android:hardwareAccelerated="false"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <activity android:name=".Notification" ></activity>
@@ -27,7 +30,10 @@
 
         <activity android:name=".GradesAvtivity"></activity>
 
-        <activity android:name=".ForgetPasswordActivity"></activity>
+        <activity android:name=".ForgetPasswordActivity"
+                  android:label="@string/forget_password"
+                    android:parentActivityName=".LoginActivity">
+        </activity>
 
         <activity android:name=".ActivityCourse"></activity>
 

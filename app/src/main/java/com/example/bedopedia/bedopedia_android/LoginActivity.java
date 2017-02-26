@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
@@ -29,8 +30,10 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
         sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
 
 
@@ -38,9 +41,9 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
 
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString("header_access-token", "");
-//        editor.commit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("header_access-token", "");
+        editor.commit();
 
         String authToken = sharedPreferences.getString("header_access-token", "");
         String userData = sharedPreferences.getString("user_data", "");
