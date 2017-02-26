@@ -30,6 +30,7 @@
                 android:layout_height="35dp"
                 android:id="@+id/numOfCategory"
                 android:layout_marginRight="10dp"
+                android:textColor="@color/white"
                 android:text="20" />
 
             <TextView

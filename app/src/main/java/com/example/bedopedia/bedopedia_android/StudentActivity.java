@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -70,6 +71,10 @@ public class StudentActivity extends AppCompatActivity {
     ImageView studentAvatarImage;
     TextView studentLevelView;
     TextView studentNameView;
+    LinearLayout attendanceLayer;
+    LinearLayout gradesLayer;
+    LinearLayout timeTableLayer;
+    LinearLayout notesLayer;
 
     ProgressBar attendanceProgress;
 
@@ -193,6 +198,11 @@ public class StudentActivity extends AppCompatActivity {
         studentLevel = extras.getString("student_level");
         attendance = extras.getString("attendances");
 
+        attendanceLayer = (LinearLayout) findViewById(R.id.open_attendance);
+        gradesLayer = (LinearLayout) findViewById(R.id.open_grades);
+        timeTableLayer = (LinearLayout) findViewById(R.id.open_timetable);
+        notesLayer = (LinearLayout) findViewById(R.id.open_notes);
+
         studentAvatarImage = (ImageView) findViewById(R.id.home_student_avatar);
         studentLevelView = (TextView) findViewById(R.id.home_student_level);
         studentNameView = (TextView) findViewById(R.id.home_student_name);
@@ -239,8 +249,7 @@ public class StudentActivity extends AppCompatActivity {
         attendaceText.setText(presentDays + " / " + attendaceDates.size() +" days");
 
 
-        ImageButton attendanceBtn = (ImageButton) findViewById(R.id.attendance_button);
-        attendanceBtn.setOnClickListener(new View.OnClickListener() {
+        attendanceLayer.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -251,8 +260,7 @@ public class StudentActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton gradesBtn = (ImageButton) findViewById(R.id.grades_btn);
-        gradesBtn.setOnClickListener(new View.OnClickListener() {
+        gradesLayer.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {

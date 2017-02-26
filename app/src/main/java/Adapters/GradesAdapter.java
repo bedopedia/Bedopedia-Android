@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.GradesAvtivity;
@@ -35,6 +36,7 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
         TextView courseName;
         TextView courseGrade;
         ImageButton openCourse;
+        LinearLayout singleGrade;
     }
 
     @Override
@@ -53,11 +55,12 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
         item.courseName = (TextView) view.findViewById(R.id.course_name);
         item.courseGrade = (TextView) view.findViewById(R.id.course_grade);
         item.openCourse = (ImageButton) view.findViewById(R.id.open_grade);
+        item.singleGrade = (LinearLayout) view.findViewById(R.id.single_grade);
 
         item.courseName.setText(courseGroup.getCourseName());
         item.courseGrade.setText(courseGroup.getGrade());
 
-        item.openCourse.setOnClickListener(new View.OnClickListener() {
+        item.singleGrade.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -65,6 +68,7 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
                 context.itemClicked(position);
             }
         });
+
 
 
         String imageName = courseGroup.getIcon();
