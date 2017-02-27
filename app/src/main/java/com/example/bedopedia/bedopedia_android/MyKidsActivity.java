@@ -10,23 +10,32 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import Adapters.GradesAdapter;
 import Adapters.MyKidsAdapter;
+import Adapters.NotificationAdapter;
 import Models.Course;
+import Models.NotificationModel;
 import Models.Student;
 import Services.ApiClient;
 import Services.ApiInterface;
@@ -44,6 +53,14 @@ public class MyKidsActivity extends AppCompatActivity{
     Context context;
     ProgressDialog progress;
     ArrayList<JsonArray> kidsAttendances;
+
+    DrawerLayout notificationLayout;
+    ImageButton notificationButton;
+    ListView notificationList;
+    ActionBarDrawerToggle notificationToggle;
+    List<NotificationModel> notifications;
+
+
     public void loading(){
         progress.setTitle("Loading");
         progress.setMessage("Wait while loading...");
@@ -131,6 +148,36 @@ public class MyKidsActivity extends AppCompatActivity{
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.home_actionbar);
+
+        notificationLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        notificationList = (ListView) findViewById(R.id.listview_notification);
+        notificationButton = (ImageButton) findViewById(R.id.home_action_bar_notification);
+        notificationLayout.setDrawerListener(notificationToggle);
+        notificationButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(notificationLayout.isDrawerOpen(notificationList)){
+                    notificationLayout.closeDrawer(notificationList);
+                } else {
+                    try {
+                        notifications = new  ArrayList<NotificationModel>();
+                        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", new Date() , null));
+                        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", new Date() , null));
+                        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", new Date() , null));
+                        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", new Date() , null));
+                        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", new Date() , null));
+                        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", new Date() , null));
+                        NotificationAdapter notificationAdapter = new NotificationAdapter(context, R.layout.notification_list_item,notifications);
+                        ListView listView = (ListView) findViewById(R.id.listview_notification);
+                        listView.setAdapter(notificationAdapter);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    notificationLayout.openDrawer(notificationList);
+                }
+            }
+        });
 
         if (InternetConnection.isInternetAvailable(this)){
             new KidsAsyncTask().execute();
