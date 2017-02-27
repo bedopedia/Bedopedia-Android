@@ -30,6 +30,7 @@ import Models.Student;
 import Services.ApiClient;
 import Services.ApiInterface;
 import Tools.Dialogue;
+import Tools.InternetConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -133,7 +134,12 @@ public class BehaviourNotesActivity extends AppCompatActivity {
 
         context = this;
 
-        new BehaviourNotesAsyncTask().execute();
+        if (InternetConnection.isInternetAvailable(this)) {
+            new BehaviourNotesAsyncTask().execute();
+        } else {
+            Dialogue.AlertDialog(this,"No NetworkConnection","Check your Netwotk connection and Try again");
+        }
+
 
 
 
