@@ -24,8 +24,6 @@
 
         </activity>
 
-        <activity android:name=".Notification" ></activity>
-
         <activity android:name=".MyKidsActivity"></activity>
 
         <activity android:name=".GradesAvtivity"></activity>
