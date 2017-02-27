@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
@@ -22,7 +21,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.R.attr.data;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -34,26 +32,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+
         sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
-
-
-
-
-        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
-
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString("header_access-token", "");
-//        editor.commit();
 
         String authToken = sharedPreferences.getString("header_access-token", "");
         String userData = sharedPreferences.getString("user_data", "");
         String uid = sharedPreferences.getString("header_uid", "");
+        ApiClient.BASE_URL = sharedPreferences.getString("Base_Url", "");
 
-        if(!(authToken.equals("") || userData.equals("") || uid.equals(""))) {
-            Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
-            startActivity(i);
-            finish();
-        }
+//        if(!(authToken.equals("") || userData.equals("") || uid.equals(""))) {
+//            Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
+//            startActivity(i);
+//            finish();
+//        }
 
         ((Button) findViewById(R.id.loginSubmit)).setOnClickListener(new View.OnClickListener() {
               @Override
