@@ -35,6 +35,8 @@
         <activity android:name=".AttendanceActivity"></activity>
 
         <activity android:name=".StudentActivity"></activity>
+
+        <activity android:name=".BehaviourNotesActivity"></activity>
     </application>
 
 </manifest>

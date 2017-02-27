@@ -14,12 +14,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -31,10 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Adapters.GradesAdapter;
 import Adapters.MyKidsAdapter;
 import Adapters.NotificationAdapter;
-import Models.Course;
 import Models.NotificationModel;
 import Models.Student;
 import Services.ApiClient;

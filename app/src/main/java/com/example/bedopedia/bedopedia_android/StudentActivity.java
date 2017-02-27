@@ -271,6 +271,17 @@ public class StudentActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        notesLayer.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentActivity.this, BehaviourNotesActivity.class);
+                intent.putExtra("student_id", studentId);
+                startActivity(intent);
+            }
+        });
+
         context = this;
         courseGroups = new ArrayList<CourseGroup>();
 
