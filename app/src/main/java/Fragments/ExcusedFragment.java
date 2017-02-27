@@ -15,22 +15,21 @@ import java.util.List;
 import Adapters.AbsentLateAdapter;
 import Models.Attendance;
 
+
 /**
- * Created by khaled on 2/21/17.
+ * Created by khaled on 2/27/17.
  */
 
-public class LateFragment extends Fragment {
-
-
+public class ExcusedFragment  extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.late_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.excused_fragment, container, false);
 
-        List<Attendance> dates= AttendanceActivity.lateDates;
-        ListView lateAttendaceList = (ListView) rootView.findViewById(R.id.late_attendace);
+        List<Attendance> dates= AttendanceActivity.excusedDates;
+        ListView excusedAttendaceList = (ListView) rootView.findViewById(R.id.excused_attendace);
         AbsentLateAdapter adapter = new AbsentLateAdapter(getActivity(), R.layout.single_attendance, dates);
-        lateAttendaceList.setAdapter(adapter);
+        excusedAttendaceList.setAdapter(adapter);
 
         return rootView;
     }

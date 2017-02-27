@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import Fragments.AbsentFragment;
+import Fragments.ExcusedFragment;
 import Fragments.LateFragment;
 
 /**
@@ -25,10 +26,12 @@ public class AttendanceAdapter extends FragmentPagerAdapter {
 
        Fragment f = null;
 
-       if(position == 1){
+       if(position == 0){
+           f = new LateFragment();
+       } else if (position == 1){
            f = new AbsentFragment();
        } else {
-           f = new LateFragment();
+           f = new ExcusedFragment();
        }
 
        return f;
@@ -36,14 +39,16 @@ public class AttendanceAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if(position == 1){
+        if(position == 0){
+            return "Late";
+        } else if (position == 1){
             return "Absent";
         }
-        return "Late";
+        return "Excused";
     }
 }

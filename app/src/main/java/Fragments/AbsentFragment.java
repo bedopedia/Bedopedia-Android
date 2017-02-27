@@ -10,10 +10,10 @@ import android.widget.ListView;
 import com.example.bedopedia.bedopedia_android.AttendanceActivity;
 import com.example.bedopedia.bedopedia_android.R;
 
-import java.util.Date;
 import java.util.List;
 
 import Adapters.AbsentLateAdapter;
+import Models.Attendance;
 
 
 /**
@@ -26,7 +26,7 @@ public class AbsentFragment  extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.absent_fragment, container, false);
 
-        List<Date> dates= AttendanceActivity.absentDates;
+        List<Attendance> dates= AttendanceActivity.absentDates;
         ListView absentAttendaceList = (ListView) rootView.findViewById(R.id.absent_attendace);
         AbsentLateAdapter adapter = new AbsentLateAdapter(getActivity(), R.layout.single_attendance, dates);
         absentAttendaceList.setAdapter(adapter);

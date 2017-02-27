@@ -1,31 +1,21 @@
 package Adapters;
 
 import android.content.Context;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.AttendanceActivity;
-import com.example.bedopedia.bedopedia_android.MyKidsActivity;
+
 import com.example.bedopedia.bedopedia_android.R;
-import com.squareup.picasso.Picasso;
 
 import java.text.DateFormatSymbols;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import Models.Student;
-import Services.ApiClient;
-import Tools.UIUtils;
+import Models.Attendance;
+
 
 /**
  * Created by khaled on 2/22/17.
@@ -35,7 +25,7 @@ public class AbsentLateAdapter extends ArrayAdapter {
 
     public Context context;
 
-    public AbsentLateAdapter(Context context, int resource, List<Date> items) {
+    public AbsentLateAdapter(Context context, int resource, List<Attendance> items) {
         super(context, resource, items);
         this.context =  context;
 
@@ -49,7 +39,7 @@ public class AbsentLateAdapter extends ArrayAdapter {
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
-        Date date = (Date) getItem(position);
+        Attendance attendanceItem = (Attendance) getItem(position);
         Holder item;
 
         // Check if an existing view is being reused, otherwise inflate the view
@@ -61,7 +51,7 @@ public class AbsentLateAdapter extends ArrayAdapter {
         item.dateImage = (TextView) view.findViewById(R.id.date_image);
         item.dateText = (TextView) view.findViewById(R.id.date_text);
         Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
+        cal.setTime(attendanceItem.getDate());
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
 
@@ -69,7 +59,10 @@ public class AbsentLateAdapter extends ArrayAdapter {
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
         item.dateImage.setText(day + "\n" + months[month].substring(0,3));
-        item.dateText.setText(date.toString());
+        if(attendanceItem.getComment() != null)
+            item.dateText.setText(attendanceItem.getComment());
+        else
+            item.dateText.setText("No Comment available");
 
         return view;
     }

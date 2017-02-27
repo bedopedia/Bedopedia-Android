@@ -28,6 +28,7 @@ import java.util.Set;
 import Adapters.AbsentLateAdapter;
 import Adapters.AttendanceAdapter;
 import Adapters.MyKidsAdapter;
+import Models.Attendance;
 
 /**
  * Created by khaled on 2/21/17.
@@ -40,13 +41,18 @@ public class AttendanceActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private String attendance;
 
-    public static List<Date> absentDates = new ArrayList<Date>();
-    public static List<Date> lateDates = new ArrayList<Date>();
+    public static List<Attendance> absentDates;
+    public static List<Attendance> lateDates;
+    public static List<Attendance> excusedDates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.attendance);
+
+        absentDates = new ArrayList<Attendance>();
+        lateDates = new ArrayList<Attendance>();
+        excusedDates = new ArrayList<Attendance>();
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
@@ -70,16 +76,19 @@ public class AttendanceActivity extends AppCompatActivity {
         final JsonArray attenobdances = tradeElement.getAsJsonArray();
         lateDates.clear();
         absentDates.clear();
+        excusedDates.clear();
 
         for(JsonElement element: attenobdances){
             JsonObject day = element.getAsJsonObject();
             Date date = new Date();
             date.setTime(day.get("date").getAsLong());
+
             if(day.get("status").getAsString().equals("late")){
-                lateDates.add(date);
-            }
-            else if(day.get("status").getAsString().equals("absent")){
-                absentDates.add(date);
+                lateDates.add(new Attendance(date, day.get("comment").getAsString()));
+            } else if(day.get("status").getAsString().equals("absent")){
+                absentDates.add(new Attendance(date, day.get("comment").getAsString()));
+            } else if (day.get("status").getAsString().equals("excused")){
+                excusedDates.add(new Attendance(date, day.get("comment").getAsString()));
             }
         }
 
