@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.MyKidsActivity;
@@ -35,7 +36,9 @@ public class MyKidsAdapter extends ArrayAdapter<Student> {
     public static  class Holder{
         ImageView avatar;
         TextView name;
+        TextView level;
         ImageButton openStudent;
+        LinearLayout singleStudent;
     }
 
     @Override
@@ -52,10 +55,13 @@ public class MyKidsAdapter extends ArrayAdapter<Student> {
 
         item.avatar = (ImageView) view.findViewById(R.id.student_avatar);
         item.name = (TextView) view.findViewById(R.id.student_name);
+        item.level = (TextView) view.findViewById(R.id.student_level);
+        item.level.setText(student.getLevel());
         item.openStudent = (ImageButton) view.findViewById(R.id.open_student);
         item.name.setText(student.getFirstName() + " " + student.getLastName());
         Picasso.with(context).load(ApiClient.BASE_URL+student.getAvatar()).into(item.avatar);
-        item.openStudent.setOnClickListener(new View.OnClickListener() {
+        item.singleStudent = (LinearLayout) view.findViewById(R.id.single_student);
+        item.singleStudent.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -63,7 +69,6 @@ public class MyKidsAdapter extends ArrayAdapter<Student> {
                 context.itemClicked(position);
             }
         });
-
         return view;
     }
 

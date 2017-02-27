@@ -6,6 +6,7 @@
     <GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="20dp"
         android:id="@+id/students_list"
         android:numColumns="1"
         android:choiceMode="singleChoice"
@@ -13,6 +14,7 @@
         android:rowOrderPreserved="true"
         android:useDefaultMargins="true"
         android:nestedScrollingEnabled="true"
-        android:scrollingCache="true"/>
+        android:scrollingCache="true"
+        android:verticalSpacing="20dp"/>
 
 </LinearLayout>
