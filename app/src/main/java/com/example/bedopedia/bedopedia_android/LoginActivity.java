@@ -12,11 +12,17 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import Services.ApiClient;
 import Services.ApiInterface;
+import Tools.Dialogue;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,9 +44,9 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
 
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString("header_access-token", "");
-//        editor.commit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("header_access-token", "");
+        editor.commit();
 
         String authToken = sharedPreferences.getString("header_access-token", "");
         String userData = sharedPreferences.getString("user_data", "");
@@ -70,7 +76,41 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void updateToken() throws JSONException {
+        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+        if (!sharedPreferences.getString("token_changed","").equals("True")) {
+            return;
+        }
+        ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
+        String id = sharedPreferences.getString("user_id", "");
+        String url = "api/users/" + id  ;
+        String token = sharedPreferences.getString("token","");
+        JsonObject params = new JsonObject();
+        JsonObject tokenJson = new JsonObject();
+        tokenJson.addProperty("mobile_device_token",token);
+        params.add("user",tokenJson);
+        Call<JsonObject> call = apiService.putServise(url,  params);
 
+        call.enqueue(new Callback<JsonObject >() {
+
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                int statusCode = response.code();
+                if(statusCode == 401) {
+                } else if (statusCode == 200) {
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+
+        });
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("token_changed","False");
+    }
 
 
      private void loginService () {
@@ -117,6 +157,11 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("username", username);
                     editor.putString("user_data", data.toString());
                     editor.commit();
+                    try {
+                        updateToken();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
                     startActivity(i);
@@ -130,6 +175,8 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"connection failed",Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
 }
