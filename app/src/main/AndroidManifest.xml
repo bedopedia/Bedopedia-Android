@@ -32,15 +32,16 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
-        <activity android:name=".Notification" ></activity>
+        </activity>
 
         <activity android:name=".MyKidsActivity"></activity>
 
@@ -53,6 +54,8 @@
         <activity android:name=".AttendanceActivity"></activity>
 
         <activity android:name=".StudentActivity"></activity>
+
+        <activity android:name=".BehaviourNotesActivity"></activity>
     </application>
 
 </manifest>

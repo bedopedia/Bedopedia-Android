@@ -5,12 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -48,7 +52,8 @@ public class ActivityCourse extends AppCompatActivity {
     Context context;
     private Double totalStudent = 0.0;
     private Double totalCategory = 0.0 ;
-    String student_id, course_group_id,course_id;
+    String studentId, courseGroupId,courseId;
+    String courseName;
 
     public void loading(){
         progress.setTitle("Loading");
@@ -74,8 +79,8 @@ public class ActivityCourse extends AppCompatActivity {
         protected Object doInBackground(Object... param) {
 
             Map<String,String> params = new HashMap();
-            params.put("student_id",student_id);
-            String url = "api/courses/"+ course_id +"/course_groups/"+course_group_id+"/student_grade";
+            params.put("student_id",studentId);
+            String url = "api/courses/"+ courseId +"/course_groups/"+courseGroupId+"/student_grade";
             SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
             Call<JsonObject> call = apiService. getServise(url, params);
@@ -166,9 +171,25 @@ public class ActivityCourse extends AppCompatActivity {
         progress = new ProgressDialog(this);
         context = this;
         Bundle extras= getIntent().getExtras();
-        student_id = extras.getString("student_id");
-        course_group_id = extras.getString("course_group_id");
-        course_id = extras.getString("course_id");
+        studentId = extras.getString("student_id");
+        courseGroupId = extras.getString("course_group_id");
+        courseId = extras.getString("course_id");
+        courseName = extras.getString("course_name");
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
+        TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
+        actionBarTitle.setText(courseName);
+        ImageButton back = (ImageButton) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                onBackPressed();
+            }
+        });
+
         if (InternetConnection.isInternetAvailable(this)){
             new GradeBookAsyncTask().execute();
         } else {
