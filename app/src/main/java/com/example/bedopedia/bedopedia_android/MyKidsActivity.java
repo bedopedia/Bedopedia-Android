@@ -4,12 +4,14 @@ package com.example.bedopedia.bedopedia_android;
  * Created by mohamed on 2/9/17.
  */
 
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -53,6 +56,8 @@ public class MyKidsActivity extends AppCompatActivity{
     Context context;
     ProgressDialog progress;
     ArrayList<JsonArray> kidsAttendances;
+    public static Integer notificationNumber = 0;
+    TextView notificationNuber;
 
     DrawerLayout notificationLayout;
     ImageButton notificationButton;
@@ -181,7 +186,7 @@ public class MyKidsActivity extends AppCompatActivity{
                             Log.v("notification message",notificationObj.get("message").getAsString());
                             try {
 
-                                notifications.add(new NotificationModel(notificationObj.get("message").getAsString(), new Date() ,notificationObj.get("logo").getAsString()));
+                                notifications.add(new NotificationModel(notificationObj.get("message").getAsString(), notificationObj.get("created_at").getAsString() ,notificationObj.get("logo").getAsString()));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -215,6 +220,12 @@ public class MyKidsActivity extends AppCompatActivity{
 
 
 
+    public  void changeTheNotificationNumber() {
+        TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
+        notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
+    }
+
+
 
 
 
@@ -233,6 +244,8 @@ public class MyKidsActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.home_actionbar);
 
+
+
         notificationLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         notificationList = (ListView) findViewById(R.id.listview_notification);
         notificationButton = (ImageButton) findViewById(R.id.home_action_bar_notification);
@@ -243,10 +256,11 @@ public class MyKidsActivity extends AppCompatActivity{
                 if(notificationLayout.isDrawerOpen(notificationList)){
                     notificationLayout.closeDrawer(notificationList);
                 } else {
-
                         new NotificationsAsyncTask().execute();
-
-
+                        NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        nMgr.cancelAll();
+                    notificationNumber = 0;
+                    changeTheNotificationNumber();
                     notificationLayout.openDrawer(notificationList);
                 }
             }
@@ -257,6 +271,15 @@ public class MyKidsActivity extends AppCompatActivity{
         } else {
             Dialogue.AlertDialog(this,"No NetworkConnection","Check your Netwotk connection and Try again");
         }
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
+                notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
+                handler.postDelayed(this, 0); //now is every 2 minutes
+            }
+        }, 500); //Every 120000 ms (2 minutes)
 
 
     }

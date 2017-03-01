@@ -10,12 +10,12 @@ import java.util.Date;
 public class NotificationModel {
 
     private String content;
-    private Date date;
+    private String date;
     private String logoUrl;
 
     public NotificationModel() {
     }
-    public NotificationModel(String content, Date date, String logoUrl) throws ParseException {
+    public NotificationModel(String content, String date, String logoUrl) throws ParseException {
         this.content = content;
         this.date = date;
         this.logoUrl = logoUrl;
@@ -29,11 +29,11 @@ public class NotificationModel {
         this.content = content;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
