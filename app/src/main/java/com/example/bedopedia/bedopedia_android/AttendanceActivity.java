@@ -84,11 +84,20 @@ public class AttendanceActivity extends AppCompatActivity {
             date.setTime(day.get("date").getAsLong());
 
             if(day.get("status").getAsString().equals("late")){
-                lateDates.add(new Attendance(date, day.get("comment").getAsString()));
+                if(!day.get("comment").toString().equals("null"))
+                    lateDates.add(new Attendance(date, day.get("comment").getAsString()));
+                else
+                    lateDates.add(new Attendance(date, "No Comment"));
             } else if(day.get("status").getAsString().equals("absent")){
-                absentDates.add(new Attendance(date, day.get("comment").getAsString()));
+                if(!day.get("comment").toString().equals("null"))
+                    absentDates.add(new Attendance(date, day.get("comment").getAsString()));
+                else
+                    absentDates.add(new Attendance(date, "No Comment"));
             } else if (day.get("status").getAsString().equals("excused")){
-                excusedDates.add(new Attendance(date, day.get("comment").getAsString()));
+                if ( !day.get("comment").toString().equals("null"))
+                    excusedDates.add(new Attendance(date, day.get("comment").getAsString()));
+                else
+                    excusedDates.add(new Attendance(date, "No Comment"));
             }
         }
 
