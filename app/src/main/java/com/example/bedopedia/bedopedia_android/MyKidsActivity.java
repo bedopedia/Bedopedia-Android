@@ -14,12 +14,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.text.ParseException;
@@ -28,6 +31,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import Adapters.MyKidsAdapter;
 import Adapters.NotificationAdapter;
@@ -132,6 +136,90 @@ public class MyKidsActivity extends AppCompatActivity{
 
     }
 
+
+    private class NotificationsAsyncTask extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading();
+            progress.show();
+        }
+
+        protected void onProgressUpdate(String... progress) {
+            loading();
+        }
+
+        @Override
+        protected List<Student> doInBackground(Object... param) {
+
+            SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+            ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
+            id = sharedPreferences.getString("user_id", "");
+            String url = "/api/users/"+id +"/notifications";
+            Map <String, String> params = new HashMap<>();
+            params.put("page" , "1");
+            params.put("per_page" , "20");
+            Call<JsonObject>  call = apiService.getServise(url, params);
+
+            call.enqueue(new Callback<JsonObject> () {
+
+                @Override
+                public void onResponse(Call<JsonObject>  call, Response<JsonObject>  response) {
+                    progress.dismiss();
+                    int statusCode = response.code();
+                    if(statusCode == 401) {
+                        Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                    } else if (statusCode == 200) {
+                        notifications = new  ArrayList<NotificationModel>();
+                        Log.v("Notifications",response.body().toString());
+                        JsonObject notificationsRespone = response.body();
+
+
+                        for (JsonElement pa : notificationsRespone.get("notifications").getAsJsonArray()) { // gest needed data from assig, quizz, grade item
+                            JsonObject notificationObj = pa.getAsJsonObject();
+                            Log.v("notification message",notificationObj.get("message").getAsString());
+                            try {
+
+                                notifications.add(new NotificationModel(notificationObj.get("message").getAsString(), new Date() ,notificationObj.get("logo").getAsString()));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        NotificationAdapter notificationAdapter = new NotificationAdapter(context, R.layout.notification_list_item,notifications);
+                        ListView listView = (ListView) findViewById(R.id.listview_notification);
+                        listView.setAdapter(notificationAdapter);
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    progress.dismiss();
+                    Log.v("Error",t.toString());
+                    Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
+                }
+
+
+            });
+            return myKids;
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,20 +243,9 @@ public class MyKidsActivity extends AppCompatActivity{
                 if(notificationLayout.isDrawerOpen(notificationList)){
                     notificationLayout.closeDrawer(notificationList);
                 } else {
-                    try {
-                        notifications = new  ArrayList<NotificationModel>();
-                        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", new Date() , null));
-                        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", new Date() , null));
-                        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", new Date() , null));
-                        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", new Date() , null));
-                        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", new Date() , null));
-                        notifications.add(new NotificationModel("Quiz 5 is submitted and auto graded", new Date() , null));
-                        NotificationAdapter notificationAdapter = new NotificationAdapter(context, R.layout.notification_list_item,notifications);
-                        ListView listView = (ListView) findViewById(R.id.listview_notification);
-                        listView.setAdapter(notificationAdapter);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+
+                        new NotificationsAsyncTask().execute();
+
 
                     notificationLayout.openDrawer(notificationList);
                 }

@@ -4,31 +4,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import Services.ApiClient;
 import Services.ApiInterface;
-import Tools.Dialogue;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.R.attr.data;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -78,6 +70,9 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+
+
 
     public void updateToken() throws JSONException {
         SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
@@ -156,6 +151,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("header_uid", uid);
 
                     editor.putString("user_id", userId);
+                    editor.putString("is_logged_in", "true");
                     editor.putString("id", id);
                     editor.putString("username", username);
                     editor.putString("user_data", data.toString());
@@ -165,6 +161,7 @@ public class LoginActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
 
                     Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
                     startActivity(i);
