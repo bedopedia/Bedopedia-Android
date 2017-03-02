@@ -34,29 +34,40 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
         if (sharedPreferences.getString("is_logged_in", "").equals("true")) {
             Map<String, String> data = remoteMessage.getData();
-            MyKidsActivity.notificationNumber = MyKidsActivity.notificationNumber + 1;
-            android.support.v4.app.NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.notification)
-                            .setContentTitle(data.get("title"))
-                            .setContentText(data.get("message"));
-            Intent resultIntent = new Intent(this, MyKidsActivity.class);
 
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-            stackBuilder.addParentStack(MyKidsActivity.class);
-            stackBuilder.addNextIntent(resultIntent);
-            PendingIntent resultPendingIntent =
-                    stackBuilder.getPendingIntent(
-                            0,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    );
-            mBuilder.setContentIntent(resultPendingIntent);
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(mdl, mBuilder.build());
-            mdl = mdl +1;
+
+            if (data.get("message").equals("markAsSeen")) {
+                MyKidsActivity.notificationNumber = 0;
+                NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                nMgr.cancelAll();
+            } else {
+
+                MyKidsActivity.notificationNumber = MyKidsActivity.notificationNumber + 1;
+                android.support.v4.app.NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(this)
+                                .setSmallIcon(R.drawable.notification)
+                                .setContentTitle(data.get("title"))
+                                .setContentText(data.get("message"));
+                Intent resultIntent = new Intent(this, MyKidsActivity.class);
+
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+                stackBuilder.addParentStack(MyKidsActivity.class);
+                stackBuilder.addNextIntent(resultIntent);
+                PendingIntent resultPendingIntent =
+                        stackBuilder.getPendingIntent(
+                                0,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+                mBuilder.setContentIntent(resultPendingIntent);
+                NotificationManager mNotificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify(mdl, mBuilder.build());
+                mdl = mdl +1;
+            }
+
+
         } else {
-
+            Log.v("Notification","there is an message recievecd");
         }
 
     }

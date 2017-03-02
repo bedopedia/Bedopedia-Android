@@ -210,7 +210,61 @@ public class MyKidsActivity extends AppCompatActivity{
 
 
             });
-            return myKids;
+            return null;
+        }
+
+
+    }
+
+
+
+
+
+    private class MarkAllAsSeenAsyncTask extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading();
+
+        }
+
+        protected void onProgressUpdate(String... progress) {
+            loading();
+        }
+
+        @Override
+        protected List<Student> doInBackground(Object... param) {
+
+            SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+            ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
+            id = sharedPreferences.getString("user_id", "");
+            String url ="/api/users/"+id +"/notifications/mark_as_seen";
+            Map <String, String> params = new HashMap<>();
+            params.put("type" , "android");
+            Call<JsonObject>  call = apiService.postServise(url, params);
+
+            call.enqueue(new Callback<JsonObject> () {
+
+                @Override
+                public void onResponse(Call<JsonObject>  call, Response<JsonObject>  response) {
+
+                    int statusCode = response.code();
+                    if(statusCode == 401) {
+                        Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                    } else if (statusCode == 200) {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                }
+
+
+            });
+            return null;
         }
 
 
@@ -259,9 +313,10 @@ public class MyKidsActivity extends AppCompatActivity{
                         new NotificationsAsyncTask().execute();
                         NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         nMgr.cancelAll();
-                    notificationNumber = 0;
-                    changeTheNotificationNumber();
-                    notificationLayout.openDrawer(notificationList);
+                        notificationNumber = 0;
+                        changeTheNotificationNumber();
+                        new MarkAllAsSeenAsyncTask().execute();
+                        notificationLayout.openDrawer(notificationList);
                 }
             }
         });
