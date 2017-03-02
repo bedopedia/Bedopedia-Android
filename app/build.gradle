@@ -35,4 +35,5 @@ dependencies {
     compile files('libs/gradle-wrapper.jar')
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'joda-time:joda-time:2.9.4'
 }
