@@ -95,8 +95,12 @@ public class TimetableActivity extends AppCompatActivity {
                         String tomorrow = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
                         today = today.toLowerCase();
                         tomorrow = tomorrow.toLowerCase();
+                        if (today.equals("thursday")){
+                            tomorrow = "sunday";
+                        }
+
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-                        //formatter.setTimeZone(TimeZone.getTimeZone("Egypt"));
+                        formatter.setTimeZone(TimeZone.getTimeZone("Egypt"));
                         for(int i = 0 ; i < response.body().size() ; i++){
                             JsonObject slot = response.body().get(i);
                             String from = slot.get("from").getAsString();
@@ -171,7 +175,7 @@ public class TimetableActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-        actionBarTitle.setText("Attendance");
+        actionBarTitle.setText("Timetable");
         ImageButton back = (ImageButton) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
 
