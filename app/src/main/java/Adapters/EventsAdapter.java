@@ -6,20 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
 import com.example.bedopedia.bedopedia_android.R;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import Models.CourseGroup;
-import Models.TimetableEvent;
 
 /**
  * Created by khaled on 3/2/17.
