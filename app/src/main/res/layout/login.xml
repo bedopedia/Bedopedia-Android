@@ -71,6 +71,7 @@
             android:background="@color/colorPrimary"
             android:textColor="@color/white"/>
 
+
         <!-- forget password text lable-->
         <TextView android:id="@+id/forget_password"
             android:layout_width="match_parent"
