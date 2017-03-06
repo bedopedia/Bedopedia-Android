@@ -9,7 +9,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -85,7 +84,6 @@ public class TimetableActivity extends AppCompatActivity {
                 public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
                     progress.dismiss();
                     int statusCode = response.code();
-                    Log.d("timetable123" , ""+statusCode);
                     if(statusCode == 401) {
                         Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
                     } else if (statusCode == 200) {
@@ -101,7 +99,6 @@ public class TimetableActivity extends AppCompatActivity {
                         //formatter.setTimeZone(TimeZone.getTimeZone("Egypt"));
                         for(int i = 0 ; i < response.body().size() ; i++){
                             JsonObject slot = response.body().get(i);
-                            Log.d("timetable123 ", ""+slot);
                             String from = slot.get("from").getAsString();
                             String to = slot.get("to").getAsString();
                             if(from.indexOf('.') != -1)
@@ -122,7 +119,6 @@ public class TimetableActivity extends AppCompatActivity {
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            Log.d("size:: ", day + "   " + today);
                             if (day.equals(today)){
                                 todaySlots.add(new TimetableSlot(fromDate, toDate, day, courseName, classRoom));
                             } else if (day.equals(tomorrow)) {
