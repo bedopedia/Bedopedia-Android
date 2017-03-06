@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -60,7 +61,7 @@ public class MyKidsActivity extends AppCompatActivity{
     TextView notificationNuber;
 
     DrawerLayout notificationLayout;
-    ImageButton notificationButton;
+    Button notificationButton;
     ListView notificationList;
     ActionBarDrawerToggle notificationToggle;
     List<NotificationModel> notifications;
@@ -297,12 +298,18 @@ public class MyKidsActivity extends AppCompatActivity{
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.home_actionbar);
+        TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
 
+        if (MyKidsActivity.notificationNumber == 0) {
+            notificationNumberText.setVisibility(View.INVISIBLE);
+        } else  {
+            notificationNumberText.setVisibility(View.VISIBLE);
+        }
 
 
         notificationLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         notificationList = (ListView) findViewById(R.id.listview_notification);
-        notificationButton = (ImageButton) findViewById(R.id.home_action_bar_notification);
+        notificationButton = (Button) findViewById(R.id.home_action_bar_notification);
         notificationLayout.setDrawerListener(notificationToggle);
         notificationButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -331,6 +338,11 @@ public class MyKidsActivity extends AppCompatActivity{
         handler.postDelayed(new Runnable() {
             public void run() {
                 TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
+                if (MyKidsActivity.notificationNumber == 0) {
+                    notificationNumberText.setVisibility(View.INVISIBLE);
+                } else  {
+                    notificationNumberText.setVisibility(View.VISIBLE);
+                }
                 notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
                 handler.postDelayed(this, 0); //now is every 2 minutes
             }
