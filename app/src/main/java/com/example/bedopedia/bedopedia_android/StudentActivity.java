@@ -141,7 +141,10 @@ public class StudentActivity extends AppCompatActivity {
                             for(int j = 0 ; j < courseGroups.size() ; j++){
                                 if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt()){
                                     courseGroups.get(j).setGrade(courseData.get("grade").getAsString());
-                                    courseGroups.get(j).setIcon(courseData.get("icon").getAsString());
+                                    if (courseData.get("icon").toString().equals("null"))
+                                        courseGroups.get(j).setIcon("dragon");
+                                    else
+                                        courseGroups.get(j).setIcon(courseData.get("icon").getAsString());
                                 }
                             }
 
