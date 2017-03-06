@@ -218,9 +218,6 @@ public class MyKidsActivity extends AppCompatActivity{
     }
 
 
-
-
-
     private class MarkAllAsSeenAsyncTask extends AsyncTask {
 
         @Override
@@ -272,18 +269,10 @@ public class MyKidsActivity extends AppCompatActivity{
     }
 
 
-
-
-
     public  void changeTheNotificationNumber() {
         TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
         notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
     }
-
-
-
-
-
 
 
     @Override

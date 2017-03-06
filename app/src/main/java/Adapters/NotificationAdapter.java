@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,21 +58,17 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
 
         item.content.setText(notification.getContent());
 //        SimpleDateFormat dt = new SimpleDateFormat("d MMM, h:mm a");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
-        DateFormat inputFormatter1 = new SimpleDateFormat("d MMM, h:mm a");
-        item.date.setText(notification.getDate());
+        Date date = null;
         try {
-            Date date1 = inputFormatter1.parse(notification.getDate());
-
-            DateFormat outputFormatter1 = new SimpleDateFormat("d MMM, h:mm a");
-            String output1 = outputFormatter1.format(date1); //
-            item.date.setText(notification.getDate());
-
-
+            date = fmt.parse(notification.getDate());
+            SimpleDateFormat fmtOut = new SimpleDateFormat("d MMM, h:mm a");
+            item.date.setText(fmtOut.format(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
+        
 
 
 
