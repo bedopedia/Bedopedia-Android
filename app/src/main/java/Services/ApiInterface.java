@@ -6,6 +6,10 @@ package Services;
 
 
 import com.google.gson.*;
+
+import org.json.JSONObject;
+
+import okhttp3.RequestBody;
 import retrofit2.*;
 import retrofit2.http.*;
 import java.util.*;
@@ -26,9 +30,8 @@ public interface ApiInterface {
     @POST
     Call<ArrayList<JsonObject>> postServiseArr(@Url String url,@FieldMap Map<String,String> params);
 
-    @FormUrlEncoded
     @PUT
-    Call<JsonObject> putServise(@Url String url,@FieldMap Map<String,String> params);
+    Call<JsonObject> putServise(@Url String url,@Body JsonObject params);
 
     @FormUrlEncoded
     @PUT
