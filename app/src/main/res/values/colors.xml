@@ -10,4 +10,6 @@
     <color name="orange">#f8812a</color>
     <color name="red">#d91b16</color>
     <color name="darkGray">#7d8286</color>
+    <color name="black">#000000</color>
+    <color name="colorDivider">#aaaaaa</color>
 </resources>

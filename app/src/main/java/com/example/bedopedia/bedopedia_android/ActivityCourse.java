@@ -106,15 +106,15 @@ public class ActivityCourse extends AppCompatActivity {
 
                             ArrayList<Pair<String,String>> assignmentTempData = new ArrayList<>();
                             JsonObject item = entry.getValue().getAsJsonObject();
-                            if (item.has("assignments")) {
+                            if (item.has("assignments") && body.has("student") && body.get("student").getAsJsonArray().get(0).getAsJsonObject().has("submitted_assignments")  ) {
                                 addAssignmentsToList(item.get("assignments").getAsJsonArray(), assignmentTempData, body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_assignments").getAsJsonArray());
                             }
 
-                            if (item.has("quizzes")) {
+                            if (item.has("quizzes")  &&  body.has("student")  && body.get("student").getAsJsonArray().get(0).getAsJsonObject().has("submitted_quizzes") ) {
                                 addQuizzesToList(item.get("quizzes").getAsJsonArray(), assignmentTempData,body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_quizzes").getAsJsonArray());
                             }
 
-                            if (item.has("grade_items")) {
+                            if (item.has("grade_items")  && body.has("student")  && body.get("student").getAsJsonArray().get(0).getAsJsonObject().has("submitted_grades")  ) {
                                 addGradeItemsToList(item.get("grade_items").getAsJsonArray(), assignmentTempData, body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_grades").getAsJsonArray());
                             }
 

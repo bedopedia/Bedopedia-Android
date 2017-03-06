@@ -201,6 +201,7 @@ public class StudentActivity extends AppCompatActivity {
         studentLevel = extras.getString("student_level");
         attendance = extras.getString("attendances");
 
+
         attendanceLayer = (LinearLayout) findViewById(R.id.open_attendance);
         gradesLayer = (LinearLayout) findViewById(R.id.open_grades);
         timeTableLayer = (LinearLayout) findViewById(R.id.open_timetable);
@@ -280,6 +281,16 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(StudentActivity.this, BehaviourNotesActivity.class);
+                intent.putExtra("student_id", studentId);
+                startActivity(intent);
+            }
+        });
+
+        timeTableLayer.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentActivity.this, TimetableActivity.class);
                 intent.putExtra("student_id", studentId);
                 startActivity(intent);
             }
