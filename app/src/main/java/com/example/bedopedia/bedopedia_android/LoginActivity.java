@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void updateToken() throws JSONException {
-        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
         if (!sharedPreferences.getString("token_changed","").equals("True")) {
             return;
         }
@@ -93,21 +93,19 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                int statusCode = response.code();
-                if(statusCode == 401) {
-                } else if (statusCode == 200) {
-                }
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("token_changed","False");
 
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("token_changed","True");
             }
 
         });
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("token_changed","False");
+
     }
 
 

@@ -68,8 +68,6 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        
-
 
 
         return view;

@@ -67,7 +67,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
         } else {
-            Log.v("Notification","there is an message recievecd");
         }
 
     }
