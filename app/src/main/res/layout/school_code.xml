@@ -1,63 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/school_code"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/login"
+    android:fitsSystemWindows="true"
     tools:context="com.example.bedopedia.bedopedia_android.schoolCode">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="56dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:background="@color/gainsboro"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="66dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingTop="46dp"
+        android:paddingBottom="76dp"
+        android:background="@drawable/layout_screen"
+        android:weightSum="1"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="31dp">
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:background="@drawable/flogo_icon"
+            android:layout_gravity="center"
+            android:layout_height="64dp"
+            android:layout_width="64dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
         <TextView android:id="@+id/head_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="52dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="59dp"
             android:gravity="center"
-            android:textSize="20dip"
-            android:text="Enter your School Code."/>
+            android:text="Enter school code to proceed with sign in"/>
 
         <!-- Code Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="41dp"
+            android:layout_marginRight="39dp">
             <AutoCompleteTextView android:id="@+id/code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:hint="Code" />
+                android:imeOptions="actionNext"
+                android:drawableLeft="@drawable/code_school"
+                android:drawablePadding="17dp"
+                android:hint="School code" />
         </android.support.design.widget.TextInputLayout>
-
-
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/codeSubmit"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:padding="12dp"
-            android:text="Enter"
-            android:background="@color/colorPrimary"
+            android:layout_marginTop="64dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:width="248dp"
+            android:height="48dp"
+            android:text="CONTENUE"
+            android:background="@drawable/login_button"
+            android:imeOptions="actionNext"
             android:textColor="@color/white"/>
-
 
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>
