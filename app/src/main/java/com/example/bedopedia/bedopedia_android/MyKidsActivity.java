@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,12 +18,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonArray;
@@ -31,11 +30,9 @@ import com.google.gson.JsonObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import Adapters.MyKidsAdapter;
 import Adapters.NotificationAdapter;
@@ -61,7 +58,6 @@ public class MyKidsActivity extends AppCompatActivity{
     TextView notificationNuber;
 
     DrawerLayout notificationLayout;
-    Button notificationButton;
     ListView notificationList;
     ActionBarDrawerToggle notificationToggle;
     List<NotificationModel> notifications;
@@ -184,10 +180,18 @@ public class MyKidsActivity extends AppCompatActivity{
 
                         for (JsonElement pa : notificationsRespone.get("notifications").getAsJsonArray()) { // gest needed data from assig, quizz, grade item
                             JsonObject notificationObj = pa.getAsJsonObject();
-                            Log.v("notification message",notificationObj.get("message").getAsString());
                             try {
-
-                                notifications.add(new NotificationModel(notificationObj.get("message").getAsString(), notificationObj.get("created_at").getAsString() ,notificationObj.get("logo").getAsString()));
+                                JsonObject additionalParams = notificationObj.getAsJsonObject("additional_params");
+                                String studentNames = "";
+                                int i = 0 , len = additionalParams.get("studentNames").getAsJsonArray().size() ;
+                                for (JsonElement name : additionalParams.get("studentNames").getAsJsonArray()) {
+                                    studentNames += name.getAsString();
+                                    if (i > 0 && i != len - 1) {
+                                        studentNames += ", ";
+                                    }
+                                }
+                                Log.v("StudentNames",studentNames);
+                                    notifications.add(new NotificationModel(notificationObj.get("text").getAsString(), notificationObj.get("created_at").getAsString() ,notificationObj.get("logo").getAsString(), studentNames ,notificationObj.get("message").getAsString() ));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -272,6 +276,8 @@ public class MyKidsActivity extends AppCompatActivity{
     public  void changeTheNotificationNumber() {
         TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
         notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
+        Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf"); //use this.getAssets if you are calling from an Activity
+        notificationNumberText.setTypeface(roboto);
     }
 
 
@@ -279,7 +285,7 @@ public class MyKidsActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_kids);
-        setTitle("My kids");
+
         myKids = new ArrayList<Student>();
         context = this;
         progress = new ProgressDialog(this);
@@ -287,7 +293,14 @@ public class MyKidsActivity extends AppCompatActivity{
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.home_actionbar);
+        Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
+
+        TextView title = (TextView) findViewById(R.id.home_action_bar_title);
+        title.setText("My Kids");
+        title.setTypeface(roboto);
+
         TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
+
 
         if (MyKidsActivity.notificationNumber == 0) {
             notificationNumberText.setVisibility(View.INVISIBLE);
@@ -295,17 +308,25 @@ public class MyKidsActivity extends AppCompatActivity{
             notificationNumberText.setVisibility(View.VISIBLE);
         }
 
+        RelativeLayout notificationButton =  (RelativeLayout) findViewById(R.id.relative_layout);
 
         notificationLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         notificationList = (ListView) findViewById(R.id.listview_notification);
-        notificationButton = (Button) findViewById(R.id.home_action_bar_notification);
         notificationLayout.setDrawerListener(notificationToggle);
         notificationButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(notificationLayout.isDrawerOpen(notificationList)){
                     notificationLayout.closeDrawer(notificationList);
+                    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
+                    title.setText("My Kids");
+                    Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
+                    title.setTypeface(roboto);
                 } else {
+                        TextView title = (TextView) findViewById(R.id.home_action_bar_title);
+                        title.setText("Notifications");
+                        Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
+                        title.setTypeface(roboto);
                         new NotificationsAsyncTask().execute();
                         NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         nMgr.cancelAll();
@@ -332,6 +353,13 @@ public class MyKidsActivity extends AppCompatActivity{
                 } else  {
                     notificationNumberText.setVisibility(View.VISIBLE);
                 }
+
+                if(notificationLayout.isDrawerOpen(notificationList)){
+
+
+
+                }
+
                 notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
                 handler.postDelayed(this, 0); //now is every 2 minutes
             }

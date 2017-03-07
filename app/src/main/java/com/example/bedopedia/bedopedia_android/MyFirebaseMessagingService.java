@@ -31,6 +31,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
+
         SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
         if (sharedPreferences.getString("is_logged_in", "").equals("true")) {
             Map<String, String> data = remoteMessage.getData();
@@ -41,11 +42,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 nMgr.cancelAll();
             } else {
-
                 MyKidsActivity.notificationNumber = MyKidsActivity.notificationNumber + 1;
                 android.support.v4.app.NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)
-                                .setSmallIcon(R.drawable.notification)
+                                .setSmallIcon(R.drawable.quizzes_ico)
                                 .setContentTitle(data.get("title"))
                                 .setContentText(data.get("message"));
                 Intent resultIntent = new Intent(this, MyKidsActivity.class);
