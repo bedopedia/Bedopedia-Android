@@ -3,14 +3,19 @@ package com.example.bedopedia.bedopedia_android;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
@@ -20,17 +25,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import Adapters.TimetableAdapter;
+import Fragments.TodayFragment;
 import Models.TimetableSlot;
 import Services.ApiClient;
 import Services.ApiInterface;
 import Tools.Dialogue;
+import Tools.InternetConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -186,9 +196,11 @@ public class TimetableActivity extends AppCompatActivity {
             }
         });
 
-        new TimetableAsyncTask().execute();
-
-
+        if (InternetConnection.isInternetAvailable(this)){
+            new TimetableAsyncTask().execute();
+        } else {
+            Dialogue.AlertDialog(this,"No NetworkConnection","Check your Netwotk connection and Try again");
+        }
 
 
     }

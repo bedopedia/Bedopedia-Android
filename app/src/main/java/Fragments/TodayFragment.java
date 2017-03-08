@@ -1,5 +1,6 @@
 package Fragments;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import Models.TimetableSlot;
 
@@ -29,24 +32,30 @@ import Models.TimetableSlot;
 
 public class TodayFragment extends Fragment {
 
-    private RelativeLayout mLayout;
-
+    public static RelativeLayout mLayout;
+    public static TextView nowSign;
+    public static TextView nowEventView;
+    public Activity act;
     public int getInDp(int dimensionInPixel){
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimensionInPixel, getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimensionInPixel, act.getResources().getDisplayMetrics());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.today_fragment, container, false);
-
+        act = getActivity();
         mLayout = (RelativeLayout) rootView.findViewById(R.id.today_event_column);
+        nowSign = new TextView(TimetableActivity.context);
+        nowEventView = new TextView(TimetableActivity.context);
         displayDailyEvents();
 
         displayNowTime();
 
         return rootView;
     }
-    public void displayNowTime(){
+    public void updateTimeNow(){
+
+
         Date nowDate = new Date();
         Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
         calendar.setTime(nowDate);   // assigns calendar to given date
@@ -55,7 +64,9 @@ public class TodayFragment extends Fragment {
         if(hours >= 7 && hours <= 19) {
             int linePosition = (int) (31.0 + ((hours - 7)*60.0) + (minutes/60.0) * 60.0) ;
 
-            TextView nowSign = new TextView(TimetableActivity.context);
+            mLayout.removeView(nowSign);
+            mLayout.removeView(nowEventView);
+
             RelativeLayout.LayoutParams lParam1 = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             lParam1.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             lParam1.topMargin = getInDp(linePosition-4);
@@ -66,12 +77,11 @@ public class TodayFragment extends Fragment {
             nowSign.setWidth(20);
 
             int id = R.drawable.now_circle;
-            Drawable d = getResources().getDrawable(id);
+            Drawable d = act.getResources().getDrawable(id);
             nowSign.setBackground(d);
             mLayout.addView(nowSign);
 
 
-            TextView nowEventView = new TextView(TimetableActivity.context);
             RelativeLayout.LayoutParams lParam = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             lParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             lParam.topMargin = getInDp(linePosition);
@@ -83,7 +93,29 @@ public class TodayFragment extends Fragment {
             nowEventView.setGravity(0x11);
             nowEventView.setBackgroundColor(Color.RED);
             mLayout.addView(nowEventView);
+
+
         }
+    }
+    public void displayNowTime(){
+
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask()
+        {
+            public void run()
+            {
+                act.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        updateTimeNow();
+
+                    }
+                });
+            }
+        }, 0, 1000);
+
+
     }
 
     private void displayDailyEvents(){
@@ -127,11 +159,11 @@ public class TodayFragment extends Fragment {
         RelativeLayout.LayoutParams lParam = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         lParam.topMargin = getInDp(eventPosition);
-        lParam.leftMargin = 24;
+        lParam.leftMargin = getInDp(4);
         mEventView.setLayoutParams(lParam);
         mEventView.setPadding(24, 0, 24, 0);
         mEventView.setHeight(getInDp(height * 2));
-        mEventView.setWidth(1100);
+        mEventView.setWidth(1200);
         mEventView.setTextColor(Color.parseColor("#ffffff"));
         mEventView.setText(courseName);
         mEventView.setBackgroundColor(Color.GRAY);
@@ -141,11 +173,11 @@ public class TodayFragment extends Fragment {
         RelativeLayout.LayoutParams lParam3 = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam3.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         lParam3.topMargin = getInDp(eventPosition+(height*2));
-        lParam3.leftMargin = 24;
+        lParam3.leftMargin = getInDp(4);
         mEventView3.setLayoutParams(lParam3);
         mEventView3.setPadding(24, 0, 24, 0);
         mEventView3.setHeight(getInDp(height));
-        mEventView3.setWidth(1100);
+        mEventView3.setWidth(1200);
         mEventView3.setTextColor(Color.parseColor("#ffffff"));
         mEventView3.setTextSize(13);
         mEventView3.setText(classRoom);
@@ -161,7 +193,7 @@ public class TodayFragment extends Fragment {
         mEventView1.setLayoutParams(lParam1);
         mEventView1.setPadding(24, 0, 24, 0);
         mEventView1.setHeight(getInDp(height * 3));
-        mEventView1.setWidth(24);
+        mEventView1.setWidth(getInDp(4));
         mEventView1.setGravity(0x11);
         mEventView1.setBackgroundColor(Color.GREEN);
         mLayout.addView(mEventView1);
