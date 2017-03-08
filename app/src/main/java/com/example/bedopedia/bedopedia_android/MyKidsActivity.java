@@ -317,12 +317,10 @@ public class MyKidsActivity extends AppCompatActivity{
                 if(notificationLayout.isDrawerOpen(notificationList)){
                     notificationLayout.closeDrawer(notificationList);
                     TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                    title.setText("My Kids");
                     Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
                     title.setTypeface(roboto);
                 } else {
                         TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                        title.setText("Notifications");
                         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
                         title.setTypeface(roboto);
                         new NotificationsAsyncTask().execute();
@@ -353,9 +351,11 @@ public class MyKidsActivity extends AppCompatActivity{
                 }
 
                 if(notificationLayout.isDrawerOpen(notificationList)){
-
-
-
+                    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
+                    title.setText("Notifications");
+                } else {
+                    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
+                    title.setText("My Kids");
                 }
 
                 notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
