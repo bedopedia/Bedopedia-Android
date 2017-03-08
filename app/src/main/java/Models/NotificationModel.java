@@ -12,13 +12,17 @@ public class NotificationModel {
     private String content;
     private String date;
     private String logoUrl;
+    private String studentNames;
+    private String type;
 
     public NotificationModel() {
     }
-    public NotificationModel(String content, String date, String logoUrl) throws ParseException {
+    public NotificationModel(String content, String date, String logoUrl, String studentNames, String type) throws ParseException {
         this.content = content;
         this.date = date;
         this.logoUrl = logoUrl;
+        this.studentNames = studentNames;
+        this.type = type;
     }
 
     public String getContent() {
@@ -43,5 +47,17 @@ public class NotificationModel {
 
     public void setLogoUrl(String logoUrl) {
         this.logoUrl = logoUrl;
+    }
+
+    public String getStudentNames() {
+        return studentNames;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

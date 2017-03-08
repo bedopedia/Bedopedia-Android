@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
 
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -38,6 +41,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
         ImageView logo;
         TextView content;
         TextView date;
+        TextView studentNames;
     }
 
     @Override
@@ -52,11 +56,30 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
         }
         item=new Holder();
 
-        //TODO notification logo
+
+        ImageView logo = (ImageView) view.findViewById(R.id.notificationLogo);
+        if (notification.getType().equals("assignments")){
+            logo.setImageResource(R.drawable.quizzes_ico);
+        } else if (notification.getType().equals("quizzes")) {
+            logo.setImageResource(R.drawable.quizzes_ico);
+        } else if (notification.getType().equals("mydays")) {
+            logo.setImageResource(R.drawable.mydays_ico);
+        }
+
         item.content = (TextView) view.findViewById(R.id.notificationContent);
         item.date =  (TextView) view.findViewById(R.id.notificationDate);
+        item.studentNames = (TextView) view.findViewById(R.id.studentNames);
+
+        Typeface roboto = Typeface.createFromAsset(context.getAssets(),
+                "font/Roboto-Regular.ttf"); //use this.getAssets if you are calling from an Activity
+        item.content.setTypeface(roboto);
+        item.date.setTypeface(roboto);
 
         item.content.setText(notification.getContent());
+        item.content.setTypeface(roboto);
+
+        item.studentNames.setText(notification.getStudentNames());
+        item.studentNames.setTypeface(roboto);
 //        SimpleDateFormat dt = new SimpleDateFormat("d MMM, h:mm a");
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
