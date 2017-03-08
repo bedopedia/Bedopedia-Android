@@ -24,7 +24,7 @@ public class CourseListAdapter extends ArrayAdapter
 
         private Context context;
 
-        public CourseListAdapter(Context context, int resource, ArrayList<Pair<String,String>> items) {
+        public CourseListAdapter(Context context, int resource, ArrayList<ArrayList<String>> items) {
         super(context, resource, items);
         this.context =   context;
     }
@@ -32,12 +32,13 @@ public class CourseListAdapter extends ArrayAdapter
         public static  class Holder{
             TextView name;
             TextView grade;
+            TextView comment;
         }
 
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
-        Pair<String,String> courseItem = (Pair<String,String>) getItem(position);
+        ArrayList<String> courseItem = ( ArrayList<String>) getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         CourseListAdapter.Holder item;
@@ -49,9 +50,13 @@ public class CourseListAdapter extends ArrayAdapter
         //TODO notification logo
         item.name = (TextView) view.findViewById(R.id.courseItemtName);
         item.grade =  (TextView) view.findViewById(R.id.courseItemtGrade);
+        item.comment = (TextView) view.findViewById(R.id.courseItemtgradeComment);
 
-        item.name.setText(courseItem.first);
-        item.grade.setText(courseItem.second);
+        item.name.setText(courseItem.get(0));
+        item.grade.setText(courseItem.get(1));
+        item.comment.setText(courseItem.get(2));
+        // TODO average
+        // TODO comment
 
 
         return view;

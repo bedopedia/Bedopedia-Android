@@ -24,9 +24,9 @@ public class CourseAdapter extends ArrayAdapter  {
 
         private Context context;
         private ArrayList<ArrayList<String>> header;
-        ArrayList<ArrayList<Pair<String,String>>> items;
+        ArrayList<ArrayList<ArrayList<String>>> items;
 
-        public CourseAdapter(Context context, int resource, ArrayList<ArrayList<Pair<String,String>>> items, ArrayList<ArrayList<String>> header) {
+        public CourseAdapter(Context context, int resource, ArrayList<ArrayList<ArrayList<String>>> items, ArrayList<ArrayList<String>> header) {
         super(context, resource, items);
             this.context =   context;
             this.header = header;
@@ -43,7 +43,7 @@ public class CourseAdapter extends ArrayAdapter  {
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
-        ArrayList<Pair<String,String>> courseItem = (ArrayList<Pair<String,String>>) getItem(position);
+        ArrayList<ArrayList<String>> courseItem = (ArrayList<ArrayList<String>>) getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
 
 
