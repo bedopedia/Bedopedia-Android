@@ -2,27 +2,17 @@ package com.example.bedopedia.bedopedia_android;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import Tools.ImageViewHelper;
 
 import com.google.gson.JsonObject;
 
@@ -50,11 +40,11 @@ public class schoolCode extends AppCompatActivity {
 
 
 
-//        if(checkAuthenticate()) {
-//            Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
-//            startActivity(i);
-//            finish();
-//        }
+        if(checkAuthenticate()) {
+            Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
+            startActivity(i);
+            finish();
+        }
 
         ((Button) findViewById(R.id.codeSubmit)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +82,6 @@ public class schoolCode extends AppCompatActivity {
 
         Map<String,String> params = new HashMap<>();
         params.put("code", code);
-        Log.e("DFASDFASDF " , code);
         Call<JsonObject> call = apiService.getServise(path, params);
 
         call.enqueue(new Callback<JsonObject>() {
@@ -118,18 +107,40 @@ public class schoolCode extends AppCompatActivity {
 
     }
 
-    private  void setSchool (String url) {
+    private  void setSchool (final String schoolUrl) {
 
+        ApiClient.BASE_URL = schoolUrl;
+        ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+        Map<String,String> params = new HashMap();
+        String url = "/api/schools/1";
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("Base_Url", url);
-        editor.commit();
+        Call<JsonObject> call = apiService.getServise(url, params);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                int statusCode = response.code();
+                if(statusCode == 401) {
+                    String errorText = "wrong username or password";
+                    Toast.makeText(getApplicationContext(),errorText,Toast.LENGTH_SHORT).show();
+                } else if (statusCode == 200) {
 
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("school_data", response.body().toString());
+                    editor.putString("Base_Url", schoolUrl);
+                    editor.commit();
 
-        Intent i =  new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(i);
+                    Intent i =  new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(i);
+                }
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(),"connection failed",Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 

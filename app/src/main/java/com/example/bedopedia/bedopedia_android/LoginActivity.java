@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -26,6 +25,7 @@ import Services.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
 
 
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
-        ApiClient.BASE_URL = sharedPreferences.getString("Base_Url", "");
+
         apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -100,41 +100,20 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void setSchool () {
+        String schoolData = sharedPreferences.getString("school_data" , "");
+        JsonParser parser = new JsonParser();
+        JsonObject school_data = parser.parse(schoolData).getAsJsonObject();
+        String schoolName = school_data.get("name").getAsString();
+        String schoolAvatar = school_data.get("avatar_url").getAsString();
 
+        TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
+        actionBarTitle.setText(schoolName);
 
-        Map<String,String> params = new HashMap();
-        String url = "/api/schools/1";
-
-        Call<JsonObject> call = apiService.getServise(url, params);
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                int statusCode = response.code();
-                if(statusCode == 401) {
-                    String errorText = "wrong username or password";
-                    Toast.makeText(getApplicationContext(),errorText,Toast.LENGTH_SHORT).show();
-                } else if (statusCode == 200) {
-//
-                    TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-                    actionBarTitle.setText(response.body().get("name").getAsString());
-
-                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-                    Picasso.with(context)
-                            .load(response.body().get("avatar_url").getAsString())
-                            .error(R.drawable.logo_icon)
-                            .into(imageView);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("school_data", response.body().toString());
-                    editor.commit();
-                }
-            }
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-
-                Toast.makeText(getApplicationContext(),"connection failed",Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+        Picasso.with(context)
+                .load(schoolAvatar)
+                .error(R.drawable.logo_icon)
+                .into(imageView);
     }
 
      private void loginService () {
@@ -144,8 +123,6 @@ public class LoginActivity extends AppCompatActivity {
         if(!validate(email,password)){
             return;
         }
-
-         Log.e("DAFDSAS " , "DFAFSDASDFddf  df dfa ");
 
         Map<String,String> params = new HashMap();
         params.put("email",email);
