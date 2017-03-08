@@ -150,7 +150,7 @@ public class schoolCode extends AppCompatActivity {
         String authToken = sharedPreferences.getString("header_access-token", "");
         String userData = sharedPreferences.getString("user_data", "");
         String uid = sharedPreferences.getString("header_uid", "");
-
+        ApiClient.BASE_URL = baseUrl;
         return !(authToken.equals("") || userData.equals("") || uid.equals("") || baseUrl.equals(""));
     }
 
