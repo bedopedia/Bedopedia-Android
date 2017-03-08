@@ -190,7 +190,6 @@ public class MyKidsActivity extends AppCompatActivity{
                                         studentNames += ", ";
                                     }
                                 }
-                                Log.v("StudentNames",studentNames);
                                     notifications.add(new NotificationModel(notificationObj.get("text").getAsString(), notificationObj.get("created_at").getAsString() ,notificationObj.get("logo").getAsString(), studentNames ,notificationObj.get("message").getAsString() ));
                             } catch (ParseException e) {
                                 e.printStackTrace();
@@ -209,7 +208,6 @@ public class MyKidsActivity extends AppCompatActivity{
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
                     progress.dismiss();
-                    Log.v("Error",t.toString());
                     Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
                 }
 

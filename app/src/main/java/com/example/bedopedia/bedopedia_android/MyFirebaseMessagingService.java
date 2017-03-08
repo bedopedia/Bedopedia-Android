@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.content.IntentCompat;
