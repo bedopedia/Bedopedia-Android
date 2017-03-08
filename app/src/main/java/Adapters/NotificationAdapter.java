@@ -56,13 +56,14 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
         }
         item=new Holder();
 
-        //TODO notification logo
 
         ImageView logo = (ImageView) view.findViewById(R.id.notificationLogo);
         if (notification.getType().equals("assignments")){
             logo.setImageResource(R.drawable.quizzes_ico);
         } else if (notification.getType().equals("quizzes")) {
             logo.setImageResource(R.drawable.quizzes_ico);
+        } else if (notification.getType().equals("mydays")) {
+            logo.setImageResource(R.drawable.mydays_ico);
         }
 
         item.content = (TextView) view.findViewById(R.id.notificationContent);

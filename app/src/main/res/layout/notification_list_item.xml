@@ -14,8 +14,8 @@
 
             android:id="@+id/notificationLogo"
             android:src="@drawable/quizzes_ico"
-            android:layout_height="28.1dp"
-            android:layout_width="23.33dp"
+            android:layout_height="28.1dip"
+            android:layout_width="23.33dip"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="16dp"
             />
