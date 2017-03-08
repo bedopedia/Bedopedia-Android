@@ -2,6 +2,7 @@ package Fragments;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -43,6 +44,35 @@ public class TomorrowFragment extends Fragment {
 
         mLayout = (RelativeLayout) rootView.findViewById(R.id.tomorrow_event_column);
         displayDailyEvents();
+
+        TextView tomorrow7AM = (TextView) rootView.findViewById(R.id.tomorrow_7am);
+        TextView tomorrow8AM = (TextView) rootView.findViewById(R.id.tomorrow_8am);
+        TextView tomorrow9AM = (TextView) rootView.findViewById(R.id.tomorrow_9am);
+        TextView tomorrow10AM = (TextView) rootView.findViewById(R.id.tomorrow_10am);
+        TextView tomorrow11AM = (TextView) rootView.findViewById(R.id.tomorrow_11am);
+        TextView tomorrow12PM = (TextView) rootView.findViewById(R.id.tomorrow_12pm);
+        TextView tomorrow1PM = (TextView) rootView.findViewById(R.id.tomorrow_1pm);
+        TextView tomorrow2PM = (TextView) rootView.findViewById(R.id.tomorrow_2pm);
+        TextView tomorrow3PM = (TextView) rootView.findViewById(R.id.tomorrow_3pm);
+        TextView tomorrow4PM = (TextView) rootView.findViewById(R.id.tomorrow_4pm);
+        TextView tomorrow5PM = (TextView) rootView.findViewById(R.id.tomorrow_5pm);
+        TextView tomorrow6PM = (TextView) rootView.findViewById(R.id.tomorrow_6pm);
+        TextView tomorrow7PM = (TextView) rootView.findViewById(R.id.tomorrow_7pm);
+
+        Typeface roboto = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Medium.ttf");
+        tomorrow7AM.setTypeface(roboto);
+        tomorrow8AM.setTypeface(roboto);
+        tomorrow9AM.setTypeface(roboto);
+        tomorrow10AM.setTypeface(roboto);
+        tomorrow11AM.setTypeface(roboto);
+        tomorrow12PM.setTypeface(roboto);
+        tomorrow1PM.setTypeface(roboto);
+        tomorrow2PM.setTypeface(roboto);
+        tomorrow3PM.setTypeface(roboto);
+        tomorrow4PM.setTypeface(roboto);
+        tomorrow5PM.setTypeface(roboto);
+        tomorrow6PM.setTypeface(roboto);
+        tomorrow7PM.setTypeface(roboto);
 
         return rootView;
     }

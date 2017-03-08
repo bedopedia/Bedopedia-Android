@@ -2,6 +2,7 @@ package Fragments;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -48,8 +49,36 @@ public class TodayFragment extends Fragment {
         nowSign = new TextView(TimetableActivity.context);
         nowEventView = new TextView(TimetableActivity.context);
         displayDailyEvents();
-
         displayNowTime();
+
+        TextView today7AM = (TextView) rootView.findViewById(R.id.today_7am);
+        TextView today8AM = (TextView) rootView.findViewById(R.id.today_8am);
+        TextView today9AM = (TextView) rootView.findViewById(R.id.today_9am);
+        TextView today10AM = (TextView) rootView.findViewById(R.id.today_10am);
+        TextView today11AM = (TextView) rootView.findViewById(R.id.today_11am);
+        TextView today12PM = (TextView) rootView.findViewById(R.id.today_12pm);
+        TextView today1PM = (TextView) rootView.findViewById(R.id.today_1pm);
+        TextView today2PM = (TextView) rootView.findViewById(R.id.today_2pm);
+        TextView today3PM = (TextView) rootView.findViewById(R.id.today_3pm);
+        TextView today4PM = (TextView) rootView.findViewById(R.id.today_4pm);
+        TextView today5PM = (TextView) rootView.findViewById(R.id.today_5pm);
+        TextView today6PM = (TextView) rootView.findViewById(R.id.today_6pm);
+        TextView today7PM = (TextView) rootView.findViewById(R.id.today_7pm);
+
+        Typeface roboto = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Medium.ttf");
+        today7AM.setTypeface(roboto);
+        today8AM.setTypeface(roboto);
+        today9AM.setTypeface(roboto);
+        today10AM.setTypeface(roboto);
+        today11AM.setTypeface(roboto);
+        today12PM.setTypeface(roboto);
+        today1PM.setTypeface(roboto);
+        today2PM.setTypeface(roboto);
+        today3PM.setTypeface(roboto);
+        today4PM.setTypeface(roboto);
+        today5PM.setTypeface(roboto);
+        today6PM.setTypeface(roboto);
+        today7PM.setTypeface(roboto);
 
         return rootView;
     }
@@ -126,7 +155,7 @@ public class TodayFragment extends Fragment {
             String courseName = eObject.getCourseName();
             String classRoom = eObject.getClassRoom();
             int eventBlockHeight = getEventTimeFrame(eventDate, endDate);
-            displayEventSection(eventDate, eventBlockHeight/3, courseName, classRoom, eventDate);
+            displayEventSection(eventDate, eventBlockHeight, courseName, classRoom, eventDate);
         }
     }
 
@@ -155,33 +184,39 @@ public class TodayFragment extends Fragment {
         int minutes = calendar.get(Calendar.MINUTE);
         int eventPosition = (int) (31.0 + ((hours - 7)*60.0) + (minutes/60.0) * 60.0) ;
 
+        Typeface roboto = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface roboto1 = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Regular.ttf");
+
         TextView mEventView = new TextView(TimetableActivity.context);
         RelativeLayout.LayoutParams lParam = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         lParam.topMargin = getInDp(eventPosition);
-        lParam.leftMargin = getInDp(4);
+        lParam.leftMargin = getInDp(3);
         mEventView.setLayoutParams(lParam);
-        mEventView.setPadding(24, 0, 24, 0);
-        mEventView.setHeight(getInDp(height * 2));
+        mEventView.setPadding(24, 8, 24, 0);
+        mEventView.setHeight(getInDp(height/2));
         mEventView.setWidth(1200);
-        mEventView.setTextColor(Color.parseColor("#ffffff"));
+        mEventView.setTextColor(Color.parseColor("#000000"));
         mEventView.setText(courseName);
-        mEventView.setBackgroundColor(Color.GRAY);
+        mEventView.setTypeface(roboto);
+        mEventView.setTextSize(16);
+        mEventView.setBackgroundColor(Color.parseColor("#33ef6c00"));
         mLayout.addView(mEventView);
 
         TextView mEventView3 = new TextView(TimetableActivity.context);
         RelativeLayout.LayoutParams lParam3 = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam3.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        lParam3.topMargin = getInDp(eventPosition+(height*2));
-        lParam3.leftMargin = getInDp(4);
+        lParam3.topMargin = getInDp(eventPosition+(height/2));
+        lParam3.leftMargin = getInDp(3);
         mEventView3.setLayoutParams(lParam3);
-        mEventView3.setPadding(24, 0, 24, 0);
-        mEventView3.setHeight(getInDp(height));
+        mEventView3.setPadding(24,8, 24, 16);
+        mEventView3.setHeight(getInDp(height/2));
         mEventView3.setWidth(1200);
-        mEventView3.setTextColor(Color.parseColor("#ffffff"));
-        mEventView3.setTextSize(13);
+        mEventView3.setTextColor(Color.parseColor("#000000"));
+        mEventView3.setTypeface(roboto1);
+        mEventView3.setTextSize(12);
         mEventView3.setText(classRoom);
-        mEventView3.setBackgroundColor(Color.GRAY);
+        mEventView3.setBackgroundColor(Color.parseColor("#33ef6c00"));
         mLayout.addView(mEventView3);
 
 
@@ -192,10 +227,10 @@ public class TodayFragment extends Fragment {
         lParam1.leftMargin = 0;
         mEventView1.setLayoutParams(lParam1);
         mEventView1.setPadding(24, 0, 24, 0);
-        mEventView1.setHeight(getInDp(height * 3));
-        mEventView1.setWidth(getInDp(4));
+        mEventView1.setHeight(getInDp(height));
+        mEventView1.setWidth(getInDp(3));
         mEventView1.setGravity(0x11);
-        mEventView1.setBackgroundColor(Color.GREEN);
+        mEventView1.setBackgroundColor(Color.parseColor("#66ef6c00"));
         mLayout.addView(mEventView1);
     }
 }
