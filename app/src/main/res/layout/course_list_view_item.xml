@@ -8,21 +8,63 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="25dp">
+        android:padding="25dp"
+        android:background="#ffffffff">
 
-        <TextView
-            android:text="ClassWork #1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/courseItemtName"
-            android:layout_weight=".90" />
-
-        <TextView
-            android:text="50/100"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/courseItemtGrade"
-            android:layout_weight=".10" />
+            android:layout_weight=".90" >
+
+            <TextView
+                android:text="ClassWork #1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/courseItemtName"
+                android:layout_marginBottom="10dp"
+                android:textSize="16sp"
+                android:textColor="#de000000"/>
+
+            <TextView
+                android:text="Avg. grade is 13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/courseItemtAvg"
+                android:textSize="14sp"
+                android:textColor="#8b000000"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_weight=".10">
+
+            <TextView
+                android:text="50/100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/courseItemtGrade"
+                android:layout_marginBottom="10dp"
+                android:gravity="end"
+                android:textSize="16sp"
+                android:textColor="#de000000"
+                 />
+
+            <TextView
+                android:text="Needs Improvement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/courseItemtgradeComment"
+                android:gravity="end"
+                android:textSize="14sp"
+                android:textColor="#8b000000"
+                />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
