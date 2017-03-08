@@ -114,7 +114,7 @@ public class GradesAvtivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grades);
-        progress = new ProgressDialog(this);
+        progress = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
         Bundle extras= getIntent().getExtras();
         student_id = extras.getString("student_id");
         courseGroups = (List<CourseGroup>) getIntent().getSerializableExtra("courseGroups");

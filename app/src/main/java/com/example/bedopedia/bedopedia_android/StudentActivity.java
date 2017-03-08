@@ -193,7 +193,7 @@ public class StudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_home);
 
-        progress = new ProgressDialog(this);
+        progress = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
         Bundle extras= getIntent().getExtras();
         studentId = extras.getString("student_id");
         studentName = extras.getString("student_name");

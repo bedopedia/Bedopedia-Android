@@ -69,12 +69,12 @@ public class TodayFragment extends Fragment {
 
             RelativeLayout.LayoutParams lParam1 = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             lParam1.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            lParam1.topMargin = getInDp(linePosition-4);
+            lParam1.topMargin = getInDp(linePosition-5);
             lParam1.leftMargin = 0;
             nowSign.setLayoutParams(lParam1);
             nowSign.setPadding(24, 0, 24, 0);
-            nowSign.setHeight(getInDp(2));
-            nowSign.setWidth(20);
+            nowSign.setHeight(getInDp(11));
+            nowSign.setWidth(11);
 
             int id = R.drawable.now_circle;
             Drawable d = act.getResources().getDrawable(id);
@@ -88,7 +88,7 @@ public class TodayFragment extends Fragment {
             lParam.leftMargin = getInDp(10);
             nowEventView.setLayoutParams(lParam);
             nowEventView.setPadding(24, 0, 24, 0);
-            nowEventView.setHeight(getInDp(2));
+            nowEventView.setHeight(getInDp(1));
             nowEventView.setWidth(1200);
             nowEventView.setGravity(0x11);
             nowEventView.setBackgroundColor(Color.RED);
