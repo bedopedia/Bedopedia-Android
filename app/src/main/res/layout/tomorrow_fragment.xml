@@ -183,6 +183,7 @@
                 android:id="@+id/tomorrow_event_column"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:paddingRight="10dp"
                 android:layout_weight="8">
                 <View
                     android:layout_width="match_parent"

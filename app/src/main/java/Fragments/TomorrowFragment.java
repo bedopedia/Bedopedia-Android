@@ -89,11 +89,11 @@ public class TomorrowFragment extends Fragment {
         RelativeLayout.LayoutParams lParam = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         lParam.topMargin = getInDp(eventPosition);
-        lParam.leftMargin = 24;
+        lParam.leftMargin = getInDp(4);
         mEventView.setLayoutParams(lParam);
         mEventView.setPadding(24, 0, 24, 0);
         mEventView.setHeight(getInDp(height * 2));
-        mEventView.setWidth(1100);
+        mEventView.setWidth(1200);
         mEventView.setTextColor(Color.parseColor("#ffffff"));
         mEventView.setText(courseName);
         mEventView.setBackgroundColor(Color.GRAY);
@@ -103,11 +103,11 @@ public class TomorrowFragment extends Fragment {
         RelativeLayout.LayoutParams lParam3 = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam3.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         lParam3.topMargin = getInDp(eventPosition+(height*2));
-        lParam3.leftMargin = 24;
+        lParam3.leftMargin = getInDp(4);
         mEventView3.setLayoutParams(lParam3);
         mEventView3.setPadding(24, 0, 24, 0);
         mEventView3.setHeight(getInDp(height));
-        mEventView3.setWidth(1100);
+        mEventView3.setWidth(1200);
         mEventView3.setTextColor(Color.parseColor("#ffffff"));
         mEventView3.setTextSize(13);
         mEventView3.setText(classRoom);
@@ -123,7 +123,7 @@ public class TomorrowFragment extends Fragment {
         mEventView1.setLayoutParams(lParam1);
         mEventView1.setPadding(24, 0, 24, 0);
         mEventView1.setHeight(getInDp(height * 3));
-        mEventView1.setWidth(24);
+        mEventView1.setWidth(getInDp(4));
         mEventView1.setGravity(0x11);
         mEventView1.setBackgroundColor(Color.GREEN);
         mLayout.addView(mEventView1);
