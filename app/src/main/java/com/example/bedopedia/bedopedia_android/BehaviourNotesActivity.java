@@ -114,7 +114,7 @@ public class BehaviourNotesActivity extends AppCompatActivity {
         setContentView(R.layout.behaviour_notes);
 
         behaviourNotesList = new ArrayList<BehaviourNote>();
-        progress = new ProgressDialog(this);
+        progress = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
         Bundle extras= getIntent().getExtras();
         studentId = extras.getString("student_id");
 

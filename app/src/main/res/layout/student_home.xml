@@ -73,7 +73,7 @@
                 android:layout_marginTop="20dp" />
 
             <ImageButton
-                app:srcCompat="@drawable/small_next_arrow"
+                app:srcCompat="@drawable/small_next"
                 android:background="@null"
                 android:id="@+id/imageButton3"
                 android:layout_width="20dp"
@@ -152,7 +152,7 @@
             </LinearLayout>
         </LinearLayout>
         <ImageButton
-            app:srcCompat="@drawable/small_next_arrow"
+            app:srcCompat="@drawable/small_next"
             android:background="@null"
             android:id="@+id/attendance_button"
             android:layout_weight="0.03"
@@ -218,7 +218,7 @@
         </LinearLayout>
 
         <ImageButton
-            app:srcCompat="@drawable/small_next_arrow"
+            app:srcCompat="@drawable/small_next"
             android:background="@null"
             android:layout_width="20dp"
             android:layout_height="30dp"
@@ -282,7 +282,7 @@
         </LinearLayout>
 
         <ImageButton
-            app:srcCompat="@drawable/small_next_arrow"
+            app:srcCompat="@drawable/small_next"
             android:background="@null"
             android:layout_width="20dp"
             android:layout_height="30dp"
@@ -388,7 +388,7 @@
         </LinearLayout>
 
         <ImageButton
-            app:srcCompat="@drawable/small_next_arrow"
+            app:srcCompat="@drawable/small_next"
             android:background="@null"
             android:layout_width="20dp"
             android:layout_height="30dp"
