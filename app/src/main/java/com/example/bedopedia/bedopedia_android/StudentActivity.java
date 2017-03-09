@@ -4,17 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,10 +20,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.internal.Streams;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,9 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import Adapters.GradesAdapter;
-import Adapters.MyKidsAdapter;
-import Models.Course;
 import Models.CourseGroup;
 import Models.Student;
 import Services.ApiClient;
@@ -193,7 +182,7 @@ public class StudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_home);
 
-        progress = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
+        progress = new ProgressDialog(this);
         Bundle extras= getIntent().getExtras();
         studentId = extras.getString("student_id");
         studentName = extras.getString("student_name");
@@ -280,7 +269,7 @@ public class StudentActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StudentActivity.this, BehaviourNotesActivity.class);
+                Intent intent = new Intent(StudentActivity.this, BehaviorNotesActivity.class);
                 intent.putExtra("student_id", studentId);
                 startActivity(intent);
             }

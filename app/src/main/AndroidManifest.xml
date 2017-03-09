@@ -55,7 +55,7 @@
 
         <activity android:name=".StudentActivity"></activity>
 
-        <activity android:name=".BehaviourNotesActivity"></activity>
+        <activity android:name=".BehaviorNotesActivity"></activity>
 
         <activity android:name=".TimetableActivity"></activity>
     </application>

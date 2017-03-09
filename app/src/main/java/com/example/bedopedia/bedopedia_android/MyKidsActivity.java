@@ -286,7 +286,7 @@ public class MyKidsActivity extends AppCompatActivity{
 
         myKids = new ArrayList<Student>();
         context = this;
-        progress = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
+        progress = new ProgressDialog(this);
         kidsAttendances = new ArrayList<JsonArray>();
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);

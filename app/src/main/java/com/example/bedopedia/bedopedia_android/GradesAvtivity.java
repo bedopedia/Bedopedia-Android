@@ -43,7 +43,7 @@ public class GradesAvtivity extends AppCompatActivity {
     ImageButton back;
     String student_id;
     ProgressDialog progress;
-    Context context;
+    public static Context context;
     List<CourseGroup> courseGroups;
 
     public void loading(){
@@ -114,7 +114,7 @@ public class GradesAvtivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grades);
-        progress = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
+        progress = new ProgressDialog(this);
         Bundle extras= getIntent().getExtras();
         student_id = extras.getString("student_id");
         courseGroups = (List<CourseGroup>) getIntent().getSerializableExtra("courseGroups");
