@@ -5,13 +5,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.JsonArray;
@@ -23,9 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Adapters.BehaviourNotesAdapter;
-import Adapters.MyKidsAdapter;
-import Models.BehaviourNote;
+import Adapters.BehaviorNotesFragmentAdapter;
+import Models.BehaviorNote;
 import Models.Student;
 import Services.ApiClient;
 import Services.ApiInterface;
@@ -39,11 +37,16 @@ import retrofit2.Response;
  * Created by khaled on 2/27/17.
  */
 
-public class BehaviourNotesActivity extends AppCompatActivity {
+public class BehaviorNotesActivity extends AppCompatActivity {
     ProgressDialog progress;
     String studentId, id;
-    Context context;
-    List<BehaviourNote> behaviourNotesList;
+    public static Context context;
+
+    private BehaviorNotesFragmentAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
+
+    public static List<BehaviorNote> positiveNotesList;
+    public static List<BehaviorNote> negativeNotesList;
 
     public void loading(){
         progress.setTitle("Loading");
@@ -88,18 +91,37 @@ public class BehaviourNotesActivity extends AppCompatActivity {
                         JsonArray behaviourNotes = response.body().get("behavior_notes").getAsJsonArray();
                         for(JsonElement element: behaviourNotes){
                             JsonObject note = element.getAsJsonObject();
-                            JsonObject owner = note.get("owner").getAsJsonObject();
-                            behaviourNotesList.add(new BehaviourNote(note.get("category").getAsString(), note.get("note").getAsString(), owner.get("name").getAsString()));
+                            String category = note.get("category").getAsString();
+                            String noteBody =  note.get("note").getAsString();
+                            if(category.equals("Cooperative") ||
+                                    category.equals("Politeness") ||
+                                    category.equals("Punctuality") ||
+                                    category.equals("Leadership") ||
+                                    category.equals("Honesty"))
+                                positiveNotesList.add(new BehaviorNote(category,noteBody));
+                            else
+                                negativeNotesList.add(new BehaviorNote(category,noteBody));
                         }
-
-                        BehaviourNotesAdapter adapter = new BehaviourNotesAdapter(context, R.layout.single_behaviour_note, behaviourNotesList);
-                        ListView notes = (ListView) findViewById(R.id.behaviour_notes_list);
-                        notes.setAdapter(adapter);
                     }
+                    mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getSupportFragmentManager());
+
+                    mViewPager = (ViewPager) findViewById(R.id.behavior_notes_container);
+                    mViewPager.setAdapter(mSectionsPagerAdapter);
+
+                    TabLayout tabLayout = (TabLayout) findViewById(R.id.behavior_notes_tabs);
+                    tabLayout.setupWithViewPager(mViewPager);
                 }
 
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
+                    mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getSupportFragmentManager());
+
+                    mViewPager = (ViewPager) findViewById(R.id.behavior_notes_container);
+                    mViewPager.setAdapter(mSectionsPagerAdapter);
+
+                    TabLayout tabLayout = (TabLayout) findViewById(R.id.behavior_notes_tabs);
+                    tabLayout.setupWithViewPager(mViewPager);
+
                     progress.dismiss();
                     Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
                 }
@@ -111,17 +133,19 @@ public class BehaviourNotesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.behaviour_notes);
+        setContentView(R.layout.behavior_notes);
 
-        behaviourNotesList = new ArrayList<BehaviourNote>();
-        progress = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
+        positiveNotesList = new ArrayList<BehaviorNote>();
+        negativeNotesList = new ArrayList<BehaviorNote>();
+
+        progress = new ProgressDialog(this);
         Bundle extras= getIntent().getExtras();
         studentId = extras.getString("student_id");
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-        actionBarTitle.setText("Behaviour Notes");
+        actionBarTitle.setText("Behavior notes");
         ImageButton back = (ImageButton) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
 
@@ -139,9 +163,6 @@ public class BehaviourNotesActivity extends AppCompatActivity {
         } else {
             Dialogue.AlertDialog(this,"No NetworkConnection","Check your Netwotk connection and Try again");
         }
-
-
-
 
     }
 
