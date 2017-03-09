@@ -141,7 +141,10 @@ public class StudentActivity extends AppCompatActivity {
                             for(int j = 0 ; j < courseGroups.size() ; j++){
                                 if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt()){
                                     courseGroups.get(j).setGrade(courseData.get("grade").getAsString());
-                                    courseGroups.get(j).setIcon(courseData.get("icon").getAsString());
+                                    if (courseData.get("icon").toString().equals("null"))
+                                        courseGroups.get(j).setIcon("dragon");
+                                    else
+                                        courseGroups.get(j).setIcon(courseData.get("icon").getAsString());
                                 }
                             }
 
@@ -197,6 +200,7 @@ public class StudentActivity extends AppCompatActivity {
         studentAvatar = extras.getString("student_avatar");
         studentLevel = extras.getString("student_level");
         attendance = extras.getString("attendances");
+
 
         attendanceLayer = (LinearLayout) findViewById(R.id.open_attendance);
         gradesLayer = (LinearLayout) findViewById(R.id.open_grades);
@@ -271,6 +275,27 @@ public class StudentActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        notesLayer.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentActivity.this, BehaviourNotesActivity.class);
+                intent.putExtra("student_id", studentId);
+                startActivity(intent);
+            }
+        });
+
+        timeTableLayer.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentActivity.this, TimetableActivity.class);
+                intent.putExtra("student_id", studentId);
+                startActivity(intent);
+            }
+        });
+
         context = this;
         courseGroups = new ArrayList<CourseGroup>();
 

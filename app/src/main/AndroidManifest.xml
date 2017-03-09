@@ -3,9 +3,14 @@
     package="com.example.bedopedia.bedopedia_android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
+
+
+
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
@@ -13,6 +18,21 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+
+        <service android:name=".FirebaseIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
 
         <activity android:name=".schoolCode"
             android:theme="@style/AppTheme.NoActionBar">
@@ -33,6 +53,12 @@
         <activity android:name=".ActivityCourse" />
         <activity android:name=".AttendanceActivity" />
         <activity android:name=".StudentActivity" />
+
+
+
+        <activity android:name=".BehaviourNotesActivity"></activity>
+
+        <activity android:name=".TimetableActivity"></activity>
 
     </application>
 

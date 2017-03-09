@@ -28,7 +28,7 @@ import retrofit2.Response;
 public class schoolCode extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
-    private final String schoolApiUrl = "http://192.168.6.150:3000/";
+    private final String schoolApiUrl = "https://bedopedia-schools.herokuapp.com/";
     private final String path = "schools/get_by_code";
 
     @Override
@@ -46,7 +46,7 @@ public class schoolCode extends AppCompatActivity {
             finish();
         }
 
-        ((Button) findViewById(R.id.codeSubmit)).setOnClickListener(new View.OnClickListener() {
+        ((Button)findViewById(R.id.codeSubmit)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -63,6 +63,7 @@ public class schoolCode extends AppCompatActivity {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
                         || (actionId == EditorInfo.IME_ACTION_NEXT)) {
                     getSchoolCode();
+                    return true;
                 }
                 return false;
             }
@@ -136,7 +137,6 @@ public class schoolCode extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
                 Toast.makeText(getApplicationContext(),"connection failed",Toast.LENGTH_SHORT).show();
             }
         });

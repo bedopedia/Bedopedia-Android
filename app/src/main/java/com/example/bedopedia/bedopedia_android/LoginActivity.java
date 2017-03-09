@@ -17,6 +17,8 @@ import 	android.view.inputmethod.EditorInfo;
 
 import com.google.gson.JsonObject;
 
+import org.json.JSONException;
+
 import java.util.HashMap;
 import java.util.Map;
 import android.widget.ImageView;
@@ -27,8 +29,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
-
-
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -65,7 +65,23 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
         setSchool();
+
+        ((EditText) findViewById(R.id.password)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
+                        || (actionId == EditorInfo.IME_ACTION_GO)) {
+                    ((Button) findViewById(R.id.loginSubmit)).performClick();
+                    return true;
+                }
+                return false;
+
+            }
+        });
 
         ((Button) findViewById(R.id.loginSubmit)).setOnClickListener(new View.OnClickListener() {
               @Override
@@ -83,18 +99,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        ((EditText) findViewById(R.id.password)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
 
-            @Override
-            public boolean onEditorAction(TextView v, int actionId,
-                                          KeyEvent event) {
-                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
-                        || (actionId == EditorInfo.IME_ACTION_GO)) {
-                    loginService();
-                }
-                return false;
-            }
-        });
     }
 
 
@@ -105,7 +110,6 @@ public class LoginActivity extends AppCompatActivity {
         JsonObject school_data = parser.parse(schoolData).getAsJsonObject();
         String schoolName = school_data.get("name").getAsString();
         String schoolAvatar = school_data.get("avatar_url").getAsString();
-
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
         actionBarTitle.setText(schoolName);
 
@@ -115,6 +119,40 @@ public class LoginActivity extends AppCompatActivity {
                 .error(R.drawable.logo_icon)
                 .into(imageView);
     }
+
+    public void updateToken() throws JSONException {
+        final SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+        if (!sharedPreferences.getString("token_changed","").equals("True")) {
+            return;
+        }
+        String id = sharedPreferences.getString("user_id", "");
+        String url = "api/users/" + id  ;
+        String token = sharedPreferences.getString("token","");
+        JsonObject params = new JsonObject();
+        JsonObject tokenJson = new JsonObject();
+        tokenJson.addProperty("mobile_device_token",token);
+        params.add("user",tokenJson);
+        Call<JsonObject> call = apiService.putServise(url,  params);
+
+        call.enqueue(new Callback<JsonObject >() {
+
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("token_changed","False");
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("token_changed","True");
+            }
+
+        });
+
+    }
+
 
      private void loginService () {
         String email = ((AutoCompleteTextView)findViewById(R.id.email)).getText().toString();
@@ -156,10 +194,16 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("header_uid", uid);
 
                     editor.putString("user_id", userId);
+                    editor.putString("is_logged_in", "true");
                     editor.putString("id", id);
                     editor.putString("username", username);
                     editor.putString("user_data", data.toString());
                     editor.commit();
+                    try {
+                        updateToken();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
                     startActivity(i);
@@ -173,6 +217,8 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"connection failed",Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
     public boolean validate(String email, String password) {
