@@ -52,8 +52,8 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
             view = LayoutInflater.from(getContext()).inflate(R.layout.single_grade, parent, false);
         }
         item=new Holder();
-        Typeface robotoMedium = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Medium.ttf");
-        Typeface robotoBold = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Bold.ttf");
+        Typeface robotoMedium = Typeface.createFromAsset(GradesAvtivity.context.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface robotoBold = Typeface.createFromAsset(GradesAvtivity.context.getAssets(), "font/Roboto-Bold.ttf");
 
         item.courseImage = (ImageView) view.findViewById(R.id.course_image);
         item.courseName = (TextView) view.findViewById(R.id.course_name);

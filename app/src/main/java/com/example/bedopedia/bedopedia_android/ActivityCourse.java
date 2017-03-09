@@ -168,7 +168,7 @@ public class ActivityCourse extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
-        progress = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
+        progress = new ProgressDialog(this);
         context = this;
         Bundle extras= getIntent().getExtras();
         studentId = extras.getString("student_id");
