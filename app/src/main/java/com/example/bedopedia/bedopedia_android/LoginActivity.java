@@ -66,7 +66,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
         setSchool();
+
 
         ((EditText) findViewById(R.id.password)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
 

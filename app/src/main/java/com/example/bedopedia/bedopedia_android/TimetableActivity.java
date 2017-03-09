@@ -178,7 +178,7 @@ public class TimetableActivity extends AppCompatActivity {
         context = this;
         todaySlots = new ArrayList<TimetableSlot>();
         tomorrowSlots = new ArrayList<TimetableSlot>();
-        progress = new ProgressDialog(this);
+        progress = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
         Bundle extras= getIntent().getExtras();
         studentId = extras.getString("student_id");
 

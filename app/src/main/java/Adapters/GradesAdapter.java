@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.GradesAvtivity;
 import com.example.bedopedia.bedopedia_android.R;
+import com.example.bedopedia.bedopedia_android.TimetableActivity;
 
 import java.util.List;
 
@@ -50,6 +52,8 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
             view = LayoutInflater.from(getContext()).inflate(R.layout.single_grade, parent, false);
         }
         item=new Holder();
+        Typeface robotoMedium = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface robotoBold = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Bold.ttf");
 
         item.courseImage = (ImageView) view.findViewById(R.id.course_image);
         item.courseName = (TextView) view.findViewById(R.id.course_name);
@@ -57,7 +61,9 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
         item.openCourse = (ImageButton) view.findViewById(R.id.open_grade);
         item.singleGrade = (LinearLayout) view.findViewById(R.id.single_grade);
 
+        item.courseName.setTypeface(robotoMedium);
         item.courseName.setText(courseGroup.getCourseName());
+        item.courseGrade.setTypeface(robotoBold);
         item.courseGrade.setText(courseGroup.getGrade());
 
         item.singleGrade.setOnClickListener(new View.OnClickListener() {
