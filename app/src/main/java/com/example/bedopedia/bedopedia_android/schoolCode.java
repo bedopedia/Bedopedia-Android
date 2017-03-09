@@ -41,9 +41,9 @@ public class schoolCode extends AppCompatActivity {
 
 
         if(checkAuthenticate()) {
-//            Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
-//            startActivity(i);
-//            finish();
+            Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
+            startActivity(i);
+            finish();
         }
 
         ((Button)findViewById(R.id.codeSubmit)).setOnClickListener(new View.OnClickListener() {
