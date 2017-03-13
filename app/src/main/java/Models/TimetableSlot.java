@@ -1,12 +1,15 @@
 package Models;
 
+import android.support.annotation.NonNull;
+
+import java.util.Comparator;
 import java.util.Date;
 
 /**
  * Created by khaled on 3/2/17.
  */
 
-public class TimetableSlot {
+public class TimetableSlot implements Comparable<TimetableSlot> {
     private Date from;
     private Date to;
     private String day;
@@ -68,4 +71,14 @@ public class TimetableSlot {
     public void setClassRoom(String classRoom) {
         this.classRoom = classRoom;
     }
+
+    @Override
+    public int compareTo(@NonNull TimetableSlot o) {
+        if(this.getFrom().getHours() > o.getFrom().getHours())
+            return 1;
+        else if (this.getFrom().getHours() < o.getFrom().getHours())
+            return -1;
+        return 0;
+    }
+
 }
