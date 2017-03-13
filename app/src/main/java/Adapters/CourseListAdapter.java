@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -51,6 +52,10 @@ public class CourseListAdapter extends ArrayAdapter
         item.name = (TextView) view.findViewById(R.id.courseItemtName);
         item.grade =  (TextView) view.findViewById(R.id.courseItemtGrade);
         item.comment = (TextView) view.findViewById(R.id.courseItemtgradeComment);
+        Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf"); //use this.getAssets if you are calling from an Activity
+        item.name.setTypeface(roboto);
+        item.grade.setTypeface(roboto);
+        item.comment.setTypeface(roboto);
 
         item.name.setText(courseItem.get(0));
         item.grade.setText(courseItem.get(1));
