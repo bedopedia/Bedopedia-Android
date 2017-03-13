@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
+import com.example.bedopedia.bedopedia_android.StudentActivity;
 import com.example.bedopedia.bedopedia_android.TimetableActivity;
 
 import java.text.SimpleDateFormat;
@@ -80,7 +81,7 @@ public class TomorrowFragment extends Fragment {
 
     private void displayDailyEvents(){
 
-        for(TimetableSlot eObject : TimetableActivity.tomorrowSlots){
+        for(TimetableSlot eObject : StudentActivity.tomorrowSlots){
             Date eventDate = eObject.getFrom();
             Date endDate = eObject.getTo();
             String courseName = eObject.getCourseName();

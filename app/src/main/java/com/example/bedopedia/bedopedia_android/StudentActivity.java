@@ -7,8 +7,11 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,16 +25,25 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
+import Adapters.TimetableAdapter;
 import Models.CourseGroup;
 import Models.Student;
+import Models.TimetableSlot;
 import Services.ApiClient;
 import Services.ApiInterface;
 import Tools.Dialogue;
@@ -60,10 +72,14 @@ public class StudentActivity extends AppCompatActivity {
     ImageView studentAvatarImage;
     TextView studentLevelView;
     TextView studentNameView;
+    TextView nextSlot;
     LinearLayout attendanceLayer;
     LinearLayout gradesLayer;
     LinearLayout timeTableLayer;
     LinearLayout notesLayer;
+
+    public static List<TimetableSlot> todaySlots;
+    public static List<TimetableSlot> tomorrowSlots;
 
     ProgressBar attendanceProgress;
 
@@ -118,7 +134,7 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
                 // must be closed at the last service
-                progress.dismiss();
+                //progress.dismiss();
                 int statusCode = response.code();
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
@@ -141,6 +157,8 @@ public class StudentActivity extends AppCompatActivity {
                         totalGrade = response.body().get(i).get("total_grade").getAsString();
                         totalGradeText.setText("Average : "+totalGrade);
 
+                        getStudentTimeTable();
+
                     }
                 }
             }
@@ -149,6 +167,95 @@ public class StudentActivity extends AppCompatActivity {
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 progress.dismiss();
                 Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
+            }
+        });
+    }
+
+    public void getStudentTimeTable(){
+        String url = "api/students/" + studentId + "/timetable";
+        Map<String, String> params = new HashMap<>();
+        Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
+
+        call.enqueue(new Callback<ArrayList<JsonObject> >() {
+
+            @Override
+            public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
+                progress.dismiss();
+                int statusCode = response.code();
+                if (statusCode == 401) {
+                    Dialogue.AlertDialog(context, "Not Authorized", "you don't have the right to do this");
+                } else if (statusCode == 200) {
+
+                    Calendar calendar = Calendar.getInstance();
+                    Date date = calendar.getTime();
+                    String today = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
+                    calendar.add( Calendar.DATE, 1 );
+                    date = calendar.getTime();
+                    String tomorrow = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
+                    today = today.toLowerCase();
+                    tomorrow = tomorrow.toLowerCase();
+                    if (today.equals("thursday")){
+                        tomorrow = "sunday";
+                    }
+
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+                    formatter.setTimeZone(TimeZone.getTimeZone("Egypt"));
+                    for (int i = 0; i < response.body().size(); i++) {
+                        JsonObject slot = response.body().get(i);
+                        String from = slot.get("from").getAsString();
+                        String to = slot.get("to").getAsString();
+                        if (from.indexOf('.') != -1)
+                            from = from.substring(0, from.indexOf('.')) + 'Z';
+                        if (to.indexOf('.') != -1)
+                            to = to.substring(0, to.indexOf('.')) + 'Z';
+                        String day = slot.get("day").getAsString();
+                        String courseName = slot.get("course_name").getAsString();
+                        String classRoom = slot.get("school_unit").getAsString();
+
+                        Date fromDate = null;
+                        Date toDate = null;
+                        try {
+
+                            fromDate = formatter.parse(from.replaceAll("Z$", "+0000"));
+                            toDate = formatter.parse(to.replaceAll("Z$", "+0000"));
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (day.equals(today)){
+                            todaySlots.add(new TimetableSlot(fromDate, toDate, day, courseName, classRoom));
+                        } else if (day.equals(tomorrow)) {
+                            tomorrowSlots.add(new TimetableSlot(fromDate, toDate, day, courseName, classRoom));
+                        }
+
+                    }
+                    Date current = new Date();
+                    boolean nextSlotFound = false;
+                    Collections.sort(todaySlots);
+                    Collections.sort(tomorrowSlots);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+
+                    for (TimetableSlot s : todaySlots){
+                        if ((s.getFrom().getHours() == current.getHours() && s.getFrom().getMinutes() >= current.getMinutes()) ||
+                                s.getFrom().getHours() > current.getHours()){
+                            nextSlotFound = true;
+                            nextSlot.setText("Next: " + s.getCourseName() + ", " + s.getDay() + " " + dateFormat.format(s.getFrom()));
+                            break;
+                        }
+                    }
+                    if(!nextSlotFound){
+                        TimetableSlot s = tomorrowSlots.get(0);
+                        nextSlot.setText("Next: " + s.getCourseName() + ", " + s.getDay() + " " + dateFormat.format(s.getFrom()));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
+                progress.dismiss();
+                Dialogue.AlertDialog(context, "Connection Failed", "Check your Netwotk connection and Try again");
             }
         });
     }
@@ -182,6 +289,9 @@ public class StudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_home);
 
+        todaySlots = new ArrayList<TimetableSlot>();
+        tomorrowSlots = new ArrayList<TimetableSlot>();
+
         progress = new ProgressDialog(this);
         Bundle extras= getIntent().getExtras();
         studentId = extras.getString("student_id");
@@ -199,6 +309,8 @@ public class StudentActivity extends AppCompatActivity {
         studentAvatarImage = (ImageView) findViewById(R.id.home_student_avatar);
         studentLevelView = (TextView) findViewById(R.id.home_student_level);
         studentNameView = (TextView) findViewById(R.id.home_student_name);
+        nextSlot = (TextView) findViewById(R.id.next_slot);
+
         attendanceProgress = (ProgressBar) findViewById(R.id.attendance_progress);
         studentNameView.setText(studentName);
         studentLevelView.setText(studentLevel);

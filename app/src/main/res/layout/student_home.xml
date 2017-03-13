@@ -211,7 +211,7 @@
                 android:text="next: Math K1, Sunday 9:00 AM"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView6"
+                android:id="@+id/next_slot"
                 android:paddingTop="10dp"
                 />
 
