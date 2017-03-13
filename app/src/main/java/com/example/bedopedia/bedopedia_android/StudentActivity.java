@@ -185,7 +185,6 @@ public class StudentActivity extends AppCompatActivity {
                 if (statusCode == 401) {
                     Dialogue.AlertDialog(context, "Not Authorized", "you don't have the right to do this");
                 } else if (statusCode == 200) {
-
                     Calendar calendar = Calendar.getInstance();
                     Date date = calendar.getTime();
                     String today = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
@@ -201,6 +200,7 @@ public class StudentActivity extends AppCompatActivity {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
                     formatter.setTimeZone(TimeZone.getTimeZone("Egypt"));
                     for (int i = 0; i < response.body().size(); i++) {
+
                         JsonObject slot = response.body().get(i);
                         String from = slot.get("from").getAsString();
                         String to = slot.get("to").getAsString();
