@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,9 @@ import com.example.bedopedia.bedopedia_android.R;
 import com.example.bedopedia.bedopedia_android.StudentActivity;
 import com.example.bedopedia.bedopedia_android.TimetableActivity;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -38,6 +41,9 @@ public class TodayFragment extends Fragment {
     public static TextView nowSign;
     public static TextView nowEventView;
     public Activity act;
+    ArrayList<String> mainColors;
+    ArrayList<String> headerColors;
+
     public int getInDp(int dimensionInPixel){
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimensionInPixel, act.getResources().getDisplayMetrics());
     }
@@ -45,12 +51,38 @@ public class TodayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.today_fragment, container, false);
+        mainColors = new ArrayList<String>();
+        headerColors = new ArrayList<String>();
+
+        mainColors.add("#ffffecb3");
+        headerColors.add("#ffffe57f");
+        mainColors.add("#ffb2ebf2");
+        headerColors.add("#ff84ffff");
+        mainColors.add("#fff8bbd0");
+        headerColors.add("#ffff80ab");
+        mainColors.add("#ffe1bee7");
+        headerColors.add("#ffea80fc");
+        mainColors.add("#ffd1c4e9");
+        headerColors.add("#ffb388ff");
+        mainColors.add("#ffc5cae9");
+        headerColors.add("#ff8c9eff");
+        mainColors.add("#ffb3e5fc");
+        headerColors.add("#ff80d8ff");
+        mainColors.add("#ffb2dfdb");
+        headerColors.add("#ffa7ffeb");
+        mainColors.add("#ffffccbc");
+        headerColors.add("#ffff9e80");
+        mainColors.add("#ffffe0b2");
+        headerColors.add("#ffffd180");
+
         act = getActivity();
         mLayout = (RelativeLayout) rootView.findViewById(R.id.today_event_column);
         nowSign = new TextView(TimetableActivity.context);
         nowEventView = new TextView(TimetableActivity.context);
         displayDailyEvents();
         displayNowTime();
+
+
 
         TextView today7AM = (TextView) rootView.findViewById(R.id.today_7am);
         TextView today8AM = (TextView) rootView.findViewById(R.id.today_8am);
@@ -188,6 +220,8 @@ public class TodayFragment extends Fragment {
         Typeface roboto = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Medium.ttf");
         Typeface roboto1 = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Regular.ttf");
 
+        int randomNumber = (int) (Math.random()*10);
+
         TextView mEventView = new TextView(TimetableActivity.context);
         RelativeLayout.LayoutParams lParam = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -201,7 +235,7 @@ public class TodayFragment extends Fragment {
         mEventView.setText(courseName);
         mEventView.setTypeface(roboto);
         mEventView.setTextSize(16);
-        mEventView.setBackgroundColor(Color.parseColor("#33ef6c00"));
+        mEventView.setBackgroundColor(Color.parseColor(mainColors.get(randomNumber)));
         mLayout.addView(mEventView);
 
         TextView mEventView3 = new TextView(TimetableActivity.context);
@@ -217,7 +251,7 @@ public class TodayFragment extends Fragment {
         mEventView3.setTypeface(roboto1);
         mEventView3.setTextSize(12);
         mEventView3.setText(classRoom);
-        mEventView3.setBackgroundColor(Color.parseColor("#33ef6c00"));
+        mEventView3.setBackgroundColor(Color.parseColor(mainColors.get(randomNumber)));
         mLayout.addView(mEventView3);
 
 
@@ -231,7 +265,7 @@ public class TodayFragment extends Fragment {
         mEventView1.setHeight(getInDp(height));
         mEventView1.setWidth(getInDp(3));
         mEventView1.setGravity(0x11);
-        mEventView1.setBackgroundColor(Color.parseColor("#66ef6c00"));
+        mEventView1.setBackgroundColor(Color.parseColor(headerColors.get(randomNumber)));
         mLayout.addView(mEventView1);
     }
 }
