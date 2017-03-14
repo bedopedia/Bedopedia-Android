@@ -393,7 +393,6 @@ public class StudentActivity extends AppCompatActivity {
                         Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
                     } else if (statusCode == 200) {
                         notifications = new  ArrayList<NotificationModel>();
-                        Log.v("Notifications",response.body().toString());
                         JsonObject notificationsRespone = response.body();
 
 
