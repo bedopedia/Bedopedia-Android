@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3fb54d</color>
-    <color name="colorPrimaryDark">#349f30</color>
-    <color name="colorAccent">#40c6ff</color>
+    <color name="colorPrimary">#2ABC4F</color>
+    <color name="colorPrimaryDark">#25A847</color>
+    <color name="colorAccent">#FFFF8E</color>
     <color name="gainsboro">#DCDCDC</color>
     <color name="white">#ffffff</color>
     <color name="purple">#9655ca</color>

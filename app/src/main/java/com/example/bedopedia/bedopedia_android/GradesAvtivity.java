@@ -43,7 +43,7 @@ public class GradesAvtivity extends AppCompatActivity {
     ImageButton back;
     String student_id;
     ProgressDialog progress;
-    Context context;
+    public static Context context;
     List<CourseGroup> courseGroups;
 
     public void loading(){

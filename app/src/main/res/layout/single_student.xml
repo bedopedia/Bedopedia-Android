@@ -63,11 +63,8 @@
         android:layout_height="40dp"
         android:layout_weight=".20"
         android:background="@null"
-        app:srcCompat="@drawable/small_next_arrow"
+        app:srcCompat="@drawable/small_next"
         android:scaleType="fitCenter"
         android:id="@+id/open_student" />
-
-
-
 
 </LinearLayout>

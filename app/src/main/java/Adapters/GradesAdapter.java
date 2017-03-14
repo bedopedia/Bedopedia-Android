@@ -1,7 +1,7 @@
 package Adapters;
 
 import android.content.Context;
-import android.media.Image;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,6 @@ import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.List;
 
-import Models.Course;
 import Models.CourseGroup;
 
 /**
@@ -50,6 +49,8 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
             view = LayoutInflater.from(getContext()).inflate(R.layout.single_grade, parent, false);
         }
         item=new Holder();
+        Typeface robotoMedium = Typeface.createFromAsset(GradesAvtivity.context.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface robotoBold = Typeface.createFromAsset(GradesAvtivity.context.getAssets(), "font/Roboto-Bold.ttf");
 
         item.courseImage = (ImageView) view.findViewById(R.id.course_image);
         item.courseName = (TextView) view.findViewById(R.id.course_name);
@@ -57,7 +58,9 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
         item.openCourse = (ImageButton) view.findViewById(R.id.open_grade);
         item.singleGrade = (LinearLayout) view.findViewById(R.id.single_grade);
 
+        item.courseName.setTypeface(robotoMedium);
         item.courseName.setText(courseGroup.getCourseName());
+        item.courseGrade.setTypeface(robotoBold);
         item.courseGrade.setText(courseGroup.getGrade());
 
         item.singleGrade.setOnClickListener(new View.OnClickListener() {
@@ -69,20 +72,16 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
             }
         });
 
-
-
         String imageName = courseGroup.getIcon();
         int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
         item.courseImage.setImageResource(res);
 
         if(courseGroup.getGrade().charAt(0) == 'A'){
             item.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
-        } else if(courseGroup.getGrade().charAt(0) == 'B'){
-            item.courseGrade.setBackgroundResource(R.drawable.grade_b_circle);
         } else if(courseGroup.getGrade().charAt(0) == 'F'){
             item.courseGrade.setBackgroundResource(R.drawable.grade_f_circle);
         } else {
-            item.courseGrade.setBackgroundResource(R.drawable.grade_c_circle);
+            item.courseGrade.setBackgroundResource(R.drawable.grade_bcd_circle);
         }
         return view;
     }

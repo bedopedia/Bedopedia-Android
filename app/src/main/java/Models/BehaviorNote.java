@@ -4,21 +4,18 @@ package Models;
  * Created by khaled on 2/27/17.
  */
 
-public class BehaviourNote {
+public class BehaviorNote {
     String category;
     String text;
-    String teacherName;
 
-    public BehaviourNote() {
+    public BehaviorNote() {
         this.category = "";
         this.text = "";
-        this.teacherName = "";
     }
 
-    public BehaviourNote(String category, String text, String teacherName) {
+    public BehaviorNote(String category, String text) {
         this.category = category;
         this.text = text;
-        this.teacherName = teacherName;
     }
 
     public String getCategory() {
@@ -37,11 +34,4 @@ public class BehaviourNote {
         this.text = text;
     }
 
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
-    }
 }

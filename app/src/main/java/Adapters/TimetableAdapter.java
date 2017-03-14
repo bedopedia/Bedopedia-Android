@@ -1,6 +1,5 @@
 package Adapters;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,9 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import Fragments.AbsentFragment;
-import Fragments.ExcusedFragment;
-import Fragments.LateFragment;
 import Fragments.TodayFragment;
 import Fragments.TomorrowFragment;
 
@@ -51,7 +47,8 @@ public class TimetableAdapter extends FragmentPagerAdapter {
         Date date = calendar.getTime();
         String today = new SimpleDateFormat("EEE", Locale.ENGLISH).format(date.getTime());
         String todayNumber =  new SimpleDateFormat("dd", Locale.ENGLISH).format(date.getTime());
-        if (today.equals("thursday")){
+
+        if (today.equals("Thu")){
             calendar.add( Calendar.DATE, 3 );
         } else{
             calendar.add( Calendar.DATE, 1 );

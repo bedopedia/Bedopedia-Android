@@ -1,35 +1,35 @@
 package Adapters;
 
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.bedopedia.bedopedia_android.BehaviorNotesActivity;
 import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.List;
 
-import Models.BehaviourNote;
+import Models.BehaviorNote;
 
 /**
  * Created by khaled on 2/27/17.
  */
 
-public class BehaviourNotesAdapter extends ArrayAdapter {
+public class BehaviorNotesAdapter extends ArrayAdapter {
 
     public Context context;
 
-    public BehaviourNotesAdapter(Context context, int resource, List<BehaviourNote> items) {
+    public BehaviorNotesAdapter(Context context, int resource, List<BehaviorNote> items) {
         super(context, resource, items);
         this.context =  context;
 
     }
 
     public static  class Holder{
-        TextView teacherName;
         TextView category;
         TextView noteContent;
     }
@@ -37,7 +37,7 @@ public class BehaviourNotesAdapter extends ArrayAdapter {
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
-        BehaviourNote note = (BehaviourNote) getItem(position);
+        BehaviorNote note = (BehaviorNote) getItem(position);
         Holder item;
 
         // Check if an existing view is being reused, otherwise inflate the view
@@ -46,11 +46,14 @@ public class BehaviourNotesAdapter extends ArrayAdapter {
         }
         item=new Holder();
 
-        item.teacherName = (TextView) view.findViewById(R.id.teacher_name);
         item.category = (TextView) view.findViewById(R.id.category);
         item.noteContent = (TextView) view.findViewById(R.id.note_content);
 
-        item.teacherName.setText(note.getTeacherName());
+        Typeface robotoMedium = Typeface.createFromAsset(BehaviorNotesActivity.context.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface robotoRegular = Typeface.createFromAsset(BehaviorNotesActivity.context.getAssets(), "font/Roboto-Regular.ttf");
+
+        item.category.setTypeface(robotoMedium);
+        item.noteContent.setTypeface(robotoRegular);
         item.category.setText(note.getCategory());
         item.noteContent.setText(note.getText());
 
