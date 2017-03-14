@@ -40,6 +40,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:9.2.0'
     compile 'com.google.android.gms:play-services-location:9.2.0'
     compile 'com.google.android.gms:play-services-places:9.2.0'
+    compile 'com.github.sundeepk:compact-calendar-view:2.0.1'
 }
 
 
