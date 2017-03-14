@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import com.example.bedopedia.bedopedia_android.BehaviorNotesActivity;
 import com.example.bedopedia.bedopedia_android.R;
+import com.example.bedopedia.bedopedia_android.StudentActivity;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class PositiveFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.positive_fragment, container, false);
 
-        List<BehaviorNote> positiveBehaviorNotes = BehaviorNotesActivity.positiveNotesList;
+        List<BehaviorNote> positiveBehaviorNotes = StudentActivity.positiveNotesList;
         ListView notes = (ListView) rootView.findViewById(R.id.positive_notes);
         BehaviorNotesAdapter adapter = new BehaviorNotesAdapter(BehaviorNotesActivity.context, R.layout.single_behaviour_note, positiveBehaviorNotes);
         notes.setAdapter(adapter);
