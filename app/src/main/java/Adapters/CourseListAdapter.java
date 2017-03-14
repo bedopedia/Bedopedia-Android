@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +36,7 @@ public class CourseListAdapter extends ArrayAdapter
             TextView name;
             TextView grade;
             TextView comment;
+            TextView average;
         }
 
         @Override
@@ -52,16 +55,23 @@ public class CourseListAdapter extends ArrayAdapter
         item.name = (TextView) view.findViewById(R.id.courseItemtName);
         item.grade =  (TextView) view.findViewById(R.id.courseItemtGrade);
         item.comment = (TextView) view.findViewById(R.id.courseItemtgradeComment);
+        item.average = (TextView) view.findViewById(R.id.courseItemtAvg);
+
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf"); //use this.getAssets if you are calling from an Activity
         item.name.setTypeface(roboto);
         item.grade.setTypeface(roboto);
         item.comment.setTypeface(roboto);
+        item.average.setTypeface(roboto);
 
         item.name.setText(courseItem.get(0));
         item.grade.setText(courseItem.get(1));
         item.comment.setText(courseItem.get(2));
-        // TODO average
-        // TODO comment
+        Double avg = Double.valueOf(courseItem.get(3));
+        avg = BigDecimal.valueOf(avg)
+                .setScale(3, RoundingMode.HALF_UP)
+                .doubleValue();
+        item.average.setText("Avg. grade is " +avg.toString());
+
 
 
         return view;
