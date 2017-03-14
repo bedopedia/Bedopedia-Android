@@ -62,34 +62,15 @@ public class PadgesAdapter extends ArrayAdapter<Badge> {
         item.badgeReason.setTypeface(robotoRegular);
         item.courseName.setTypeface(robotoRegular);
 
-//        item.badgeName.setText(badge.get);
-//        item.courseGrade.setTypeface(robotoBold);
-//        item.courseGrade.setText(courseGroup.getGrade());
-//
-//        item.singleGrade.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//
-//                context.itemClicked(position);
-//            }
-//        });
-//
-//
-//
-//        String imageName = courseGroup.getIcon();
-//        int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
-//        item.courseImage.setImageResource(res);
-//
-//        if(courseGroup.getGrade().charAt(0) == 'A'){
-//            item.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
-//        } else if(courseGroup.getGrade().charAt(0) == 'B'){
-//            item.courseGrade.setBackgroundResource(R.drawable.grade_b_circle);
-//        } else if(courseGroup.getGrade().charAt(0) == 'F'){
-//            item.courseGrade.setBackgroundResource(R.drawable.grade_f_circle);
-//        } else {
-//            item.courseGrade.setBackgroundResource(R.drawable.grade_c_circle);
-//        }
+        item.badgeName.setText(badge.getName());
+        item.badgeReason.setText(badge.getReason());
+        item.courseName.setText(badge.getCourseName());
+
+
+        String imageName = badge.getIcon();
+        int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
+        item.badgeIcon.setImageResource(res);
+
         return view;
     }
 }

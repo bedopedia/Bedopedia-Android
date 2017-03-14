@@ -540,7 +540,7 @@ public class StudentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(notificationLayout.isDrawerOpen(notificationList)){
                     notificationLayout.closeDrawer(notificationList);
-                    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
+                    TextView title = (TextView) findViewById(R.id.action_bar_title);
                     Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
                     title.setTypeface(roboto);
                 } else {
