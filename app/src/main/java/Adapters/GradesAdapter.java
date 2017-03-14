@@ -26,6 +26,7 @@ import Models.CourseGroup;
  */
 
 public class GradesAdapter extends ArrayAdapter<CourseGroup> {
+
     public GradesAvtivity context;
 
     public GradesAdapter(Context context, int resource, List<CourseGroup> items) {
