@@ -213,8 +213,9 @@
                 android:layout_height="50dp"
                 app:srcCompat="@drawable/attendance_ico"
                 android:id="@+id/attendace_icon"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="20dp"/>
         </FrameLayout>
+
 
         <LinearLayout
             android:orientation="vertical"
@@ -234,7 +235,8 @@
             <LinearLayout
                 android:layout_weight="0.03"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                >
                 <TextView
                     android:text=""
                     android:layout_width="wrap_content"
@@ -258,6 +260,7 @@
                      />
 
             </LinearLayout>
+
         </LinearLayout>
         <ImageButton
             app:srcCompat="@drawable/small_next"
@@ -269,11 +272,12 @@
             android:layout_marginTop="20dp" />
 
     </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:layout_marginLeft="90dp"
+        android:background="#ffe5e5e5"/>
+
 
     <LinearLayout
         android:orientation="horizontal"
@@ -298,7 +302,7 @@
                 android:layout_height="50dp"
                 app:srcCompat="@drawable/timetable"
                 android:id="@+id/imageView4"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="20dp"/>
         </FrameLayout>
 
         <LinearLayout
@@ -343,8 +347,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-
+        android:layout_marginLeft="90dp"
+        android:background="#ffe5e5e5"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -368,7 +372,7 @@
                 android:layout_height="50dp"
                 app:srcCompat="@drawable/grades_ico"
                 android:id="@+id/imageView5"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="20dp"/>
         </FrameLayout>
 
         <LinearLayout
@@ -411,8 +415,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-
+        android:layout_marginLeft="90dp"
+        android:background="#ffe5e5e5"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -436,7 +440,7 @@
                 android:layout_height="50dp"
                 app:srcCompat="@drawable/behavior_notes_ico"
                 android:id="@+id/imageView6"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="20dp"/>
         </FrameLayout>
 
         <LinearLayout
@@ -537,6 +541,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-
+        android:layout_marginLeft="90dp"
+        android:background="#ffe5e5e5"/>
 </LinearLayout>
