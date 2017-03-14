@@ -3,10 +3,14 @@ package Adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
-import Fragments.AbsentFragment;
-import Fragments.ExcusedFragment;
-import Fragments.LateFragment;
+import com.example.bedopedia.bedopedia_android.BehaviorNotesActivity;
+import com.example.bedopedia.bedopedia_android.R;
+import com.example.bedopedia.bedopedia_android.StudentActivity;
+
 import Fragments.NegativeFragment;
 import Fragments.PositiveFragment;
 
@@ -15,7 +19,7 @@ import Fragments.PositiveFragment;
  */
 
 public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
-    public BehaviorNotesFragmentAdapter(FragmentManager fm){
+    public BehaviorNotesFragmentAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -24,7 +28,7 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
 
         Fragment f = null;
 
-        if(position == 0){
+        if (position == 0) {
             f = new PositiveFragment();
         } else {
             f = new NegativeFragment();
@@ -40,8 +44,23 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if(position == 0)
-            return "Positive";
-        return "Negative";
+        if (position == 0)
+            return "POSITIVE";
+        return "NEGATIVE";
+    }
+
+    public View getTabView(int position) {
+        View view = LayoutInflater.from(BehaviorNotesActivity.context).inflate(R.layout.single_tab, null);
+        TextView title = (TextView) view.findViewById(R.id.tab_title);
+        TextView counter = (TextView) view.findViewById(R.id.tab_counter);
+
+        title.setText(this.getPageTitle(position));
+        if (position == 0)
+            counter.setText(StudentActivity.positiveNotesList.size()+"");
+        else
+            counter.setText(StudentActivity.negativeNotesList.size()+"");
+
+        return view;
+
     }
 }

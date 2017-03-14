@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/tab_layout"
+    android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/tab_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="9"
+        android:layout_marginLeft="16dp"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:text="Positive" />
+
+    <TextView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/notes_counter"
+        android:id="@+id/tab_counter"
+        android:text="2"
+        android:layout_marginRight="2dp"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:foregroundGravity="center_vertical" />
+</LinearLayout>

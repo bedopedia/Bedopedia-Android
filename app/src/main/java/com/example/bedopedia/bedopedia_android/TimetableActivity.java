@@ -11,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageButton;
@@ -85,7 +86,6 @@ public class TimetableActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.timetable_tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
 
     }
 

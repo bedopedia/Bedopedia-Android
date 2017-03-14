@@ -40,7 +40,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
+import Adapters.BehaviorNotesFragmentAdapter;
 import Adapters.TimetableAdapter;
+import Models.BehaviorNote;
 import Models.CourseGroup;
 import Models.Student;
 import Models.TimetableSlot;
@@ -73,6 +75,8 @@ public class StudentActivity extends AppCompatActivity {
     TextView studentLevelView;
     TextView studentNameView;
     TextView nextSlot;
+    TextView positiveNotesCounter;
+    TextView negativeNotesCounter;
     LinearLayout attendanceLayer;
     LinearLayout gradesLayer;
     LinearLayout timeTableLayer;
@@ -80,6 +84,9 @@ public class StudentActivity extends AppCompatActivity {
 
     public static List<TimetableSlot> todaySlots;
     public static List<TimetableSlot> tomorrowSlots;
+
+    public static List<BehaviorNote> positiveNotesList;
+    public static List<BehaviorNote> negativeNotesList;
 
     ProgressBar attendanceProgress;
 
@@ -133,7 +140,6 @@ public class StudentActivity extends AppCompatActivity {
         call.enqueue(new Callback<ArrayList<JsonObject> >() {
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
-                // must be closed at the last service
                 //progress.dismiss();
                 int statusCode = response.code();
                 if(statusCode == 401) {
@@ -180,7 +186,7 @@ public class StudentActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
-                progress.dismiss();
+                //progress.dismiss();
                 int statusCode = response.code();
                 if (statusCode == 401) {
                     Dialogue.AlertDialog(context, "Not Authorized", "you don't have the right to do this");
@@ -248,6 +254,8 @@ public class StudentActivity extends AppCompatActivity {
                         TimetableSlot s = tomorrowSlots.get(0);
                         nextSlot.setText("Next: " + s.getCourseName() + ", " + s.getDay() + " " + dateFormat.format(s.getFrom()));
                     }
+
+                    getStudentBehaviorNotes();
                 }
 
             }
@@ -256,6 +264,53 @@ public class StudentActivity extends AppCompatActivity {
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 progress.dismiss();
                 Dialogue.AlertDialog(context, "Connection Failed", "Check your Netwotk connection and Try again");
+            }
+        });
+    }
+
+    public void getStudentBehaviorNotes(){
+        String url = "api/behavior_notes";
+        Map<String, String> params = new HashMap<>();
+        params.put("student_id" , studentId);
+        params.put("user_type" , "Parents");
+
+        Call<JsonObject>  call = apiService.getServise(url, params);
+
+        call.enqueue(new Callback<JsonObject> () {
+
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                // must be closed at the last service
+                progress.dismiss();
+                int statusCode = response.code();
+                if(statusCode == 401) {
+                    Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                } else if (statusCode == 200) {
+                    JsonArray behaviourNotes = response.body().get("behavior_notes").getAsJsonArray();
+                    for(JsonElement element: behaviourNotes){
+                        JsonObject note = element.getAsJsonObject();
+                        String category = note.get("category").getAsString();
+                        String noteBody =  note.get("note").getAsString();
+                        if(category.equals("Cooperative") ||
+                                category.equals("Politeness") ||
+                                category.equals("Punctuality") ||
+                                category.equals("Leadership") ||
+                                category.equals("Honesty"))
+                            positiveNotesList.add(new BehaviorNote(category,noteBody));
+                        else
+                            negativeNotesList.add(new BehaviorNote(category,noteBody));
+                    }
+                    positiveNotesCounter.setText(positiveNotesList.size()+"");
+                    negativeNotesCounter.setText(negativeNotesList.size()+"");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                progress.dismiss();
+                Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
             }
         });
     }
@@ -292,6 +347,9 @@ public class StudentActivity extends AppCompatActivity {
         todaySlots = new ArrayList<TimetableSlot>();
         tomorrowSlots = new ArrayList<TimetableSlot>();
 
+        positiveNotesList = new ArrayList<BehaviorNote>();
+        negativeNotesList = new ArrayList<BehaviorNote>();
+
         progress = new ProgressDialog(this);
         Bundle extras= getIntent().getExtras();
         studentId = extras.getString("student_id");
@@ -310,6 +368,9 @@ public class StudentActivity extends AppCompatActivity {
         studentLevelView = (TextView) findViewById(R.id.home_student_level);
         studentNameView = (TextView) findViewById(R.id.home_student_name);
         nextSlot = (TextView) findViewById(R.id.next_slot);
+
+        positiveNotesCounter = (TextView) findViewById(R.id.positive_notes_counter);
+        negativeNotesCounter = (TextView) findViewById(R.id.negative_notes_counter);
 
         attendanceProgress = (ProgressBar) findViewById(R.id.attendance_progress);
         studentNameView.setText(studentName);
