@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -77,11 +78,9 @@ public class LoginActivity extends AppCompatActivity {
                                           KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
                         || (actionId == EditorInfo.IME_ACTION_GO)) {
-                    ((Button) findViewById(R.id.loginSubmit)).performClick();
-                    return true;
+                    loginService();
                 }
-                return false;
-
+                return (actionId == EditorInfo.IME_ACTION_GO);
             }
         });
 

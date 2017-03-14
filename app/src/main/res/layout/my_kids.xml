@@ -4,24 +4,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/drawer_layout">
+    android:id="@+id/drawer_layout"
+    android:layout_marginTop="3dp">
 
-    <GridView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="20dp"
-        android:id="@+id/students_list"
-        android:numColumns="1"
-        android:choiceMode="singleChoice"
-        android:columnOrderPreserved="true"
-        android:rowOrderPreserved="true"
-        android:useDefaultMargins="true"
-        android:nestedScrollingEnabled="true"
-        android:scrollingCache="true"
-        android:verticalSpacing="20dp"/>
+        android:scrollbars="vertical"/>
 
     <ListView
-
         android:id="@+id/listview_notification"
         android:background="@color/white"
         android:divider="@android:color/transparent"
