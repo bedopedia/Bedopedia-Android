@@ -23,11 +23,11 @@ import Models.CourseGroup;
  * Created by khaled on 3/14/17.
  */
 
-public class PadgesAdapter extends ArrayAdapter<Badge> {
+public class BadgesAdapter extends ArrayAdapter<Badge> {
 
     public Context context;
 
-    public PadgesAdapter(Context context, int resource, List<Badge> items) {
+    public BadgesAdapter(Context context, int resource, List<Badge> items) {
         super(context, resource, items);
         this.context = context;
     }
@@ -47,11 +47,11 @@ public class PadgesAdapter extends ArrayAdapter<Badge> {
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.single_grade, parent, false);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.single_badge, parent, false);
         }
         item=new Holder();
-        Typeface robotoMedium = Typeface.createFromAsset(GradesAvtivity.context.getAssets(), "font/Roboto-Medium.ttf");
-        Typeface robotoRegular = Typeface.createFromAsset(GradesAvtivity.context.getAssets(), "font/Roboto-Regular.ttf");
+        Typeface robotoMedium = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
 
         item.badgeIcon = (ImageView) view.findViewById(R.id.badge_icon);
         item.badgeName = (TextView) view.findViewById(R.id.badge_name);
