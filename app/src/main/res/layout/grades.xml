@@ -11,6 +11,8 @@
         android:numColumns="1"
         android:layout_marginTop="10dp"
         android:choiceMode="singleChoice"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:columnOrderPreserved="true"
         android:rowOrderPreserved="true"
         android:useDefaultMargins="true"
