@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +51,7 @@ import java.util.TimeZone;
 import Adapters.NotificationAdapter;
 import Adapters.BehaviorNotesFragmentAdapter;
 import Adapters.TimetableAdapter;
+import Models.Badge;
 import Models.BehaviorNote;
 import Models.CourseGroup;
 import Models.NotificationModel;
@@ -57,6 +59,7 @@ import Models.Student;
 import Models.TimetableSlot;
 import Services.ApiClient;
 import Services.ApiInterface;
+import Tools.BadgesDialog;
 import Tools.Dialogue;
 import Tools.InternetConnection;
 import retrofit2.Call;
@@ -83,18 +86,21 @@ public class StudentActivity extends AppCompatActivity {
     ImageView studentAvatarImage;
     TextView studentLevelView;
     TextView studentNameView;
+    TextView badgesNumber;
     TextView nextSlot;
     TextView positiveNotesCounter;
     TextView negativeNotesCounter;
+    Button badgesButton;
     LinearLayout attendanceLayer;
     LinearLayout gradesLayer;
     LinearLayout timeTableLayer;
     LinearLayout notesLayer;
     DrawerLayout notificationLayout;
     ListView notificationList;
+
     ActionBarDrawerToggle notificationToggle;
     List<NotificationModel> notifications;
-
+    ArrayList<Badge> badges;
 
     public static List<TimetableSlot> todaySlots;
     public static List<TimetableSlot> tomorrowSlots;
@@ -294,8 +300,7 @@ public class StudentActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                // must be closed at the last service
-                progress.dismiss();
+                //progress.dismiss();
                 int statusCode = response.code();
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
@@ -316,6 +321,7 @@ public class StudentActivity extends AppCompatActivity {
                     }
                     positiveNotesCounter.setText(positiveNotesList.size()+"");
                     negativeNotesCounter.setText(negativeNotesList.size()+"");
+                    getStudentBadges();
                 }
 
             }
@@ -323,6 +329,50 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
 
+                progress.dismiss();
+                Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
+            }
+        });
+    }
+
+    public void getStudentBadges(){
+        String url = "api/students/get_badges";
+        Map<String, String> params = new HashMap<>();
+        params.put("student_id" , studentId);
+
+        Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
+        call.enqueue(new Callback<ArrayList<JsonObject> >() {
+            @Override
+            public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
+                // must be called in the last service
+                progress.dismiss();
+                int statusCode = response.code();
+                if(statusCode == 401) {
+                    Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                } else {
+                    if (statusCode == 200) {
+                        for (int i = 0 ; i < response.body().size(); i++) {
+                            JsonObject jsonBadge = response.body().get(i);
+                            String reason;
+                            if (jsonBadge.get("badge_name").getAsString().equals("Guru")){
+                                reason = "greater than 98% in quiz";
+                            } else if (jsonBadge.get("badge_name").getAsString().equals("Grand Maester")){
+                                reason = "total grade greater than 98%";
+                            } else {
+                                reason = "Usage of bedopedia system";
+                            }
+                            badges.add(new Badge(jsonBadge.get("badge_name").getAsString(),
+                                    jsonBadge.get("badge_icon").getAsString(),
+                                    reason,
+                                    jsonBadge.get("course_name").getAsString()));
+                        }
+                        badgesNumber.setText(badges.size()+"");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 progress.dismiss();
                 Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
             }
@@ -350,13 +400,7 @@ public class StudentActivity extends AppCompatActivity {
             return null;
         }
 
-
     }
-
-
-
-
-
 
     private class NotificationsAsyncTask extends AsyncTask {
 
@@ -433,8 +477,6 @@ public class StudentActivity extends AppCompatActivity {
             });
             return null;
         }
-
-
     }
 
 
@@ -488,30 +530,12 @@ public class StudentActivity extends AppCompatActivity {
 
     }
 
-
     public  void changeTheNotificationNumber() {
         TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
         notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf"); //use this.getAssets if you are calling from an Activity
         notificationNumberText.setTypeface(roboto);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -522,7 +546,7 @@ public class StudentActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.student_home_action_bar);
 
         TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
-
+        badges = new ArrayList<Badge>();
 
         if (MyKidsActivity.notificationNumber == 0) {
             notificationNumberText.setVisibility(View.INVISIBLE);
@@ -540,7 +564,7 @@ public class StudentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(notificationLayout.isDrawerOpen(notificationList)){
                     notificationLayout.closeDrawer(notificationList);
-                    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
+                    TextView title = (TextView) findViewById(R.id.action_bar_title);
                     Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
                     title.setTypeface(roboto);
                 } else {
@@ -582,11 +606,6 @@ public class StudentActivity extends AppCompatActivity {
             }
         }, 500); //Every 120000 ms (2 minutes)
 
-
-
-
-
-
         todaySlots = new ArrayList<TimetableSlot>();
         tomorrowSlots = new ArrayList<TimetableSlot>();
 
@@ -614,6 +633,9 @@ public class StudentActivity extends AppCompatActivity {
 
         positiveNotesCounter = (TextView) findViewById(R.id.positive_notes_counter);
         negativeNotesCounter = (TextView) findViewById(R.id.negative_notes_counter);
+
+        badgesButton = (Button) findViewById(R.id.badges_button);
+        badgesNumber = (TextView) findViewById(R.id.badges_number);
 
         attendanceProgress = (ProgressBar) findViewById(R.id.attendance_progress);
         studentNameView.setText(studentName);
@@ -649,6 +671,7 @@ public class StudentActivity extends AppCompatActivity {
             attendaceDates.add(date);
         }
         TextView attendaceText = (TextView) findViewById(R.id.attendance_text);
+        context = this;
 
         totalGradeText = (TextView) findViewById(R.id.average_grade);
         if (attendaceDates.size() != 0)
@@ -699,7 +722,13 @@ public class StudentActivity extends AppCompatActivity {
             }
         });
 
-        context = this;
+        badgesButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                BadgesDialog.AlertDialog(context , badges);
+            }
+        });
         courseGroups = new ArrayList<CourseGroup>();
 
         sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
