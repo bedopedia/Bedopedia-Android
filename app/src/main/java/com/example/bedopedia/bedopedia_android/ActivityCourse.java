@@ -97,7 +97,6 @@ public class ActivityCourse extends AppCompatActivity {
                         ArrayList<ArrayList<ArrayList<String>>> courseItemsTempData = new ArrayList<ArrayList<ArrayList<String>>>();
 
                         JsonObject body = response.body();
-                        Log.d("response", body.get("assignments_averages").getAsJsonObject().get("100").toString());
                         JsonObject categories = (JsonObject) body.get("categories");
 
                         Set<Map.Entry<String, JsonElement>> entries = categories.entrySet();//will return members of your object
