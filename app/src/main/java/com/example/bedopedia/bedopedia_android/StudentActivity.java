@@ -181,7 +181,7 @@ public class StudentActivity extends AppCompatActivity {
 
                         }
                         totalGrade = response.body().get(i).get("total_grade").getAsString();
-                        totalGradeText.setText("Average : "+totalGrade);
+                        totalGradeText.setText("Average grade:  "+totalGrade);
 
                         getStudentTimeTable();
 
