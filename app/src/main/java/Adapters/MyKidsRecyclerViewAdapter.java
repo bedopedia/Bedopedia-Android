@@ -27,13 +27,13 @@ import Services.ApiClient;
 public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecyclerViewAdapter.ViewHolderStudent> {
 
     private LayoutInflater layoutInflater;
-    public static Context mContext;
+    public static MyKidsActivity mContext;
     private ArrayList<Student> studentList = new ArrayList<>();
     ArrayList<JsonArray> kidsAttendances;
 
 
     public MyKidsRecyclerViewAdapter(Context context, ArrayList<Student> list , ArrayList<JsonArray> attendances) {
-        mContext = context;
+        mContext = (MyKidsActivity) context;
         layoutInflater = LayoutInflater.from(context);
         this.studentList = list;
         kidsAttendances = attendances;
@@ -68,7 +68,7 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
             public void onError() {
                 holder.avatar.setVisibility(View.GONE);
                 holder.textName.setVisibility(View.VISIBLE);
-                holder.textName.setText(curStudent.getFirstName().charAt(0) + " " + curStudent.getLastName().charAt(0));
+                holder.textName.setText(curStudent.getFirstName().charAt(0) + "" + curStudent.getLastName().charAt(0));
 
             }
         });
@@ -76,13 +76,13 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, StudentActivity.class);
-                intent.putExtra("student_id", String.valueOf(studentList.get(position).getId()));
-                intent.putExtra("student_name", studentList.get(position).getFirstName() + " " + studentList.get(position).getLastName());
-                intent.putExtra("student_avatar", studentList.get(position).getAvatar());
-                intent.putExtra("student_level", studentList.get(position).getLevel());
-                intent.putExtra("attendances",kidsAttendances.get(position).toString());
-                mContext.startActivity(intent);
+//                Intent intent = new Intent(mContext, StudentActivity.class);
+//                intent.putExtra("student_id", String.valueOf(studentList.get(position).getId()));
+//                intent.putExtra("student_name", studentList.get(position).getFirstName() + " " + studentList.get(position).getLastName());
+//                intent.putExtra("student_avatar", studentList.get(position).getAvatar());
+//                intent.putExtra("student_level", studentList.get(position).getLevel());
+//                intent.putExtra("attendances",kidsAttendances.get(position).toString());
+                mContext.itemClicked(position);
             }
         });
 

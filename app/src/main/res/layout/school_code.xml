@@ -1,79 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/school_code"
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login"
-    android:fitsSystemWindows="true"
-    tools:context="com.example.bedopedia.bedopedia_android.schoolCode">
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
-    <LinearLayout
-        android:orientation="vertical"
+
+    <ScrollView
+        android:id="@+id/school_code"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="66dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:paddingTop="46dp"
-        android:paddingBottom="76dp"
-        android:background="@drawable/layout_screen"
-        android:weightSum="1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true">
+        android:layout_height="match_parent"
+        android:background="@drawable/login"
+        android:fitsSystemWindows="true"
+        android:fillViewport="true"
+        tools:context="com.example.bedopedia.bedopedia_android.schoolCode">
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:background="@drawable/flogo_icon"
-            android:layout_gravity="center"
-            android:layout_height="64dp"
-            android:layout_width="64dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-
-        <TextView android:id="@+id/head_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="59dp"
-            android:gravity="center"
-            android:text="Enter school code to proceed with sign in"/>
-
-        <!-- Code Label -->
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="41dp"
-            android:layout_marginRight="39dp">
-            <AutoCompleteTextView android:id="@+id/code"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:imeOptions="actionNext"
-                android:drawableLeft="@drawable/code_school"
-                android:drawablePadding="17dp"
-                android:hint="School code" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_height="0dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="40dp"
+                android:layout_weight=".80"
+                android:background="@drawable/layout_screen"
+                android:orientation="vertical"
+                android:paddingTop="40dp">
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/codeSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:width="248dp"
-            android:height="48dp"
-            android:text="CONTENUE"
-            android:background="@drawable/login_button"
-            android:imeOptions="actionNext"
-            android:textColor="@color/white"/>
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:background="@drawable/flogo_icon" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/head_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="52dp"
+                    android:gravity="center"
+                    android:text="Enter school code to proceed with sign in" />
 
-</ScrollView>
+                <!-- Code Label -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginRight="39dp"
+                    android:layout_marginTop="40dp"
+                    >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/code_school"
+                        android:drawablePadding="17dp"
+                        android:hint="School code"
+                        android:imeOptions="actionNext"
+                        android:inputType="text" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/codeSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginTop="64dp"
+                    android:layout_marginBottom="50dp"
+                    android:background="@drawable/login_button"
+                    android:imeOptions="actionNext"
+                    android:text="CONTENUE"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_height="0dp"
+                android:layout_weight=".1"
+                android:gravity="center"
+                android:text="Copyright© 2017 Bedopedia." />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
