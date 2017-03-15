@@ -55,10 +55,16 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
         TextView counter = (TextView) view.findViewById(R.id.tab_counter);
 
         title.setText(this.getPageTitle(position));
-        if (position == 0)
-            counter.setText(StudentActivity.positiveNotesList.size()+"");
-        else
-            counter.setText(StudentActivity.negativeNotesList.size()+"");
+        if (position == 0) {
+            counter.setText(StudentActivity.positiveNotesList.size() + "");
+            if(StudentActivity.positiveNotesList.size() == 0)
+                counter.setVisibility(View.INVISIBLE);
+        }
+        else {
+            counter.setText(StudentActivity.negativeNotesList.size() + "");
+            if(StudentActivity.negativeNotesList.size() == 0)
+                counter.setVisibility(View.INVISIBLE);
+        }
 
         return view;
 

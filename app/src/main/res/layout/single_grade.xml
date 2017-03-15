@@ -11,8 +11,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".90"
+        android:layout_height="match_parent"
         android:id="@+id/single_grade"
         android:clickable="true"
         android:background="?android:attr/selectableItemBackground">
@@ -20,53 +19,65 @@
     <ImageView
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_weight=".30"
+        android:layout_weight=".22"
         app:srcCompat="@drawable/math_icon"
         android:id="@+id/course_image"
          />
-
-    <TextView
-        android:text="TextView"
-        android:padding="10dp"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".50"
-        android:layout_marginTop="5dp"
-        android:id="@+id/course_name"
-        android:textSize="22sp" />
+        android:layout_weight=".80"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="TextView"
+                android:paddingTop="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".50"
+                android:layout_marginTop="5dp"
+                android:id="@+id/course_name"
+                android:textSize="22sp" />
 
-    <TextView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="@drawable/grade_a_circle"
-        android:id="@+id/course_grade"
-        android:text="A"
-        android:textStyle="bold"
-        android:textSize="12sp"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:foregroundGravity="center_vertical" />
+            <TextView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/grade_a_circle"
+                android:id="@+id/course_grade"
+                android:text="A"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:foregroundGravity="center_vertical" />
 
-    <ImageButton
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_weight=".10"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp"
-        android:background="@null"
-        app:srcCompat="@drawable/small_next"
-        android:scaleType="fitCenter"
-        android:id="@+id/open_grade"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="10dp"
-        />
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_weight=".10"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:background="@null"
+                app:srcCompat="@drawable/small_next"
+                android:scaleType="fitCenter"
+                android:id="@+id/open_grade"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="10dp"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="#ffe5e5e5"/>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".10"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/darker_gray"/>
+    </LinearLayout>
+
+
 
 </LinearLayout>
