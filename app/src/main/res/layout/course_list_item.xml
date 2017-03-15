@@ -13,32 +13,41 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/gainsboro"
-            android:padding="10dp">
+            android:background="#fffafafa"
+            android:padding="13dp">
 
             <TextView
                 android:text="ClassWork"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/CategoryName"
+                android:textSize="16sp"
+                android:textColor="#de000000"
                 android:layout_weight=".80" />
 
             <TextView
-                android:layout_width="35dp"
+                android:layout_width="wrap_content"
                 android:background="@drawable/grades_circle"
                 android:gravity="center"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/numOfCategory"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="6dp"
+                android:textStyle="bold"
+                android:textSize="12sp"
                 android:textColor="@color/white"
-                android:text="20" />
+                android:text="82" />
 
             <TextView
                 android:text="100"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/maxGrade"
-                android:layout_weight=".10" />
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:textColor="#de000000"
+                android:layout_marginTop="3dp"
+                android:layout_weight=".10"
+                />
 
         </LinearLayout>
         <ListView

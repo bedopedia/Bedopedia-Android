@@ -6,20 +6,25 @@
 
 
     <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:src="@drawable/smallarrow"
         android:background="@color/colorPrimary"
-        android:id="@+id/back" />
+        android:id="@+id/back"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:paddingRight="35dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/action_bar_title"
         android:text="Grades"
-        android:padding="12dp"
+        android:textStyle="bold"
+        android:paddingTop="10dp"
         android:textColor="@color/white"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
 </LinearLayout>

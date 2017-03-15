@@ -30,6 +30,8 @@ import retrofit2.Response;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class LoginActivity extends AppCompatActivity {
 
     private LoginActivity context = this;
@@ -59,9 +61,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
                 onBackPressed();
             }
         });
+
 
 
 
