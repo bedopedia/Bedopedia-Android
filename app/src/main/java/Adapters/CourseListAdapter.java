@@ -68,7 +68,7 @@ public class CourseListAdapter extends ArrayAdapter
         item.comment.setText(courseItem.get(2));
         Double avg = Double.valueOf(courseItem.get(3));
         avg = BigDecimal.valueOf(avg)
-                .setScale(3, RoundingMode.HALF_UP)
+                .setScale(1, RoundingMode.HALF_UP)
                 .doubleValue();
         item.average.setText("Avg. grade is " +avg.toString());
 

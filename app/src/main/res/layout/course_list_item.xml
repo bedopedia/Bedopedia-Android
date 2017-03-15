@@ -12,30 +12,36 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="#fffafafa"
             android:padding="13dp">
 
             <TextView
                 android:text="ClassWork"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/CategoryName"
                 android:textSize="16sp"
                 android:textColor="#de000000"
                 android:layout_weight=".80" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:background="@drawable/grades_circle"
-                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:id="@+id/numOfCategory"
+                android:background="@drawable/grades_circle"
                 android:layout_marginRight="6dp"
-                android:textStyle="bold"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:text="82" />
+                android:gravity="center"
+
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/numOfCategory"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:text="82" />
+            </LinearLayout>
+
 
             <TextView
                 android:text="100"
