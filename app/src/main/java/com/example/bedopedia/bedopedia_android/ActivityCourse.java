@@ -208,17 +208,15 @@ public class ActivityCourse extends AppCompatActivity {
             temp = getStudentGrade(assignmentObj.get("id").getAsInt(), studentSubmission , "assignment_id", "grade");
             if (temp.equals("-")) {
                 comment = "Not Graded";
-            } else if (Integer.valueOf(temp) == assignmentObj.get("points").getAsInt() ) {
+            } else if (Integer.valueOf(temp)  >= (assignmentObj.get("points").getAsInt() * 80 )/ 100 ) {
                 comment = "Wooha!";
             } else if (Integer.valueOf(temp) < assignmentObj.get("points").getAsInt() / 2 ) {
                 comment ="Needs Improvement";
 
-            } else if (Integer.valueOf(temp) < (assignmentObj.get("points").getAsInt() * 75 ) /100 &&  Integer.valueOf(temp) >= (assignmentObj.get("points").getAsInt() / 2)  ) {
+            } else if (Integer.valueOf(temp) < (assignmentObj.get("points").getAsInt() * 80 ) /100 &&  Integer.valueOf(temp) >= (assignmentObj.get("points").getAsInt() / 2)  ) {
                 comment ="Good";
             }
-            else if (Integer.valueOf(temp) < assignmentObj.get("points").getAsInt()  &&  Integer.valueOf(temp) >= (assignmentObj.get("points").getAsInt() * 75) /100 ) {
-                comment ="Great";
-            }
+
             if (assignmentObj.get("points").getAsInt() == assignmentObj.get("points").getAsDouble()) {
                 temp += "/" + assignmentObj.get("points").getAsInt();
             } else {
@@ -246,17 +244,15 @@ public class ActivityCourse extends AppCompatActivity {
             temp = getStudentGrade(quizObj.get("id").getAsInt(), studentSubmission , "quiz_id", "score");
             if (temp.equals("-")) {
                 comment = "Not Graded";
-            } else if (Integer.valueOf(temp) == quizObj.get("total_score").getAsInt() ) {
+            } else if (Integer.valueOf(temp) == (quizObj.get("total_score").getAsInt() * 80 )/ 100 ) {
                 comment = "Wooha!";
             } else if (Integer.valueOf(temp) < quizObj.get("total_score").getAsInt() / 2 ) {
                 comment ="Needs Improvement";
 
-            } else if (Integer.valueOf(temp) < (quizObj.get("total_score").getAsInt() * 75 ) /100 &&  Integer.valueOf(temp) >= (quizObj.get("total_score").getAsInt() / 2)  ) {
+            } else if (Integer.valueOf(temp) < (quizObj.get("total_score").getAsInt() * 80 ) /100 &&  Integer.valueOf(temp) >= (quizObj.get("total_score").getAsInt() / 2)  ) {
                 comment ="Good";
             }
-            else if (Integer.valueOf(temp) < quizObj.get("total_score").getAsInt()  &&  Integer.valueOf(temp) >= (quizObj.get("total_score").getAsInt() * 75) /100 ) {
-                comment ="Great";
-            }
+
             if (quizObj.get("total_score").getAsInt() == quizObj.get("total_score").getAsDouble()) {
                 temp += "/" + quizObj.get("total_score").getAsInt();
             } else {
@@ -288,18 +284,15 @@ public class ActivityCourse extends AppCompatActivity {
             temp = getStudentGrade(gradeItemObj.get("id").getAsInt(), studentSubmission , "grade_item_id", "grade");
             if (temp.equals("-")) {
                 comment = "Not Graded";
-            } else if (Integer.valueOf(temp) == gradeItemObj.get("max_grade").getAsInt() ) {
+            } else if (Integer.valueOf(temp) == (gradeItemObj.get("max_grade").getAsInt() * 80 )/ 100) {
                 comment = "Wooha!";
             } else if (Integer.valueOf(temp) <= gradeItemObj.get("max_grade").getAsInt() / 2 ) {
                 comment = "Needs Improvement";
 
-            } else if (Integer.valueOf(temp) < (gradeItemObj.get("max_grade").getAsInt() * 75 ) /100 &&  Integer.valueOf(temp) >= (gradeItemObj.get("max_grade").getAsInt() / 2)  ) {
+            } else if (Integer.valueOf(temp) < (gradeItemObj.get("max_grade").getAsInt() * 80 ) /100 &&  Integer.valueOf(temp) >= (gradeItemObj.get("max_grade").getAsInt() / 2)  ) {
                 comment = "Good";
             }
 
-            else if (Integer.valueOf(temp) < gradeItemObj.get("max_grade").getAsInt()  &&  Integer.valueOf(temp) >= (gradeItemObj.get("max_grade").getAsInt() * 75) /100 ) {
-                comment = "Great";
-            }
             if (gradeItemObj.get("max_grade").getAsInt() == gradeItemObj.get("max_grade").getAsDouble()) {
                 temp += "/" + gradeItemObj.get("max_grade").getAsInt();
             }else {
