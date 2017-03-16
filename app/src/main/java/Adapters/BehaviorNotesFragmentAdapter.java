@@ -3,6 +3,7 @@ package Adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -53,7 +54,6 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
         View view = LayoutInflater.from(BehaviorNotesActivity.context).inflate(R.layout.single_tab, null);
         TextView title = (TextView) view.findViewById(R.id.tab_title);
         TextView counter = (TextView) view.findViewById(R.id.tab_counter);
-
         title.setText(this.getPageTitle(position));
         if (position == 0) {
             counter.setText(StudentActivity.positiveNotesList.size() + "");
@@ -69,4 +69,5 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
         return view;
 
     }
+
 }
