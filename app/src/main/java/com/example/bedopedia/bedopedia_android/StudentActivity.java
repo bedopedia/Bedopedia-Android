@@ -640,6 +640,27 @@ public class StudentActivity extends AppCompatActivity {
         attendanceProgress = (ProgressBar) findViewById(R.id.attendance_progress);
         studentNameView.setText(studentName);
         studentLevelView.setText(studentLevel);
+
+        Picasso.with(this).load(ApiClient.BASE_URL+studentAvatar).into(studentAvatarImage, new com.squareup.picasso.Callback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError() {
+                TextView studentAvatarName = (TextView) findViewById(R.id.st_home_text_name);
+                studentAvatarImage.setVisibility(View.GONE);
+                String[] names = studentName.split(" ");
+                studentAvatarName.setVisibility(View.VISIBLE);
+                studentAvatarName.setText("" +names[0].charAt(0) + names[1].charAt(0) );
+
+            }
+        });
+
+
+
+
         Picasso.with(this).load(ApiClient.BASE_URL+studentAvatar).into(studentAvatarImage);
 
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
