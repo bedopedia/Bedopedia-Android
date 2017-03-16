@@ -80,7 +80,7 @@ public class StudentActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     ApiInterface apiService;
     String attendance;
-    int presentDays;
+    int absentDays;
     String totalGrade;
     TextView totalGradeText;
     ImageView studentAvatarImage;
@@ -355,11 +355,11 @@ public class StudentActivity extends AppCompatActivity {
                             JsonObject jsonBadge = response.body().get(i);
                             String reason;
                             if (jsonBadge.get("badge_name").getAsString().equals("Guru")){
-                                reason = "greater than 98% in quiz";
+                                reason = "High performance in a quiz";
                             } else if (jsonBadge.get("badge_name").getAsString().equals("Grand Maester")){
-                                reason = "total grade greater than 98%";
+                                reason = "Excellent performance in total grade";
                             } else {
-                                reason = "Usage of bedopedia system";
+                                reason = "Active user of Skolera";
                             }
                             badges.add(new Badge(jsonBadge.get("badge_name").getAsString(),
                                     jsonBadge.get("badge_icon").getAsString(),
@@ -658,15 +658,16 @@ public class StudentActivity extends AppCompatActivity {
         JsonElement tradeElement = parser.parse(attendance);
         final JsonArray attenobdances = tradeElement.getAsJsonArray();
         Set<Date> attendaceDates = new HashSet<>();
-        presentDays=0;
+        absentDays=0;
 
         for(JsonElement element: attenobdances){
             JsonObject day = element.getAsJsonObject();
             Date date = new Date();
+            Log.d("day:: " , day.toString());
             date.setTime(day.get("date").getAsLong());
             if(!attendaceDates.contains(date)){
-                if(day.get("status").getAsString().equals("present"))
-                    presentDays++;
+                if(day.get("status").getAsString().equals("absent"))
+                    absentDays++;
             }
             attendaceDates.add(date);
         }
@@ -675,8 +676,8 @@ public class StudentActivity extends AppCompatActivity {
 
         totalGradeText = (TextView) findViewById(R.id.average_grade);
         if (attendaceDates.size() != 0)
-            attendanceProgress.setProgress((presentDays*100)/attendaceDates.size());
-        attendaceText.setText(presentDays + " / " + attendaceDates.size() +" days");
+            attendanceProgress.setProgress((absentDays*100)/attendaceDates.size());
+        attendaceText.setText("Absent " + absentDays + " out " + attendaceDates.size() +" days");
 
 
         attendanceLayer.setOnClickListener(new View.OnClickListener() {
