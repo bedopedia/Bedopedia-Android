@@ -1,70 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true"
-    android:background="?android:attr/selectableItemBackground"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    android:paddingTop="4dp"
+    android:paddingRight="8dp"
+    android:paddingLeft="8dp"
+
     android:id="@+id/single_student">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/student_avatar"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginLeft="12dp"
-        android:src="@drawable/student"
-        app:civ_border_width="0dp"
-        app:civ_border_color="#FF000000"/>
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="fill_parent"
+        android:layout_height="164dp"
+        android:layout_margin="4dp"
+        card_view:cardCornerRadius="2dp">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight=".65">
-
-        <TextView
-            android:text="Student Name"
-            android:paddingTop="20dp"
-            android:paddingLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/student_name"
-            android:textStyle="normal|bold"
-            android:textSize="14sp" />
+            android:layout_height="0dp"
+            android:layout_weight=".80"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="16dp">
+           <LinearLayout
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight=".65"
+               android:orientation="vertical">
 
-        <TextView
-            android:text="Grade 2"
-            android:paddingTop="10dp"
-            android:paddingLeft="15dp"
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/student_name"
+                   android:textStyle="normal"
+                   android:layout_marginBottom="10dp"
+                   android:textColor="@color/black"
+                   android:textSize="20sp" />
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/student_level"
+                   android:textStyle="normal"
+                   android:textSize="14sp" />
+
+           </LinearLayout>
+            <RelativeLayout
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginRight="16dp">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/student_avatar"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    app:civ_border_width="1dp"
+                    app:civ_border_color="#ffffff"/>
+
+                <TextView
+                    android:id="@+id/st_text_name"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:background="@drawable/circle_text"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/student_level"
-            android:textStyle="normal|bold"
-            android:textSize="12sp" />
+            android:layout_height="0dp"
+            android:layout_weight=".20"
+            android:layout_marginLeft="26dp">
+            <TextView
+                android:text="TODAY SUMMARY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/st_today_summary"
+                android:textStyle="normal"
+                android:textSize="14sp" />
 
+            <TextView
+                android:text="DUE TASKS"
+                android:layout_marginLeft="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/st_due_tasks"
+                android:textStyle="normal"
+                android:visibility="visible"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:text="2"
-        android:textAlignment="center"
-        android:background="@drawable/notification_circle"
-        android:layout_width="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="25dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView8"
-        android:textColor="@color/white"
-         />
 
-    <ImageButton
-        android:layout_width="0dp"
-        android:paddingTop="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_height="40dp"
-        android:layout_weight=".20"
-        android:background="@null"
-        app:srcCompat="@drawable/small_next"
-        android:scaleType="fitCenter"
-        android:id="@+id/open_student" />
+
+
+
+
+
+
+
+
+
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

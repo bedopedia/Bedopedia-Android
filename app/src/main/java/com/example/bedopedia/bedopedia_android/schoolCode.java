@@ -24,6 +24,9 @@ import Services.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import android.graphics.Typeface;
+
+import org.w3c.dom.Text;
 
 public class schoolCode extends AppCompatActivity {
 
@@ -45,6 +48,8 @@ public class schoolCode extends AppCompatActivity {
             startActivity(i);
             finish();
         }
+
+        setTextType();
 
         ((Button)findViewById(R.id.codeSubmit)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +147,15 @@ public class schoolCode extends AppCompatActivity {
         });
 
 
+    }
+
+    private void setTextType() {
+        Typeface robotoMedian = Typeface.createFromAsset(this.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface robotoRegular = Typeface.createFromAsset(this.getAssets(), "font/Roboto-Regular.ttf");
+        ((TextView)findViewById(R.id.head_text)).setTypeface(robotoMedian);
+        ((Button)findViewById(R.id.codeSubmit)).setTypeface(robotoMedian);
+        ((AutoCompleteTextView)findViewById(R.id.code)).setTypeface(robotoRegular);
+        ((TextView)findViewById(R.id.copy_right)).setTypeface(robotoRegular);
     }
 
     private Boolean checkAuthenticate() {

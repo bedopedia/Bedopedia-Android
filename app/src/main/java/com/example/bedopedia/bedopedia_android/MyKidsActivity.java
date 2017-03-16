@@ -17,6 +17,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
@@ -34,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Adapters.MyKidsAdapter;
+import Adapters.MyKidsRecyclerViewAdapter;
 import Adapters.NotificationAdapter;
 import Models.NotificationModel;
 import Models.Student;
@@ -49,7 +51,7 @@ import retrofit2.Response;
 
 public class MyKidsActivity extends AppCompatActivity{
 
-    List<Student> myKids;
+    ArrayList<Student> myKids;
     String id;
     Context context;
     ProgressDialog progress;
@@ -61,6 +63,10 @@ public class MyKidsActivity extends AppCompatActivity{
     ListView notificationList;
     ActionBarDrawerToggle notificationToggle;
     List<NotificationModel> notifications;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
 
     public void loading(){
@@ -118,10 +124,13 @@ public class MyKidsActivity extends AppCompatActivity{
                                     0,null,null));
                         }
 
-                        MyKidsAdapter adapter = new MyKidsAdapter(context, R.layout.single_student, myKids);
-                        GridView studentsList = (GridView) findViewById(R.id.students_list);
-                        studentsList.setAdapter(adapter);
 
+                        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+                        mRecyclerView.setHasFixedSize(true);
+                        mLayoutManager = new LinearLayoutManager(context);
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mAdapter = new MyKidsRecyclerViewAdapter(context, myKids, kidsAttendances);
+                        mRecyclerView.setAdapter(mAdapter);
 
                     }
                 }
