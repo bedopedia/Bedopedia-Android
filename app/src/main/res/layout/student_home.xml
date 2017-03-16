@@ -81,7 +81,7 @@
                     android:layout_marginRight="16dp"
                     android:textColor="#FFF"
                     android:textSize="12sp"
-                    android:text="2"
+                    android:text=""
                     android:textStyle="bold" />
 
 
@@ -192,7 +192,7 @@
                 android:textStyle="bold"
                 android:textColor="#de000000"
                 android:layout_marginTop="10dp"
-                android:text="Ali Abdelrahman"/>
+                android:text=""/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -202,7 +202,7 @@
                 android:textSize="14sp"
                 android:textColor="#de000000"
                 android:layout_marginTop="5dp"
-                android:text="2nd Grade"/>
+                android:text=""/>
         </LinearLayout>
     </LinearLayout>
 
@@ -239,23 +239,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1">
-
-            <TextView
-                android:text="Attendance"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView4"
-                android:textSize="16sp"
-                android:textColor="#de000000"
-                android:textStyle="normal|bold"
-                android:layout_marginTop="10dp"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Attendance"
+                    android:layout_width="0dp"
+                    android:layout_weight=".80"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView4"
+                    android:textSize="16sp"
+                    android:textColor="#de000000"
+                    android:textStyle="normal|bold"
+                    android:layout_marginTop="10dp"/>
+
+                <ImageButton
+                    app:srcCompat="@drawable/small_next"
+                    android:background="@null"
+                    android:id="@+id/attendance_button"
+                    android:layout_width="20dp"
+                    android:layout_height="17dp"
+                    android:layout_marginTop="15dp" />
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_weight="0.03"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 >
                 <TextView
-                    android:text=""
+                    android:text="Absent 3 out 14 days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/attendance_text"
@@ -272,21 +285,13 @@
                     android:id="@+id/attendance_progress"
                     android:progressDrawable="@drawable/progress_bar"
                     android:layout_marginTop="15dp"
-                    android:layout_marginRight="20dp"
                     android:layout_weight="3"
                      />
 
             </LinearLayout>
 
         </LinearLayout>
-        <ImageButton
-            app:srcCompat="@drawable/small_next"
-            android:background="@null"
-            android:id="@+id/attendance_button"
-            android:layout_weight="0.03"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="20dp" />
+
 
     </LinearLayout>
     <View
@@ -354,10 +359,10 @@
             app:srcCompat="@drawable/small_next"
             android:background="@null"
             android:layout_width="20dp"
-            android:layout_height="30dp"
+            android:layout_height="17dp"
             android:id="@+id/timetable_btn"
             android:layout_weight="0.03"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="15dp" />
 
     </LinearLayout>
 
@@ -421,8 +426,8 @@
             app:srcCompat="@drawable/small_next"
             android:background="@null"
             android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="15dp"
             android:id="@+id/grades_btn"
             android:layout_weight="0.03" />
 
@@ -531,7 +536,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                       android:id="@+id/negative_notes_counter"                        android:layout_marginLeft="8dp"
+                        android:id="@+id/negative_notes_counter"                        android:layout_marginLeft="8dp"
                         android:textSize="14sp"
                         android:textColor="#8a000000"
                         android:paddingTop="1dp"
@@ -545,8 +550,8 @@
             app:srcCompat="@drawable/small_next"
             android:background="@null"
             android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="15dp"
             android:id="@+id/behavior_notes_btn"
             android:layout_weight="0.03" />
 

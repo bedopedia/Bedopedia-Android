@@ -663,7 +663,6 @@ public class StudentActivity extends AppCompatActivity {
         for(JsonElement element: attenobdances){
             JsonObject day = element.getAsJsonObject();
             Date date = new Date();
-            Log.d("day:: " , day.toString());
             date.setTime(day.get("date").getAsLong());
             if(!attendaceDates.contains(date)){
                 if(day.get("status").getAsString().equals("absent"))
