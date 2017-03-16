@@ -30,6 +30,7 @@
                 android:text="Grand Master"
                 android:id="@+id/badge_name"
                 android:textSize="16dp"
+                android:textColor="#de000000"
                 android:layout_marginBottom="8dp"/>
 
             <TextView
@@ -37,12 +38,15 @@
                 android:textSize="14sp"
                 android:id="@+id/badge_reason"
                 android:layout_marginBottom="2dp"
+                android:textColor="#8b000000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            
             <TextView
                 android:id="@+id/badge_course_name"
                 android:text="Science"
                 android:textSize="14sp"
+                android:textColor="#8b000000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
