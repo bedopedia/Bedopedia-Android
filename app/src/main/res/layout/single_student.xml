@@ -76,7 +76,6 @@
                     android:text="name"
                     android:textColor="@color/white"
                     android:textSize="24sp"
-                    android:textStyle="normal"
                     android:visibility="invisible" />
             </RelativeLayout>
 

@@ -2,10 +2,13 @@ package Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -128,6 +131,17 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
             todaySummary = (TextView) itemView.findViewById(R.id.st_today_summary);
             dueTasks = (TextView) itemView.findViewById(R.id.st_due_tasks);
             textName = (TextView) itemView.findViewById(R.id.st_text_name);
+            setTextType();
+        }
+        private void setTextType() {
+            Typeface robotoMedian = Typeface.createFromAsset(mContext.getAssets(), "font/Roboto-Medium.ttf");
+            Typeface robotoRegular = Typeface.createFromAsset(mContext.getAssets(), "font/Roboto-Regular.ttf");
+            Typeface robotoBold = Typeface.createFromAsset(mContext.getAssets(), "font/Roboto-Bold.ttf");
+            name.setTypeface(robotoMedian);
+            todaySummary.setTypeface(robotoMedian);
+            dueTasks.setTypeface(robotoMedian);
+            level.setTypeface(robotoRegular);
+            textName.setTypeface(robotoBold);
         }
     }
 }

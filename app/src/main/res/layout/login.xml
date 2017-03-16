@@ -27,7 +27,8 @@
                 android:layout_weight=".999"
                 android:background="@drawable/layout_screen"
                 android:orientation="vertical"
-                android:paddingTop="40dp">
+                android:paddingTop="40dp"
+                android:paddingBottom="32dp">
 
                 <ImageView
                     android:id="@+id/imageView1"
@@ -42,9 +43,11 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:layout_marginLeft="52dp"
-                    android:layout_marginRight="51dp"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginRight="45dp"
                     android:gravity="center"
+                    android:textColor="#8a000000"
+                    android:textSize="15sp"
                     android:text="Enter your email and password to sign in."/>
 
                 <!-- Email Label -->
@@ -61,6 +64,8 @@
                         android:imeOptions="actionNext"
                         android:drawableLeft="@drawable/email_icon"
                         android:drawablePadding="17dp"
+                        android:textSize="16sp"
+                        android:textColor="#de000000"
                         android:hint="Email" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -78,6 +83,8 @@
                         android:imeOptions="actionGo"
                         android:drawableLeft="@drawable/password_icon"
                         android:drawablePadding="17dp"
+                        android:textSize="16sp"
+                        android:textColor="#de000000"
                         android:hint="Password" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -85,29 +92,25 @@
                     android:id="@+id/loginSubmit"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-
-
                     android:layout_marginTop="34dp"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
-
-
+                    android:textSize="14sp"
                     android:text="Login"
                     android:background="@drawable/login_button"
-                    android:textColor="@color/white"/>
+                    android:textColor="#ffffffff"/>
 
 
                 <!-- forget password text lable-->
                 <TextView android:id="@+id/forget_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    android:layout_marginTop="34dp"
-                    android:layout_marginLeft="100dp"
-                    android:layout_marginRight="100dp"
-
+                    android:layout_marginTop="32dp"
+                    android:textSize="16sp"
                     android:inputType="textEmailAddress"
                     android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="#de000000"
                     android:text="Forget password?" />
 
             </LinearLayout>

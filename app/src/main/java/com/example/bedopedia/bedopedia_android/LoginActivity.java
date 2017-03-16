@@ -2,6 +2,7 @@ package com.example.bedopedia.bedopedia_android;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        setTextType();
 
         sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
 
@@ -241,6 +243,16 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private void setTextType() {
+        Typeface robotoMedian = Typeface.createFromAsset(this.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface robotoRegular = Typeface.createFromAsset(this.getAssets(), "font/Roboto-Regular.ttf");
+        ((TextView)findViewById(R.id.head_text)).setTypeface(robotoMedian);
+        ((Button)findViewById(R.id.loginSubmit)).setTypeface(robotoMedian);
+        ((AutoCompleteTextView)findViewById(R.id.email)).setTypeface(robotoRegular);
+        ((AutoCompleteTextView)findViewById(R.id.password)).setTypeface(robotoRegular);
+        ((TextView)findViewById(R.id.forget_password)).setTypeface(robotoRegular);
     }
 
 }
