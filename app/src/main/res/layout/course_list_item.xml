@@ -27,10 +27,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/grades_circle"
                 android:layout_marginRight="6dp"
                 android:gravity="center"
-
                 >
                 <TextView
                     android:layout_width="wrap_content"
@@ -39,6 +37,8 @@
                     android:id="@+id/numOfCategory"
                     android:textSize="12sp"
                     android:textColor="@color/white"
+                    android:background="@drawable/grades_circle"
+                    android:gravity="center"
                     android:text="82" />
             </LinearLayout>
 
