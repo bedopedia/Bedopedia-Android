@@ -657,12 +657,6 @@ public class StudentActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-        Picasso.with(this).load(ApiClient.BASE_URL+studentAvatar).into(studentAvatarImage);
-
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
         actionBarTitle.setText(studentName);
         ImageButton back = (ImageButton) findViewById(R.id.back);
