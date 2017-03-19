@@ -12,7 +12,6 @@
 
 
         android:allowBackup="true"
-        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -35,6 +34,7 @@
 
 
         <activity android:name=".schoolCode"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -45,41 +45,50 @@
         </activity>
         <activity
             android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"
             android:name=".LoginActivity"
             android:theme="@style/AppTheme"/>
 
         <activity
             android:name=".MyKidsActivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".GradesAvtivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ForgetPasswordActivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ActivityCourse"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".AttendanceActivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".StudentActivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"/>
 
 
 
         <activity
             android:name=".BehaviorNotesActivity"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".TimetableActivity"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait"/>
 
     </application>
