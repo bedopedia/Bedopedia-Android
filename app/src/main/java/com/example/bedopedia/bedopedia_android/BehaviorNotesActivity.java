@@ -43,6 +43,7 @@ public class BehaviorNotesActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.actionbar);
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
         actionBarTitle.setText("Behavior notes");
+        actionBarTitle.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         ImageButton back = (ImageButton) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
 
