@@ -268,7 +268,6 @@
                 android:layout_height="match_parent"
                 >
                 <TextView
-                    android:text="Absent 3 out 14 days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/attendance_text"
