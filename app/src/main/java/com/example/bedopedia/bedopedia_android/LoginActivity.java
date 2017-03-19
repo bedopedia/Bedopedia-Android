@@ -2,9 +2,11 @@ package com.example.bedopedia.bedopedia_android;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -30,6 +32,8 @@ import retrofit2.Response;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class LoginActivity extends AppCompatActivity {
 
     private LoginActivity context = this;
@@ -43,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        setTextType();
 
         sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
 
@@ -59,9 +64,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
                 onBackPressed();
             }
         });
+
 
 
 
@@ -77,11 +84,9 @@ public class LoginActivity extends AppCompatActivity {
                                           KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
                         || (actionId == EditorInfo.IME_ACTION_GO)) {
-                    ((Button) findViewById(R.id.loginSubmit)).performClick();
-                    return true;
+                    loginService();
                 }
-                return false;
-
+                return (actionId == EditorInfo.IME_ACTION_GO);
             }
         });
 
@@ -242,6 +247,16 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private void setTextType() {
+        Typeface robotoMedian = Typeface.createFromAsset(this.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface robotoRegular = Typeface.createFromAsset(this.getAssets(), "font/Roboto-Regular.ttf");
+        ((TextView)findViewById(R.id.head_text)).setTypeface(robotoMedian);
+        ((Button)findViewById(R.id.loginSubmit)).setTypeface(robotoMedian);
+        ((AutoCompleteTextView)findViewById(R.id.email)).setTypeface(robotoRegular);
+        ((AutoCompleteTextView)findViewById(R.id.password)).setTypeface(robotoRegular);
+        ((TextView)findViewById(R.id.forget_password)).setTypeface(robotoRegular);
     }
 
 }

@@ -2,7 +2,6 @@ package Adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,9 @@ import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.GradesAvtivity;
 import com.example.bedopedia.bedopedia_android.R;
-import com.example.bedopedia.bedopedia_android.TimetableActivity;
 
 import java.util.List;
 
-import Models.Course;
 import Models.CourseGroup;
 
 /**
@@ -26,6 +23,7 @@ import Models.CourseGroup;
  */
 
 public class GradesAdapter extends ArrayAdapter<CourseGroup> {
+
     public GradesAvtivity context;
 
     public GradesAdapter(Context context, int resource, List<CourseGroup> items) {
@@ -75,20 +73,16 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
             }
         });
 
-
-
         String imageName = courseGroup.getIcon();
         int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
         item.courseImage.setImageResource(res);
 
         if(courseGroup.getGrade().charAt(0) == 'A'){
             item.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
-        } else if(courseGroup.getGrade().charAt(0) == 'B'){
-            item.courseGrade.setBackgroundResource(R.drawable.grade_b_circle);
         } else if(courseGroup.getGrade().charAt(0) == 'F'){
             item.courseGrade.setBackgroundResource(R.drawable.grade_f_circle);
         } else {
-            item.courseGrade.setBackgroundResource(R.drawable.grade_c_circle);
+            item.courseGrade.setBackgroundResource(R.drawable.grade_bcd_circle);
         }
         return view;
     }

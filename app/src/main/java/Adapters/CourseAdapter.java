@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +25,9 @@ public class CourseAdapter extends ArrayAdapter  {
 
         private Context context;
         private ArrayList<ArrayList<String>> header;
-        ArrayList<ArrayList<Pair<String,String>>> items;
+        ArrayList<ArrayList<ArrayList<String>>> items;
 
-        public CourseAdapter(Context context, int resource, ArrayList<ArrayList<Pair<String,String>>> items, ArrayList<ArrayList<String>> header) {
+        public CourseAdapter(Context context, int resource, ArrayList<ArrayList<ArrayList<String>>> items, ArrayList<ArrayList<String>> header) {
         super(context, resource, items);
             this.context =   context;
             this.header = header;
@@ -43,7 +44,7 @@ public class CourseAdapter extends ArrayAdapter  {
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
-        ArrayList<Pair<String,String>> courseItem = (ArrayList<Pair<String,String>>) getItem(position);
+        ArrayList<ArrayList<String>> courseItem = (ArrayList<ArrayList<String>>) getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
 
 
@@ -56,8 +57,15 @@ public class CourseAdapter extends ArrayAdapter  {
         item=new CourseAdapter.Holder();
 
          item.CategoryName = (TextView) view.findViewById(R.id.CategoryName);
+         Typeface roboto = Typeface.createFromAsset(context.getAssets(),
+                    "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
+         Typeface roboto2 = Typeface.createFromAsset(context.getAssets(),
+                    "font/Roboto-Bold.ttf"); //use this.getAssets if you are calling from an Activity
+         item.CategoryName.setTypeface(roboto);
          item.numOfCategory = (TextView) view.findViewById(R.id.numOfCategory);
+         item.numOfCategory.setTypeface(roboto2);
          item.maxGrade = (TextView) view.findViewById(R.id.maxGrade);
+         item.maxGrade.setTypeface(roboto2);
          item.CategoryName.setText(header.get(position).get(0));
          item.numOfCategory.setText(header.get(position).get(1));
          item.maxGrade.setText(header.get(position).get(2));

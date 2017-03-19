@@ -1,6 +1,7 @@
 package com.example.bedopedia.bedopedia_android;
 
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +34,8 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forget_password);
+
+        setTextType();
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
@@ -114,6 +117,14 @@ public class ForgetPasswordActivity extends AppCompatActivity {
             valid = false;
         }
         return valid;
+    }
+
+    private void setTextType() {
+        Typeface robotoMedian = Typeface.createFromAsset(this.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface robotoRegular = Typeface.createFromAsset(this.getAssets(), "font/Roboto-Regular.ttf");
+        ((TextView)findViewById(R.id.head_text)).setTypeface(robotoMedian);
+        ((Button)findViewById(R.id.request_btn)).setTypeface(robotoMedian);
+        ((AutoCompleteTextView)findViewById(R.id.email)).setTypeface(robotoRegular);
     }
 
 

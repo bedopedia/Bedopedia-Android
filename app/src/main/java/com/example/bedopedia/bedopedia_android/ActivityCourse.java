@@ -92,8 +92,9 @@ public class ActivityCourse extends AppCompatActivity {
                     if(statusCode == 401) {
                         Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
                     } else if (statusCode == 200) {
+
                         ArrayList<ArrayList<String>> header = new ArrayList<>();
-                        ArrayList<ArrayList<Pair<String,String>>> courseItemsTempData = new ArrayList<ArrayList<Pair<String,String>>>();
+                        ArrayList<ArrayList<ArrayList<String>>> courseItemsTempData = new ArrayList<ArrayList<ArrayList<String>>>();
 
                         JsonObject body = response.body();
                         JsonObject categories = (JsonObject) body.get("categories");
@@ -104,18 +105,18 @@ public class ActivityCourse extends AppCompatActivity {
                             temp.add(entry.getKey().toString());
 
 
-                            ArrayList<Pair<String,String>> assignmentTempData = new ArrayList<>();
+                            ArrayList<ArrayList<String>> assignmentTempData = new ArrayList<>();
                             JsonObject item = entry.getValue().getAsJsonObject();
                             if (item.has("assignments") && body.has("student") && body.get("student").getAsJsonArray().get(0).getAsJsonObject().has("submitted_assignments")  ) {
-                                addAssignmentsToList(item.get("assignments").getAsJsonArray(), assignmentTempData, body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_assignments").getAsJsonArray());
+                                addAssignmentsToList(item.get("assignments").getAsJsonArray(), assignmentTempData, body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_assignments").getAsJsonArray(), body.get("assignments_averages").getAsJsonObject() );
                             }
 
                             if (item.has("quizzes")  &&  body.has("student")  && body.get("student").getAsJsonArray().get(0).getAsJsonObject().has("submitted_quizzes") ) {
-                                addQuizzesToList(item.get("quizzes").getAsJsonArray(), assignmentTempData,body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_quizzes").getAsJsonArray());
+                                addQuizzesToList(item.get("quizzes").getAsJsonArray(), assignmentTempData,body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_quizzes").getAsJsonArray(), body.get("quizzes_averages").getAsJsonObject() );
                             }
 
                             if (item.has("grade_items")  && body.has("student")  && body.get("student").getAsJsonArray().get(0).getAsJsonObject().has("submitted_grades")  ) {
-                                addGradeItemsToList(item.get("grade_items").getAsJsonArray(), assignmentTempData, body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_grades").getAsJsonArray());
+                                addGradeItemsToList(item.get("grade_items").getAsJsonArray(), assignmentTempData, body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_grades").getAsJsonArray(), body.get("grades_averages").getAsJsonObject() );
                             }
 
                             if(totalStudent == totalStudent.intValue()){
@@ -198,30 +199,60 @@ public class ActivityCourse extends AppCompatActivity {
 
     }
 
-    private void addAssignmentsToList( JsonArray assignments ,  ArrayList<Pair<String,String>> data , JsonArray studentSubmission) {
+    private void addAssignmentsToList( JsonArray assignments ,  ArrayList<ArrayList<String>> data , JsonArray studentSubmission, JsonObject assignmnetsAverages) {
         // points, max_grade, total_score
         for (JsonElement pa : assignments) { // gest needed data from assig, quizz, grade item
             JsonObject assignmentObj = pa.getAsJsonObject();
 
-            String temp = "";
+            String temp = "", comment = "";
             temp = getStudentGrade(assignmentObj.get("id").getAsInt(), studentSubmission , "assignment_id", "grade");
+            if (temp.equals("-")) {
+                comment = "Not Graded";
+            } else if (Integer.valueOf(temp)  >= (assignmentObj.get("points").getAsInt() * 80 )/ 100 ) {
+                comment = "Wooha!";
+            } else if (Integer.valueOf(temp) < assignmentObj.get("points").getAsInt() / 2 ) {
+                comment ="Needs Improvement";
+
+            } else if (Integer.valueOf(temp) < (assignmentObj.get("points").getAsInt() * 80 ) /100 &&  Integer.valueOf(temp) >= (assignmentObj.get("points").getAsInt() / 2)  ) {
+                comment ="Good";
+            }
+
             if (assignmentObj.get("points").getAsInt() == assignmentObj.get("points").getAsDouble()) {
                 temp += "/" + assignmentObj.get("points").getAsInt();
             } else {
                 temp += "/" + assignmentObj.get("points").getAsString();
             }
             totalCategory += assignmentObj.get("points").getAsDouble();
-
-            data.add(new Pair<String, String>(assignmentObj.get("name").getAsString(), temp));
+            ArrayList<String> tempDataForItem = new ArrayList<>();
+            tempDataForItem.add(assignmentObj.get("name").getAsString());
+            tempDataForItem.add(temp);
+            tempDataForItem.add(comment);
+            if (assignmnetsAverages.has(assignmentObj.get("id").getAsString())) {
+                tempDataForItem.add(assignmnetsAverages.get(assignmentObj.get("id").getAsString()).getAsString());
+            } else {
+                tempDataForItem.add("0.0");
+            }
+            data.add(tempDataForItem);
         }
     }
 
-    private void addQuizzesToList( JsonArray quizzes ,  ArrayList<Pair<String,String>> data , JsonArray studentSubmission) {
+    private void addQuizzesToList( JsonArray quizzes ,  ArrayList<ArrayList<String>> data , JsonArray studentSubmission, JsonObject quizzesAverages) {
         // points, max_grade, total_score
         for (JsonElement pa : quizzes) { // gest needed data from assig, quizz, grade item
             JsonObject quizObj = pa.getAsJsonObject();
-            String temp = "";
+            String temp = "", comment = "";
             temp = getStudentGrade(quizObj.get("id").getAsInt(), studentSubmission , "quiz_id", "score");
+            if (temp.equals("-")) {
+                comment = "Not Graded";
+            } else if (Integer.valueOf(temp) == (quizObj.get("total_score").getAsInt() * 80 )/ 100 ) {
+                comment = "Wooha!";
+            } else if (Integer.valueOf(temp) < quizObj.get("total_score").getAsInt() / 2 ) {
+                comment ="Needs Improvement";
+
+            } else if (Integer.valueOf(temp) < (quizObj.get("total_score").getAsInt() * 80 ) /100 &&  Integer.valueOf(temp) >= (quizObj.get("total_score").getAsInt() / 2)  ) {
+                comment ="Good";
+            }
+
             if (quizObj.get("total_score").getAsInt() == quizObj.get("total_score").getAsDouble()) {
                 temp += "/" + quizObj.get("total_score").getAsInt();
             } else {
@@ -231,17 +262,37 @@ public class ActivityCourse extends AppCompatActivity {
             totalCategory += quizObj.get("total_score").getAsDouble();
 
 
-            data.add(new Pair<String, String>(quizObj.get("name").getAsString(), temp));
+            ArrayList<String> tempDataForItem = new ArrayList<>();
+            tempDataForItem.add(quizObj.get("name").getAsString());
+            tempDataForItem.add(temp);
+            tempDataForItem.add(comment);
+            if (quizzesAverages.has(quizObj.get("id").getAsString())) {
+                tempDataForItem.add(quizzesAverages.get(quizObj.get("id").getAsString()).getAsString());
+            } else {
+                tempDataForItem.add("0.0");
+            }
+            data.add(tempDataForItem);
         }
     }
 
-    private void addGradeItemsToList( JsonArray gradeItems,  ArrayList<Pair<String,String>> data , JsonArray studentSubmission) {
+    private void addGradeItemsToList( JsonArray gradeItems,  ArrayList<ArrayList<String>> data , JsonArray studentSubmission, JsonObject gradeAverages) {
         // points, max_grade, total_score
         for (JsonElement pa : gradeItems) { // gest needed data from assig, quizz, grade item
             JsonObject gradeItemObj = pa.getAsJsonObject();
 
-            String temp = "";
+            String temp = "", comment = "";
             temp = getStudentGrade(gradeItemObj.get("id").getAsInt(), studentSubmission , "grade_item_id", "grade");
+            if (temp.equals("-")) {
+                comment = "Not Graded";
+            } else if (Integer.valueOf(temp) == (gradeItemObj.get("max_grade").getAsInt() * 80 )/ 100) {
+                comment = "Wooha!";
+            } else if (Integer.valueOf(temp) <= gradeItemObj.get("max_grade").getAsInt() / 2 ) {
+                comment = "Needs Improvement";
+
+            } else if (Integer.valueOf(temp) < (gradeItemObj.get("max_grade").getAsInt() * 80 ) /100 &&  Integer.valueOf(temp) >= (gradeItemObj.get("max_grade").getAsInt() / 2)  ) {
+                comment = "Good";
+            }
+
             if (gradeItemObj.get("max_grade").getAsInt() == gradeItemObj.get("max_grade").getAsDouble()) {
                 temp += "/" + gradeItemObj.get("max_grade").getAsInt();
             }else {
@@ -249,7 +300,16 @@ public class ActivityCourse extends AppCompatActivity {
             }
 
             totalCategory += gradeItemObj.get("max_grade").getAsDouble();
-            data.add(new Pair<String, String>(gradeItemObj.get("name").getAsString(), temp));
+            ArrayList<String> tempDataForItem = new ArrayList<>();
+            tempDataForItem.add(gradeItemObj.get("name").getAsString());
+            tempDataForItem.add(temp);
+            tempDataForItem.add(comment);
+            if (gradeAverages.has(gradeItemObj.get("id").getAsString())) {
+                tempDataForItem.add(gradeAverages.get(gradeItemObj.get("id").getAsString()).getAsString());
+            } else {
+                tempDataForItem.add("0.0");
+            }
+            data.add(tempDataForItem);
         }
     }
 

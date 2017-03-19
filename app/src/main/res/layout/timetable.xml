@@ -19,8 +19,11 @@
             android:id="@+id/timetable_tabs"
             android:background="@color/colorPrimary"
             app:tabIndicatorColor="@color/colorAccent"
+            app:tabMaxWidth="0dp"
+            app:tabGravity="fill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
 
     </android.support.design.widget.AppBarLayout>
 

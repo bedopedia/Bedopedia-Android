@@ -123,7 +123,7 @@ public class TodayFragment extends Fragment {
         calendar.setTime(nowDate);   // assigns calendar to given date
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE);
-        if(hours >= 7 && hours <= 19) {
+        if(hours >= 7 && hours < 19) {
             int linePosition = (int) (31.0 + ((hours - 7)*60.0) + (minutes/60.0) * 60.0) ;
 
             mLayout.removeView(nowSign);
@@ -151,7 +151,7 @@ public class TodayFragment extends Fragment {
             nowEventView.setLayoutParams(lParam);
             nowEventView.setPadding(24, 0, 24, 0);
             nowEventView.setHeight(getInDp(1));
-            nowEventView.setWidth(1200);
+            nowEventView.setWidth(2500);
             nowEventView.setGravity(0x11);
             nowEventView.setBackgroundColor(Color.RED);
             mLayout.addView(nowEventView);
@@ -230,7 +230,7 @@ public class TodayFragment extends Fragment {
         mEventView.setLayoutParams(lParam);
         mEventView.setPadding(24, 8, 24, 0);
         mEventView.setHeight(getInDp(height/2));
-        mEventView.setWidth(1200);
+        mEventView.setWidth(2500);
         mEventView.setTextColor(Color.parseColor("#000000"));
         mEventView.setText(courseName);
         mEventView.setTypeface(roboto);
@@ -246,7 +246,7 @@ public class TodayFragment extends Fragment {
         mEventView3.setLayoutParams(lParam3);
         mEventView3.setPadding(24,8, 24, 16);
         mEventView3.setHeight(getInDp(height/2));
-        mEventView3.setWidth(1200);
+        mEventView3.setWidth(2500);
         mEventView3.setTextColor(Color.parseColor("#000000"));
         mEventView3.setTypeface(roboto1);
         mEventView3.setTextSize(12);
