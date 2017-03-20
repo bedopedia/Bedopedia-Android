@@ -90,6 +90,13 @@ public class StudentActivity extends AppCompatActivity {
     TextView nextSlot;
     TextView positiveNotesCounter;
     TextView negativeNotesCounter;
+
+    TextView attendaceText;
+    TextView attendanceLabel;
+    TextView timetableLabel;
+    TextView gradesLabel;
+    TextView behaviorNotesLabel;
+
     Button badgesButton;
     LinearLayout attendanceLayer;
     LinearLayout gradesLayer;
@@ -556,6 +563,44 @@ public class StudentActivity extends AppCompatActivity {
 
         RelativeLayout notificationButton =  (RelativeLayout) findViewById(R.id.student_relative_layout);
 
+        Typeface robotoMedium = Typeface.createFromAsset(this.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface robotoRegular = Typeface.createFromAsset(this.getAssets(), "font/Roboto-Regular.ttf");
+
+
+        attendanceLabel = (TextView) findViewById(R.id.attendance);
+        timetableLabel = (TextView) findViewById(R.id.timetable);
+        gradesLabel = (TextView) findViewById(R.id.grades);
+        behaviorNotesLabel = (TextView) findViewById(R.id.behavior_notes);
+        attendaceText = (TextView) findViewById(R.id.attendance_text);
+
+
+        attendanceLabel.setTypeface(robotoMedium);
+        timetableLabel.setTypeface(robotoMedium);
+        gradesLabel.setTypeface(robotoMedium);
+        behaviorNotesLabel.setTypeface(robotoMedium);
+
+        attendanceLayer = (LinearLayout) findViewById(R.id.open_attendance);
+        gradesLayer = (LinearLayout) findViewById(R.id.open_grades);
+        timeTableLayer = (LinearLayout) findViewById(R.id.open_timetable);
+        notesLayer = (LinearLayout) findViewById(R.id.open_notes);
+
+        studentAvatarImage = (ImageView) findViewById(R.id.home_student_avatar);
+        studentLevelView = (TextView) findViewById(R.id.home_student_level);
+        studentNameView = (TextView) findViewById(R.id.home_student_name);
+        nextSlot = (TextView) findViewById(R.id.next_slot);
+
+        positiveNotesCounter = (TextView) findViewById(R.id.positive_notes_counter);
+        negativeNotesCounter = (TextView) findViewById(R.id.negative_notes_counter);
+
+        badgesButton = (Button) findViewById(R.id.badges_button);
+        badgesNumber = (TextView) findViewById(R.id.badges_number);
+        totalGradeText = (TextView) findViewById(R.id.average_grade);
+
+
+        totalGradeText.setTypeface(robotoRegular);
+        attendaceText.setTypeface(robotoRegular);
+        nextSlot.setTypeface(robotoRegular);
+
         notificationLayout = (DrawerLayout) findViewById(R.id.student_drawer_layout);
         notificationList = (ListView) findViewById(R.id.student_listview_notification);
         notificationLayout.setDrawerListener(notificationToggle);
@@ -621,21 +666,7 @@ public class StudentActivity extends AppCompatActivity {
         attendance = extras.getString("attendances");
 
 
-        attendanceLayer = (LinearLayout) findViewById(R.id.open_attendance);
-        gradesLayer = (LinearLayout) findViewById(R.id.open_grades);
-        timeTableLayer = (LinearLayout) findViewById(R.id.open_timetable);
-        notesLayer = (LinearLayout) findViewById(R.id.open_notes);
 
-        studentAvatarImage = (ImageView) findViewById(R.id.home_student_avatar);
-        studentLevelView = (TextView) findViewById(R.id.home_student_level);
-        studentNameView = (TextView) findViewById(R.id.home_student_name);
-        nextSlot = (TextView) findViewById(R.id.next_slot);
-
-        positiveNotesCounter = (TextView) findViewById(R.id.positive_notes_counter);
-        negativeNotesCounter = (TextView) findViewById(R.id.negative_notes_counter);
-
-        badgesButton = (Button) findViewById(R.id.badges_button);
-        badgesNumber = (TextView) findViewById(R.id.badges_number);
 
         attendanceProgress = (ProgressBar) findViewById(R.id.attendance_progress);
         studentNameView.setText(studentName);
@@ -685,10 +716,9 @@ public class StudentActivity extends AppCompatActivity {
             }
             attendaceDates.add(date);
         }
-        TextView attendaceText = (TextView) findViewById(R.id.attendance_text);
+
         context = this;
 
-        totalGradeText = (TextView) findViewById(R.id.average_grade);
         if (attendaceDates.size() != 0)
             attendanceProgress.setProgress((absentDays*100)/attendaceDates.size());
         attendaceText.setText("Absent " + absentDays + " out " + attendaceDates.size() +" days");
