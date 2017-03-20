@@ -98,6 +98,9 @@ public class StudentActivity extends AppCompatActivity {
     DrawerLayout notificationLayout;
     ListView notificationList;
 
+    int servicesCount;
+    private static final int servicesNumber = 5;
+
     ActionBarDrawerToggle notificationToggle;
     List<NotificationModel> notifications;
     ArrayList<Badge> badges;
@@ -124,7 +127,6 @@ public class StudentActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
-                //progress.dismiss();
                 int statusCode = response.code();
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
@@ -140,8 +142,11 @@ public class StudentActivity extends AppCompatActivity {
                                 courseGroupData.get("course_name").getAsString()
                         ));
                     }
-                    getStudentGrades();
                 }
+                getStudentGrades();
+                servicesCount++;
+                if(servicesCount==servicesNumber)
+                    progress.dismiss();
 
             }
 
@@ -170,7 +175,7 @@ public class StudentActivity extends AppCompatActivity {
                         for (; i < response.body().size()-1; i++) {
                             JsonObject courseData = response.body().get(i);
                             for(int j = 0 ; j < courseGroups.size() ; j++){
-                                if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt()){
+                                if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt()) {
                                     courseGroups.get(j).setGrade(courseData.get("grade").getAsString());
                                     if (courseData.get("icon").toString().equals("null"))
                                         courseGroups.get(j).setIcon("dragon");
@@ -183,10 +188,11 @@ public class StudentActivity extends AppCompatActivity {
                         totalGrade = response.body().get(i).get("total_grade").getAsString();
                         totalGradeText.setText("Average grade:  "+totalGrade);
 
-                        getStudentTimeTable();
-
                     }
                 }
+                servicesCount++;
+                if(servicesCount==servicesNumber)
+                    progress.dismiss();
             }
 
             @Override
@@ -274,10 +280,10 @@ public class StudentActivity extends AppCompatActivity {
                         TimetableSlot s = tomorrowSlots.get(0);
                         nextSlot.setText("Next: " + s.getCourseName() + ", " + s.getDay() + " " + dateFormat.format(s.getFrom()));
                     }
-
-                    getStudentBehaviorNotes();
                 }
-
+                servicesCount++;
+                if(servicesCount==servicesNumber)
+                    progress.dismiss();
             }
 
             @Override
@@ -321,8 +327,10 @@ public class StudentActivity extends AppCompatActivity {
                     }
                     positiveNotesCounter.setText(positiveNotesList.size()+"");
                     negativeNotesCounter.setText(negativeNotesList.size()+"");
-                    getStudentBadges();
                 }
+                servicesCount++;
+                if(servicesCount==servicesNumber)
+                    progress.dismiss();
 
             }
 
@@ -345,7 +353,6 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
                 // must be called in the last service
-                progress.dismiss();
                 int statusCode = response.code();
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
@@ -369,6 +376,9 @@ public class StudentActivity extends AppCompatActivity {
                         badgesNumber.setText(badges.size()+"");
                     }
                 }
+                servicesCount++;
+                if(servicesCount==servicesNumber)
+                    progress.dismiss();
             }
 
             @Override
@@ -396,7 +406,9 @@ public class StudentActivity extends AppCompatActivity {
         protected List<Student> doInBackground(Object... param) {
 
             getStudentCourseGroups();
-
+            getStudentTimeTable();
+            getStudentBehaviorNotes();
+            getStudentBadges();
             return null;
         }
 
@@ -545,6 +557,7 @@ public class StudentActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.student_home_action_bar);
 
+        servicesCount = 0;
         TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
         badges = new ArrayList<Badge>();
 

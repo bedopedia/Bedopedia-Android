@@ -2,6 +2,7 @@ package Adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
     public GradesAdapter(Context context, int resource, List<CourseGroup> items) {
         super(context, resource, items);
         this.context = (GradesAvtivity) context;
+
     }
 
     public static  class Holder{
