@@ -40,22 +40,23 @@
                 android:text="Android charting application xml ui design tutorial with example. Android charting application xml ui design tutorial with example. Android charting application xml ui design tutorial with example. Android charting application xml ui design tutorial with example."
                 android:textColor="#000" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="-15dp"
-                android:layout_marginTop="6.5dp"
-                android:layout_weight="1"
-                android:src="@drawable/arrow_bg1" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1.1"
+                    android:src="@drawable/arrow_bg1" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="0dp"
-                android:layout_weight="3"
-                android:src="@drawable/user_pacific" />
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="-25dp"
+                    android:layout_weight="2"
+                    android:src="@drawable/user_pacific" />
 
         </LinearLayout>
 
