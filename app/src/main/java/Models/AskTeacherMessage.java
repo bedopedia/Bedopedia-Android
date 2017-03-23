@@ -16,6 +16,15 @@ public class AskTeacherMessage {
 
     }
 
+    public AskTeacherMessage(String date, String lastMessage, String title, Integer notSeenCnt, String imagePath) {
+        this.date = date;
+        this.lastMessage = lastMessage;
+        this.title = title;
+        this.notSeenCnt = notSeenCnt;
+        this.imagePath = imagePath;
+    }
+
+
     public String getDate() {
         return date;
     }

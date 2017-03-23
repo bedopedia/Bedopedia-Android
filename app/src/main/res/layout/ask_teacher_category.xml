@@ -30,7 +30,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/course_item_list_view"
+            android:id="@+id/ask_teacher_category_list_view"
             />
     </LinearLayout>
 

@@ -54,15 +54,17 @@ public class AskTeacherAdapter  extends ArrayAdapter {
 
 
         if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.course_list_item, parent, false);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.ask_teacher_category, parent, false);
         }
 
         item.categoryName = (TextView) view.findViewById(R.id.ask_teacher_category_name);
         item.categoryName.setText(header.get(position));
 
-        //TODO listview adapter call here
-
         MessageThreadsAdapter MessagesAdapter =  new MessageThreadsAdapter(context, R.layout.ask_teacher_category_list_item,MessageCategory);
+        item.categoryData = (ListView) view.findViewById(R.id.ask_teacher_category_list_view);
+        item.categoryData.setAdapter(MessagesAdapter);
+        UIUtils.setListViewHeightBasedOnItems(item.categoryData);
+
 
 
 

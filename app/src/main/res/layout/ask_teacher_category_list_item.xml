@@ -17,7 +17,7 @@
             android:layout_marginTop="9dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/home_student_avatar"
+                android:id="@+id/ask_teacher_user_avatar"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_gravity="center"
@@ -45,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
+                    android:id="@+id/ask_teacher_title"
                     android:layout_marginBottom="12dp"
                     android:textColor="#ff4a4a4a"
                     android:text="Homework EX: 234"/>
@@ -53,7 +54,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:text="Rahim: Thanks! 👍"/>
+                    android:id="@+id/ask_teacher_last_message"
+                    android:text="Rahim: Thanks!"/>
             </LinearLayout>
 
             <LinearLayout
@@ -70,10 +72,11 @@
                     android:textSize="11sp"
                     android:textColor="#ff00ab6b"
                     android:layout_marginBottom="3dp"
+                    android:id="@+id/ask_teacher_date"
                     android:text="Yesterday"/>
 
                 <TextView
-                    android:id="@+id/notification_number"
+                    android:id="@+id/ask_teacher_message_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/grade_a_circle"
