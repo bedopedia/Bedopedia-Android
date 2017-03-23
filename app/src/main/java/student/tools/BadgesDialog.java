@@ -1,4 +1,4 @@
-package Tools;
+package student.tools;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,17 +8,13 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
-import com.example.bedopedia.bedopedia_android.StudentActivity;
-import com.example.bedopedia.bedopedia_android.TimetableActivity;
 
 import java.util.List;
 
 import Adapters.BadgesAdapter;
-import Adapters.NotificationAdapter;
 import Models.Badge;
 
 /**

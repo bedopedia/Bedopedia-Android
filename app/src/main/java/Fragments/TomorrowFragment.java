@@ -1,9 +1,7 @@
 package Fragments;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -15,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
-import com.example.bedopedia.bedopedia_android.StudentActivity;
+import student.activies.StudentActivity;
 import com.example.bedopedia.bedopedia_android.TimetableActivity;
 
 import java.text.SimpleDateFormat;

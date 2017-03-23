@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package student.activies;
 
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
@@ -10,8 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -27,17 +25,25 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.bedopedia.bedopedia_android.AttendanceActivity;
+import com.example.bedopedia.bedopedia_android.BehaviorNotesActivity;
+import com.example.bedopedia.bedopedia_android.GradesAvtivity;
+import com.example.bedopedia.bedopedia_android.MyKidsActivity;
+import com.example.bedopedia.bedopedia_android.R;
+import com.example.bedopedia.bedopedia_android.TimetableActivity;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.squareup.picasso.Downloader;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,8 +55,6 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import Adapters.NotificationAdapter;
-import Adapters.BehaviorNotesFragmentAdapter;
-import Adapters.TimetableAdapter;
 import Models.Badge;
 import Models.BehaviorNote;
 import Models.CourseGroup;
@@ -59,7 +63,7 @@ import Models.Student;
 import Models.TimetableSlot;
 import Services.ApiClient;
 import Services.ApiInterface;
-import Tools.BadgesDialog;
+import student.tools.BadgesDialog;
 import Tools.Dialogue;
 import Tools.InternetConnection;
 import retrofit2.Call;
@@ -126,20 +130,24 @@ public class StudentActivity extends AppCompatActivity {
     }
 
     public void getStudentCourseGroups(){
+        try {
         String url = "api/students/" + studentId + "/course_groups";
         Map<String, String> params = new HashMap<>();
         Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
+        Object s;
 
-        call.enqueue(new Callback<ArrayList<JsonObject> >() {
+            Response<ArrayList<JsonObject>> t = call.execute();
 
-            @Override
-            public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
-                int statusCode = response.code();
+//        call.enqueue(new Callback<ArrayList<JsonObject> >() {
+//
+//            @Override
+//            public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
+                int statusCode = t.code();
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
                 } else if (statusCode == 200) {
-                    for (int i = 0 ; i < response.body().size() ; i++) {
-                        JsonObject courseGroupData = response.body().get(i);
+                    for (int i = 0 ; i < t.body().size() ; i++) {
+                        JsonObject courseGroupData = t.body().get(i);
                         JsonObject course = courseGroupData.get("course").getAsJsonObject();
 
                         courseGroups.add(new CourseGroup(
@@ -150,19 +158,22 @@ public class StudentActivity extends AppCompatActivity {
                         ));
                     }
                 }
-                getStudentGrades();
                 servicesCount++;
                 if(servicesCount==servicesNumber)
                     progress.dismiss();
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
+//                progress.dismiss();
+//                Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
+//            }
+//        });
 
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
-                progress.dismiss();
-                Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
-            }
-        });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void getStudentGrades(){
@@ -413,6 +424,7 @@ public class StudentActivity extends AppCompatActivity {
         protected List<Student> doInBackground(Object... param) {
 
             getStudentCourseGroups();
+            getStudentGrades();
             getStudentTimeTable();
             getStudentBehaviorNotes();
             getStudentBadges();

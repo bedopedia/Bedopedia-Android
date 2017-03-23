@@ -75,7 +75,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".StudentActivity"
+            android:name="student.activies.StudentActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"/>
 
