@@ -49,6 +49,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
+
 public class MyKidsActivity extends AppCompatActivity{
 
     ArrayList<Student> myKids;
@@ -65,7 +66,7 @@ public class MyKidsActivity extends AppCompatActivity{
     List<NotificationModel> notifications;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyKidsRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
 
@@ -129,8 +130,19 @@ public class MyKidsActivity extends AppCompatActivity{
                         mRecyclerView.setHasFixedSize(true);
                         mLayoutManager = new LinearLayoutManager(context);
                         mRecyclerView.setLayoutManager(mLayoutManager);
-                        mAdapter = new MyKidsRecyclerViewAdapter(context, myKids, kidsAttendances);
+
+
+                        mAdapter = new MyKidsRecyclerViewAdapter(context, myKids);
                         mRecyclerView.setAdapter(mAdapter);
+
+                        mAdapter.setStudentList(myKids);
+                        mRecyclerView.setAdapter(mAdapter);
+
+                        mAdapter.setStudentList(myKids);
+                        mRecyclerView.setAdapter(mAdapter);
+
+                        Log.e("&*#*@(_)))#*@#((DJJ" , myKids + "");
+
 
                     }
                 }
@@ -386,5 +398,11 @@ public class MyKidsActivity extends AppCompatActivity{
 
 //        Toast.makeText(getApplicationContext(),"you clicked " + myKids.get(index).getFirstName(),
 //        Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }

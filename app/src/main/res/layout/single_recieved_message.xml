@@ -16,7 +16,7 @@ android:orientation="horizontal">
     android:layout_marginTop="0dp"
     android:layout_marginRight="-16dp"
     android:layout_weight="3"
-    android:src="@drawable/user_pratikshya" />
+    android:src="@drawable/student" />
 
 <ImageView
     android:id="@+id/imageView1"
@@ -35,7 +35,7 @@ android:orientation="horizontal">
     android:layout_weight="6"
     android:background="@drawable/rounded_corner1"
     android:padding="16dp"
-    android:text="Android charting application xml ui design. Android charting application xml ui design tutorial with example. Android charting application xml ui design. Android charting application xml ui design. "
+    android:text=" ui design tutorial with example. Android charting application xml ui design. Android charting application xml ui design. "
     android:textColor="#000" />
 
 </LinearLayout>

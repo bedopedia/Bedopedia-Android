@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Bedopedia</string>
+    <string name="title_activity_message_thread">Message_thread</string>
 </resources>

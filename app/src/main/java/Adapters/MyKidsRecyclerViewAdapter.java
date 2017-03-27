@@ -32,20 +32,19 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
     private LayoutInflater layoutInflater;
     public static MyKidsActivity mContext;
     private ArrayList<Student> studentList = new ArrayList<>();
-    ArrayList<JsonArray> kidsAttendances;
 
 
-    public MyKidsRecyclerViewAdapter(Context context, ArrayList<Student> list , ArrayList<JsonArray> attendances) {
+    public MyKidsRecyclerViewAdapter(Context context, ArrayList<Student> list) {
         mContext = (MyKidsActivity) context;
         layoutInflater = LayoutInflater.from(context);
         this.studentList = list;
-        kidsAttendances = attendances;
         notifyItemChanged(0, studentList.size());
     }
 
     public void setStudentList(ArrayList<Student> list) {
-        this.studentList = list;
-        notifyItemChanged(0, studentList.size());
+        this.studentList.addAll(list);
+        notifyItemChanged(studentList.size(), list);
+
     }
 
     @Override
