@@ -67,7 +67,7 @@ public class MyKidsActivity extends AppCompatActivity{
 
     private RecyclerView mRecyclerView;
     private MyKidsRecyclerViewAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
 
 
     public void loading(){
@@ -127,21 +127,45 @@ public class MyKidsActivity extends AppCompatActivity{
 
 
                         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-                        mRecyclerView.setHasFixedSize(true);
                         mLayoutManager = new LinearLayoutManager(context);
+                        mRecyclerView.setHasFixedSize(true);
+                        mLayoutManager.setStackFromEnd(true);
                         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
+
+
+                        ArrayList <Student>  arr = new ArrayList<Student>();
+                        for(int i = 0 ;  i < 10 ; i++){
+                            Student s = new Student(123,  i + "" , "sa" , "dlld" , "32" , "kfj" , "kldfk" , "dkkd", "dkdk" , "dkdk", 0 , null , null);
+                            arr.add(s);
+                        }
+                        myKids.addAll(arr);
                         mAdapter = new MyKidsRecyclerViewAdapter(context, myKids);
                         mRecyclerView.setAdapter(mAdapter);
 
-                        mAdapter.setStudentList(myKids);
-                        mRecyclerView.setAdapter(mAdapter);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
 
-                        mAdapter.setStudentList(myKids);
-                        mRecyclerView.setAdapter(mAdapter);
+                            @Override
+                            public void run() {
 
-                        Log.e("&*#*@(_)))#*@#((DJJ" , myKids + "");
+                                ArrayList <Student>  arr = new ArrayList<Student>();
+                                for(int i = 10 ;  i < 20 ; i++){
+                                    Student s = new Student(123,  i + "" , "sa" , "dlld" , "32" , "kfj" , "kldfk" , "dkkd", "dkdk" , "dkdk", 0 , null , null);
+                                    arr.add(s);
+                                }
+                                myKids.addAll(arr);
+
+//                                mAdapter.notifyDataSetChanged();
+                                mRecyclerView.setAdapter(mAdapter);
+                            }
+
+                        }, 5000); // 5000ms delay
+
+
+//                        mAdapter.setStudentList(myKids);
+//                        mRecyclerView.setAdapter(mAdapter);
 
 
                     }

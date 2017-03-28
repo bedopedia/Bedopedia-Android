@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
 
     private LayoutInflater layoutInflater;
     public static MyKidsActivity mContext;
+    ViewHolderStudent viewHolder;
     private ArrayList<Student> studentList = new ArrayList<>();
 
 
@@ -42,15 +44,17 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
     }
 
     public void setStudentList(ArrayList<Student> list) {
-        this.studentList.addAll(list);
-        notifyItemChanged(studentList.size(), list);
-
+        Log.e("first " , studentList.get(0).getFirstName());
+//        studentList.add(list.get(0));
+        Log.e("size 1" , studentList.size() + "");
+        Log.e("first " , studentList.get(0).getFirstName());
+        notifyDataSetChanged();
     }
 
     @Override
     public ViewHolderStudent onCreateViewHolder(ViewGroup parent, int viewType) {
         View view  = layoutInflater.inflate(R.layout.single_student,parent,false);
-        ViewHolderStudent viewHolder = new ViewHolderStudent(view);
+        viewHolder = new ViewHolderStudent(view);
         return viewHolder;
     }
 
