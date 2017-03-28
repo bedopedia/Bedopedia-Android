@@ -36,7 +36,6 @@
                 android:orientation="vertical">
                 <TextView
                     android:textAlignment="center"
-                    android:text="12"
                     android:id="@+id/late_count"
                     android:textSize="14sp"
                     android:textColor="#ff9013fe"
@@ -58,7 +57,6 @@
                 android:orientation="vertical">
                 <TextView
                     android:textAlignment="center"
-                    android:text="10"
                     android:textSize="14sp"
                     android:id="@+id/excused_count"
                     android:textColor="#fff5a623"
@@ -80,7 +78,6 @@
                 android:orientation="vertical">
                 <TextView
                     android:textAlignment="center"
-                    android:text="4"
                     android:textSize="14sp"
                     android:id="@+id/absent_count"
                     android:textColor="#ffff3b30"
@@ -179,8 +176,7 @@
                     android:layout_marginRight="16dp"
                     android:textStyle="bold"
                     android:textColor="#fff5a623"
-                    android:textSize="12sp"
-                    android:text="12"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
             <ListView
