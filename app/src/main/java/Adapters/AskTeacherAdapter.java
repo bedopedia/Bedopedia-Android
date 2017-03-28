@@ -58,7 +58,7 @@ public class AskTeacherAdapter  extends ArrayAdapter {
         }
 
         item.categoryName = (TextView) view.findViewById(R.id.ask_teacher_category_name);
-        item.categoryName.setText(header.get(position));
+        item.categoryName.setText(header.get(position).replace("\"", ""));
 
         MessageThreadsAdapter MessagesAdapter =  new MessageThreadsAdapter(context, R.layout.ask_teacher_category_list_item,MessageCategory);
         item.categoryData = (ListView) view.findViewById(R.id.ask_teacher_category_list_view);

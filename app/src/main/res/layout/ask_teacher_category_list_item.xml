@@ -36,10 +36,11 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginLeft="18dp"
+                android:layout_weight="0.7"
                 android:layout_marginTop="14dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -51,17 +52,22 @@
                     android:text="Homework EX: 234"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
+
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:singleLine="false"
                     android:id="@+id/ask_teacher_last_message"
-                    android:text="Rahim: Thanks!"/>
+                    android:text="Rahim: Thanks!djfiojfioejfiowjefiojewiofjeiojfeoiwjfeifowejfiejofwefefwefewfewfe"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_weight="1"
                 android:layout_marginTop="14dp"
                 android:layout_marginRight="15dp"
                 >

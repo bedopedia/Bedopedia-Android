@@ -64,7 +64,7 @@ public class MessageThreadsAdapter extends ArrayAdapter
         item.avatar = (ImageView) view.findViewById(R.id.ask_teacher_user_avatar);
 
         item.title.setText(Message.getTitle());
-        item.lastMessage.setText(Message.getLastMessage());
+        item.lastMessage.setText(android.text.Html.fromHtml(Message.getLastMessage()).toString());
         // TODO Date handling
         item.date.setText(Message.getDate());
         item.messageCounter.setText(Message.getNotSeenCnt().toString());
