@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
      private void loginService () {
-        String email = ((AutoCompleteTextView)findViewById(R.id.email)).getText().toString();
+        final String email = ((AutoCompleteTextView)findViewById(R.id.email)).getText().toString();
         String password = ((AutoCompleteTextView)findViewById(R.id.password)).getText().toString();
 
         if(!validate(email,password)){
@@ -204,7 +204,10 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("is_logged_in", "true");
                     editor.putString("id", id);
                     editor.putString("username", username);
+                    editor.putString("email", email);
+                    editor.putString("avatar_url", data.get("avatar_url").getAsString());
                     editor.putString("user_data", data.toString());
+
                     editor.commit();
                     try {
                         updateToken();

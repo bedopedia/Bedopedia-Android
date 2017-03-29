@@ -90,6 +90,13 @@ public class StudentActivity extends AppCompatActivity {
     TextView nextSlot;
     TextView positiveNotesCounter;
     TextView negativeNotesCounter;
+
+    TextView attendaceText;
+    TextView attendanceLabel;
+    TextView timetableLabel;
+    TextView gradesLabel;
+    TextView behaviorNotesLabel;
+
     Button badgesButton;
     LinearLayout attendanceLayer;
     LinearLayout gradesLayer;
@@ -97,6 +104,9 @@ public class StudentActivity extends AppCompatActivity {
     LinearLayout notesLayer;
     DrawerLayout notificationLayout;
     ListView notificationList;
+
+    int servicesCount;
+    private static final int servicesNumber = 5;
 
     ActionBarDrawerToggle notificationToggle;
     List<NotificationModel> notifications;
@@ -124,7 +134,6 @@ public class StudentActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
-                //progress.dismiss();
                 int statusCode = response.code();
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
@@ -140,8 +149,11 @@ public class StudentActivity extends AppCompatActivity {
                                 courseGroupData.get("course_name").getAsString()
                         ));
                     }
-                    getStudentGrades();
                 }
+                getStudentGrades();
+                servicesCount++;
+                if(servicesCount==servicesNumber)
+                    progress.dismiss();
 
             }
 
@@ -170,7 +182,7 @@ public class StudentActivity extends AppCompatActivity {
                         for (; i < response.body().size()-1; i++) {
                             JsonObject courseData = response.body().get(i);
                             for(int j = 0 ; j < courseGroups.size() ; j++){
-                                if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt()){
+                                if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt()) {
                                     courseGroups.get(j).setGrade(courseData.get("grade").getAsString());
                                     if (courseData.get("icon").toString().equals("null"))
                                         courseGroups.get(j).setIcon("dragon");
@@ -183,10 +195,11 @@ public class StudentActivity extends AppCompatActivity {
                         totalGrade = response.body().get(i).get("total_grade").getAsString();
                         totalGradeText.setText("Average grade:  "+totalGrade);
 
-                        getStudentTimeTable();
-
                     }
                 }
+                servicesCount++;
+                if(servicesCount==servicesNumber)
+                    progress.dismiss();
             }
 
             @Override
@@ -274,10 +287,10 @@ public class StudentActivity extends AppCompatActivity {
                         TimetableSlot s = tomorrowSlots.get(0);
                         nextSlot.setText("Next: " + s.getCourseName() + ", " + s.getDay() + " " + dateFormat.format(s.getFrom()));
                     }
-
-                    getStudentBehaviorNotes();
                 }
-
+                servicesCount++;
+                if(servicesCount==servicesNumber)
+                    progress.dismiss();
             }
 
             @Override
@@ -321,8 +334,10 @@ public class StudentActivity extends AppCompatActivity {
                     }
                     positiveNotesCounter.setText(positiveNotesList.size()+"");
                     negativeNotesCounter.setText(negativeNotesList.size()+"");
-                    getStudentBadges();
                 }
+                servicesCount++;
+                if(servicesCount==servicesNumber)
+                    progress.dismiss();
 
             }
 
@@ -345,7 +360,6 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
                 // must be called in the last service
-                progress.dismiss();
                 int statusCode = response.code();
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
@@ -369,6 +383,9 @@ public class StudentActivity extends AppCompatActivity {
                         badgesNumber.setText(badges.size()+"");
                     }
                 }
+                servicesCount++;
+                if(servicesCount==servicesNumber)
+                    progress.dismiss();
             }
 
             @Override
@@ -396,7 +413,9 @@ public class StudentActivity extends AppCompatActivity {
         protected List<Student> doInBackground(Object... param) {
 
             getStudentCourseGroups();
-
+            getStudentTimeTable();
+            getStudentBehaviorNotes();
+            getStudentBadges();
             return null;
         }
 
@@ -545,6 +564,7 @@ public class StudentActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.student_home_action_bar);
 
+        servicesCount = 0;
         TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
         badges = new ArrayList<Badge>();
 
@@ -555,6 +575,44 @@ public class StudentActivity extends AppCompatActivity {
         }
 
         RelativeLayout notificationButton =  (RelativeLayout) findViewById(R.id.student_relative_layout);
+
+        Typeface robotoMedium = Typeface.createFromAsset(this.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface robotoRegular = Typeface.createFromAsset(this.getAssets(), "font/Roboto-Regular.ttf");
+
+
+        attendanceLabel = (TextView) findViewById(R.id.attendance);
+        timetableLabel = (TextView) findViewById(R.id.timetable);
+        gradesLabel = (TextView) findViewById(R.id.grades);
+        behaviorNotesLabel = (TextView) findViewById(R.id.behavior_notes);
+        attendaceText = (TextView) findViewById(R.id.attendance_text);
+
+
+        attendanceLabel.setTypeface(robotoMedium);
+        timetableLabel.setTypeface(robotoMedium);
+        gradesLabel.setTypeface(robotoMedium);
+        behaviorNotesLabel.setTypeface(robotoMedium);
+
+        attendanceLayer = (LinearLayout) findViewById(R.id.open_attendance);
+        gradesLayer = (LinearLayout) findViewById(R.id.open_grades);
+        timeTableLayer = (LinearLayout) findViewById(R.id.open_timetable);
+        notesLayer = (LinearLayout) findViewById(R.id.open_notes);
+
+        studentAvatarImage = (ImageView) findViewById(R.id.home_student_avatar);
+        studentLevelView = (TextView) findViewById(R.id.home_student_level);
+        studentNameView = (TextView) findViewById(R.id.home_student_name);
+        nextSlot = (TextView) findViewById(R.id.next_slot);
+
+        positiveNotesCounter = (TextView) findViewById(R.id.positive_notes_counter);
+        negativeNotesCounter = (TextView) findViewById(R.id.negative_notes_counter);
+
+        badgesButton = (Button) findViewById(R.id.badges_button);
+        badgesNumber = (TextView) findViewById(R.id.badges_number);
+        totalGradeText = (TextView) findViewById(R.id.average_grade);
+
+
+        totalGradeText.setTypeface(robotoRegular);
+        attendaceText.setTypeface(robotoRegular);
+        nextSlot.setTypeface(robotoRegular);
 
         notificationLayout = (DrawerLayout) findViewById(R.id.student_drawer_layout);
         notificationList = (ListView) findViewById(R.id.student_listview_notification);
@@ -606,6 +664,18 @@ public class StudentActivity extends AppCompatActivity {
             }
         }, 500); //Every 120000 ms (2 minutes)
 
+
+        Button messagesButton = (Button) findViewById(R.id.student_home_message_notification);
+        messagesButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(StudentActivity.this, AskTeacherActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         todaySlots = new ArrayList<TimetableSlot>();
         tomorrowSlots = new ArrayList<TimetableSlot>();
 
@@ -621,21 +691,7 @@ public class StudentActivity extends AppCompatActivity {
         attendance = extras.getString("attendances");
 
 
-        attendanceLayer = (LinearLayout) findViewById(R.id.open_attendance);
-        gradesLayer = (LinearLayout) findViewById(R.id.open_grades);
-        timeTableLayer = (LinearLayout) findViewById(R.id.open_timetable);
-        notesLayer = (LinearLayout) findViewById(R.id.open_notes);
 
-        studentAvatarImage = (ImageView) findViewById(R.id.home_student_avatar);
-        studentLevelView = (TextView) findViewById(R.id.home_student_level);
-        studentNameView = (TextView) findViewById(R.id.home_student_name);
-        nextSlot = (TextView) findViewById(R.id.next_slot);
-
-        positiveNotesCounter = (TextView) findViewById(R.id.positive_notes_counter);
-        negativeNotesCounter = (TextView) findViewById(R.id.negative_notes_counter);
-
-        badgesButton = (Button) findViewById(R.id.badges_button);
-        badgesNumber = (TextView) findViewById(R.id.badges_number);
 
         attendanceProgress = (ProgressBar) findViewById(R.id.attendance_progress);
         studentNameView.setText(studentName);
@@ -685,10 +741,9 @@ public class StudentActivity extends AppCompatActivity {
             }
             attendaceDates.add(date);
         }
-        TextView attendaceText = (TextView) findViewById(R.id.attendance_text);
+
         context = this;
 
-        totalGradeText = (TextView) findViewById(R.id.average_grade);
         if (attendaceDates.size() != 0)
             attendanceProgress.setProgress((absentDays*100)/attendaceDates.size());
         attendaceText.setText("Absent " + absentDays + " out " + attendaceDates.size() +" days");

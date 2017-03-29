@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/tab_layout"
-    android:paddingTop="8dp">
+    android:paddingTop="16dp">
 
     <TextView
         android:id="@+id/tab_title"

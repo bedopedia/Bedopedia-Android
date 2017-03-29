@@ -43,13 +43,6 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
         notifyItemChanged(0, studentList.size());
     }
 
-    public void setStudentList(ArrayList<Student> list) {
-        Log.e("first " , studentList.get(0).getFirstName());
-//        studentList.add(list.get(0));
-        Log.e("size 1" , studentList.size() + "");
-        Log.e("first " , studentList.get(0).getFirstName());
-        notifyDataSetChanged();
-    }
 
     @Override
     public ViewHolderStudent onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -77,6 +77,7 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".AskTeacherActivity"></activity>
     </application>
 
 </manifest>
