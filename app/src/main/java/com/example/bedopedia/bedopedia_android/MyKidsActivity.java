@@ -453,23 +453,22 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("Base_Url", "");
             editor.putString("header_access-token", "");
-            editor.putString("user_data", "");
+            editor.putString("header_token-type", "");
+            editor.putString("header_client", "");
             editor.putString("header_uid", "");
+            editor.putString("user_id", "");
+            editor.putString("id", "");
+            editor.putString("username", "");
+            editor.putString("email", "");
+            editor.putString("avatar_url", "");
+            editor.putString("user_data", "");
+            editor.putString("is_logged_in", "false");
+
             editor.commit();
 
             Intent intent = new Intent(this, schoolCode.class);
             startActivity(intent);
 
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 
