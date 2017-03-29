@@ -24,6 +24,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -70,6 +71,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
     ActionBarDrawerToggle notificationToggle;
     ActionBarDrawerToggle mainToggle;
     List<NotificationModel> notifications;
+    ImageButton menuButton;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -191,7 +193,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                         Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
                     } else if (statusCode == 200) {
                         notifications = new  ArrayList<NotificationModel>();
-                        Log.v("Notifications",response.body().toString());
                         JsonObject notificationsRespone = response.body();
 
 
@@ -310,14 +311,14 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         String email = sharedPreferences.getString("email", "");
         String avatarUrl = sharedPreferences.getString("avatar_url", "");
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
 
         TextView emailView = (TextView) hView.findViewById(R.id.my_email);
         ImageView myAvatar = (ImageView) hView.findViewById(R.id.my_avatar_photo);
 
-        Log.e("here" , email);
-        Log.e("here" , avatarUrl);
+
 
          emailView.setText(email);
         Picasso.with(this).load(ApiClient.BASE_URL+avatarUrl).into(myAvatar);
@@ -326,6 +327,8 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.home_actionbar);
+
+        menuButton = (ImageButton) findViewById(R.id.menu_img_btn);
 
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
 
@@ -373,6 +376,23 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                         changeTheNotificationNumber();
                         new MarkAllAsSeenAsyncTask().execute();
                         drawer.openDrawer(notificationList);
+                }
+                if(drawer.isDrawerOpen(navigationView)) {
+                    drawer.closeDrawer(navigationView);
+                }
+            }
+        });
+
+        menuButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(drawer.isDrawerOpen(navigationView)){
+                    drawer.closeDrawer(navigationView);
+                } else {
+                    drawer.openDrawer(navigationView);
+                }
+                if(drawer.isDrawerOpen(notificationList)) {
+                    drawer.closeDrawer(notificationList);
                 }
             }
         });
@@ -429,13 +449,17 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-//            SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
-//            SharedPreferences.Editor editor = sharedPreferences.edit();
-//            editor.putString("Base_Url", "");
-//            editor.putString("header_access-token", "");
-//            editor.putString("user_data", "");
-//            editor.putString("header_uid", "");
-//            editor.commit();
+            SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("Base_Url", "");
+            editor.putString("header_access-token", "");
+            editor.putString("user_data", "");
+            editor.putString("header_uid", "");
+            editor.commit();
+
+            Intent intent = new Intent(this, schoolCode.class);
+            startActivity(intent);
+
 
         } else if (id == R.id.nav_gallery) {
 

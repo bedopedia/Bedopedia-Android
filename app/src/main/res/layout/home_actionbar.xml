@@ -6,15 +6,15 @@
     >
 
 
-    <ImageView
-        android:src="@drawable/dragon"
+    <ImageButton
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight=".15"
-        android:layout_height="?attr/actionBarSize"
-        android:id="@+id/action_bar_logo"
-        android:padding="12dp"
-        android:textColor="@color/white"
-        android:textSize="24sp" />
+        android:id="@+id/menu_img_btn"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/ic_action_name"
+        />
 
     <TextView
         android:layout_width="wrap_content"
