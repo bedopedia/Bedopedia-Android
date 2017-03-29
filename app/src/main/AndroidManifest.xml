@@ -73,7 +73,7 @@
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Message_thread"
+            android:name=".MessageThreadActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
 

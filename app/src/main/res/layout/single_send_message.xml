@@ -9,7 +9,7 @@ android:layout_height="wrap_content"
 android:orientation="horizontal">
 
 <TextView
-    android:id="@+id/textView"
+    android:id="@+id/send_message_body"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
@@ -29,7 +29,7 @@ android:orientation="horizontal">
     android:src="@drawable/arrow_bg1" />
 
 <de.hdodenhof.circleimageview.CircleImageView
-    android:id="@+id/imageView2"
+    android:id="@+id/send_message_avatar"
     android:layout_width="90dp"
     android:layout_height="90dp"
     android:layout_marginTop="0dp"

@@ -1,7 +1,6 @@
 package Adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.AskTeacherActivity;
 import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.ArrayList;
 
-import Models.AskTeacherMessage;
+import Models.MessageThread;
 import Tools.UIUtils;
 
 /**
@@ -26,9 +24,9 @@ public class AskTeacherAdapter  extends ArrayAdapter {
 
     private Context context;
     private ArrayList<String> header;
-    ArrayList<ArrayList<AskTeacherMessage>> items;
+    ArrayList<ArrayList<MessageThread>> items;
 
-    public AskTeacherAdapter(Context context, int resource, ArrayList<ArrayList<AskTeacherMessage>> items, ArrayList<String> header) {
+    public AskTeacherAdapter(Context context, int resource, ArrayList<ArrayList<MessageThread>> items, ArrayList<String> header) {
         super(context, resource, items);
         this.context =   context;
         this.header = header;
@@ -43,7 +41,7 @@ public class AskTeacherAdapter  extends ArrayAdapter {
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
-        ArrayList<AskTeacherMessage> MessageCategory= (ArrayList<AskTeacherMessage>) getItem(position);
+        ArrayList<MessageThread> MessageCategory= (ArrayList<MessageThread>) getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
 
 
