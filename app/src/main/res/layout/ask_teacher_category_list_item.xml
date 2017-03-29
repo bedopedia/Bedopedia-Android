@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="9dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ask_teacher_user_avatar"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_gravity="center"
+                android:src="@drawable/student"
+
+                />
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/ask_teacher_border_top_bottom"
+            android:paddingBottom="17dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="18dp"
+                android:layout_weight="0.7"
+                android:layout_marginTop="14dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:id="@+id/ask_teacher_title"
+                    android:layout_marginBottom="12dp"
+                    android:textColor="#ff4a4a4a"
+                    android:text="Homework EX: 234"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:singleLine="false"
+                    android:id="@+id/ask_teacher_last_message"
+                    android:text="Rahim: Thanks!djfiojfioejfiowjefiojewiofjeiojfeoiwjfeifowejfiejofwefefwefewfewfe"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_marginTop="14dp"
+                android:layout_marginRight="15dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textSize="11sp"
+                    android:textColor="#ff00ab6b"
+                    android:layout_marginBottom="3dp"
+                    android:id="@+id/ask_teacher_date"
+                    android:text="Yesterday"/>
+
+                <TextView
+                    android:id="@+id/ask_teacher_message_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/grade_a_circle"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#FFF"
+                    android:textSize="12sp"
+                    android:text="2"
+                    android:layout_gravity="end"
+
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

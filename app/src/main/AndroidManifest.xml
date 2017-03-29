@@ -3,37 +3,29 @@
     package="com.example.bedopedia.bedopedia_android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-
-
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-
         <service android:name=".FirebaseIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-
-        <activity android:name=".schoolCode"
+        <activity
+            android:name=".schoolCode"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -44,53 +36,43 @@
             </intent-filter>
         </activity>
         <activity
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="true"
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme"/>
-
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".MyKidsActivity"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".GradesAvtivity"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ForgetPasswordActivity"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityCourse"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AttendanceActivity"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".StudentActivity"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"/>
-
-
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".BehaviorNotesActivity"
             android:hardwareAccelerated="false"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TimetableActivity"
             android:hardwareAccelerated="false"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
+        <activity android:name=".AskTeacherActivity"></activity>
     </application>
 
 </manifest>

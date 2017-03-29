@@ -664,6 +664,18 @@ public class StudentActivity extends AppCompatActivity {
             }
         }, 500); //Every 120000 ms (2 minutes)
 
+
+        Button messagesButton = (Button) findViewById(R.id.student_home_message_notification);
+        messagesButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(StudentActivity.this, AskTeacherActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         todaySlots = new ArrayList<TimetableSlot>();
         tomorrowSlots = new ArrayList<TimetableSlot>();
 
