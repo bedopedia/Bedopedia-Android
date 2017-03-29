@@ -114,7 +114,6 @@ public class AskTeacherActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
-                    Log.v("Errror", t.toString());
                     progress.dismiss();
                 }
 
