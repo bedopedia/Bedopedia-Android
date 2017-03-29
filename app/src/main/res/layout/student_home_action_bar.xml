@@ -7,11 +7,10 @@
 
 
     <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="left"
-        android:src="@drawable/smallarrow"
-        android:background="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/back_arrow"
         android:id="@+id/back" />
 
     <TextView
@@ -20,7 +19,8 @@
         android:layout_height="?attr/actionBarSize"
         android:id="@+id/action_bar_title"
         android:text=""
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
 
         android:textColor="@color/white"
         android:textSize="20sp" />

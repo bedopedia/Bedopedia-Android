@@ -115,7 +115,8 @@ public class AttendanceActivity extends AppCompatActivity {
 
         List<Attendance> dates= new ArrayList<Attendance>();
         for (int i = 0 ; i < excusedDates.size() ; i++){
-            if(new Date().getMonth() == excusedDates.get(i).getDate().getMonth()){
+            if(new Date().getMonth() == excusedDates.get(i).getDate().getMonth() &&
+                    new Date().getYear() == excusedDates.get(i).getDate().getYear()){
                 dates.add(excusedDates.get(i));
             }
         }
@@ -156,7 +157,8 @@ public class AttendanceActivity extends AppCompatActivity {
                 selectedMonth.setText(months[firstDayOfNewMonth.getMonth()]);
                 List<Attendance> dates= new ArrayList<Attendance>();
                 for (int i = 0 ; i < excusedDates.size() ; i++){
-                    if(firstDayOfNewMonth.getMonth() == excusedDates.get(i).getDate().getMonth()){
+                    if(firstDayOfNewMonth.getMonth() == excusedDates.get(i).getDate().getMonth() &&
+                            firstDayOfNewMonth.getYear() == excusedDates.get(i).getDate().getYear()){
                         dates.add(excusedDates.get(i));
                     }
                 }
