@@ -138,45 +138,9 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
                         mLayoutManager = new LinearLayoutManager(context);
                         mRecyclerView.setHasFixedSize(true);
-                        mLayoutManager.setStackFromEnd(true);
                         mRecyclerView.setLayoutManager(mLayoutManager);
-
-
-
-
-                        ArrayList <Student>  arr = new ArrayList<Student>();
-                        for(int i = 0 ;  i < 10 ; i++){
-                            Student s = new Student(123,  i + "" , "sa" , "dlld" , "32" , "kfj" , "kldfk" , "dkkd", "dkdk" , "dkdk", 0 , null , null);
-                            arr.add(s);
-                        }
-                        myKids.addAll(arr);
                         mAdapter = new MyKidsRecyclerViewAdapter(context, myKids);
                         mRecyclerView.setAdapter(mAdapter);
-
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-
-                            @Override
-                            public void run() {
-
-                                ArrayList <Student>  arr = new ArrayList<Student>();
-                                for(int i = 10 ;  i < 20 ; i++){
-                                    Student s = new Student(123,  i + "" , "sa" , "dlld" , "32" , "kfj" , "kldfk" , "dkkd", "dkdk" , "dkdk", 0 , null , null);
-                                    arr.add(s);
-                                }
-                                myKids.addAll(arr);
-
-//                                mAdapter.notifyDataSetChanged();
-//                                mRecyclerView.setAdapter(mAdapter);
-                            }
-
-                        }, 5000); // 5000ms delay
-
-
-//                        mAdapter.setStudentList(myKids);
-//                        mRecyclerView.setAdapter(mAdapter);
-
-
                     }
                 }
 
