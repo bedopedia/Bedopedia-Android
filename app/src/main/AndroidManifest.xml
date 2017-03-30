@@ -72,6 +72,11 @@
             android:name=".TimetableActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".MessageThreadActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".AskTeacherActivity"></activity>
     </application>
 

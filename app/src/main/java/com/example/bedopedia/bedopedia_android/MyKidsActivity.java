@@ -74,8 +74,8 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
     ImageButton menuButton;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private MyKidsRecyclerViewAdapter mAdapter;
+    private LinearLayoutManager mLayoutManager;
 
 
     public void loading(){
@@ -136,12 +136,11 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
 
                         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-                        mRecyclerView.setHasFixedSize(true);
                         mLayoutManager = new LinearLayoutManager(context);
+                        mRecyclerView.setHasFixedSize(true);
                         mRecyclerView.setLayoutManager(mLayoutManager);
-                        mAdapter = new MyKidsRecyclerViewAdapter(context, myKids, kidsAttendances);
+                        mAdapter = new MyKidsRecyclerViewAdapter(context, myKids);
                         mRecyclerView.setAdapter(mAdapter);
-
                     }
                 }
 
@@ -441,6 +440,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 //        Toast.makeText(getApplicationContext(),"you clicked " + myKids.get(index).getFirstName(),
 //        Toast.LENGTH_LONG).show();
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

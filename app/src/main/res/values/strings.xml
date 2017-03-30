@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Skolera</string>
+    <string name="title_activity_message_thread">Message_thread</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

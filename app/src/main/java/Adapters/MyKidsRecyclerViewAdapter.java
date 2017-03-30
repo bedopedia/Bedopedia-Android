@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,27 +32,22 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
 
     private LayoutInflater layoutInflater;
     public static MyKidsActivity mContext;
+    ViewHolderStudent viewHolder;
     private ArrayList<Student> studentList = new ArrayList<>();
-    ArrayList<JsonArray> kidsAttendances;
 
 
-    public MyKidsRecyclerViewAdapter(Context context, ArrayList<Student> list , ArrayList<JsonArray> attendances) {
+    public MyKidsRecyclerViewAdapter(Context context, ArrayList<Student> list) {
         mContext = (MyKidsActivity) context;
         layoutInflater = LayoutInflater.from(context);
         this.studentList = list;
-        kidsAttendances = attendances;
         notifyItemChanged(0, studentList.size());
     }
 
-    public void setStudentList(ArrayList<Student> list) {
-        this.studentList = list;
-        notifyItemChanged(0, studentList.size());
-    }
 
     @Override
     public ViewHolderStudent onCreateViewHolder(ViewGroup parent, int viewType) {
         View view  = layoutInflater.inflate(R.layout.single_student,parent,false);
-        ViewHolderStudent viewHolder = new ViewHolderStudent(view);
+        viewHolder = new ViewHolderStudent(view);
         return viewHolder;
     }
 

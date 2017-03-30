@@ -1,22 +1,23 @@
 package Adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.bedopedia.bedopedia_android.AskTeacherActivity;
+import com.example.bedopedia.bedopedia_android.AttendanceActivity;
 import com.example.bedopedia.bedopedia_android.R;
+import com.example.bedopedia.bedopedia_android.StudentActivity;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 
-import Models.AskTeacherMessage;
+import Models.MessageThread;
 
 /**
  * Created by ali on 20/03/17.
@@ -27,12 +28,12 @@ public class MessageThreadsAdapter extends ArrayAdapter
 {
 
 
-    private Context context;
-    ArrayList<AskTeacherMessage> items;
+    private AskTeacherActivity context;
+    ArrayList<MessageThread> items;
 
-    public MessageThreadsAdapter(Context context, int resource, ArrayList<AskTeacherMessage> items) {
+    public MessageThreadsAdapter(Context context, int resource, ArrayList<MessageThread> items) {
         super(context, resource, items);
-        this.context =   context;
+        this.context =  (AskTeacherActivity) context;
         this.items = items;
     }
 
@@ -43,12 +44,13 @@ public class MessageThreadsAdapter extends ArrayAdapter
         TextView date;
         TextView messageCounter;
         ImageView avatar;
+        LinearLayout messageThreadLayout;
     }
 
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
-        AskTeacherMessage Message = ( AskTeacherMessage) getItem(position);
+        final MessageThread Message = (MessageThread) getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         MessageThreadsAdapter.Holder item;
@@ -62,6 +64,7 @@ public class MessageThreadsAdapter extends ArrayAdapter
         item.date = (TextView) view.findViewById(R.id.ask_teacher_date);
         item.messageCounter = (TextView) view.findViewById(R.id.ask_teacher_message_number);
         item.avatar = (ImageView) view.findViewById(R.id.ask_teacher_user_avatar);
+        item.messageThreadLayout = (LinearLayout) view.findViewById(R.id.message_thread_layout);
 
         item.title.setText(Message.getTitle());
         item.lastMessage.setText(android.text.Html.fromHtml(Message.getLastMessage()).toString());
@@ -69,6 +72,15 @@ public class MessageThreadsAdapter extends ArrayAdapter
         item.date.setText(Message.getDate());
         item.messageCounter.setText(Message.getNotSeenCnt().toString());
         //TODO  avatar handling
+
+        item.messageThreadLayout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                context.itemClicked(Message);
+            }
+        });
 
         return view;
     }

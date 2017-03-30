@@ -1,5 +1,6 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,27 +8,27 @@ import java.util.Date;
  * Created by mohamed on 2/9/17.
  */
 
-public class Message {
+public class Message implements Serializable {
     private String body;
-    private Date createdAt;
-    private Date updatedAt;
+    private String createdAt;
+    private String updatedAt;
     private User creator;
-    private MessageThread messageThread;
+    private int messageThreadId;
 
     public Message() {
         this.body = "";
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
+        this.createdAt = "";
+        this.updatedAt = "";
         this.creator = new User();
-        this.messageThread = new MessageThread();
+        this.messageThreadId = 0;
     }
 
-    public Message(String body, Date createdAt, Date updatedAt, User creatorUser, MessageThread messageThread) {
+    public Message(String body, String createdAt, String updatedAt, User creatorUser, int messageThreadId) {
         this.body = body;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.creator = creatorUser;
-        this.messageThread = messageThread;
+        this.messageThreadId = messageThreadId;
     }
 
     public String getBody() {
@@ -38,19 +39,19 @@ public class Message {
         this.body = body;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -62,11 +63,11 @@ public class Message {
         this.creator = creator;
     }
 
-    public MessageThread getMessageThread() {
-        return messageThread;
+    public int getMessageThread() {
+        return messageThreadId;
     }
 
-    public void setMessageThread(MessageThread messageThread) {
-        this.messageThread = messageThread;
+    public void setMessageThread(int messageThreadId) {
+        this.messageThreadId = messageThreadId;
     }
 }
