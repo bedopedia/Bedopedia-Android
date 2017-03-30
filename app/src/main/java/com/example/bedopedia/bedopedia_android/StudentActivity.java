@@ -107,6 +107,7 @@ public class StudentActivity extends AppCompatActivity {
 
     int servicesCount;
     private static final int servicesNumber = 5;
+    public static Integer messageNumber = 0;
 
     ActionBarDrawerToggle notificationToggle;
     List<NotificationModel> notifications;
@@ -645,10 +646,18 @@ public class StudentActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             public void run() {
                 TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
+                TextView messagecnt = (TextView) findViewById(R.id.messaage_number);
+
                 if (MyKidsActivity.notificationNumber == 0) {
                     notificationNumberText.setVisibility(View.INVISIBLE);
                 } else  {
                     notificationNumberText.setVisibility(View.VISIBLE);
+                }
+
+                if (StudentActivity.messageNumber == 0) {
+                    messagecnt.setVisibility(View.INVISIBLE);
+                } else  {
+                    messagecnt.setVisibility(View.VISIBLE);
                 }
 
                 if(notificationLayout.isDrawerOpen(notificationList)){
@@ -660,6 +669,8 @@ public class StudentActivity extends AppCompatActivity {
                 }
 
                 notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
+                messagecnt.setText( StudentActivity.messageNumber.toString());
+
                 handler.postDelayed(this, 0); //now is every 2 minutes
             }
         }, 500); //Every 120000 ms (2 minutes)
@@ -670,6 +681,8 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                TextView messagecnt = (TextView) findViewById(R.id.messaage_number);
+                messagecnt.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(StudentActivity.this, AskTeacherActivity.class);
                 startActivity(intent);
             }

@@ -147,7 +147,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("token_changed","False");
-
             }
 
             @Override

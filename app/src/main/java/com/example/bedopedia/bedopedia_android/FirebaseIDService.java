@@ -36,6 +36,7 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         token = refreshedToken;
+        Log.v("token",token);
         SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("token",token);
