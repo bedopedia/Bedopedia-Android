@@ -101,7 +101,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:inputType="textAutoComplete"
-                                android:imeOptions="actionNext"
+                                android:imeOptions="actionSend"
                                 android:drawableLeft="@drawable/emotion_photo"
                                 android:drawableRight="@drawable/camera_icon"
                                 android:drawablePadding="18dp"

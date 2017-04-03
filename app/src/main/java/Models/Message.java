@@ -3,16 +3,27 @@ package Models;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by mohamed on 2/9/17.
  */
 
 public class Message implements Serializable {
+
+    @SerializedName("body")
     private String body;
+
+    @SerializedName("createdAt")
     private String createdAt;
+
+    @SerializedName("updatedAt")
     private String updatedAt;
+
+    @SerializedName("creator")
     private User creator;
+
+    @SerializedName("messageThreadId")
     private int messageThreadId;
 
     public Message() {
