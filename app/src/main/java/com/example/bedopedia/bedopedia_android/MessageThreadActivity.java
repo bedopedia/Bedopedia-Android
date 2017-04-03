@@ -150,7 +150,7 @@ public class MessageThreadActivity extends AppCompatActivity {
     }
 
 
-    void sendMessage (String text){
+    void sendMessage (final String text){
 
         MessageAttributes messageAttributes = new MessageAttributes(currUser.getId() , text , "");
         Log.e("Eeeeeee" , messageAttributes.getUserId() + "");
@@ -170,10 +170,7 @@ public class MessageThreadActivity extends AppCompatActivity {
 
                 } else if (statusCode == 200) {
                     Log.e("Succsess" , response.body().getMessages().get(0).getCreator().getFirstName());
-                    Message lastMessage = new Message();
-                    lastMessage = response.body().getMessages().get(0);
-                    thread.updateLastMessage(lastMessage);
-
+                    thread = response.body();
                     Log.e("Threaaaad" , thread.getMessages().get(0).getCreator().getAvatar());
                     messagesAdapter.notifyDataSetChanged();
                 }
