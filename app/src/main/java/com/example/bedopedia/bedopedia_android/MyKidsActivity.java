@@ -119,6 +119,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                     } else if (statusCode == 200) {
                         for (int i = 0 ; i < response.body().size() ; i++){
                             JsonObject studentData = response.body().get(i);
+                            Log.e("stu" , studentData + "");
                             JsonArray attenobdances = studentData.get("attendances").getAsJsonArray();
                             kidsAttendances.add(attenobdances);
                             myKids.add(new Student(Integer.parseInt(studentData.get("id").toString()),

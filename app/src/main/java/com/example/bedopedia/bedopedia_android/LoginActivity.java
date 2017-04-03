@@ -218,7 +218,6 @@ public class LoginActivity extends AppCompatActivity {
                     Intent i =  new Intent(getApplicationContext(), MyKidsActivity.class);
                     startActivity(i);
                     finish();
-
                 }
             }
 

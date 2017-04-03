@@ -138,6 +138,7 @@ public class schoolCode extends AppCompatActivity {
 
                     Intent i =  new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(i);
+                    finish();
                 }
             }
             @Override
