@@ -697,7 +697,11 @@ public class StudentActivity extends AppCompatActivity {
         studentNameView.setText(studentName);
         studentLevelView.setText(studentLevel);
 
-        Picasso.with(this).load(ApiClient.BASE_URL+studentAvatar).into(studentAvatarImage, new com.squareup.picasso.Callback() {
+        if(studentAvatar.substring(0,8).equals("/uploads")) {
+            studentAvatar = ApiClient.BASE_URL + studentAvatar;
+        }
+
+        Picasso.with(this).load(studentAvatar).into(studentAvatarImage, new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
 
