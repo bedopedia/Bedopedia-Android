@@ -72,6 +72,7 @@
                         android:id="@+id/messages_list"
                         android:stackFromBottom="true"
                         android:transcriptMode="alwaysScroll"
+                        android:divider="#00000000"
                         android:scrollbars="vertical">
 
                     </ListView>

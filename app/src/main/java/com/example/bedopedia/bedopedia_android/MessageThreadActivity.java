@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -124,9 +125,8 @@ public class MessageThreadActivity extends AppCompatActivity {
                     sendMessage(messageText.getText().toString());
                     messageText.setText("" , TextView.BufferType.EDITABLE);
                     messageText.requestFocus();
-                    return true;
                 }
-                return false;
+                return (actionId == EditorInfo.IME_ACTION_SEND);
             }
         });
 
@@ -169,7 +169,6 @@ public class MessageThreadActivity extends AppCompatActivity {
                 if(statusCode == 401) {
 
                 } else if (statusCode == 200) {
-
                     Message lastMessage = new Message(text, "" , "" , getCurrUser(), response.body().getId());
                     thread.updateLastMessage(lastMessage);
                     messagesAdapter.notifyDataSetChanged();
