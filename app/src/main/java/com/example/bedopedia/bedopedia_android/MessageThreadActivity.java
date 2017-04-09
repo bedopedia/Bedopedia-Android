@@ -124,8 +124,11 @@ public class MessageThreadActivity extends AppCompatActivity {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
                         || (actionId == EditorInfo.IME_ACTION_SEND)) {
                     sendMessage(messageText.getText().toString());
+                    messageText.setText("" , TextView.BufferType.EDITABLE);
+                    messageText.requestFocus();
+                    return true;
                 }
-                return (actionId == EditorInfo.IME_ACTION_GO);
+                return false;
             }
         });
 
@@ -153,7 +156,6 @@ public class MessageThreadActivity extends AppCompatActivity {
     void sendMessage (final String text){
 
         MessageAttributes messageAttributes = new MessageAttributes(currUser.getId() , text , "");
-        Log.e("Eeeeeee" , messageAttributes.getUserId() + "");
         thread.sendMessage(messageAttributes);
 
         SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
@@ -169,10 +171,11 @@ public class MessageThreadActivity extends AppCompatActivity {
                 if(statusCode == 401) {
 
                 } else if (statusCode == 200) {
-                    Log.e("Succsess" , response.body().getMessages().get(0).getCreator().getFirstName());
-                    thread = response.body();
-                    Log.e("Threaaaad" , thread.getMessages().get(0).getCreator().getAvatar());
+
+                    Message lastMessage = new Message(text, "" , "" , getCurrUser(), response.body().getId());
+                    thread.updateLastMessage(lastMessage);
                     messagesAdapter.notifyDataSetChanged();
+
                 }
             }
 
