@@ -1,7 +1,7 @@
 package Models;
 
 import com.google.gson.annotations.SerializedName;
-
+import java.util.Collections;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -127,6 +127,10 @@ public class MessageThread implements Serializable {
 
     public void updateLastMessage(Message last){
         this.messages.add(last);
+    }
+
+    public void reverseMessagesOrder() {
+        Collections.reverse(this.messages);
     }
 }
 

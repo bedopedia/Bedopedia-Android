@@ -88,6 +88,7 @@ public class MessageThreadActivity extends AppCompatActivity {
 
         Bundle extras= getIntent().getExtras();
         thread = (Models.MessageThread) getIntent().getSerializableExtra("message_thread");
+        thread.reverseMessagesOrder();
         TextView othersName = (TextView) findViewById(R.id.others_name);
         othersName.setText(thread.getOthersName());
 
@@ -170,7 +171,7 @@ public class MessageThreadActivity extends AppCompatActivity {
 
                 } else if (statusCode == 200) {
                     Message lastMessage = new Message(text, "" , "" , getCurrUser(), response.body().getId());
-                    thread.updateLastMessage(lastMessage);
+                    thread = response.body();
                     messagesAdapter.notifyDataSetChanged();
 
                 }
