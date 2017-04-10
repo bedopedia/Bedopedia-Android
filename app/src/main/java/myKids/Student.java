@@ -1,11 +1,8 @@
 package myKids;
 
-import android.content.Intent;
-
 import java.util.ArrayList;
-import java.util.Date;
 
-import Models.Course;
+import badges.Course;
 import Models.Parent;
 import Models.User;
 

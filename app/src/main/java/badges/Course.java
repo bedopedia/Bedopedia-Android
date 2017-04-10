@@ -1,4 +1,4 @@
-package Models;
+package badges;
 
 import android.util.Pair;
 

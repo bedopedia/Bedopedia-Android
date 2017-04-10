@@ -14,7 +14,7 @@ import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.List;
 
-import Adapters.BadgesAdapter;
+import badges.BadgesAdapter;
 import Models.Badge;
 
 /**
