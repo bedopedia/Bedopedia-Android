@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import Tools.Dialogue;
-import Models.Course;
+import badges.Course;
 import Services.ApiClient;
 import Services.ApiInterface;
 import retrofit2.Call;
