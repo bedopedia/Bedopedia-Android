@@ -24,7 +24,7 @@ import java.util.Map;
 import Adapters.AskTeacherAdapter;
 import Models.Message;
 import Models.MessageThread;
-import Models.Student;
+import myKids.Student;
 import Models.User;
 import Services.ApiClient;
 import Services.ApiInterface;

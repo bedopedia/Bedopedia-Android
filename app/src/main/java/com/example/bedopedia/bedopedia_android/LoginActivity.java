@@ -6,7 +6,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -26,13 +25,12 @@ import java.util.Map;
 import android.widget.ImageView;
 import Services.ApiClient;
 import Services.ApiInterface;
+import myKids.MyKidsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class LoginActivity extends AppCompatActivity {
 

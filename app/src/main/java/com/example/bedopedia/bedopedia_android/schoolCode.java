@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -23,14 +22,11 @@ import java.util.Map;
 
 import Services.ApiClient;
 import Services.ApiInterface;
-import Tools.Dialogue;
-import Tools.InternetConnection;
+import myKids.MyKidsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import android.graphics.Typeface;
-
-import org.w3c.dom.Text;
 
 public class schoolCode extends AppCompatActivity {
 
