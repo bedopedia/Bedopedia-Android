@@ -1,8 +1,7 @@
-package Models;
+package timetable;
 
 import android.support.annotation.NonNull;
 
-import java.util.Comparator;
 import java.util.Date;
 
 /**

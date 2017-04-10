@@ -33,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.bedopedia.bedopedia_android.TimetableActivity.context;
+import static timetable.TimetableActivity.context;
 
 
 public class AskTeacherActivity extends AppCompatActivity {
