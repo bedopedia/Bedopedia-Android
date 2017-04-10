@@ -1,4 +1,4 @@
-package Models;
+package grades;
 
 import java.io.Serializable;
 
