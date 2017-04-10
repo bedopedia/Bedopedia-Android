@@ -46,20 +46,22 @@ import java.util.TimeZone;
 
 import Adapters.NotificationAdapter;
 import Models.Badge;
-import behaviorNotes.BehaviorNote;
-import Models.CourseGroup;
 import Models.NotificationModel;
 import Models.Student;
-import Models.TimetableSlot;
 import Services.ApiClient;
 import Services.ApiInterface;
 import Tools.BadgesDialog;
 import Tools.Dialogue;
 import Tools.InternetConnection;
+import behaviorNotes.BehaviorNote;
 import behaviorNotes.BehaviorNotesActivity;
+import grades.CourseGroup;
+import grades.GradesAvtivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timetable.TimetableActivity;
+import timetable.TimetableSlot;
 
 /**
  * Created by khaled on 2/22/17.

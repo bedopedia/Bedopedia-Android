@@ -45,7 +45,7 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GradesAvtivity"
+            android:name="grades.GradesAvtivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
@@ -69,7 +69,7 @@
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TimetableActivity"
+            android:name="timetable.TimetableActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
