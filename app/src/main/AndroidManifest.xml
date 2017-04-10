@@ -65,7 +65,7 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".BehaviorNotesActivity"
+            android:name="behaviorNotes.BehaviorNotesActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
