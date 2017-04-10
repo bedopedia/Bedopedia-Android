@@ -73,7 +73,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.quizzes_ico)
                                 .setContentTitle(data.get("name"))
-                                .setContentText(data.get("message"));
+                                .setContentText(android.text.Html.fromHtml(data.get("message")));
                 Intent resultIntent = new Intent(this, AskTeacherActivity.class);
 
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
