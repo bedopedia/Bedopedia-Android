@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.Set;
 
 import gradeBook.Adapters.CourseAdapter;
-import Services.ApiClient;
-import Services.ApiInterface;
+import login.Services.ApiClient;
+import login.Services.ApiInterface;
 import Tools.Dialogue;
 import Tools.InternetConnection;
 import retrofit2.Call;

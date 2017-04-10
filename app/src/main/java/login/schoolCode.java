@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,13 +15,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bedopedia.bedopedia_android.R;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import Services.ApiClient;
-import Services.ApiInterface;
+import login.Services.ApiClient;
+import login.Services.ApiInterface;
 import myKids.MyKidsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;

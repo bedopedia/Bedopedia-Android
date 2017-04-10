@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
 import com.example.bedopedia.bedopedia_android.StudentActivity;
-import com.example.bedopedia.bedopedia_android.schoolCode;
+import login.schoolCode;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -45,8 +45,8 @@ import java.util.Map;
 
 import Adapters.NotificationAdapter;
 import Models.NotificationModel;
-import Services.ApiClient;
-import Services.ApiInterface;
+import login.Services.ApiClient;
+import login.Services.ApiInterface;
 import Tools.Dialogue;
 import Tools.InternetConnection;
 import retrofit2.Call;
