@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package grades;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,14 +8,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.example.bedopedia.bedopedia_android.ActivityCourse;
+import com.example.bedopedia.bedopedia_android.R;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -23,13 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Models.CourseGroup;
 import Tools.Dialogue;
-import Adapters.GradesAdapter;
 import Models.Course;
 import Services.ApiClient;
 import Services.ApiInterface;
-import Tools.InternetConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
