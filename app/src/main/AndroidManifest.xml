@@ -57,7 +57,7 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AttendanceActivity"
+            android:name="attendance.AttendanceActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity

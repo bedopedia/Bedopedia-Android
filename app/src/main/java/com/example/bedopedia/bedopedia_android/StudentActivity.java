@@ -53,6 +53,7 @@ import Services.ApiInterface;
 import Tools.BadgesDialog;
 import Tools.Dialogue;
 import Tools.InternetConnection;
+import attendance.AttendanceActivity;
 import behaviorNotes.BehaviorNote;
 import behaviorNotes.BehaviorNotesActivity;
 import grades.CourseGroup;
