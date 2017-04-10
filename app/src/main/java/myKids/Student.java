@@ -1,15 +1,19 @@
-package Models;
+package myKids;
 
 import android.content.Intent;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+import Models.Course;
+import Models.Parent;
+import Models.User;
+
 /**
  * Created by mohamed on 2/9/17.
  */
 
-public class Student extends User{
+public class Student extends User {
     private String level;
     private String section;
     private String stage;

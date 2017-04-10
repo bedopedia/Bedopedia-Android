@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package myKids;
 
 /**
  * Created by mohamed on 2/9/17.
@@ -21,7 +21,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -30,12 +29,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.bedopedia.bedopedia_android.R;
+import com.example.bedopedia.bedopedia_android.StudentActivity;
+import com.example.bedopedia.bedopedia_android.schoolCode;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -43,10 +43,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Adapters.MyKidsRecyclerViewAdapter;
 import Adapters.NotificationAdapter;
 import Models.NotificationModel;
-import Models.Student;
 import Services.ApiClient;
 import Services.ApiInterface;
 import Tools.Dialogue;
