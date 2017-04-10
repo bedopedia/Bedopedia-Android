@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
 
 
@@ -64,7 +63,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
             } else if (data.get("notification_type").equals("message")){
-                Log.v("xyz",data.get("name"));
                 StudentActivity.messageNumber = StudentActivity.messageNumber + 1;
                 android.support.v4.app.NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)
