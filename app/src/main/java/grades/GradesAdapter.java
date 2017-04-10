@@ -1,8 +1,7 @@
-package Adapters;
+package grades;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +11,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.GradesAvtivity;
 import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.List;
-
-import Models.CourseGroup;
 
 /**
  * Created by mohamedkhaled on 2/13/17.

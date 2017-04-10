@@ -45,9 +45,10 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import Adapters.NotificationAdapter;
+import grades.GradesAvtivity;
 import Models.Badge;
 import Models.BehaviorNote;
-import Models.CourseGroup;
+import grades.CourseGroup;
 import Models.NotificationModel;
 import Models.Student;
 import timetable.TimetableActivity;
