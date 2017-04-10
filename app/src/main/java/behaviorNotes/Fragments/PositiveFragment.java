@@ -1,4 +1,4 @@
-package Fragments;
+package behaviorNotes.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.bedopedia.bedopedia_android.BehaviorNotesActivity;
+import behaviorNotes.BehaviorNotesActivity;
 import com.example.bedopedia.bedopedia_android.R;
 import com.example.bedopedia.bedopedia_android.StudentActivity;
 
 import java.util.List;
 
-import Adapters.BehaviorNotesAdapter;
-import Models.BehaviorNote;
+import behaviorNotes.Adapters.BehaviorNotesAdapter;
+import behaviorNotes.BehaviorNote;
 
 /**
  * Created by khaled on 3/9/17.

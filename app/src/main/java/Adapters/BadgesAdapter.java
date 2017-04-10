@@ -6,18 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.GradesAvtivity;
 import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.List;
 
 import Models.Badge;
-import Models.CourseGroup;
 
 /**
  * Created by khaled on 3/14/17.

@@ -3,8 +3,10 @@ package com.example.bedopedia.bedopedia_android;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.net.ConnectivityManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -21,6 +23,8 @@ import java.util.Map;
 
 import Services.ApiClient;
 import Services.ApiInterface;
+import Tools.Dialogue;
+import Tools.InternetConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,6 +80,11 @@ public class schoolCode extends AppCompatActivity {
     }
 
     private void getSchoolCode () {
+        ConnectivityManager conMgr = (ConnectivityManager) getSystemService (this.CONNECTIVITY_SERVICE);
+        if (!(conMgr.getActiveNetworkInfo() != null && conMgr.getActiveNetworkInfo().isAvailable() &&    conMgr.getActiveNetworkInfo().isConnected())) {
+            Toast.makeText(getApplicationContext(),"Check your Netwotk connection and Try again!",Toast.LENGTH_SHORT).show();
+            return;
+        }
         String code = ((AutoCompleteTextView)findViewById(R.id.code)).getText().toString();
         if(code.length() < 1){
             ((AutoCompleteTextView)findViewById(R.id.code)).setError("Enter a valid school code");
@@ -106,7 +115,7 @@ public class schoolCode extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"connection failed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Incorrect code, try again!",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -138,11 +147,12 @@ public class schoolCode extends AppCompatActivity {
 
                     Intent i =  new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(i);
+                    finish();
                 }
             }
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"connection failed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"School connection failed",Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -2,14 +2,12 @@ package com.example.bedopedia.bedopedia_android;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -22,16 +20,11 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import Adapters.NotificationAdapter;
 import Adapters.SingleMessageThreadAdapter;
-import Models.CourseGroup;
 import Models.Message;
 import Models.MessageAttributes;
 import Models.MessageThread;
@@ -43,12 +36,6 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import org.json.JSONObject;
-
-import Models.MessageThread;
-import okhttp3.RequestBody;
-import retrofit2.*;
-import retrofit2.http.*;
 
 public class MessageThreadActivity extends AppCompatActivity {
 

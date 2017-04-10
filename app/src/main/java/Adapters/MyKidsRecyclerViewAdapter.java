@@ -57,7 +57,11 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
 
         holder.level.setText(curStudent.getLevel());
         holder.name.setText(curStudent.getFirstName() + " " + curStudent.getLastName());
-        Picasso.with(mContext).load(ApiClient.BASE_URL+curStudent.getAvatar()).into(holder.avatar, new com.squareup.picasso.Callback() {
+        String imageUrl = curStudent.getAvatar();
+        if(imageUrl.substring(0,8).equals("/uploads")) {
+            imageUrl = ApiClient.BASE_URL + imageUrl;
+        }
+        Picasso.with(mContext).load(imageUrl).into(holder.avatar, new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
 

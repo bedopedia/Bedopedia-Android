@@ -1,4 +1,4 @@
-package Adapters;
+package timetable;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,8 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import Fragments.TodayFragment;
-import Fragments.TomorrowFragment;
+import timetable.Fragments.TodayFragment;
+import timetable.Fragments.TomorrowFragment;
 
 /**
  * Created by khaled on 3/2/17.

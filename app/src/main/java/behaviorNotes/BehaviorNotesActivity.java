@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package behaviorNotes;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,13 +7,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import Adapters.BehaviorNotesFragmentAdapter;
+import com.example.bedopedia.bedopedia_android.R;
+
+import behaviorNotes.Adapters.BehaviorNotesFragmentAdapter;
 
 /**
  * Created by khaled on 2/27/17.

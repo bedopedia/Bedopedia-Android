@@ -1,4 +1,4 @@
-package Adapters;
+package behaviorNotes.Adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,12 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.BehaviorNotesActivity;
+import behaviorNotes.BehaviorNotesActivity;
 import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.List;
 
-import Models.BehaviorNote;
+import behaviorNotes.BehaviorNote;
 
 /**
  * Created by khaled on 2/27/17.
