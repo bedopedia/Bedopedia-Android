@@ -1,4 +1,4 @@
-package Models;
+package behaviorNotes;
 
 /**
  * Created by khaled on 2/27/17.
