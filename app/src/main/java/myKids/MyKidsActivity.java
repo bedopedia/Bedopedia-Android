@@ -31,11 +31,12 @@ import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
 import com.example.bedopedia.bedopedia_android.StudentActivity;
+
+import Tools.ImageViewHelper;
 import login.schoolCode;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -318,8 +319,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
 
          emailView.setText(email);
-        Picasso.with(this).load(ApiClient.BASE_URL+avatarUrl).into(myAvatar);
-
+        ImageViewHelper.getImageFromUrl(context,avatarUrl, myAvatar );
 
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
