@@ -2,7 +2,7 @@ package myKids;
 
 import java.util.ArrayList;
 
-import badges.Course;
+import gradeBook.Course;
 import Models.Parent;
 import Models.User;
 

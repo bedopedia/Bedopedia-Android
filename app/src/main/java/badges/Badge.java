@@ -1,4 +1,4 @@
-package Models;
+package badges;
 
 /**
  * Created by khaled on 3/14/17.

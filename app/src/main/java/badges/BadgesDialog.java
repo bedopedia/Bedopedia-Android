@@ -1,4 +1,4 @@
-package Tools;
+package badges;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,7 +15,7 @@ import com.example.bedopedia.bedopedia_android.R;
 import java.util.List;
 
 import badges.BadgesAdapter;
-import Models.Badge;
+import badges.Badge;
 
 /**
  * Created by khaled on 3/14/17.

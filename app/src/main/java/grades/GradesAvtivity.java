@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.example.bedopedia.bedopedia_android.ActivityCourse;
+import gradeBook.ActivityCourse;
 import com.example.bedopedia.bedopedia_android.R;
 import com.google.gson.JsonObject;
 
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import Tools.Dialogue;
-import badges.Course;
+import gradeBook.Course;
 import Services.ApiClient;
 import Services.ApiInterface;
 import retrofit2.Call;

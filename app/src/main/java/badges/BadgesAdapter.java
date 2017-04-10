@@ -13,8 +13,6 @@ import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.List;
 
-import Models.Badge;
-
 /**
  * Created by khaled on 3/14/17.
  */

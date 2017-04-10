@@ -53,7 +53,7 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityCourse"
+            android:name="gradeBook.ActivityCourse"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity

@@ -1,4 +1,4 @@
-package badges;
+package gradeBook;
 
 import android.util.Pair;
 

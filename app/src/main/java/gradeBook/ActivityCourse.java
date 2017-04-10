@@ -1,38 +1,28 @@
-package com.example.bedopedia.bedopedia_android;
+package gradeBook;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.bedopedia.bedopedia_android.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import Adapters.CourseAdapter;
+import gradeBook.Adapters.CourseAdapter;
 import Services.ApiClient;
 import Services.ApiInterface;
 import Tools.Dialogue;
