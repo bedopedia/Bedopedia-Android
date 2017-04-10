@@ -24,6 +24,8 @@ import org.json.JSONException;
 import java.util.HashMap;
 import java.util.Map;
 import android.widget.ImageView;
+
+import Tools.ImageViewHelper;
 import login.Services.ApiClient;
 import login.Services.ApiInterface;
 import myKids.MyKidsActivity;
@@ -31,7 +33,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import com.google.gson.JsonParser;
-import com.squareup.picasso.Picasso;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -120,10 +121,8 @@ public class LoginActivity extends AppCompatActivity {
         actionBarTitle.setText(schoolName);
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-        Picasso.with(context)
-                .load(schoolAvatar)
-                .error(R.drawable.logo_icon)
-                .into(imageView);
+        ImageViewHelper.getImageFromUrl(context,schoolAvatar,imageView,R.drawable.logo_icon);
+
     }
 
     public void updateToken() throws JSONException {

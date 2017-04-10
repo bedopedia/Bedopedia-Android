@@ -10,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import Tools.ImageViewHelper;
 import login.Services.ApiClient;
 
 /**
@@ -53,7 +53,8 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
         if(imageUrl.substring(0,8).equals("/uploads")) {
             imageUrl = ApiClient.BASE_URL + imageUrl;
         }
-        Picasso.with(mContext).load(imageUrl).into(holder.avatar, new com.squareup.picasso.Callback() {
+
+        ImageViewHelper.getImageFromUrl(mContext, imageUrl, holder.avatar, new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
 
