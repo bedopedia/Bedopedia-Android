@@ -1,4 +1,4 @@
-package Services;
+package login.Services;
 
 /**
  *
@@ -7,11 +7,7 @@ package Services;
 
 import com.google.gson.*;
 
-import org.json.JSONObject;
-
 import Models.MessageThread;
-import okhttp3.RequestBody;
-import okhttp3.RequestBody.*;
 import retrofit2.*;
 import retrofit2.http.*;
 import java.util.*;
