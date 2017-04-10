@@ -9,7 +9,9 @@ import com.google.gson.*;
 
 import org.json.JSONObject;
 
+import Models.MessageThread;
 import okhttp3.RequestBody;
+import okhttp3.RequestBody.*;
 import retrofit2.*;
 import retrofit2.http.*;
 import java.util.*;
@@ -37,8 +39,7 @@ public interface ApiInterface {
     @PUT
     Call<ArrayList<JsonObject>> putServiseArr(@Url String url,@FieldMap Map<String,String> params);
 
-
-
-
+    @PUT("/api/threads/{thread_id}")
+    Call<MessageThread> putThreadMessages(@Path("thread_id") int thread_id, @Body Map <String,Object> message_thread);
 
 }
