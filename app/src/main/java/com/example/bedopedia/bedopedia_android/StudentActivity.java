@@ -45,12 +45,12 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import Adapters.NotificationAdapter;
-import Models.Badge;
+import badges.Badge;
 import Models.NotificationModel;
 import myKids.Student;
 import Services.ApiClient;
 import Services.ApiInterface;
-import Tools.BadgesDialog;
+import badges.BadgesDialog;
 import Tools.Dialogue;
 import Tools.InternetConnection;
 import attendance.AttendanceActivity;
