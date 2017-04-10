@@ -69,7 +69,7 @@
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TimetableActivity"
+            android:name="timetable.TimetableActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
