@@ -12,7 +12,7 @@
         android:background="@drawable/login"
         android:fitsSystemWindows="true"
         android:fillViewport="true"
-        tools:context="com.example.bedopedia.bedopedia_android.schoolCode">
+        tools:context="com.example.bedopedia.bedopedia_android.login.schoolCode">
 
         <LinearLayout
             android:layout_width="match_parent"

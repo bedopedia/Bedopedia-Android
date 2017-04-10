@@ -1,24 +1,10 @@
 package com.example.bedopedia.bedopedia_android;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-import com.google.gson.JsonObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import Services.ApiClient;
-import Services.ApiInterface;
-import Tools.Dialogue;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by ali on 27/02/17.

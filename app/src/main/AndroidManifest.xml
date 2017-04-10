@@ -25,7 +25,7 @@
         </service>
 
         <activity
-            android:name=".schoolCode"
+            android:name="login.schoolCode"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -36,28 +36,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="login.LoginActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".MyKidsActivity"
+            android:name="myKids.MyKidsActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GradesAvtivity"
+            android:name="grades.GradesAvtivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ForgetPasswordActivity"
+            android:name="login.ForgetPasswordActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityCourse"
+            android:name="gradeBook.ActivityCourse"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AttendanceActivity"
+            android:name="attendance.AttendanceActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
@@ -65,11 +65,11 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".BehaviorNotesActivity"
+            android:name="behaviorNotes.BehaviorNotesActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TimetableActivity"
+            android:name="timetable.TimetableActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity

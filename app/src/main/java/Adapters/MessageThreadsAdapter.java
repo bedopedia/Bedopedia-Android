@@ -1,7 +1,6 @@
 package Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.AskTeacherActivity;
-import com.example.bedopedia.bedopedia_android.AttendanceActivity;
 import com.example.bedopedia.bedopedia_android.R;
-import com.example.bedopedia.bedopedia_android.StudentActivity;
 
 import java.util.ArrayList;
 

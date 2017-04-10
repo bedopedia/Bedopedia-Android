@@ -1,5 +1,7 @@
 package Models;
 
+import com.google.gson.annotations.SerializedName;
+import java.util.Collections;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -9,14 +11,32 @@ import java.util.ArrayList;
 
 public class MessageThread implements Serializable {
 
+    @SerializedName("id")
     private int id;
+
+    @SerializedName("date")
     private String date;
+
+    @SerializedName("lastMessage")
     private String lastMessage;
+
+    @SerializedName("title")
     private String title;
+
+    @SerializedName("notSeenCnt")
     private Integer notSeenCnt;
+
+    @SerializedName("imagePath")
     private String imagePath;
+
+    @SerializedName("othersName")
     String othersName;
+
+    @SerializedName("messages")
     private ArrayList<Message> messages;
+
+    @SerializedName("messages_attributes")
+    private ArrayList <MessageAttributes> messageAttributes;
 
     public MessageThread() {
         messages = new ArrayList<Message>();
@@ -97,4 +117,20 @@ public class MessageThread implements Serializable {
     public void setOthersName(String othersName) {
         this.othersName = othersName;
     }
+
+    public void sendMessage(MessageAttributes newMessage) {
+        if(this.messageAttributes == null){
+            this.messageAttributes = new ArrayList<>();
+        }
+        this.messageAttributes.add(newMessage);
+    }
+
+    public void updateLastMessage(Message last){
+        this.messages.add(last);
+    }
+
+    public void reverseMessagesOrder() {
+        Collections.reverse(this.messages);
+    }
 }
+

@@ -10,13 +10,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -37,7 +34,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,22 +45,25 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import Adapters.NotificationAdapter;
-import Adapters.BehaviorNotesFragmentAdapter;
-import Adapters.TimetableAdapter;
-import Models.Badge;
-import Models.BehaviorNote;
-import Models.CourseGroup;
+import badges.Badge;
 import Models.NotificationModel;
-import Models.Student;
-import Models.TimetableSlot;
-import Services.ApiClient;
-import Services.ApiInterface;
-import Tools.BadgesDialog;
+import myKids.Student;
+import login.Services.ApiClient;
+import login.Services.ApiInterface;
+import badges.BadgesDialog;
 import Tools.Dialogue;
 import Tools.InternetConnection;
+import attendance.AttendanceActivity;
+import behaviorNotes.BehaviorNote;
+import behaviorNotes.BehaviorNotesActivity;
+import grades.CourseGroup;
+import grades.GradesAvtivity;
+import myKids.MyKidsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timetable.TimetableActivity;
+import timetable.TimetableSlot;
 
 /**
  * Created by khaled on 2/22/17.
@@ -710,7 +709,11 @@ public class StudentActivity extends AppCompatActivity {
         studentNameView.setText(studentName);
         studentLevelView.setText(studentLevel);
 
-        Picasso.with(this).load(ApiClient.BASE_URL+studentAvatar).into(studentAvatarImage, new com.squareup.picasso.Callback() {
+        if(studentAvatar.substring(0,8).equals("/uploads")) {
+            studentAvatar = ApiClient.BASE_URL + studentAvatar;
+        }
+
+        Picasso.with(this).load(studentAvatar).into(studentAvatarImage, new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
 

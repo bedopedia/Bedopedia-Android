@@ -24,16 +24,16 @@ import java.util.Map;
 import Adapters.AskTeacherAdapter;
 import Models.Message;
 import Models.MessageThread;
-import Models.Student;
+import myKids.Student;
 import Models.User;
-import Services.ApiClient;
-import Services.ApiInterface;
+import login.Services.ApiClient;
+import login.Services.ApiInterface;
 import Tools.Dialogue;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.bedopedia.bedopedia_android.TimetableActivity.context;
+import static timetable.TimetableActivity.context;
 
 
 public class AskTeacherActivity extends AppCompatActivity {
