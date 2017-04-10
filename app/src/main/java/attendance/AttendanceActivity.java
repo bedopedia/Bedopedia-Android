@@ -1,46 +1,31 @@
-package com.example.bedopedia.bedopedia_android;
+package attendance;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CalendarView;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.bedopedia.bedopedia_android.R;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.prolificinteractive.materialcalendarview.CalendarMode;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
-import Adapters.AbsentLateAdapter;
-import Adapters.AttendanceAdapter;
-import Adapters.ExcusedAdapter;
-import Models.Attendance;
 
 /**
  * Created by khaled on 2/21/17.
@@ -49,7 +34,6 @@ import Models.Attendance;
 
 public class AttendanceActivity extends AppCompatActivity {
 
-    private AttendanceAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private String attendance;
     TextView selectedMonth;
@@ -128,7 +112,7 @@ public class AttendanceActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-        actionBarTitle.setText("Attendance");
+        actionBarTitle.setText("attendance");
         ImageButton back = (ImageButton) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
 
