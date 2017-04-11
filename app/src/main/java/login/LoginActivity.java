@@ -123,10 +123,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView1);
         ImageViewHelper.getImageFromUrlWithIdFailure(context,schoolAvatar,imageView,R.drawable.logo_icon);
-//        Picasso.with(context)
-//                .load(schoolAvatar)
-//                .error(R.drawable.logo_icon)
-//                .into(imageView);
+
     }
 
     public void updateToken() throws JSONException {
