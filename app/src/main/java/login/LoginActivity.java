@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
         actionBarTitle.setText(schoolName);
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-        ImageViewHelper.getImageFromUrl(context,schoolAvatar,imageView,R.drawable.logo_icon);
+        ImageViewHelper.getImageFromUrlWithIdFailure(context,schoolAvatar,imageView,R.drawable.logo_icon);
 //        Picasso.with(context)
 //                .load(schoolAvatar)
 //                .error(R.drawable.logo_icon)

@@ -67,7 +67,7 @@ public class ImageViewHelper {
         Callback instance to deal with the case of failure
      */
 
-    public static void getImageFromUrl(Context context, String url, ImageView imageView, Callback callback) {
+    public static void getImageFromUrlWithCallback(Context context, String url, ImageView imageView, Callback callback) {
         Picasso.with(context).load(url).into(imageView, callback);
 
     }
@@ -80,7 +80,7 @@ public class ImageViewHelper {
         Int id of backup  image
      */
 
-    public static void getImageFromUrl(Context context, String url, ImageView imageView, int id) {
+    public static void getImageFromUrlWithIdFailure(Context context, String url, ImageView imageView, int id) {
         Picasso.with(context)
                 .load(url)
                 .error(id)
