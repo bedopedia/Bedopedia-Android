@@ -16,8 +16,12 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.bedopedia.bedopedia_android.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import login.Services.ApiClient;
@@ -47,6 +51,11 @@ public class ImageViewHelper {
 
     public static void getImageFromUrl(Context context,String url, ImageView imageView) {
         Picasso.with(context).load(ApiClient.BASE_URL+url).into(imageView);
+
+    }
+
+    public static void getImageFromUrl(Context context, String url, ImageView imageView, Callback callback) {
+        Picasso.with(context).load(url).into(imageView, callback);
 
     }
 }

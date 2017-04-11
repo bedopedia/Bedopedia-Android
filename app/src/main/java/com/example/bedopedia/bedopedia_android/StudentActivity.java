@@ -28,7 +28,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,6 +44,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import Adapters.NotificationAdapter;
+import Tools.ImageViewHelper;
 import badges.Badge;
 import Models.NotificationModel;
 import myKids.Student;
@@ -699,8 +699,7 @@ public class StudentActivity extends AppCompatActivity {
         if(studentAvatar.substring(0,8).equals("/uploads")) {
             studentAvatar = ApiClient.BASE_URL + studentAvatar;
         }
-
-        Picasso.with(this).load(studentAvatar).into(studentAvatarImage, new com.squareup.picasso.Callback() {
+        com.squareup.picasso.Callback callback = new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
 
@@ -715,7 +714,9 @@ public class StudentActivity extends AppCompatActivity {
                 studentAvatarName.setText("" +names[0].charAt(0) + names[1].charAt(0) );
 
             }
-        });
+        };
+        ImageViewHelper.getImageFromUrl(this,studentAvatar,studentAvatarImage,callback);
+
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
         actionBarTitle.setText(studentName);
         ImageButton back = (ImageButton) findViewById(R.id.back);
