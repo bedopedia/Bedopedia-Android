@@ -715,7 +715,7 @@ public class StudentActivity extends AppCompatActivity {
 
             }
         };
-        ImageViewHelper.getImageFromUrl(this,studentAvatar,studentAvatarImage,callback);
+        ImageViewHelper.getImageFromUrlWithCallback(this,studentAvatar,studentAvatarImage,callback);
 
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
         actionBarTitle.setText(studentName);

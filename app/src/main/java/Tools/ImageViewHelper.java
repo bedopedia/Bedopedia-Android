@@ -49,13 +49,44 @@ public class ImageViewHelper {
         return output;
     }
 
+    /*
+        This Function is used to make you able to use picasso lib
+        params : Context,
+        The url of the image,
+        ImageView instance
+    */
     public static void getImageFromUrl(Context context,String url, ImageView imageView) {
         Picasso.with(context).load(ApiClient.BASE_URL+url).into(imageView);
 
     }
+    /*
+        This Function is used to make you able to use picasso lib
+        params : Context,
+        The url of the image,
+        ImageView instance,
+        Callback instance to deal with the case of failure
+     */
 
-    public static void getImageFromUrl(Context context, String url, ImageView imageView, Callback callback) {
+    public static void getImageFromUrlWithCallback(Context context, String url, ImageView imageView, Callback callback) {
         Picasso.with(context).load(url).into(imageView, callback);
 
     }
+
+    /*
+        This Function is used to make you able to use picasso lib
+        params : Context,
+        The url of the image,
+        ImageView instance
+        Int id of backup  image
+     */
+
+    public static void getImageFromUrlWithIdFailure(Context context, String url, ImageView imageView, int id) {
+        Picasso.with(context)
+                .load(url)
+                .error(id)
+                .into(imageView);
+
+    }
+
+
 }
