@@ -10,11 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import Models.Message;
+import Tools.ImageViewHelper;
 import login.Services.ApiClient;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -61,7 +61,7 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
             item.avatar = (ImageView) view.findViewById(R.id.send_message_avatar);
 
             item.body.setText(android.text.Html.fromHtml(message.getBody()).toString());
-            Picasso.with(context).load(ApiClient.BASE_URL+message.getCreator().getAvatar()).into(item.avatar);
+            ImageViewHelper.getImageFromUrl(context,message.getCreator().getAvatar(),item.avatar);
 
         }else{
             if (view == null) {
@@ -73,7 +73,7 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
             item.avatar = (ImageView) view.findViewById(R.id.receive_message_avatar);
 
             item.body.setText(android.text.Html.fromHtml(message.getBody()).toString());
-            Picasso.with(context).load(ApiClient.BASE_URL+message.getCreator().getAvatar()).into(item.avatar);
+            ImageViewHelper.getImageFromUrl(context,message.getCreator().getAvatar(),item.avatar);
         }
         return view;
     }
