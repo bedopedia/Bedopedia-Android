@@ -153,18 +153,18 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/notification_number"
+                    android:id="@+id/messaage_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignRight="@id/relative_layout"
                     android:background="@drawable/notification_circle"
                     android:textAlignment="center"
                     android:gravity="center"
+                    android:visibility="invisible"
                     android:layout_marginRight="6dp"
                     android:layout_marginTop="5dp"
                     android:textColor="#FFF"
                     android:textSize="12sp"
-                    android:text="2"
                     android:textStyle="bold" />
 
 
