@@ -1,5 +1,6 @@
 package behaviorNotes.Adapters;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import behaviorNotes.BehaviorNotesActivity;
 import com.example.bedopedia.bedopedia_android.R;
 import com.example.bedopedia.bedopedia_android.StudentActivity;
+
+import java.io.Serializable;
 
 import behaviorNotes.Fragments.NegativeFragment;
 import behaviorNotes.Fragments.PositiveFragment;
@@ -30,6 +33,10 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
 
         if (position == 0) {
             f = new PositiveFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("positiveNotesList", (Serializable) StudentActivity.positiveNotesList);
+            f = new PositiveFragment();
+            f.setArguments(bundle);
         } else {
             f = new NegativeFragment();
         }

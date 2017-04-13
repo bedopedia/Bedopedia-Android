@@ -1,10 +1,12 @@
 package behaviorNotes;
 
+import java.io.Serializable;
+
 /**
  * Created by khaled on 2/27/17.
  */
 
-public class BehaviorNote {
+public class BehaviorNote  implements Serializable {
     String category;
     String text;
 
