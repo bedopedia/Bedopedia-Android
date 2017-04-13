@@ -116,7 +116,7 @@ public class StudentActivity extends AppCompatActivity {
     public static List<TimetableSlot> todaySlots;
     public static List<TimetableSlot> tomorrowSlots;
 
-    public static List<BehaviorNote> positiveNotesList;
+    public  List<BehaviorNote> positiveNotesList;
     public static List<BehaviorNote> negativeNotesList;
 
     ProgressBar attendanceProgress;

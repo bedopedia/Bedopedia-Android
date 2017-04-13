@@ -19,15 +19,16 @@ import java.util.List;
 import behaviorNotes.Fragments.NegativeFragment;
 import behaviorNotes.Fragments.PositiveFragment;
 
-import static com.example.bedopedia.bedopedia_android.StudentActivity.positiveNotesList;
 
 /**
  * Created by khaled on 3/9/17.
  */
 
 public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
+    List<BehaviorNote> positiveNotesList;
     public BehaviorNotesFragmentAdapter(FragmentManager fm, List<BehaviorNote> positiveNotesList) {
         super(fm);
+        this.positiveNotesList = positiveNotesList;
     }
 
     @Override

@@ -28,7 +28,7 @@ public class PositiveFragment extends Fragment{
     public static Fragment newInstance(List<BehaviorNote> positiveBehaviorNotes){
         Fragment fragment ;
         Bundle bundle = new Bundle();
-        bundle.putSerializable("positiveNotesList", (Serializable) StudentActivity.positiveNotesList);
+        bundle.putSerializable("positiveNotesList", (Serializable) positiveBehaviorNotes);
         fragment = new PositiveFragment();
         fragment.setArguments(bundle);
 
