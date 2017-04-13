@@ -22,13 +22,13 @@ import behaviorNotes.BehaviorNote;
  */
 
 public class NegativeFragment extends Fragment{
-    private static final String KEY_NAME = "negativeNotesList";
+    public static final String KEY_NAME = "negativeNotesList";
 
 
     public static Fragment newInstance(List<BehaviorNote> negativeBehaviorNotes){
         Fragment fragment ;
         Bundle bundle = new Bundle();
-        bundle.putSerializable("negativeNotesList", (Serializable) negativeBehaviorNotes);
+        bundle.putSerializable(KEY_NAME, (Serializable) negativeBehaviorNotes);
         fragment = new NegativeFragment();
         fragment.setArguments(bundle);
 
