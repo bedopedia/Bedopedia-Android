@@ -8,21 +8,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import behaviorNotes.BehaviorNote;
 import behaviorNotes.BehaviorNotesActivity;
 import com.example.bedopedia.bedopedia_android.R;
 import com.example.bedopedia.bedopedia_android.StudentActivity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import behaviorNotes.Fragments.NegativeFragment;
 import behaviorNotes.Fragments.PositiveFragment;
+
+import static com.example.bedopedia.bedopedia_android.StudentActivity.positiveNotesList;
 
 /**
  * Created by khaled on 3/9/17.
  */
 
 public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
-    public BehaviorNotesFragmentAdapter(FragmentManager fm) {
+    public BehaviorNotesFragmentAdapter(FragmentManager fm, List<BehaviorNote> positiveNotesList) {
         super(fm);
     }
 
@@ -32,11 +36,7 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
         Fragment f = null;
 
         if (position == 0) {
-            f = new PositiveFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("positiveNotesList", (Serializable) StudentActivity.positiveNotesList);
-            f = new PositiveFragment();
-            f.setArguments(bundle);
+            f = PositiveFragment.newInstance(positiveNotesList);
         } else {
             f = new NegativeFragment();
         }
@@ -62,8 +62,8 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
         TextView counter = (TextView) view.findViewById(R.id.tab_counter);
         title.setText(this.getPageTitle(position));
         if (position == 0) {
-            counter.setText(StudentActivity.positiveNotesList.size() + "");
-            if(StudentActivity.positiveNotesList.size() == 0)
+            counter.setText(positiveNotesList.size() + "");
+            if(positiveNotesList.size() == 0)
                 counter.setVisibility(View.INVISIBLE);
         }
         else {

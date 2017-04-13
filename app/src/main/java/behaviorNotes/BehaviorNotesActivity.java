@@ -1,6 +1,7 @@
 package behaviorNotes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -12,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
+
+import java.util.List;
 
 import behaviorNotes.Adapters.BehaviorNotesFragmentAdapter;
 
@@ -55,8 +58,10 @@ public class BehaviorNotesActivity extends AppCompatActivity {
         });
 
         context = this;
-
-        mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getSupportFragmentManager());
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        List<BehaviorNote> positiveNotesList = (List<BehaviorNote>) bundle.getSerializable("positiveNotesList");
+        mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getSupportFragmentManager(), positiveNotesList);
 
         mViewPager = (ViewPager) findViewById(R.id.behavior_notes_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);

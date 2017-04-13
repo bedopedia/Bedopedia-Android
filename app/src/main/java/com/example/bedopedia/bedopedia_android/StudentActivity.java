@@ -29,6 +29,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -795,6 +796,9 @@ public class StudentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(StudentActivity.this, BehaviorNotesActivity.class);
                 intent.putExtra("student_id", studentId);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("positiveNotesList", (Serializable) positiveNotesList);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

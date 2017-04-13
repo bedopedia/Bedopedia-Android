@@ -11,6 +11,7 @@ import behaviorNotes.BehaviorNotesActivity;
 import com.example.bedopedia.bedopedia_android.R;
 import com.example.bedopedia.bedopedia_android.StudentActivity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import behaviorNotes.Adapters.BehaviorNotesAdapter;
@@ -24,10 +25,11 @@ public class PositiveFragment extends Fragment{
 
     private static final String KEY_NAME = "positiveNotesList";
 
-    public static Fragment newInstance(String name){
+    public static Fragment newInstance(List<BehaviorNote> positiveBehaviorNotes){
+        Fragment fragment ;
         Bundle bundle = new Bundle();
-        bundle.putString(KEY_NAME, "positiveNotesList");
-        Fragment fragment = new PositiveFragment();
+        bundle.putSerializable("positiveNotesList", (Serializable) StudentActivity.positiveNotesList);
+        fragment = new PositiveFragment();
         fragment.setArguments(bundle);
 
         return fragment;
