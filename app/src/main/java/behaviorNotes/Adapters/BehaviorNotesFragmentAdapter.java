@@ -26,9 +26,11 @@ import behaviorNotes.Fragments.PositiveFragment;
 
 public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
     List<BehaviorNote> positiveNotesList;
-    public BehaviorNotesFragmentAdapter(FragmentManager fm, List<BehaviorNote> positiveNotesList) {
+    List<BehaviorNote> negativeNotesList;
+    public BehaviorNotesFragmentAdapter(FragmentManager fm, List<BehaviorNote> positiveNotesList,List<BehaviorNote> negativeNotesList) {
         super(fm);
         this.positiveNotesList = positiveNotesList;
+        this.negativeNotesList = negativeNotesList;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             f = PositiveFragment.newInstance(positiveNotesList);
         } else {
-            f = new NegativeFragment();
+            f =  NegativeFragment.newInstance(negativeNotesList);
         }
 
         return f;

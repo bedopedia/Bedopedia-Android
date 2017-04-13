@@ -798,6 +798,7 @@ public class StudentActivity extends AppCompatActivity {
                 intent.putExtra("student_id", studentId);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("positiveNotesList", (Serializable) positiveNotesList);
+                bundle.putSerializable("negativeNotesList", (Serializable) negativeNotesList);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

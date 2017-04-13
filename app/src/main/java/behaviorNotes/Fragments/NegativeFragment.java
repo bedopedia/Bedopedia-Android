@@ -11,6 +11,7 @@ import behaviorNotes.BehaviorNotesActivity;
 import com.example.bedopedia.bedopedia_android.R;
 import com.example.bedopedia.bedopedia_android.StudentActivity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import behaviorNotes.Adapters.BehaviorNotesAdapter;
@@ -21,12 +22,24 @@ import behaviorNotes.BehaviorNote;
  */
 
 public class NegativeFragment extends Fragment{
+    public static final String KEY_NAME = "negativeNotesList";
+
+
+    public static Fragment newInstance(List<BehaviorNote> negativeBehaviorNotes){
+        Fragment fragment ;
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_NAME, (Serializable) negativeBehaviorNotes);
+        fragment = new NegativeFragment();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.negative_fragment, container, false);
 
-        List<BehaviorNote> negativeBehaviorNotes = StudentActivity.negativeNotesList;
+        List<BehaviorNote> negativeBehaviorNotes = ( List<BehaviorNote> ) getArguments().getSerializable(KEY_NAME);
         ListView notes = (ListView) rootView.findViewById(R.id.negative_notes);
         BehaviorNotesAdapter adapter = new BehaviorNotesAdapter(BehaviorNotesActivity.context, R.layout.single_behaviour_note, negativeBehaviorNotes);
         notes.setAdapter(adapter);

@@ -17,6 +17,8 @@ import com.example.bedopedia.bedopedia_android.R;
 import java.util.List;
 
 import behaviorNotes.Adapters.BehaviorNotesFragmentAdapter;
+import behaviorNotes.Fragments.NegativeFragment;
+import behaviorNotes.Fragments.PositiveFragment;
 
 /**
  * Created by khaled on 2/27/17.
@@ -60,8 +62,9 @@ public class BehaviorNotesActivity extends AppCompatActivity {
         context = this;
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-        List<BehaviorNote> positiveNotesList = (List<BehaviorNote>) bundle.getSerializable("positiveNotesList");
-        mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getSupportFragmentManager(), positiveNotesList);
+        List<BehaviorNote> positiveNotesList = (List<BehaviorNote>) bundle.getSerializable(PositiveFragment.KEY_NAME);
+        List<BehaviorNote> negativeNotesList = (List<BehaviorNote>) bundle.getSerializable(NegativeFragment.KEY_NAME);
+        mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getSupportFragmentManager(), positiveNotesList, negativeNotesList);
 
         mViewPager = (ViewPager) findViewById(R.id.behavior_notes_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
