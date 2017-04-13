@@ -61,7 +61,8 @@ public class BehaviorNotesActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         List<BehaviorNote> positiveNotesList = (List<BehaviorNote>) bundle.getSerializable("positiveNotesList");
-        mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getSupportFragmentManager(), positiveNotesList);
+        List<BehaviorNote> negativeNotesList = (List<BehaviorNote>) bundle.getSerializable("negativeNotesList");
+        mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getSupportFragmentManager(), positiveNotesList, negativeNotesList);
 
         mViewPager = (ViewPager) findViewById(R.id.behavior_notes_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
