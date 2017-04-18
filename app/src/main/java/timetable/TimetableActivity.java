@@ -47,7 +47,8 @@ public class TimetableActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         List<TimetableSlot> tomorrowSlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
-        mSectionsPagerAdapter = new TimetableAdapter(getSupportFragmentManager(), tomorrowSlots);
+        List<TimetableSlot> todaySlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
+        mSectionsPagerAdapter = new TimetableAdapter(getSupportFragmentManager(), tomorrowSlots, todaySlots);
 
         mViewPager = (ViewPager) findViewById(R.id.timetable_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);

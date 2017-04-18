@@ -18,11 +18,13 @@ import com.example.bedopedia.bedopedia_android.R;
 import com.example.bedopedia.bedopedia_android.StudentActivity;
 import timetable.TimetableActivity;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,6 +43,22 @@ public class TodayFragment extends Fragment {
     public Activity act;
     ArrayList<String> mainColors;
     ArrayList<String> headerColors;
+
+    public static final String KEY_NAME = "todaySlots";
+
+
+
+    public static Fragment newInstance(List<TimetableSlot> todaySlots){
+        Fragment fragment ;
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_NAME, (Serializable) todaySlots);
+        fragment = new TodayFragment();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
+
 
     public int getInDp(int dimensionInPixel){
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimensionInPixel, act.getResources().getDisplayMetrics());
@@ -77,7 +95,8 @@ public class TodayFragment extends Fragment {
         mLayout = (RelativeLayout) rootView.findViewById(R.id.today_event_column);
         nowSign = new TextView(TimetableActivity.context);
         nowEventView = new TextView(TimetableActivity.context);
-        displayDailyEvents();
+        List<TimetableSlot> todaySlots = ( List<TimetableSlot> ) getArguments().getSerializable(KEY_NAME);
+        displayDailyEvents(todaySlots);
         displayNowTime();
 
 
@@ -178,9 +197,9 @@ public class TodayFragment extends Fragment {
 
     }
 
-    private void displayDailyEvents(){
+    private void displayDailyEvents(List<TimetableSlot> todaySlots){
 
-        for(TimetableSlot eObject : StudentActivity.todaySlots){
+        for(TimetableSlot eObject : todaySlots){
             Date eventDate = eObject.getFrom();
             Date endDate = eObject.getTo();
             String courseName = eObject.getCourseName();

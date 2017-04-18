@@ -19,10 +19,12 @@ import timetable.Fragments.TomorrowFragment;
 
 public class TimetableAdapter extends FragmentPagerAdapter {
     List<TimetableSlot> tomorrowSlots;
+    List<TimetableSlot> todaySlots;
 
-    public TimetableAdapter(FragmentManager fm,  List<TimetableSlot> tomorrowSlots){
+    public TimetableAdapter(FragmentManager fm,  List<TimetableSlot> tomorrowSlots ,List<TimetableSlot> todaySlots){
         super(fm);
         this.tomorrowSlots = tomorrowSlots;
+        this.todaySlots = todaySlots;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class TimetableAdapter extends FragmentPagerAdapter {
         Fragment f = null;
 
         if(position == 0){
-            f = new TodayFragment();
+            f = TodayFragment.newInstance(todaySlots);
         } else {
             f = TomorrowFragment.newInstance(tomorrowSlots);
 
