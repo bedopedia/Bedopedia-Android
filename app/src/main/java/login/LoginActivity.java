@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginActivity context = this;
     private ApiInterface apiService;
+    private ActionBar ab ;
 
 
     private SharedPreferences sharedPreferences;
@@ -54,23 +56,11 @@ public class LoginActivity extends AppCompatActivity {
 
         apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.actionbar);
-        TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-        actionBarTitle.setText("");
 
-        ImageButton back = (ImageButton) findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-
-                onBackPressed();
-            }
-        });
-
-
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+        ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
 
 
@@ -119,7 +109,8 @@ public class LoginActivity extends AppCompatActivity {
         String schoolName = school_data.get("name").getAsString();
         String schoolAvatar = school_data.get("avatar_url").getAsString();
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-        actionBarTitle.setText(schoolName);
+        ab.setTitle(schoolName);
+
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView1);
         ImageViewHelper.getImageFromUrlWithIdFailure(context,schoolAvatar,imageView,R.drawable.logo_icon);
@@ -258,5 +249,12 @@ public class LoginActivity extends AppCompatActivity {
         ((AutoCompleteTextView)findViewById(R.id.password)).setTypeface(robotoRegular);
         ((TextView)findViewById(R.id.forget_password)).setTypeface(robotoRegular);
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 
 }
