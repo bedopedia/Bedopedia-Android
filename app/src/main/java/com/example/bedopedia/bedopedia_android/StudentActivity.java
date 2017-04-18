@@ -63,6 +63,7 @@ import myKids.MyKidsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timetable.Fragments.TomorrowFragment;
 import timetable.TimetableActivity;
 import timetable.TimetableSlot;
 
@@ -810,6 +811,9 @@ public class StudentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(StudentActivity.this, TimetableActivity.class);
                 intent.putExtra("student_id", studentId);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(TomorrowFragment.KEY_NAME, (Serializable) tomorrowSlots);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

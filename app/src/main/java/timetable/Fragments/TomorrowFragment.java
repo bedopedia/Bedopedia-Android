@@ -13,14 +13,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
-import com.example.bedopedia.bedopedia_android.StudentActivity;
+
 import timetable.TimetableActivity;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 import timetable.TimetableSlot;
@@ -34,6 +36,20 @@ public class TomorrowFragment extends Fragment {
     private RelativeLayout mLayout;
     ArrayList<String> mainColors;
     ArrayList<String> headerColors;
+    public static final String KEY_NAME = "tomorrowSlots";
+
+
+
+    public static Fragment newInstance(List<TimetableSlot> tomorrowSlots){
+        Fragment fragment ;
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_NAME, (Serializable) tomorrowSlots);
+
+        fragment = new TomorrowFragment();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
 
     public int getInDp(int dimensionInPixel){
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimensionInPixel, getResources().getDisplayMetrics());
@@ -68,7 +84,8 @@ public class TomorrowFragment extends Fragment {
         headerColors.add("#ffffd180");
 
         mLayout = (RelativeLayout) rootView.findViewById(R.id.tomorrow_event_column);
-        displayDailyEvents();
+        List<TimetableSlot> tomorrowSlots = ( List<TimetableSlot> ) getArguments().getSerializable(KEY_NAME);
+        displayDailyEvents(tomorrowSlots);
 
         TextView tomorrow7AM = (TextView) rootView.findViewById(R.id.tomorrow_7am);
         TextView tomorrow8AM = (TextView) rootView.findViewById(R.id.tomorrow_8am);
@@ -103,9 +120,9 @@ public class TomorrowFragment extends Fragment {
     }
 
 
-    private void displayDailyEvents(){
+    private void displayDailyEvents( List<TimetableSlot> tomorrowSlots){
 
-        for(TimetableSlot eObject : StudentActivity.tomorrowSlots){
+        for(TimetableSlot eObject : tomorrowSlots){
             Date eventDate = eObject.getFrom();
             Date endDate = eObject.getTo();
             String courseName = eObject.getCourseName();

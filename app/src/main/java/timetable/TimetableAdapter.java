@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import timetable.Fragments.TodayFragment;
@@ -17,9 +18,11 @@ import timetable.Fragments.TomorrowFragment;
  */
 
 public class TimetableAdapter extends FragmentPagerAdapter {
+    List<TimetableSlot> tomorrowSlots;
 
-    public TimetableAdapter(FragmentManager fm){
+    public TimetableAdapter(FragmentManager fm,  List<TimetableSlot> tomorrowSlots){
         super(fm);
+        this.tomorrowSlots = tomorrowSlots;
     }
 
     @Override
@@ -30,7 +33,8 @@ public class TimetableAdapter extends FragmentPagerAdapter {
         if(position == 0){
             f = new TodayFragment();
         } else {
-            f = new TomorrowFragment();
+            f = TomorrowFragment.newInstance(tomorrowSlots);
+
         }
 
         return f;
