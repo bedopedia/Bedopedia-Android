@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -113,18 +114,13 @@ public class GradesAvtivity extends AppCompatActivity {
         Bundle extras= getIntent().getExtras();
         student_id = extras.getString("student_id");
         courseGroups = (List<CourseGroup>) getIntent().getSerializableExtra("courseGroups");
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.actionbar);
-        back = (ImageButton) findViewById(R.id.back);
 
-        back.setOnClickListener(new View.OnClickListener() {
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle("Grades");
 
-            @Override
-            public void onClick(View v) {
-
-                onBackPressed();
-            }
-        });
 
         courses = new ArrayList<Course>();
         context = this;
@@ -134,6 +130,12 @@ public class GradesAvtivity extends AppCompatActivity {
         gradesList.setAdapter(adapter);
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     public void itemClicked(int position){

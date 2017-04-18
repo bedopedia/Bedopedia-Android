@@ -47,7 +47,8 @@
         <activity
             android:name="grades.GradesAvtivity"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar"/>
         <activity
             android:name="login.ForgetPasswordActivity"
             android:hardwareAccelerated="true"
