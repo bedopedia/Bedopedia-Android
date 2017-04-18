@@ -63,6 +63,7 @@ import myKids.MyKidsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timetable.Fragments.TodayFragment;
 import timetable.Fragments.TomorrowFragment;
 import timetable.TimetableActivity;
 import timetable.TimetableSlot;
@@ -813,6 +814,7 @@ public class StudentActivity extends AppCompatActivity {
                 intent.putExtra("student_id", studentId);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(TomorrowFragment.KEY_NAME, (Serializable) tomorrowSlots);
+                bundle.putSerializable(TodayFragment.KEY_NAME, (Serializable) todaySlots);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
