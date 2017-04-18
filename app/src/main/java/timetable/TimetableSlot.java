@@ -2,13 +2,14 @@ package timetable;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by khaled on 3/2/17.
  */
 
-public class TimetableSlot implements Comparable<TimetableSlot> {
+public class TimetableSlot implements Comparable<TimetableSlot>, Serializable {
     private Date from;
     private Date to;
     private String day;
