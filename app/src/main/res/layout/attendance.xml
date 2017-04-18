@@ -25,6 +25,7 @@
         >
 
         <LinearLayout
+            android:layout_marginTop="?attr/actionBarSize"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:layout_weight=".05"
