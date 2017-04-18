@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -44,20 +45,12 @@ public class BehaviorNotesActivity extends AppCompatActivity {
 
         Bundle extras= getIntent().getExtras();
         studentId = extras.getString("student_id");
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.actionbar);
-        TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-        actionBarTitle.setText("Behavior notes");
-        actionBarTitle.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        ImageButton back = (ImageButton) findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-
-                onBackPressed();
-            }
-        });
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle("Behaviour notes");
 
         context = this;
         Intent intent = this.getIntent();
@@ -118,5 +111,13 @@ public class BehaviorNotesActivity extends AppCompatActivity {
         });
 
     }
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 
 }
