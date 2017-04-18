@@ -119,5 +119,4 @@ public class BehaviorNotesActivity extends AppCompatActivity {
         return true;
     }
 
-
 }
