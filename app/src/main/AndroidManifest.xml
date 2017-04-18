@@ -60,7 +60,8 @@
         <activity
             android:name="attendance.AttendanceActivity"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar"/>
         <activity
             android:name=".StudentActivity"
             android:hardwareAccelerated="true"
