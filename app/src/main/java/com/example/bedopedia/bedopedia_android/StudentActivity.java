@@ -115,8 +115,8 @@ public class StudentActivity extends AppCompatActivity {
     List<NotificationModel> notifications;
     ArrayList<Badge> badges;
 
-    public static List<TimetableSlot> todaySlots;
-    public static List<TimetableSlot> tomorrowSlots;
+    public  List<TimetableSlot> todaySlots;
+    public  List<TimetableSlot> tomorrowSlots;
 
     public  List<BehaviorNote> positiveNotesList;
     public static List<BehaviorNote> negativeNotesList;
