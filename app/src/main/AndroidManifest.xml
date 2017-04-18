@@ -69,7 +69,8 @@
         <activity
             android:name="behaviorNotes.BehaviorNotesActivity"
             android:hardwareAccelerated="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar"/>
         <activity
             android:name="timetable.TimetableActivity"
             android:hardwareAccelerated="false"
