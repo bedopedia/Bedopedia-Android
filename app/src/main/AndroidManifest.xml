@@ -39,7 +39,7 @@
             android:name="login.LoginActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/NoActionBar" />
         <activity
             android:name="myKids.MyKidsActivity"
             android:hardwareAccelerated="true"
