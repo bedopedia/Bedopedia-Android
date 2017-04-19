@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
-import com.example.bedopedia.bedopedia_android.StudentActivity;
+
 import timetable.TimetableActivity;
 
 import java.io.Serializable;

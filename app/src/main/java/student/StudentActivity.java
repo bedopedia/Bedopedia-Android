@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package student;
 
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
@@ -24,6 +24,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.bedopedia.bedopedia_android.AskTeacherActivity;
+import com.example.bedopedia.bedopedia_android.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

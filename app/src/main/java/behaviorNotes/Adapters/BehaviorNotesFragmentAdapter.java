@@ -1,6 +1,5 @@
 package behaviorNotes.Adapters;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,9 +10,8 @@ import android.widget.TextView;
 import behaviorNotes.BehaviorNote;
 import behaviorNotes.BehaviorNotesActivity;
 import com.example.bedopedia.bedopedia_android.R;
-import com.example.bedopedia.bedopedia_android.StudentActivity;
+import student.StudentActivity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import behaviorNotes.Fragments.NegativeFragment;

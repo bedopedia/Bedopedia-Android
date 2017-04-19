@@ -16,6 +16,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.Map;
 
 import myKids.MyKidsActivity;
+import student.StudentActivity;
 
 /**
  * Created by ali on 27/02/17.
