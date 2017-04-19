@@ -52,7 +52,7 @@
         <activity
             android:name="login.ForgetPasswordActivity"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" android:theme="@style/NoActionBar"/>
         <activity
             android:name="gradeBook.ActivityCourse"
             android:hardwareAccelerated="true"
