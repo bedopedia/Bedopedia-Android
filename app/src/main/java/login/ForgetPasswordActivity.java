@@ -48,7 +48,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle("Forget password");
 
-      
+
 
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
