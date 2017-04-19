@@ -9,7 +9,6 @@ import android.widget.ListView;
 
 import behaviorNotes.BehaviorNotesActivity;
 import com.example.bedopedia.bedopedia_android.R;
-import com.example.bedopedia.bedopedia_android.StudentActivity;
 
 import java.io.Serializable;
 import java.util.List;
