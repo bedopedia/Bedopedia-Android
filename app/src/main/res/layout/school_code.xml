@@ -2,109 +2,11 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/school_code_container"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     >
 
-
-    <ScrollView
-        android:id="@+id/school_code"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/login"
-        android:fitsSystemWindows="true"
-        android:fillViewport="true"
-        tools:context="com.example.bedopedia.bedopedia_android.login.schoolCode">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="40dp"
-                android:layout_weight=".80"
-                android:background="@drawable/layout_screen"
-                android:orientation="vertical"
-                android:paddingTop="40dp">
-
-                <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:background="@drawable/flogo_icon" />
-
-                <TextView
-                    android:id="@+id/head_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="52dp"
-                    android:layout_marginLeft="55dp"
-                    android:layout_marginRight="52dp"
-                    android:gravity="center"
-                    android:textColor="#8a000000"
-                    android:textSize="15sp"
-                    android:text="Enter school code to proceed with sign in" />
-
-                <!-- Code Label -->
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="41dp"
-                    android:layout_marginRight="39dp"
-                    android:layout_marginTop="40dp">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/code"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/code_school"
-                        android:drawablePadding="17dp"
-                        android:hint="School code"
-                        android:imeOptions="actionNext"
-                        android:textColor="#de000000"
-                        android:textSize="16sp"
-                        android:inputType="text" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/codeSubmit"
-                    android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginTop="64dp"
-                    android:layout_marginBottom="50dp"
-                    android:background="@drawable/login_button"
-                    android:imeOptions="actionNext"
-                    android:text="CONTENUE"
-                    android:textSize="14sp"
-                    android:textColor="#ffffffff" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/copy_right"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_height="0dp"
-                android:layout_weight=".1"
-                android:gravity="center"
-                android:textColor="#8a000000"
-                android:textSize="12sp"
-                android:text="Copyright© 2017 Bedopedia." />
-        </LinearLayout>
-
-    </ScrollView>
 
 </LinearLayout>
