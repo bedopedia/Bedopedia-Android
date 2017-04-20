@@ -1,5 +1,8 @@
 package grades;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import attendance.AttendanceFragment;
 import gradeBook.ActivityCourse;
 import com.example.bedopedia.bedopedia_android.R;
 import com.google.gson.JsonObject;
@@ -35,82 +39,16 @@ import retrofit2.Response;
  */
 
 public class GradesAvtivity extends AppCompatActivity {
-    List<Course> courses;
-    ImageButton back;
+
     String student_id;
-    ProgressDialog progress;
     public static Context context;
     List<CourseGroup> courseGroups;
-
-    public void loading(){
-        progress.setTitle("Loading");
-        progress.setMessage("Wait while loading...");
-    }
-
-    private class GradesAsyncTask extends AsyncTask {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            loading();
-            progress.show();
-        }
-
-        protected void onProgressUpdate(String... progress) {
-            loading();
-        }
-
-        @Override
-        protected List<Course> doInBackground(Object... param) {
-
-            SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
-            ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
-            String url = "api/students/" + student_id + "/grade_certificate";
-            Map<String, String> params = new HashMap<>();
-            Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
-            call.enqueue(new Callback<ArrayList<JsonObject> >() {
-                @Override
-                public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
-                    progress.dismiss();
-                    int statusCode = response.code();
-                    if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
-                    } else {
-                        if (statusCode == 200) {
-                            for (int i = 0; i < response.body().size()-1; i++) {
-                                JsonObject courseData = response.body().get(i);
-                                courses.add(new Course(
-                                        courseData.get("name").toString().substring(1,courseData.get("name").toString().length()-1),
-                                        "",
-                                        0,
-                                        courseData.get("grade").toString().substring(1,courseData.get("grade").toString().length()-1),
-                                        courseData.get("icon").toString().substring(1,courseData.get("icon").toString().length()-1)
-                                ));
-                            }
-
-
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
-                    progress.dismiss();
-                    Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
-                }
-            });
-            return courses;
-        }
-
-
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grades);
-        progress = new ProgressDialog(this);
+
         Bundle extras= getIntent().getExtras();
         student_id = extras.getString("student_id");
         courseGroups = (List<CourseGroup>) getIntent().getSerializableExtra("courseGroups");
@@ -121,13 +59,14 @@ public class GradesAvtivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle("Grades");
 
-
-        courses = new ArrayList<Course>();
         context = this;
 
-        GradesAdapter adapter = new GradesAdapter(context, R.layout.single_grade, courseGroups);
-        ListView gradesList = (ListView) findViewById(R.id.grades_list);
-        gradesList.setAdapter(adapter);
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment f = GradesFragment.newInstance(courseGroups);
+        ft.add(R.id.grades_container, f);
+        ft.commit();
+
 
 
     }

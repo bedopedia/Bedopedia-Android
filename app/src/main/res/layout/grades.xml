@@ -5,19 +5,13 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/default_toolbar" />
-    <ListView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/grades_list"
-        android:numColumns="1"
-        android:layout_marginTop="10dp"
-        android:choiceMode="singleChoice"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:columnOrderPreserved="true"
-        android:rowOrderPreserved="true"
-        android:useDefaultMargins="true"
-        android:nestedScrollingEnabled="true"
-        android:scrollingCache="true"/>
+        android:id="@+id/grades_container"
+        android:orientation="vertical">
+
+    </LinearLayout>
 
 </LinearLayout>
