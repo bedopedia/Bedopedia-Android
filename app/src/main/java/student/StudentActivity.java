@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -79,6 +80,7 @@ public class StudentActivity extends AppCompatActivity {
     String studentId, studentName;
     String studentAvatar, studentLevel;
     Context context;
+    ActionBar ab;
     ProgressDialog progress;
     ArrayList<CourseGroup> courseGroups;
     SharedPreferences sharedPreferences;
@@ -566,8 +568,15 @@ public class StudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_home);
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.student_home_action_bar);
+
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+        ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle("Student Home");
+
+
+
 
         servicesCount = 0;
         TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
@@ -633,7 +642,7 @@ public class StudentActivity extends AppCompatActivity {
                 } else {
                     TextView title = (TextView) findViewById(R.id.action_bar_title);
                     Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-                    title.setTypeface(roboto);
+
                     new StudentActivity.NotificationsAsyncTask().execute();
                     NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     nMgr.cancelAll();
@@ -665,11 +674,10 @@ public class StudentActivity extends AppCompatActivity {
                 }
 
                 if(notificationLayout.isDrawerOpen(notificationList)){
-                    TextView title = (TextView) findViewById(R.id.action_bar_title);
-                    title.setText("Notifications");
+                    ab.setTitle("Notifications");
                 } else {
-                    TextView title = (TextView) findViewById(R.id.action_bar_title);
-                    title.setText(studentName);
+
+                    ab.setTitle(studentName);
                 }
 
                 notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
@@ -735,17 +743,7 @@ public class StudentActivity extends AppCompatActivity {
         };
         ImageViewHelper.getImageFromUrlWithCallback(this,studentAvatar,studentAvatarImage,callback);
 
-        TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-        actionBarTitle.setText(studentName);
-        ImageButton back = (ImageButton) findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-
-                onBackPressed();
-            }
-        });
 
         JsonParser parser = new JsonParser();
         JsonElement tradeElement = parser.parse(attendance);
@@ -840,5 +838,12 @@ public class StudentActivity extends AppCompatActivity {
             Dialogue.AlertDialog(this,"No NetworkConnection","Check your Netwotk connection and Try again");
         }
 
+    }
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true ; 
     }
 }
