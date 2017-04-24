@@ -37,10 +37,18 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forget_password);
 
+
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle("Forget password");
+
+
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment f = ForgetPasswordFRagment.newInstance();
-        ft.add(R.id.forget_password_container, f);
+        ft.add(R.id.forget_password, f);
         ft.commit();
     }
 

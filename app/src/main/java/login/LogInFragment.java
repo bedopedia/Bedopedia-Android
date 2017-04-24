@@ -48,7 +48,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class LogInFragment extends Fragment {
 
     private ApiInterface apiService;
-    private ActionBar ab ;
     private SharedPreferences sharedPreferences;
 
 
@@ -88,11 +87,6 @@ public class LogInFragment extends Fragment {
 
         apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
 
-
-        Toolbar tb = (Toolbar) rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(tb);
-        ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
 
 
 
@@ -141,7 +135,7 @@ public class LogInFragment extends Fragment {
         String schoolName = school_data.get("name").getAsString();
         String schoolAvatar = school_data.get("avatar_url").getAsString();
         TextView actionBarTitle = (TextView) rootView.findViewById(R.id.action_bar_title);
-        ab.setTitle(schoolName);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(schoolName);
 
 
         ImageView imageView = (ImageView) rootView.findViewById(R.id.imageView1);
@@ -281,6 +275,8 @@ public class LogInFragment extends Fragment {
         ((AutoCompleteTextView) rootView.findViewById(R.id.password)).setTypeface(robotoRegular);
         ((TextView) rootView.findViewById(R.id.forget_password)).setTypeface(robotoRegular);
     }
+
+
 
 
 

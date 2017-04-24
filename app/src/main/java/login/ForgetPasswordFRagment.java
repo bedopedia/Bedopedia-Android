@@ -77,12 +77,6 @@ public class ForgetPasswordFRagment extends Fragment {
 
 
 
-        Toolbar tb = (Toolbar) rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(tb);
-        ActionBar ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("Forget password");
-
 
 
 
