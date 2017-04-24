@@ -41,6 +41,7 @@ import com.squareup.picasso.Picasso;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private ActionBar ab ;
 
 
     @Override
@@ -48,6 +49,12 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+        ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
 
 
