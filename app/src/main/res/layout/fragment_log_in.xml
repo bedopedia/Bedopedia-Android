@@ -1,0 +1,136 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="login.LogInFragment">
+
+
+    <include layout="@layout/default_toolbar" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ali"/>
+    <ScrollView
+        android:id="@+id/school_code"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/login"
+        android:fitsSystemWindows="true"
+        android:fillViewport="true"
+        tools:context="com.example.bedopedia.bedopedia_android.login.schoolCode">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="16dp"
+                android:layout_weight=".999"
+                android:background="@drawable/layout_screen"
+                android:orientation="vertical"
+                android:paddingTop="40dp"
+                android:paddingBottom="32dp">
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:src="@drawable/dragon"
+                    android:layout_gravity="center"
+                    android:layout_height="96dp"
+                    android:layout_width="71dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView android:id="@+id/head_text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginRight="45dp"
+                    android:gravity="center"
+                    android:textColor="#8a000000"
+                    android:textSize="15sp"
+                    android:text="Enter your email and password to sign in."/>
+
+                <!-- Email Label -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginRight="39dp">
+                    <AutoCompleteTextView android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:imeOptions="actionNext"
+                        android:drawableLeft="@drawable/email_icon"
+                        android:drawablePadding="17dp"
+                        android:textSize="16sp"
+                        android:textColor="#de000000"
+                        android:hint="Email" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- password lable-->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginRight="39dp">
+                    <AutoCompleteTextView android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:imeOptions="actionGo"
+                        android:drawableLeft="@drawable/password_icon"
+                        android:drawablePadding="17dp"
+                        android:textSize="16sp"
+                        android:textColor="#de000000"
+                        android:hint="Password" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/loginSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="34dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:textSize="14sp"
+                    android:text="Login"
+                    android:background="@drawable/login_button"
+                    android:textColor="#ffffffff"/>
+
+
+                <!-- forget password text lable-->
+                <TextView android:id="@+id/forget_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:textSize="16sp"
+                    android:inputType="textEmailAddress"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="#de000000"
+                    android:text="Forget password?" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_height="0dp"
+                android:layout_weight=".001"
+                android:gravity="center"
+                />
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>
