@@ -40,8 +40,7 @@ import static android.content.Context.MODE_PRIVATE;
  * create an instance of this fragment.
  */
 public class SchoolCodeFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private SharedPreferences sharedPreferences;
     private final String schoolApiUrl = "https://bedopedia-schools.herokuapp.com/";
     private final String path = "schools/get_by_code";
@@ -54,7 +53,7 @@ public class SchoolCodeFragment extends Fragment {
 
 
     public SchoolCodeFragment() {
-        // Required empty public constructor
+
     }
 
     /**
@@ -62,7 +61,6 @@ public class SchoolCodeFragment extends Fragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment SchoolCodeFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static SchoolCodeFragment newInstance() {
         SchoolCodeFragment fragment = new SchoolCodeFragment();
         Bundle args = new Bundle();
@@ -74,8 +72,7 @@ public class SchoolCodeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
