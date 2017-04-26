@@ -7,7 +7,15 @@
     android:layout_height="match_parent"
     android:id="@+id/student_drawer_layout">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <include layout="@layout/custom_toolbar" />
+    </LinearLayout>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="?android:actionBarSize"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/student_activity"
     android:layout_width="match_parent"
