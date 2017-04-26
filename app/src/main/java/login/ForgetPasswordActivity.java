@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -52,10 +53,12 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         ft.commit();
     }
 
+
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+            onBackPressed();
+        return true ;
     }
 
 }
