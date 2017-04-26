@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import Tools.FragmentUtils;
 import attendance.AttendanceFragment;
 import gradeBook.ActivityCourse;
 import com.example.bedopedia.bedopedia_android.R;
@@ -61,12 +62,8 @@ public class GradesAvtivity extends AppCompatActivity {
 
         context = this;
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment f = GradesFragment.newInstance(courseGroups);
-        ft.add(R.id.grades_container, f);
-        ft.commit();
-
+        FragmentUtils.createFragment(getFragmentManager(),GradesFragment.newInstance(courseGroups), R.id.grades_container );
+        
 
 
     }
