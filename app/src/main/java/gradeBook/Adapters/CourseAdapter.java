@@ -6,11 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import Tools.UIUtils;
@@ -19,63 +22,135 @@ import Tools.UIUtils;
  * Created by ali on 13/02/17.
  */
 
-public class CourseAdapter extends ArrayAdapter  {
+public class CourseAdapter extends BaseExpandableListAdapter {
 
 
         private Context context;
         private ArrayList<ArrayList<String>> header;
         ArrayList<ArrayList<ArrayList<String>>> items;
 
+        private ArrayList<CourseAdapter.Holder> parentData = new ArrayList<>();
+        private ArrayList<CourseAdapter.ChildHolder> childrenData = new ArrayList<>();
+
+
+
+
         public CourseAdapter(Context context, int resource, ArrayList<ArrayList<ArrayList<String>>> items, ArrayList<ArrayList<String>> header) {
-        super(context, resource, items);
             this.context =   context;
             this.header = header;
             this.items = items;
         }
 
-        public static  class Holder{
+    @Override
+    public int getGroupCount() {
+        return header.size();
+    }
+
+    @Override
+    public int getChildrenCount(int groupPosition) {
+        return items.get(groupPosition).size();
+    }
+
+    @Override
+    public Object getGroup(int groupPosition) {
+        return header.get(groupPosition);
+    }
+
+    @Override
+    public Object getChild(int groupPosition, int childPosition) {
+        return items.get(groupPosition).get(childPosition);
+    }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return 0;
+    }
+
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return 0;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup parent) {
+        ArrayList<ArrayList<String>> courseItem = (ArrayList<ArrayList<String>>) getGroup(groupPosition);
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.course_list_item, parent, false);
+        }
+
+        CourseAdapter.Holder item=new CourseAdapter.Holder();
+
+        item.CategoryName = (TextView) view.findViewById(R.id.CategoryName);
+        Typeface roboto = Typeface.createFromAsset(context.getAssets(),
+                "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
+        Typeface roboto2 = Typeface.createFromAsset(context.getAssets(),
+                "font/Roboto-Bold.ttf"); //use this.getAssets if you are calling from an Activity
+        item.CategoryName.setTypeface(roboto);
+        item.numOfCategory = (TextView) view.findViewById(R.id.numOfCategory);
+        item.numOfCategory.setTypeface(roboto2);
+        item.maxGrade = (TextView) view.findViewById(R.id.maxGrade);
+        item.maxGrade.setTypeface(roboto2);
+        item.CategoryName.setText(header.get(groupPosition).get(0));
+        item.numOfCategory.setText(header.get(groupPosition).get(1));
+        item.maxGrade.setText(header.get(groupPosition).get(2));
+        return view ;
+    }
+
+    @Override
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
+
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.course_list_view_item, parent, false);
+        }
+
+
+
+        CourseAdapter.ChildHolder item=new CourseAdapter.ChildHolder();
+
+        item.mCourseNameTextView = (TextView) view.findViewById(R.id.courseItemtName);
+        item.mCourseGradeTextView =  (TextView) view.findViewById(R.id.courseItemtGrade);
+        item.mCourseCommentTextView = (TextView) view.findViewById(R.id.courseItemtgradeComment);
+        item.mCourseAverageTextView = (TextView) view.findViewById(R.id.courseItemtAvg);
+
+        Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf"); //use this.getAssets if you are calling from an Activity
+        item.mCourseNameTextView.setTypeface(roboto);
+        item.mCourseGradeTextView.setTypeface(roboto);
+        item.mCourseCommentTextView.setTypeface(roboto);
+        item.mCourseAverageTextView.setTypeface(roboto);
+
+        item.mCourseNameTextView.setText(items.get(groupPosition).get(childPosition).get(0));
+        item.mCourseGradeTextView.setText(items.get(groupPosition).get(childPosition).get(1));
+        item.mCourseCommentTextView.setText(items.get(groupPosition).get(childPosition).get(2));
+        Double avg = Double.valueOf(items.get(groupPosition).get(childPosition).get(3));
+        avg = BigDecimal.valueOf(avg)
+                .setScale(1, RoundingMode.HALF_UP)
+                .doubleValue();
+        item.mCourseAverageTextView.setText("Avg. grade is " +avg.toString());
+
+        return view;
+    }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return false;
+    }
+
+
+    public static  class Holder{
             TextView CategoryName;
             TextView numOfCategory;
             TextView maxGrade;
-            ListView categoryData;
         }
 
-        @Override
-        public View getView(final int position, View view, ViewGroup parent) {
-        // Get the data item for this position
-        ArrayList<ArrayList<String>> courseItem = (ArrayList<ArrayList<String>>) getItem(position);
-        // Check if an existing view is being reused, otherwise inflate the view
-
-
-
-
-            CourseAdapter.Holder item;
-        if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.course_list_item, parent, false);
+    public static class ChildHolder{
+            TextView mCourseNameTextView ;
+            TextView mCourseAverageTextView ;
+            TextView mCourseGradeTextView ;
+            TextView mCourseCommentTextView ;
         }
-        item=new CourseAdapter.Holder();
-
-         item.CategoryName = (TextView) view.findViewById(R.id.CategoryName);
-         Typeface roboto = Typeface.createFromAsset(context.getAssets(),
-                    "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-         Typeface roboto2 = Typeface.createFromAsset(context.getAssets(),
-                    "font/Roboto-Bold.ttf"); //use this.getAssets if you are calling from an Activity
-         item.CategoryName.setTypeface(roboto);
-         item.numOfCategory = (TextView) view.findViewById(R.id.numOfCategory);
-         item.numOfCategory.setTypeface(roboto2);
-         item.maxGrade = (TextView) view.findViewById(R.id.maxGrade);
-         item.maxGrade.setTypeface(roboto2);
-         item.CategoryName.setText(header.get(position).get(0));
-         item.numOfCategory.setText(header.get(position).get(1));
-         item.maxGrade.setText(header.get(position).get(2));
-
-         item.categoryData = (ListView) view.findViewById(R.id.course_item_list_view);
-         CourseListAdapter listViewAdapter = new CourseListAdapter(context,R.layout.course_list_view_item, courseItem );
-         item.categoryData.setAdapter(listViewAdapter);
-         UIUtils.setListViewHeightBasedOnItems(item.categoryData);
-
-
-        //TODO notification logo
-        return view;
-    }
 }

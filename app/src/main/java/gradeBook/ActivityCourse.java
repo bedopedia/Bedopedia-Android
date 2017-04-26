@@ -4,10 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,10 +34,7 @@ import Tools.InternetConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-
-
-
+import retrofit2.http.HEAD;
 
 
 public class ActivityCourse extends AppCompatActivity {
@@ -53,6 +54,12 @@ public class ActivityCourse extends AppCompatActivity {
 
 
     private class GradeBookAsyncTask extends AsyncTask {
+
+
+        ExpandableListView courseListView ;
+        CourseAdapter courseItemAdapter ;
+        int responseSize = 0 ;
+
 
         @Override
         protected void onPreExecute() {
@@ -88,6 +95,8 @@ public class ActivityCourse extends AppCompatActivity {
 
                         JsonObject body = response.body();
                         JsonObject categories = (JsonObject) body.get("categories");
+                        responseSize = categories.size() ;
+
 
                         Set<Map.Entry<String, JsonElement>> entries = categories.entrySet();//will return members of your object
                         for (Map.Entry<String, JsonElement> entry: entries) { // loop through all categories
@@ -128,9 +137,49 @@ public class ActivityCourse extends AppCompatActivity {
 
                         }
 
-                        CourseAdapter courseItemAdapter = new CourseAdapter(ActivityCourse.this, R.layout.activity_course, courseItemsTempData ,  header );
-                        ListView courseListView = (ListView) findViewById(R.id.category_list_view);
+                        courseItemAdapter = new CourseAdapter(ActivityCourse.this, R.layout.activity_course, courseItemsTempData ,  header );
+                        courseListView = (ExpandableListView) findViewById(R.id.category_list_view);
                         courseListView.setAdapter(courseItemAdapter);
+                        ExpandAll();
+
+                        courseListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                            @Override
+                            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+                                return true;
+                            }
+                        });
+                        courseListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+                            @Override
+                            public void onGroupExpand(int groupPosition) {
+                                return;
+                            }
+                        });
+
+                        courseListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+
+                            @Override
+                            public void onGroupCollapse(int groupPosition) {
+                                return;
+                            }
+                        });
+
+                        // Listview on child click listener
+                        courseListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+                            @Override
+                            public boolean onChildClick(ExpandableListView parent, View v,
+                                                        int groupPosition, int childPosition, long id) {
+                                return true;
+                            }
+                        });
+
+
+
+
+
+
 
 
                     }
@@ -146,6 +195,12 @@ public class ActivityCourse extends AppCompatActivity {
 
             return null;
         }
+        void ExpandAll(){
+            Log.e("TAG","Response - " + responseSize);
+            for(int i = 0 ; i < responseSize; i++)
+                courseListView.expandGroup(i);
+        }
+
 
 
     }
@@ -316,6 +371,5 @@ public class ActivityCourse extends AppCompatActivity {
         }
         return "-";
     }
-
 
 }
