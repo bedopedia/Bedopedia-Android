@@ -63,7 +63,7 @@ public class GradesAvtivity extends AppCompatActivity {
 
         context = this;
 
-        FragmentUtils.createFragment(getFragmentManager(),GradesFragment.newInstance(courseGroups), R.id.grades_container );
+        FragmentUtils.createFragment(getSupportFragmentManager(),GradesFragment.newInstance(courseGroups), R.id.grades_container );
         
 
 

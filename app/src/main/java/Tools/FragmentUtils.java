@@ -1,7 +1,7 @@
 package Tools;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.app.FragmentTransaction;
 
 /**
@@ -12,7 +12,7 @@ public class FragmentUtils {
 
     public static void createFragment(FragmentManager fragmentManager,Fragment gradesFragment, int id ) {
         FragmentManager fm = fragmentManager;
-        FragmentTransaction ft = fm.beginTransaction();
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
         Fragment f = gradesFragment;
         ft.add(id, f);
         ft.commit();

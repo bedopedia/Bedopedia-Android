@@ -1,6 +1,7 @@
 package timetable;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -18,6 +19,8 @@ import com.example.bedopedia.bedopedia_android.R;
 import java.util.List;
 
 
+import Tools.FragmentUtils;
+import login.ForgetPasswordFRagment;
 import timetable.Fragments.TomorrowFragment;
 import timetable.TimetableAdapter;
 
@@ -28,8 +31,6 @@ import timetable.TimetableAdapter;
 
 public class TimetableActivity extends AppCompatActivity {
 
-    private TimetableAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
     
     public static Context context;
 
@@ -37,7 +38,6 @@ public class TimetableActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timetable);
-        context = this;
 
         Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(tb);
@@ -45,17 +45,7 @@ public class TimetableActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle("Time table");
 
-        Intent intent = this.getIntent();
-        Bundle bundle = intent.getExtras();
-        List<TimetableSlot> tomorrowSlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
-        List<TimetableSlot> todaySlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
-        mSectionsPagerAdapter = new TimetableAdapter(getSupportFragmentManager(), tomorrowSlots, todaySlots);
-
-        mViewPager = (ViewPager) findViewById(R.id.timetable_container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.timetable_tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        FragmentUtils.createFragment(getSupportFragmentManager(), TimeTableFragment.newInstance(), R.id.timetable_main_container);
 
     }
 

@@ -93,8 +93,8 @@ public class TodayFragment extends Fragment {
 
         act = getActivity();
         mLayout = (RelativeLayout) rootView.findViewById(R.id.today_event_column);
-        nowSign = new TextView(TimetableActivity.context);
-        nowEventView = new TextView(TimetableActivity.context);
+        nowSign = new TextView(getActivity());
+        nowEventView = new TextView(getActivity());
         List<TimetableSlot> todaySlots = ( List<TimetableSlot> ) getArguments().getSerializable(KEY_NAME);
         displayDailyEvents(todaySlots);
         displayNowTime();
@@ -115,7 +115,7 @@ public class TodayFragment extends Fragment {
         TextView today6PM = (TextView) rootView.findViewById(R.id.today_6pm);
         TextView today7PM = (TextView) rootView.findViewById(R.id.today_7pm);
 
-        Typeface roboto = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
         today7AM.setTypeface(roboto);
         today8AM.setTypeface(roboto);
         today9AM.setTypeface(roboto);
@@ -234,12 +234,12 @@ public class TodayFragment extends Fragment {
         int minutes = calendar.get(Calendar.MINUTE);
         int eventPosition = (int) (31.0 + ((hours - 7)*60.0) + (minutes/60.0) * 60.0) ;
 
-        Typeface roboto = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Medium.ttf");
-        Typeface roboto1 = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Regular.ttf");
+        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
+        Typeface roboto1 = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Regular.ttf");
 
         int randomNumber = (int) (Math.random()*10);
 
-        TextView mEventView = new TextView(TimetableActivity.context);
+        TextView mEventView = new TextView(getActivity());
         RelativeLayout.LayoutParams lParam = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         lParam.topMargin = getInDp(eventPosition);
@@ -255,7 +255,7 @@ public class TodayFragment extends Fragment {
         mEventView.setBackgroundColor(Color.parseColor(mainColors.get(randomNumber)));
         mLayout.addView(mEventView);
 
-        TextView mEventView3 = new TextView(TimetableActivity.context);
+        TextView mEventView3 = new TextView(getActivity());
         RelativeLayout.LayoutParams lParam3 = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam3.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         lParam3.topMargin = getInDp(eventPosition+(height/2));
@@ -272,7 +272,7 @@ public class TodayFragment extends Fragment {
         mLayout.addView(mEventView3);
 
 
-        TextView mEventView1 = new TextView(TimetableActivity.context);
+        TextView mEventView1 = new TextView(getActivity());
         RelativeLayout.LayoutParams lParam1 = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam1.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         lParam1.topMargin = getInDp(eventPosition);
