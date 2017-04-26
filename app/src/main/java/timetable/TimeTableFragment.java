@@ -33,6 +33,7 @@ public class TimeTableFragment extends Fragment {
 
     private TimetableAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    TabLayout tabLayout;
 
     public TimeTableFragment() {
         // Required empty public constructor
@@ -59,6 +60,8 @@ public class TimeTableFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_time_table, container, false);
+        mViewPager = (ViewPager) rootView.findViewById(R.id.timetable_container);
+        tabLayout = (TabLayout) rootView.findViewById(R.id.timetable_tabs);
 
         return rootView;
     }
@@ -73,10 +76,8 @@ public class TimeTableFragment extends Fragment {
         List<TimetableSlot> todaySlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
         mSectionsPagerAdapter = new TimetableAdapter(getActivity().getSupportFragmentManager(), tomorrowSlots, todaySlots);
 
-        mViewPager = (ViewPager) view.findViewById(R.id.timetable_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.timetable_tabs);
         tabLayout.setupWithViewPager(mViewPager);
     }
 }
