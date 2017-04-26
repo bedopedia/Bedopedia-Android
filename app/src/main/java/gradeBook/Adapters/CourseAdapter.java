@@ -29,7 +29,7 @@ public class CourseAdapter extends BaseExpandableListAdapter {
         private ArrayList<ArrayList<String>> header;
         ArrayList<ArrayList<ArrayList<String>>> items;
 
-        private ArrayList<CourseAdapter.Holder> parentData = new ArrayList<>();
+        private ArrayList<CourseAdapter.GroupHolder> parentData = new ArrayList<>();
         private ArrayList<CourseAdapter.ChildHolder> childrenData = new ArrayList<>();
 
 
@@ -79,11 +79,11 @@ public class CourseAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup parent) {
         ArrayList<ArrayList<String>> courseItem = (ArrayList<ArrayList<String>>) getGroup(groupPosition);
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.course_list_item, parent, false);
-        }
 
-        CourseAdapter.Holder item=new CourseAdapter.Holder();
+            view = LayoutInflater.from(context).inflate(R.layout.course_list_item, parent, false);
+
+
+        CourseAdapter.GroupHolder item=new CourseAdapter.GroupHolder();
 
         item.CategoryName = (TextView) view.findViewById(R.id.CategoryName);
         Typeface roboto = Typeface.createFromAsset(context.getAssets(),
@@ -104,9 +104,9 @@ public class CourseAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
 
-        if (view == null) {
+
             view = LayoutInflater.from(context).inflate(R.layout.course_list_view_item, parent, false);
-        }
+
 
 
 
@@ -141,7 +141,7 @@ public class CourseAdapter extends BaseExpandableListAdapter {
     }
 
 
-    public static  class Holder{
+    public static  class GroupHolder{
             TextView CategoryName;
             TextView numOfCategory;
             TextView maxGrade;

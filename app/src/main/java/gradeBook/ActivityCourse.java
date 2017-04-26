@@ -4,16 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.ListView;
+
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
@@ -34,7 +31,6 @@ import Tools.InternetConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.HEAD;
 
 
 public class ActivityCourse extends AppCompatActivity {
@@ -165,7 +161,7 @@ public class ActivityCourse extends AppCompatActivity {
                             }
                         });
 
-                        // Listview on child click listener
+
                         courseListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
                             @Override
@@ -196,7 +192,6 @@ public class ActivityCourse extends AppCompatActivity {
             return null;
         }
         void ExpandAll(){
-            Log.e("TAG","Response - " + responseSize);
             for(int i = 0 ; i < responseSize; i++)
                 courseListView.expandGroup(i);
         }
