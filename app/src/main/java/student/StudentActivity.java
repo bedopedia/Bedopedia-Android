@@ -87,7 +87,7 @@ public class StudentActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     ApiInterface apiService;
     Toolbar tb ;
-   // ActionBar ab ;
+
     String attendance;
     int absentDays;
     String totalGrade;
@@ -578,6 +578,10 @@ public class StudentActivity extends AppCompatActivity {
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle("StudentHome");
+
+
+
+
 
 
 
