@@ -3,6 +3,7 @@ package timetable;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,7 +41,6 @@ public class TimeTableFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-
      * @return A new instance of fragment TimeTableFragment.
      */
     public static Fragment newInstance() {
@@ -60,6 +60,12 @@ public class TimeTableFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_time_table, container, false);
 
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         Intent intent = getActivity().getIntent();
         Bundle bundle = intent.getExtras();
@@ -67,13 +73,10 @@ public class TimeTableFragment extends Fragment {
         List<TimetableSlot> todaySlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
         mSectionsPagerAdapter = new TimetableAdapter(getActivity().getSupportFragmentManager(), tomorrowSlots, todaySlots);
 
-        mViewPager = (ViewPager) rootView.findViewById(R.id.timetable_container);
+        mViewPager = (ViewPager) view.findViewById(R.id.timetable_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.timetable_tabs);
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.timetable_tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        return rootView;
     }
-
 }
