@@ -101,7 +101,7 @@ public class TomorrowFragment extends Fragment {
         TextView tomorrow6PM = (TextView) rootView.findViewById(R.id.tomorrow_6pm);
         TextView tomorrow7PM = (TextView) rootView.findViewById(R.id.tomorrow_7pm);
 
-        Typeface roboto = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
         tomorrow7AM.setTypeface(roboto);
         tomorrow8AM.setTypeface(roboto);
         tomorrow9AM.setTypeface(roboto);
@@ -157,12 +157,12 @@ public class TomorrowFragment extends Fragment {
         int minutes = calendar.get(Calendar.MINUTE);
         int eventPosition = (int) (31.0 + ((hours - 7)*60.0) + (minutes/60.0) * 60.0) ;
 
-        Typeface roboto = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Medium.ttf");
-        Typeface roboto1 = Typeface.createFromAsset(TimetableActivity.context.getAssets(), "font/Roboto-Regular.ttf");
+        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
+        Typeface roboto1 = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Regular.ttf");
 
         int randomNumber = (int) (Math.random()*10);
 
-        TextView mEventView = new TextView(TimetableActivity.context);
+        TextView mEventView = new TextView(getActivity());
         RelativeLayout.LayoutParams lParam = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         lParam.topMargin = getInDp(eventPosition);
@@ -178,7 +178,7 @@ public class TomorrowFragment extends Fragment {
         mEventView.setBackgroundColor(Color.parseColor(mainColors.get(randomNumber)));
         mLayout.addView(mEventView);
 
-        TextView mEventView3 = new TextView(TimetableActivity.context);
+        TextView mEventView3 = new TextView(getActivity());
         RelativeLayout.LayoutParams lParam3 = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam3.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         lParam3.topMargin = getInDp(eventPosition+(height/2));
@@ -195,7 +195,7 @@ public class TomorrowFragment extends Fragment {
         mLayout.addView(mEventView3);
 
 
-        TextView mEventView1 = new TextView(TimetableActivity.context);
+        TextView mEventView1 = new TextView(getActivity());
         RelativeLayout.LayoutParams lParam1 = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam1.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         lParam1.topMargin = getInDp(eventPosition);

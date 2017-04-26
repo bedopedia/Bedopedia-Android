@@ -19,7 +19,7 @@ public class schoolCode extends AppCompatActivity {
 
 
         setContentView(R.layout.school_code);
-        FragmentUtils.createFragment(getFragmentManager(), SchoolCodeFragment.newInstance(), R.id.school_code_container);
+        FragmentUtils.createFragment(getSupportFragmentManager(), SchoolCodeFragment.newInstance(), R.id.school_code_container);
 
 
     }

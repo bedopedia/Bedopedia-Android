@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        FragmentUtils.createFragment(getFragmentManager(), LogInFragment.newInstance(), R.id.log_in_container);
+        FragmentUtils.createFragment(getSupportFragmentManager(), LogInFragment.newInstance(), R.id.log_in_container);
 
 
     }
