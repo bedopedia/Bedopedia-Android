@@ -8,8 +8,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.ListView;
+
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
@@ -32,10 +33,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-
-
-
-
 public class ActivityCourse extends AppCompatActivity {
 
     ProgressDialog progress;
@@ -53,6 +50,12 @@ public class ActivityCourse extends AppCompatActivity {
 
 
     private class GradeBookAsyncTask extends AsyncTask {
+
+
+        ExpandableListView courseListView ;
+        CourseAdapter courseItemAdapter ;
+        int responseSize = 0 ;
+
 
         @Override
         protected void onPreExecute() {
@@ -88,6 +91,8 @@ public class ActivityCourse extends AppCompatActivity {
 
                         JsonObject body = response.body();
                         JsonObject categories = (JsonObject) body.get("categories");
+                        responseSize = categories.size() ;
+
 
                         Set<Map.Entry<String, JsonElement>> entries = categories.entrySet();//will return members of your object
                         for (Map.Entry<String, JsonElement> entry: entries) { // loop through all categories
@@ -128,9 +133,49 @@ public class ActivityCourse extends AppCompatActivity {
 
                         }
 
-                        CourseAdapter courseItemAdapter = new CourseAdapter(ActivityCourse.this, R.layout.activity_course, courseItemsTempData ,  header );
-                        ListView courseListView = (ListView) findViewById(R.id.category_list_view);
+                        courseItemAdapter = new CourseAdapter(ActivityCourse.this, R.layout.activity_course, courseItemsTempData ,  header );
+                        courseListView = (ExpandableListView) findViewById(R.id.category_list_view);
                         courseListView.setAdapter(courseItemAdapter);
+                        ExpandAll();
+
+                        courseListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                            @Override
+                            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+                                return true;
+                            }
+                        });
+                        courseListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+                            @Override
+                            public void onGroupExpand(int groupPosition) {
+                                return;
+                            }
+                        });
+
+                        courseListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+
+                            @Override
+                            public void onGroupCollapse(int groupPosition) {
+                                return;
+                            }
+                        });
+
+
+                        courseListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+                            @Override
+                            public boolean onChildClick(ExpandableListView parent, View v,
+                                                        int groupPosition, int childPosition, long id) {
+                                return true;
+                            }
+                        });
+
+
+
+
+
+
 
 
                     }
@@ -146,6 +191,11 @@ public class ActivityCourse extends AppCompatActivity {
 
             return null;
         }
+        void ExpandAll(){
+            for(int i = 0 ; i < responseSize; i++)
+                courseListView.expandGroup(i);
+        }
+
 
 
     }
@@ -316,6 +366,5 @@ public class ActivityCourse extends AppCompatActivity {
         }
         return "-";
     }
-
 
 }

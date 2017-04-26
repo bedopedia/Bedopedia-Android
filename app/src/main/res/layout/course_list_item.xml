@@ -6,8 +6,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="?android:attr/listPreferredItemHeight">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -56,12 +55,5 @@
                 />
 
         </LinearLayout>
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/course_item_list_view"
-            />
     </LinearLayout>
-
-
 </LinearLayout>
