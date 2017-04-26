@@ -1,33 +1,15 @@
 package login;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.SharedPreferences;
-import android.graphics.Typeface;
+
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.bedopedia.bedopedia_android.R;
-import com.google.gson.JsonObject;
+import Tools.FragmentUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import login.Services.ApiClient;
-import login.Services.ApiInterface;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ForgetPasswordActivity extends AppCompatActivity {
@@ -45,12 +27,8 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle("Forget password");
 
+        FragmentUtils.createFragment(getFragmentManager(), ForgetPasswordFRagment.newInstance(), R.id.forget_password );
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment f = ForgetPasswordFRagment.newInstance();
-        ft.add(R.id.forget_password, f);
-        ft.commit();
     }
 
 

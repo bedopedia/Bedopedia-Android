@@ -1,15 +1,12 @@
 package login;
 
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.bedopedia.bedopedia_android.R;
 
+import Tools.FragmentUtils;
 
 
 public class schoolCode extends AppCompatActivity {
@@ -22,12 +19,8 @@ public class schoolCode extends AppCompatActivity {
 
 
         setContentView(R.layout.school_code);
+        FragmentUtils.createFragment(getFragmentManager(), SchoolCodeFragment.newInstance(), R.id.school_code_container);
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment f = SchoolCodeFragment.newInstance();
-        ft.add(R.id.school_code_container, f);
-        ft.commit();
 
     }
 
