@@ -14,6 +14,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -124,6 +126,7 @@ public class StudentActivity extends AppCompatActivity {
     public static List<BehaviorNote> negativeNotesList;
 
     ProgressBar attendanceProgress;
+    Toolbar tb ;
 
     public void loading(){
         progress.setTitle("Loading");
@@ -566,8 +569,15 @@ public class StudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_home);
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.student_home_action_bar);
+
+         tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle("Student Home");
+
+
+
 
         servicesCount = 0;
         TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
@@ -627,13 +637,11 @@ public class StudentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(notificationLayout.isDrawerOpen(notificationList)){
                     notificationLayout.closeDrawer(notificationList);
-                    TextView title = (TextView) findViewById(R.id.action_bar_title);
                     Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-                    title.setTypeface(roboto);
+                    applyFontForToolbarTitle(roboto);
                 } else {
-                    TextView title = (TextView) findViewById(R.id.action_bar_title);
                     Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-                    title.setTypeface(roboto);
+                    applyFontForToolbarTitle(roboto);
                     new StudentActivity.NotificationsAsyncTask().execute();
                     NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     nMgr.cancelAll();
@@ -665,11 +673,9 @@ public class StudentActivity extends AppCompatActivity {
                 }
 
                 if(notificationLayout.isDrawerOpen(notificationList)){
-                    TextView title = (TextView) findViewById(R.id.action_bar_title);
-                    title.setText("Notifications");
+                    tb.setTitle("Notifications");
                 } else {
-                    TextView title = (TextView) findViewById(R.id.action_bar_title);
-                    title.setText(studentName);
+                    tb.setTitle(studentName);
                 }
 
                 notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
@@ -684,7 +690,6 @@ public class StudentActivity extends AppCompatActivity {
         messagesButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
                 TextView messagecnt = (TextView) findViewById(R.id.messaage_number);
                 messagecnt.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(StudentActivity.this, AskTeacherActivity.class);
@@ -735,17 +740,7 @@ public class StudentActivity extends AppCompatActivity {
         };
         ImageViewHelper.getImageFromUrlWithCallback(this,studentAvatar,studentAvatarImage,callback);
 
-        TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-        actionBarTitle.setText(studentName);
-        ImageButton back = (ImageButton) findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                onBackPressed();
-            }
-        });
+        ab.setTitle(studentName);
 
         JsonParser parser = new JsonParser();
         JsonElement tradeElement = parser.parse(attendance);
@@ -841,4 +836,32 @@ public class StudentActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+
+    public void applyFontForToolbarTitle(Typeface typeface){
+
+        for(int i = 0; i < tb.getChildCount(); i++){
+            View view = tb.getChildAt(i);
+
+            if(view instanceof TextView){
+                Log.e("TAG"," " + i);
+                TextView tv = (TextView) view;
+
+                if(tv.getText().equals(tb.getTitle())){
+                    tv.setTypeface(typeface);
+                    break;
+                }
+            }
+        }
+    }
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 }
