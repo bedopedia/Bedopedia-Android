@@ -21,12 +21,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
@@ -63,8 +66,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
     ProgressDialog progress;
     ArrayList<JsonArray> kidsAttendances;
     public static Integer notificationNumber = 0;
-    TextView notificationNuber;
-
+    Toolbar tb ;
     DrawerLayout drawer;
     ListView notificationList;
     ActionBarDrawerToggle notificationToggle;
@@ -182,7 +184,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             Call<JsonObject>  call = apiService.getServise(url, params);
 
             call.enqueue(new Callback<JsonObject> () {
-
                 @Override
                 public void onResponse(Call<JsonObject>  call, Response<JsonObject>  response) {
                     progress.dismiss();
@@ -192,7 +193,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                     } else if (statusCode == 200) {
                         notifications = new  ArrayList<NotificationModel>();
                         JsonObject notificationsRespone = response.body();
-
 
                         for (JsonElement pa : notificationsRespone.get("notifications").getAsJsonArray()) { // gest needed data from assig, quizz, grade item
                             JsonObject notificationObj = pa.getAsJsonObject();
@@ -211,12 +211,9 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                                 e.printStackTrace();
                             }
                         }
-
                         NotificationAdapter notificationAdapter = new NotificationAdapter(context, R.layout.notification_list_item,notifications);
                         ListView listView = (ListView) findViewById(R.id.listview_notification);
                         listView.setAdapter(notificationAdapter);
-
-
                     }
                 }
 
@@ -225,13 +222,9 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                     progress.dismiss();
                     Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
                 }
-
-
             });
             return null;
         }
-
-
     }
 
 
@@ -241,7 +234,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         protected void onPreExecute() {
             super.onPreExecute();
             loading();
-
         }
 
         protected void onProgressUpdate(String... progress) {
@@ -250,7 +242,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
         @Override
         protected List<Student> doInBackground(Object... param) {
-
             SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
             id = sharedPreferences.getString("user_id", "");
@@ -263,31 +254,25 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
                 @Override
                 public void onResponse(Call<JsonObject>  call, Response<JsonObject>  response) {
-
                     int statusCode = response.code();
                     if(statusCode == 401) {
                         Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
                     } else if (statusCode == 200) {
-
                     }
                 }
 
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
-
                 }
-
 
             });
             return null;
         }
-
-
     }
 
 
     public  void changeTheNotificationNumber() {
-        TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
+        TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
         notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf"); //use this.getAssets if you are calling from an Activity
         notificationNumberText.setTypeface(roboto);
@@ -308,32 +293,22 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         String email = sharedPreferences.getString("email", "");
         String avatarUrl = sharedPreferences.getString("avatar_url", "");
 
-
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
 
         TextView emailView = (TextView) hView.findViewById(R.id.my_email);
         ImageView myAvatar = (ImageView) hView.findViewById(R.id.my_avatar_photo);
 
-
-
-         emailView.setText(email);
+        emailView.setText(email);
         ImageViewHelper.getImageFromUrl(context,avatarUrl, myAvatar );
 
+        tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle("My kids");
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.home_actionbar);
-
-        menuButton = (ImageButton) findViewById(R.id.menu_img_btn);
-
-        Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-
-        TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-        title.setText("My Kids");
-        title.setTypeface(roboto);
-
-        TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
-
+        TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
 
         if (MyKidsActivity.notificationNumber == 0) {
             notificationNumberText.setVisibility(View.INVISIBLE);
@@ -341,11 +316,10 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             notificationNumberText.setVisibility(View.VISIBLE);
         }
 
-        RelativeLayout notificationButton =  (RelativeLayout) findViewById(R.id.relative_layout);
-
+        Button notificationButton =  (Button) findViewById(R.id.student_action_bar_notification);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mainToggle = new ActionBarDrawerToggle(
-                this, drawer, null , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, tb , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(mainToggle);
         mainToggle.syncState();
 
@@ -353,18 +327,13 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
         notificationList = (ListView) findViewById(R.id.listview_notification);
         drawer.setDrawerListener(notificationToggle);
+
         notificationButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(drawer.isDrawerOpen(notificationList)){
                     drawer.closeDrawer(notificationList);
-                    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                    Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-                    title.setTypeface(roboto);
                 } else {
-                        TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                        Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-                        title.setTypeface(roboto);
                         new NotificationsAsyncTask().execute();
                         NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         nMgr.cancelAll();
@@ -379,7 +348,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             }
         });
 
-        menuButton.setOnClickListener(new View.OnClickListener(){
+        drawer.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(drawer.isDrawerOpen(navigationView)){
@@ -402,26 +371,29 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-                TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
+                TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
                 if (MyKidsActivity.notificationNumber == 0) {
                     notificationNumberText.setVisibility(View.INVISIBLE);
                 } else  {
                     notificationNumberText.setVisibility(View.VISIBLE);
                 }
 
+                Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
                 if(drawer.isDrawerOpen(notificationList)){
-                    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                    title.setText("Notifications");
+                    SpannableString title = new SpannableString("Notifications");
+                    title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    tb.setTitle(title);
                 } else {
-                    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                    title.setText("My Kids");
+                    SpannableString title = new SpannableString("My Kids");
+                    title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    tb.setTitle(title);
                 }
 
                 notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
                 handler.postDelayed(this, 0); //now is every 2 minutes
             }
         }, 500); //Every 120000 ms (2 minutes)
-
 
     }
 
@@ -434,15 +406,12 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         intent.putExtra("attendances",kidsAttendances.get(index).toString());
         startActivity(intent);
 
-//        Toast.makeText(getApplicationContext(),"you clicked " + myKids.get(index).getFirstName(),
-//        Toast.LENGTH_LONG).show();
     }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
@@ -466,7 +435,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             Intent intent = new Intent(this, schoolCode.class);
             startActivity(intent);
 
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -480,7 +448,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
         if(item.getItemId() == android.R.id.home)
             onBackPressed();
-
         return  true ;
     }
 }
