@@ -42,7 +42,7 @@ public class PositiveFragment extends Fragment{
 
         List<BehaviorNote> positiveBehaviorNotes = ( List<BehaviorNote> ) getArguments().getSerializable(KEY_NAME);
         ListView notes = (ListView) rootView.findViewById(R.id.positive_notes);
-        BehaviorNotesAdapter adapter = new BehaviorNotesAdapter(BehaviorNotesActivity.context, R.layout.single_behaviour_note, positiveBehaviorNotes);
+        BehaviorNotesAdapter adapter = new BehaviorNotesAdapter(getActivity(), R.layout.single_behaviour_note, positiveBehaviorNotes);
         notes.setAdapter(adapter);
 
         return rootView;

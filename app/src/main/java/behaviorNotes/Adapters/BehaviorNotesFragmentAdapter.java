@@ -1,5 +1,6 @@
 package behaviorNotes.Adapters;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -25,10 +26,12 @@ import behaviorNotes.Fragments.PositiveFragment;
 public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
     List<BehaviorNote> positiveNotesList;
     List<BehaviorNote> negativeNotesList;
-    public BehaviorNotesFragmentAdapter(FragmentManager fm, List<BehaviorNote> positiveNotesList,List<BehaviorNote> negativeNotesList) {
+    Context context;
+    public BehaviorNotesFragmentAdapter(FragmentManager fm, List<BehaviorNote> positiveNotesList,List<BehaviorNote> negativeNotesList, Context context) {
         super(fm);
         this.positiveNotesList = positiveNotesList;
         this.negativeNotesList = negativeNotesList;
+        this.context = context;
     }
 
     @Override
@@ -58,7 +61,7 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
     }
 
     public View getTabView(int position) {
-        View view = LayoutInflater.from(BehaviorNotesActivity.context).inflate(R.layout.single_tab, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.single_tab, null);
         TextView title = (TextView) view.findViewById(R.id.tab_title);
         TextView counter = (TextView) view.findViewById(R.id.tab_counter);
         title.setText(this.getPageTitle(position));
