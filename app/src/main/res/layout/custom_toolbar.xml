@@ -20,6 +20,7 @@
         android:layout_height="match_parent"
         android:layout_marginRight="5dp"
         android:paddingTop="6dp">
+
         <RelativeLayout
             android:gravity="right"
             android:layout_alignParentEnd="true"
@@ -31,6 +32,7 @@
             android:paddingBottom="6dp"
             android:clickable="true"
             android:background="?android:attr/selectableItemBackground">
+
             <Button
                 android:id="@+id/student_action_bar_notification"
                 android:layout_width="16dp"
@@ -40,6 +42,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/white_notification" />
         </RelativeLayout>
+
         <TextView
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"

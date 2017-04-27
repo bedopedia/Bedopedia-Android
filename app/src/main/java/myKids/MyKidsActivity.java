@@ -21,8 +21,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -287,7 +290,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
 
     public  void changeTheNotificationNumber() {
-        TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
+        TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
         notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf"); //use this.getAssets if you are calling from an Activity
         notificationNumberText.setTypeface(roboto);
@@ -321,19 +324,26 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         ImageViewHelper.getImageFromUrl(context,avatarUrl, myAvatar );
 
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.home_actionbar);
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle("My kids");
 
-        menuButton = (ImageButton) findViewById(R.id.menu_img_btn);
+
+
+
+
+
+     //   menuButton = (ImageButton) findViewById(R.id.menu_img_btn);
 
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
 
-        TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-        title.setText("My Kids");
-        title.setTypeface(roboto);
+       // TextView title = (TextView) findViewById(R.id.home_action_bar_title);
+       // title.setText("My Kids");
+       // title.setTypeface(roboto);
 
-        TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
-
+        TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
 
         if (MyKidsActivity.notificationNumber == 0) {
             notificationNumberText.setVisibility(View.INVISIBLE);
@@ -341,30 +351,40 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             notificationNumberText.setVisibility(View.VISIBLE);
         }
 
-        RelativeLayout notificationButton =  (RelativeLayout) findViewById(R.id.relative_layout);
+
+
+      //  Log.e("TAG","Code Running here");
+
+        Button notificationButton =  (Button) findViewById(R.id.student_action_bar_notification);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mainToggle = new ActionBarDrawerToggle(
-                this, drawer, null , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, tb , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(mainToggle);
         mainToggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
+
         notificationList = (ListView) findViewById(R.id.listview_notification);
         drawer.setDrawerListener(notificationToggle);
+
         notificationButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(drawer.isDrawerOpen(notificationList)){
                     drawer.closeDrawer(notificationList);
-                    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                    Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-                    title.setTypeface(roboto);
+                 //   TextView title = (TextView) findViewById(R.id.home_action_bar_title);
+                 //   Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
+                //    title.setTypeface(roboto);
+
+
                 } else {
-                        TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                        Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-                        title.setTypeface(roboto);
+                    //    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
+                   //     Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
+                   //     title.setTypeface(roboto);
                         new NotificationsAsyncTask().execute();
                         NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         nMgr.cancelAll();
@@ -379,7 +399,9 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             }
         });
 
-        menuButton.setOnClickListener(new View.OnClickListener(){
+
+
+        drawer.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(drawer.isDrawerOpen(navigationView)){
@@ -402,7 +424,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-                TextView notificationNumberText= (TextView) findViewById(R.id.notification_number);
+                TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
                 if (MyKidsActivity.notificationNumber == 0) {
                     notificationNumberText.setVisibility(View.INVISIBLE);
                 } else  {
@@ -410,11 +432,11 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                 }
 
                 if(drawer.isDrawerOpen(notificationList)){
-                    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                    title.setText("Notifications");
+                 //   TextView title = (TextView) findViewById(R.id.home_action_bar_title);
+                 //   title.setText("Notifications");
                 } else {
-                    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                    title.setText("My Kids");
+                 //   TextView title = (TextView) findViewById(R.id.home_action_bar_title);
+                 //   title.setText("My Kids");
                 }
 
                 notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
