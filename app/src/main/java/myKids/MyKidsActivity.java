@@ -338,13 +338,10 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
 
 
-     //   menuButton = (ImageButton) findViewById(R.id.menu_img_btn);
 
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
 
-       // TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-       // title.setText("My Kids");
-       // title.setTypeface(roboto);
+
 
         TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
 
