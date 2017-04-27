@@ -14,6 +14,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -85,6 +88,7 @@ public class StudentActivity extends AppCompatActivity {
     ApiInterface apiService;
     String attendance;
     int absentDays;
+    ActionBar ab ;
     String totalGrade;
     TextView totalGradeText;
     ImageView studentAvatarImage;
@@ -480,7 +484,6 @@ public class StudentActivity extends AppCompatActivity {
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-
                         }
 
                         NotificationAdapter notificationAdapter = new NotificationAdapter(context, R.layout.notification_list_item,notifications);
@@ -566,8 +569,13 @@ public class StudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_home);
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.student_home_action_bar);
+
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+        ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle("");
+
 
         servicesCount = 0;
         TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
@@ -627,13 +635,7 @@ public class StudentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(notificationLayout.isDrawerOpen(notificationList)){
                     notificationLayout.closeDrawer(notificationList);
-                    TextView title = (TextView) findViewById(R.id.action_bar_title);
-                    Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-                    title.setTypeface(roboto);
                 } else {
-                    TextView title = (TextView) findViewById(R.id.action_bar_title);
-                    Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-                    title.setTypeface(roboto);
                     new StudentActivity.NotificationsAsyncTask().execute();
                     NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     nMgr.cancelAll();
@@ -663,13 +665,17 @@ public class StudentActivity extends AppCompatActivity {
                 } else  {
                     messagecnt.setVisibility(View.VISIBLE);
                 }
-
+                Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
                 if(notificationLayout.isDrawerOpen(notificationList)){
-                    TextView title = (TextView) findViewById(R.id.action_bar_title);
-                    title.setText("Notifications");
+                  //  TextView title = (TextView) findViewById(R.id.action_bar_title);
+                    SpannableString title = new SpannableString("Notifications");
+                    title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    ab.setTitle(title);
                 } else {
-                    TextView title = (TextView) findViewById(R.id.action_bar_title);
-                    title.setText(studentName);
+
+                    SpannableString title = new SpannableString(studentName);
+                    title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    ab.setTitle(title);
                 }
 
                 notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
@@ -735,17 +741,6 @@ public class StudentActivity extends AppCompatActivity {
         };
         ImageViewHelper.getImageFromUrlWithCallback(this,studentAvatar,studentAvatarImage,callback);
 
-        TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-        actionBarTitle.setText(studentName);
-        ImageButton back = (ImageButton) findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                onBackPressed();
-            }
-        });
 
         JsonParser parser = new JsonParser();
         JsonElement tradeElement = parser.parse(attendance);
