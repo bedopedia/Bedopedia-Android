@@ -210,7 +210,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-
                         }
 
                         NotificationAdapter notificationAdapter = new NotificationAdapter(context, R.layout.notification_list_item,notifications);
@@ -475,4 +474,13 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         return true;
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home)
+            onBackPressed();
+
+        return  true ;
+    }
 }
