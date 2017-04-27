@@ -49,8 +49,8 @@ public class BehaviorNotesAdapter extends ArrayAdapter {
         item.category = (TextView) view.findViewById(R.id.category);
         item.noteContent = (TextView) view.findViewById(R.id.note_content);
 
-        Typeface robotoMedium = Typeface.createFromAsset(BehaviorNotesActivity.context.getAssets(), "font/Roboto-Medium.ttf");
-        Typeface robotoRegular = Typeface.createFromAsset(BehaviorNotesActivity.context.getAssets(), "font/Roboto-Regular.ttf");
+        Typeface robotoMedium = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf");
+        Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
 
         item.category.setTypeface(robotoMedium);
         item.noteContent.setTypeface(robotoRegular);
