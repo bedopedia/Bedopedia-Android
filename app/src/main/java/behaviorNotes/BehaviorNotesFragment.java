@@ -43,7 +43,8 @@ public class BehaviorNotesFragment extends Fragment {
     TextView negativeCounter;
     View positiveTab;
     View negativeTab;
-
+    List<BehaviorNote> positiveNotesList;
+    List<BehaviorNote> negativeNotesList;
 
     public BehaviorNotesFragment() {
         // Required empty public constructor
@@ -65,26 +66,38 @@ public class BehaviorNotesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_behavior_notes, container, false);
         Bundle extras= this.getActivity().getIntent().getExtras();
         studentId = extras.getString("student_id");
 
         context = getActivity();
         Intent intent = this.getActivity().getIntent();
         Bundle bundle = intent.getExtras();
-        List<BehaviorNote> positiveNotesList = (List<BehaviorNote>) bundle.getSerializable(PositiveFragment.KEY_NAME);
-        List<BehaviorNote> negativeNotesList = (List<BehaviorNote>) bundle.getSerializable(NegativeFragment.KEY_NAME);
+        positiveNotesList = (List<BehaviorNote>) bundle.getSerializable(PositiveFragment.KEY_NAME);
+        negativeNotesList = (List<BehaviorNote>) bundle.getSerializable(NegativeFragment.KEY_NAME);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        final View rootView = inflater.inflate(R.layout.fragment_behavior_notes, container, false);
+
+
+
+
+        return rootView;
+
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
         mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getActivity().getSupportFragmentManager(), positiveNotesList, negativeNotesList,getActivity());
 
-        mViewPager = (ViewPager) rootView.findViewById(R.id.behavior_notes_container);
+        mViewPager = (ViewPager) view.findViewById(R.id.behavior_notes_container);
 
-        tabLayout = (TabLayout) rootView.findViewById(R.id.behavior_notes_tabs);
+        tabLayout = (TabLayout) view.findViewById(R.id.behavior_notes_tabs);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout.setupWithViewPager(mViewPager);
@@ -98,18 +111,6 @@ public class BehaviorNotesFragment extends Fragment {
 
         negativeTitle = (TextView) negativeTab.findViewById(R.id.tab_title);
         negativeCounter = (TextView) negativeTab.findViewById(R.id.tab_counter);
-
-
-        return rootView;
-
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-
-
         positiveTitle.setTextColor(Color.parseColor("#ffffff"));
         positiveCounter.setBackgroundResource(R.drawable.notes_selected_counter);
 
