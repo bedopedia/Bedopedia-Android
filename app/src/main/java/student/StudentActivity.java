@@ -667,7 +667,6 @@ public class StudentActivity extends AppCompatActivity {
                 }
                 Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
                 if(notificationLayout.isDrawerOpen(notificationList)){
-                  //  TextView title = (TextView) findViewById(R.id.action_bar_title);
                     SpannableString title = new SpannableString("Notifications");
                     title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     ab.setTitle(title);
