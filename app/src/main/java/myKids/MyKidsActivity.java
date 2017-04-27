@@ -22,6 +22,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,6 +69,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
     ArrayList<JsonArray> kidsAttendances;
     public static Integer notificationNumber = 0;
     TextView notificationNuber;
+    Toolbar tb ;
 
     DrawerLayout drawer;
     ListView notificationList;
@@ -324,7 +327,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         ImageViewHelper.getImageFromUrl(context,avatarUrl, myAvatar );
 
 
-        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        tb = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
@@ -353,7 +356,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
 
 
-      //  Log.e("TAG","Code Running here");
 
         Button notificationButton =  (Button) findViewById(R.id.student_action_bar_notification);
 
@@ -376,15 +378,9 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             public void onClick(View v) {
                 if(drawer.isDrawerOpen(notificationList)){
                     drawer.closeDrawer(notificationList);
-                 //   TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                 //   Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-                //    title.setTypeface(roboto);
 
 
                 } else {
-                    //    TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                   //     Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
-                   //     title.setTypeface(roboto);
                         new NotificationsAsyncTask().execute();
                         NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         nMgr.cancelAll();
@@ -432,11 +428,13 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                 }
 
                 if(drawer.isDrawerOpen(notificationList)){
-                 //   TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                 //   title.setText("Notifications");
+                    Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
+                    SpannableString title = new SpannableString("Notifications");
+                    title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    tb.setTitle("Notifications");
                 } else {
-                 //   TextView title = (TextView) findViewById(R.id.home_action_bar_title);
-                 //   title.setText("My Kids");
+                    tb.setTitle("My Kids");
                 }
 
                 notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
@@ -456,15 +454,12 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         intent.putExtra("attendances",kidsAttendances.get(index).toString());
         startActivity(intent);
 
-//        Toast.makeText(getApplicationContext(),"you clicked " + myKids.get(index).getFirstName(),
-//        Toast.LENGTH_LONG).show();
     }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
@@ -488,7 +483,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             Intent intent = new Intent(this, schoolCode.class);
             startActivity(intent);
 
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -502,7 +496,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
         if(item.getItemId() == android.R.id.home)
             onBackPressed();
-
         return  true ;
     }
 }
