@@ -17,6 +17,7 @@ import java.util.Map;
 
 import myKids.MyKidsActivity;
 import student.StudentActivity;
+import student.StudentFragment;
 
 /**
  * Created by ali on 27/02/17.
@@ -64,7 +65,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
             } else if (data.get("notification_type").equals("message")){
-                StudentActivity.messageNumber = StudentActivity.messageNumber + 1;
+                StudentFragment.messageNumber = StudentFragment.messageNumber + 1;
                 android.support.v4.app.NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.quizzes_ico)

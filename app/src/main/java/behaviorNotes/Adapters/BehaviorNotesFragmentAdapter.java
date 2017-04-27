@@ -17,6 +17,7 @@ import java.util.List;
 
 import behaviorNotes.Fragments.NegativeFragment;
 import behaviorNotes.Fragments.PositiveFragment;
+import student.StudentFragment;
 
 
 /**
@@ -71,8 +72,8 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
                 counter.setVisibility(View.INVISIBLE);
         }
         else {
-            counter.setText(StudentActivity.negativeNotesList.size() + "");
-            if(StudentActivity.negativeNotesList.size() == 0)
+            counter.setText(StudentFragment.negativeNotesList.size() + "");
+            if(StudentFragment.negativeNotesList.size() == 0)
                 counter.setVisibility(View.INVISIBLE);
         }
 
