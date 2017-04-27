@@ -22,7 +22,6 @@ import Tools.FragmentUtils;
 import behaviorNotes.Adapters.BehaviorNotesFragmentAdapter;
 import behaviorNotes.Fragments.NegativeFragment;
 import behaviorNotes.Fragments.PositiveFragment;
-import login.ForgetPasswordFRagment;
 
 /**
  * Created by khaled on 2/27/17.
