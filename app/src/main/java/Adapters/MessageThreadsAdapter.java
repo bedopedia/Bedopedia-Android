@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.AskTeacherActivity;
+import com.example.bedopedia.bedopedia_android.MessageThreadActivity;
 import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.ArrayList;
@@ -75,7 +77,9 @@ public class MessageThreadsAdapter extends ArrayAdapter
             @Override
             public void onClick(View v) {
 
-                context.itemClicked(Message);
+                Intent intent = new Intent(context, MessageThreadActivity.class);
+                intent.putExtra("message_thread", Message);
+                context.startActivity(intent);
             }
         });
 
