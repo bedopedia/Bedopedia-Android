@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="?android:attr/listPreferredItemHeight">
+
     <LinearLayout
         android:layout_marginTop="16dp"
         android:layout_width="0dp"
@@ -19,6 +20,7 @@
             android:layout_marginLeft="16dp"
             android:layout_weight=".50"/>
         <TextView
+            android:gravity="top"
             android:layout_width="match_parent"
             android:id="@+id/month"
             android:textSize="14sp"
@@ -45,7 +47,6 @@
                 android:textSize="14sp"
                 android:id="@+id/comment"
                 android:layout_weight="1"/>
-
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

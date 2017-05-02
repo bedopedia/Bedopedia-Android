@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -152,8 +154,10 @@ public class AttendanceFragment extends Fragment {
                 dates.add(excusedDates.get(i));
             }
         }
-        ListView absentAttendaceList = (ListView) rootView.findViewById(R.id.excused_dates);
+        RecyclerView absentAttendaceList = (RecyclerView) rootView.findViewById(R.id.excused_dates);
         ExcusedAdapter adapter = new ExcusedAdapter(getActivity(), R.layout.single_excused_attendance, dates);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
+        absentAttendaceList.setLayoutManager(manager);
         absentAttendaceList.setAdapter(adapter);
         excusedListCounter.setText(dates.size()+"");
 
@@ -179,8 +183,10 @@ public class AttendanceFragment extends Fragment {
                         dates.add(excusedDates.get(i));
                     }
                 }
-                ListView absentAttendaceList = (ListView) rootView.findViewById(R.id.excused_dates);
+                RecyclerView absentAttendaceList = (RecyclerView) rootView.findViewById(R.id.excused_dates);
                 ExcusedAdapter adapter = new ExcusedAdapter(getActivity(), R.layout.single_excused_attendance, dates);
+                RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
+                absentAttendaceList.setLayoutManager(manager);
                 absentAttendaceList.setAdapter(adapter);
                 excusedListCounter.setText(dates.size()+"");
             }
