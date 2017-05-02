@@ -188,9 +188,4 @@ public class AskTeacherActivity extends AppCompatActivity {
         new MessageThreads().execute();
     }
 
-    public void itemClicked(MessageThread thread){
-        Intent intent = new Intent(this, MessageThreadActivity.class);
-        intent.putExtra("message_thread", thread);
-        startActivity(intent);
-    }
 }
