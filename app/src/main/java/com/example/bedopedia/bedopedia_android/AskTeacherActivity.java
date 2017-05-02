@@ -24,6 +24,8 @@ import java.util.Map;
 import Adapters.AskTeacherAdapter;
 import Models.Message;
 import Models.MessageThread;
+import Tools.SharedPreferenceUtils;
+import gradeBook.ActivityCourse;
 import myKids.Student;
 import Models.User;
 import login.Services.ApiClient;
@@ -64,9 +66,9 @@ public class AskTeacherActivity extends AppCompatActivity {
         @Override
         protected List<Student> doInBackground(Object... param) {
 
-            SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(AskTeacherActivity.this, "cur_user" );
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
-            String id = sharedPreferences.getString("user_id", "");
+            String id = SharedPreferenceUtils.getStringValue("user_id", "",sharedPreferences);
             String url = "/api/threads";
             Map <String, String> params = new HashMap<>();
             params.put("user_id" , id);

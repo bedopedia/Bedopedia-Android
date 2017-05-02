@@ -33,6 +33,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
+
+import Tools.SharedPreferenceUtils;
 import student.StudentActivity;
 
 import Tools.ImageViewHelper;
@@ -100,9 +102,9 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         @Override
         protected List<Student> doInBackground(Object... param) {
 
-            SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(MyKidsActivity.this, "cur_user" );
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
-            id = sharedPreferences.getString("id", "");
+            id =  SharedPreferenceUtils.getStringValue("id", "",sharedPreferences);
 
             String url = "api/parents/" + id + "/children";
             Map <String, String> params = new HashMap<>();
@@ -174,9 +176,9 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         @Override
         protected List<Student> doInBackground(Object... param) {
 
-            SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(MyKidsActivity.this, "cur_user" );
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
-            id = sharedPreferences.getString("user_id", "");
+            id = SharedPreferenceUtils.getStringValue("user_id", "",sharedPreferences);
             String url = "/api/users/"+id +"/notifications";
             Map <String, String> params = new HashMap<>();
             params.put("page" , "1");
@@ -242,7 +244,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
         @Override
         protected List<Student> doInBackground(Object... param) {
-            SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(MyKidsActivity.this, "cur_user" );
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
             id = sharedPreferences.getString("user_id", "");
             String url ="/api/users/"+id +"/notifications/mark_as_seen";
@@ -289,8 +291,8 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         progress = new ProgressDialog(this);
         kidsAttendances = new ArrayList<JsonArray>();
 
-        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
-        String email = sharedPreferences.getString("email", "");
+        SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(MyKidsActivity.this, "cur_user" );
+        String email =  sharedPreferences.getString("email", "");
         String avatarUrl = sharedPreferences.getString("avatar_url", "");
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -415,7 +417,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-            SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(MyKidsActivity.this, "cur_user" );
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("Base_Url", "");
             editor.putString("header_access-token", "");

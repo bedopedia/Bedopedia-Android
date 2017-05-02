@@ -2,7 +2,6 @@ package Tools;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -14,6 +13,7 @@ public class SharedPreferenceUtils {
     public static SharedPreferences getSharedPreference(Context context, String name) {
         return context.getSharedPreferences("cur_user", MODE_PRIVATE);
     }
+
 
     public static String getStringValue(String key, String defaultStr, SharedPreferences sharedPreferences) {
 

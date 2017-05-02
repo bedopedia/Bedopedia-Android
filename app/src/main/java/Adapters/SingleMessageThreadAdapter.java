@@ -9,12 +9,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.bedopedia.bedopedia_android.MessageThreadActivity;
 import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.List;
 
 import Models.Message;
 import Tools.ImageViewHelper;
+import Tools.SharedPreferenceUtils;
 import login.Services.ApiClient;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -44,8 +46,8 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
 
         // Check if an existing view is being reused, otherwise inflate the view
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences("cur_user", MODE_PRIVATE);
-        String id = sharedPreferences.getString("user_id", "");
+        SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(context, "cur_user");
+        String id = SharedPreferenceUtils.getStringValue("user_id", "", sharedPreferences);
         int currentUserId = Integer.parseInt(id);
 
 

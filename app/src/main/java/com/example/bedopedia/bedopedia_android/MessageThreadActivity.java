@@ -29,6 +29,7 @@ import Models.Message;
 import Models.MessageAttributes;
 import Models.MessageThread;
 import Models.User;
+import Tools.SharedPreferenceUtils;
 import login.Services.ApiClient;
 import login.Services.ApiInterface;
 import butterknife.BindView;
@@ -55,7 +56,7 @@ public class MessageThreadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message_thread);
         ButterKnife.bind(this);
 
-        sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+        sharedPreferences = SharedPreferenceUtils.getSharedPreference(MessageThreadActivity.this, "cur_user");
         currUser = getCurrUser();
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -124,7 +125,7 @@ public class MessageThreadActivity extends AppCompatActivity {
     }
 
     User getCurrUser () {
-        String user_data = sharedPreferences.getString("user_data" , "");
+        String user_data = SharedPreferenceUtils.getStringValue("user_data" , "", sharedPreferences);
         JsonParser parser = new JsonParser();
         JsonObject user = parser.parse(user_data).getAsJsonObject();
         User currUser = new User(user.get("id").getAsInt(),
@@ -144,7 +145,7 @@ public class MessageThreadActivity extends AppCompatActivity {
         MessageAttributes messageAttributes = new MessageAttributes(currUser.getId() , text , "");
         thread.sendMessage(messageAttributes);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(MessageThreadActivity.this, "cur_user");
         ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
         Map <String , Object> message_thread = new HashMap<>();
         message_thread.put("message_thread"  , thread);
