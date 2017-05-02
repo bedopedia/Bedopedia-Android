@@ -2,10 +2,10 @@ package attendance;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
@@ -18,44 +18,30 @@ import java.util.List;
  * Created by khaled on 3/27/17.
  */
 
-public class ExcusedAdapter extends ArrayAdapter {
-    public Context context;
+public class ExcusedAdapter extends RecyclerView.Adapter<ExcusedAdapter.Holder> {
+    static public Context context;
+    int resource ;
+    List<Attendance> items ;
+
 
     public ExcusedAdapter(Context context, int resource, List<Attendance> items) {
-        super(context, resource, items);
         this.context =  context;
-
-    }
-
-    public static  class Holder{
-        TextView day;
-        TextView month;
-        TextView comment;
+        this.resource = resource ;
+        this.items = items ;
     }
 
     @Override
-    public View getView(final int position, View view, ViewGroup parent) {
-        // Get the data item for this position
-        Attendance attendanceItem = (Attendance) getItem(position);
-        Holder item;
+    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        // Check if an existing view is being reused, otherwise inflate the view
-        if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.single_excused_attendance, parent, false);
-        }
-        item=new Holder();
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(resource,parent, false);
+        return new Holder(view);
+    }
 
-        Typeface robotoBold = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
-        Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
+    @Override
+    public void onBindViewHolder(Holder holder, int position) {
 
-        item.day = (TextView) view.findViewById(R.id.day);
-        item.month = (TextView) view.findViewById(R.id.month);
-        item.comment = (TextView) view.findViewById(R.id.comment);
-
-        item.day.setTypeface(robotoBold);
-        item.month.setTypeface(robotoRegular);
-        item.comment.setTypeface(robotoRegular);
-
+        Attendance attendanceItem = items.get(position);
         Calendar cal = Calendar.getInstance();
         cal.setTime(attendanceItem.getDate());
         DateFormatSymbols dfs = new DateFormatSymbols();
@@ -64,13 +50,33 @@ public class ExcusedAdapter extends ArrayAdapter {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        item.day.setText(day+"");
-        item.month.setText(months[month].substring(0,3));
+        holder.day.setText(day+"");
+        holder.month.setText(months[month].substring(0,3));
         if(attendanceItem.getComment() != null)
-            item.comment.setText(attendanceItem.getComment());
+            holder.comment.setText(attendanceItem.getComment());
         else
-            item.comment.setText("No Comment available");
+            holder.comment.setText("No Comment available");
+    }
 
-        return view;
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    public static  class Holder extends RecyclerView.ViewHolder{
+
+        public TextView day , month , comment ;
+
+        public Holder(View itemView) {
+            super(itemView);
+            Typeface robotoBold = Typeface.createFromAsset(ExcusedAdapter.context.getAssets(), "font/Roboto-Bold.ttf");
+            Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
+            day = (TextView) itemView.findViewById(R.id.day);
+            month = (TextView) itemView.findViewById(R.id.month);
+            comment = (TextView) itemView.findViewById(R.id.comment);
+            day.setTypeface(robotoBold);
+            month.setTypeface(robotoRegular);
+            comment.setTypeface(robotoRegular);
+        }
     }
 }
