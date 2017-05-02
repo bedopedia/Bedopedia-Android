@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -72,60 +73,53 @@ public class LogInFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        sharedPreferences = this.getActivity().getSharedPreferences("cur_user", MODE_PRIVATE);
+        apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_log_in, container, false);
+        return rootView;
+    }
 
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        setTextType(rootView);
-
-        sharedPreferences = this.getActivity().getSharedPreferences("cur_user", MODE_PRIVATE);
-
-        apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
-
-
-
-
-
-        setSchool(rootView);
-
-
-        ((EditText) rootView.findViewById(R.id.password)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
+        setTextType(view);
+        setSchool(view);
+        ((EditText) view.findViewById(R.id.password)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId,
                                           KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
                         || (actionId == EditorInfo.IME_ACTION_GO)) {
-                    loginService(rootView);
+                    loginService(view);
                 }
                 return (actionId == EditorInfo.IME_ACTION_GO);
             }
         });
 
-        ((Button) rootView.findViewById(R.id.loginSubmit)).setOnClickListener(new View.OnClickListener() {
+        ((Button) view.findViewById(R.id.loginSubmit)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginService(rootView);
+                loginService(view);
 
             }
         });
 
-        ((View) rootView.findViewById(R.id.forget_password)).setOnClickListener(new View.OnClickListener() {
+        ((View) view.findViewById(R.id.forget_password)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i =  new Intent(getActivity(), ForgetPasswordActivity.class);
                 startActivity(i);
             }
         });
-
-        return rootView;
     }
-
-
 
     private void setSchool (View rootView) {
         String schoolData = sharedPreferences.getString("school_data" , "");

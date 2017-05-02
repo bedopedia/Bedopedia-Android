@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -67,6 +68,15 @@ public class SchoolCodeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        sharedPreferences = getActivity().getSharedPreferences("cur_user", MODE_PRIVATE);
+
+
+        if(checkAuthenticate()) {
+            Intent i = new Intent(getActivity().getApplicationContext(), MyKidsActivity.class);
+            startActivity(i);
+            getActivity().finish();
+        }
+
     }
 
     @Override
@@ -75,43 +85,38 @@ public class SchoolCodeFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_school_code, container, false);
 
-        sharedPreferences = inflater.getContext().getSharedPreferences("cur_user", inflater.getContext().MODE_PRIVATE);
+        return rootView;
 
+    }
 
-        if(checkAuthenticate()) {
-            Intent i = new Intent(inflater.getContext().getApplicationContext(), MyKidsActivity.class);
-            startActivity(i);
-            getActivity().finish();
-        }
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        setTextType(view);
 
-
-        setTextType(rootView);
-
-        ((Button)rootView.findViewById(R.id.codeSubmit)).setOnClickListener(new View.OnClickListener() {
+        ((Button)view.findViewById(R.id.codeSubmit)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                getSchoolCode(rootView);
+                getSchoolCode(view);
 
             }
         });
 
-        ((EditText) rootView.findViewById(R.id.code)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
+        ((EditText) view.findViewById(R.id.code)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId,
                                           KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
                         || (actionId == EditorInfo.IME_ACTION_NEXT)) {
-                    getSchoolCode(rootView);
+                    getSchoolCode(view);
                     return true;
                 }
                 return false;
             }
         });
-
-        return rootView;
 
     }
 
