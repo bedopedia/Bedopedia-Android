@@ -23,11 +23,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import Tools.SharedPreferenceUtils;
 import gradeBook.Adapters.CourseAdapter;
 import login.Services.ApiClient;
 import login.Services.ApiInterface;
 import Tools.Dialogue;
 import Tools.InternetConnection;
+import myKids.MyKidsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,7 +76,7 @@ public class ActivityCourse extends AppCompatActivity {
             Map<String,String> params = new HashMap();
             params.put("student_id",studentId);
             String url = "api/courses/"+ courseId +"/course_groups/"+courseGroupId+"/student_grade";
-            SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(ActivityCourse.this, "cur_user" );
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
             Call<JsonObject> call = apiService. getServise(url, params);
 

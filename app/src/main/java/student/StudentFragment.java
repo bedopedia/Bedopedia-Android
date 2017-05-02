@@ -57,6 +57,7 @@ import Models.NotificationModel;
 import Tools.Dialogue;
 import Tools.ImageViewHelper;
 import Tools.InternetConnection;
+import Tools.SharedPreferenceUtils;
 import attendance.AttendanceActivity;
 import badges.Badge;
 import badges.BadgesDialog;
@@ -422,7 +423,7 @@ public class StudentFragment extends Fragment {
             }
         });
 
-        sharedPreferences = ((AppCompatActivity)getActivity()).getSharedPreferences("cur_user", MODE_PRIVATE);
+        sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(),"cur_user" );
         apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
 
         if (InternetConnection.isInternetAvailable(getActivity())) {
@@ -751,9 +752,9 @@ public class StudentFragment extends Fragment {
         @Override
         protected List<Student> doInBackground(Object... param) {
 
-            SharedPreferences sharedPreferences = ((AppCompatActivity)getActivity()).getSharedPreferences("cur_user", MODE_PRIVATE);
+            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(),"cur_user" );
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
-            String id = sharedPreferences.getString("user_id", "");
+            String id = SharedPreferenceUtils.getStringValue("user_id", "",sharedPreferences);
             String url = "/api/users/"+id +"/notifications";
             Map <String, String> params = new HashMap<>();
             params.put("page" , "1");
@@ -828,9 +829,9 @@ public class StudentFragment extends Fragment {
         @Override
         protected List<Student> doInBackground(Object... param) {
 
-            SharedPreferences sharedPreferences = ((AppCompatActivity)getActivity()).getSharedPreferences("cur_user", MODE_PRIVATE);
+            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(),"cur_user" );
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
-            String id = sharedPreferences.getString("user_id", "");
+            String id = SharedPreferenceUtils.getStringValue("user_id", "",sharedPreferences);
             String url ="/api/users/"+id +"/notifications/mark_as_seen";
             Map <String, String> params = new HashMap<>();
             params.put("type" , "android");
