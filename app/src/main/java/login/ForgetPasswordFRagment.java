@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -73,16 +74,18 @@ public class ForgetPasswordFRagment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_forget_password_fragment, container, false);
 
 
-        setTextType(rootView);
 
+        return rootView;
+    }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        setTextType(view);
 
-
-
-
-        mEmailView = (AutoCompleteTextView) rootView.findViewById(R.id.email);
-        requestBtn = (Button) rootView.findViewById(R.id.request_btn);
+        mEmailView = (AutoCompleteTextView) view.findViewById(R.id.email);
+        requestBtn = (Button) view.findViewById(R.id.request_btn);
         sharedPreferences = this.getActivity().getSharedPreferences("cur_user", MODE_PRIVATE);
 
         requestBtn.setOnClickListener(new View.OnClickListener() {
@@ -92,10 +95,7 @@ public class ForgetPasswordFRagment extends Fragment {
                                           }
                                       }
         );
-
-        return rootView;
     }
-
 
     private void resetPasswordRequest() {
 
