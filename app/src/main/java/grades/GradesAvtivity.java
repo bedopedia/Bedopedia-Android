@@ -1,40 +1,14 @@
 package grades;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ListView;
-
 import Tools.FragmentUtils;
-import attendance.AttendanceFragment;
-import gradeBook.ActivityCourse;
 import com.example.bedopedia.bedopedia_android.R;
-import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import Tools.Dialogue;
-import gradeBook.Course;
-import login.Services.ApiClient;
-import login.Services.ApiInterface;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by mohamedkhaled on 2/13/17.
@@ -63,7 +37,7 @@ public class GradesAvtivity extends AppCompatActivity {
 
         context = this;
 
-        FragmentUtils.createFragment(getSupportFragmentManager(),GradesFragment.newInstance(courseGroups), R.id.grades_container );
+        FragmentUtils.createFragment(getSupportFragmentManager(),GradesFragment.newInstance(courseGroups , student_id), R.id.grades_container);
         
 
 
@@ -77,13 +51,5 @@ public class GradesAvtivity extends AppCompatActivity {
         return true ;
     }
 
-    public void itemClicked(int position){
-        Intent i =  new Intent(getApplicationContext(), ActivityCourse.class);
-        i.putExtra("student_id",student_id);
-        i.putExtra("course_group_id", String.valueOf(courseGroups.get(position).getId()));
-        i.putExtra("course_id", String.valueOf(courseGroups.get(position).getCourseId()));
-        i.putExtra("course_name", courseGroups.get(position).getCourseName());
-        startActivity(i);
-    }
 
 }
