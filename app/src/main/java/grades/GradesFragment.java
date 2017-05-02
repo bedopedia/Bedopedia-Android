@@ -16,14 +16,16 @@ import java.util.List;
 public class GradesFragment extends Fragment {
 
     private List<CourseGroup> courseGroups;
+    private String studentId ;
 
     public GradesFragment() {
     }
 
-    public static Fragment newInstance(List<CourseGroup> courseGroups) {
+    public static Fragment newInstance(List<CourseGroup> courseGroups , String studentId) {
         Fragment fragment = new GradesFragment();
         Bundle args = new Bundle();
         args.putSerializable("grades" , (Serializable) courseGroups);
+        args.putString("studentId",studentId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -33,6 +35,7 @@ public class GradesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             courseGroups = (List<CourseGroup>) getArguments().getSerializable("grades");
+            studentId = getArguments().getString("studentId");
         }
     }
 
@@ -49,7 +52,7 @@ public class GradesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        GradesAdapter adapter = new GradesAdapter(getActivity(), R.layout.single_grade, courseGroups);
+        GradesAdapter adapter = new GradesAdapter(getActivity(), R.layout.single_grade, courseGroups,studentId);
         ListView gradesList = (ListView) view.findViewById(R.id.grades_list);
         gradesList.setAdapter(adapter);
 

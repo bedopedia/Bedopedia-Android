@@ -1,6 +1,7 @@
 package grades;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.List;
 
+import gradeBook.ActivityCourse;
+
 /**
  * Created by mohamedkhaled on 2/13/17.
  */
@@ -22,11 +25,15 @@ import java.util.List;
 public class GradesAdapter extends ArrayAdapter<CourseGroup> {
 
     public GradesAvtivity context;
+    public String studentId ;
+    List<CourseGroup> items ;
 
-    public GradesAdapter(Context context, int resource, List<CourseGroup> items) {
+
+    public GradesAdapter(Context context, int resource, List<CourseGroup> items , String studentId) {
         super(context, resource, items);
         this.context = (GradesAvtivity) context;
-
+        this.studentId = studentId ;
+        this.items = items ;
     }
 
     public static  class Holder{
@@ -41,7 +48,7 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
         CourseGroup courseGroup = (CourseGroup) getItem(position);
-        Holder item;
+        final Holder item;
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (view == null) {
@@ -66,8 +73,12 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
 
             @Override
             public void onClick(View v) {
-
-                context.itemClicked(position);
+                Intent i =  new Intent(context.getApplicationContext(), ActivityCourse.class);
+                i.putExtra("student_id",studentId);
+                i.putExtra("course_group_id", String.valueOf(items.get(position).getId()));
+                i.putExtra("course_id", String.valueOf(items.get(position).getCourseId()));
+                i.putExtra("course_name", items.get(position).getCourseName());
+                context.startActivity(i);
             }
         });
 
