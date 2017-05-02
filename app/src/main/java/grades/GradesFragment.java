@@ -1,6 +1,7 @@
 package grades;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,11 +41,18 @@ public class GradesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_grades, container, false);
 
-        GradesAdapter adapter = new GradesAdapter(getActivity(), R.layout.single_grade, courseGroups);
-        ListView gradesList = (ListView) rootView.findViewById(R.id.grades_list);
-        gradesList.setAdapter(adapter);
-
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        GradesAdapter adapter = new GradesAdapter(getActivity(), R.layout.single_grade, courseGroups);
+        ListView gradesList = (ListView) view.findViewById(R.id.grades_list);
+        gradesList.setAdapter(adapter);
+
+
+    }
 }

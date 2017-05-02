@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -119,17 +120,24 @@ public class AttendanceFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_attendance, container, false);
 
-        lateCounter = (TextView) rootView.findViewById(R.id.late_count);
-        lateLabel = (TextView) rootView.findViewById(R.id.late_label);
-        excusedCounter = (TextView) rootView.findViewById(R.id.excused_count);
-        excusedLabel = (TextView) rootView.findViewById(R.id.excused_label);
-        absentCounter = (TextView) rootView.findViewById(R.id.absent_count);
-        absentLabel = (TextView) rootView.findViewById(R.id.absent_label);
+        return rootView;
+    }
 
-        excusedListCounter = (TextView) rootView.findViewById(R.id.excused_list_counter);
-        excusedListLabel = (TextView) rootView.findViewById(R.id.excused_list_label);
 
-        selectedMonth = (TextView) rootView.findViewById(R.id.selected_month);
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        lateCounter = (TextView) view.findViewById(R.id.late_count);
+        lateLabel = (TextView) view.findViewById(R.id.late_label);
+        excusedCounter = (TextView) view.findViewById(R.id.excused_count);
+        excusedLabel = (TextView) view.findViewById(R.id.excused_label);
+        absentCounter = (TextView) view.findViewById(R.id.absent_count);
+        absentLabel = (TextView) view.findViewById(R.id.absent_label);
+
+        excusedListCounter = (TextView) view.findViewById(R.id.excused_list_counter);
+        excusedListLabel = (TextView) view.findViewById(R.id.excused_list_label);
+
+        selectedMonth = (TextView) view.findViewById(R.id.selected_month);
 
         DateFormatSymbols dfs = new DateFormatSymbols();
         final String[] months = dfs.getMonths();
@@ -154,14 +162,14 @@ public class AttendanceFragment extends Fragment {
                 dates.add(excusedDates.get(i));
             }
         }
-        RecyclerView absentAttendaceList = (RecyclerView) rootView.findViewById(R.id.excused_dates);
+        RecyclerView absentAttendaceList = (RecyclerView) view.findViewById(R.id.excused_dates);
         ExcusedAdapter adapter = new ExcusedAdapter(getActivity(), R.layout.single_excused_attendance, dates);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
         absentAttendaceList.setLayoutManager(manager);
         absentAttendaceList.setAdapter(adapter);
         excusedListCounter.setText(dates.size()+"");
 
-        CompactCalendarView compactCalendar = (CompactCalendarView) rootView.findViewById(R.id.compactcalendar_view);
+        CompactCalendarView compactCalendar = (CompactCalendarView) view.findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
         compactCalendar.setFirstDayOfWeek(Calendar.SUNDAY);
         compactCalendar.setSelected(false);
@@ -183,7 +191,7 @@ public class AttendanceFragment extends Fragment {
                         dates.add(excusedDates.get(i));
                     }
                 }
-                RecyclerView absentAttendaceList = (RecyclerView) rootView.findViewById(R.id.excused_dates);
+                RecyclerView absentAttendaceList = (RecyclerView) view.findViewById(R.id.excused_dates);
                 ExcusedAdapter adapter = new ExcusedAdapter(getActivity(), R.layout.single_excused_attendance, dates);
                 RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
                 absentAttendaceList.setLayoutManager(manager);
@@ -212,9 +220,5 @@ public class AttendanceFragment extends Fragment {
         lateCounter.setText(lateDates.size()+"");
         excusedCounter.setText(excusedDates.size()+"");
         absentCounter.setText(absentDates.size()+"");
-
-        return rootView;
     }
-
-
 }
