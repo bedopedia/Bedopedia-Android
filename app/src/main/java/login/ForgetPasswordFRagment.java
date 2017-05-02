@@ -24,6 +24,7 @@ import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import Tools.SharedPreferenceUtils;
 import login.Services.ApiClient;
 import login.Services.ApiInterface;
 import retrofit2.Call;
@@ -86,7 +87,7 @@ public class ForgetPasswordFRagment extends Fragment {
 
         mEmailView = (AutoCompleteTextView) view.findViewById(R.id.email);
         requestBtn = (Button) view.findViewById(R.id.request_btn);
-        sharedPreferences = this.getActivity().getSharedPreferences("cur_user", MODE_PRIVATE);
+        sharedPreferences = SharedPreferenceUtils.getSharedPreference(this.getActivity(),"cur_user");
 
         requestBtn.setOnClickListener(new View.OnClickListener() {
                                           @Override

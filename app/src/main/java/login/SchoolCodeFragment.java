@@ -25,6 +25,7 @@ import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import Tools.SharedPreferenceUtils;
 import login.Services.ApiClient;
 import login.Services.ApiInterface;
 import myKids.MyKidsActivity;
@@ -133,7 +134,7 @@ public class SchoolCodeFragment extends Fragment {
         }
 
         ApiClient.BASE_URL = schoolApiUrl;
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("cur_user", MODE_PRIVATE);
+        SharedPreferences sharedPreferences =  SharedPreferenceUtils.getSharedPreference(this.getActivity(),"cur_user");
         ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
 
         Map<String,String> params = new HashMap<>();
@@ -211,10 +212,10 @@ public class SchoolCodeFragment extends Fragment {
 
     private Boolean checkAuthenticate() {
 
-        String baseUrl = sharedPreferences.getString("Base_Url", "");
-        String authToken = sharedPreferences.getString("header_access-token", "");
-        String userData = sharedPreferences.getString("user_data", "");
-        String uid = sharedPreferences.getString("header_uid", "");
+        String baseUrl = SharedPreferenceUtils.getStringValue("Base_Url","",sharedPreferences);
+        String authToken = SharedPreferenceUtils.getStringValue("header_access-token","",sharedPreferences);
+        String userData = SharedPreferenceUtils.getStringValue("user_data","",sharedPreferences);
+        String uid = SharedPreferenceUtils.getStringValue("header_uid","",sharedPreferences);
         ApiClient.BASE_URL = baseUrl;
         return !(authToken.equals("") || userData.equals("") || uid.equals("") || baseUrl.equals(""));
     }

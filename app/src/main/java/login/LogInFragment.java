@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Tools.ImageViewHelper;
+import Tools.SharedPreferenceUtils;
 import login.Services.ApiClient;
 import login.Services.ApiInterface;
 import myKids.MyKidsActivity;
@@ -74,7 +75,7 @@ public class LogInFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-        sharedPreferences = this.getActivity().getSharedPreferences("cur_user", MODE_PRIVATE);
+        sharedPreferences = SharedPreferenceUtils.getSharedPreference(this.getActivity(),"cur_user");
         apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
     }
 
@@ -122,7 +123,7 @@ public class LogInFragment extends Fragment {
     }
 
     private void setSchool (View rootView) {
-        String schoolData = sharedPreferences.getString("school_data" , "");
+        String schoolData = SharedPreferenceUtils.getStringValue("school_data","",sharedPreferences);
         JsonParser parser = new JsonParser();
         JsonObject school_data = parser.parse(schoolData).getAsJsonObject();
         String schoolName = school_data.get("name").getAsString();
@@ -137,13 +138,13 @@ public class LogInFragment extends Fragment {
     }
 
     public void updateToken() throws JSONException {
-        final SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("cur_user", MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(this.getActivity(),"cur_user");
         if (!sharedPreferences.getString("token_changed","").equals("True")) {
             return;
         }
-        String id = sharedPreferences.getString("user_id", "");
+        String id = SharedPreferenceUtils.getStringValue("user_id","",sharedPreferences);
         String url = "api/users/" + id  ;
-        String token = sharedPreferences.getString("token","");
+        String token = SharedPreferenceUtils.getStringValue("token","",sharedPreferences);
         JsonObject params = new JsonObject();
         JsonObject tokenJson = new JsonObject();
         tokenJson.addProperty("mobile_device_token",token);
