@@ -34,6 +34,8 @@ public class TimeTableFragment extends Fragment {
     private TimetableAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     TabLayout tabLayout;
+    List<TimetableSlot> tomorrowSlots;
+    List<TimetableSlot> todaySlots;
 
     public TimeTableFragment() {
         // Required empty public constructor
@@ -54,6 +56,10 @@ public class TimeTableFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getActivity().getIntent();
+        Bundle bundle = intent.getExtras();
+        tomorrowSlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
+        todaySlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
     }
 
     @Override
@@ -70,10 +76,7 @@ public class TimeTableFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Intent intent = getActivity().getIntent();
-        Bundle bundle = intent.getExtras();
-        List<TimetableSlot> tomorrowSlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
-        List<TimetableSlot> todaySlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
+
         mSectionsPagerAdapter = new TimetableAdapter(getActivity().getSupportFragmentManager(), tomorrowSlots, todaySlots);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
