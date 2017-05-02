@@ -4,8 +4,8 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:paddingTop="5dip"
-    android:paddingBottom="5dip"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
     android:background="#CCC">
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -30,7 +30,7 @@
         android:orientation="horizontal"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:padding="3dip">
+        android:padding="3dp">
         <LinearLayout
             android:id="@+id/eventsLL"
             android:orientation="vertical"

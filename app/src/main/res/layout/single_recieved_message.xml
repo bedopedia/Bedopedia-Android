@@ -34,6 +34,6 @@ android:orientation="horizontal">
     android:background="@drawable/rounded_corner1"
     android:padding="16dp"
     android:text="Android charting application xml ui design. Android charting application xml ui design tutorial with example. Android charting application xml ui design. Android charting application xml ui design. "
-    android:textColor="#000" />
+    android:textColor="@color/black" />
 
 </LinearLayout>

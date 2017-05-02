@@ -15,7 +15,7 @@
             android:id="@+id/day"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#de000000"
+            android:textColor="@color/black"
             android:layout_height="0dp"
             android:layout_marginLeft="16dp"
             android:layout_weight=".50"/>
@@ -25,7 +25,7 @@
             android:id="@+id/month"
             android:textSize="14sp"
             android:layout_marginLeft="16dp"
-            android:textColor="#8b000000"
+            android:textColor="@color/ligth_grey"
             android:layout_height="0dp"
             android:layout_weight=".50"/>
     </LinearLayout>
@@ -43,7 +43,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:textColor="#8b000000"
+                android:textColor="@color/ligth_grey"
                 android:textSize="14sp"
                 android:id="@+id/comment"
                 android:layout_weight="1"/>
