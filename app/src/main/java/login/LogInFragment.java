@@ -52,6 +52,11 @@ public class LogInFragment extends Fragment {
 
     private ApiInterface apiService;
     private SharedPreferences sharedPreferences;
+    String schoolDataKey = "school_data";
+    String nameKey = "name";
+    String avatarUrlKey = "avatar_url";
+    String tokenChangedKey = "token_changed";
+    String userIdKey = "user_id";
 
 
     public LogInFragment() {
@@ -124,11 +129,11 @@ public class LogInFragment extends Fragment {
     }
 
     private void setSchool (View rootView) {
-        String schoolData = SharedPreferenceUtils.getStringValue("school_data","",sharedPreferences);
+        String schoolData = SharedPreferenceUtils.getStringValue(schoolDataKey,"",sharedPreferences);
         JsonParser parser = new JsonParser();
         JsonObject school_data = parser.parse(schoolData).getAsJsonObject();
-        String schoolName = school_data.get("name").getAsString();
-        String schoolAvatar = school_data.get("avatar_url").getAsString();
+        String schoolName = school_data.get(nameKey).getAsString();
+        String schoolAvatar = school_data.get(avatarUrlKey).getAsString();
         TextView actionBarTitle = (TextView) rootView.findViewById(R.id.action_bar_title);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(schoolName);
 
@@ -140,10 +145,10 @@ public class LogInFragment extends Fragment {
 
     public void updateToken() throws JSONException {
         final SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(this.getActivity(),"cur_user");
-        if (!sharedPreferences.getString("token_changed","").equals("True")) {
+        if (!sharedPreferences.getString(tokenChangedKey,"").equals("True")) {
             return;
         }
-        String id = SharedPreferenceUtils.getStringValue("user_id","",sharedPreferences);
+        String id = SharedPreferenceUtils.getStringValue(userIdKey,"",sharedPreferences);
         String url = "api/users/" + id  ;
         String token = SharedPreferenceUtils.getStringValue("token","",sharedPreferences);
         JsonObject params = new JsonObject();
@@ -157,13 +162,13 @@ public class LogInFragment extends Fragment {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("token_changed","False");
+                editor.putString(tokenChangedKey,"False");
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("token_changed","True");
+                editor.putString(tokenChangedKey,"True");
             }
 
         });

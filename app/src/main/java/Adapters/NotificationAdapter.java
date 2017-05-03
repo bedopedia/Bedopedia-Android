@@ -33,6 +33,9 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
 
 
     private Context context;
+    private String assignmentsKey = "assignments";
+    private String quizzesKey = "quizzes";
+    private String myDaysKey = "mydays";
 
     public NotificationAdapter(Context context, int resource, List<NotificationModel> items) {
         super(context, resource, items);
@@ -60,11 +63,11 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
 
 
         ImageView logo = (ImageView) view.findViewById(R.id.notificationLogo);
-        if (notification.getType().equals("assignments")){
+        if (notification.getType().equals(assignmentsKey)){
             logo.setImageResource(R.drawable.quizzes_ico);
-        } else if (notification.getType().equals("quizzes")) {
+        } else if (notification.getType().equals(quizzesKey)) {
             logo.setImageResource(R.drawable.quizzes_ico);
-        } else if (notification.getType().equals("mydays")) {
+        } else if (notification.getType().equals(myDaysKey)) {
             logo.setImageResource(R.drawable.mydays_ico);
         }
 

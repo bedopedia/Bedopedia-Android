@@ -40,6 +40,7 @@ import java.util.List;
 public class AttendanceActivity extends AppCompatActivity {
 
     private String attendance;
+    private String attendancesKey = "attendances";
 
     Context context;
 
@@ -58,7 +59,7 @@ public class AttendanceActivity extends AppCompatActivity {
         ab.setTitle("Attendance");
 
         Bundle extras= getIntent().getExtras();
-        attendance = extras.getString("attendances");
+        attendance = extras.getString(attendancesKey);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
