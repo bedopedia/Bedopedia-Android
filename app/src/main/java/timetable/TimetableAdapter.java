@@ -20,6 +20,7 @@ import timetable.Fragments.TomorrowFragment;
 public class TimetableAdapter extends FragmentPagerAdapter {
     List<TimetableSlot> tomorrowSlots;
     List<TimetableSlot> todaySlots;
+    String ThuKey = "Thu";
 
     public TimetableAdapter(FragmentManager fm,  List<TimetableSlot> tomorrowSlots ,List<TimetableSlot> todaySlots){
         super(fm);
@@ -54,7 +55,7 @@ public class TimetableAdapter extends FragmentPagerAdapter {
         String today = new SimpleDateFormat("EEE", Locale.ENGLISH).format(date.getTime());
         String todayNumber =  new SimpleDateFormat("dd", Locale.ENGLISH).format(date.getTime());
 
-        if (today.equals("Thu")){
+        if (today.equals(ThuKey)){
             calendar.add( Calendar.DATE, 3 );
         } else{
             calendar.add( Calendar.DATE, 1 );

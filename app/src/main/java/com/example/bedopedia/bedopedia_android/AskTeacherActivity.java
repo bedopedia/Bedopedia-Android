@@ -44,6 +44,7 @@ public class AskTeacherActivity extends AppCompatActivity {
     ArrayList<ArrayList<MessageThread>> itemsParam = new ArrayList<>();
 
     ArrayList<String> header = new ArrayList<>();
+    String userIdKey = "user_id";
 
     public void loading(){
         progress.setTitle("Loading");
@@ -68,10 +69,10 @@ public class AskTeacherActivity extends AppCompatActivity {
 
             SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(AskTeacherActivity.this, "cur_user" );
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
-            String id = SharedPreferenceUtils.getStringValue("user_id", "",sharedPreferences);
+            String id = SharedPreferenceUtils.getStringValue(userIdKey, "",sharedPreferences);
             String url = "/api/threads";
             Map <String, String> params = new HashMap<>();
-            params.put("user_id" , id);
+            params.put(userIdKey , id);
 
             Call<ArrayList<JsonObject>>  call = apiService.getServiseArr(url, params);
 

@@ -51,6 +51,15 @@ public class AttendanceFragment extends Fragment {
     TextView absentLabel;
     TextView excusedListCounter;
     TextView excusedListLabel;
+    private String lateKey = "late";
+    private String statusKey = "status";
+    private String nullKey = "null";
+    private String commentKey = "comment";
+    private String noCommentKey = "No Comment";
+    private String absentKey = "absent";
+    private String excusedKey = "excused";
+    private String dateKey = "date";
+
 
 
     // TODO: Rename and change types of parameters
@@ -93,23 +102,23 @@ public class AttendanceFragment extends Fragment {
         for(JsonElement element: attenobdances){
             JsonObject day = element.getAsJsonObject();
             Date date = new Date();
-            date.setTime(day.get("date").getAsLong());
+            date.setTime(day.get(dateKey).getAsLong());
 
-            if(day.get("status").getAsString().equals("late")){
-                if(!day.get("comment").toString().equals("null"))
-                    lateDates.add(new Attendance(date, day.get("comment").getAsString()));
+            if(day.get(statusKey).getAsString().equals(lateKey)){
+                if(!day.get(commentKey).toString().equals(nullKey))
+                    lateDates.add(new Attendance(date, day.get(commentKey).getAsString()));
                 else
-                    lateDates.add(new Attendance(date, "No Comment"));
-            } else if(day.get("status").getAsString().equals("absent")){
-                if(!day.get("comment").toString().equals("null"))
-                    absentDates.add(new Attendance(date, day.get("comment").getAsString()));
+                    lateDates.add(new Attendance(date, noCommentKey));
+            } else if(day.get(statusKey).getAsString().equals(absentKey)){
+                if(!day.get(commentKey).toString().equals(nullKey))
+                    absentDates.add(new Attendance(date, day.get(commentKey).getAsString()));
                 else
-                    absentDates.add(new Attendance(date, "No Comment"));
-            } else if (day.get("status").getAsString().equals("excused")){
-                if ( !day.get("comment").toString().equals("null"))
-                    excusedDates.add(new Attendance(date, day.get("comment").getAsString()));
+                    absentDates.add(new Attendance(date, noCommentKey));
+            } else if (day.get(statusKey).getAsString().equals(excusedKey)){
+                if ( !day.get(commentKey).toString().equals(nullKey))
+                    excusedDates.add(new Attendance(date, day.get(commentKey).getAsString()));
                 else
-                    excusedDates.add(new Attendance(date, "No Comment"));
+                    excusedDates.add(new Attendance(date, noCommentKey));
             }
         }
 

@@ -32,6 +32,7 @@ import static android.content.Intent.getIntent;
 public class BehaviorNotesFragment extends Fragment {
 
     String studentId, id;
+    String studentIdKey = "student_id";
     public static Context context;
     TabLayout tabLayout;
     private BehaviorNotesFragmentAdapter mSectionsPagerAdapter;
@@ -67,7 +68,7 @@ public class BehaviorNotesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras= this.getActivity().getIntent().getExtras();
-        studentId = extras.getString("student_id");
+        studentId = extras.getString(studentIdKey);
 
         context = getActivity();
         Intent intent = this.getActivity().getIntent();

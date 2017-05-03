@@ -119,6 +119,10 @@ public class StudentFragment extends Fragment {
     DrawerLayout notificationLayout;
     ListView notificationList;
     ActionBar ab ;
+    String thursdayKey ="thursday";
+    String badgeNameKey = "badge_name";
+    String GuruKey = "Guru";
+    String grandMaesterKey = "Grand Maester";
 
     int servicesCount;
     private static final int servicesNumber = 5;
@@ -547,7 +551,7 @@ public class StudentFragment extends Fragment {
                     String tomorrow = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
                     today = today.toLowerCase();
                     tomorrow = tomorrow.toLowerCase();
-                    if (today.equals("thursday")){
+                    if (today.equals(thursdayKey)){
                         tomorrow = "sunday";
                     }
 
@@ -683,9 +687,9 @@ public class StudentFragment extends Fragment {
                         for (int i = 0 ; i < response.body().size(); i++) {
                             JsonObject jsonBadge = response.body().get(i);
                             String reason;
-                            if (jsonBadge.get("badge_name").getAsString().equals("Guru")){
+                            if (jsonBadge.get(badgeNameKey).getAsString().equals(GuruKey)){
                                 reason = "High performance in a quiz";
-                            } else if (jsonBadge.get("badge_name").getAsString().equals("Grand Maester")){
+                            } else if (jsonBadge.get(badgeNameKey).getAsString().equals(grandMaesterKey)){
                                 reason = "Excellent performance in total grade";
                             } else {
                                 reason = "Active user of Skolera";

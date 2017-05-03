@@ -11,7 +11,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class SharedPreferenceUtils {
 
     public static SharedPreferences getSharedPreference(Context context, String name) {
-        return context.getSharedPreferences("cur_user", MODE_PRIVATE);
+        return context.getSharedPreferences(name, MODE_PRIVATE);
     }
 
 

@@ -43,6 +43,25 @@ public class ActivityCourse extends AppCompatActivity {
     private Double totalCategory = 0.0 ;
     String studentId, courseGroupId,courseId;
     String courseName;
+    String studentIdKey = "student_id";
+    String assignmentsKey = "assignments";
+    String studentKey = "student";
+    String submittedAssignmentsKey = "submitted_assignments";
+    String assignmentsAveragesKey = "assignments_averages";
+    String quizzesKey = "quizzes";
+    String submittedQuizzesKey = "submitted_quizzes";
+    String quizzesAveragesKey = "quizzes_averages";
+    String gradeItemsKey = "grade_items";
+    String submittedGradesKey = "submitted_grades";
+    String gradesAveragesKey = "grades_averages";
+    String courseGroupIdKey = "course_group_id";
+    String courseIdKey = "course_id";
+    String courseNameKey = "course_name";
+    String pointsKey = "points";
+    String idKey = "id";
+    String dashKey = "-";
+    String maxGradeKey = "max_grade";
+    String totalScoreKey = "total_score";
 
     public void loading(){
         progress.setTitle("Loading");
@@ -74,7 +93,7 @@ public class ActivityCourse extends AppCompatActivity {
         protected Object doInBackground(Object... param) {
 
             Map<String,String> params = new HashMap();
-            params.put("student_id",studentId);
+            params.put(studentIdKey,studentId);
             String url = "api/courses/"+ courseId +"/course_groups/"+courseGroupId+"/student_grade";
             SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(ActivityCourse.this, "cur_user" );
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
@@ -104,16 +123,16 @@ public class ActivityCourse extends AppCompatActivity {
 
                             ArrayList<ArrayList<String>> assignmentTempData = new ArrayList<>();
                             JsonObject item = entry.getValue().getAsJsonObject();
-                            if (item.has("assignments") && body.has("student") && body.get("student").getAsJsonArray().get(0).getAsJsonObject().has("submitted_assignments")  ) {
-                                addAssignmentsToList(item.get("assignments").getAsJsonArray(), assignmentTempData, body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_assignments").getAsJsonArray(), body.get("assignments_averages").getAsJsonObject() );
+                            if (item.has(assignmentsKey) && body.has(studentKey) && body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedAssignmentsKey)  ) {
+                                addAssignmentsToList(item.get(assignmentsKey).getAsJsonArray(), assignmentTempData, body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedAssignmentsKey).getAsJsonArray(), body.get(assignmentsAveragesKey).getAsJsonObject() );
                             }
 
-                            if (item.has("quizzes")  &&  body.has("student")  && body.get("student").getAsJsonArray().get(0).getAsJsonObject().has("submitted_quizzes") ) {
-                                addQuizzesToList(item.get("quizzes").getAsJsonArray(), assignmentTempData,body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_quizzes").getAsJsonArray(), body.get("quizzes_averages").getAsJsonObject() );
+                            if (item.has(quizzesKey)  &&  body.has(studentKey)  && body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedQuizzesKey) ) {
+                                addQuizzesToList(item.get(quizzesKey).getAsJsonArray(), assignmentTempData,body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedQuizzesKey).getAsJsonArray(), body.get(quizzesAveragesKey).getAsJsonObject() );
                             }
 
-                            if (item.has("grade_items")  && body.has("student")  && body.get("student").getAsJsonArray().get(0).getAsJsonObject().has("submitted_grades")  ) {
-                                addGradeItemsToList(item.get("grade_items").getAsJsonArray(), assignmentTempData, body.get("student").getAsJsonArray().get(0).getAsJsonObject().get("submitted_grades").getAsJsonArray(), body.get("grades_averages").getAsJsonObject() );
+                            if (item.has(gradeItemsKey)  && body.has(studentKey)  && body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedGradesKey)  ) {
+                                addGradeItemsToList(item.get(gradeItemsKey).getAsJsonArray(), assignmentTempData, body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedGradesKey).getAsJsonArray(), body.get(gradesAveragesKey).getAsJsonObject() );
                             }
 
                             if(totalStudent == totalStudent.intValue()){
@@ -214,10 +233,10 @@ public class ActivityCourse extends AppCompatActivity {
         progress = new ProgressDialog(this);
         context = this;
         Bundle extras= getIntent().getExtras();
-        studentId = extras.getString("student_id");
-        courseGroupId = extras.getString("course_group_id");
-        courseId = extras.getString("course_id");
-        courseName = extras.getString("course_name");
+        studentId = extras.getString(studentIdKey);
+        courseGroupId = extras.getString(courseGroupIdKey);
+        courseId = extras.getString(courseIdKey);
+        courseName = extras.getString(courseNameKey);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
@@ -247,24 +266,24 @@ public class ActivityCourse extends AppCompatActivity {
             JsonObject assignmentObj = pa.getAsJsonObject();
 
             String temp = "", comment = "";
-            temp = getStudentGrade(assignmentObj.get("id").getAsInt(), studentSubmission , "assignment_id", "grade");
-            if (temp.equals("-")) {
+            temp = getStudentGrade(assignmentObj.get(idKey).getAsInt(), studentSubmission , "assignment_id", "grade");
+            if (temp.equals(dashKey)) {
                 comment = "Not Graded";
-            } else if (Integer.valueOf(temp)  >= (assignmentObj.get("points").getAsInt() * 80 )/ 100 ) {
+            } else if (Integer.valueOf(temp)  >= (assignmentObj.get(pointsKey).getAsInt() * 80 )/ 100 ) {
                 comment = "Wooha!";
-            } else if (Integer.valueOf(temp) < assignmentObj.get("points").getAsInt() / 2 ) {
+            } else if (Integer.valueOf(temp) < assignmentObj.get(pointsKey).getAsInt() / 2 ) {
                 comment ="Needs Improvement";
 
-            } else if (Integer.valueOf(temp) < (assignmentObj.get("points").getAsInt() * 80 ) /100 &&  Integer.valueOf(temp) >= (assignmentObj.get("points").getAsInt() / 2)  ) {
+            } else if (Integer.valueOf(temp) < (assignmentObj.get(pointsKey).getAsInt() * 80 ) /100 &&  Integer.valueOf(temp) >= (assignmentObj.get("points").getAsInt() / 2)  ) {
                 comment ="Good";
             }
 
-            if (assignmentObj.get("points").getAsInt() == assignmentObj.get("points").getAsDouble()) {
-                temp += "/" + assignmentObj.get("points").getAsInt();
+            if (assignmentObj.get(pointsKey).getAsInt() == assignmentObj.get(pointsKey).getAsDouble()) {
+                temp += "/" + assignmentObj.get(pointsKey).getAsInt();
             } else {
-                temp += "/" + assignmentObj.get("points").getAsString();
+                temp += "/" + assignmentObj.get(pointsKey).getAsString();
             }
-            totalCategory += assignmentObj.get("points").getAsDouble();
+            totalCategory += assignmentObj.get(pointsKey).getAsDouble();
             ArrayList<String> tempDataForItem = new ArrayList<>();
             tempDataForItem.add(assignmentObj.get("name").getAsString());
             tempDataForItem.add(temp);
@@ -283,33 +302,33 @@ public class ActivityCourse extends AppCompatActivity {
         for (JsonElement pa : quizzes) { // gest needed data from assig, quizz, grade item
             JsonObject quizObj = pa.getAsJsonObject();
             String temp = "", comment = "";
-            temp = getStudentGrade(quizObj.get("id").getAsInt(), studentSubmission , "quiz_id", "score");
-            if (temp.equals("-")) {
+            temp = getStudentGrade(quizObj.get(idKey).getAsInt(), studentSubmission , "quiz_id", "score");
+            if (temp.equals(dashKey)) {
                 comment = "Not Graded";
-            } else if (Integer.valueOf(temp) == (quizObj.get("total_score").getAsInt() * 80 )/ 100 ) {
+            } else if (Integer.valueOf(temp) == (quizObj.get(totalScoreKey).getAsInt() * 80 )/ 100 ) {
                 comment = "Wooha!";
-            } else if (Integer.valueOf(temp) < quizObj.get("total_score").getAsInt() / 2 ) {
+            } else if (Integer.valueOf(temp) < quizObj.get(totalScoreKey).getAsInt() / 2 ) {
                 comment ="Needs Improvement";
 
-            } else if (Integer.valueOf(temp) < (quizObj.get("total_score").getAsInt() * 80 ) /100 &&  Integer.valueOf(temp) >= (quizObj.get("total_score").getAsInt() / 2)  ) {
+            } else if (Integer.valueOf(temp) < (quizObj.get(totalScoreKey).getAsInt() * 80 ) /100 &&  Integer.valueOf(temp) >= (quizObj.get(totalScoreKey).getAsInt() / 2)  ) {
                 comment ="Good";
             }
 
             if (quizObj.get("total_score").getAsInt() == quizObj.get("total_score").getAsDouble()) {
-                temp += "/" + quizObj.get("total_score").getAsInt();
+                temp += "/" + quizObj.get(totalScoreKey).getAsInt();
             } else {
-                temp += "/" + quizObj.get("total_score").getAsString();
+                temp += "/" + quizObj.get(totalScoreKey).getAsString();
             }
 
-            totalCategory += quizObj.get("total_score").getAsDouble();
+            totalCategory += quizObj.get(totalScoreKey).getAsDouble();
 
 
             ArrayList<String> tempDataForItem = new ArrayList<>();
             tempDataForItem.add(quizObj.get("name").getAsString());
             tempDataForItem.add(temp);
             tempDataForItem.add(comment);
-            if (quizzesAverages.has(quizObj.get("id").getAsString())) {
-                tempDataForItem.add(quizzesAverages.get(quizObj.get("id").getAsString()).getAsString());
+            if (quizzesAverages.has(quizObj.get(idKey).getAsString())) {
+                tempDataForItem.add(quizzesAverages.get(quizObj.get(idKey).getAsString()).getAsString());
             } else {
                 tempDataForItem.add("0.0");
             }
@@ -323,15 +342,15 @@ public class ActivityCourse extends AppCompatActivity {
             JsonObject gradeItemObj = pa.getAsJsonObject();
 
             String temp = "", comment = "";
-            temp = getStudentGrade(gradeItemObj.get("id").getAsInt(), studentSubmission , "grade_item_id", "grade");
-            if (temp.equals("-")) {
+            temp = getStudentGrade(gradeItemObj.get(idKey).getAsInt(), studentSubmission , "grade_item_id", "grade");
+            if (temp.equals(dashKey)) {
                 comment = "Not Graded";
-            } else if (Integer.valueOf(temp) == (gradeItemObj.get("max_grade").getAsInt() * 80 )/ 100) {
+            } else if (Integer.valueOf(temp) == (gradeItemObj.get(maxGradeKey).getAsInt() * 80 )/ 100) {
                 comment = "Wooha!";
-            } else if (Integer.valueOf(temp) <= gradeItemObj.get("max_grade").getAsInt() / 2 ) {
+            } else if (Integer.valueOf(temp) <= gradeItemObj.get(maxGradeKey).getAsInt() / 2 ) {
                 comment = "Needs Improvement";
 
-            } else if (Integer.valueOf(temp) < (gradeItemObj.get("max_grade").getAsInt() * 80 ) /100 &&  Integer.valueOf(temp) >= (gradeItemObj.get("max_grade").getAsInt() / 2)  ) {
+            } else if (Integer.valueOf(temp) < (gradeItemObj.get(maxGradeKey).getAsInt() * 80 ) /100 &&  Integer.valueOf(temp) >= (gradeItemObj.get(maxGradeKey).getAsInt() / 2)  ) {
                 comment = "Good";
             }
 
@@ -346,8 +365,8 @@ public class ActivityCourse extends AppCompatActivity {
             tempDataForItem.add(gradeItemObj.get("name").getAsString());
             tempDataForItem.add(temp);
             tempDataForItem.add(comment);
-            if (gradeAverages.has(gradeItemObj.get("id").getAsString())) {
-                tempDataForItem.add(gradeAverages.get(gradeItemObj.get("id").getAsString()).getAsString());
+            if (gradeAverages.has(gradeItemObj.get(idKey).getAsString())) {
+                tempDataForItem.add(gradeAverages.get(gradeItemObj.get(idKey).getAsString()).getAsString());
             } else {
                 tempDataForItem.add("0.0");
             }
