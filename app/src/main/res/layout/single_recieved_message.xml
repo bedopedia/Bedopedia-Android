@@ -17,7 +17,7 @@ android:orientation="horizontal">
     android:src="@drawable/student" />
 
 <ImageView
-    android:id="@+id/imageView1"
+    android:id="@+id/message_extra_white_part_img"
     android:layout_width="30dp"
     android:layout_height="30dp"
     android:layout_marginRight="-15dp"

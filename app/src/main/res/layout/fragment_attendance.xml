@@ -32,7 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:text="Late"
+
                     android:textSize="14sp"
                     android:id="@+id/late_label"
                     android:textAlignment="center"
@@ -53,7 +53,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:text="Excused"
                     android:textAlignment="center"
                     android:textSize="14sp"
                     android:id="@+id/excused_label"
@@ -74,7 +73,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:text="Absent"
                     android:textSize="14sp"
                     android:id="@+id/absent_label"
                     android:textAlignment="center"
@@ -109,7 +107,7 @@
 
                     <com.github.sundeepk.compactcalendarview.CompactCalendarView
                         xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/compactcalendar_view"
+                        android:id="@+id/student_absent_calendar"
                         android:layout_width="fill_parent"
                         android:paddingRight="16dp"
                         android:paddingLeft="16dp"

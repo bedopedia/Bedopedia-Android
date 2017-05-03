@@ -11,17 +11,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:background="@drawable/back_arrow"
-        android:id="@+id/back" />
+        android:id="@+id/actionbar_back_button" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_weight=".65"
         android:layout_height="?attr/actionBarSize"
         android:id="@+id/action_bar_title"
-        android:text=""
         android:layout_marginLeft="8dp"
         android:layout_marginTop="12dp"
-
         android:textColor="@color/white"
         android:textSize="20sp" />
 
@@ -30,8 +28,7 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:layout_marginRight="5dp"
-        android:paddingTop="6dp"
-        >
+        android:paddingTop="6dp">
 
 
 
@@ -42,8 +39,7 @@
             android:paddingLeft="20dp"
             android:paddingBottom="6dp"
             android:clickable="true"
-            android:background="?android:attr/selectableItemBackground"
-            >
+            android:background="?android:attr/selectableItemBackground">
 
             <Button
                 android:id="@+id/student_action_bar_notification"
@@ -68,12 +64,6 @@
             android:textSize="12sp"
             android:text="12"
             android:textStyle="bold" />
-
-
-
     </RelativeLayout>
-
-
-
 </LinearLayout>
 

@@ -23,7 +23,7 @@
 
             <TextView
                 android:layout_gravity="center"
-                android:id="@+id/others_name"
+                android:id="@+id/reciepient_name"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
@@ -59,8 +59,6 @@
                 android:orientation="vertical"
                 android:background="#ebfff0">
 
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -87,7 +85,7 @@
                     android:layout_height="0dp"
                     android:layout_weight=".15"
                     android:orientation="horizontal">
-                    <!--  -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -102,7 +100,7 @@
                             android:paddingLeft="21dp"
                             android:paddingRight="23dp"
                             android:background="@drawable/layout_screen">
-                            <EditText android:id="@+id/message"
+                            <EditText android:id="@+id/new_message"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:inputType="textAutoComplete"
@@ -126,7 +124,7 @@
                             android:src="@drawable/arrow_bg1" />
 
                         <android.support.design.widget.FloatingActionButton
-                            android:id="@+id/fab"
+                            android:id="@+id/send_new_message"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -138,7 +136,5 @@
 
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
-
 </android.support.design.widget.CoordinatorLayout>

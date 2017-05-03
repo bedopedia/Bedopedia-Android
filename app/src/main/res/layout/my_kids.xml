@@ -19,19 +19,17 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="?android:attr/actionBarSize"
-        android:id="@+id/my_recycler_view"
+        android:id="@+id/kids_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"/>
-
     <ListView
         android:id="@+id/listview_notification"
         android:background="@color/white"
         android:divider="@android:color/transparent"
         android:layout_gravity="end"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
     </ListView>
 
     <android.support.design.widget.NavigationView
@@ -42,5 +40,4 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
-
 </android.support.v4.widget.DrawerLayout>

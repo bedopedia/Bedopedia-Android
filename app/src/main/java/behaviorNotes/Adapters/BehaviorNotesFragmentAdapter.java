@@ -9,9 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import behaviorNotes.BehaviorNote;
-import behaviorNotes.BehaviorNotesActivity;
+
 import com.example.bedopedia.bedopedia_android.R;
-import student.StudentActivity;
 
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
     public View getTabView(int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.single_tab, null);
         TextView title = (TextView) view.findViewById(R.id.tab_title);
-        TextView counter = (TextView) view.findViewById(R.id.tab_counter);
+        TextView counter = (TextView) view.findViewById(R.id.behavior_notes_counter);
         title.setText(this.getPageTitle(position));
         if (position == 0) {
             counter.setText(positiveNotesList.size() + "");

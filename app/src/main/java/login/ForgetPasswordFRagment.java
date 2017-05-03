@@ -7,9 +7,6 @@ import android.os.Bundle;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +27,6 @@ import login.Services.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,7 +83,7 @@ public class ForgetPasswordFRagment extends Fragment {
         setTextType(view);
 
         mEmailView = (AutoCompleteTextView) view.findViewById(R.id.email);
-        requestBtn = (Button) view.findViewById(R.id.request_btn);
+        requestBtn = (Button) view.findViewById(R.id.request_new_password);
         sharedPreferences = SharedPreferenceUtils.getSharedPreference(this.getActivity(),"cur_user");
 
         requestBtn.setOnClickListener(new View.OnClickListener() {
@@ -155,14 +150,14 @@ public class ForgetPasswordFRagment extends Fragment {
         Typeface robotoMedian = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
         Typeface robotoRegular = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Regular.ttf");
         ((TextView) rootView.findViewById(R.id.head_text)).setTypeface(robotoMedian);
-        ((Button) rootView.findViewById(R.id.request_btn)).setTypeface(robotoMedian);
+        ((Button) rootView.findViewById(R.id.request_new_password)).setTypeface(robotoMedian);
         ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setTypeface(robotoRegular);
         setText(rootView);
     }
 
     private void setText(View rootView){
         ((TextView) rootView.findViewById(R.id.head_text)).setText(R.string.fragmentForgetPassowdMessage_tv);
-        ((Button) rootView.findViewById(R.id.request_btn)).setText(R.string.fragmentForgetPasswordResetPassword_btn);
+        ((Button) rootView.findViewById(R.id.request_new_password)).setText(R.string.fragmentForgetPasswordResetPassword_btn);
         ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setHint(R.string.fragmentForgetPasswordMail_tv);
     }
 

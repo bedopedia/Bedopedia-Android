@@ -85,19 +85,14 @@
                             android:layout_marginRight="16dp"
                             android:textColor="@color/white"
                             android:textSize="12sp"
-
                             android:textStyle="bold" />
-
-
-
                     </RelativeLayout>
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="105dp"
                     android:layout_height="105dp"
-                    android:layout_weight="1"
-                    >
+                    android:layout_weight="1">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/home_student_avatar"
@@ -107,8 +102,7 @@
                         android:layout_gravity="center"
                         android:padding="7dp"
                         app:civ_border_width="0dp"
-                        app:civ_border_color="@color/black"
-                        />
+                        app:civ_border_color="@color/black" />
                     <TextView
                         android:id="@+id/st_home_text_name"
                         android:layout_width="96dp"
@@ -125,18 +119,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_gravity="center"
-                    >
-
+                    android:layout_gravity="center">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="7dp"
-                        >
-
-
+                        android:layout_marginTop="7dp">
 
                         <RelativeLayout
                             android:id="@+id/relative_layout"
@@ -144,8 +133,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:clickable="true"
-                            android:background="?android:attr/selectableItemBackground"
-                            >
+                            android:background="?android:attr/selectableItemBackground">
 
                             <Button
                                 android:id="@+id/student_home_message_notification"
@@ -170,24 +158,14 @@
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
-
-
                     </RelativeLayout>
-
-
                 </FrameLayout>
-
-
-
-
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                >
+                android:layout_marginBottom="30dp">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -205,8 +183,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:layout_marginTop="10dp"
-                        android:text=""/>
+                        android:layout_marginTop="10dp" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -228,7 +205,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/open_attendance"
+                android:id="@+id/attendance_layout"
                 android:clickable="true"
                 android:background="?android:attr/selectableItemBackground"
                 >
@@ -310,7 +287,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="90dp"
-                android:background="#ffe5e5e5"/>
+                android:background="@color/Platinum"/>
 
 
             <LinearLayout
@@ -320,10 +297,9 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/open_timetable"
+                android:id="@+id/timetable_layout"
                 android:clickable="true"
-                android:background="?android:attr/selectableItemBackground"
-                >
+                android:background="?android:attr/selectableItemBackground">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -335,7 +311,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/timetable"
-                        android:id="@+id/imageView4"
+                        android:id="@+id/time_table_icon"
                         android:layout_marginTop="20dp"/>
                 </FrameLayout>
 
@@ -360,8 +336,7 @@
                         android:textColor="@color/ligth_grey"
                         android:layout_height="wrap_content"
                         android:id="@+id/next_slot"
-                        android:paddingTop="10dp"
-                        />
+                        android:paddingTop="10dp" />
 
                 </LinearLayout>
 
@@ -373,14 +348,13 @@
                     android:id="@+id/timetable_btn"
                     android:layout_weight="0.03"
                     android:layout_marginTop="15dp" />
-
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="90dp"
-                android:background="#ffe5e5e5"/>
+                android:background="@color/Platinum"/>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -388,7 +362,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/open_grades"
+                android:id="@+id/grades_layout"
                 android:clickable="true"
                 android:background="?android:attr/selectableItemBackground"
                 >
@@ -403,7 +377,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/grades_ico"
-                        android:id="@+id/imageView5"
+                        android:id="@+id/grades_icon"
                         android:layout_marginTop="20dp"/>
                 </FrameLayout>
 
@@ -446,7 +420,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="90dp"
-                android:background="#ffe5e5e5"/>
+                android:background="@color/Platinum"/>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -454,7 +428,7 @@
                 android:layout_marginBottom="10dp"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:id="@+id/open_notes"
+                android:id="@+id/notes_layout"
                 android:clickable="true"
                 android:background="?android:attr/selectableItemBackground"
                 >
@@ -469,7 +443,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/behavior_notes_ico"
-                        android:id="@+id/imageView6"
+                        android:id="@+id/notes_icon"
                         android:layout_marginTop="20dp"/>
                 </FrameLayout>
 
@@ -510,7 +484,6 @@
                                     android:layout_width="24dp"
                                     android:layout_height="24dp"
                                     android:src="@drawable/positive_icon"/>
-
                             </FrameLayout>
 
                             <TextView
@@ -539,7 +512,6 @@
                                     android:layout_width="24dp"
                                     android:layout_height="24dp"
                                     android:src="@drawable/negative_icon"/>
-
                             </FrameLayout>
 
                             <TextView
@@ -563,24 +535,17 @@
                     android:layout_marginTop="15dp"
                     android:id="@+id/behavior_notes_btn"
                     android:layout_weight="0.03" />
-
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="90dp"
-                android:background="#ffe5e5e5"/>
-
-
+                android:background="@color/Platinum"/>
         </LinearLayout>
-
-
-
-
     </ScrollView>
-    <ListView
 
+    <ListView
         android:id="@+id/student_listview_notification"
         android:background="@color/white"
         android:divider="@android:color/transparent"
@@ -590,9 +555,3 @@
         >
     </ListView>
 </android.support.v4.widget.DrawerLayout>
-
-
-
-
-
-

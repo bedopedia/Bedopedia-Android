@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColorHint="#CFD8DC"
+        android:textColorHint="@color/messageColor"
         android:textColor="#CFD8DC"
         android:hint="Write a message" />
 

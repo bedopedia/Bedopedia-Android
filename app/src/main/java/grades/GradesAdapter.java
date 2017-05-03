@@ -63,7 +63,7 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
         Typeface robotoBold = Typeface.createFromAsset(GradesAvtivity.context.getAssets(), "font/Roboto-Bold.ttf");
 
         item.courseImage = (ImageView) view.findViewById(R.id.course_image);
-        item.courseName = (TextView) view.findViewById(R.id.course_name);
+        item.courseName = (TextView) view.findViewById(R.id.single_course_name);
         item.courseGrade = (TextView) view.findViewById(R.id.course_grade);
         item.openCourse = (ImageButton) view.findViewById(R.id.open_grade);
         item.singleGrade = (LinearLayout) view.findViewById(R.id.single_grade);

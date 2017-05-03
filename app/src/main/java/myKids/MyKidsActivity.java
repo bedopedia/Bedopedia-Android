@@ -157,7 +157,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                         }
 
 
-                        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+                        mRecyclerView = (RecyclerView) findViewById(R.id.kids_recycler_view);
                         mLayoutManager = new LinearLayoutManager(context);
                         mRecyclerView.setHasFixedSize(true);
                         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -316,7 +316,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
 
-        TextView emailView = (TextView) hView.findViewById(R.id.my_email);
+        TextView emailView = (TextView) hView.findViewById(R.id.user_email);
         ImageView myAvatar = (ImageView) hView.findViewById(R.id.my_avatar_photo);
 
         emailView.setText(email);

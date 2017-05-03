@@ -22,5 +22,6 @@
     <color name="lime_green">#28bb4e</color>
     <color name="msg_background">#7e5f5f</color>
     <color name="Platinum">#ffe5e5e5</color>
+    <color name="messageColor">#CFD8DC</color>
 
 </resources>

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import behaviorNotes.BehaviorNotesActivity;
 import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.List;
@@ -46,7 +45,7 @@ public class BehaviorNotesAdapter extends ArrayAdapter {
         }
         item=new Holder();
 
-        item.category = (TextView) view.findViewById(R.id.category);
+        item.category = (TextView) view.findViewById(R.id.bahvior_category);
         item.noteContent = (TextView) view.findViewById(R.id.note_content);
 
         Typeface robotoMedium = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf");
