@@ -108,9 +108,12 @@ public class BehaviorNotesFragment extends Fragment {
 
         positiveTitle = (TextView) positiveTab.findViewById(R.id.tab_title);
         positiveCounter = (TextView) positiveTab.findViewById(R.id.tab_counter);
+        positiveTitle.setText(R.string.positiveBehaviorNotes);
+
 
         negativeTitle = (TextView) negativeTab.findViewById(R.id.tab_title);
         negativeCounter = (TextView) negativeTab.findViewById(R.id.tab_counter);
+        negativeTitle.setText(R.string.negativeBehaviorNotes);
         positiveTitle.setTextColor(Color.parseColor("#ffffff"));
         positiveCounter.setBackgroundResource(R.drawable.notes_selected_counter);
 
@@ -144,9 +147,5 @@ public class BehaviorNotesFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
-
-
-
     }
 }

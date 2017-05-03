@@ -55,7 +55,7 @@ public class AttendanceActivity extends AppCompatActivity {
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("Attendance");
+        ab.setTitle(R.string.attendanceTitle);
 
         Bundle extras= getIntent().getExtras();
         attendance = extras.getString("attendances");

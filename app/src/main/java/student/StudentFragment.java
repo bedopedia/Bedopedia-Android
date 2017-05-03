@@ -210,20 +210,35 @@ public class StudentFragment extends Fragment {
         attendaceText = (TextView) view.findViewById(R.id.attendance_text);
 
 
+
+
         attendanceLabel.setTypeface(robotoMedium);
         timetableLabel.setTypeface(robotoMedium);
         gradesLabel.setTypeface(robotoMedium);
         behaviorNotesLabel.setTypeface(robotoMedium);
+
+
+        attendanceLabel.setText(R.string.fragmentStudentAttendance_tv);
+        timetableLabel.setText(R.string.fragmentStudentTimetable_tv);
+        gradesLabel.setText(R.string.fragmentStudentGrades_tv);
+        behaviorNotesLabel.setText(R.string.fragmentStudentBehaviorNotes_tv);
 
         attendanceLayer = (LinearLayout) view.findViewById(R.id.open_attendance);
         gradesLayer = (LinearLayout) view.findViewById(R.id.open_grades);
         timeTableLayer = (LinearLayout) view.findViewById(R.id.open_timetable);
         notesLayer = (LinearLayout) view.findViewById(R.id.open_notes);
 
+
         studentAvatarImage = (ImageView) view.findViewById(R.id.home_student_avatar);
         studentLevelView = (TextView) view.findViewById(R.id.home_student_level);
         studentNameView = (TextView) view.findViewById(R.id.home_student_name);
         nextSlot = (TextView) view.findViewById(R.id.next_slot);
+
+
+
+
+
+
 
         positiveNotesCounter = (TextView) view.findViewById(R.id.positive_notes_counter);
         negativeNotesCounter = (TextView) view.findViewById(R.id.negative_notes_counter);
@@ -282,11 +297,10 @@ public class StudentFragment extends Fragment {
                 ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
                 ab.setDisplayHomeAsUpEnabled(true);
                 if(notificationLayout.isDrawerOpen(notificationList)){
-                    SpannableString title = new SpannableString("Notifications");
+                    SpannableString title = new SpannableString(getString(R.string.notificationString));
                     title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     ab.setTitle(title);
                 } else {
-
                     SpannableString title = new SpannableString(studentName);
                     title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     ab.setTitle(title);
@@ -436,8 +450,8 @@ public class StudentFragment extends Fragment {
     }
 
     public void loading(){
-        progress.setTitle("Loading");
-        progress.setMessage("Wait while loading...");
+        progress.setTitle(R.string.LoadDialogueTitle);
+        progress.setMessage(getString(R.string.LoadDialogueBody));
     }
 
     public void getStudentCourseGroups(){
@@ -451,7 +465,7 @@ public class StudentFragment extends Fragment {
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
                 int statusCode = response.code();
                 if(statusCode == 401) {
-                    Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                    Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                 } else if (statusCode == 200) {
                     for (int i = 0 ; i < response.body().size() ; i++) {
                         JsonObject courseGroupData = response.body().get(i);
@@ -475,7 +489,7 @@ public class StudentFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 progress.dismiss();
-                Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
+                Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
             }
         });
     }
@@ -490,7 +504,7 @@ public class StudentFragment extends Fragment {
                 //progress.dismiss();
                 int statusCode = response.code();
                 if(statusCode == 401) {
-                    Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                    Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                 } else {
                     if (statusCode == 200) {
                         int i = 0;
@@ -509,7 +523,6 @@ public class StudentFragment extends Fragment {
                         }
                         totalGrade = response.body().get(i).get("total_grade").getAsString();
                         totalGradeText.setText("Average grade:  "+totalGrade);
-
                     }
                 }
                 servicesCount++;
@@ -611,7 +624,7 @@ public class StudentFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 progress.dismiss();
-                Dialogue.AlertDialog(context, "Connection Failed", "Check your Netwotk connection and Try again");
+                Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
             }
         });
     }
@@ -631,7 +644,7 @@ public class StudentFragment extends Fragment {
                 //progress.dismiss();
                 int statusCode = response.code();
                 if(statusCode == 401) {
-                    Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                    Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                 } else if (statusCode == 200) {
                     JsonArray behaviourNotes = response.body().get("behavior_notes").getAsJsonArray();
                     for(JsonElement element: behaviourNotes){
@@ -660,7 +673,7 @@ public class StudentFragment extends Fragment {
             public void onFailure(Call<JsonObject> call, Throwable t) {
 
                 progress.dismiss();
-                Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
+                Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
             }
         });
     }
@@ -677,7 +690,7 @@ public class StudentFragment extends Fragment {
                 // must be called in the last service
                 int statusCode = response.code();
                 if(statusCode == 401) {
-                    Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                    Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                 } else {
                     if (statusCode == 200) {
                         for (int i = 0 ; i < response.body().size(); i++) {
@@ -706,7 +719,7 @@ public class StudentFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 progress.dismiss();
-                Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
+                Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
             }
         });
     }
@@ -768,7 +781,7 @@ public class StudentFragment extends Fragment {
                     progress.dismiss();
                     int statusCode = response.code();
                     if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
                         notifications = new  ArrayList<NotificationModel>();
                         JsonObject notificationsRespone = response.body();
@@ -803,7 +816,7 @@ public class StudentFragment extends Fragment {
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
                     progress.dismiss();
-                    Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
+                    Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
                 }
 
 
@@ -844,7 +857,7 @@ public class StudentFragment extends Fragment {
 
                     int statusCode = response.code();
                     if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
 
                     }

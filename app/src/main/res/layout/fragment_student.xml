@@ -85,7 +85,7 @@
                             android:layout_marginRight="16dp"
                             android:textColor="@color/white"
                             android:textSize="12sp"
-                            android:text=""
+
                             android:textStyle="bold" />
 
 
@@ -114,7 +114,6 @@
                         android:layout_width="96dp"
                         android:layout_height="96dp"
                         android:layout_gravity="center"
-
                         android:background="@drawable/circle_text"
                         android:gravity="center"
                         android:textColor="@color/white"
@@ -258,7 +257,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <TextView
-                            android:text="Attendance"
                             android:layout_width="0dp"
                             android:layout_weight=".80"
                             android:layout_height="wrap_content"
@@ -348,7 +346,6 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:text="TimeTable"
                         android:textStyle="normal|bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -417,7 +414,6 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:text="Grades"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/grades"
@@ -485,7 +481,7 @@
                     android:paddingRight="50dp">
 
                     <TextView
-                        android:text="Behavior notes"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/behavior_notes"

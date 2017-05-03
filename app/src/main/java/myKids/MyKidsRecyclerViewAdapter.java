@@ -50,6 +50,11 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
         holder.level.setText(curStudent.getLevel());
         holder.name.setText(curStudent.getFirstName() + " " + curStudent.getLastName());
         String imageUrl = curStudent.getAvatar();
+
+        holder.dueTasks.setText(R.string.SingleStudentDueDate);
+        holder.todaySummary.setText(R.string.SingleStudentSummary);
+
+
         if(imageUrl.substring(0,8).equals("/uploads")) {
             imageUrl = ApiClient.BASE_URL + imageUrl;
         }
@@ -122,6 +127,9 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
             level = (TextView) itemView.findViewById(R.id.student_level);
             todaySummary = (TextView) itemView.findViewById(R.id.st_today_summary);
             dueTasks = (TextView) itemView.findViewById(R.id.st_due_tasks);
+
+
+
             textName = (TextView) itemView.findViewById(R.id.st_text_name);
             setTextType();
         }

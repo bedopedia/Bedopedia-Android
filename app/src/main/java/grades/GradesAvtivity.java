@@ -33,7 +33,7 @@ public class GradesAvtivity extends AppCompatActivity {
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("Grades");
+        ab.setTitle(R.string.GradesTitle);
 
         context = this;
 

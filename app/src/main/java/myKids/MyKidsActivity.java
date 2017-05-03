@@ -82,8 +82,8 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
 
     public void loading(){
-        progress.setTitle("Loading");
-        progress.setMessage("Wait while loading...");
+        progress.setTitle(R.string.LoadDialogueTitle);
+        progress.setMessage(getString(R.string.LoadDialogueBody));
     }
 
     private class KidsAsyncTask extends AsyncTask {
@@ -118,7 +118,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                     progress.dismiss();
                     int statusCode = response.code();
                     if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
                         for (int i = 0 ; i < response.body().size() ; i++){
                             JsonObject studentData = response.body().get(i);
@@ -150,13 +150,11 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                 @Override
                 public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                     progress.dismiss();
-                    Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
+                    Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
                 }
             });
             return myKids;
         }
-
-
     }
 
 
@@ -191,7 +189,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                     progress.dismiss();
                     int statusCode = response.code();
                     if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
                         notifications = new  ArrayList<NotificationModel>();
                         JsonObject notificationsRespone = response.body();
@@ -222,7 +220,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
                     progress.dismiss();
-                    Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
+                    Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
                 }
             });
             return null;
@@ -258,7 +256,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                 public void onResponse(Call<JsonObject>  call, Response<JsonObject>  response) {
                     int statusCode = response.code();
                     if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
                     }
                 }
@@ -308,7 +306,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("My kids");
+        ab.setTitle(R.string.MyKidsTitle);
 
         TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
 
@@ -367,7 +365,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         if (InternetConnection.isInternetAvailable(this)){
             new KidsAsyncTask().execute();
         } else {
-            Dialogue.AlertDialog(this,"No NetworkConnection","Check your Netwotk connection and Try again");
+            Dialogue.AlertDialog(this,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
         }
 
         final Handler handler = new Handler();
@@ -382,7 +380,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
                 Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
                 if(drawer.isDrawerOpen(notificationList)){
-                    SpannableString title = new SpannableString("Notifications");
+                    SpannableString title = new SpannableString((getString(R.string.NotificationString)));
                     title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                     tb.setTitle(title);

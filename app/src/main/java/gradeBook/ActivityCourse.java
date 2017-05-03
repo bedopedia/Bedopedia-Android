@@ -45,8 +45,8 @@ public class ActivityCourse extends AppCompatActivity {
     String courseName;
 
     public void loading(){
-        progress.setTitle("Loading");
-        progress.setMessage("Wait while loading...");
+        progress.setTitle(R.string.LoadDialogueTitle);
+        progress.setMessage(getString(R.string.LoadDialogueBody));
     }
 
 
@@ -85,7 +85,7 @@ public class ActivityCourse extends AppCompatActivity {
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     int statusCode = response.code();
                     if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
 
                         ArrayList<ArrayList<String>> header = new ArrayList<>();
@@ -187,7 +187,7 @@ public class ActivityCourse extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
                     progress.dismiss();
-                    Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
+                    Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
                 }
             });
 
@@ -236,7 +236,7 @@ public class ActivityCourse extends AppCompatActivity {
         if (InternetConnection.isInternetAvailable(this)){
             new GradeBookAsyncTask().execute();
         } else {
-            Dialogue.AlertDialog(this,"No NetworkConnection","Check your Netwotk connection and Try again");
+            Dialogue.AlertDialog(this,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
         }
 
     }
