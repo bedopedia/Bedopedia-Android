@@ -91,6 +91,7 @@ public class LogInFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setTextType(view);
+
         setSchool(view);
         ((EditText) view.findViewById(R.id.password)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
 
@@ -268,6 +269,16 @@ public class LogInFragment extends Fragment {
         ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setTypeface(robotoRegular);
         ((AutoCompleteTextView) rootView.findViewById(R.id.password)).setTypeface(robotoRegular);
         ((TextView) rootView.findViewById(R.id.forget_password)).setTypeface(robotoRegular);
+        setText(rootView);
+    }
+
+
+    private void setText(View rootView){
+        ((TextView) rootView.findViewById(R.id.head_text)).setText(R.string.fragmentLoginMessage_tv);
+        ((Button) rootView.findViewById(R.id.loginSubmit)).setText(R.string.fragmentLogin_btn);
+        ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setHint(R.string.fragmentLoginMail_tv);
+        ((AutoCompleteTextView) rootView.findViewById(R.id.password)).setHint(R.string.fragmentLoginPassword_tv);
+        ((TextView) rootView.findViewById(R.id.forget_password)).setText(R.string.fragmentLoginForgetPassword_tv);
     }
 
 

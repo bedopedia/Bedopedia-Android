@@ -25,7 +25,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("Forget password");
+        ab.setTitle(R.string.ForgetPasswordTitle);
 
         FragmentUtils.createFragment(getSupportFragmentManager(), ForgetPasswordFRagment.newInstance(), R.id.forget_password );
 
