@@ -47,7 +47,7 @@
                     android:layout_marginLeft="48dp"
                     android:layout_marginRight="45dp"
                     android:gravity="center"
-                    android:textColor="#8a000000"
+                    android:textColor="@color/ligth_grey"
                     android:textSize="15sp"
                     android:text="Enter your email and password to sign in."/>
 
@@ -66,7 +66,7 @@
                         android:drawableLeft="@drawable/email_icon"
                         android:drawablePadding="17dp"
                         android:textSize="16sp"
-                        android:textColor="#de000000"
+                        android:textColor="@color/black"
                         android:hint="Email" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -85,7 +85,7 @@
                         android:drawableLeft="@drawable/password_icon"
                         android:drawablePadding="17dp"
                         android:textSize="16sp"
-                        android:textColor="#de000000"
+                        android:textColor="@color/black"
                         android:hint="Password" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -99,7 +99,7 @@
                     android:textSize="14sp"
                     android:text="Login"
                     android:background="@drawable/login_button"
-                    android:textColor="#ffffffff"/>
+                    android:textColor="@color/white"/>
 
 
                 <!-- forget password text lable-->
@@ -111,7 +111,7 @@
                     android:inputType="textEmailAddress"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:textColor="#de000000"
+                    android:textColor="@color/black"
                     android:text="Forget password?" />
 
             </LinearLayout>

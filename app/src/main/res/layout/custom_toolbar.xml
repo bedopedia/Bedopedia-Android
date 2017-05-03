@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/notification_circle"
             android:textAlignment="center"
-            android:textColor="#FFF"
+            android:textColor="@color/white"
             android:textSize="12sp"
             android:gravity="center"
             android:text="12"
