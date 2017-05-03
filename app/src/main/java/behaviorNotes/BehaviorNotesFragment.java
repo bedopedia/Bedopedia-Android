@@ -22,8 +22,6 @@ import behaviorNotes.Adapters.BehaviorNotesFragmentAdapter;
 import behaviorNotes.Fragments.NegativeFragment;
 import behaviorNotes.Fragments.PositiveFragment;
 
-import static android.content.Intent.getIntent;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link BehaviorNotesFragment#newInstance} factory method to
@@ -108,12 +106,12 @@ public class BehaviorNotesFragment extends Fragment {
         tabLayout.getTabAt(1).setCustomView(negativeTab);
 
         positiveTitle = (TextView) positiveTab.findViewById(R.id.tab_title);
-        positiveCounter = (TextView) positiveTab.findViewById(R.id.tab_counter);
+        positiveCounter = (TextView) positiveTab.findViewById(R.id.behavior_notes_counter);
         positiveTitle.setText(R.string.positiveBehaviorNotes);
 
 
         negativeTitle = (TextView) negativeTab.findViewById(R.id.tab_title);
-        negativeCounter = (TextView) negativeTab.findViewById(R.id.tab_counter);
+        negativeCounter = (TextView) negativeTab.findViewById(R.id.behavior_notes_counter);
         negativeTitle.setText(R.string.negativeBehaviorNotes);
         positiveTitle.setTextColor(Color.parseColor("#ffffff"));
         positiveCounter.setBackgroundResource(R.drawable.notes_selected_counter);

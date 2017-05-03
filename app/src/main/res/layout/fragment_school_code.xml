@@ -33,7 +33,7 @@
                 android:paddingTop="40dp">
 
                 <ImageView
-                    android:id="@+id/imageView1"
+                    android:id="@+id/logo_image"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_alignParentTop="true"
@@ -75,7 +75,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/codeSubmit"
+                    android:id="@+id/school_code_submit"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:layout_marginLeft="40dp"

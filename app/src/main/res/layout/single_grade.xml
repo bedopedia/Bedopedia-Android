@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".50"
                 android:layout_marginTop="5dp"
-                android:id="@+id/course_name"
+                android:id="@+id/single_course_name"
                 android:textSize="22sp" />
 
             <TextView

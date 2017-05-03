@@ -77,8 +77,6 @@ import timetable.Fragments.TomorrowFragment;
 import timetable.TimetableActivity;
 import timetable.TimetableSlot;
 
-import static android.content.Context.MODE_PRIVATE;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link StudentFragment#newInstance} factory method to
@@ -237,10 +235,10 @@ public class StudentFragment extends Fragment {
         gradesLabel.setText(R.string.fragmentStudentGrades_tv);
         behaviorNotesLabel.setText(R.string.fragmentStudentBehaviorNotes_tv);
 
-        attendanceLayer = (LinearLayout) view.findViewById(R.id.open_attendance);
-        gradesLayer = (LinearLayout) view.findViewById(R.id.open_grades);
-        timeTableLayer = (LinearLayout) view.findViewById(R.id.open_timetable);
-        notesLayer = (LinearLayout) view.findViewById(R.id.open_notes);
+        attendanceLayer = (LinearLayout) view.findViewById(R.id.attendance_layout);
+        gradesLayer = (LinearLayout) view.findViewById(R.id.grades_layout);
+        timeTableLayer = (LinearLayout) view.findViewById(R.id.timetable_layout);
+        notesLayer = (LinearLayout) view.findViewById(R.id.notes_layout);
 
 
         studentAvatarImage = (ImageView) view.findViewById(R.id.home_student_avatar);

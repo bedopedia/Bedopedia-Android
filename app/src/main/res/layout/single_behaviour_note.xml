@@ -21,7 +21,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/category"
+                android:id="@+id/bahvior_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Category"
@@ -34,10 +34,6 @@
                 android:layout_marginTop="8dp"
                 android:text="TextView"
                 android:textSize="14dp" />
-
         </LinearLayout>
-
     </LinearLayout>
-
-
 </LinearLayout>

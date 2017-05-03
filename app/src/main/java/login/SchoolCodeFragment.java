@@ -100,7 +100,7 @@ public class SchoolCodeFragment extends Fragment {
 
         setTextType(view);
 
-        ((Button)view.findViewById(R.id.codeSubmit)).setOnClickListener(new View.OnClickListener() {
+        ((Button)view.findViewById(R.id.school_code_submit)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -209,7 +209,7 @@ public class SchoolCodeFragment extends Fragment {
         Typeface robotoMedian = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
         Typeface robotoRegular = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Regular.ttf");
         ((TextView)rootView.findViewById(R.id.head_text)).setTypeface(robotoMedian);
-        ((Button)rootView.findViewById(R.id.codeSubmit)).setTypeface(robotoMedian);
+        ((Button)rootView.findViewById(R.id.school_code_submit)).setTypeface(robotoMedian);
         ((AutoCompleteTextView)rootView.findViewById(R.id.code)).setTypeface(robotoRegular);
         ((TextView)rootView.findViewById(R.id.copy_right)).setTypeface(robotoRegular);
         setText(rootView);
@@ -218,7 +218,7 @@ public class SchoolCodeFragment extends Fragment {
 
     private void setText(View rootView){
         ((TextView)rootView.findViewById(R.id.head_text)).setText(R.string.fragmentSchoolcodeMeesage_tv);
-        ((Button)rootView.findViewById(R.id.codeSubmit)).setText(R.string.fragmentSchoolcodeContinue_btn);
+        ((Button)rootView.findViewById(R.id.school_code_submit)).setText(R.string.fragmentSchoolcodeContinue_btn);
         ((AutoCompleteTextView)rootView.findViewById(R.id.code)).setHint(R.string.fragmentSchoolcodeHint_tv);
         ((TextView)rootView.findViewById(R.id.copy_right)).setText(R.string.copyRights_tv);
     }

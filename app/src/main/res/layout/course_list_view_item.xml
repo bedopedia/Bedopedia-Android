@@ -20,7 +20,7 @@
                 android:text="ClassWork #1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/courseItemtName"
+                android:id="@+id/single_course_name"
                 android:layout_marginBottom="10dp"
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/courseItemtAvg"
+                android:id="@+id/single_course_average"
                 android:textSize="14sp"
                 android:textColor="#8b000000"
                 />
@@ -44,7 +44,7 @@
                 android:text="50/100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/courseItemtGrade"
+                android:id="@+id/single_cours_grade"
                 android:layout_marginBottom="10dp"
                 android:gravity="end"
                 android:textSize="16sp"
@@ -55,7 +55,7 @@
                 android:text="Needs Improvement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/courseItemtgradeComment"
+                android:id="@+id/single_course_comment"
                 android:gravity="end"
                 android:textSize="14sp"
                 android:textColor="#8b000000"

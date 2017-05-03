@@ -55,7 +55,7 @@ public class MessageThreadActivity extends AppCompatActivity {
     String userTypeKey = "user_type";
 
 
-    @BindView(R.id.message)
+    @BindView(R.id.new_message)
     EditText messageText;
 
     @Override
@@ -71,7 +71,7 @@ public class MessageThreadActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.actionbar);
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
         actionBarTitle.setText("Ask Teacher");
-        ImageButton back = (ImageButton) findViewById(R.id.back);
+        ImageButton back = (ImageButton) findViewById(R.id.back_button);
         back.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -85,7 +85,7 @@ public class MessageThreadActivity extends AppCompatActivity {
         Bundle extras= getIntent().getExtras();
         thread = (Models.MessageThread) getIntent().getSerializableExtra("message_thread");
         thread.reverseMessagesOrder();
-        TextView othersName = (TextView) findViewById(R.id.others_name);
+        TextView othersName = (TextView) findViewById(R.id.reciepient_name);
         othersName.setText(thread.getOthersName());
 
         messagesAdapter = new SingleMessageThreadAdapter(this, R.layout.single_send_message,thread.getMessages());
@@ -93,7 +93,7 @@ public class MessageThreadActivity extends AppCompatActivity {
         listView.setAdapter(messagesAdapter);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.send_new_message);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
