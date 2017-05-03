@@ -52,7 +52,7 @@
                     android:gravity="center"
                     android:textColor="@color/ligth_grey"
                     android:textSize="15sp"
-                    android:text="Enter school code to proceed with sign in" />
+                    />
 
                 <!-- Code Label -->
                 <android.support.design.widget.TextInputLayout
@@ -68,7 +68,6 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/code_school"
                         android:drawablePadding="17dp"
-                        android:hint="School code"
                         android:imeOptions="actionNext"
                         android:textColor="@color/black"
                         android:textSize="16sp"
@@ -85,7 +84,6 @@
                     android:layout_marginBottom="50dp"
                     android:background="@drawable/login_button"
                     android:imeOptions="actionNext"
-                    android:text="CONTENUE"
                     android:textSize="14sp"
                     android:textColor="@color/white" />
 
@@ -99,8 +97,8 @@
                 android:layout_weight=".1"
                 android:gravity="center"
                 android:textColor="@color/ligth_grey"
-                android:textSize="12sp"
-                android:text="Copyright© 2017 Bedopedia." />
+                android:textSize="12sp"/>
+
         </LinearLayout>
 
     </ScrollView>

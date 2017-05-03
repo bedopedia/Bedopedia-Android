@@ -49,7 +49,7 @@
                     android:gravity="center"
                     android:textColor="@color/ligth_grey"
                     android:textSize="15sp"
-                    android:text="Enter your email and password to sign in."/>
+                    />
 
                 <!-- Email Label -->
                 <android.support.design.widget.TextInputLayout
@@ -66,8 +66,8 @@
                         android:drawableLeft="@drawable/email_icon"
                         android:drawablePadding="17dp"
                         android:textSize="16sp"
-                        android:textColor="@color/black"
-                        android:hint="Email" />
+                        android:textColor="@color/black" />
+
                 </android.support.design.widget.TextInputLayout>
 
                 <!-- password lable-->
@@ -85,8 +85,7 @@
                         android:drawableLeft="@drawable/password_icon"
                         android:drawablePadding="17dp"
                         android:textSize="16sp"
-                        android:textColor="@color/black"
-                        android:hint="Password" />
+                        android:textColor="@color/black" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.v7.widget.AppCompatButton
@@ -97,7 +96,6 @@
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
                     android:textSize="14sp"
-                    android:text="Login"
                     android:background="@drawable/login_button"
                     android:textColor="@color/white"/>
 
@@ -111,11 +109,9 @@
                     android:inputType="textEmailAddress"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    android:textColor="@color/black"
-                    android:text="Forget password?" />
+                    android:textColor="@color/black" />
 
             </LinearLayout>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_marginBottom="10dp"
@@ -124,7 +120,5 @@
                 android:gravity="center"
                 />
         </LinearLayout>
-
     </ScrollView>
-
 </FrameLayout>

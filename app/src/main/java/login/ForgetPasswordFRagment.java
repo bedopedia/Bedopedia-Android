@@ -155,7 +155,15 @@ public class ForgetPasswordFRagment extends Fragment {
         ((TextView) rootView.findViewById(R.id.head_text)).setTypeface(robotoMedian);
         ((Button) rootView.findViewById(R.id.request_btn)).setTypeface(robotoMedian);
         ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setTypeface(robotoRegular);
+        setText(rootView);
     }
+
+    private void setText(View rootView){
+        ((TextView) rootView.findViewById(R.id.head_text)).setText(R.string.fragmentForgetPassowdMessage_tv);
+        ((Button) rootView.findViewById(R.id.request_btn)).setText(R.string.fragmentForgetPasswordResetPassword_btn);
+        ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setHint(R.string.fragmentForgetPasswordMail_tv);
+    }
+
 
 
     void onSuccess () {

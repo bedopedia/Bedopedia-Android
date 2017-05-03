@@ -208,7 +208,20 @@ public class SchoolCodeFragment extends Fragment {
         ((Button)rootView.findViewById(R.id.codeSubmit)).setTypeface(robotoMedian);
         ((AutoCompleteTextView)rootView.findViewById(R.id.code)).setTypeface(robotoRegular);
         ((TextView)rootView.findViewById(R.id.copy_right)).setTypeface(robotoRegular);
+        setText(rootView);
     }
+
+
+    private void setText(View rootView){
+        ((TextView)rootView.findViewById(R.id.head_text)).setText(R.string.fragmentSchoolcodeMeesage_tv);
+        ((Button)rootView.findViewById(R.id.codeSubmit)).setText(R.string.fragmentSchoolcodeContinue_btn);
+        ((AutoCompleteTextView)rootView.findViewById(R.id.code)).setHint(R.string.fragmentSchoolcodeHint_tv);
+        ((TextView)rootView.findViewById(R.id.copy_right)).setText(R.string.copyRights_tv);
+    }
+
+
+
+
 
     private Boolean checkAuthenticate() {
 
