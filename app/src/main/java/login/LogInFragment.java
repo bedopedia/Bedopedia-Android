@@ -143,7 +143,7 @@ public class LogInFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(schoolName);
 
 
-        ImageView imageView = (ImageView) rootView.findViewById(R.id.logo_image);
+        ImageView imageView = (ImageView) rootView.findViewById(R.id.message_extra_white_part_img);
         ImageViewHelper.getImageFromUrlWithIdFailure(getActivity(),schoolAvatar,imageView,R.drawable.logo_icon);
 
     }

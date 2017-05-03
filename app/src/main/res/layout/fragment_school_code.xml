@@ -33,7 +33,7 @@
                 android:paddingTop="40dp">
 
                 <ImageView
-                    android:id="@+id/logo_image"
+                    android:id="@+id/message_extra_white_part_img"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_alignParentTop="true"
