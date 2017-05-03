@@ -28,7 +28,7 @@
                     android:textAlignment="center"
                     android:id="@+id/late_count"
                     android:textSize="14sp"
-                    android:textColor="#ff9013fe"
+                    android:textColor="@color/electric_violet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -49,7 +49,7 @@
                     android:textAlignment="center"
                     android:textSize="14sp"
                     android:id="@+id/excused_count"
-                    android:textColor="#fff5a623"
+                    android:textColor="@color/dark_tangerine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -70,7 +70,7 @@
                     android:textAlignment="center"
                     android:textSize="14sp"
                     android:id="@+id/absent_count"
-                    android:textColor="#ffff3b30"
+                    android:textColor="@color/coral_red"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -101,10 +101,10 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#ff28bb4e"
+                        android:textColor="@color/lime_green"
                         android:id="@+id/selected_month"
                         android:textSize="15sp"
-                        android:background="#fffafafa"
+                        android:background="@color/snow"
                         android:textAlignment="center"/>
 
                     <com.github.sundeepk.compactcalendarview.CompactCalendarView
@@ -117,11 +117,11 @@
                         app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
                         app:compactCalendarTargetHeight="350dp"
                         app:compactCalendarTextSize="18sp"
-                        app:compactCalendarBackgroundColor="#fffafafa"
-                        app:compactCalendarTextColor="#000000"
-                        app:compactCalendarCurrentSelectedDayBackgroundColor="#ffff3b30"
-                        app:compactCalendarCurrentDayBackgroundColor="#ffff3b30"
-                        app:compactCalendarMultiEventIndicatorColor="#ffff3b30"
+                        app:compactCalendarBackgroundColor="@color/snow"
+                        app:compactCalendarTextColor="@color/black"
+                        app:compactCalendarCurrentSelectedDayBackgroundColor="@color/coral_red"
+                        app:compactCalendarCurrentDayBackgroundColor="@color/coral_red"
+                        app:compactCalendarMultiEventIndicatorColor="@color/coral_red"
                         />
                 </LinearLayout>
 
@@ -143,7 +143,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".90"
-                    android:textColor="#de000000"
+                    android:textColor="@color/black"
                     android:text="Excused"
                     android:id="@+id/excused_list_label"
                     android:textSize="16sp"
@@ -157,7 +157,7 @@
                     android:id="@+id/excused_list_counter"
                     android:layout_marginRight="16dp"
                     android:textStyle="bold"
-                    android:textColor="#fff5a623"
+                    android:textColor="@color/dark_tangerine"
                     android:textSize="12sp"/>
 
             </LinearLayout>

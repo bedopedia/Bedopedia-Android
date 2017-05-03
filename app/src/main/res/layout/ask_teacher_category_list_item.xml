@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFF"
+        android:background="@color/white"
         android:id="@+id/message_thread_layout"
         android:orientation="horizontal">
 
@@ -49,7 +49,7 @@
                     android:textSize="15sp"
                     android:id="@+id/ask_teacher_title"
                     android:layout_marginBottom="12dp"
-                    android:textColor="#ff4a4a4a"
+                    android:textColor="@color/outer_space"
                     android:text="Homework EX: 234"/>
 
                 <TextView
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:textSize="11sp"
-                    android:textColor="#ff00ab6b"
+                    android:textColor="@color/jade"
                     android:layout_marginBottom="3dp"
                     android:id="@+id/ask_teacher_date"
                     android:text="Yesterday"/>
@@ -91,11 +91,10 @@
                     android:gravity="center"
                     android:layout_marginRight="6dp"
                     android:layout_marginTop="5dp"
-                    android:textColor="#FFF"
+                    android:textColor="@color/white"
                     android:textSize="12sp"
                     android:text="2"
                     android:layout_gravity="end"
-
                     android:textStyle="bold" />
 
             </LinearLayout>

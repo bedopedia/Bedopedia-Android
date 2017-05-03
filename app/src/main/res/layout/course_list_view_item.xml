@@ -23,7 +23,7 @@
                 android:id="@+id/courseItemtName"
                 android:layout_marginBottom="10dp"
                 android:textSize="16sp"
-                android:textColor="#de000000"/>
+                android:textColor="@color/black"/>
 
             <TextView
                 android:layout_width="match_parent"

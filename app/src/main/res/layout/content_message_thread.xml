@@ -28,7 +28,7 @@
             android:paddingLeft="30dp"
             android:paddingRight="21dp"
             android:text="Sarah Whinnem"
-            android:textColor="#de000000"
+            android:textColor="@color/black"
             android:textSize="14sp"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -98,7 +98,7 @@
                             android:drawablePadding="18dp"
 
                             android:textSize="16sp"
-                            android:textColor="#de000000"
+                            android:textColor="@color/black"
                             android:hint="Type a message" />
                     </android.support.design.widget.TextInputLayout>
 

@@ -24,7 +24,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:background="@drawable/rounded_corner"
             android:padding="16dp"
             android:text="Android charting  Android cmple. Andsign tutorial with example."
-            android:textColor="#000" />
+            android:textColor="@color/black" />
 
     </LinearLayout>
     <LinearLayout

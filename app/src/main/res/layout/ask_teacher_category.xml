@@ -14,7 +14,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fffafafa"
+            android:background="@color/snow"
             android:padding="13dp">
 
             <TextView
@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/ask_teacher_category_name"
                 android:textSize="16sp"
-                android:textColor="#de000000"
+                android:textColor="@color/black"
                 android:layout_weight="1" />
 
         </LinearLayout>

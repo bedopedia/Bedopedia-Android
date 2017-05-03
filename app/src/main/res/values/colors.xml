@@ -12,4 +12,15 @@
     <color name="darkGray">#7d8286</color>
     <color name="black">#000000</color>
     <color name="colorDivider">#aaaaaa</color>
+    <color name="snow">#fafafa</color>
+    <color name="outer_space">#ff4a4a4a</color>
+    <color name="jade">#00ab6b</color>
+    <color name="ligth_grey">#8b000000</color>
+    <color name="electric_violet">#9013fe</color>
+    <color name="dark_tangerine">#f5a623</color>
+    <color name="coral_red">#ff3b30</color>
+    <color name="lime_green">#28bb4e</color>
+    <color name="msg_background">#7e5f5f</color>
+    <color name="Platinum">#ffe5e5e5</color>
+
 </resources>

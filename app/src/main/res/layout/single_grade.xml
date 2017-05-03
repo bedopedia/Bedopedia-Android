@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="24dp"
-            android:background="#ffe5e5e5"/>
+            android:background="@color/Platinum"/>
     </LinearLayout>
 
     </LinearLayout>

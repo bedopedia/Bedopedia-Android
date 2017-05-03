@@ -16,7 +16,7 @@
             android:layout_marginLeft="12dp"
             android:src="@drawable/student"
             app:civ_border_width="0dp"
-            app:civ_border_color="#FF000000"/>
+            app:civ_border_color="@color/black"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 android:text="Grand Master"
                 android:id="@+id/badge_name"
                 android:textSize="16dp"
-                android:textColor="#de000000"
+                android:textColor="@color/black"
                 android:layout_marginBottom="8dp"/>
 
             <TextView
@@ -38,7 +38,7 @@
                 android:textSize="14sp"
                 android:id="@+id/badge_reason"
                 android:layout_marginBottom="2dp"
-                android:textColor="#8b000000"
+                android:textColor="@color/ligth_grey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             
@@ -46,7 +46,7 @@
                 android:id="@+id/badge_course_name"
                 android:text="Science"
                 android:textSize="14sp"
-                android:textColor="#8b000000"
+                android:textColor="@color/ligth_grey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

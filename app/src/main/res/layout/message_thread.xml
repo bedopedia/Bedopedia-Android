@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#7e5f5f"
+    android:background="@color/msg_background"
     android:orientation="vertical"
     >
 
@@ -38,7 +38,7 @@
                 android:background="@drawable/rounded_corner"
                 android:padding="16dp"
                 android:text="Android charting application xml ui design tutorial with example. Android charting application xml ui design tutorial with example. Android charting application xml ui design tutorial with example. Android charting application xml ui design tutorial with example."
-                android:textColor="#000" />
+                android:textColor="@color/black" />
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -94,7 +94,7 @@
                 android:background="@drawable/rounded_corner1"
                 android:padding="16dp"
                 android:text="Android charting application xml ui design. Android charting application xml ui design tutorial with example. Android charting application xml ui design. Android charting application xml ui design. "
-                android:textColor="#000" />
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
@@ -115,7 +115,7 @@
                 android:background="@drawable/rounded_corner"
                 android:padding="16dp"
                 android:text="Android charting application xml ui design tutorial with example. Android charting application xml ui design tutorial with example. Android charting application xml ui design tutorial with example. Android charting application xml ui design tutorial with example."
-                android:textColor="#000" />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:id="@+id/imageView4"
@@ -170,7 +170,7 @@
                 android:background="@drawable/rounded_corner1"
                 android:padding="16dp"
                 android:text="Android charting application xml ui design. Android charting application xml ui design tutorial with example. Android charting application xml ui design. Android charting application xml ui design. "
-                android:textColor="#000" />
+                android:textColor="@color/black" />
         </LinearLayout>
     </RelativeLayout>
 
