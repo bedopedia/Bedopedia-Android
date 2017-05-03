@@ -44,6 +44,8 @@ public class ForgetPasswordFRagment extends Fragment {
     private SharedPreferences sharedPreferences;
     private AutoCompleteTextView mEmailView;
     private Button requestBtn;
+    String emailKey = "email";
+    String redirectUrlKey = "redirect_url";
 
     public ForgetPasswordFRagment() {
 
@@ -111,8 +113,8 @@ public class ForgetPasswordFRagment extends Fragment {
 
         String email = mEmailView.getText().toString();
         Map<String,String> params = new HashMap();
-        params.put("email",email);
-        params.put("redirect_url", ApiClient.BASE_URL + "reset_password");
+        params.put(emailKey,email);
+        params.put(redirectUrlKey, ApiClient.BASE_URL + "reset_password");
         String url = "/api/auth/password";
 
         ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);

@@ -75,6 +75,25 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
     ActionBarDrawerToggle mainToggle;
     List<NotificationModel> notifications;
     ImageButton menuButton;
+    String curUserKey = "cur_user";
+    String studentIdKey = "student_id";
+    String studentNameKey = "student_name";
+    String studentAvatarKey = "student_avatar";
+    String studentLevelKey = "student_level";
+    String attendancesKey = "attendances";
+    String BaseUrlKey = "Base_Url";
+    String headerAccessTokenKey = "header_access-token";
+    String headerTokenTypeKey = "header_token-type";
+    String headerClientKey = "header_client";
+    String headerUidKey = "header_uid";
+    String userIdKey = "user_id";
+    String idKey = "id";
+    String usernameKey = "username";
+    String emailKey = "email";
+    String avatarUrlKey = "avatar_url";
+    String userDataKey = "user_data";
+    String isLoggedInKey = "is_logged_in";
+
 
     private RecyclerView mRecyclerView;
     private MyKidsRecyclerViewAdapter mAdapter;
@@ -291,9 +310,10 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         progress = new ProgressDialog(this);
         kidsAttendances = new ArrayList<JsonArray>();
 
-        SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(MyKidsActivity.this, "cur_user" );
-        String email =  sharedPreferences.getString("email", "");
-        String avatarUrl = sharedPreferences.getString("avatar_url", "");
+
+        SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(MyKidsActivity.this, curUserKey );
+        String email =  sharedPreferences.getString(emailKey, "");
+        String avatarUrl = sharedPreferences.getString(avatarUrlKey, "");
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
@@ -400,12 +420,14 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
     }
 
     public void itemClicked (int index){
+
+
         Intent intent = new Intent(this, StudentActivity.class);
-        intent.putExtra("student_id", String.valueOf(myKids.get(index).getId()));
-        intent.putExtra("student_name", myKids.get(index).getFirstName() + " " + myKids.get(index).getLastName());
-        intent.putExtra("student_avatar", myKids.get(index).getAvatar());
-        intent.putExtra("student_level", myKids.get(index).getLevel());
-        intent.putExtra("attendances",kidsAttendances.get(index).toString());
+        intent.putExtra(studentIdKey, String.valueOf(myKids.get(index).getId()));
+        intent.putExtra(studentNameKey, myKids.get(index).getFirstName() + " " + myKids.get(index).getLastName());
+        intent.putExtra(studentAvatarKey, myKids.get(index).getAvatar());
+        intent.putExtra(studentLevelKey, myKids.get(index).getLevel());
+        intent.putExtra(attendancesKey,kidsAttendances.get(index).toString());
         startActivity(intent);
 
     }
@@ -417,20 +439,21 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
+
             SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(MyKidsActivity.this, "cur_user" );
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("Base_Url", "");
-            editor.putString("header_access-token", "");
-            editor.putString("header_token-type", "");
-            editor.putString("header_client", "");
-            editor.putString("header_uid", "");
-            editor.putString("user_id", "");
-            editor.putString("id", "");
-            editor.putString("username", "");
-            editor.putString("email", "");
-            editor.putString("avatar_url", "");
-            editor.putString("user_data", "");
-            editor.putString("is_logged_in", "false");
+            editor.putString(BaseUrlKey, "");
+            editor.putString(headerAccessTokenKey, "");
+            editor.putString(headerTokenTypeKey, "");
+            editor.putString(headerClientKey, "");
+            editor.putString(headerUidKey, "");
+            editor.putString(userIdKey, "");
+            editor.putString(idKey, "");
+            editor.putString(usernameKey, "");
+            editor.putString(emailKey, "");
+            editor.putString(avatarUrlKey, "");
+            editor.putString(userDataKey, "");
+            editor.putString(isLoggedInKey, "false");
 
             editor.commit();
 

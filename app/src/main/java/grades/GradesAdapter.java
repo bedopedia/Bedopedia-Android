@@ -27,6 +27,10 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
     public GradesAvtivity context;
     public String studentId ;
     List<CourseGroup> items ;
+    String studentIdKey = "student_id";
+    String courseGroupIdKey = "course_group_id";
+    String courseIdKey = "course_id";
+    String courseNameKey = "course_name";
 
 
     public GradesAdapter(Context context, int resource, List<CourseGroup> items , String studentId) {
@@ -74,13 +78,14 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
             @Override
             public void onClick(View v) {
                 Intent i =  new Intent(context.getApplicationContext(), ActivityCourse.class);
-                i.putExtra("student_id",studentId);
-                i.putExtra("course_group_id", String.valueOf(items.get(position).getId()));
-                i.putExtra("course_id", String.valueOf(items.get(position).getCourseId()));
-                i.putExtra("course_name", items.get(position).getCourseName());
+                i.putExtra(studentIdKey,studentId);
+                i.putExtra(courseGroupIdKey, String.valueOf(items.get(position).getId()));
+                i.putExtra(courseIdKey, String.valueOf(items.get(position).getCourseId()));
+                i.putExtra(courseNameKey, items.get(position).getCourseName());
                 context.startActivity(i);
             }
         });
+
 
         String imageName = courseGroup.getIcon();
         int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());

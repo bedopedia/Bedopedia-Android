@@ -46,6 +46,14 @@ public class MessageThreadActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private User currUser;
     private SingleMessageThreadAdapter messagesAdapter;
+    String idKey =  "id";
+    String firstnameKey = "firstname";
+    String lastnameKey = "lastname";
+    String genderKey = "gender";
+    String emailKey = "email";
+    String avatarUrlKey = "avatar_url";
+    String userTypeKey = "user_type";
+
 
     @BindView(R.id.message)
     EditText messageText;
@@ -128,16 +136,17 @@ public class MessageThreadActivity extends AppCompatActivity {
         String user_data = SharedPreferenceUtils.getStringValue("user_data" , "", sharedPreferences);
         JsonParser parser = new JsonParser();
         JsonObject user = parser.parse(user_data).getAsJsonObject();
-        User currUser = new User(user.get("id").getAsInt(),
-                user.get("firstname").getAsString(),
-                user.get("lastname").getAsString(),
-                user.get("gender").getAsString(),
-                user.get("email").getAsString(),
-                user.get("avatar_url").getAsString(),
-                user.get("user_type").getAsString()
+        User currUser = new User(user.get(idKey).getAsInt(),
+                user.get(firstnameKey).getAsString(),
+                user.get(lastnameKey).getAsString(),
+                user.get(genderKey).getAsString(),
+                user.get(emailKey).getAsString(),
+                user.get(avatarUrlKey).getAsString(),
+                user.get(userTypeKey).getAsString()
         );
         return currUser;
     }
+
 
 
     void sendMessage (final String text){

@@ -45,6 +45,7 @@ public class AskTeacherActivity extends AppCompatActivity {
 
     ArrayList<String> header = new ArrayList<>();
     String userIdKey = "user_id";
+    String courseIdKey = "course_id";
 
     public void loading(){
         progress.setTitle("Loading");
@@ -111,8 +112,8 @@ public class AskTeacherActivity extends AppCompatActivity {
                                         );
                                 threadMessages.add(message);
                             }
-                            if ( items.containsKey(messageThread.get("course_id").toString())) {
-                                ArrayList<MessageThread> array = items.get(messageThread.get("course_id").toString()).second;
+                            if ( items.containsKey(messageThread.get(courseIdKey).toString())) {
+                                ArrayList<MessageThread> array = items.get(messageThread.get(courseIdKey).toString()).second;
 
                                 thread = new MessageThread(messageThread.get("last_added_date").getAsString(),
                                         messages.get(0).getAsJsonObject().get("body").getAsString(),
@@ -126,7 +127,7 @@ public class AskTeacherActivity extends AppCompatActivity {
 
                                 array.add(thread);
                             }
-                            else if (!(messageThread.get("course_id") == JsonNull.INSTANCE)) {
+                            else if (!(messageThread.get(courseIdKey) == JsonNull.INSTANCE)) {
                                 ArrayList<MessageThread> array = new ArrayList<MessageThread>();
                                 thread = new MessageThread(messageThread.get("last_added_date").getAsString(),
                                         messages.get(0).getAsJsonObject().get("body").getAsString(),

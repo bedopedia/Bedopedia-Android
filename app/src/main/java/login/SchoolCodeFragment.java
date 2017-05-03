@@ -46,8 +46,12 @@ public class SchoolCodeFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private final String schoolApiUrl = "https://bedopedia-schools.herokuapp.com/";
     private final String path = "schools/get_by_code";
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    String schoolDataKey = "school_data";
+    String BaseUrlKey = "Base_Url";
+    String headerAccessTokenKey = "header_access-token";
+    String userDataKey = "user_data";
+    String headerUidKey = "header_uid";
+
 
     public SchoolCodeFragment() {
 
@@ -183,8 +187,8 @@ public class SchoolCodeFragment extends Fragment {
                 } else if (statusCode == 200) {
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("school_data", response.body().toString());
-                    editor.putString("Base_Url", schoolUrl);
+                    editor.putString(schoolDataKey, response.body().toString());
+                    editor.putString(BaseUrlKey, schoolUrl);
                     editor.commit();
 
                     Intent i =  new Intent(getActivity().getApplicationContext(), LoginActivity.class);
@@ -225,10 +229,10 @@ public class SchoolCodeFragment extends Fragment {
 
     private Boolean checkAuthenticate() {
 
-        String baseUrl = SharedPreferenceUtils.getStringValue("Base_Url","",sharedPreferences);
-        String authToken = SharedPreferenceUtils.getStringValue("header_access-token","",sharedPreferences);
-        String userData = SharedPreferenceUtils.getStringValue("user_data","",sharedPreferences);
-        String uid = SharedPreferenceUtils.getStringValue("header_uid","",sharedPreferences);
+        String baseUrl = SharedPreferenceUtils.getStringValue(BaseUrlKey,"",sharedPreferences);
+        String authToken = SharedPreferenceUtils.getStringValue(headerAccessTokenKey,"",sharedPreferences);
+        String userData = SharedPreferenceUtils.getStringValue(userDataKey,"",sharedPreferences);
+        String uid = SharedPreferenceUtils.getStringValue(headerUidKey,"",sharedPreferences);
         ApiClient.BASE_URL = baseUrl;
         return !(authToken.equals("") || userData.equals("") || uid.equals("") || baseUrl.equals(""));
     }
