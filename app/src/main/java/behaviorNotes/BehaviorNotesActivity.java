@@ -42,7 +42,7 @@ public class BehaviorNotesActivity extends AppCompatActivity {
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("Behaviour notes");
+        ab.setTitle(R.string.behaviorNotesTitle);
 
 
         FragmentUtils.createFragment(getSupportFragmentManager(), BehaviorNotesFragment.newInstance(), R.id.timetable_main_container );

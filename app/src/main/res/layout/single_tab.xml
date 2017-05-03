@@ -13,8 +13,7 @@
         android:layout_marginLeft="16dp"
         android:textColor="@color/white"
         android:textAlignment="center"
-        android:layout_gravity="center"
-        android:text="Positive" />
+        android:layout_gravity="center" />
 
     <TextView
         android:layout_width="24dp"

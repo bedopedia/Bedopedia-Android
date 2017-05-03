@@ -31,7 +31,7 @@ public class StudentActivity extends AppCompatActivity {
         setSupportActionBar(tb);
         ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("");
+        
 
         FragmentUtils.createFragment(getSupportFragmentManager(), StudentFragment.newInstance(), R.id.student_home_container);
     }
