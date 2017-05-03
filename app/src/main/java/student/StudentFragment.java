@@ -123,6 +123,14 @@ public class StudentFragment extends Fragment {
     String badgeNameKey = "badge_name";
     String GuruKey = "Guru";
     String grandMaesterKey = "Grand Maester";
+    String studentIdKey = "student_id";
+    String studentNameKey = "student_name";
+    String studentAvatarKey = "student_avatar";
+    String studentLevelKey = "student_level";
+    String attendancesKey = "attendances";
+    String courseGroupsKey = "courseGroups";
+    String positiveNotesListKey = "positiveNotesList";
+    String negativeNotesListKey = "negativeNotesList";
 
     int servicesCount;
     private static final int servicesNumber = 5;
@@ -169,11 +177,13 @@ public class StudentFragment extends Fragment {
 
         progress = new ProgressDialog(getActivity());
         Bundle extras= this.getActivity().getIntent().getExtras();
-        studentId = extras.getString("student_id");
-        studentName = extras.getString("student_name");
-        studentAvatar = extras.getString("student_avatar");
-        studentLevel = extras.getString("student_level");
-        attendance = extras.getString("attendances");
+
+
+        studentId = extras.getString(studentIdKey);
+        studentName = extras.getString(studentNameKey);
+        studentAvatar = extras.getString(studentAvatarKey);
+        studentLevel = extras.getString(studentLevelKey);
+        attendance = extras.getString(attendancesKey);
         courseGroups = new ArrayList<CourseGroup>();
 
 
@@ -374,7 +384,7 @@ public class StudentFragment extends Fragment {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getActivity(), AttendanceActivity.class);
-                intent.putExtra("attendances",attendance);
+                intent.putExtra(attendancesKey,attendance);
                 startActivity(intent);
             }
         });
@@ -385,32 +395,36 @@ public class StudentFragment extends Fragment {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getActivity(), GradesAvtivity.class);
-                intent.putExtra("student_id", studentId);
-                intent.putExtra("courseGroups", courseGroups);
+                intent.putExtra(studentIdKey, studentId);
+                intent.putExtra(courseGroupsKey, courseGroups);
                 startActivity(intent);
             }
         });
+
+
 
         notesLayer.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), BehaviorNotesActivity.class);
-                intent.putExtra("student_id", studentId);
+                intent.putExtra(studentIdKey, studentId);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("positiveNotesList", (Serializable) positiveNotesList);
-                bundle.putSerializable("negativeNotesList", (Serializable) negativeNotesList);
+                bundle.putSerializable(positiveNotesListKey, (Serializable) positiveNotesList);
+                bundle.putSerializable(negativeNotesListKey, (Serializable) negativeNotesList);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
+
+
 
         timeTableLayer.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), TimetableActivity.class);
-                intent.putExtra("student_id", studentId);
+                intent.putExtra(studentIdKey, studentId);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(TomorrowFragment.KEY_NAME, (Serializable) tomorrowSlots);
                 bundle.putSerializable(TodayFragment.KEY_NAME, (Serializable) todaySlots);

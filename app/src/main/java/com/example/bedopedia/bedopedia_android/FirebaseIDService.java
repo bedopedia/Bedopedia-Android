@@ -15,6 +15,9 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
     String id;
     Context context;
     String token;
+    String tokenKey = "token";
+    String token_changedKey = "token_changed";
+    String TrueKey = "True";
 
 
     @Override
@@ -24,9 +27,11 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
         token = refreshedToken;
         SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("token",token);
-        editor.putString("token_changed","True");
+        editor.putString(tokenKey,token);
+        editor.putString(token_changedKey,TrueKey);
         editor.commit();
+
+
 
         // TODO: Implement this method to send any registration to your app's servers.
 

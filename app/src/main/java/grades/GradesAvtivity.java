@@ -19,6 +19,8 @@ public class GradesAvtivity extends AppCompatActivity {
     String student_id;
     public static Context context;
     List<CourseGroup> courseGroups;
+    String studentIdKey = "student_id";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,7 @@ public class GradesAvtivity extends AppCompatActivity {
         setContentView(R.layout.grades);
 
         Bundle extras= getIntent().getExtras();
-        student_id = extras.getString("student_id");
+        student_id = extras.getString(studentIdKey);
         courseGroups = (List<CourseGroup>) getIntent().getSerializableExtra("courseGroups");
 
         Toolbar tb = (Toolbar) findViewById(R.id.toolbar);

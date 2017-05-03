@@ -54,9 +54,18 @@ public class LogInFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     String schoolDataKey = "school_data";
     String nameKey = "name";
-    String avatarUrlKey = "avatar_url";
     String tokenChangedKey = "token_changed";
+    String headerAccessTokenKey = "header_access-token";
+    String headerTokenTypeKey = "header_token-type";
+    String headerClientKey = "header_client";
+    String headerUidKey = "header_uid";
     String userIdKey = "user_id";
+    String isLoggedInKey = "is_logged_in";
+    String idKey = "id";
+    String usernameKey = "username";
+    String emailKey = "email";
+    String avatarUrlKey = "avatar_url";
+    String userDataKey = "user_data";
 
 
     public LogInFragment() {
@@ -210,18 +219,17 @@ public class LogInFragment extends Fragment {
                     String id = data.get("actable_id").toString();
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("header_access-token", accessToken);
-                    editor.putString("header_token-type", tokenType);
-                    editor.putString("header_client", clientCode);
-                    editor.putString("header_uid", uid);
-
-                    editor.putString("user_id", userId);
-                    editor.putString("is_logged_in", "true");
-                    editor.putString("id", id);
-                    editor.putString("username", username);
-                    editor.putString("email", email);
-                    editor.putString("avatar_url", data.get("avatar_url").getAsString());
-                    editor.putString("user_data", data.toString());
+                    editor.putString(headerAccessTokenKey, accessToken);
+                    editor.putString(headerTokenTypeKey, tokenType);
+                    editor.putString(headerClientKey, clientCode);
+                    editor.putString(headerUidKey, uid);
+                    editor.putString(userIdKey, userId);
+                    editor.putString(isLoggedInKey, "true");
+                    editor.putString(idKey, id);
+                    editor.putString(usernameKey, username);
+                    editor.putString(emailKey, email);
+                    editor.putString(avatarUrlKey, data.get("avatar_url").getAsString());
+                    editor.putString(userDataKey, data.toString());
 
                     editor.commit();
                     try {

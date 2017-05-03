@@ -27,6 +27,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SingleMessageThreadAdapter extends ArrayAdapter {
     public Context context;
+    String userIdKey = "user_id";
 
     public SingleMessageThreadAdapter(Context context, int resource, List<Message> items) {
         super(context, resource, items);
@@ -47,7 +48,7 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
         // Check if an existing view is being reused, otherwise inflate the view
 
         SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(context, "cur_user");
-        String id = SharedPreferenceUtils.getStringValue("user_id", "", sharedPreferences);
+        String id = SharedPreferenceUtils.getStringValue(userIdKey, "", sharedPreferences);
         int currentUserId = Integer.parseInt(id);
 
 

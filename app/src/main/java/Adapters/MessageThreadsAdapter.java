@@ -29,6 +29,7 @@ public class MessageThreadsAdapter extends ArrayAdapter
 
     private AskTeacherActivity context;
     ArrayList<MessageThread> items;
+    String messageThreadKey = "message_thread";
 
     public MessageThreadsAdapter(Context context, int resource, ArrayList<MessageThread> items) {
         super(context, resource, items);
@@ -78,7 +79,7 @@ public class MessageThreadsAdapter extends ArrayAdapter
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, MessageThreadActivity.class);
-                intent.putExtra("message_thread", Message);
+                intent.putExtra(messageThreadKey, Message);
                 context.startActivity(intent);
             }
         });
