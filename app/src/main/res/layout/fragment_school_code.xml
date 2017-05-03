@@ -97,8 +97,8 @@
                 android:layout_weight=".1"
                 android:gravity="center"
                 android:textColor="@color/ligth_grey"
-                android:textSize="12sp"
-                 />
+                android:textSize="12sp"/>
+
         </LinearLayout>
 
     </ScrollView>
