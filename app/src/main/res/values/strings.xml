@@ -16,11 +16,4 @@
     <string name="fragmentForgetPassowdMessage_tv">Type your email below to reset your password.</string>
     <string name="fragmentForgetPasswordMail_tv">Email</string>
     <string name="ForgetPasswordTitle">Forget Password</string>
-
-
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>
