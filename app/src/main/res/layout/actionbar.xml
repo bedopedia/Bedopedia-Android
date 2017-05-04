@@ -8,7 +8,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/back"
+        android:id="@+id/actionbar_back_button"
         android:background="@drawable/back_arrow"
         android:layout_marginTop="12dp"
         />
@@ -17,7 +17,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/action_bar_title"
-        android:text="Grades"
         android:layout_marginTop="12dp"
         android:layout_marginLeft="8dp"
         android:textStyle="bold"

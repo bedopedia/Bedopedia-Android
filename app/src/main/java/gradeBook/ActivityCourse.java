@@ -29,7 +29,6 @@ import login.Services.ApiClient;
 import login.Services.ApiInterface;
 import Tools.Dialogue;
 import Tools.InternetConnection;
-import myKids.MyKidsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -242,7 +241,7 @@ public class ActivityCourse extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.actionbar);
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
         actionBarTitle.setText(courseName);
-        ImageButton back = (ImageButton) findViewById(R.id.back);
+        ImageButton back = (ImageButton) findViewById(R.id.actionbar_back_button);
         back.setOnClickListener(new View.OnClickListener() {
 
             @Override

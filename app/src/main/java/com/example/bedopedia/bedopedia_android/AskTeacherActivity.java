@@ -1,7 +1,6 @@
 package com.example.bedopedia.bedopedia_android;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
@@ -25,7 +24,6 @@ import Adapters.AskTeacherAdapter;
 import Models.Message;
 import Models.MessageThread;
 import Tools.SharedPreferenceUtils;
-import gradeBook.ActivityCourse;
 import myKids.Student;
 import Models.User;
 import login.Services.ApiClient;
@@ -178,7 +176,7 @@ public class AskTeacherActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.actionbar);
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
         actionBarTitle.setText(R.string.askTeacherTitle);
-        ImageButton back = (ImageButton) findViewById(R.id.back);
+        ImageButton back = (ImageButton) findViewById(R.id.actionbar_back_button);
         back.setOnClickListener(new View.OnClickListener() {
 
             @Override
