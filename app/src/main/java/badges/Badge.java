@@ -1,10 +1,12 @@
 package badges;
 
+import java.io.Serializable;
+
 /**
  * Created by khaled on 3/14/17.
  */
 
-public class Badge {
+public class Badge  implements Serializable{
     private String name;
     private String icon;
     private String reason;

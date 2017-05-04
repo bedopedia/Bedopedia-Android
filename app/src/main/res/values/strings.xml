@@ -37,6 +37,7 @@
     <string name="Dialogue401Body">you don\'t have the right to do this</string>
     <string name="ConnectionErrorTitle">Connection Failed</string>
     <string name="ConnectionErrorBody">Check your Netwotk connection and Try again</string>
+    <string name="Badges">Badges</string>
 
 
 </resources>

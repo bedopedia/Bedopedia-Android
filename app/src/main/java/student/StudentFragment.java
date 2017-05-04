@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -60,7 +61,7 @@ import Tools.InternetConnection;
 import Tools.SharedPreferenceUtils;
 import attendance.AttendanceActivity;
 import badges.Badge;
-import badges.BadgesDialog;
+import badges.BadgesFragment;
 import behaviorNotes.BehaviorNote;
 import behaviorNotes.BehaviorNotesActivity;
 import grades.CourseGroup;
@@ -76,8 +77,6 @@ import timetable.Fragments.TodayFragment;
 import timetable.Fragments.TomorrowFragment;
 import timetable.TimetableActivity;
 import timetable.TimetableSlot;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -451,7 +450,11 @@ public class StudentFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                BadgesDialog.AlertDialog(context , badges);
+                FragmentManager fm = getFragmentManager();
+                BadgesFragment badgesDialog = BadgesFragment.newInstance(badges);
+                badgesDialog.show(fm,"fragment_badges");
+
+                //BadgesDialog.AlertDialog(context , badges);
             }
         });
 
