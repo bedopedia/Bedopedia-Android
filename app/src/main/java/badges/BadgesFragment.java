@@ -65,7 +65,7 @@ public class BadgesFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getDialog().setTitle("Badges");
+        getDialog().setTitle(R.string.Badges);
 
         Typeface robotoMedian = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
 

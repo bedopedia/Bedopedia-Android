@@ -8,7 +8,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/back"
+        android:id="@+id/action_bar_back"
         android:background="@drawable/back_arrow"
         android:layout_marginTop="12dp"
         />

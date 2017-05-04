@@ -16,7 +16,28 @@
     <string name="fragmentForgetPassowdMessage_tv">Type your email below to reset your password.</string>
     <string name="fragmentForgetPasswordMail_tv">Email</string>
     <string name="ForgetPasswordTitle">Forget Password</string>
+    <string name="NotificationString">Notifications</string>
+    <string name="GradesTitle">Grades</string>
+    <string name="MyKidsTitle">My Kids</string>
+    <string name="fragmentStudentAttendance_tv">Attendance</string>
+    <string name="fragmentStudentTimetable_tv">Time Table</string>
+    <string name="fragmentStudentGrades_tv">Grades</string>
+    <string name="fragmentStudentBehaviorNotes_tv">Behavior Notes</string>
+    <string name="positiveBehaviorNotes">Positive</string>
+    <string name="negativeBehaviorNotes">Negative</string>
+    <string name="behaviorNotesTitle">Behavior Notes</string>
+    <string name="askTeacherTitle">Ask Teacher</string>
+    <string name="attendanceTitle">Attendance</string>
+    <string name="notificationString">Notification</string>
+    <string name="SingleStudentSummary">TODAY SUMMARY</string>
+    <string name="SingleStudentDueDate">Due Date</string>
+    <string name="LoadDialogueTitle">Loading</string>
+    <string name="LoadDialogueBody">Wait while loading...</string>
+    <string name="Dialogue401Title">Not Authorized</string>
+    <string name="Dialogue401Body">you don\'t have the right to do this</string>
+    <string name="ConnectionErrorTitle">Connection Failed</string>
+    <string name="ConnectionErrorBody">Check your Netwotk connection and Try again</string>
+    <string name="Badges">Badges</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

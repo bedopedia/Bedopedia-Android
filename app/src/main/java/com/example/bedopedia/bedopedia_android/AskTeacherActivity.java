@@ -1,7 +1,6 @@
 package com.example.bedopedia.bedopedia_android;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
@@ -25,7 +24,6 @@ import Adapters.AskTeacherAdapter;
 import Models.Message;
 import Models.MessageThread;
 import Tools.SharedPreferenceUtils;
-import gradeBook.ActivityCourse;
 import myKids.Student;
 import Models.User;
 import login.Services.ApiClient;
@@ -48,8 +46,8 @@ public class AskTeacherActivity extends AppCompatActivity {
     String courseIdKey = "course_id";
 
     public void loading(){
-        progress.setTitle("Loading");
-        progress.setMessage("Wait while loading...");
+        progress.setTitle(R.string.LoadDialogueTitle);
+        progress.setMessage(getString(R.string.LoadDialogueBody));
     }
 
     private class MessageThreads extends AsyncTask {
@@ -84,7 +82,7 @@ public class AskTeacherActivity extends AppCompatActivity {
                     progress.dismiss();
                     int statusCode = response.code();
                     if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,"Not Authorized","you don't have the right to do this");
+                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
                         ArrayList<JsonObject> threads = response.body();
                         for (int i = 0 ; i < threads.size(); i++) {
@@ -177,8 +175,8 @@ public class AskTeacherActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-        actionBarTitle.setText("Ask Teacher");
-        ImageButton back = (ImageButton) findViewById(R.id.back);
+        actionBarTitle.setText(R.string.askTeacherTitle);
+        ImageButton back = (ImageButton) findViewById(R.id.action_bar_back);
         back.setOnClickListener(new View.OnClickListener() {
 
             @Override
