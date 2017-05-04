@@ -71,7 +71,7 @@ public class MessageThreadActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.actionbar);
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
         actionBarTitle.setText("Ask Teacher");
-        ImageButton back = (ImageButton) findViewById(R.id.back);
+        ImageButton back = (ImageButton) findViewById(R.id.acionbar_back);
         back.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -85,7 +85,7 @@ public class MessageThreadActivity extends AppCompatActivity {
         Bundle extras= getIntent().getExtras();
         thread = (Models.MessageThread) getIntent().getSerializableExtra("message_thread");
         thread.reverseMessagesOrder();
-        TextView othersName = (TextView) findViewById(R.id.others_name);
+        TextView othersName = (TextView) findViewById(R.id.message_receipient_name);
         othersName.setText(thread.getOthersName());
 
         messagesAdapter = new SingleMessageThreadAdapter(this, R.layout.single_send_message,thread.getMessages());

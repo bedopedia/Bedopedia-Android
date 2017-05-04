@@ -23,7 +23,7 @@
 
             <TextView
                 android:layout_gravity="center"
-                android:id="@+id/others_name"
+                android:id="@+id/message_receipient_name"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
@@ -38,7 +38,7 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_gravity="center"
-                android:id="@+id/imageView2"
+                android:id="@+id/message_receipient_img"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
