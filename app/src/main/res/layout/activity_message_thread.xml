@@ -23,7 +23,7 @@
 
             <TextView
                 android:layout_gravity="center"
-                android:id="@+id/others_name"
+                android:id="@+id/message_reciepient_name"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
@@ -38,7 +38,7 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_gravity="center"
-                android:id="@+id/imageView2"
+                android:id="@+id/message_reciepient_img"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
@@ -61,6 +61,7 @@
 
 
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -72,7 +73,7 @@
                         android:id="@+id/messages_list"
                         android:stackFromBottom="true"
                         android:transcriptMode="alwaysScroll"
-                        android:divider="#00000000"
+                        android:divider="@color/black"
                         android:scrollbars="vertical">
 
                     </ListView>
@@ -102,7 +103,7 @@
                             android:paddingLeft="21dp"
                             android:paddingRight="23dp"
                             android:background="@drawable/layout_screen">
-                            <EditText android:id="@+id/message"
+                            <EditText android:id="@+id/type_message_edit_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:inputType="textAutoComplete"
@@ -117,7 +118,7 @@
                         </android.support.design.widget.TextInputLayout>
 
                         <ImageView
-                            android:id="@+id/imageView"
+                            android:id="@+id/right_extra_traingle_shape"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginLeft="-27dp"
@@ -126,7 +127,7 @@
                             android:src="@drawable/arrow_bg1" />
 
                         <android.support.design.widget.FloatingActionButton
-                            android:id="@+id/fab"
+                            android:id="@+id/message_thread_new_message_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

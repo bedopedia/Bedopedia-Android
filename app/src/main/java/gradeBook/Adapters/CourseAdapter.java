@@ -5,9 +5,7 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
@@ -15,8 +13,6 @@ import com.example.bedopedia.bedopedia_android.R;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-
-import Tools.UIUtils;
 
 /**
  * Created by ali on 13/02/17.
@@ -85,15 +81,15 @@ public class CourseAdapter extends BaseExpandableListAdapter {
 
         CourseAdapter.GroupHolder item=new CourseAdapter.GroupHolder();
 
-        item.CategoryName = (TextView) view.findViewById(R.id.CategoryName);
+        item.CategoryName = (TextView) view.findViewById(R.id.category_name);
         Typeface roboto = Typeface.createFromAsset(context.getAssets(),
                 "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
         Typeface roboto2 = Typeface.createFromAsset(context.getAssets(),
                 "font/Roboto-Bold.ttf"); //use this.getAssets if you are calling from an Activity
         item.CategoryName.setTypeface(roboto);
-        item.numOfCategory = (TextView) view.findViewById(R.id.numOfCategory);
+        item.numOfCategory = (TextView) view.findViewById(R.id.categories_count);
         item.numOfCategory.setTypeface(roboto2);
-        item.maxGrade = (TextView) view.findViewById(R.id.maxGrade);
+        item.maxGrade = (TextView) view.findViewById(R.id.max_grade);
         item.maxGrade.setTypeface(roboto2);
         item.CategoryName.setText(header.get(groupPosition).get(0));
         item.numOfCategory.setText(header.get(groupPosition).get(1));
@@ -112,10 +108,10 @@ public class CourseAdapter extends BaseExpandableListAdapter {
 
         CourseAdapter.ChildHolder item=new CourseAdapter.ChildHolder();
 
-        item.mCourseNameTextView = (TextView) view.findViewById(R.id.courseItemtName);
-        item.mCourseGradeTextView =  (TextView) view.findViewById(R.id.courseItemtGrade);
-        item.mCourseCommentTextView = (TextView) view.findViewById(R.id.courseItemtgradeComment);
-        item.mCourseAverageTextView = (TextView) view.findViewById(R.id.courseItemtAvg);
+        item.mCourseNameTextView = (TextView) view.findViewById(R.id.single_course_name);
+        item.mCourseGradeTextView =  (TextView) view.findViewById(R.id.single_course_grade);
+        item.mCourseCommentTextView = (TextView) view.findViewById(R.id.single_course_comment);
+        item.mCourseAverageTextView = (TextView) view.findViewById(R.id.single_course_average);
 
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf"); //use this.getAssets if you are calling from an Activity
         item.mCourseNameTextView.setTypeface(roboto);

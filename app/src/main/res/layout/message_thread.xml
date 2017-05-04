@@ -41,7 +41,7 @@
                 android:textColor="@color/black" />
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/right_extra_traingle_shape"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="-10dp"
@@ -50,7 +50,7 @@
                     android:src="@drawable/arrow_bg1" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/message_reciepient_img"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginTop="10dp"
