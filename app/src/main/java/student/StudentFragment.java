@@ -77,8 +77,6 @@ import timetable.Fragments.TomorrowFragment;
 import timetable.TimetableActivity;
 import timetable.TimetableSlot;
 
-import static android.content.Context.MODE_PRIVATE;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link StudentFragment#newInstance} factory method to
@@ -217,11 +215,11 @@ public class StudentFragment extends Fragment {
         Typeface robotoRegular = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Regular.ttf");
 
 
-        attendanceLabel = (TextView) view.findViewById(R.id.attendance);
-        timetableLabel = (TextView) view.findViewById(R.id.timetable);
-        gradesLabel = (TextView) view.findViewById(R.id.grades);
-        behaviorNotesLabel = (TextView) view.findViewById(R.id.behavior_notes);
-        attendaceText = (TextView) view.findViewById(R.id.attendance_text);
+        attendanceLabel = (TextView) view.findViewById(R.id.attendance_lable);
+        timetableLabel = (TextView) view.findViewById(R.id.time_table_lable);
+        gradesLabel = (TextView) view.findViewById(R.id.grades_lable);
+        behaviorNotesLabel = (TextView) view.findViewById(R.id.behavior_notes_lable);
+        attendaceText = (TextView) view.findViewById(R.id.attendance_ratio_text);
 
 
 
@@ -237,10 +235,10 @@ public class StudentFragment extends Fragment {
         gradesLabel.setText(R.string.fragmentStudentGrades_tv);
         behaviorNotesLabel.setText(R.string.fragmentStudentBehaviorNotes_tv);
 
-        attendanceLayer = (LinearLayout) view.findViewById(R.id.open_attendance);
-        gradesLayer = (LinearLayout) view.findViewById(R.id.open_grades);
-        timeTableLayer = (LinearLayout) view.findViewById(R.id.open_timetable);
-        notesLayer = (LinearLayout) view.findViewById(R.id.open_notes);
+        attendanceLayer = (LinearLayout) view.findViewById(R.id.attendance_layout);
+        gradesLayer = (LinearLayout) view.findViewById(R.id.grades_layout);
+        timeTableLayer = (LinearLayout) view.findViewById(R.id.time_table_layout);
+        notesLayer = (LinearLayout) view.findViewById(R.id.behavior_notes_layout);
 
 
         studentAvatarImage = (ImageView) view.findViewById(R.id.home_student_avatar);
@@ -291,7 +289,7 @@ public class StudentFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             public void run() {
                 TextView notificationNumberText= (TextView) getActivity().findViewById(R.id.student_notification_number);
-                TextView messagecnt = (TextView) view.findViewById(R.id.messaage_number);
+                TextView messagecnt = (TextView) view.findViewById(R.id.student_home_messaage_count_text);
 
                 if (MyKidsActivity.notificationNumber == 0) {
                     notificationNumberText.setVisibility(View.INVISIBLE);
@@ -306,7 +304,7 @@ public class StudentFragment extends Fragment {
                 }
                 Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
 
-                Toolbar tb = (Toolbar) getActivity().findViewById(R.id.toolbar);
+                Toolbar tb = (Toolbar) getActivity().findViewById(R.id.default_toolbar_id);
                 ((AppCompatActivity)getActivity()).setSupportActionBar(tb);
                 ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
                 ab.setDisplayHomeAsUpEnabled(true);
@@ -333,7 +331,7 @@ public class StudentFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                TextView messagecnt = (TextView) view.findViewById(R.id.messaage_number);
+                TextView messagecnt = (TextView) view.findViewById(R.id.student_home_messaage_count_text);
                 messagecnt.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(getActivity(), AskTeacherActivity.class);
                 startActivity(intent);
