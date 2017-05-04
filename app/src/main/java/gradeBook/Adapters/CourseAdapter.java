@@ -110,7 +110,7 @@ public class CourseAdapter extends BaseExpandableListAdapter {
 
         item.mCourseNameTextView = (TextView) view.findViewById(R.id.single_course_name);
         item.mCourseGradeTextView =  (TextView) view.findViewById(R.id.single_course_grade);
-        item.mCourseCommentTextView = (TextView) view.findViewById(R.id._single_course_grade_comment);
+        item.mCourseCommentTextView = (TextView) view.findViewById(R.id.single_course_grade_comment);
         item.mCourseAverageTextView = (TextView) view.findViewById(R.id.single_course_average);
 
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf"); //use this.getAssets if you are calling from an Activity

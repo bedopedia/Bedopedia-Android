@@ -176,7 +176,7 @@ public class AskTeacherActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.actionbar);
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
         actionBarTitle.setText(R.string.askTeacherTitle);
-        ImageButton back = (ImageButton) findViewById(R.id.acionbar_back);
+        ImageButton back = (ImageButton) findViewById(R.id.action_bar_back);
         back.setOnClickListener(new View.OnClickListener() {
 
             @Override

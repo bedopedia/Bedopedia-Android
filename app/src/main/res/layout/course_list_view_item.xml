@@ -55,7 +55,7 @@
                 android:text="Needs Improvement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/_single_course_grade_comment"
+                android:id="@+id/single_course_grade_comment"
                 android:gravity="end"
                 android:textSize="14sp"
                 android:textColor="#8b000000"
