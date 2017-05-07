@@ -55,6 +55,7 @@ import java.util.TimeZone;
 
 import Adapters.NotificationAdapter;
 import Models.NotificationModel;
+import Tools.CalendarUtils;
 import Tools.Dialogue;
 import Tools.ImageViewHelper;
 import Tools.InternetConnection;
@@ -573,7 +574,7 @@ public class StudentFragment extends Fragment {
                 if (statusCode == 401) {
                     Dialogue.AlertDialog(context, getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                 } else if (statusCode == 200) {
-                    Calendar calendar = Calendar.getInstance();
+                    Calendar calendar = CalendarUtils.getCalendarWithoutDate();
                     Date date = calendar.getTime();
                     String today = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
                     calendar.add( Calendar.DATE, 1 );
