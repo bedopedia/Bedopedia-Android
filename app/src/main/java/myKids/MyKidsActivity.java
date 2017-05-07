@@ -68,31 +68,27 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
     ProgressDialog progress;
     ArrayList<JsonArray> kidsAttendances;
     public static Integer notificationNumber = 0;
-    Toolbar tb ;
+    Toolbar myKidsToolbar ;
     DrawerLayout drawer;
     ListView notificationList;
     ActionBarDrawerToggle notificationToggle;
     ActionBarDrawerToggle mainToggle;
     List<NotificationModel> notifications;
-    ImageButton menuButton;
-    String curUserKey = "cur_user";
-    String studentIdKey = "student_id";
-    String studentNameKey = "student_name";
-    String studentAvatarKey = "student_avatar";
-    String studentLevelKey = "student_level";
-    String attendancesKey = "attendances";
-    String BaseUrlKey = "Base_Url";
-    String headerAccessTokenKey = "header_access-token";
-    String headerTokenTypeKey = "header_token-type";
-    String headerClientKey = "header_client";
-    String headerUidKey = "header_uid";
-    String userIdKey = "user_id";
-    String idKey = "id";
-    String usernameKey = "username";
-    String emailKey = "email";
-    String avatarUrlKey = "avatar_url";
-    String userDataKey = "user_data";
-    String isLoggedInKey = "is_logged_in";
+
+    final String curUserKey = "cur_user";
+
+    final String BaseUrlKey = "Base_Url";
+    final String headerAccessTokenKey = "header_access-token";
+    final String headerTokenTypeKey = "header_token-type";
+    final String headerClientKey = "header_client";
+    final String headerUidKey = "header_uid";
+    final String userIdKey = "user_id";
+    final String idKey = "id";
+    final String usernameKey = "username";
+    final String emailKey = "email";
+    final String avatarUrlKey = "avatar_url";
+    final String userDataKey = "user_data";
+    final String isLoggedInKey = "is_logged_in";
 
 
     private RecyclerView mRecyclerView;
@@ -161,7 +157,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                         mLayoutManager = new LinearLayoutManager(context);
                         mRecyclerView.setHasFixedSize(true);
                         mRecyclerView.setLayoutManager(mLayoutManager);
-                        mAdapter = new MyKidsRecyclerViewAdapter(context, myKids);
+                        mAdapter = new MyKidsRecyclerViewAdapter(context, myKids,kidsAttendances);
                         mRecyclerView.setAdapter(mAdapter);
                     }
                 }
@@ -322,11 +318,11 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         emailView.setText(email);
         ImageViewHelper.getImageFromUrl(context,avatarUrl, myAvatar );
 
-        tb = (Toolbar) findViewById(R.id.custom_toolbar_id);
-        setSupportActionBar(tb);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle(R.string.MyKidsTitle);
+        myKidsToolbar = (Toolbar) findViewById(R.id.custom_toolbar_id);
+        setSupportActionBar(myKidsToolbar);
+        ActionBar myKidsActionbar = getSupportActionBar();
+        myKidsActionbar.setDisplayHomeAsUpEnabled(true);
+        myKidsActionbar.setTitle(R.string.MyKidsTitle);
 
         TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
 
@@ -339,7 +335,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         Button notificationButton =  (Button) findViewById(R.id.student_action_bar_notification);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mainToggle = new ActionBarDrawerToggle(
-                this, drawer, tb , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, myKidsToolbar , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(mainToggle);
         mainToggle.syncState();
 
@@ -355,8 +351,8 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                     drawer.closeDrawer(notificationList);
                 } else {
                         new NotificationsAsyncTask().execute();
-                        NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                        nMgr.cancelAll();
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        notificationManager.cancelAll();
                         notificationNumber = 0;
                         changeTheNotificationNumber();
                         new MarkAllAsSeenAsyncTask().execute();
@@ -400,14 +396,13 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
                 Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
                 if(drawer.isDrawerOpen(notificationList)){
-                    SpannableString title = new SpannableString((getString(R.string.NotificationString)));
-                    title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                    tb.setTitle(title);
+                    SpannableString drawerTitle = new SpannableString((getString(R.string.NotificationString)));
+                    drawerTitle.setSpan(roboto,0,drawerTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    myKidsToolbar.setTitle(drawerTitle);
                 } else {
-                    SpannableString title = new SpannableString("My Kids");
+                    SpannableString title = new SpannableString(getString(R.string.MyKidsTitle));
                     title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    tb.setTitle(title);
+                    myKidsToolbar.setTitle(title);
                 }
 
                 notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
@@ -417,18 +412,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
     }
 
-    public void itemClicked (int index){
-
-
-        Intent intent = new Intent(this, StudentActivity.class);
-        intent.putExtra(studentIdKey, String.valueOf(myKids.get(index).getId()));
-        intent.putExtra(studentNameKey, myKids.get(index).getFirstName() + " " + myKids.get(index).getLastName());
-        intent.putExtra(studentAvatarKey, myKids.get(index).getAvatar());
-        intent.putExtra(studentLevelKey, myKids.get(index).getLevel());
-        intent.putExtra(attendancesKey,kidsAttendances.get(index).toString());
-        startActivity(intent);
-
-    }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -455,8 +438,8 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
             editor.commit();
 
-            Intent intent = new Intent(this, schoolCode.class);
-            startActivity(intent);
+            Intent schoolCodeIntent = new Intent(this, schoolCode.class);
+            startActivity(schoolCodeIntent);
 
         }
 

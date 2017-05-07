@@ -131,6 +131,7 @@ public class StudentFragment extends Fragment {
     final String courseGroupsKey = "courseGroups";
     final String positiveNotesListKey = "positiveNotesList";
     final String negativeNotesListKey = "negativeNotesList";
+    final String curUserKey = "cur_user";
 
     int servicesCount;
     private static final int servicesNumber = 5;
@@ -863,7 +864,7 @@ public class StudentFragment extends Fragment {
         @Override
         protected List<Student> doInBackground(Object... param) {
 
-            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(),"cur_user" );
+            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(), curUserKey );
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
             String id = SharedPreferenceUtils.getStringValue("user_id", "",sharedPreferences);
             String url ="/api/users/"+id +"/notifications/mark_as_seen";
