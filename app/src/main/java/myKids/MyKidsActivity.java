@@ -157,7 +157,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                         }
 
 
-                        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+                        mRecyclerView = (RecyclerView) findViewById(R.id.mykids_recycler_view);
                         mLayoutManager = new LinearLayoutManager(context);
                         mRecyclerView.setHasFixedSize(true);
                         mRecyclerView.setLayoutManager(mLayoutManager);

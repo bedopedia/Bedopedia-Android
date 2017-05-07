@@ -12,7 +12,7 @@
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
-            android:id="@+id/day"
+            android:id="@+id/single_execused_day_view"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -22,7 +22,7 @@
         <TextView
             android:gravity="top"
             android:layout_width="match_parent"
-            android:id="@+id/month"
+            android:id="@+id/single_execused_month_view"
             android:textSize="14sp"
             android:layout_marginLeft="16dp"
             android:textColor="@color/ligth_grey"
@@ -45,7 +45,7 @@
                 android:layout_height="0dp"
                 android:textColor="@color/ligth_grey"
                 android:textSize="14sp"
-                android:id="@+id/comment"
+                android:id="@+id/single_execused_comment_view"
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>

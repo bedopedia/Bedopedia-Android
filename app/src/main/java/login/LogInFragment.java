@@ -8,9 +8,7 @@ import android.os.Bundle;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,8 +38,6 @@ import myKids.MyKidsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -147,7 +143,7 @@ public class LogInFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(schoolName);
 
 
-        ImageView imageView = (ImageView) rootView.findViewById(R.id.imageView1);
+        ImageView imageView = (ImageView) rootView.findViewById(R.id.left_extra_empty_picture);
         ImageViewHelper.getImageFromUrlWithIdFailure(getActivity(),schoolAvatar,imageView,R.drawable.logo_icon);
 
     }

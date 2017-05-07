@@ -71,9 +71,9 @@ public class ExcusedAdapter extends RecyclerView.Adapter<ExcusedAdapter.Holder> 
             super(itemView);
             Typeface robotoBold = Typeface.createFromAsset(ExcusedAdapter.context.getAssets(), "font/Roboto-Bold.ttf");
             Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
-            day = (TextView) itemView.findViewById(R.id.day);
-            month = (TextView) itemView.findViewById(R.id.month);
-            comment = (TextView) itemView.findViewById(R.id.comment);
+            day = (TextView) itemView.findViewById(R.id.single_execused_day_view);
+            month = (TextView) itemView.findViewById(R.id.single_execused_month_view);
+            comment = (TextView) itemView.findViewById(R.id.single_execused_comment_view);
             day.setTypeface(robotoBold);
             month.setTypeface(robotoRegular);
             comment.setTypeface(robotoRegular);

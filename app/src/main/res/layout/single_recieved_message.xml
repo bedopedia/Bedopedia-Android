@@ -9,7 +9,7 @@ android:layout_margin="30dp"
 android:orientation="horizontal">
 
 <de.hdodenhof.circleimageview.CircleImageView
-    android:id="@+id/receive_message_avatar"
+    android:id="@+id/single_receive_message_avatar"
     android:layout_width="40dp"
     android:layout_height="40dp"
     android:layout_marginTop="0dp"
@@ -17,7 +17,7 @@ android:orientation="horizontal">
     android:src="@drawable/student" />
 
 <ImageView
-    android:id="@+id/imageView1"
+    android:id="@+id/left_extra_empty_picture"
     android:layout_width="30dp"
     android:layout_height="30dp"
     android:layout_marginRight="-15dp"
