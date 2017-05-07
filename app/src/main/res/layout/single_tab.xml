@@ -6,7 +6,7 @@
     android:paddingTop="16dp">
 
     <TextView
-        android:id="@+id/tab_title"
+        android:id="@+id/behavior_note_tab_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="9"
@@ -19,7 +19,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:background="@drawable/notes_selected_counter"
-        android:id="@+id/tab_counter"
+        android:id="@+id/behavior_note_tab_counter"
         android:text="2"
         android:layout_marginRight="2dp"
         android:textStyle="bold"

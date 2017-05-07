@@ -305,7 +305,7 @@ public class StudentFragment extends Fragment {
                 }
                 Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
 
-                Toolbar tb = (Toolbar) getActivity().findViewById(R.id.default_toolbar_id);
+                Toolbar tb = (Toolbar) getActivity().findViewById(R.id.custom_toolbar_id);
                 ((AppCompatActivity)getActivity()).setSupportActionBar(tb);
                 ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
                 ab.setDisplayHomeAsUpEnabled(true);

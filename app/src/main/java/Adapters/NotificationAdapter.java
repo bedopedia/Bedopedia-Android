@@ -2,8 +2,6 @@ package Adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.text.format.Time;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +12,6 @@ import android.widget.TextView;
 import com.example.bedopedia.bedopedia_android.R;
 
 
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -71,7 +66,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
             logo.setImageResource(R.drawable.mydays_ico);
         }
 
-        item.content = (TextView) view.findViewById(R.id.notificationContent);
+        item.content = (TextView) view.findViewById(R.id.notification_body);
         item.date =  (TextView) view.findViewById(R.id.notificationDate);
         item.studentNames = (TextView) view.findViewById(R.id.studentNames);
 

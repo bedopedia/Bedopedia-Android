@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.MessageThreadActivity;
 import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.List;
@@ -17,9 +16,6 @@ import java.util.List;
 import Models.Message;
 import Tools.ImageViewHelper;
 import Tools.SharedPreferenceUtils;
-import login.Services.ApiClient;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by khaled on 3/29/17.
@@ -73,7 +69,8 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
             item=new Holder();
 
             item.body = (TextView) view.findViewById(R.id.received_message_body);
-            item.avatar = (ImageView) view.findViewById(R.id.single_message_school_avatar);
+            item.avatar = (ImageView) view.findViewById(R.id.single_receive_message_avatar);
+
 
             item.body.setText(android.text.Html.fromHtml(message.getBody()).toString());
             ImageViewHelper.getImageFromUrl(context,message.getCreator().getAvatar(),item.avatar);
