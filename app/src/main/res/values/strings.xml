@@ -38,6 +38,7 @@
     <string name="ConnectionErrorTitle">Connection Failed</string>
     <string name="ConnectionErrorBody">Check your Netwotk connection and Try again</string>
     <string name="Badges">Badges</string>
+    <string name="TimeTableTitle">Time Table</string>
 
 
 </resources>

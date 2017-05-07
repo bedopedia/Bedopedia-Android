@@ -20,7 +20,7 @@ import timetable.Fragments.TomorrowFragment;
 public class TimetableAdapter extends FragmentPagerAdapter {
     List<TimetableSlot> tomorrowSlots;
     List<TimetableSlot> todaySlots;
-    String ThuKey = "Thu";
+    final String ThuKey = "Thu";
 
     public TimetableAdapter(FragmentManager fm,  List<TimetableSlot> tomorrowSlots ,List<TimetableSlot> todaySlots){
         super(fm);
@@ -31,16 +31,16 @@ public class TimetableAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        Fragment f = null;
+        Fragment newCreatedFragment = null;
 
         if(position == 0){
-            f = TodayFragment.newInstance(todaySlots);
+            newCreatedFragment = TodayFragment.newInstance(todaySlots);
         } else {
-            f = TomorrowFragment.newInstance(tomorrowSlots);
+            newCreatedFragment = TomorrowFragment.newInstance(tomorrowSlots);
 
         }
 
-        return f;
+        return newCreatedFragment;
     }
 
     @Override

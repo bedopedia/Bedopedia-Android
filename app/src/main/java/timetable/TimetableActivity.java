@@ -11,6 +11,7 @@ import com.example.bedopedia.bedopedia_android.R;
 
 
 import Tools.FragmentUtils;
+import timetable.Fragments.TimeTableFragment;
 
 
 /**
@@ -27,17 +28,13 @@ public class TimetableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timetable);
 
-        Toolbar tb = (Toolbar) findViewById(R.id.default_toolbar_id);
-        setSupportActionBar(tb);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("Time table");
-
+        Toolbar timeTabeToolbar = (Toolbar) findViewById(R.id.default_toolbar_id);
+        setSupportActionBar(timeTabeToolbar);
+        ActionBar timeTabeActionBar = getSupportActionBar();
+        timeTabeActionBar.setDisplayHomeAsUpEnabled(true);
+        timeTabeActionBar.setTitle(R.string.TimeTableTitle);
         FragmentUtils.createFragment(getSupportFragmentManager(), TimeTableFragment.newInstance(), R.id.timetable_main_container);
-
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -45,5 +42,4 @@ public class TimetableActivity extends AppCompatActivity {
             onBackPressed();
         return true ;
     }
-
 }
