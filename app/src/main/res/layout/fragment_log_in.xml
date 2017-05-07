@@ -7,7 +7,7 @@
 
 
     <ScrollView
-        android:id="@+id/school_code"
+        android:id="@+id/school_code_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/login"
@@ -77,7 +77,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginLeft="41dp"
                     android:layout_marginRight="39dp">
-                    <AutoCompleteTextView android:id="@+id/password"
+                    <AutoCompleteTextView android:id="@+id/password_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
@@ -89,7 +89,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/loginSubmit"
+                    android:id="@+id/login_submit_button"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:layout_marginTop="34dp"

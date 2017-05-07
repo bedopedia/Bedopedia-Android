@@ -103,7 +103,7 @@ public class LogInFragment extends Fragment {
         setTextType(view);
 
         setSchool(view);
-        ((EditText) view.findViewById(R.id.password)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
+        ((EditText) view.findViewById(R.id.password_edit_text)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId,
@@ -116,7 +116,7 @@ public class LogInFragment extends Fragment {
             }
         });
 
-        ((Button) view.findViewById(R.id.loginSubmit)).setOnClickListener(new View.OnClickListener() {
+        ((Button) view.findViewById(R.id.login_submit_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loginService(view);
@@ -143,7 +143,7 @@ public class LogInFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(schoolName);
 
 
-        ImageView imageView = (ImageView) rootView.findViewById(R.id.left_extra_empty_picture);
+        ImageView imageView = (ImageView) rootView.findViewById(R.id.school_code_bedo_logo);
         ImageViewHelper.getImageFromUrlWithIdFailure(getActivity(),schoolAvatar,imageView,R.drawable.logo_icon);
 
     }
@@ -183,7 +183,7 @@ public class LogInFragment extends Fragment {
 
     private void loginService (View rootView) {
         final String email = ((AutoCompleteTextView)rootView.findViewById(R.id.email)).getText().toString();
-        String password = ((AutoCompleteTextView)rootView.findViewById(R.id.password)).getText().toString();
+        String password = ((AutoCompleteTextView)rootView.findViewById(R.id.password_edit_text)).getText().toString();
 
         if(!validate(email,password, rootView)){
             return;
@@ -261,10 +261,10 @@ public class LogInFragment extends Fragment {
         }
 
         if (password.isEmpty() || password.length() < 4) {
-            ((AutoCompleteTextView) rootView.findViewById(R.id.password)).setError("Enter a valid password");
+            ((AutoCompleteTextView) rootView.findViewById(R.id.password_edit_text)).setError("Enter a valid password");
             valid = false;
         } else {
-            ((AutoCompleteTextView) rootView.findViewById(R.id.password)).setError(null);
+            ((AutoCompleteTextView) rootView.findViewById(R.id.password_edit_text)).setError(null);
         }
 
         return valid;
@@ -274,9 +274,9 @@ public class LogInFragment extends Fragment {
         Typeface robotoMedian = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
         Typeface robotoRegular = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Regular.ttf");
         ((TextView) rootView.findViewById(R.id.head_text)).setTypeface(robotoMedian);
-        ((Button) rootView.findViewById(R.id.loginSubmit)).setTypeface(robotoMedian);
+        ((Button) rootView.findViewById(R.id.login_submit_button)).setTypeface(robotoMedian);
         ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setTypeface(robotoRegular);
-        ((AutoCompleteTextView) rootView.findViewById(R.id.password)).setTypeface(robotoRegular);
+        ((AutoCompleteTextView) rootView.findViewById(R.id.password_edit_text)).setTypeface(robotoRegular);
         ((TextView) rootView.findViewById(R.id.forget_password)).setTypeface(robotoRegular);
         setText(rootView);
     }
@@ -284,9 +284,9 @@ public class LogInFragment extends Fragment {
 
     private void setText(View rootView){
         ((TextView) rootView.findViewById(R.id.head_text)).setText(R.string.fragmentLoginMessage_tv);
-        ((Button) rootView.findViewById(R.id.loginSubmit)).setText(R.string.fragmentLogin_btn);
+        ((Button) rootView.findViewById(R.id.login_submit_button)).setText(R.string.fragmentLogin_btn);
         ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setHint(R.string.fragmentLoginMail_tv);
-        ((AutoCompleteTextView) rootView.findViewById(R.id.password)).setHint(R.string.fragmentLoginPassword_tv);
+        ((AutoCompleteTextView) rootView.findViewById(R.id.password_edit_text)).setHint(R.string.fragmentLoginPassword_tv);
         ((TextView) rootView.findViewById(R.id.forget_password)).setText(R.string.fragmentLoginForgetPassword_tv);
     }
 

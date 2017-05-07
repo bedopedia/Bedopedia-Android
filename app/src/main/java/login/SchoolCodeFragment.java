@@ -100,7 +100,7 @@ public class SchoolCodeFragment extends Fragment {
 
         setTextType(view);
 
-        ((Button)view.findViewById(R.id.codeSubmit)).setOnClickListener(new View.OnClickListener() {
+        ((Button)view.findViewById(R.id.code_submit_btn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -109,7 +109,7 @@ public class SchoolCodeFragment extends Fragment {
             }
         });
 
-        ((EditText) view.findViewById(R.id.code)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
+        ((EditText) view.findViewById(R.id.scool_code_edit_text)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId,
@@ -131,9 +131,9 @@ public class SchoolCodeFragment extends Fragment {
             Toast.makeText(getActivity().getApplicationContext(),"Check your Netwotk connection and Try again!",Toast.LENGTH_SHORT).show();
             return;
         }
-        String code = ((AutoCompleteTextView)rootView.findViewById(R.id.code)).getText().toString();
+        String code = ((AutoCompleteTextView)rootView.findViewById(R.id.scool_code_edit_text)).getText().toString();
         if(code.length() < 1){
-            ((AutoCompleteTextView)rootView.findViewById(R.id.code)).setError("Enter a valid school code");
+            ((AutoCompleteTextView)rootView.findViewById(R.id.scool_code_edit_text)).setError("Enter a valid school code");
             return;
         }
 
@@ -209,8 +209,8 @@ public class SchoolCodeFragment extends Fragment {
         Typeface robotoMedian = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
         Typeface robotoRegular = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Regular.ttf");
         ((TextView)rootView.findViewById(R.id.head_text)).setTypeface(robotoMedian);
-        ((Button)rootView.findViewById(R.id.codeSubmit)).setTypeface(robotoMedian);
-        ((AutoCompleteTextView)rootView.findViewById(R.id.code)).setTypeface(robotoRegular);
+        ((Button)rootView.findViewById(R.id.code_submit_btn)).setTypeface(robotoMedian);
+        ((AutoCompleteTextView)rootView.findViewById(R.id.scool_code_edit_text)).setTypeface(robotoRegular);
         ((TextView)rootView.findViewById(R.id.copy_right)).setTypeface(robotoRegular);
         setText(rootView);
     }
@@ -218,8 +218,8 @@ public class SchoolCodeFragment extends Fragment {
 
     private void setText(View rootView){
         ((TextView)rootView.findViewById(R.id.head_text)).setText(R.string.fragmentSchoolcodeMeesage_tv);
-        ((Button)rootView.findViewById(R.id.codeSubmit)).setText(R.string.fragmentSchoolcodeContinue_btn);
-        ((AutoCompleteTextView)rootView.findViewById(R.id.code)).setHint(R.string.fragmentSchoolcodeHint_tv);
+        ((Button)rootView.findViewById(R.id.code_submit_btn)).setText(R.string.fragmentSchoolcodeContinue_btn);
+        ((AutoCompleteTextView)rootView.findViewById(R.id.scool_code_edit_text)).setHint(R.string.fragmentSchoolcodeHint_tv);
         ((TextView)rootView.findViewById(R.id.copy_right)).setText(R.string.copyRights_tv);
     }
 

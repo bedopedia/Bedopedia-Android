@@ -21,7 +21,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.forget_password);
 
 
-        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar tb = (Toolbar) findViewById(R.id.default_toolbar_id);
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);

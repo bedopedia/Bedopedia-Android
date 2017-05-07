@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import com.example.bedopedia.bedopedia_android.R;
 import Tools.FragmentUtils;
@@ -19,20 +20,16 @@ public class StudentActivity extends AppCompatActivity {
 
     ActionBar ab ;
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_home);
 
 
-        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar tb = (Toolbar) findViewById(R.id.custom_toolbar_id);
         setSupportActionBar(tb);
         ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        
-
         FragmentUtils.createFragment(getSupportFragmentManager(), StudentFragment.newInstance(), R.id.student_home_container);
     }
 
