@@ -32,7 +32,7 @@
                 android:paddingBottom="32dp">
 
                 <ImageView
-                    android:id="@+id/left_extra_empty_picture"
+                    android:id="@+id/dragon_icon"
                     android:src="@drawable/dragon"
                     android:layout_gravity="center"
                     android:layout_height="96dp"

@@ -1,6 +1,7 @@
 package myKids;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,55 +11,66 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
+import com.google.gson.JsonArray;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import login.Services.ApiClient;
+import student.StudentActivity;
 
 /**
  * Created by mo2men on 13/03/17.
  */
 
-public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecyclerViewAdapter.ViewHolderStudent> {
+public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecyclerViewAdapter.StudentViewHolder> {
 
     private LayoutInflater layoutInflater;
     public static MyKidsActivity mContext;
-    ViewHolderStudent viewHolder;
+    StudentViewHolder viewHolder;
+    private ArrayList<JsonArray> attendanceList ;
     private ArrayList<Student> studentList = new ArrayList<>();
+    final String urlUploadsKey = "/uploads";
+    final String studentIdKey = "student_id";
+    final String studentNameKey = "student_name";
+    final String studentAvatarKey = "student_avatar";
+    final String studentLevelKey = "student_level";
+    final String attendancesKey = "attendances";
 
 
-    public MyKidsRecyclerViewAdapter(Context context, ArrayList<Student> list) {
+    public MyKidsRecyclerViewAdapter(Context context, ArrayList<Student> list , ArrayList<JsonArray> attendanceList) {
         mContext = (MyKidsActivity) context;
         layoutInflater = LayoutInflater.from(context);
         this.studentList = list;
         notifyItemChanged(0, studentList.size());
+        this.studentList = list ;
+        this.attendanceList = attendanceList ;
     }
 
 
     @Override
-    public ViewHolderStudent onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StudentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view  = layoutInflater.inflate(R.layout.single_student,parent,false);
-        viewHolder = new ViewHolderStudent(view);
+        viewHolder = new StudentViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolderStudent holder, final int position) {
+    public void onBindViewHolder(final StudentViewHolder holder, final int position) {
         final Student curStudent = studentList.get(position);
 
-        holder.level.setText(curStudent.getLevel());
-        holder.name.setText(curStudent.getFirstName() + " " + curStudent.getLastName());
+        holder.studentLevel.setText(curStudent.getLevel());
+        holder.studentName.setText(curStudent.getFirstName() + " " + curStudent.getLastName());
         String imageUrl = curStudent.getAvatar();
 
-        holder.dueTasks.setText(R.string.SingleStudentDueDate);
-        holder.todaySummary.setText(R.string.SingleStudentSummary);
+        holder.studentDueTasks.setText(R.string.SingleStudentDueDate);
+        holder.studentTodaySummary.setText(R.string.SingleStudentSummary);
 
 
-        if(imageUrl.substring(0,8).equals("/uploads")) {
+        if(imageUrl.substring(0,8).equals(urlUploadsKey)) {
             imageUrl = ApiClient.BASE_URL + imageUrl;
         }
-        Picasso.with(mContext).load(imageUrl).into(holder.avatar, new com.squareup.picasso.Callback() {
+        Picasso.with(mContext).load(imageUrl).into(holder.studentAvatar, new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
 
@@ -66,23 +78,24 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
 
             @Override
             public void onError() {
-                holder.avatar.setVisibility(View.GONE);
-                holder.textName.setVisibility(View.VISIBLE);
-                holder.textName.setText(curStudent.getFirstName().charAt(0) + "" + curStudent.getLastName().charAt(0));
+                holder.studentAvatar.setVisibility(View.GONE);
+                holder.studentTextName.setVisibility(View.VISIBLE);
+                holder.studentTextName.setText(curStudent.getFirstName().charAt(0) + "" + curStudent.getLastName().charAt(0));
 
             }
         });
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.studentCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, StudentActivity.class);
-//                intent.putExtra("student_id", String.valueOf(studentList.get(position).getId()));
-//                intent.putExtra("student_name", studentList.get(position).getFirstName() + " " + studentList.get(position).getLastName());
-//                intent.putExtra("student_avatar", studentList.get(position).getAvatar());
-//                intent.putExtra("student_level", studentList.get(position).getLevel());
-//                intent.putExtra("attendances",kidsAttendances.get(position).toString());
-                mContext.itemClicked(position);
+
+                Intent studentActivityIntent = new Intent(mContext, StudentActivity.class);
+                studentActivityIntent.putExtra(studentIdKey, String.valueOf(studentList.get(position).getId()));
+                studentActivityIntent.putExtra(studentNameKey, studentList.get(position).getFirstName() + " " + studentList.get(position).getLastName());
+                studentActivityIntent.putExtra(studentAvatarKey, studentList.get(position).getAvatar());
+                studentActivityIntent.putExtra(studentLevelKey, studentList.get(position).getLevel());
+                studentActivityIntent.putExtra(attendancesKey,attendanceList.get(position).toString());
+                mContext.startActivity(studentActivityIntent);
             }
         });
 
@@ -109,39 +122,36 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
         return studentList.size();
     }
 
-    static class ViewHolderStudent extends RecyclerView.ViewHolder {
+    static class StudentViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView avatar;
-        TextView name;
-        TextView level;
-        TextView todaySummary;
-        TextView dueTasks;
-        TextView textName;
-        View cardView;
+        ImageView studentAvatar;
+        TextView studentName;
+        TextView studentLevel;
+        TextView studentTodaySummary;
+        TextView studentDueTasks;
+        TextView studentTextName;
+        View studentCardView;
 
-        public ViewHolderStudent(View itemView) {
+        public StudentViewHolder(View itemView) {
             super(itemView);
-            cardView = itemView;
-            avatar = (ImageView) itemView.findViewById(R.id.student_avatar);
-            name = (TextView) itemView.findViewById(R.id.student_name);
-            level = (TextView) itemView.findViewById(R.id.student_level);
-            todaySummary = (TextView) itemView.findViewById(R.id.st_today_summary);
-            dueTasks = (TextView) itemView.findViewById(R.id.st_due_tasks);
-
-
-
-            textName = (TextView) itemView.findViewById(R.id.st_text_name);
+            studentCardView = itemView;
+            studentAvatar = (ImageView) itemView.findViewById(R.id.student_avatar);
+            studentName = (TextView) itemView.findViewById(R.id.student_name);
+            studentLevel = (TextView) itemView.findViewById(R.id.student_level);
+            studentTodaySummary = (TextView) itemView.findViewById(R.id.st_today_summary);
+            studentDueTasks = (TextView) itemView.findViewById(R.id.st_due_tasks);
+            studentTextName = (TextView) itemView.findViewById(R.id.st_text_name);
             setTextType();
         }
         private void setTextType() {
             Typeface robotoMedian = Typeface.createFromAsset(mContext.getAssets(), "font/Roboto-Medium.ttf");
             Typeface robotoRegular = Typeface.createFromAsset(mContext.getAssets(), "font/Roboto-Regular.ttf");
             Typeface robotoBold = Typeface.createFromAsset(mContext.getAssets(), "font/Roboto-Bold.ttf");
-            name.setTypeface(robotoMedian);
-            todaySummary.setTypeface(robotoMedian);
-            dueTasks.setTypeface(robotoMedian);
-            level.setTypeface(robotoRegular);
-            textName.setTypeface(robotoBold);
+            studentName.setTypeface(robotoMedian);
+            studentTodaySummary.setTypeface(robotoMedian);
+            studentDueTasks.setTypeface(robotoMedian);
+            studentLevel.setTypeface(robotoRegular);
+            studentTextName.setTypeface(robotoBold);
         }
     }
 }

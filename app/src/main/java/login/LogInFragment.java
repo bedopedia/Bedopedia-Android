@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -143,7 +144,11 @@ public class LogInFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(schoolName);
 
 
-        ImageView imageView = (ImageView) rootView.findViewById(R.id.school_code_bedo_logo);
+        ImageView imageView = (ImageView) rootView.findViewById(R.id.dragon_icon);
+
+
+
+
         ImageViewHelper.getImageFromUrlWithIdFailure(getActivity(),schoolAvatar,imageView,R.drawable.logo_icon);
 
     }
