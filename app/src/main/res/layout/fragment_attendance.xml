@@ -109,7 +109,7 @@
 
                     <com.github.sundeepk.compactcalendarview.CompactCalendarView
                         xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/compactcalendar_view"
+                        android:id="@+id/compact_calendar_view"
                         android:layout_width="fill_parent"
                         android:paddingRight="16dp"
                         android:paddingLeft="16dp"

@@ -73,7 +73,7 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
             item=new Holder();
 
             item.body = (TextView) view.findViewById(R.id.received_message_body);
-            item.avatar = (ImageView) view.findViewById(R.id.receive_message_avatar);
+            item.avatar = (ImageView) view.findViewById(R.id.single_message_school_avatar);
 
             item.body.setText(android.text.Html.fromHtml(message.getBody()).toString());
             ImageViewHelper.getImageFromUrl(context,message.getCreator().getAvatar(),item.avatar);

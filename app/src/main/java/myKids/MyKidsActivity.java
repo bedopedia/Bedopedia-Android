@@ -322,7 +322,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         emailView.setText(email);
         ImageViewHelper.getImageFromUrl(context,avatarUrl, myAvatar );
 
-        tb = (Toolbar) findViewById(R.id.toolbar);
+        tb = (Toolbar) findViewById(R.id.custom_toolbar_id);
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);

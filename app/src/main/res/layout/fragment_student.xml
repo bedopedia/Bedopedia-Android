@@ -51,13 +51,13 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="7dp"
-                        android:id="@+id/badges_layout_button"
+                        android:id="@+id/badges_container"
                         >
 
 
 
                         <RelativeLayout
-                            android:id="@+id/relative_layout1"
+                            android:id="@+id/badges_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -77,7 +77,7 @@
                             android:id="@+id/badges_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignRight="@id/relative_layout1"
+                            android:layout_alignRight="@id/badges_layout"
                             android:background="@drawable/badge_circle"
                             android:textAlignment="center"
                             android:gravity="center"
@@ -139,7 +139,7 @@
 
 
                         <RelativeLayout
-                            android:id="@+id/relative_layout"
+                            android:id="@+id/student_home_messages_container"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -156,10 +156,10 @@
                         </RelativeLayout>
 
                         <TextView
-                            android:id="@+id/messaage_number"
+                            android:id="@+id/student_home_messaage_count_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignRight="@id/relative_layout"
+                            android:layout_alignRight="@id/student_home_messages_container"
                             android:background="@drawable/notification_circle"
                             android:textAlignment="center"
                             android:gravity="center"
@@ -206,7 +206,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:layout_marginTop="10dp"
-                        android:text=""/>
+                        />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -216,7 +216,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/black"
                         android:layout_marginTop="5dp"
-                        android:text=""/>
+                        />
                 </LinearLayout>
             </LinearLayout>
 
@@ -228,7 +228,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/open_attendance"
+                android:id="@+id/attendance_layout"
                 android:clickable="true"
                 android:background="?android:attr/selectableItemBackground"
                 >
@@ -260,7 +260,7 @@
                             android:layout_width="0dp"
                             android:layout_weight=".80"
                             android:layout_height="wrap_content"
-                            android:id="@+id/attendance"
+                            android:id="@+id/attendance_lable"
                             android:textSize="16sp"
                             android:textColor="@color/black"
                             android:textStyle="normal|bold"
@@ -269,7 +269,7 @@
                         <ImageButton
                             app:srcCompat="@drawable/small_next"
                             android:background="@null"
-                            android:id="@+id/attendance_button"
+                            android:id="@+id/attendance_open_button"
                             android:layout_width="20dp"
                             android:layout_height="17dp"
                             android:layout_marginTop="15dp" />
@@ -283,7 +283,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/attendance_text"
+                            android:id="@+id/attendance_ratio_text"
                             android:paddingTop="10dp"
                             android:textSize="14sp"
                             android:textColor="@color/ligth_grey"
@@ -320,7 +320,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/open_timetable"
+                android:id="@+id/time_table_layout"
                 android:clickable="true"
                 android:background="?android:attr/selectableItemBackground"
                 >
@@ -335,7 +335,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/timetable"
-                        android:id="@+id/imageView4"
+                        android:id="@+id/time_table_icon"
                         android:layout_marginTop="20dp"/>
                 </FrameLayout>
 
@@ -349,7 +349,7 @@
                         android:textStyle="normal|bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/timetable"
+                        android:id="@+id/time_table_lable"
                         android:textSize="16sp"
                         android:textColor="@color/black"
                         android:layout_marginTop="10dp"/>
@@ -370,7 +370,7 @@
                     android:background="@null"
                     android:layout_width="20dp"
                     android:layout_height="17dp"
-                    android:id="@+id/timetable_btn"
+                    android:id="@+id/timetable_open_btn"
                     android:layout_weight="0.03"
                     android:layout_marginTop="15dp" />
 
@@ -388,7 +388,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/open_grades"
+                android:id="@+id/grades_layout"
                 android:clickable="true"
                 android:background="?android:attr/selectableItemBackground"
                 >
@@ -403,7 +403,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/grades_ico"
-                        android:id="@+id/imageView5"
+                        android:id="@+id/grades_icon"
                         android:layout_marginTop="20dp"/>
                 </FrameLayout>
 
@@ -416,7 +416,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/grades"
+                        android:id="@+id/grades_lable"
                         android:textSize="16sp"
                         android:textColor="@color/black"
                         android:textStyle="normal|bold"
@@ -437,7 +437,7 @@
                     android:layout_width="20dp"
                     android:layout_height="17dp"
                     android:layout_marginTop="15dp"
-                    android:id="@+id/grades_btn"
+                    android:id="@+id/open_grades_btn"
                     android:layout_weight="0.03" />
 
             </LinearLayout>
@@ -454,7 +454,7 @@
                 android:layout_marginBottom="10dp"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:id="@+id/open_notes"
+                android:id="@+id/behavior_notes_layout"
                 android:clickable="true"
                 android:background="?android:attr/selectableItemBackground"
                 >
@@ -469,7 +469,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/behavior_notes_ico"
-                        android:id="@+id/imageView6"
+                        android:id="@+id/behavior_notes_icon"
                         android:layout_marginTop="20dp"/>
                 </FrameLayout>
 
@@ -484,7 +484,7 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/behavior_notes"
+                        android:id="@+id/behavior_notes_lable"
                         android:textSize="16sp"
                         android:textColor="@color/black"
                         android:textStyle="normal|bold"
@@ -561,7 +561,7 @@
                     android:layout_width="20dp"
                     android:layout_height="17dp"
                     android:layout_marginTop="15dp"
-                    android:id="@+id/behavior_notes_btn"
+                    android:id="@+id/behavior_notes_open_btn"
                     android:layout_weight="0.03" />
 
             </LinearLayout>

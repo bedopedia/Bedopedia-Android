@@ -31,7 +31,7 @@ public class GradesAvtivity extends AppCompatActivity {
         student_id = extras.getString(studentIdKey);
         courseGroups = (List<CourseGroup>) getIntent().getSerializableExtra("courseGroups");
 
-        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar tb = (Toolbar) findViewById(R.id.default_toolbar_id);
         setSupportActionBar(tb);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);

@@ -7,7 +7,7 @@
 
 
     <ScrollView
-        android:id="@+id/school_code"
+        android:id="@+id/school_code_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/login"
@@ -33,7 +33,7 @@
                 android:paddingTop="40dp">
 
                 <ImageView
-                    android:id="@+id/imageView1"
+                    android:id="@+id/school_code_bedo_logo"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_alignParentTop="true"
@@ -63,7 +63,7 @@
                     android:layout_marginTop="40dp">
 
                     <AutoCompleteTextView
-                        android:id="@+id/code"
+                        android:id="@+id/scool_code_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/code_school"
@@ -75,7 +75,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/codeSubmit"
+                    android:id="@+id/code_submit_btn"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:layout_marginLeft="40dp"
