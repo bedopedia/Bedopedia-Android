@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,8 +84,6 @@ public class LogInFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         sharedPreferences = SharedPreferenceUtils.getSharedPreference(this.getActivity(),"cur_user");
         apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
     }
@@ -102,7 +100,6 @@ public class LogInFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setTextType(view);
-
         setSchool(view);
         ((EditText) view.findViewById(R.id.password_edit_text)).setOnEditorActionListener(new EditText.OnEditorActionListener() {
 
@@ -145,10 +142,6 @@ public class LogInFragment extends Fragment {
 
 
         ImageView imageView = (ImageView) rootView.findViewById(R.id.dragon_icon);
-
-
-
-
         ImageViewHelper.getImageFromUrlWithIdFailure(getActivity(),schoolAvatar,imageView,R.drawable.logo_icon);
 
     }
@@ -294,10 +287,4 @@ public class LogInFragment extends Fragment {
         ((AutoCompleteTextView) rootView.findViewById(R.id.password_edit_text)).setHint(R.string.fragmentLoginPassword_tv);
         ((TextView) rootView.findViewById(R.id.forget_password)).setText(R.string.fragmentLoginForgetPassword_tv);
     }
-
-
-
-
-
-
 }

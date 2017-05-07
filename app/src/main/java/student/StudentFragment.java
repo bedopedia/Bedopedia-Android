@@ -133,7 +133,6 @@ public class StudentFragment extends Fragment {
     final String negativeNotesListKey = "negativeNotesList";
     final String curUserKey = "cur_user";
 
-
     int servicesCount;
     private static final int servicesNumber = 5;
     public static Integer messageNumber = 0;
