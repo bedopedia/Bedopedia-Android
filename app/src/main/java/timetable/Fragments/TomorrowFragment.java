@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
 
+import Tools.CalendarUtils;
 import timetable.TimetableActivity;
 
 import java.io.Serializable;
@@ -151,8 +152,7 @@ public class TomorrowFragment extends Fragment {
 
     private void createEventView(int topMargin, int height, String courseName, String classRoom, Date startTime){
 
-        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-        calendar.setTime(startTime);   // assigns calendar to given date
+        Calendar calendar = CalendarUtils.getGregorianCalendar(startTime);
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE);
         int eventPosition = (int) (31.0 + ((hours - 7)*60.0) + (minutes/60.0) * 60.0) ;

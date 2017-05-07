@@ -14,6 +14,8 @@ import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.List;
 
+import Tools.CalendarUtils;
+
 /**
  * Created by khaled on 3/27/17.
  */
@@ -42,8 +44,7 @@ public class ExcusedAdapter extends RecyclerView.Adapter<ExcusedAdapter.Holder> 
     public void onBindViewHolder(Holder holder, int position) {
 
         Attendance attendanceItem = items.get(position);
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(attendanceItem.getDate());
+        Calendar cal = CalendarUtils.getCalendar(attendanceItem.getDate());
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
 
