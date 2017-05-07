@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import Tools.CalendarUtils;
 import timetable.Fragments.TodayFragment;
 import timetable.Fragments.TomorrowFragment;
 
@@ -50,7 +51,7 @@ public class TimetableAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = CalendarUtils.getCalendarWithoutDate();
         Date date = calendar.getTime();
         String today = new SimpleDateFormat("EEE", Locale.ENGLISH).format(date.getTime());
         String todayNumber =  new SimpleDateFormat("dd", Locale.ENGLISH).format(date.getTime());

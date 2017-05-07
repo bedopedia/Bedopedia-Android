@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import Models.NotificationModel;
+import Tools.CalendarUtils;
 
 /**
  * Created by ali on 12/02/17.
@@ -88,8 +89,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
             date = fmt.parse(notification.getDate());
             SimpleDateFormat fmtOut = new SimpleDateFormat("d MMM, h:mm a");
             String [] dates = fmtOut.format(date).split(" ");
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(Calendar.getInstance().getTime());
+            Calendar cal = CalendarUtils.getCalendar(Calendar.getInstance().getTime());
             Integer day = cal.get(Calendar.DAY_OF_MONTH);
             String notificationDate = fmtOut.format(date);
             if (dates[0].equals(String.valueOf(day))) {
