@@ -18,7 +18,7 @@ import Tools.FragmentUtils;
 public class StudentActivity extends AppCompatActivity {
 
 
-    ActionBar ab ;
+    ActionBar studentACtivityActionBar ;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,10 +26,10 @@ public class StudentActivity extends AppCompatActivity {
         setContentView(R.layout.student_home);
 
 
-        Toolbar tb = (Toolbar) findViewById(R.id.custom_toolbar_id);
-        setSupportActionBar(tb);
-        ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        Toolbar studentACtivityToolBar = (Toolbar) findViewById(R.id.custom_toolbar_id);
+        setSupportActionBar(studentACtivityToolBar);
+        studentACtivityActionBar = getSupportActionBar();
+        studentACtivityActionBar.setDisplayHomeAsUpEnabled(true);
         FragmentUtils.createFragment(getSupportFragmentManager(), StudentFragment.newInstance(), R.id.student_home_container);
     }
 

@@ -117,19 +117,19 @@ public class StudentFragment extends Fragment {
     LinearLayout notesLayer;
     DrawerLayout notificationLayout;
     ListView notificationList;
-    ActionBar ab ;
-    String thursdayKey ="thursday";
-    String badgeNameKey = "badge_name";
-    String GuruKey = "Guru";
-    String grandMaesterKey = "Grand Maester";
-    String studentIdKey = "student_id";
-    String studentNameKey = "student_name";
-    String studentAvatarKey = "student_avatar";
-    String studentLevelKey = "student_level";
-    String attendancesKey = "attendances";
-    String courseGroupsKey = "courseGroups";
-    String positiveNotesListKey = "positiveNotesList";
-    String negativeNotesListKey = "negativeNotesList";
+    ActionBar studentFragmentActionBar ;
+    final String thursdayKey ="thursday";
+    final String badgeNameKey = "badge_name";
+    final String GuruKey = "Guru";
+    final String grandMaesterKey = "Grand Maester";
+    final String studentIdKey = "student_id";
+    final String studentNameKey = "student_name";
+    final String studentAvatarKey = "student_avatar";
+    final String studentLevelKey = "student_level";
+    final String attendancesKey = "attendances";
+    final String courseGroupsKey = "courseGroups";
+    final String positiveNotesListKey = "positiveNotesList";
+    final String negativeNotesListKey = "negativeNotesList";
 
     int servicesCount;
     private static final int servicesNumber = 5;
@@ -157,10 +157,10 @@ public class StudentFragment extends Fragment {
      * @return A new instance of fragment StudentFragment.
      */
     public static StudentFragment newInstance() {
-        StudentFragment fragment = new StudentFragment();
+        StudentFragment studentFragment = new StudentFragment();
         Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        studentFragment.setArguments(args);
+        return studentFragment;
     }
 
     @Override
@@ -305,18 +305,18 @@ public class StudentFragment extends Fragment {
                 }
                 Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
 
-                Toolbar tb = (Toolbar) getActivity().findViewById(R.id.custom_toolbar_id);
-                ((AppCompatActivity)getActivity()).setSupportActionBar(tb);
-                ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-                ab.setDisplayHomeAsUpEnabled(true);
+                Toolbar studentFragmentToolbar = (Toolbar) getActivity().findViewById(R.id.custom_toolbar_id);
+                ((AppCompatActivity)getActivity()).setSupportActionBar(studentFragmentToolbar);
+                studentFragmentActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+                studentFragmentActionBar.setDisplayHomeAsUpEnabled(true);
                 if(notificationLayout.isDrawerOpen(notificationList)){
                     SpannableString title = new SpannableString(getString(R.string.notificationString));
                     title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    ab.setTitle(title);
+                    studentFragmentActionBar.setTitle(title);
                 } else {
                     SpannableString title = new SpannableString(studentName);
                     title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    ab.setTitle(title);
+                    studentFragmentActionBar.setTitle(title);
                 }
 
                 notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
@@ -396,9 +396,9 @@ public class StudentFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), AttendanceActivity.class);
-                intent.putExtra(attendancesKey,attendance);
-                startActivity(intent);
+                Intent attendanceIntent = new Intent(getActivity(), AttendanceActivity.class);
+                attendanceIntent.putExtra(attendancesKey,attendance);
+                startActivity(attendanceIntent);
             }
         });
 
@@ -407,10 +407,10 @@ public class StudentFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), GradesAvtivity.class);
-                intent.putExtra(studentIdKey, studentId);
-                intent.putExtra(courseGroupsKey, courseGroups);
-                startActivity(intent);
+                Intent gradesIntent = new Intent(getActivity(), GradesAvtivity.class);
+                gradesIntent.putExtra(studentIdKey, studentId);
+                gradesIntent.putExtra(courseGroupsKey, courseGroups);
+                startActivity(gradesIntent);
             }
         });
 
@@ -420,13 +420,13 @@ public class StudentFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), BehaviorNotesActivity.class);
-                intent.putExtra(studentIdKey, studentId);
+                Intent behaviorNotesIntent = new Intent(getActivity(), BehaviorNotesActivity.class);
+                behaviorNotesIntent.putExtra(studentIdKey, studentId);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(positiveNotesListKey, (Serializable) positiveNotesList);
                 bundle.putSerializable(negativeNotesListKey, (Serializable) negativeNotesList);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                behaviorNotesIntent.putExtras(bundle);
+                startActivity(behaviorNotesIntent);
             }
         });
 
@@ -436,13 +436,13 @@ public class StudentFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), TimetableActivity.class);
-                intent.putExtra(studentIdKey, studentId);
+                Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
+                timeTableIntent.putExtra(studentIdKey, studentId);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(TomorrowFragment.KEY_NAME, (Serializable) tomorrowSlots);
                 bundle.putSerializable(TodayFragment.KEY_NAME, (Serializable) todaySlots);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                timeTableIntent.putExtras(bundle);
+                startActivity(timeTableIntent);
             }
         });
 
@@ -450,9 +450,9 @@ public class StudentFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getFragmentManager();
+                FragmentManager fragmentManager = getFragmentManager();
                 BadgesFragment badgesDialog = BadgesFragment.newInstance(badges);
-                badgesDialog.show(fm,"fragment_badges");
+                badgesDialog.show(fragmentManager,"fragment_badges");
 
                 //BadgesDialog.AlertDialog(context , badges);
             }
@@ -464,7 +464,7 @@ public class StudentFragment extends Fragment {
         if (InternetConnection.isInternetAvailable(getActivity())) {
             new StudentAsyncTask().execute();
         } else {
-            Dialogue.AlertDialog(getActivity(),"No NetworkConnection","Check your Netwotk connection and Try again");
+            Dialogue.AlertDialog(getActivity(),getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
         }
 
 
@@ -554,7 +554,7 @@ public class StudentFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 progress.dismiss();
-                Dialogue.AlertDialog(context,"Connection Failed","Check your Netwotk connection and Try again");
+                Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
             }
         });
     }
@@ -571,7 +571,7 @@ public class StudentFragment extends Fragment {
                 //progress.dismiss();
                 int statusCode = response.code();
                 if (statusCode == 401) {
-                    Dialogue.AlertDialog(context, "Not Authorized", "you don't have the right to do this");
+                    Dialogue.AlertDialog(context, getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                 } else if (statusCode == 200) {
                     Calendar calendar = Calendar.getInstance();
                     Date date = calendar.getTime();
@@ -624,17 +624,17 @@ public class StudentFragment extends Fragment {
                     Collections.sort(tomorrowSlots);
                     SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 
-                    for (TimetableSlot s : todaySlots){
-                        if ((s.getFrom().getHours() == current.getHours() && s.getFrom().getMinutes() >= current.getMinutes()) ||
-                                s.getFrom().getHours() > current.getHours()){
+                    for (TimetableSlot timeSlotIterator : todaySlots){
+                        if ((timeSlotIterator.getFrom().getHours() == current.getHours() && timeSlotIterator.getFrom().getMinutes() >= current.getMinutes()) ||
+                                timeSlotIterator.getFrom().getHours() > current.getHours()){
                             nextSlotFound = true;
-                            nextSlot.setText("Next: " + s.getCourseName() + ", " + s.getDay() + " " + dateFormat.format(s.getFrom()));
+                            nextSlot.setText("Next: " + timeSlotIterator.getCourseName() + ", " + timeSlotIterator.getDay() + " " + dateFormat.format(timeSlotIterator.getFrom()));
                             break;
                         }
                     }
                     if(!nextSlotFound){
-                        TimetableSlot s = tomorrowSlots.get(0);
-                        nextSlot.setText("Next: " + s.getCourseName() + ", " + s.getDay() + " " + dateFormat.format(s.getFrom()));
+                        TimetableSlot timeSlot = tomorrowSlots.get(0);
+                        nextSlot.setText("Next: " + timeSlot.getCourseName() + ", " + timeSlot.getDay() + " " + dateFormat.format(timeSlot.getFrom()));
                     }
                 }
                 servicesCount++;
@@ -829,7 +829,6 @@ public class StudentFragment extends Fragment {
                         NotificationAdapter notificationAdapter = new NotificationAdapter(context, R.layout.notification_list_item,notifications);
                         ListView listView = (ListView) getView().findViewById(R.id.student_listview_notification);
                         listView.setAdapter(notificationAdapter);
-
 
                     }
                 }

@@ -1,4 +1,4 @@
-package timetable;
+package timetable.Fragments;
 
 
 import android.content.Intent;
@@ -8,19 +8,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.bedopedia.bedopedia_android.R;
 
-import java.io.Serializable;
 import java.util.List;
 
-import timetable.Fragments.TomorrowFragment;
+import timetable.TimetableAdapter;
+import timetable.TimetableSlot;
 
 /**
  * A simple {@link Fragment} subclass.
