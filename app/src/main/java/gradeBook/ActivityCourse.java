@@ -40,27 +40,27 @@ public class ActivityCourse extends AppCompatActivity {
     Context context;
     private Double totalStudent = 0.0;
     private Double totalCategory = 0.0 ;
-    String studentId, courseGroupId,courseId;
-    String courseName;
-    String studentIdKey = "student_id";
-    String assignmentsKey = "assignments";
-    String studentKey = "student";
-    String submittedAssignmentsKey = "submitted_assignments";
-    String assignmentsAveragesKey = "assignments_averages";
-    String quizzesKey = "quizzes";
-    String submittedQuizzesKey = "submitted_quizzes";
-    String quizzesAveragesKey = "quizzes_averages";
-    String gradeItemsKey = "grade_items";
-    String submittedGradesKey = "submitted_grades";
-    String gradesAveragesKey = "grades_averages";
-    String courseGroupIdKey = "course_group_id";
-    String courseIdKey = "course_id";
-    String courseNameKey = "course_name";
-    String pointsKey = "points";
-    String idKey = "id";
-    String dashKey = "-";
-    String maxGradeKey = "max_grade";
-    String totalScoreKey = "total_score";
+     String studentId, courseGroupId,courseId;
+     String courseName;
+    final String studentIdKey = "student_id";
+    final String assignmentsKey = "assignments";
+    final String studentKey = "student";
+    final String submittedAssignmentsKey = "submitted_assignments";
+    final String assignmentsAveragesKey = "assignments_averages";
+    final String quizzesKey = "quizzes";
+    final String submittedQuizzesKey = "submitted_quizzes";
+    final String quizzesAveragesKey = "quizzes_averages";
+    final String gradeItemsKey = "grade_items";
+    final String submittedGradesKey = "submitted_grades";
+    final String gradesAveragesKey = "grades_averages";
+    final String courseGroupIdKey = "course_group_id";
+    final String courseIdKey = "course_id";
+    final String courseNameKey = "course_name";
+    final String pointsKey = "points";
+    final String idKey = "id";
+    final String dashKey = "-";
+    final String maxGradeKey = "max_grade";
+    final String totalScoreKey = "total_score";
 
     public void loading(){
         progress.setTitle(R.string.LoadDialogueTitle);
@@ -190,14 +190,6 @@ public class ActivityCourse extends AppCompatActivity {
                                 return true;
                             }
                         });
-
-
-
-
-
-
-
-
                     }
                     progress.dismiss();
                 }
@@ -215,14 +207,7 @@ public class ActivityCourse extends AppCompatActivity {
             for(int i = 0 ; i < responseSize; i++)
                 courseListView.expandGroup(i);
         }
-
-
-
     }
-
-
-
-
 
 
     @Override

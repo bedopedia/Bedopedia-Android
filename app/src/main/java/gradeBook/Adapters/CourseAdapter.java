@@ -25,9 +25,6 @@ public class CourseAdapter extends BaseExpandableListAdapter {
         private ArrayList<ArrayList<String>> header;
         ArrayList<ArrayList<ArrayList<String>>> items;
 
-        private ArrayList<CourseAdapter.GroupHolder> parentData = new ArrayList<>();
-        private ArrayList<CourseAdapter.ChildHolder> childrenData = new ArrayList<>();
-
 
 
 
@@ -74,59 +71,53 @@ public class CourseAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup parent) {
-        ArrayList<ArrayList<String>> courseItem = (ArrayList<ArrayList<String>>) getGroup(groupPosition);
 
-            view = LayoutInflater.from(context).inflate(R.layout.course_list_item, parent, false);
+       view = LayoutInflater.from(context).inflate(R.layout.course_list_item, parent, false);
 
 
-        CourseAdapter.GroupHolder item=new CourseAdapter.GroupHolder();
+        CourseAdapter.GroupHolder parentCourseItem=new CourseAdapter.GroupHolder();
 
-        item.CategoryName = (TextView) view.findViewById(R.id.course_list_category_name);
+        parentCourseItem.CategoryName = (TextView) view.findViewById(R.id.course_list_category_name);
         Typeface roboto = Typeface.createFromAsset(context.getAssets(),
                 "font/Roboto-Medium.ttf"); //use this.getAssets if you are calling from an Activity
         Typeface roboto2 = Typeface.createFromAsset(context.getAssets(),
                 "font/Roboto-Bold.ttf"); //use this.getAssets if you are calling from an Activity
-        item.CategoryName.setTypeface(roboto);
-        item.numOfCategory = (TextView) view.findViewById(R.id.categories_count);
-        item.numOfCategory.setTypeface(roboto2);
-        item.maxGrade = (TextView) view.findViewById(R.id.max_grade);
-        item.maxGrade.setTypeface(roboto2);
-        item.CategoryName.setText(header.get(groupPosition).get(0));
-        item.numOfCategory.setText(header.get(groupPosition).get(1));
-        item.maxGrade.setText(header.get(groupPosition).get(2));
+        parentCourseItem.CategoryName.setTypeface(roboto);
+        parentCourseItem.numOfCategory = (TextView) view.findViewById(R.id.categories_count);
+        parentCourseItem.numOfCategory.setTypeface(roboto2);
+        parentCourseItem.maxGrade = (TextView) view.findViewById(R.id.max_grade);
+        parentCourseItem.maxGrade.setTypeface(roboto2);
+        parentCourseItem.CategoryName.setText(header.get(groupPosition).get(0));
+        parentCourseItem.numOfCategory.setText(header.get(groupPosition).get(1));
+        parentCourseItem.maxGrade.setText(header.get(groupPosition).get(2));
         return view ;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
 
+     view = LayoutInflater.from(context).inflate(R.layout.course_list_view_item, parent, false);
+     CourseAdapter.ChildHolder childGradeItem=new CourseAdapter.ChildHolder();
 
-            view = LayoutInflater.from(context).inflate(R.layout.course_list_view_item, parent, false);
-
-
-
-
-        CourseAdapter.ChildHolder item=new CourseAdapter.ChildHolder();
-
-        item.mCourseNameTextView = (TextView) view.findViewById(R.id.single_course_name);
-        item.mCourseGradeTextView =  (TextView) view.findViewById(R.id.single_course_grade);
-        item.mCourseCommentTextView = (TextView) view.findViewById(R.id.single_course_grade_comment);
-        item.mCourseAverageTextView = (TextView) view.findViewById(R.id.single_course_average);
+        childGradeItem.mCourseNameTextView = (TextView) view.findViewById(R.id.single_course_name);
+        childGradeItem.mCourseGradeTextView =  (TextView) view.findViewById(R.id.single_course_grade);
+        childGradeItem.mCourseCommentTextView = (TextView) view.findViewById(R.id.single_course_grade_comment);
+        childGradeItem.mCourseAverageTextView = (TextView) view.findViewById(R.id.single_course_average);
 
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf"); //use this.getAssets if you are calling from an Activity
-        item.mCourseNameTextView.setTypeface(roboto);
-        item.mCourseGradeTextView.setTypeface(roboto);
-        item.mCourseCommentTextView.setTypeface(roboto);
-        item.mCourseAverageTextView.setTypeface(roboto);
+        childGradeItem.mCourseNameTextView.setTypeface(roboto);
+        childGradeItem.mCourseGradeTextView.setTypeface(roboto);
+        childGradeItem.mCourseCommentTextView.setTypeface(roboto);
+        childGradeItem.mCourseAverageTextView.setTypeface(roboto);
 
-        item.mCourseNameTextView.setText(items.get(groupPosition).get(childPosition).get(0));
-        item.mCourseGradeTextView.setText(items.get(groupPosition).get(childPosition).get(1));
-        item.mCourseCommentTextView.setText(items.get(groupPosition).get(childPosition).get(2));
+        childGradeItem.mCourseNameTextView.setText(items.get(groupPosition).get(childPosition).get(0));
+        childGradeItem.mCourseGradeTextView.setText(items.get(groupPosition).get(childPosition).get(1));
+        childGradeItem.mCourseCommentTextView.setText(items.get(groupPosition).get(childPosition).get(2));
         Double avg = Double.valueOf(items.get(groupPosition).get(childPosition).get(3));
         avg = BigDecimal.valueOf(avg)
                 .setScale(1, RoundingMode.HALF_UP)
                 .doubleValue();
-        item.mCourseAverageTextView.setText("Avg. grade is " +avg.toString());
+        childGradeItem.mCourseAverageTextView.setText("Avg. grade is " +avg.toString());
 
         return view;
     }

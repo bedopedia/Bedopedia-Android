@@ -28,7 +28,7 @@ public class BehaviorNotesAdapter extends ArrayAdapter {
 
     }
 
-    public static  class Holder{
+    public static  class BehaviorNotesHolder{
         TextView category;
         TextView noteContent;
     }
@@ -37,24 +37,24 @@ public class BehaviorNotesAdapter extends ArrayAdapter {
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
         BehaviorNote note = (BehaviorNote) getItem(position);
-        Holder item;
+        BehaviorNotesHolder behaviorNotesHolderItem;
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.single_behaviour_note, parent, false);
         }
-        item=new Holder();
+        behaviorNotesHolderItem=new BehaviorNotesHolder();
 
-        item.category = (TextView) view.findViewById(R.id.category_name);
-        item.noteContent = (TextView) view.findViewById(R.id.note_content);
+        behaviorNotesHolderItem.category = (TextView) view.findViewById(R.id.category_name);
+        behaviorNotesHolderItem.noteContent = (TextView) view.findViewById(R.id.note_content);
 
         Typeface robotoMedium = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf");
         Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
 
-        item.category.setTypeface(robotoMedium);
-        item.noteContent.setTypeface(robotoRegular);
-        item.category.setText(note.getCategory());
-        item.noteContent.setText(note.getText());
+        behaviorNotesHolderItem.category.setTypeface(robotoMedium);
+        behaviorNotesHolderItem.noteContent.setTypeface(robotoRegular);
+        behaviorNotesHolderItem.category.setText(note.getCategory());
+        behaviorNotesHolderItem.noteContent.setText(note.getText());
 
         return view;
     }

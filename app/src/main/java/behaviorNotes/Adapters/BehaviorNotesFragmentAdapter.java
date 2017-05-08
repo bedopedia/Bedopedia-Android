@@ -37,15 +37,15 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        Fragment f = null;
+        Fragment fragment = null;
 
         if (position == 0) {
-            f = PositiveFragment.newInstance(positiveNotesList);
+            fragment = PositiveFragment.newInstance(positiveNotesList);
         } else {
-            f =  NegativeFragment.newInstance(negativeNotesList);
+            fragment =  NegativeFragment.newInstance(negativeNotesList);
         }
 
-        return f;
+        return fragment;
     }
 
     @Override
@@ -62,22 +62,20 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
 
     public View getTabView(int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.single_tab, null);
-        TextView title = (TextView) view.findViewById(R.id.behavior_note_tab_title);
-        TextView counter = (TextView) view.findViewById(R.id.behavior_note_tab_counter);
-        title.setText(this.getPageTitle(position));
+        TextView tabTitle = (TextView) view.findViewById(R.id.behavior_note_tab_title);
+        TextView behaviorCounter = (TextView) view.findViewById(R.id.behavior_note_tab_counter);
+        tabTitle.setText(this.getPageTitle(position));
         if (position == 0) {
-            counter.setText(positiveNotesList.size() + "");
+            behaviorCounter.setText(positiveNotesList.size() + "");
             if(positiveNotesList.size() == 0)
-                counter.setVisibility(View.INVISIBLE);
+                behaviorCounter.setVisibility(View.INVISIBLE);
         }
         else {
-            counter.setText(StudentFragment.negativeNotesList.size() + "");
+            behaviorCounter.setText(StudentFragment.negativeNotesList.size() + "");
             if(StudentFragment.negativeNotesList.size() == 0)
-                counter.setVisibility(View.INVISIBLE);
+                behaviorCounter.setVisibility(View.INVISIBLE);
         }
-
         return view;
-
     }
 
 }

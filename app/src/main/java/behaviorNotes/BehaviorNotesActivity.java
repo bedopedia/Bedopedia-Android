@@ -25,11 +25,11 @@ public class BehaviorNotesActivity extends AppCompatActivity {
 
 
 
-        Toolbar tb = (Toolbar) findViewById(R.id.default_toolbar_id);
-        setSupportActionBar(tb);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle(R.string.behaviorNotesTitle);
+        Toolbar behaviorNotesToolbar = (Toolbar) findViewById(R.id.default_toolbar_id);
+        setSupportActionBar(behaviorNotesToolbar);
+        ActionBar behaviorNotesActionbar = getSupportActionBar();
+        behaviorNotesActionbar.setDisplayHomeAsUpEnabled(true);
+        behaviorNotesActionbar.setTitle(R.string.behaviorNotesTitle);
 
 
         FragmentUtils.createFragment(getSupportFragmentManager(), BehaviorNotesFragment.newInstance(), R.id.timetable_main_container );
