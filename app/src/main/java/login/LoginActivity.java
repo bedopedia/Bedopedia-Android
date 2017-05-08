@@ -14,7 +14,7 @@ import Tools.FragmentUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private ActionBar ab ;
+    private ActionBar loginActivityActionbar ;
 
 
     @Override
@@ -26,8 +26,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Toolbar tb = (Toolbar) findViewById(R.id.default_toolbar_id);
         setSupportActionBar(tb);
-        ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        loginActivityActionbar = getSupportActionBar();
+        loginActivityActionbar.setDisplayHomeAsUpEnabled(true);
 
         FragmentUtils.createFragment(getSupportFragmentManager(), LogInFragment.newInstance(), R.id.log_in_container);
 

@@ -16,10 +16,10 @@ import java.util.List;
 
 public class GradesAvtivity extends AppCompatActivity {
 
-    String student_id;
+    String studentId;
     public static Context context;
     List<CourseGroup> courseGroups;
-    String studentIdKey = "student_id";
+    final String studentIdKey = "student_id";
 
 
     @Override
@@ -28,20 +28,17 @@ public class GradesAvtivity extends AppCompatActivity {
         setContentView(R.layout.grades);
 
         Bundle extras= getIntent().getExtras();
-        student_id = extras.getString(studentIdKey);
+        studentId = extras.getString(studentIdKey);
         courseGroups = (List<CourseGroup>) getIntent().getSerializableExtra("courseGroups");
 
-        Toolbar tb = (Toolbar) findViewById(R.id.default_toolbar_id);
-        setSupportActionBar(tb);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle(R.string.GradesTitle);
-
+        Toolbar gradesActivityToolbar = (Toolbar) findViewById(R.id.default_toolbar_id);
+        setSupportActionBar(gradesActivityToolbar);
+        ActionBar gradesActivityActionbar = getSupportActionBar();
+        gradesActivityActionbar.setDisplayHomeAsUpEnabled(true);
+        gradesActivityActionbar.setTitle(R.string.GradesTitle);
         context = this;
 
-        FragmentUtils.createFragment(getSupportFragmentManager(),GradesFragment.newInstance(courseGroups , student_id), R.id.grades_container);
-        
-
+        FragmentUtils.createFragment(getSupportFragmentManager(),GradesFragment.newInstance(courseGroups , studentId), R.id.grades_container);
 
     }
 

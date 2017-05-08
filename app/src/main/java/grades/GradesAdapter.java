@@ -27,10 +27,10 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
     public GradesAvtivity context;
     public String studentId ;
     List<CourseGroup> items ;
-    String studentIdKey = "student_id";
-    String courseGroupIdKey = "course_group_id";
-    String courseIdKey = "course_id";
-    String courseNameKey = "course_name";
+    final String studentIdKey = "student_id";
+    final String courseGroupIdKey = "course_group_id";
+    final String courseIdKey = "course_id";
+    final String courseNameKey = "course_name";
 
 
     public GradesAdapter(Context context, int resource, List<CourseGroup> items , String studentId) {
@@ -40,7 +40,7 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
         this.items = items ;
     }
 
-    public static  class Holder{
+    public static  class GradesHolder{
         ImageView courseImage;
         TextView courseName;
         TextView courseGrade;
@@ -52,51 +52,51 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
         CourseGroup courseGroup = (CourseGroup) getItem(position);
-        final Holder item;
+        final GradesHolder gradeHolderItem;
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.single_grade, parent, false);
         }
-        item=new Holder();
+        gradeHolderItem =new GradesHolder();
         Typeface robotoMedium = Typeface.createFromAsset(GradesAvtivity.context.getAssets(), "font/Roboto-Medium.ttf");
         Typeface robotoBold = Typeface.createFromAsset(GradesAvtivity.context.getAssets(), "font/Roboto-Bold.ttf");
 
-        item.courseImage = (ImageView) view.findViewById(R.id.course_image);
-        item.courseName = (TextView) view.findViewById(R.id.course_name);
-        item.courseGrade = (TextView) view.findViewById(R.id.course_grade);
-        item.openCourse = (ImageButton) view.findViewById(R.id.open_grade);
-        item.singleGrade = (LinearLayout) view.findViewById(R.id.single_grade);
+        gradeHolderItem.courseImage = (ImageView) view.findViewById(R.id.course_image);
+        gradeHolderItem.courseName = (TextView) view.findViewById(R.id.course_name);
+        gradeHolderItem.courseGrade = (TextView) view.findViewById(R.id.course_grade);
+        gradeHolderItem.openCourse = (ImageButton) view.findViewById(R.id.open_grade);
+        gradeHolderItem.singleGrade = (LinearLayout) view.findViewById(R.id.single_grade);
 
-        item.courseName.setTypeface(robotoMedium);
-        item.courseName.setText(courseGroup.getCourseName());
-        item.courseGrade.setTypeface(robotoBold);
-        item.courseGrade.setText(courseGroup.getGrade());
+        gradeHolderItem.courseName.setTypeface(robotoMedium);
+        gradeHolderItem.courseName.setText(courseGroup.getCourseName());
+        gradeHolderItem.courseGrade.setTypeface(robotoBold);
+        gradeHolderItem.courseGrade.setText(courseGroup.getGrade());
 
-        item.singleGrade.setOnClickListener(new View.OnClickListener() {
+        gradeHolderItem.singleGrade.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent i =  new Intent(context.getApplicationContext(), ActivityCourse.class);
-                i.putExtra(studentIdKey,studentId);
-                i.putExtra(courseGroupIdKey, String.valueOf(items.get(position).getId()));
-                i.putExtra(courseIdKey, String.valueOf(items.get(position).getCourseId()));
-                i.putExtra(courseNameKey, items.get(position).getCourseName());
-                context.startActivity(i);
+                Intent activityCourseIntent =  new Intent(context.getApplicationContext(), ActivityCourse.class);
+                activityCourseIntent.putExtra(studentIdKey,studentId);
+                activityCourseIntent.putExtra(courseGroupIdKey, String.valueOf(items.get(position).getId()));
+                activityCourseIntent.putExtra(courseIdKey, String.valueOf(items.get(position).getCourseId()));
+                activityCourseIntent.putExtra(courseNameKey, items.get(position).getCourseName());
+                context.startActivity(activityCourseIntent);
             }
         });
 
 
         String imageName = courseGroup.getIcon();
         int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
-        item.courseImage.setImageResource(res);
+        gradeHolderItem.courseImage.setImageResource(res);
 
         if(courseGroup.getGrade().charAt(0) == 'A'){
-            item.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
+            gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
         } else if(courseGroup.getGrade().charAt(0) == 'F'){
-            item.courseGrade.setBackgroundResource(R.drawable.grade_f_circle);
+            gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_f_circle);
         } else {
-            item.courseGrade.setBackgroundResource(R.drawable.grade_bcd_circle);
+            gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_bcd_circle);
         }
         return view;
     }

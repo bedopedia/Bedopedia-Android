@@ -22,12 +22,12 @@ public class GradesFragment extends Fragment {
     }
 
     public static Fragment newInstance(List<CourseGroup> courseGroups , String studentId) {
-        Fragment fragment = new GradesFragment();
+        Fragment gradesFragment = new GradesFragment();
         Bundle args = new Bundle();
         args.putSerializable("grades" , (Serializable) courseGroups);
         args.putString("studentId",studentId);
-        fragment.setArguments(args);
-        return fragment;
+        gradesFragment.setArguments(args);
+        return gradesFragment;
     }
 
     @Override

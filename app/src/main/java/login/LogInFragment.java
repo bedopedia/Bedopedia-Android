@@ -49,20 +49,21 @@ public class LogInFragment extends Fragment {
 
     private ApiInterface apiService;
     private SharedPreferences sharedPreferences;
-    String schoolDataKey = "school_data";
-    String nameKey = "name";
-    String tokenChangedKey = "token_changed";
-    String headerAccessTokenKey = "header_access-token";
-    String headerTokenTypeKey = "header_token-type";
-    String headerClientKey = "header_client";
-    String headerUidKey = "header_uid";
-    String userIdKey = "user_id";
-    String isLoggedInKey = "is_logged_in";
-    String idKey = "id";
-    String usernameKey = "username";
-    String emailKey = "email";
-    String avatarUrlKey = "avatar_url";
-    String userDataKey = "user_data";
+    final String schoolDataKey = "school_data";
+    final String nameKey = "name";
+    final String tokenChangedKey = "token_changed";
+    final String headerAccessTokenKey = "header_access-token";
+    final String headerTokenTypeKey = "header_token-type";
+    final String headerClientKey = "header_client";
+    final String headerUidKey = "header_uid";
+    final String userIdKey = "user_id";
+    final String isLoggedInKey = "is_logged_in";
+    final String idKey = "id";
+    final String usernameKey = "username";
+    final String emailKey = "email";
+    final String avatarUrlKey = "avatar_url";
+    final String userDataKey = "user_data";
+    final String curUserKey = "cur_user";
 
 
     public LogInFragment() {
@@ -75,16 +76,16 @@ public class LogInFragment extends Fragment {
      * @return A new instance of fragment LogInFragment.
      */
     public static LogInFragment newInstance() {
-        LogInFragment fragment = new LogInFragment();
+        LogInFragment loginFragment = new LogInFragment();
         Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        loginFragment.setArguments(args);
+        return loginFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferences = SharedPreferenceUtils.getSharedPreference(this.getActivity(),"cur_user");
+        sharedPreferences = SharedPreferenceUtils.getSharedPreference(this.getActivity(),curUserKey);
         apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
     }
 
@@ -139,8 +140,6 @@ public class LogInFragment extends Fragment {
         String schoolAvatar = school_data.get(avatarUrlKey).getAsString();
         TextView actionBarTitle = (TextView) rootView.findViewById(R.id.action_bar_title);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(schoolName);
-
-
         ImageView imageView = (ImageView) rootView.findViewById(R.id.dragon_icon);
         ImageViewHelper.getImageFromUrlWithIdFailure(getActivity(),schoolAvatar,imageView,R.drawable.logo_icon);
 

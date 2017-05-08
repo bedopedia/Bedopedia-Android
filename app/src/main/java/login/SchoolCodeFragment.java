@@ -46,11 +46,11 @@ public class SchoolCodeFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private final String schoolApiUrl = "https://bedopedia-schools.herokuapp.com/";
     private final String path = "schools/get_by_code";
-    String schoolDataKey = "school_data";
-    String BaseUrlKey = "Base_Url";
-    String headerAccessTokenKey = "header_access-token";
-    String userDataKey = "user_data";
-    String headerUidKey = "header_uid";
+    final String schoolDataKey = "school_data";
+    final String BaseUrlKey = "Base_Url";
+    final String headerAccessTokenKey = "header_access-token";
+    final String userDataKey = "user_data";
+    final String headerUidKey = "header_uid";
 
 
     public SchoolCodeFragment() {
@@ -63,10 +63,10 @@ public class SchoolCodeFragment extends Fragment {
      * @return A new instance of fragment SchoolCodeFragment.
      */
     public static SchoolCodeFragment newInstance() {
-        SchoolCodeFragment fragment = new SchoolCodeFragment();
+        SchoolCodeFragment schoolCodeFragment = new SchoolCodeFragment();
         Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        schoolCodeFragment.setArguments(args);
+        return schoolCodeFragment;
     }
 
     @Override
@@ -165,7 +165,6 @@ public class SchoolCodeFragment extends Fragment {
             }
         });
 
-
     }
 
     private  void setSchool (final String schoolUrl) {
@@ -236,5 +235,4 @@ public class SchoolCodeFragment extends Fragment {
         ApiClient.BASE_URL = baseUrl;
         return !(authToken.equals("") || userData.equals("") || uid.equals("") || baseUrl.equals(""));
     }
-
 }
