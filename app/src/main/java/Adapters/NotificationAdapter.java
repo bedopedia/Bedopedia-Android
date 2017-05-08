@@ -29,16 +29,16 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
 
 
     private Context context;
-    private String assignmentsKey = "assignments";
-    private String quizzesKey = "quizzes";
-    private String myDaysKey = "mydays";
+    final private String assignmentsKey = "assignments";
+    final private String quizzesKey = "quizzes";
+    final private String myDaysKey = "mydays";
 
     public NotificationAdapter(Context context, int resource, List<NotificationModel> items) {
         super(context, resource, items);
         this.context =   context;
     }
 
-    public static  class Holder{
+    public static  class NotificationHolder{
         ImageView logo;
         TextView content;
         TextView date;
@@ -51,11 +51,11 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
         NotificationModel notification = (NotificationModel) getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
 
-        Holder item;
+        NotificationHolder notificationHolderItem;
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.notification_list_item, parent, false);
         }
-        item=new Holder();
+        notificationHolderItem=new NotificationHolder();
 
 
         ImageView logo = (ImageView) view.findViewById(R.id.notificationLogo);
@@ -67,20 +67,20 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
             logo.setImageResource(R.drawable.mydays_ico);
         }
 
-        item.content = (TextView) view.findViewById(R.id.notification_body);
-        item.date =  (TextView) view.findViewById(R.id.notificationDate);
-        item.studentNames = (TextView) view.findViewById(R.id.studentNames);
+        notificationHolderItem.content = (TextView) view.findViewById(R.id.notification_body);
+        notificationHolderItem.date =  (TextView) view.findViewById(R.id.notificationDate);
+        notificationHolderItem.studentNames = (TextView) view.findViewById(R.id.studentNames);
 
         Typeface roboto = Typeface.createFromAsset(context.getAssets(),
                 "font/Roboto-Regular.ttf"); //use this.getAssets if you are calling from an Activity
-        item.content.setTypeface(roboto);
-        item.date.setTypeface(roboto);
+        notificationHolderItem.content.setTypeface(roboto);
+        notificationHolderItem.date.setTypeface(roboto);
 
-        item.content.setText(notification.getContent());
-        item.content.setTypeface(roboto);
+        notificationHolderItem.content.setText(notification.getContent());
+        notificationHolderItem.content.setTypeface(roboto);
 
-        item.studentNames.setText(notification.getStudentNames());
-        item.studentNames.setTypeface(roboto);
+        notificationHolderItem.studentNames.setText(notification.getStudentNames());
+        notificationHolderItem.studentNames.setTypeface(roboto);
 
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
@@ -97,11 +97,10 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
             } else if (dates[0].equals(String.valueOf(day  - 1))) {
                 notificationDate = "Yesterday" + notificationDate.substring(dates[0].length()+dates[1].length()+1);
             }
-            item.date.setText(notificationDate);
+            notificationHolderItem.date.setText(notificationDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
 
         return view;
     }

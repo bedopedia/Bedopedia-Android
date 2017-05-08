@@ -23,14 +23,14 @@ import Tools.SharedPreferenceUtils;
 
 public class SingleMessageThreadAdapter extends ArrayAdapter {
     public Context context;
-    String userIdKey = "user_id";
+    final String userIdKey = "user_id";
 
     public SingleMessageThreadAdapter(Context context, int resource, List<Message> items) {
         super(context, resource, items);
         this.context = (Context) context;
     }
 
-    public static  class Holder{
+    public static  class SingleMessageHolder{
         TextView body;
         ImageView avatar;
     }
@@ -39,7 +39,7 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
         Message message = (Message) getItem(position);
-        Holder item;
+        SingleMessageHolder singleMessageHolderItem;
 
         // Check if an existing view is being reused, otherwise inflate the view
 
@@ -54,26 +54,26 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
                 view = LayoutInflater.from(getContext()).inflate(R.layout.single_send_message, parent, false);
             }
 
-            item=new Holder();
+            singleMessageHolderItem=new SingleMessageHolder();
 
-            item.body = (TextView) view.findViewById(R.id.send_message_body);
-            item.avatar = (ImageView) view.findViewById(R.id.send_message_avatar);
+            singleMessageHolderItem.body = (TextView) view.findViewById(R.id.send_message_body);
+            singleMessageHolderItem.avatar = (ImageView) view.findViewById(R.id.send_message_avatar);
 
-            item.body.setText(android.text.Html.fromHtml(message.getBody()).toString());
-            ImageViewHelper.getImageFromUrl(context,message.getCreator().getAvatar(),item.avatar);
+            singleMessageHolderItem.body.setText(android.text.Html.fromHtml(message.getBody()).toString());
+            ImageViewHelper.getImageFromUrl(context,message.getCreator().getAvatar(),singleMessageHolderItem.avatar);
 
         }else{
             if (view == null) {
                 view = LayoutInflater.from(getContext()).inflate(R.layout.single_recieved_message, parent, false);
             }
-            item=new Holder();
+            singleMessageHolderItem=new SingleMessageHolder();
 
-            item.body = (TextView) view.findViewById(R.id.received_message_body);
-            item.avatar = (ImageView) view.findViewById(R.id.single_receive_message_avatar);
+            singleMessageHolderItem.body = (TextView) view.findViewById(R.id.received_message_body);
+            singleMessageHolderItem.avatar = (ImageView) view.findViewById(R.id.single_receive_message_avatar);
 
 
-            item.body.setText(android.text.Html.fromHtml(message.getBody()).toString());
-            ImageViewHelper.getImageFromUrl(context,message.getCreator().getAvatar(),item.avatar);
+            singleMessageHolderItem.body.setText(android.text.Html.fromHtml(message.getBody()).toString());
+            ImageViewHelper.getImageFromUrl(context,message.getCreator().getAvatar(),singleMessageHolderItem.avatar);
         }
         return view;
     }
