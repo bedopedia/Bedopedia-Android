@@ -5,8 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
+
+
 import com.example.bedopedia.bedopedia_android.R;
 import Tools.FragmentUtils;
 
@@ -16,6 +17,8 @@ import Tools.FragmentUtils;
  */
 
 public class StudentActivity extends AppCompatActivity {
+
+
 
 
     ActionBar studentACtivityActionBar ;
