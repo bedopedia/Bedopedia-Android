@@ -75,9 +75,6 @@ public class ForgetPasswordFRagment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_forget_password_fragment, container, false);
-
-
-
         return rootView;
     }
 
@@ -86,7 +83,6 @@ public class ForgetPasswordFRagment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setTextType(view);
-
         mEmailView = (AutoCompleteTextView) view.findViewById(R.id.email);
         requestBtn = (Button) view.findViewById(R.id.request_btn);
         sharedPreferences = SharedPreferenceUtils.getSharedPreference(this.getActivity(),"cur_user");
@@ -107,10 +103,6 @@ public class ForgetPasswordFRagment extends Fragment {
             return ;
         }
 
-
-
-
-
         String email = mEmailView.getText().toString();
         Map<String,String> params = new HashMap();
         params.put(emailKey,email);
@@ -128,23 +120,21 @@ public class ForgetPasswordFRagment extends Fragment {
                     onFailed();
                 } else if (statusCode == 200) {
                     onSuccess();
-
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(getActivity(),"connection failed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),getString(R.string.ConnectionErrorTitle),Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     Boolean validate () {
         String email = mEmailView.getText().toString();
         Boolean valid = true;
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            mEmailView.setError("invalid email");
+            mEmailView.setError(getString(R.string.InvalidMail));
             mEmailView.requestFocus();
             valid = false;
         }
@@ -166,15 +156,11 @@ public class ForgetPasswordFRagment extends Fragment {
         ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setHint(R.string.fragmentForgetPasswordMail_tv);
     }
 
-
-
     void onSuccess () {
-        Toast.makeText(getActivity(),"success",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),getString(R.string.SuccessMessage),Toast.LENGTH_SHORT).show();
     }
 
     void onFailed () {
-        Toast.makeText(getActivity(),"not valid email",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),getString(R.string.NotValidMail),Toast.LENGTH_SHORT).show();
     }
-
-
 }

@@ -14,19 +14,16 @@ import Tools.FragmentUtils;
 
 public class ForgetPasswordActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forget_password);
 
-
-        Toolbar tb = (Toolbar) findViewById(R.id.default_toolbar_id);
-        setSupportActionBar(tb);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle(R.string.ForgetPasswordTitle);
-
+        Toolbar forgetPasswordToolbar = (Toolbar) findViewById(R.id.default_toolbar_id);
+        setSupportActionBar(forgetPasswordToolbar);
+        ActionBar forgetPasswordActionbar = getSupportActionBar();
+        forgetPasswordActionbar.setDisplayHomeAsUpEnabled(true);
+        forgetPasswordActionbar.setTitle(R.string.ForgetPasswordTitle);
         FragmentUtils.createFragment(getSupportFragmentManager(), ForgetPasswordFRagment.newInstance(), R.id.forget_password );
 
     }

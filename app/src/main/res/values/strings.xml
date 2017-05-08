@@ -39,6 +39,9 @@
     <string name="ConnectionErrorBody">Check your Netwotk connection and Try again</string>
     <string name="Badges">Badges</string>
     <string name="TimeTableTitle">Time Table</string>
+    <string name="InvalidMail">invalid email</string>
+    <string name="SuccessMessage">success</string>
+    <string name="NotValidMail">not Valid email</string>
 
 
 </resources>
