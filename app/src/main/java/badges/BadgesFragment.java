@@ -28,7 +28,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class BadgesFragment extends DialogFragment {
-    public static String badgesKey = "badges_list";
+    public static final String badgesKey = "badges_list";
 
 
 

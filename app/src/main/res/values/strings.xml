@@ -42,6 +42,9 @@
     <string name="InvalidMail">invalid email</string>
     <string name="SuccessMessage">success</string>
     <string name="NotValidMail">not Valid email</string>
+    <string name="AttendanceLateLable">Late</string>
+    <string name="AttendanceExcusedLable">Excused</string>
+    <string name="AttendanceAbsentLable">Absent</string>
 
 
 </resources>
