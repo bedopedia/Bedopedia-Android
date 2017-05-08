@@ -28,7 +28,7 @@ public class EventsAdapter extends ArrayAdapter<Date>{
         this.context =   context;
     }
 
-    public static  class Holder{
+    public static  class EventsHolder{
         TextView hour;
         TextView AmPm;
         LinearLayout eventsLL;
@@ -38,21 +38,18 @@ public class EventsAdapter extends ArrayAdapter<Date>{
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
         Date date = (Date) getItem(position);
-        Holder item;
+        EventsHolder eventsHolderItem;
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.single_day, parent, false);
         }
-        item=new Holder();
+        eventsHolderItem=new EventsHolder();
 
-        item.hour = (TextView) view.findViewById(R.id.hourTV);
-        item.AmPm = (TextView) view.findViewById(R.id.amTV);
-        item.hour.setTextColor(Color.BLUE);
-        item.AmPm.setTextColor(Color.BLUE);
-
-
-
+        eventsHolderItem.hour = (TextView) view.findViewById(R.id.hourTV);
+        eventsHolderItem.AmPm = (TextView) view.findViewById(R.id.amTV);
+        eventsHolderItem.hour.setTextColor(Color.BLUE);
+        eventsHolderItem.AmPm.setTextColor(Color.BLUE);
         return view;
     }
 }

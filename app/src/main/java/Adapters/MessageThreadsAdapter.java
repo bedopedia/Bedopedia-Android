@@ -29,7 +29,7 @@ public class MessageThreadsAdapter extends ArrayAdapter
 
     private AskTeacherActivity context;
     ArrayList<MessageThread> items;
-    String messageThreadKey = "message_thread";
+    final String messageThreadKey = "message_thread";
 
     public MessageThreadsAdapter(Context context, int resource, ArrayList<MessageThread> items) {
         super(context, resource, items);
@@ -37,7 +37,7 @@ public class MessageThreadsAdapter extends ArrayAdapter
         this.items = items;
     }
 
-    public static  class Holder{
+    public static  class MessageThreadHolder{
         //TODO refactor this
         TextView title;
         TextView lastMessage;
@@ -53,34 +53,33 @@ public class MessageThreadsAdapter extends ArrayAdapter
         final MessageThread Message = (MessageThread) getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
-        MessageThreadsAdapter.Holder item;
+        MessageThreadsAdapter.MessageThreadHolder messageThreadHolderItem;
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.ask_teacher_category_list_item, parent, false);
         }
-        item=new MessageThreadsAdapter.Holder();
+        messageThreadHolderItem=new MessageThreadsAdapter.MessageThreadHolder();
 
-        item.title = (TextView) view.findViewById(R.id.ask_teacher_title);
-        item.lastMessage = (TextView) view.findViewById(R.id.ask_teacher_last_message);
-        item.date = (TextView) view.findViewById(R.id.ask_teacher_date);
-        item.messageCounter = (TextView) view.findViewById(R.id.ask_teacher_message_number);
-        item.avatar = (ImageView) view.findViewById(R.id.ask_teacher_user_avatar);
-        item.messageThreadLayout = (LinearLayout) view.findViewById(R.id.message_thread_layout);
+        messageThreadHolderItem.title = (TextView) view.findViewById(R.id.ask_teacher_title);
+        messageThreadHolderItem.lastMessage = (TextView) view.findViewById(R.id.ask_teacher_last_message);
+        messageThreadHolderItem.date = (TextView) view.findViewById(R.id.ask_teacher_date);
+        messageThreadHolderItem.messageCounter = (TextView) view.findViewById(R.id.ask_teacher_message_number);
+        messageThreadHolderItem.avatar = (ImageView) view.findViewById(R.id.ask_teacher_user_avatar);
+        messageThreadHolderItem.messageThreadLayout = (LinearLayout) view.findViewById(R.id.message_thread_layout);
 
-        item.title.setText(Message.getTitle());
-        item.lastMessage.setText(android.text.Html.fromHtml(Message.getLastMessage()).toString());
+        messageThreadHolderItem.title.setText(Message.getTitle());
+        messageThreadHolderItem.lastMessage.setText(android.text.Html.fromHtml(Message.getLastMessage()).toString());
         // TODO Date handling
-        item.date.setText(Message.getDate());
-        item.messageCounter.setText(Message.getNotSeenCnt().toString());
+        messageThreadHolderItem.date.setText(Message.getDate());
+        messageThreadHolderItem.messageCounter.setText(Message.getNotSeenCnt().toString());
         //TODO  avatar handling
 
-        item.messageThreadLayout.setOnClickListener(new View.OnClickListener() {
+        messageThreadHolderItem.messageThreadLayout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(context, MessageThreadActivity.class);
-                intent.putExtra(messageThreadKey, Message);
-                context.startActivity(intent);
+                Intent messageThreadIntent = new Intent(context, MessageThreadActivity.class);
+                messageThreadIntent.putExtra(messageThreadKey, Message);
+                context.startActivity(messageThreadIntent);
             }
         });
 
