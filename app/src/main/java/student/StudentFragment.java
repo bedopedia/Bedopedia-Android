@@ -20,7 +20,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -133,6 +135,7 @@ public class StudentFragment extends Fragment {
     final String negativeNotesListKey = "negativeNotesList";
     final String curUserKey = "cur_user";
 
+    public static Handler handler;
     int servicesCount;
     private static final int servicesNumber = 5;
     public static Integer messageNumber = 0;
@@ -288,45 +291,8 @@ public class StudentFragment extends Fragment {
         });
 
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                TextView notificationNumberText= (TextView) getActivity().findViewById(R.id.student_notification_number);
-                TextView messagecnt = (TextView) view.findViewById(R.id.student_home_messaage_count_text);
-
-                if (MyKidsActivity.notificationNumber == 0) {
-                    notificationNumberText.setVisibility(View.INVISIBLE);
-                } else  {
-                    notificationNumberText.setVisibility(View.VISIBLE);
-                }
-
-                if (messageNumber == 0) {
-                    messagecnt.setVisibility(View.INVISIBLE);
-                } else  {
-                    messagecnt.setVisibility(View.VISIBLE);
-                }
-                Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
-
-                Toolbar studentFragmentToolbar = (Toolbar) getActivity().findViewById(R.id.custom_toolbar_id);
-                ((AppCompatActivity)getActivity()).setSupportActionBar(studentFragmentToolbar);
-                studentFragmentActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-                studentFragmentActionBar.setDisplayHomeAsUpEnabled(true);
-                if(notificationLayout.isDrawerOpen(notificationList)){
-                    SpannableString title = new SpannableString(getString(R.string.notificationString));
-                    title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    studentFragmentActionBar.setTitle(title);
-                } else {
-                    SpannableString title = new SpannableString(studentName);
-                    title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    studentFragmentActionBar.setTitle(title);
-                }
-
-                notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
-                messagecnt.setText( messageNumber.toString());
-
-                handler.postDelayed(this, 0); //now is every 2 minutes
-            }
-        }, 500); //Every 120000 ms (2 minutes)
+        handler = new Handler();
+        handler.postDelayed(updateNotificationRunnable, 500); //Every 120000 ms (2 minutes)
 
 
         Button messagesButton = (Button) view.findViewById(R.id.student_home_message_notification);
@@ -471,6 +437,49 @@ public class StudentFragment extends Fragment {
 
 
     }
+
+    public Runnable updateNotificationRunnable = new Runnable() {
+        public void run() {
+
+            TextView notificationNumberText= (TextView) getActivity().findViewById(R.id.student_notification_number);
+
+            TextView messagecnt = (TextView) getActivity().findViewById(R.id.student_home_messaage_count_text);
+
+
+            if (MyKidsActivity.notificationNumber == 0) {
+                notificationNumberText.setVisibility(View.INVISIBLE);
+            } else  {
+                notificationNumberText.setVisibility(View.VISIBLE);
+            }
+
+            if (messageNumber == 0) {
+                messagecnt.setVisibility(View.INVISIBLE);
+            } else  {
+                messagecnt.setVisibility(View.VISIBLE);
+            }
+            Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
+
+            Toolbar studentFragmentToolbar = (Toolbar) getActivity().findViewById(R.id.custom_toolbar_id);
+            ((AppCompatActivity)getActivity()).setSupportActionBar(studentFragmentToolbar);
+            studentFragmentActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+            studentFragmentActionBar.setDisplayHomeAsUpEnabled(true);
+            if(notificationLayout.isDrawerOpen(notificationList)){
+                SpannableString title = new SpannableString(getString(R.string.notificationString));
+                title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                studentFragmentActionBar.setTitle(title);
+            } else {
+                SpannableString title = new SpannableString(studentName);
+                title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                studentFragmentActionBar.setTitle(title);
+            }
+
+            notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
+            messagecnt.setText( messageNumber.toString());
+
+            handler.postDelayed(this, 0); //now is every 2 minutes
+        }
+    } ;
+
 
     public void loading(){
         progress.setTitle(R.string.LoadDialogueTitle);
@@ -906,4 +915,9 @@ public class StudentFragment extends Fragment {
     }
 
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(updateNotificationRunnable);
+    }
 }
