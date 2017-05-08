@@ -26,7 +26,7 @@ public class BadgesAdapter extends ArrayAdapter<Badge> {
         this.context = context;
     }
 
-    public static  class Holder{
+    public static  class BadgesHolder{
         ImageView badgeIcon;
         TextView badgeName;
         TextView badgeReason;
@@ -37,33 +37,33 @@ public class BadgesAdapter extends ArrayAdapter<Badge> {
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
         Badge badge = (Badge) getItem(position);
-        Holder item;
+        BadgesHolder badgesHolderItem;
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.single_badge, parent, false);
         }
-        item=new Holder();
+        badgesHolderItem=new BadgesHolder();
         Typeface robotoMedium = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf");
         Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
 
-        item.badgeIcon = (ImageView) view.findViewById(R.id.badge_icon);
-        item.badgeName = (TextView) view.findViewById(R.id.badge_name);
-        item.badgeReason = (TextView) view.findViewById(R.id.badge_reason);
-        item.courseName = (TextView) view.findViewById(R.id.badge_course_name);
+        badgesHolderItem.badgeIcon = (ImageView) view.findViewById(R.id.badge_icon);
+        badgesHolderItem.badgeName = (TextView) view.findViewById(R.id.badge_name);
+        badgesHolderItem.badgeReason = (TextView) view.findViewById(R.id.badge_reason);
+        badgesHolderItem.courseName = (TextView) view.findViewById(R.id.badge_course_name);
 
-        item.badgeName.setTypeface(robotoMedium);
-        item.badgeReason.setTypeface(robotoRegular);
-        item.courseName.setTypeface(robotoRegular);
+        badgesHolderItem.badgeName.setTypeface(robotoMedium);
+        badgesHolderItem.badgeReason.setTypeface(robotoRegular);
+        badgesHolderItem.courseName.setTypeface(robotoRegular);
 
-        item.badgeName.setText(badge.getName());
-        item.badgeReason.setText(badge.getReason());
-        item.courseName.setText(badge.getCourseName());
+        badgesHolderItem.badgeName.setText(badge.getName());
+        badgesHolderItem.badgeReason.setText(badge.getReason());
+        badgesHolderItem.courseName.setText(badge.getCourseName());
 
 
         String imageName = badge.getIcon();
         int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
-        item.badgeIcon.setImageResource(res);
+        badgesHolderItem.badgeIcon.setImageResource(res);
 
         return view;
     }
