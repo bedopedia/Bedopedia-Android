@@ -100,13 +100,9 @@ public class BehaviorNotesFragment extends Fragment {
         positiveCounter = (TextView) positiveTab.findViewById(R.id.behavior_note_tab_counter);
         positiveTitle.setText(R.string.positiveBehaviorNotes);
 
-
         negativeTitle = (TextView) negativeTab.findViewById(R.id.behavior_note_tab_title);
         negativeCounter = (TextView) negativeTab.findViewById(R.id.behavior_note_tab_counter);
         negativeTitle.setText(R.string.negativeBehaviorNotes);
-
-
-
 
         positiveTitle.setTextColor(getResources().getColor(R.color.white));
         positiveCounter.setBackgroundResource(R.drawable.notes_selected_counter);
@@ -122,12 +118,11 @@ public class BehaviorNotesFragment extends Fragment {
                     positiveTitle.setTextColor(getResources().getColor(R.color.white));
                     positiveCounter.setBackgroundResource(R.drawable.notes_selected_counter);
 
-                    negativeTitle.setTextColor(getResources().getColor(R.color.white));
+                    negativeTitle.setTextColor(getResources().getColor(R.color.whiteOP7));
                     negativeCounter.setBackgroundResource(R.drawable.notes_unselected_counter);
                 } else{
-                    positiveTitle.setTextColor(getResources().getColor(R.color.white));
+                    positiveTitle.setTextColor(getResources().getColor(R.color.whiteOP7));
                     positiveCounter.setBackgroundResource(R.drawable.notes_unselected_counter);
-
                     negativeTitle.setTextColor(getResources().getColor(R.color.white));
                     negativeCounter.setBackgroundResource(R.drawable.notes_selected_counter);
                 }
