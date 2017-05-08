@@ -21,8 +21,7 @@ import com.example.bedopedia.bedopedia_android.R;
 public class AttendanceActivity extends AppCompatActivity {
 
     private String attendance;
-    private String attendancesKey = "attendances";
-
+    final private String attendancesKey = "attendances";
     Context context;
 
 
@@ -33,17 +32,17 @@ public class AttendanceActivity extends AppCompatActivity {
 
         context = this;
 
-        Toolbar tb = (Toolbar) findViewById(R.id.default_toolbar_id);
-        setSupportActionBar(tb);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle(R.string.attendanceTitle);
+        Toolbar attendanceToolbar = (Toolbar) findViewById(R.id.default_toolbar_id);
+        setSupportActionBar(attendanceToolbar);
+        ActionBar attendanceActionBar = getSupportActionBar();
+        attendanceActionBar.setDisplayHomeAsUpEnabled(true);
+        attendanceActionBar.setTitle(R.string.attendanceTitle);
 
         Bundle extras= getIntent().getExtras();
         attendance = extras.getString(attendancesKey);
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
         Fragment f = AttendanceFragment.newInstance(attendance);
         ft.add(R.id.attendance_container, f);
         ft.commit();

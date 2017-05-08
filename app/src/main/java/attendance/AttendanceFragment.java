@@ -47,21 +47,18 @@ public class AttendanceFragment extends Fragment {
     TextView absentLabel;
     TextView excusedListCounter;
     TextView excusedListLabel;
-    private String lateKey = "late";
-    private String statusKey = "status";
-    private String nullKey = "null";
-    private String commentKey = "comment";
-    private String noCommentKey = "No Comment";
-    private String absentKey = "absent";
-    private String excusedKey = "excused";
-    private String dateKey = "date";
+    final private String lateKey = "late";
+    final private String statusKey = "status";
+    final private String nullKey = "null";
+    final private String commentKey = "comment";
+    final private String noCommentKey = "No Comment";
+    final private String absentKey = "absent";
+    final private String excusedKey = "excused";
+    final private String dateKey = "date";
 
 
 
     // TODO: Rename and change types of parameters
-    private List<Attendance> absentDatesParam;
-    private List<Attendance> lateDatesParam;
-    private List<Attendance> excusedDatesParam;
 
 
     public AttendanceFragment() {
@@ -144,8 +141,8 @@ public class AttendanceFragment extends Fragment {
 
         selectedMonth = (TextView) view.findViewById(R.id.selected_month);
 
-        DateFormatSymbols dfs = new DateFormatSymbols();
-        final String[] months = dfs.getMonths();
+        DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
+        final String[] months = dateFormatSymbols.getMonths();
 
         selectedMonth.setText(months[new Date().getMonth()]);
 
@@ -208,17 +205,17 @@ public class AttendanceFragment extends Fragment {
 
 
         for(int i = 0 ; i < lateDates.size() ; i++){
-            Event event = new Event(Color.parseColor("#ff9013fe"), lateDates.get(i).getDate().getTime(), "Late");
+            Event event = new Event(getResources().getColor(R.color.electric_violet), lateDates.get(i).getDate().getTime(),getString(R.string.AttendanceLateLable));
             compactCalendar.addEvent(event);
         }
 
         for(int i = 0 ; i < excusedDates.size() ; i++){
-            Event event = new Event(Color.parseColor("#fff5a623"), excusedDates.get(i).getDate().getTime(), "Excused");
+            Event event = new Event(getResources().getColor(R.color.dark_tangerine), excusedDates.get(i).getDate().getTime(),getString(R.string.AttendanceExcusedLable));
             compactCalendar.addEvent(event);
         }
 
         for(int i = 0 ; i < absentDates.size() ; i++){
-            Event event = new Event(Color.parseColor("#ffff3b30"), absentDates.get(i).getDate().getTime(), "Absent");
+            Event event = new Event(getResources().getColor(R.color.coral_red), absentDates.get(i).getDate().getTime(),getString(R.string.AttendanceAbsentLable));
             compactCalendar.addEvent(event);
         }
 
