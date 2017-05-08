@@ -83,7 +83,7 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".AskTeacherActivity"></activity>
+        <activity android:name=".AskTeacherActivity" android:theme="@style/NoActionBar"></activity>
     </application>
 
 </manifest>
