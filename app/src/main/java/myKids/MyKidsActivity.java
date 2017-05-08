@@ -27,7 +27,6 @@ import android.text.SpannableString;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -102,6 +101,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         progress.setTitle(R.string.LoadDialogueTitle);
         progress.setMessage(getString(R.string.LoadDialogueBody));
     }
+
 
     private class KidsAsyncTask extends AsyncTask {
 
@@ -467,4 +467,11 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             onBackPressed();
         return  true ;
     }
+
+
+
+
+
+
+
 }

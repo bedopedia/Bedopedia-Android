@@ -20,9 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -87,6 +85,7 @@ import timetable.TimetableSlot;
  * create an instance of this fragment.
  */
 public class StudentFragment extends Fragment {
+
 
     String studentId, studentName;
     String studentAvatar, studentLevel;
@@ -168,6 +167,10 @@ public class StudentFragment extends Fragment {
         return studentFragment;
     }
 
+
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,6 +183,8 @@ public class StudentFragment extends Fragment {
 
 
         progress = new ProgressDialog(getActivity());
+        progress.setCancelable(false);
+
         Bundle extras= this.getActivity().getIntent().getExtras();
 
 
@@ -306,8 +311,6 @@ public class StudentFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-        
 
         attendanceProgress = (ProgressBar) view.findViewById(R.id.attendance_progress);
         studentNameView.setText(studentName);
