@@ -30,7 +30,7 @@ import behaviorNotes.Fragments.PositiveFragment;
 public class BehaviorNotesFragment extends Fragment {
 
     String studentId, id;
-    String studentIdKey = "student_id";
+    final String studentIdKey = "student_id";
     public static Context context;
     TabLayout tabLayout;
     private BehaviorNotesFragmentAdapter mSectionsPagerAdapter;
@@ -56,10 +56,10 @@ public class BehaviorNotesFragment extends Fragment {
      */
 
     public static BehaviorNotesFragment newInstance() {
-        BehaviorNotesFragment fragment = new BehaviorNotesFragment();
+        BehaviorNotesFragment behaviorNotesFragment = new BehaviorNotesFragment();
         Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        behaviorNotesFragment.setArguments(args);
+        return behaviorNotesFragment;
     }
 
     @Override
@@ -67,10 +67,8 @@ public class BehaviorNotesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle extras= this.getActivity().getIntent().getExtras();
         studentId = extras.getString(studentIdKey);
-
         context = getActivity();
-        Intent intent = this.getActivity().getIntent();
-        Bundle bundle = intent.getExtras();
+        Bundle bundle = getActivity().getIntent().getExtras();
         positiveNotesList = (List<BehaviorNote>) bundle.getSerializable(PositiveFragment.KEY_NAME);
         negativeNotesList = (List<BehaviorNote>) bundle.getSerializable(NegativeFragment.KEY_NAME);
     }
@@ -79,10 +77,6 @@ public class BehaviorNotesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_behavior_notes, container, false);
-
-
-
-
         return rootView;
 
     }
@@ -93,11 +87,8 @@ public class BehaviorNotesFragment extends Fragment {
 
 
         mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getActivity().getSupportFragmentManager(), positiveNotesList, negativeNotesList,getActivity());
-
         mViewPager = (ViewPager) view.findViewById(R.id.behavior_notes_container);
-
         tabLayout = (TabLayout) view.findViewById(R.id.behavior_notes_tabs);
-
         mViewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout.setupWithViewPager(mViewPager);
         positiveTab = mSectionsPagerAdapter.getTabView(0);
@@ -113,10 +104,14 @@ public class BehaviorNotesFragment extends Fragment {
         negativeTitle = (TextView) negativeTab.findViewById(R.id.behavior_note_tab_title);
         negativeCounter = (TextView) negativeTab.findViewById(R.id.behavior_note_tab_counter);
         negativeTitle.setText(R.string.negativeBehaviorNotes);
-        positiveTitle.setTextColor(Color.parseColor("#ffffff"));
+
+
+
+
+        positiveTitle.setTextColor(getResources().getColor(R.color.white));
         positiveCounter.setBackgroundResource(R.drawable.notes_selected_counter);
 
-        negativeTitle.setTextColor(Color.parseColor("#b3ffffff"));
+        negativeTitle.setTextColor(getResources().getColor(R.color.white));
         negativeCounter.setBackgroundResource(R.drawable.notes_unselected_counter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
@@ -124,16 +119,16 @@ public class BehaviorNotesFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab){
                 int position = tab.getPosition();
                 if(position == 0){
-                    positiveTitle.setTextColor(Color.parseColor("#ffffff"));
+                    positiveTitle.setTextColor(getResources().getColor(R.color.white));
                     positiveCounter.setBackgroundResource(R.drawable.notes_selected_counter);
 
-                    negativeTitle.setTextColor(Color.parseColor("#b3ffffff"));
+                    negativeTitle.setTextColor(getResources().getColor(R.color.white));
                     negativeCounter.setBackgroundResource(R.drawable.notes_unselected_counter);
                 } else{
-                    positiveTitle.setTextColor(Color.parseColor("#b3ffffff"));
+                    positiveTitle.setTextColor(getResources().getColor(R.color.white));
                     positiveCounter.setBackgroundResource(R.drawable.notes_unselected_counter);
 
-                    negativeTitle.setTextColor(Color.parseColor("#ffffff"));
+                    negativeTitle.setTextColor(getResources().getColor(R.color.white));
                     negativeCounter.setBackgroundResource(R.drawable.notes_selected_counter);
                 }
             }

@@ -30,7 +30,6 @@ public class NegativeFragment extends Fragment{
         bundle.putSerializable(KEY_NAME, (Serializable) negativeBehaviorNotes);
         fragment = new NegativeFragment();
         fragment.setArguments(bundle);
-
         return fragment;
     }
 
