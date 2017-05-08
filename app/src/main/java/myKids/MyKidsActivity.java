@@ -74,8 +74,10 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
     ActionBarDrawerToggle notificationToggle;
     ActionBarDrawerToggle mainToggle;
     List<NotificationModel> notifications;
+    public Handler handler ;
 
     final String curUserKey = "cur_user";
+
 
     final String BaseUrlKey = "Base_Url";
     final String headerAccessTokenKey = "header_access-token";
@@ -383,34 +385,37 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         } else {
             Dialogue.AlertDialog(this,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
         }
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
-                if (MyKidsActivity.notificationNumber == 0) {
-                    notificationNumberText.setVisibility(View.INVISIBLE);
-                } else  {
-                    notificationNumberText.setVisibility(View.VISIBLE);
-                }
-
-                Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
-                if(drawer.isDrawerOpen(notificationList)){
-                    SpannableString drawerTitle = new SpannableString((getString(R.string.NotificationString)));
-                    drawerTitle.setSpan(roboto,0,drawerTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    myKidsToolbar.setTitle(drawerTitle);
-                } else {
-                    SpannableString title = new SpannableString(getString(R.string.MyKidsTitle));
-                    title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    myKidsToolbar.setTitle(title);
-                }
-
-                notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
-                handler.postDelayed(this, 0); //now is every 2 minutes
-            }
-        }, 500); //Every 120000 ms (2 minutes)
-
+        handler = new Handler();
+        handler.postDelayed( updateNotification, 500); //Every 120000 ms (2 minutes)
     }
+
+
+
+
+    Runnable updateNotification = new Runnable() {
+        public void run() {
+            TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
+            if (MyKidsActivity.notificationNumber == 0) {
+                notificationNumberText.setVisibility(View.INVISIBLE);
+            } else  {
+                notificationNumberText.setVisibility(View.VISIBLE);
+            }
+
+            Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
+            if(drawer.isDrawerOpen(notificationList)){
+                SpannableString drawerTitle = new SpannableString((getString(R.string.NotificationString)));
+                drawerTitle.setSpan(roboto,0,drawerTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                myKidsToolbar.setTitle(drawerTitle);
+            } else {
+                SpannableString title = new SpannableString(getString(R.string.MyKidsTitle));
+                title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                myKidsToolbar.setTitle(title);
+            }
+
+            notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
+            handler.postDelayed(this, 0); //now is every 2 minutes
+        }
+    };
 
 
 
@@ -448,6 +453,12 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         return true;
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(updateNotification);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
