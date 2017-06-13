@@ -911,7 +911,7 @@ public class StudentFragment extends Fragment {
     }
 
     public  void changeTheNotificationNumber() {
-        TextView notificationNumberText= (TextView) getView().findViewById(R.id.student_notification_number);
+        TextView notificationNumberText= (TextView) getActivity().findViewById(R.id.student_notification_number);
         notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf"); //use this.getAssets if you are calling from an Activity
         notificationNumberText.setTypeface(roboto);

@@ -5,17 +5,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/drawer_layout"
-    android:layout_marginTop="0dp">
-
-
+    android:id="@+id/drawer_layout">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize">
         <include layout="@layout/custom_toolbar" />
     </LinearLayout>
-
 
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="?android:attr/actionBarSize"
@@ -31,6 +27,7 @@
         android:layout_gravity="end"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
         >
     </ListView>
 
