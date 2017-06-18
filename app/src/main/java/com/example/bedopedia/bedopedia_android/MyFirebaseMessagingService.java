@@ -48,13 +48,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }
                 */
                 try {
-                    JSONObject jsonObj = new JSONObject(data.get("payload"));
+                    JSONObject notification = new JSONObject(data.get("payload"));
                     MyKidsActivity.notificationNumber = MyKidsActivity.notificationNumber + 1;
                     android.support.v4.app.NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(this)
                                     .setSmallIcon(R.drawable.quizzes_ico)
-                                    .setContentTitle(jsonObj.getString("message"))
-                                    .setContentText(jsonObj.getString("text"));
+                                    .setContentTitle(notification.getString("message"))
+                                    .setContentText(notification.getString("text"));
                     Intent resultIntent = new Intent(this, MyKidsActivity.class);
 
                     TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
