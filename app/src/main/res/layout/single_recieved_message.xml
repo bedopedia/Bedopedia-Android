@@ -10,9 +10,9 @@ android:orientation="horizontal">
 
 <de.hdodenhof.circleimageview.CircleImageView
     android:id="@+id/single_receive_message_avatar"
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:layout_marginTop="0dp"
+    android:layout_width="60dp"
+    android:layout_height="50dp"
+    android:layout_marginTop="4dp"
     android:layout_weight="3"
     android:src="@drawable/student" />
 
@@ -22,19 +22,21 @@ android:orientation="horizontal">
     android:layout_width="30dp"
     android:layout_height="30dp"
     android:layout_marginRight="-15dp"
-    android:layout_marginTop="6.5dp"
+    android:layout_marginTop="5dp"
     android:layout_weight="1"
     android:src="@drawable/arrow_bg2" />
 
-<TextView
-    android:id="@+id/received_message_body"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_weight="6"
-    android:background="@drawable/rounded_corner1"
-    android:padding="16dp"
-    android:text="Android charting application xml ui design. Android charting application xml ui design tutorial with example. Android charting application xml ui design. Android charting application xml ui design. "
-    android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/received_message_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="28dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="6"
+        android:background="@drawable/rounded_corner1"
+        android:padding="10dp"
+        android:text="Android charting  Android cmple. Andsign tutorial with example. "
+        android:textColor="@color/black" />
 
 </LinearLayout>
