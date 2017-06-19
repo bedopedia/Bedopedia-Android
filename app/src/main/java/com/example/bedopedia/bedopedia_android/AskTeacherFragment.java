@@ -109,6 +109,9 @@ public class AskTeacherFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         this.context = getActivity() ;
+        progress = new ProgressDialog(getActivity());
+        items = new HashMap<>();
+         new MessageThreads().execute();
     }
 
     @Override
@@ -160,6 +163,7 @@ public class AskTeacherFragment extends Fragment {
                         ArrayList<JsonObject> threads = response.body();
                         for (int i = 0 ; i < threads.size(); i++) {
                             JsonObject messageThread = threads.get(i);
+
                             JsonArray messages = messageThread.get("messages").getAsJsonArray();
                             MessageThread thread;
                             ArrayList<Message> threadMessages = new ArrayList<Message>();
