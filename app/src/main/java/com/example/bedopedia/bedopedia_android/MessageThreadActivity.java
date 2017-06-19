@@ -63,7 +63,7 @@ public class MessageThreadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_thread);
         ButterKnife.bind(this);
-
+        messageText = (EditText) findViewById(R.id.message);
         sharedPreferences = SharedPreferenceUtils.getSharedPreference(MessageThreadActivity.this, "cur_user");
         currUser = getCurrUser();
 

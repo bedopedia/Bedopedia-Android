@@ -27,7 +27,7 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
 
     public SingleMessageThreadAdapter(Context context, int resource, List<Message> items) {
         super(context, resource, items);
-        this.context = (Context) context;
+        this.context =  context;
     }
 
     public static  class SingleMessageHolder{
@@ -41,7 +41,6 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
         Message message = (Message) getItem(position);
         SingleMessageHolder singleMessageHolderItem;
 
-        // Check if an existing view is being reused, otherwise inflate the view
 
         SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(context, "cur_user");
         String id = SharedPreferenceUtils.getStringValue(userIdKey, "", sharedPreferences);
@@ -49,13 +48,9 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
 
 
         if(message.getCreator().getId() == currentUserId){
-
-            if (view == null) {
-                view = LayoutInflater.from(getContext()).inflate(R.layout.single_send_message, parent, false);
-            }
+            view = LayoutInflater.from(getContext()).inflate(R.layout.single_send_message, parent, false);
 
             singleMessageHolderItem=new SingleMessageHolder();
-
             singleMessageHolderItem.body = (TextView) view.findViewById(R.id.send_message_body);
             singleMessageHolderItem.avatar = (ImageView) view.findViewById(R.id.send_message_avatar);
 
@@ -63,14 +58,11 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
             ImageViewHelper.getImageFromUrl(context,message.getCreator().getAvatar(),singleMessageHolderItem.avatar);
 
         }else{
-            if (view == null) {
-                view = LayoutInflater.from(getContext()).inflate(R.layout.single_recieved_message, parent, false);
-            }
-            singleMessageHolderItem=new SingleMessageHolder();
+            view = LayoutInflater.from(getContext()).inflate(R.layout.single_recieved_message, parent, false);
 
+            singleMessageHolderItem=new SingleMessageHolder();
             singleMessageHolderItem.body = (TextView) view.findViewById(R.id.received_message_body);
             singleMessageHolderItem.avatar = (ImageView) view.findViewById(R.id.single_receive_message_avatar);
-
 
             singleMessageHolderItem.body.setText(android.text.Html.fromHtml(message.getBody()).toString());
             ImageViewHelper.getImageFromUrl(context,message.getCreator().getAvatar(),singleMessageHolderItem.avatar);
