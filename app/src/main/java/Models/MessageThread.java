@@ -119,9 +119,7 @@ public class MessageThread implements Serializable {
     }
 
     public void sendMessage(MessageAttributes newMessage) {
-        if(this.messageAttributes == null){
-            this.messageAttributes = new ArrayList<>();
-        }
+        this.messageAttributes = new ArrayList<>();
         this.messageAttributes.add(newMessage);
     }
 

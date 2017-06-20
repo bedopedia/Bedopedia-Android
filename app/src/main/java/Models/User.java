@@ -1,5 +1,7 @@
 package Models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,19 +10,32 @@ import java.util.Date;
  */
 
 public class User implements Serializable {
+    @SerializedName("id")
     private int id;
+
+    @SerializedName("firstname")
     private String firstName;
-    private String middleName;
+
+    @SerializedName("lastname")
     private String lastName;
-    private Date dateOfBirth;
+
+    @SerializedName("gender")
     private String gender;
+
+    @SerializedName("user_type")
+    private String userType;
+
+    @SerializedName("avatar_url")
+    private String avatar;
+
     private String email;
     private Date createdAt;
     private Date updatedAt;
-    private String userType;
-    private String avatar;
+    private Date dateOfBirth;
     private String phone;
     private String mobile;
+    private String middleName;
+
 
     public User() {
         this.id = 0;

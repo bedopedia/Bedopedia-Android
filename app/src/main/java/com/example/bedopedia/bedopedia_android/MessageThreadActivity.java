@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
+
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -42,9 +43,10 @@ public class MessageThreadActivity extends AppCompatActivity {
 
 
 
-    MessageThread thread;
+    MessageThread thread = new MessageThread();
     private SharedPreferences sharedPreferences;
     private User currUser;
+    ListView listView;
     private SingleMessageThreadAdapter messagesAdapter;
     String idKey =  "id";
     String firstnameKey = "firstname";
@@ -89,7 +91,7 @@ public class MessageThreadActivity extends AppCompatActivity {
         othersName.setText(thread.getOthersName());
 
         messagesAdapter = new SingleMessageThreadAdapter(this, R.layout.single_send_message,thread.getMessages());
-        ListView listView = (ListView) findViewById(R.id.messages_list);
+        listView = (ListView) findViewById(R.id.messages_list);
         listView.setAdapter(messagesAdapter);
 
 
@@ -107,10 +109,6 @@ public class MessageThreadActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-
-
-
 
         messageText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
 
@@ -150,9 +148,9 @@ public class MessageThreadActivity extends AppCompatActivity {
 
 
     void sendMessage (final String text){
-
         MessageAttributes messageAttributes = new MessageAttributes(currUser.getId() , text , "");
         thread.sendMessage(messageAttributes);
+
 
         SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(MessageThreadActivity.this, "cur_user");
         ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
@@ -167,10 +165,11 @@ public class MessageThreadActivity extends AppCompatActivity {
                 if(statusCode == 401) {
 
                 } else if (statusCode == 200) {
-                    Message lastMessage = new Message(text, "" , "" , getCurrUser(), response.body().getId());
-                    thread = response.body();
-                    messagesAdapter.notifyDataSetChanged();
 
+                    thread.getMessages().clear();
+                    thread.getMessages().addAll(response.body().getMessages()) ;
+                    thread.reverseMessagesOrder();
+                    messagesAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -179,5 +178,7 @@ public class MessageThreadActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"connection failed",Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 }

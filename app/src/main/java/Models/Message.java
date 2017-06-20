@@ -20,7 +20,7 @@ public class Message implements Serializable {
     @SerializedName("updatedAt")
     private String updatedAt;
 
-    @SerializedName("creator")
+    @SerializedName("user")
     private User creator;
 
     @SerializedName("messageThreadId")
