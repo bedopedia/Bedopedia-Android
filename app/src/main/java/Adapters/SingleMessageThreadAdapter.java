@@ -46,7 +46,6 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
         String id = SharedPreferenceUtils.getStringValue(userIdKey, "", sharedPreferences);
         int currentUserId = Integer.parseInt(id);
 
-
         if(message.getCreator().getId() == currentUserId){
             view = LayoutInflater.from(getContext()).inflate(R.layout.single_send_message, parent, false);
 
