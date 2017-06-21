@@ -1,5 +1,6 @@
 package com.example.bedopedia.bedopedia_android;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -42,7 +43,7 @@ import retrofit2.Response;
 public class MessageThreadActivity extends AppCompatActivity {
 
 
-
+    private String messageKey = "message_content";
     MessageThread thread = new MessageThread();
     private SharedPreferences sharedPreferences;
     private User currUser;
@@ -55,7 +56,19 @@ public class MessageThreadActivity extends AppCompatActivity {
     String emailKey = "email";
     String avatarUrlKey = "avatar_url";
     String userTypeKey = "user_type";
+    static boolean active = false;
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
+    }
 
     @BindView(R.id.message)
     EditText messageText;
@@ -104,7 +117,17 @@ public class MessageThreadActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
 
+        Message message = (Message)intent.getSerializableExtra(messageKey);
+        if (message != null) {
+            if (message.getMessageThreadId() == thread.getId())
+                    thread.getMessages().add(message);
+                    messagesAdapter.notifyDataSetChanged();
+                }
+    }
 
     @Override
     protected void onResume() {
@@ -124,10 +147,6 @@ public class MessageThreadActivity extends AppCompatActivity {
                 return (actionId == EditorInfo.IME_ACTION_SEND);
             }
         });
-
-
-
-
     }
 
     User getCurrUser () {

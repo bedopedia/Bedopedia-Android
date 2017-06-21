@@ -26,6 +26,7 @@ public class Message implements Serializable {
     @SerializedName("messageThreadId")
     private int messageThreadId;
 
+
     public Message() {
         this.body = "";
         this.createdAt = "";
@@ -74,11 +75,11 @@ public class Message implements Serializable {
         this.creator = creator;
     }
 
-    public int getMessageThread() {
+    public int getMessageThreadId() {
         return messageThreadId;
     }
 
-    public void setMessageThread(int messageThreadId) {
+    public void setMessageThreadId(int messageThreadId) {
         this.messageThreadId = messageThreadId;
     }
 }
