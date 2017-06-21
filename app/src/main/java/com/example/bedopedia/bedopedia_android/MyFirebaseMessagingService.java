@@ -5,11 +5,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -23,7 +20,6 @@ import java.util.Map;
 import Models.Message;
 import Models.User;
 import myKids.MyKidsActivity;
-import student.StudentActivity;
 import student.StudentFragment;
 
 /**
@@ -87,7 +83,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 try {
                     JSONObject message = new JSONObject(data.get("payload"));
                     JSONObject user = new JSONObject(message.getString("user"));
-                    Log.v("userContent", user.toString());
 
                     StudentFragment.messageNumber = StudentFragment.messageNumber + 1;
                     android.support.v4.app.NotificationCompat.Builder mBuilder =
