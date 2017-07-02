@@ -2,6 +2,7 @@ package Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,15 @@ import com.example.bedopedia.bedopedia_android.AskTeacherActivity;
 import com.example.bedopedia.bedopedia_android.MessageThreadActivity;
 import com.example.bedopedia.bedopedia_android.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import Models.MessageThread;
+import Tools.CalendarUtils;
+import Tools.ImageViewHelper;
 
 /**
  * Created by ali on 20/03/17.
@@ -68,10 +75,29 @@ public class MessageThreadsAdapter extends ArrayAdapter
 
         messageThreadHolderItem.title.setText(Message.getTitle());
         messageThreadHolderItem.lastMessage.setText(android.text.Html.fromHtml(Message.getLastMessage()).toString());
-        // TODO Date handling
-        messageThreadHolderItem.date.setText(Message.getDate());
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+
+        Date date = null;
+        try {
+            date = fmt.parse(Message.getDate());
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd/mm/yyyy");
+            String [] dates = fmtOut.format(date).split(" ");
+            Calendar cal = CalendarUtils.getCalendar(Calendar.getInstance().getTime());
+            Integer day = cal.get(Calendar.DAY_OF_MONTH);
+            String notificationDate = fmtOut.format(date);
+             if (dates[0].equals(String.valueOf(day))) {
+                notificationDate = "Today" + notificationDate.substring(dates[0].length()+dates[1].length()+1);
+            } else if (dates[0].equals(String.valueOf(day  - 1))) {
+                notificationDate = "Yesterday" + notificationDate.substring(dates[0].length()+dates[1].length()+1);
+            }else {
+                 messageThreadHolderItem.date.setTextColor(context.getResources().getColor(R.color.Manatee));
+             }
+            messageThreadHolderItem.date.setText(notificationDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         messageThreadHolderItem.messageCounter.setText(Message.getNotSeenCnt().toString());
-        //TODO  avatar handling
+        ImageViewHelper.getImageFromUrl(context, Message.getImagePath(),messageThreadHolderItem.avatar);
 
         messageThreadHolderItem.messageThreadLayout.setOnClickListener(new View.OnClickListener() {
 
