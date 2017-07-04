@@ -289,7 +289,7 @@ public class ActivityCourse extends AppCompatActivity {
             temp = getStudentGrade(quizObj.get(idKey).getAsInt(), studentSubmission , "quiz_id", "score");
             if (temp.equals(dashKey)) {
                 comment = "Not Graded";
-            } else if (Integer.valueOf(temp) == (quizObj.get(totalScoreKey).getAsInt() * 80 )/ 100 ) {
+            } else if (Integer.valueOf(temp) >= (quizObj.get(totalScoreKey).getAsInt() * 80 )/ 100 ) {
                 comment = "Wooha!";
             } else if (Integer.valueOf(temp) < quizObj.get(totalScoreKey).getAsInt() / 2 ) {
                 comment ="Needs Improvement";
@@ -329,7 +329,7 @@ public class ActivityCourse extends AppCompatActivity {
             temp = getStudentGrade(gradeItemObj.get(idKey).getAsInt(), studentSubmission , "grade_item_id", "grade");
             if (temp.equals(dashKey)) {
                 comment = "Not Graded";
-            } else if (Integer.valueOf(temp) == (gradeItemObj.get(maxGradeKey).getAsInt() * 80 )/ 100) {
+            } else if (Integer.valueOf(temp) >= (gradeItemObj.get(maxGradeKey).getAsInt() * 80 )/ 100) {
                 comment = "Wooha!";
             } else if (Integer.valueOf(temp) <= gradeItemObj.get(maxGradeKey).getAsInt() / 2 ) {
                 comment = "Needs Improvement";
