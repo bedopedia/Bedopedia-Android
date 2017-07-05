@@ -86,18 +86,20 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
             }
         });
 
+        if (!courseGroup.getIcon().equals("non")) {
+            String imageName = courseGroup.getIcon();
+            int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
+            gradeHolderItem.courseImage.setImageResource(res);
 
-        String imageName = courseGroup.getIcon();
-        int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
-        gradeHolderItem.courseImage.setImageResource(res);
-
-        if(courseGroup.getGrade().charAt(0) == 'A'){
-            gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
-        } else if(courseGroup.getGrade().charAt(0) == 'F'){
-            gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_f_circle);
-        } else {
-            gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_bcd_circle);
+            if(courseGroup.getGrade().charAt(0) == 'A'){
+                gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
+            } else if(courseGroup.getGrade().charAt(0) == 'F'){
+                gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_f_circle);
+            } else {
+                gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_bcd_circle);
+            }
         }
+
         return view;
     }
 }

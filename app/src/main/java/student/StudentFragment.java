@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -545,13 +546,16 @@ public class StudentFragment extends Fragment {
                         int i = 0;
                         for (; i < response.body().size()-1; i++) {
                             JsonObject courseData = response.body().get(i);
+                            if(courseData.has("course_id"))
                             for(int j = 0 ; j < courseGroups.size() ; j++){
-                                if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt()) {
+                                if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt() && !courseData.get("grade").isJsonArray()) {
                                     courseGroups.get(j).setGrade(courseData.get("grade").getAsString());
                                     if (courseData.get("icon").toString().equals("null"))
                                         courseGroups.get(j).setIcon("dragon");
                                     else
                                         courseGroups.get(j).setIcon(courseData.get("icon").getAsString());
+                                } else {
+                                    courseGroups.get(j).setIcon("non");
                                 }
                             }
 
