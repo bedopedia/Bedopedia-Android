@@ -79,7 +79,7 @@ public class MessageThreadsAdapter extends ArrayAdapter
         Date date = null;
         try {
             date = fmt.parse(Message.getDate());
-            SimpleDateFormat fmtOut = new SimpleDateFormat("dd/mm/yyyy");
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd/MM/yyyy");
             String [] dates = fmtOut.format(date).split(" ");
             Calendar cal = CalendarUtils.getCalendar(Calendar.getInstance().getTime());
             Integer day = cal.get(Calendar.DAY_OF_MONTH);
@@ -96,7 +96,7 @@ public class MessageThreadsAdapter extends ArrayAdapter
             e.printStackTrace();
         }
         messageThreadHolderItem.messageCounter.setText(Message.getNotSeenCnt().toString());
-        ImageViewHelper.getImageFromUrl(context, Message.getImagePath(),messageThreadHolderItem.avatar);
+        ImageViewHelper.getImageFromUrlWithIdFailure(context, Message.getImagePath(),messageThreadHolderItem.avatar,R.drawable.student);
 
         messageThreadHolderItem.messageThreadLayout.setOnClickListener(new View.OnClickListener() {
 

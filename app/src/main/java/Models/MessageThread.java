@@ -1,9 +1,12 @@
 package Models;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ali on 20/03/17.
@@ -14,7 +17,7 @@ public class MessageThread implements Serializable {
     @SerializedName("id")
     private int id;
 
-    @SerializedName("date")
+    @SerializedName("last_added_date")
     private String date;
 
     @SerializedName("lastMessage")
@@ -32,6 +35,9 @@ public class MessageThread implements Serializable {
     @SerializedName("othersName")
     String othersName;
 
+    @SerializedName("others_avatars")
+    List<String> othersAvatars;
+
     @SerializedName("messages")
     private ArrayList<Message> messages;
 
@@ -43,7 +49,7 @@ public class MessageThread implements Serializable {
     }
 
     public MessageThread(String date, String lastMessage, String title, Integer notSeenCnt, String imagePath,
-                         ArrayList<Message> messages, int id, String othersName) {
+                         ArrayList<Message> messages, int id, String othersName,  String othersAvatars) {
         this.date = date;
         this.lastMessage = lastMessage;
         this.title = title;
@@ -52,6 +58,8 @@ public class MessageThread implements Serializable {
         this.messages = messages;
         this.id = id;
         this.othersName = othersName;
+        this.othersAvatars = Arrays.asList(othersAvatars.split(","));
+
     }
 
     public int getId() {
@@ -116,6 +124,14 @@ public class MessageThread implements Serializable {
 
     public void setOthersName(String othersName) {
         this.othersName = othersName;
+    }
+
+    public void setOthersAvatars(String othersAvatars) {
+        this.othersAvatars = Arrays.asList(othersAvatars.split(","));
+    }
+
+    public List<String> getOthersAvatars() {
+        return  othersAvatars;
     }
 
     public void sendMessage(MessageAttributes newMessage) {

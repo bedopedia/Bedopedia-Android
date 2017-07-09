@@ -10,11 +10,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 
+
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,7 @@ import Models.Message;
 import Models.MessageAttributes;
 import Models.MessageThread;
 import Models.User;
+import Tools.ImageViewHelper;
 import Tools.SharedPreferenceUtils;
 import login.Services.ApiClient;
 import login.Services.ApiInterface;
@@ -102,6 +105,10 @@ public class MessageThreadActivity extends AppCompatActivity {
         thread.reverseMessagesOrder();
         TextView othersName = (TextView) findViewById(R.id.message_receipient_name);
         othersName.setText(thread.getOthersName());
+
+        ImageView otherAvatar = (ImageView) findViewById(R.id.message_receipient_img);
+        ImageViewHelper.getImageFromUrlWithIdFailure(this,thread.getOthersAvatars().get(0) ,otherAvatar,R.drawable.student);
+
 
         messagesAdapter = new SingleMessageThreadAdapter(this, R.layout.single_send_message,thread.getMessages());
         listView = (ListView) findViewById(R.id.messages_list);

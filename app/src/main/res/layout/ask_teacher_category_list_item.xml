@@ -83,6 +83,7 @@
                     android:text="Yesterday"/>
 
                 <TextView
+                    android:visibility="invisible"
                     android:id="@+id/ask_teacher_message_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

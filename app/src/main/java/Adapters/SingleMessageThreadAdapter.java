@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.example.bedopedia.bedopedia_android.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import Models.Message;
@@ -33,6 +36,7 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
     public static  class SingleMessageHolder{
         TextView body;
         ImageView avatar;
+        TextView time;
     }
 
     @Override
@@ -52,9 +56,23 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
             singleMessageHolderItem=new SingleMessageHolder();
             singleMessageHolderItem.body = (TextView) view.findViewById(R.id.send_message_body);
             singleMessageHolderItem.avatar = (ImageView) view.findViewById(R.id.send_message_avatar);
+            singleMessageHolderItem.time = (TextView) view.findViewById(R.id.time);
 
             singleMessageHolderItem.body.setText(android.text.Html.fromHtml(message.getBody()).toString());
-            ImageViewHelper.getImageFromUrl(context,message.getCreator().getAvatar(),singleMessageHolderItem.avatar);
+            ImageViewHelper.getImageFromUrlWithIdFailure(context,message.getCreator().getAvatar(),singleMessageHolderItem.avatar,R.drawable.student);
+
+
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+
+            Date date = null;
+            try {
+                date = fmt.parse(message.getCreatedAt());
+                SimpleDateFormat fmtOut = new SimpleDateFormat("HH:mm");
+                String messageTime = fmtOut.format(date);
+                singleMessageHolderItem.time.setText(messageTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
         }else{
             view = LayoutInflater.from(getContext()).inflate(R.layout.single_recieved_message, parent, false);
@@ -62,9 +80,23 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
             singleMessageHolderItem=new SingleMessageHolder();
             singleMessageHolderItem.body = (TextView) view.findViewById(R.id.received_message_body);
             singleMessageHolderItem.avatar = (ImageView) view.findViewById(R.id.single_receive_message_avatar);
+            singleMessageHolderItem.time = (TextView) view.findViewById(R.id.time);
 
             singleMessageHolderItem.body.setText(android.text.Html.fromHtml(message.getBody()).toString());
-            ImageViewHelper.getImageFromUrl(context,message.getCreator().getAvatar(),singleMessageHolderItem.avatar);
+            ImageViewHelper.getImageFromUrlWithIdFailure(context,message.getCreator().getAvatar(),singleMessageHolderItem.avatar,R.drawable.student);
+
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+
+            Date date = null;
+            try {
+                date = fmt.parse(message.getCreatedAt());
+                SimpleDateFormat fmtOut = new SimpleDateFormat("HH:mm");
+                String messageTime = fmtOut.format(date);
+                singleMessageHolderItem.time.setText(messageTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
         }
         return view;
     }
