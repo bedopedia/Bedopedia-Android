@@ -21,7 +21,7 @@ public class AskTeacherActivity extends AppCompatActivity {
         setSupportActionBar(askTeacherToolbar);
         ActionBar askTeacherActionbar = getSupportActionBar();
         askTeacherActionbar.setDisplayHomeAsUpEnabled(true);
-        askTeacherActionbar.setTitle(R.string.AskTeacherTitle);
+        askTeacherActionbar.setTitle("Ask Teacher");
         FragmentUtils.createFragment(getSupportFragmentManager(), AskTeacherFragment.newInstance(this), R.id.askTeacherContainer);
 
     }
