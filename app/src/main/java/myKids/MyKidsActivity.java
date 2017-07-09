@@ -318,7 +318,8 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
         ImageView myAvatar = (ImageView) hView.findViewById(R.id.my_avatar_photo);
 
         emailView.setText(email);
-        ImageViewHelper.getImageFromUrl(context,avatarUrl, myAvatar );
+
+        ImageViewHelper.getImageFromUrlWithIdFailure(context,avatarUrl, myAvatar, R.drawable.student);
 
         myKidsToolbar = (Toolbar) findViewById(R.id.custom_toolbar_id);
         setSupportActionBar(myKidsToolbar);
