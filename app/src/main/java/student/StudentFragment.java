@@ -559,7 +559,8 @@ public class StudentFragment extends Fragment {
                             }
 
                         }
-                        totalGrade = response.body().get(i).get("total_grade").getAsString();
+                       // totalGrade = response.body().get(i).get("total_grade").getAsString();
+                        totalGrade = "F";
                         totalGradeText.setText("Average grade:  "+totalGrade);
                     }
                 }
