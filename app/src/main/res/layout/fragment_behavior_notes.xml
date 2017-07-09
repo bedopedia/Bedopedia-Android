@@ -23,7 +23,6 @@
 
 
         <android.support.v4.view.ViewPager
-            android:layout_marginTop="100dp"
             android:id="@+id/behavior_notes_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
