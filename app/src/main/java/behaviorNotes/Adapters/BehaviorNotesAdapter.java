@@ -54,7 +54,7 @@ public class BehaviorNotesAdapter extends ArrayAdapter {
         behaviorNotesHolderItem.category.setTypeface(robotoMedium);
         behaviorNotesHolderItem.noteContent.setTypeface(robotoRegular);
         behaviorNotesHolderItem.category.setText(note.getCategory());
-        behaviorNotesHolderItem.noteContent.setText(note.getText());
+        behaviorNotesHolderItem.noteContent.setText(android.text.Html.fromHtml(note.getText()).toString());
 
         return view;
     }

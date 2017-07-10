@@ -2,8 +2,7 @@ package behaviorNotes;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
