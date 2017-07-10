@@ -90,7 +90,7 @@
                     <!--  -->
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="fill_parent"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:orientation="horizontal">
@@ -98,22 +98,20 @@
                             android:layout_gravity="center"
                             android:layout_width="0dp"
                             android:layout_weight=".95"
-                            android:layout_height="match_parent"
+                            android:layout_height="fill_parent"
                             android:paddingLeft="21dp"
                             android:paddingRight="23dp"
                             android:background="@drawable/layout_screen">
                             <EditText android:id="@+id/message"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:inputType="textAutoComplete"
-                                android:imeOptions="actionSend"
-                                android:drawableLeft="@drawable/emotion_photo"
-                                android:drawableRight="@drawable/camera_icon"
-                                android:drawablePadding="18dp"
-
-                                android:textSize="16sp"
-                                android:textColor="@color/black"
-                                android:hint="Type a message" />
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1"
+                                android:gravity="top"
+                                android:imeOptions="actionDone"
+                                android:textColor="#000000"
+                                android:hint="Type a message"
+                                />
+                                 />
                         </android.support.design.widget.TextInputLayout>
 
                         <ImageView

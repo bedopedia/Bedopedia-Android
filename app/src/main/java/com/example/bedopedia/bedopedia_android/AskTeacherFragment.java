@@ -20,6 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -197,7 +198,8 @@ public class AskTeacherFragment extends Fragment {
                                         messages.get(0).getAsJsonObject().get("user").getAsJsonObject().get("avatar_url").getAsString(),
                                         threadMessages,
                                         messageThread.get("id").getAsInt(),
-                                        messageThread.get("others_names").getAsString()
+                                        messageThread.get("others_names").getAsString(),
+                                        messageThread.get("others_avatars").getAsString()
                                 );
 
                                 array.add(thread);
@@ -211,7 +213,9 @@ public class AskTeacherFragment extends Fragment {
                                         messages.get(0).getAsJsonObject().get("user").getAsJsonObject().get("avatar_url").getAsString(),
                                         threadMessages,
                                         messageThread.get("id").getAsInt(),
-                                        messageThread.get("others_names").getAsString()
+                                        messageThread.get("others_names").getAsString(),
+                                        messageThread.get("others_avatars").getAsString()
+
                                 );
                                 array.add(thread);
                                 items.put(messageThread.get("course_id").toString(), new Pair<String, ArrayList<MessageThread>>(messageThread.get("course_name").toString(),array));
