@@ -56,7 +56,7 @@ public class TimeTableFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         Bundle bundle = intent.getExtras();
         tomorrowSlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
-        todaySlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
+        todaySlots = ( List<TimetableSlot> ) bundle.getSerializable(TodayFragment.KEY_NAME);
     }
 
     @Override
