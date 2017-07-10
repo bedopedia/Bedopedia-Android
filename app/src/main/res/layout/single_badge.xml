@@ -38,6 +38,7 @@
                 android:textSize="14sp"
                 android:id="@+id/badge_reason"
                 android:layout_marginBottom="2dp"
+                android:layout_marginRight="22.5dp"
                 android:textColor="@color/ligth_grey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -46,6 +47,7 @@
                 android:id="@+id/badge_course_name"
                 android:text="Science"
                 android:textSize="14sp"
+                android:layout_marginRight="22.5dp"
                 android:textColor="@color/ligth_grey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
