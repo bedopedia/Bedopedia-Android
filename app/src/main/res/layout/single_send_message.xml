@@ -39,6 +39,8 @@
                     android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="8.5dp"
+                    android:layout_marginBottom="6.5dp"
                     android:textColor="@color/Manatee"/>
             </LinearLayout>
 

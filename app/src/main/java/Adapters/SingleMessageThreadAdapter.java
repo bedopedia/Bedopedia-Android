@@ -69,6 +69,9 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
                 date = fmt.parse(message.getCreatedAt());
                 SimpleDateFormat fmtOut = new SimpleDateFormat("HH:mm");
                 String messageTime = fmtOut.format(date);
+                String time [] = messageTime.split(":");
+                time[0] = get12Hour(Integer.parseInt(time[0])+ 2);
+                messageTime = time[0]+ ":" +time[1];
                 singleMessageHolderItem.time.setText(messageTime);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -92,6 +95,9 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
                 date = fmt.parse(message.getCreatedAt());
                 SimpleDateFormat fmtOut = new SimpleDateFormat("HH:mm");
                 String messageTime = fmtOut.format(date);
+                String time [] = messageTime.split(":");
+                time[0] = get12Hour(Integer.parseInt(time[0])+ 2);
+                messageTime = time[0]+ ":" +time[1];
                 singleMessageHolderItem.time.setText(messageTime);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -99,5 +105,13 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
 
         }
         return view;
+    }
+
+    public String get12Hour(int x) {
+
+        if (x > 12)
+            x-=12;
+
+        return String.valueOf(x);
     }
 }
