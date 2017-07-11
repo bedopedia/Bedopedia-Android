@@ -2,7 +2,6 @@ package Adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +56,6 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
             view = LayoutInflater.from(getContext()).inflate(R.layout.notification_list_item, parent, false);
         }
         notificationHolderItem=new NotificationHolder();
-        Log.v("NOTIFICATIONE",notification.getType());
 
 
         notificationHolderItem.logo = (ImageView) view.findViewById(R.id.notificationLogo);
