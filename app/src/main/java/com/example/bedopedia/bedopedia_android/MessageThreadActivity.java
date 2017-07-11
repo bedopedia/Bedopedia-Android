@@ -88,7 +88,7 @@ public class MessageThreadActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
         TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-        actionBarTitle.setText("Ask Teacher");
+        actionBarTitle.setText("Contact Teacher");
         ImageButton back = (ImageButton) findViewById(R.id.action_bar_back);
         back.setOnClickListener(new View.OnClickListener() {
 
