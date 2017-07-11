@@ -2,6 +2,7 @@ package Adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,15 +57,31 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
             view = LayoutInflater.from(getContext()).inflate(R.layout.notification_list_item, parent, false);
         }
         notificationHolderItem=new NotificationHolder();
+        Log.v("NOTIFICATIONE",notification.getType());
 
 
-        ImageView logo = (ImageView) view.findViewById(R.id.notificationLogo);
-        if (notification.getType().equals(assignmentsKey)){
-            logo.setImageResource(R.drawable.quizzes_ico);
-        } else if (notification.getType().equals(quizzesKey)) {
-            logo.setImageResource(R.drawable.quizzes_ico);
-        } else if (notification.getType().equals(myDaysKey)) {
-            logo.setImageResource(R.drawable.mydays_ico);
+        notificationHolderItem.logo = (ImageView) view.findViewById(R.id.notificationLogo);
+        if (notification.getType().equals("quizzes.graded") || notification.getType().equals("assignments.graded")){
+            notificationHolderItem.logo.setImageResource(R.drawable.grades);
+        } else if (notification.getType().equals("assignments.updated")
+                || notification.getType().equals("assignments.published")
+                || notification.getType().equals("assignments.deleted")
+                || notification.getType().equals("assignments.submission")
+                || notification.getType().equals("assignments.upcoming_today")) {
+            notificationHolderItem.logo.setImageResource(R.drawable.assignments);
+        } else if (notification.getType().equals("quizzes.created")
+                || notification.getType().equals("quizzes.deleted")
+                || notification.getType().equals("quizzes.submission")
+                || notification.getType().equals("quizzes.upcoming_today")) {
+            notificationHolderItem.logo.setImageResource(R.drawable.quizzes_ico);
+        } else if (notification.getType().equals("zones.event_created")
+                || notification.getType().equals("zones.became_manager")
+                || notification.getType().equals("zones.joined")) {
+            notificationHolderItem.logo.setImageResource(R.drawable.zones);
+        } else if (notification.getType().equals("events.upcoming_today")) {
+            notificationHolderItem.logo.setImageResource(R.drawable.mydays);
+        } else if (notification.getType().equals("virtual_room.notify_parents")) {
+            notificationHolderItem.logo.setImageResource(R.drawable.virtualclass);
         }
 
         notificationHolderItem.content = (TextView) view.findViewById(R.id.notification_body);
