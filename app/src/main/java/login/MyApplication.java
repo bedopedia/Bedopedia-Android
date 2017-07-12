@@ -1,12 +1,13 @@
 package login;
 
-import android.util.Log;
+
 
 import com.example.bedopedia.bedopedia_android.R;
 
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
+
 
 
 /**

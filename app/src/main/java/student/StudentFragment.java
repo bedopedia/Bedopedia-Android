@@ -195,6 +195,10 @@ public class StudentFragment extends Fragment {
         attendance = extras.getString(attendancesKey);
         courseGroups = new ArrayList<CourseGroup>();
 
+        sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(),"cur_user" );
+        apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
+
+
 
     }
 
@@ -429,8 +433,7 @@ public class StudentFragment extends Fragment {
             }
         });
 
-        sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(),"cur_user" );
-        apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
+
 
         if (InternetConnection.isInternetAvailable(getActivity())) {
             new StudentAsyncTask().execute();

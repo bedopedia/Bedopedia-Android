@@ -387,7 +387,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             Dialogue.AlertDialog(this,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
         }
         handler = new Handler();
-        handler.postDelayed( updateNotification, 500); //Every 120000 ms (2 minutes)
+        handler.postDelayed( updateNotification, 500); //Every 120000 ms (2 minutes)z
     }
 
 
