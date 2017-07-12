@@ -71,8 +71,8 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
                 behaviorCounter.setVisibility(View.INVISIBLE);
         }
         else {
-            behaviorCounter.setText(StudentFragment.negativeNotesList.size() + "");
-            if(StudentFragment.negativeNotesList.size() == 0)
+            behaviorCounter.setText(negativeNotesList.size() + "");
+            if(negativeNotesList.size() == 0)
                 behaviorCounter.setVisibility(View.INVISIBLE);
         }
         return view;
