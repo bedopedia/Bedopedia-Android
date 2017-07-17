@@ -721,7 +721,7 @@ public class StudentFragment extends Fragment {
     }
 
     public void getStudentBadges(){
-        String url = "api/students/get_badges";
+        String url = "/api/badges/get_by_student";
         Map<String, String> params = new HashMap<>();
         params.put("student_id" , studentId);
 
