@@ -832,14 +832,17 @@ public class StudentFragment extends Fragment {
                         for (JsonElement pa : notificationsRespone.get("notifications").getAsJsonArray()) { // gest needed data from assig, quizz, grade item
                             JsonObject notificationObj = pa.getAsJsonObject();
                             try {
-                                JsonObject additionalParams = notificationObj.getAsJsonObject("additional_params");
                                 String studentNames = "";
-                                int i = 0 , len = additionalParams.get("studentNames").getAsJsonArray().size() ;
-                                for (JsonElement name : additionalParams.get("studentNames").getAsJsonArray()) {
-                                    studentNames += name.getAsString();
-                                    if (i > 0 && i != len - 1) {
-                                        studentNames += ", ";
+                                if (!notificationObj.get("additional_params").isJsonNull()) {
+                                    JsonObject additionalParams = notificationObj.getAsJsonObject("additional_params");
+                                    int i = 0 , len = additionalParams.get("studentNames").getAsJsonArray().size() ;
+                                    for (JsonElement name : additionalParams.get("studentNames").getAsJsonArray()) {
+                                        studentNames += name.getAsString();
+                                        if (i > 0 && i != len - 1) {
+                                            studentNames += ", ";
+                                        }
                                     }
+
                                 }
                                 notifications.add(new NotificationModel(notificationObj.get("text").getAsString(), notificationObj.get("created_at").getAsString() ,notificationObj.get("logo").getAsString(), studentNames ,notificationObj.get("message").getAsString() ));
                             } catch (ParseException e) {
