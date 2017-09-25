@@ -10,23 +10,6 @@
         android:layout_height="wrap_content"
         >
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/snow"
-            android:padding="13dp">
-
-            <TextView
-                android:text="Math"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/ask_teacher_category_name"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:layout_weight="1" />
-
-        </LinearLayout>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
