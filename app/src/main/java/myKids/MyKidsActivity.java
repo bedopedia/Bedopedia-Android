@@ -151,6 +151,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                                     studentData.get("level_name").toString().substring(1,studentData.get("level_name").toString().length()-1),
                                     studentData.get("section_name").toString().substring(1,studentData.get("section_name").toString().length()-1),
                                     studentData.get("stage_name").toString().substring(1,studentData.get("stage_name").toString().length()-1),
+                                    studentData.get("today_workload_status").getAsJsonObject(),
                                     0,null,null));
                         }
 

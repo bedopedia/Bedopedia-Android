@@ -27,7 +27,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".80"
+            android:layout_weight=".60"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="16dp">
            <LinearLayout
@@ -45,29 +45,56 @@
                    android:textColor="@color/black"
                    android:textSize="20sp" />
 
-               <TextView
-                   android:layout_width="wrap_content"
+               <LinearLayout
+                   android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                   android:id="@+id/student_level"
-                   android:textStyle="normal"
-                   android:textSize="14sp" />
+                   android:orientation="horizontal">
+
+                   <TextView
+                       android:layout_width="0dp"
+                       android:layout_weight=".4"
+                       android:layout_height="wrap_content"
+                       android:id="@+id/student_level"
+                       android:textStyle="normal"
+                       android:layout_gravity="center_vertical"
+                       android:textSize="14sp" />
+
+                   <TextView
+                       android:layout_width="8dp"
+                       android:layout_height="8dp"
+                       android:id="@+id/st_today_attendance_circle"
+                       android:textStyle="normal"
+                       android:layout_gravity="center_vertical"
+                        />
+
+                   <TextView
+                       android:layout_marginLeft="10dp"
+                       android:layout_width="0dp"
+                       android:layout_weight=".6"
+                       android:layout_height="wrap_content"
+                       android:id="@+id/st_today_attendance"
+                       android:layout_gravity="center_vertical"
+                       android:textStyle="normal"
+                       android:textSize="14sp" />
+
+               </LinearLayout>
 
            </LinearLayout>
             <RelativeLayout
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:layout_marginRight="16dp">
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/student_avatar"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     app:civ_border_width="1dp"
                     app:civ_border_color="@color/white"/>
 
                 <TextView
                     android:id="@+id/st_text_name"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:background="@drawable/circle_text"
                     android:gravity="center"
                     android:textColor="@color/white"
@@ -81,23 +108,71 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".20"
-            android:layout_marginLeft="26dp">
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/st_due_quizzes_cnt"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:gravity="center"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/st_due_assignments_cnt"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:visibility="visible"
+                android:gravity="center"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/st_due_events_cnt"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:visibility="visible"
+                android:gravity="center"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".20"
+            android:orientation="horizontal">
             <TextView
 
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
                 android:layout_height="wrap_content"
-                android:id="@+id/st_today_summary"
+                android:id="@+id/st_due_quizzes"
                 android:textStyle="normal"
+                android:gravity="center"
                 android:textSize="14sp" />
 
             <TextView
 
-                android:layout_marginLeft="40dp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
                 android:layout_height="wrap_content"
-                android:id="@+id/st_due_tasks"
+                android:id="@+id/st_due_assignments"
                 android:textStyle="normal"
                 android:visibility="visible"
+                android:gravity="center"
+                android:textSize="14sp" />
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content"
+                android:id="@+id/st_due_events"
+                android:textStyle="normal"
+                android:visibility="visible"
+                android:gravity="center"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
