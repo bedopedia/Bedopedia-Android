@@ -312,6 +312,7 @@ public class StudentFragment extends Fragment {
                 TextView messagecnt = (TextView) view.findViewById(R.id.student_home_messaage_count_text);
                 messagecnt.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(getActivity(), AskTeacherActivity.class);
+                intent.putExtra(studentIdKey, studentId);
                 startActivity(intent);
             }
         });
