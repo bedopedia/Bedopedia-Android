@@ -63,8 +63,17 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
         holder.studentName.setText(curStudent.getFirstName() + " " + curStudent.getLastName());
         String imageUrl = curStudent.getAvatar();
 
-        holder.studentDueTasks.setText(R.string.SingleStudentDueDate);
-        holder.studentTodaySummary.setText(R.string.SingleStudentSummary);
+        SetAttendanceCircle(curStudent.getTodayAttendance(), holder);
+
+
+        holder.studentTodayQuizzes.setText(R.string.quizzes);
+        holder.studentTodayAssignments.setText(R.string.assignments);
+        holder.studentTodayEvents.setText(R.string.events);
+
+        holder.studentTodayQuizzesCnt.setText(String.valueOf(curStudent.getTodayQuizzesCount()));
+        holder.studentTodayAssignmentsCnt.setText(String.valueOf(curStudent.getTodayAssignmentsCount()));
+        holder.studentTodayEventsCnt.setText(String.valueOf(curStudent.getTodayEventsCount()));
+
 
 
         if(imageUrl.substring(0,8).equals(urlUploadsKey)) {
@@ -117,6 +126,19 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
 //        });
     }
 
+    private void SetAttendanceCircle(String attendanceStatus, final StudentViewHolder holder) {
+        attendanceStatus = attendanceStatus.substring(0,1).toUpperCase() + attendanceStatus.substring(1).toLowerCase();
+
+        holder.studentTodayAttendance.setText(attendanceStatus);
+        if(attendanceStatus.equals("Present")) {
+            holder.studentTodayAttendanceCircle.setBackgroundResource(R.drawable.attendance_circle_green);
+        } else if (attendanceStatus.equals("Not taken")) {
+            holder.studentTodayAttendanceCircle.setBackgroundResource(R.drawable.attendance_circle_grey);
+        } else {
+            holder.studentTodayAttendanceCircle.setBackgroundResource(R.drawable.attendance_circle_red);
+        }
+    }
+
     @Override
     public int getItemCount() {
         return studentList.size();
@@ -127,9 +149,15 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
         ImageView studentAvatar;
         TextView studentName;
         TextView studentLevel;
-        TextView studentTodaySummary;
-        TextView studentDueTasks;
+        TextView studentTodayQuizzes;
+        TextView studentTodayAssignments;
+        TextView studentTodayEvents;
+        TextView studentTodayQuizzesCnt;
+        TextView studentTodayAssignmentsCnt;
+        TextView studentTodayEventsCnt;
         TextView studentTextName;
+        TextView studentTodayAttendance;
+        TextView studentTodayAttendanceCircle;
         View studentCardView;
 
         public StudentViewHolder(View itemView) {
@@ -138,8 +166,14 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
             studentAvatar = (ImageView) itemView.findViewById(R.id.student_avatar);
             studentName = (TextView) itemView.findViewById(R.id.student_name);
             studentLevel = (TextView) itemView.findViewById(R.id.student_level);
-            studentTodaySummary = (TextView) itemView.findViewById(R.id.st_today_summary);
-            studentDueTasks = (TextView) itemView.findViewById(R.id.st_due_tasks);
+            studentTodayQuizzes = (TextView) itemView.findViewById(R.id.st_due_quizzes);
+            studentTodayAssignments = (TextView) itemView.findViewById(R.id.st_due_assignments);
+            studentTodayEvents = (TextView) itemView.findViewById(R.id.st_due_events);
+            studentTodayQuizzesCnt = (TextView) itemView.findViewById(R.id.st_due_quizzes_cnt);
+            studentTodayAssignmentsCnt = (TextView) itemView.findViewById(R.id.st_due_assignments_cnt);
+            studentTodayEventsCnt = (TextView) itemView.findViewById(R.id.st_due_events_cnt);
+            studentTodayAttendance = (TextView) itemView.findViewById(R.id.st_today_attendance);
+            studentTodayAttendanceCircle = (TextView) itemView.findViewById(R.id.st_today_attendance_circle);
             studentTextName = (TextView) itemView.findViewById(R.id.st_text_name);
             setTextType();
         }
@@ -148,9 +182,14 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
             Typeface robotoRegular = Typeface.createFromAsset(mContext.getAssets(), "font/Roboto-Regular.ttf");
             Typeface robotoBold = Typeface.createFromAsset(mContext.getAssets(), "font/Roboto-Bold.ttf");
             studentName.setTypeface(robotoMedian);
-            studentTodaySummary.setTypeface(robotoMedian);
-            studentDueTasks.setTypeface(robotoMedian);
+            studentTodayQuizzes.setTypeface(robotoMedian);
+            studentTodayAssignments.setTypeface(robotoMedian);
+            studentTodayEvents.setTypeface(robotoMedian);
+            studentTodayQuizzesCnt.setTypeface(robotoMedian);
+            studentTodayAssignmentsCnt.setTypeface(robotoMedian);
+            studentTodayEventsCnt.setTypeface(robotoMedian);
             studentLevel.setTypeface(robotoRegular);
+            studentTodayAttendance.setTypeface(robotoRegular);
             studentTextName.setTypeface(robotoBold);
         }
     }
