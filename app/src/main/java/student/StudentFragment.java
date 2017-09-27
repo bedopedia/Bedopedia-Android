@@ -891,7 +891,7 @@ public class StudentFragment extends Fragment {
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
             String id = SharedPreferenceUtils.getStringValue("user_id", "",sharedPreferences);
             String url ="/api/users/"+id +"/notifications/mark_as_seen";
-            Map <String, String> params = new HashMap<>();
+            Map <String, Object> params = new HashMap<>();
             params.put("type" , "android");
             Call<JsonObject>  call = apiService.postServise(url, params);
 

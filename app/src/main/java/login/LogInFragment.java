@@ -186,7 +186,7 @@ public class LogInFragment extends Fragment {
             return;
         }
 
-        Map<String,String> params = new HashMap();
+        Map<String,Object> params = new HashMap();
         params.put("email",email);
         params.put("password",password);
         String url = "api/auth/sign_in";

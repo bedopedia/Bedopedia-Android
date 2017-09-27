@@ -13,12 +13,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.example.bedopedia.bedopedia_android.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,6 +30,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Models.MessageAttributes;
+import Models.MessageThread;
+import Models.NewMessageThread;
 import Models.Teacher;
 import Tools.Dialogue;
 import Tools.SharedPreferenceUtils;
@@ -88,6 +94,7 @@ public class NewMessageFragment extends Fragment {
         SelectCourse = (Spinner) getActivity().findViewById(R.id.select_course);
         SelectTeacher = (Spinner) getActivity().findViewById(R.id.select_teacher);
         SubjectText = (EditText) getActivity().findViewById(R.id.subject_text);
+
         SelectCourse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -112,6 +119,65 @@ public class NewMessageFragment extends Fragment {
 
         getStudentCourseGroups();
 
+        ImageButton sendingButton = (ImageButton) getActivity().findViewById(R.id.sending_new_messgae_id);
+        sendingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int courseGroupPosition = SelectCourse.getSelectedItemPosition();
+                int teacherPosition = SelectTeacher.getSelectedItemPosition();
+                EditText body = (EditText) getActivity().findViewById(R.id.new_message_id_body);
+
+                Teacher teacher = Teachers.get(teacherPosition);
+                CourseGroup courseGroup = courseGroups.get(courseGroupPosition);
+                try {
+                    sendNewMessage(SubjectText.getText().toString(), String.valueOf(courseGroup.getCourseId()), body.getText().toString(), String.valueOf(teacher.getId()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+    }
+
+    public void sendNewMessage(String subjectName, String courseID, String body, String userID) throws JSONException {
+        String url = "/api/threads";
+        Map<String, Object> params = new HashMap<>();
+        SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(),"cur_user" );
+        ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
+        Map<String, String> message_thread = new HashMap<>();
+        String id = SharedPreferenceUtils.getStringValue("user_id", "",sharedPreferences);
+        ArrayList<String> userIds = new ArrayList<>();
+        userIds.add(id);
+        userIds.add(userID);
+        params.put("user_ids", userIds);
+
+        NewMessageThread newMessageThread = new NewMessageThread(subjectName,courseID,"");
+        MessageAttributes messageAttributes = new MessageAttributes(Integer.valueOf(userID),body,"");
+        newMessageThread.sendMessage(messageAttributes);
+
+        params.put("message_thread", newMessageThread);
+        Call<NewMessageThread> call = apiService.POSTThreadMessages(params);
+
+        call.enqueue(new Callback<NewMessageThread>() {
+
+            @Override
+            public void onResponse(Call<NewMessageThread> call, Response<NewMessageThread> response) {
+                int statusCode = response.code();
+                if(statusCode == 401) {
+                    Dialogue.AlertDialog(getActivity(),getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                } else if (statusCode == 200) {
+                    Log.v("RESPONSEE", response.body().toString());
+                }
+                progress.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<NewMessageThread> call, Throwable throwable) {
+                progress.dismiss();
+                Dialogue.AlertDialog(getActivity(), getString(R.string.ConnectionErrorTitle), getString(R.string.ConnectionErrorBody));
+            }
+        });
     }
 
 
@@ -179,7 +245,7 @@ public class NewMessageFragment extends Fragment {
                     for (int i = 0; i <teachers.size(); i++) {
                         try {
                             JSONObject teacherJson = new JSONObject(teachers.get(i).toString());
-                            Teachers.add(new Teacher(teacherJson.getInt("id"),
+                            Teachers.add(new Teacher(teacherJson.getInt("user_id"),
                                     teacherJson.getString("firstname"),
                                     teacherJson.getString("lastname"),
                                     teacherJson.getString("gender"),

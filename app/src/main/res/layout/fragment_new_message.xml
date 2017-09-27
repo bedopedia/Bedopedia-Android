@@ -51,19 +51,22 @@
                 android:orientation="horizontal"
                 android:gravity="bottom">
                 <EditText
+                    android:id="@+id/new_message_id_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColorHint="#CFD8DC"
-                    android:textColor="#CFD8DC"
+                    android:textColor="@color/black"
                     android:hint="Write a message" />
 
-                <ImageView
+                <ImageButton
+                    android:id="@+id/sending_new_messgae_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:padding="4dp"
-                    android:src="@android:drawable/ic_menu_send" />
+                    android:background="@color/white"
+                    android:src="@android:drawable/ic_media_play" />
 
 
 
