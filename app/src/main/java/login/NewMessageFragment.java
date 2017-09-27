@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -167,7 +166,6 @@ public class NewMessageFragment extends Fragment {
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(getActivity(),getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                 } else if (statusCode == 200) {
-                    Log.v("RESPONSEE", response.body().toString());
                 }
                 progress.dismiss();
             }
@@ -240,7 +238,6 @@ public class NewMessageFragment extends Fragment {
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(getActivity(),getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                 } else if (statusCode == 200) {
-                    Log.v("RESPONSEE",response.body().get(0).toString());
                     ArrayList teachers = response.body();
                     for (int i = 0; i <teachers.size(); i++) {
                         try {
@@ -258,7 +255,6 @@ public class NewMessageFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.v("STEPP" + i, teachers.get(i).toString());
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, teachersList);
                     SelectTeacher.setAdapter(adapter);
