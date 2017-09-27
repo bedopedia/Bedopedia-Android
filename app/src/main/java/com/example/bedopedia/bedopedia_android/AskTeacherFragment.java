@@ -3,7 +3,6 @@ package com.example.bedopedia.bedopedia_android;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -214,7 +212,7 @@ public class AskTeacherFragment extends Fragment {
                                         threadMessages,
                                         messageThread.get("id").getAsInt(),
                                         messageThread.get("others_names").getAsString(),
-                                        messageThread.get("others_avatars").getAsString()
+                                        messageThread.get("others_avatars").getAsJsonArray().get(0).toString()
 
                                 );
                                 array.add(thread);
