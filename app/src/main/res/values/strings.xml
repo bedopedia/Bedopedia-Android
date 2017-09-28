@@ -29,8 +29,9 @@
     <string name="askTeacherTitle">Ask Teacher</string>
     <string name="attendanceTitle">Attendance</string>
     <string name="notificationString">Notification</string>
-    <string name="SingleStudentSummary">TODAY SUMMARY</string>
-    <string name="SingleStudentDueDate">Due Date</string>
+    <string name="assignments">ASSIGNMENTS</string>
+    <string name="quizzes">QUIZZES</string>
+    <string name="events">EVENTS</string>
     <string name="LoadDialogueTitle">Loading</string>
     <string name="LoadDialogueBody">Wait while loading...</string>
     <string name="Dialogue401Title">Not Authorized</string>
@@ -49,6 +50,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
 </resources>
