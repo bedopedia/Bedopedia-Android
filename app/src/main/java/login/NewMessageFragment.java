@@ -2,6 +2,7 @@ package login;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,9 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.example.bedopedia.bedopedia_android.AskTeacherActivity;
 import com.example.bedopedia.bedopedia_android.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -165,7 +166,10 @@ public class NewMessageFragment extends Fragment {
                 int statusCode = response.code();
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(getActivity(),getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
-                } else if (statusCode == 200) {
+                } else {
+                    Intent intent = new Intent(getActivity(), AskTeacherActivity.class);
+                    intent.putExtra(studentIdKey, studentId);
+                    startActivity(intent);
                 }
                 progress.dismiss();
             }

@@ -197,7 +197,7 @@ public class AskTeacherFragment extends Fragment {
                                         threadMessages,
                                         messageThread.get("id").getAsInt(),
                                         messageThread.get("others_names").getAsString(),
-                                        messageThread.get("others_avatars").getAsString()
+                                        messageThread.get("others_avatars").getAsJsonArray().get(0).toString()
                                 );
 
                                 array.add(thread);
