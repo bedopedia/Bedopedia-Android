@@ -267,7 +267,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
             id = sharedPreferences.getString("user_id", "");
             String url ="/api/users/"+id +"/notifications/mark_as_seen";
-            Map <String, String> params = new HashMap<>();
+            Map <String, Object> params = new HashMap<>();
             params.put("type" , "android");
             Call<JsonObject>  call = apiService.postServise(url, params);
 

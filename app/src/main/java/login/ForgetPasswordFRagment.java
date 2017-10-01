@@ -104,7 +104,7 @@ public class ForgetPasswordFRagment extends Fragment {
         }
 
         String email = mEmailView.getText().toString();
-        Map<String,String> params = new HashMap();
+        Map<String,Object> params = new HashMap();
         params.put(emailKey,email);
         params.put(redirectUrlKey, ApiClient.BASE_URL + "reset_password");
         String url = "/api/auth/password";

@@ -1,0 +1,78 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="login.NewMessageFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/newMessageID">
+
+        <Spinner
+            android:id="@+id/select_course"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:spinnerMode="dropdown" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_bottom_notification">
+        </LinearLayout>
+        <Spinner
+            android:id="@+id/select_teacher"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:spinnerMode="dropdown" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_bottom_notification">
+        </LinearLayout>
+        <EditText
+            android:id="@+id/subject_text"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Subject"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <!--  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal"
+                android:gravity="bottom">
+                <EditText
+                    android:id="@+id/new_message_id_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColorHint="#CFD8DC"
+                    android:textColor="@color/black"
+                    android:hint="Write a message" />
+
+                <ImageButton
+                    android:id="@+id/sending_new_messgae_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:padding="4dp"
+                    android:background="@color/white"
+                    android:src="@android:drawable/ic_media_play" />
+
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

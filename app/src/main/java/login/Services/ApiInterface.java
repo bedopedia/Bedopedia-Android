@@ -8,6 +8,7 @@ package login.Services;
 import com.google.gson.*;
 
 import Models.MessageThread;
+import Models.NewMessageThread;
 import retrofit2.*;
 import retrofit2.http.*;
 import java.util.*;
@@ -22,7 +23,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST
-    Call<JsonObject> postServise(@Url String url,@FieldMap Map<String,String> params);
+    Call<JsonObject> postServise(@Url String url,@FieldMap Map<String,Object> params);
 
     @FormUrlEncoded
     @POST
@@ -38,4 +39,6 @@ public interface ApiInterface {
     @PUT("/api/threads/{thread_id}")
     Call<MessageThread> putThreadMessages(@Path("thread_id") int thread_id, @Body Map <String,Object> message_thread);
 
+    @POST("/api/threads")
+    Call<NewMessageThread> POSTThreadMessages(@Body Map <String,Object> message_thread);
 }
