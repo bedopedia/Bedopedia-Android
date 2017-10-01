@@ -18,20 +18,16 @@ import android.widget.Spinner;
 
 import com.example.bedopedia.bedopedia_android.AskTeacherActivity;
 import com.example.bedopedia.bedopedia_android.R;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import Models.MessageAttributes;
-import Models.MessageThread;
 import Models.NewMessageThread;
 import Models.Teacher;
 import Tools.Dialogue;
@@ -130,7 +126,8 @@ public class NewMessageFragment extends Fragment {
                 Teacher teacher = Teachers.get(teacherPosition);
                 CourseGroup courseGroup = courseGroups.get(courseGroupPosition);
                 try {
-                    sendNewMessage(SubjectText.getText().toString(), String.valueOf(courseGroup.getCourseId()), body.getText().toString(), String.valueOf(teacher.getId()));
+                    if (validateParams(SubjectText.getText().toString(), String.valueOf(courseGroup.getCourseId()), body.getText().toString(), String.valueOf(teacher.getId()),SubjectText,body ))
+                        sendNewMessage(SubjectText.getText().toString(), String.valueOf(courseGroup.getCourseId()), body.getText().toString(), String.valueOf(teacher.getId()));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -140,7 +137,27 @@ public class NewMessageFragment extends Fragment {
 
     }
 
+    public boolean validateParams(String subjectName, String courseID, String body, String userID, EditText subjectEdit, EditText bodyEdit){
+        if (subjectName.equals("")){
+            subjectEdit.requestFocus();
+            return false;
+        } else if (body.equals("")) {
+            bodyEdit.requestFocus();
+            return false;
+        } else if (courseID.equals("") || userID.equals("")) {
+            return false;
+        }
+        return true;
+    }
+
+    public void loading(){
+        progress.setTitle(R.string.LoadDialogueTitle);
+        progress.setMessage(getString(R.string.LoadDialogueBody));
+    }
+
     public void sendNewMessage(String subjectName, String courseID, String body, String userID) throws JSONException {
+        loading();
+        progress.show();
         String url = "/api/threads";
         Map<String, Object> params = new HashMap<>();
         SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(),"cur_user" );
@@ -184,6 +201,8 @@ public class NewMessageFragment extends Fragment {
 
 
     public void getStudentCourseGroups(){
+        loading();
+        progress.show();
         String url = "api/students/" + studentId + "/course_groups";
         Map<String, String> params = new HashMap<>();
         SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(), curUserKey );
@@ -214,7 +233,6 @@ public class NewMessageFragment extends Fragment {
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
                     SelectCourse.setAdapter(adapter);
                 }
-                progress.dismiss();
 
             }
 
