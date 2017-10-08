@@ -81,59 +81,40 @@
 
 
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight=".15"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <!--  -->
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="fill_parent"
+                        android:layout_height="match_parent"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:orientation="horizontal">
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_gravity="center"
-                            android:layout_width="0dp"
-                            android:layout_weight=".95"
-                            android:layout_height="fill_parent"
-                            android:paddingLeft="21dp"
-                            android:paddingRight="23dp"
-                            android:background="@drawable/layout_screen">
-                            <EditText android:id="@+id/message"
-                                android:layout_width="match_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_weight="1"
-                                android:gravity="top"
-                                android:imeOptions="actionDone"
-                                android:textColor="#000000"
-                                android:hint="Type a message"
-                                />
-                                 />
-                        </android.support.design.widget.TextInputLayout>
+                        android:orientation="horizontal"
+                        android:gravity="bottom">
+                        <EditText
+                            android:id="@+id/message"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:textColorHint="#CFD8DC"
+                            android:textColor="@color/black"
+                            android:hint="Type a message" />
 
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginLeft="-27dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_weight=".1"
-                            android:src="@drawable/arrow_bg1" />
+                        <ImageButton
+                            android:id="@+id/sending_reply_id"
+                            android:layout_width="300dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/send_message_circle"
+                            android:src="@drawable/social_send_now" />
 
-                        <android.support.design.widget.FloatingActionButton
-                            android:id="@+id/fab"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="-30dp"
-                            android:layout_marginRight="8dp"
-                            app:srcCompat="@android:drawable/ic_dialog_email" />
+
+
+
                     </LinearLayout>
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
 
