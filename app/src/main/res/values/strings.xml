@@ -11,7 +11,7 @@
     <string name="fragmentSchoolcodeMeesage_tv">Enter school code to proceed with sign in</string>
     <string name="fragmentSchoolcodeHint_tv">School code</string>
     <string name="fragmentSchoolcodeContinue_btn">CONTENUE</string>
-    <string name="copyRights_tv">Copyright© 2017 Bedopedia.</string>
+    <string name="copyRights_tv">Copyright© 2017 Skolera.</string>
     <string name="fragmentForgetPasswordResetPassword_btn">REST PASSWORD</string>
     <string name="fragmentForgetPassowdMessage_tv">Type your email below to reset your password.</string>
     <string name="fragmentForgetPasswordMail_tv">Email</string>
