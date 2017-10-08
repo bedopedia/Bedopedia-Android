@@ -654,7 +654,7 @@ public class StudentFragment extends Fragment {
                             break;
                         }
                     }
-                    if(!nextSlotFound){
+                    if(!nextSlotFound && tomorrowSlots.size() > 0){
                         TimetableSlot timeSlot = tomorrowSlots.get(0);
                         nextSlot.setText("Next: " + timeSlot.getCourseName() + ", " + timeSlot.getDay() + " " + dateFormat.format(timeSlot.getFrom()));
                     }
