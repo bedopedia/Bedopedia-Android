@@ -114,15 +114,16 @@ public class MessageThreadActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.messages_list);
         listView.setAdapter(messagesAdapter);
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        ImageButton replyButton = (ImageButton) findViewById(R.id.sending_reply_id);
+        replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                sendMessage(messageText.getText().toString());
+                messageText.setText("" , TextView.BufferType.EDITABLE);
+                messageText.requestFocus();
             }
         });
+
     }
     @Override
     protected void onNewIntent(Intent intent) {
