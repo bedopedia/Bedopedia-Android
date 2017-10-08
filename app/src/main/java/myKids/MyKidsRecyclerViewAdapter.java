@@ -134,7 +134,11 @@ public class MyKidsRecyclerViewAdapter extends RecyclerView.Adapter < MyKidsRecy
             holder.studentTodayAttendanceCircle.setBackgroundResource(R.drawable.attendance_circle_green);
         } else if (attendanceStatus.equals("Not taken")) {
             holder.studentTodayAttendanceCircle.setBackgroundResource(R.drawable.attendance_circle_grey);
-        } else {
+        } else if (attendanceStatus.equals("Late")) {
+            holder.studentTodayAttendanceCircle.setBackgroundResource(R.drawable.attendance_circle_yellow);
+        }else if (attendanceStatus.equals("Excused")) {
+            holder.studentTodayAttendanceCircle.setBackgroundResource(R.drawable.attendance_circle_blue);
+        } else if (attendanceStatus.equals("Absent")) {
             holder.studentTodayAttendanceCircle.setBackgroundResource(R.drawable.attendance_circle_red);
         }
     }
