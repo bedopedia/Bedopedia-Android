@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import Tools.FragmentUtils;
 import login.NewMessageFragment;
@@ -22,5 +23,13 @@ public class ActivityNewMessage extends AppCompatActivity {
 
         FragmentUtils.createFragment(getSupportFragmentManager(), NewMessageFragment.newInstance(), R.id.newMessageContainer);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()  == android.R.id.home) {
+            onBackPressed();
+        }
+        return true;
     }
 }
