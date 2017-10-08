@@ -34,12 +34,12 @@
 
                 <ImageView
                     android:id="@+id/school_code_bedo_logo"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="124dp"
+                    android:layout_height="124dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
-                    android:background="@drawable/flogo_icon" />
+                    android:background="@drawable/skolera_logo" />
 
                 <TextView
                     android:id="@+id/head_text"
