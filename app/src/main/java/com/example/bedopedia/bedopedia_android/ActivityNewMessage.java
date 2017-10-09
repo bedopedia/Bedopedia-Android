@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import Tools.FragmentUtils;
-import login.NewMessageFragment;
 
 public class ActivityNewMessage extends AppCompatActivity {
 
@@ -33,3 +32,4 @@ public class ActivityNewMessage extends AppCompatActivity {
         return true;
     }
 }
+

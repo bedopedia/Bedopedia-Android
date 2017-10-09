@@ -1,4 +1,4 @@
-package login;
+package com.example.bedopedia.bedopedia_android;
 
 
 import android.app.ProgressDialog;
@@ -16,8 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
-import com.example.bedopedia.bedopedia_android.AskTeacherActivity;
-import com.example.bedopedia.bedopedia_android.R;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -38,8 +36,6 @@ import login.Services.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.R.id.progress;
 
 
 public class NewMessageFragment extends Fragment {
@@ -170,7 +166,7 @@ public class NewMessageFragment extends Fragment {
         params.put("user_ids", userIds);
 
         NewMessageThread newMessageThread = new NewMessageThread(subjectName,courseID,"");
-        MessageAttributes messageAttributes = new MessageAttributes(Integer.valueOf(userID),body,"");
+        MessageAttributes messageAttributes = new MessageAttributes(Integer.valueOf(id),body,"");
         newMessageThread.sendMessage(messageAttributes);
 
         params.put("message_thread", newMessageThread);
@@ -208,7 +204,7 @@ public class NewMessageFragment extends Fragment {
         SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(), curUserKey );
         ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
         Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
-
+        params.put("source","home");
         call.enqueue(new Callback<ArrayList<JsonObject> >() {
 
             @Override
@@ -225,9 +221,9 @@ public class NewMessageFragment extends Fragment {
                                 courseGroupData.get("id").getAsInt(),
                                 course.get("id").getAsInt(),
                                 courseGroupData.get("name").getAsString(),
-                                courseGroupData.get("course_name").getAsString()
+                                course.get("name").getAsString()
                         ));
-                        items.add(courseGroupData.get("course_name").getAsString());
+                        items.add(course.get("name").getAsString());
 
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
