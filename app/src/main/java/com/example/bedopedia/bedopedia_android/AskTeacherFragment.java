@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +15,10 @@ import android.widget.ListView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -227,7 +224,6 @@ public class AskTeacherFragment extends Fragment {
                         header.add(items.get(key).first);
                     }
 
-                    Log.v("itemsparams", itemsParam.toString());
                     AskTeacherAdapter askTeacherAdapter = new AskTeacherAdapter(context, R.layout.activity_ask_teacher,itemsParam, header);
                     ListView askTeacherListView = (ListView) getActivity().findViewById(R.id.ask_teacher_list);
                     askTeacherListView.setAdapter(askTeacherAdapter);
