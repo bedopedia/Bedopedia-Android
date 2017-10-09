@@ -12,6 +12,7 @@ import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.ArrayList;
 
+
 import Models.MessageThread;
 import Tools.UIUtils;
 
@@ -46,7 +47,6 @@ public class AskTeacherAdapter  extends ArrayAdapter {
 
 
 
-
         AskTeacherAdapter.Holder item = new AskTeacherAdapter.Holder();
 
 
@@ -66,4 +66,5 @@ public class AskTeacherAdapter  extends ArrayAdapter {
 
         return view;
     }
+
 }

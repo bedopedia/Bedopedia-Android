@@ -15,7 +15,6 @@ import android.widget.ListView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
 
@@ -166,7 +165,7 @@ public class AskTeacherFragment extends Fragment {
                             JsonArray messages = messageThread.get("messages").getAsJsonArray();
                             MessageThread thread;
                             ArrayList<Message> threadMessages = new ArrayList<Message>();
-                            for (JsonElement messageElement : messages) { // gest needed data from assig, quizz, grade item
+                            for (JsonElement messageElement : messages) {
                                 JsonObject messageObj = messageElement.getAsJsonObject();
                                 JsonObject user = messageObj.get("user").getAsJsonObject();
                                 User sender = new User(user.get("id").getAsInt(),
@@ -186,8 +185,8 @@ public class AskTeacherFragment extends Fragment {
                                 );
                                 threadMessages.add(message);
                             }
-                            if ( items.containsKey(messageThread.get(courseIdKey).toString())) {
-                                ArrayList<MessageThread> array = items.get(messageThread.get(courseIdKey).toString()).second;
+                            if ( items.containsKey("allMessages")) {
+                                ArrayList<MessageThread> array = items.get("allMessages").second;
 
                                 thread = new MessageThread(messageThread.get("last_added_date").getAsString(),
                                         messages.get(0).getAsJsonObject().get("body").getAsString(),
@@ -202,7 +201,7 @@ public class AskTeacherFragment extends Fragment {
 
                                 array.add(thread);
                             }
-                            else if (!(messageThread.get(courseIdKey) == JsonNull.INSTANCE)) {
+                            else  {
                                 ArrayList<MessageThread> array = new ArrayList<MessageThread>();
                                 thread = new MessageThread(messageThread.get("last_added_date").getAsString(),
                                         messages.get(0).getAsJsonObject().get("body").getAsString(),
@@ -216,7 +215,7 @@ public class AskTeacherFragment extends Fragment {
 
                                 );
                                 array.add(thread);
-                                items.put(messageThread.get("course_id").toString(), new Pair<String, ArrayList<MessageThread>>(messageThread.get("course_name").toString(),array));
+                                items.put("allMessages", new Pair<String, ArrayList<MessageThread>>("allMessages",array));
                             }
                         }
                     }

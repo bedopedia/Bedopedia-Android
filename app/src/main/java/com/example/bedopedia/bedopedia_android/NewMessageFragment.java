@@ -93,6 +93,7 @@ public class NewMessageFragment extends Fragment {
                 for (int i = 0; i <courseGroups.size() ; i++) {
                     if (courseGroups.get(i).getCourseName().equals(items.get(position))) {
                         teachersList.clear();
+                        Teachers.clear();
                         getCourseGroupTeachers(String.valueOf(courseGroups.get(i).getCourseId()), String.valueOf(courseGroups.get(i).getId()));
                         break;
                     }
