@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.example.bedopedia.bedopedia_android.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import Models.MessageThread;
 import Tools.UIUtils;
@@ -46,7 +48,6 @@ public class AskTeacherAdapter  extends ArrayAdapter {
 
 
 
-
         AskTeacherAdapter.Holder item = new AskTeacherAdapter.Holder();
 
 
@@ -65,5 +66,12 @@ public class AskTeacherAdapter  extends ArrayAdapter {
 
 
         return view;
+    }
+
+    public ArrayList<MessageThread> reverse(ArrayList<MessageThread> list) {
+        for(int i = 0, j = list.size() - 1; i < j; i++) {
+            list.add(i, list.remove(j));
+        }
+        return list;
     }
 }

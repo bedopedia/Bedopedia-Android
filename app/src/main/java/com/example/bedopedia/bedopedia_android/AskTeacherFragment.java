@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.google.gson.JsonObject;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -166,7 +168,7 @@ public class AskTeacherFragment extends Fragment {
                             JsonArray messages = messageThread.get("messages").getAsJsonArray();
                             MessageThread thread;
                             ArrayList<Message> threadMessages = new ArrayList<Message>();
-                            for (JsonElement messageElement : messages) { // gest needed data from assig, quizz, grade item
+                            for (JsonElement messageElement : messages) {
                                 JsonObject messageObj = messageElement.getAsJsonObject();
                                 JsonObject user = messageObj.get("user").getAsJsonObject();
                                 User sender = new User(user.get("id").getAsInt(),
@@ -186,8 +188,8 @@ public class AskTeacherFragment extends Fragment {
                                 );
                                 threadMessages.add(message);
                             }
-                            if ( items.containsKey(messageThread.get(courseIdKey).toString())) {
-                                ArrayList<MessageThread> array = items.get(messageThread.get(courseIdKey).toString()).second;
+                            if ( items.containsKey("allMessages")) {
+                                ArrayList<MessageThread> array = items.get("allMessages").second;
 
                                 thread = new MessageThread(messageThread.get("last_added_date").getAsString(),
                                         messages.get(0).getAsJsonObject().get("body").getAsString(),
@@ -202,7 +204,7 @@ public class AskTeacherFragment extends Fragment {
 
                                 array.add(thread);
                             }
-                            else if (!(messageThread.get(courseIdKey) == JsonNull.INSTANCE)) {
+                            else  {
                                 ArrayList<MessageThread> array = new ArrayList<MessageThread>();
                                 thread = new MessageThread(messageThread.get("last_added_date").getAsString(),
                                         messages.get(0).getAsJsonObject().get("body").getAsString(),
@@ -216,7 +218,7 @@ public class AskTeacherFragment extends Fragment {
 
                                 );
                                 array.add(thread);
-                                items.put(messageThread.get("course_id").toString(), new Pair<String, ArrayList<MessageThread>>(messageThread.get("course_name").toString(),array));
+                                items.put("allMessages", new Pair<String, ArrayList<MessageThread>>("allMessages",array));
                             }
                         }
                     }
@@ -225,6 +227,7 @@ public class AskTeacherFragment extends Fragment {
                         header.add(items.get(key).first);
                     }
 
+                    Log.v("itemsparams", itemsParam.toString());
                     AskTeacherAdapter askTeacherAdapter = new AskTeacherAdapter(context, R.layout.activity_ask_teacher,itemsParam, header);
                     ListView askTeacherListView = (ListView) getActivity().findViewById(R.id.ask_teacher_list);
                     askTeacherListView.setAdapter(askTeacherAdapter);

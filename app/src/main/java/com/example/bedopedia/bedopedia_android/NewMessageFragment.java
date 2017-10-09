@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +94,7 @@ public class NewMessageFragment extends Fragment {
                 for (int i = 0; i <courseGroups.size() ; i++) {
                     if (courseGroups.get(i).getCourseName().equals(items.get(position))) {
                         teachersList.clear();
+                        Teachers.clear();
                         getCourseGroupTeachers(String.valueOf(courseGroups.get(i).getCourseId()), String.valueOf(courseGroups.get(i).getId()));
                         break;
                     }
@@ -120,6 +122,7 @@ public class NewMessageFragment extends Fragment {
                 EditText body = (EditText) getActivity().findViewById(R.id.new_message_id_body);
 
                 Teacher teacher = Teachers.get(teacherPosition);
+                Log.v("Teacher", teacher.getFirstName().toString());
                 CourseGroup courseGroup = courseGroups.get(courseGroupPosition);
                 try {
                     if (validateParams(SubjectText.getText().toString(), String.valueOf(courseGroup.getCourseId()), body.getText().toString(), String.valueOf(teacher.getId()),SubjectText,body ))
