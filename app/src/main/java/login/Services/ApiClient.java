@@ -7,6 +7,7 @@ package login.Services;
 import android.content.SharedPreferences;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -42,7 +43,9 @@ public class ApiClient {
             }
         };
 
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .readTimeout(100, TimeUnit.SECONDS)
+                .connectTimeout(100, TimeUnit.SECONDS);
         builder.interceptors().add(interceptor);
         OkHttpClient client = builder.build();
 
