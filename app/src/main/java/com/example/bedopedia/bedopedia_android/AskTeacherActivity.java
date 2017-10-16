@@ -29,6 +29,11 @@ public class AskTeacherActivity extends AppCompatActivity {
         Bundle extras= this.getIntent().getExtras();
         final String studentId = extras.getString("student_id");
         ImageView plusButton = (ImageView) findViewById(R.id.ask_teacher_new);
+
+        if (studentId.equals("none")) {
+            plusButton.setVisibility(View.INVISIBLE);
+        }
+
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
