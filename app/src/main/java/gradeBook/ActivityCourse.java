@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
@@ -112,6 +113,7 @@ public class ActivityCourse extends AppCompatActivity {
                         JsonObject body = response.body();
                         JsonObject categories = (JsonObject) body.get("categories");
                         responseSize = categories.size() ;
+                        Log.v("Assignments", body.toString());
 
 
                         Set<Map.Entry<String, JsonElement>> entries = categories.entrySet();//will return members of your object
@@ -122,16 +124,28 @@ public class ActivityCourse extends AppCompatActivity {
 
                             ArrayList<ArrayList<String>> assignmentTempData = new ArrayList<>();
                             JsonObject item = entry.getValue().getAsJsonObject();
-                            if (item.has(assignmentsKey) && body.has(studentKey) && body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedAssignmentsKey)  ) {
-                                addAssignmentsToList(item.get(assignmentsKey).getAsJsonArray(), assignmentTempData, body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedAssignmentsKey).getAsJsonArray(), body.get(assignmentsAveragesKey).getAsJsonObject() );
+                            if (item.has(assignmentsKey) && body.has(studentKey)  ) {
+                                JsonArray submittedAssignmentsArray = new JsonArray();
+                                if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedAssignmentsKey) ) {
+                                    submittedAssignmentsArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedAssignmentsKey).getAsJsonArray();
+                                }
+                                addAssignmentsToList(item.get(assignmentsKey).getAsJsonArray(), assignmentTempData, submittedAssignmentsArray , body.get(assignmentsAveragesKey).getAsJsonObject() );
                             }
 
-                            if (item.has(quizzesKey)  &&  body.has(studentKey)  && body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedQuizzesKey) ) {
-                                addQuizzesToList(item.get(quizzesKey).getAsJsonArray(), assignmentTempData,body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedQuizzesKey).getAsJsonArray(), body.get(quizzesAveragesKey).getAsJsonObject() );
+                            if (item.has(quizzesKey)  &&  body.has(studentKey)  ) {
+                                JsonArray submittedQuizzesArray = new JsonArray();
+                                if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedQuizzesKey) ) {
+                                    submittedQuizzesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedQuizzesKey).getAsJsonArray();
+                                }
+                                addQuizzesToList(item.get(quizzesKey).getAsJsonArray(), assignmentTempData, submittedQuizzesArray , body.get(quizzesAveragesKey).getAsJsonObject() );
                             }
 
-                            if (item.has(gradeItemsKey)  && body.has(studentKey)  && body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedGradesKey)  ) {
-                                addGradeItemsToList(item.get(gradeItemsKey).getAsJsonArray(), assignmentTempData, body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedGradesKey).getAsJsonArray(), body.get(gradesAveragesKey).getAsJsonObject() );
+                            if (item.has(gradeItemsKey)  && body.has(studentKey)  ) {
+                                JsonArray submittedGradesArray = new JsonArray();
+                                if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedGradesKey)  ) {
+                                    submittedGradesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedGradesKey).getAsJsonArray();
+                                }
+                                addGradeItemsToList(item.get(gradeItemsKey).getAsJsonArray(), assignmentTempData, submittedGradesArray , body.get(gradesAveragesKey).getAsJsonObject() );
                             }
 
                             if(totalStudent == totalStudent.intValue()){
