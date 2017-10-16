@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.bedopedia.bedopedia_android.AskTeacherActivity;
 import com.example.bedopedia.bedopedia_android.R;
 
 import Tools.SharedPreferenceUtils;
@@ -90,6 +91,8 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
     final String avatarUrlKey = "avatar_url";
     final String userDataKey = "user_data";
     final String isLoggedInKey = "is_logged_in";
+    final String studentIdKey = "student_id";
+
 
 
     private RecyclerView mRecyclerView;
@@ -451,6 +454,10 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             Intent schoolCodeIntent = new Intent(this, schoolCode.class);
             startActivity(schoolCodeIntent);
 
+        } else if (id == R.id.nav_message){
+            Intent intent = new Intent(this, AskTeacherActivity.class);
+            intent.putExtra(studentIdKey, "none");
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
