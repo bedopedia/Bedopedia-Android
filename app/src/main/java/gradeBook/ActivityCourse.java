@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
@@ -113,7 +112,6 @@ public class ActivityCourse extends AppCompatActivity {
                         JsonObject body = response.body();
                         JsonObject categories = (JsonObject) body.get("categories");
                         responseSize = categories.size() ;
-                        Log.v("Assignments", body.toString());
 
 
                         Set<Map.Entry<String, JsonElement>> entries = categories.entrySet();//will return members of your object
