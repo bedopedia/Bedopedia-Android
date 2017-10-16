@@ -1,6 +1,7 @@
 package login;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -64,6 +65,13 @@ public class LogInFragment extends Fragment {
     final String avatarUrlKey = "avatar_url";
     final String userDataKey = "user_data";
     final String curUserKey = "cur_user";
+    ProgressDialog progress;
+
+
+    public void loading(){
+        progress.setTitle(R.string.LoadDialogueTitle);
+        progress.setMessage(getString(R.string.LoadDialogueBody));
+    }
 
 
     public LogInFragment() {
@@ -87,6 +95,8 @@ public class LogInFragment extends Fragment {
         super.onCreate(savedInstanceState);
         sharedPreferences = SharedPreferenceUtils.getSharedPreference(this.getActivity(),curUserKey);
         apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
+        progress = new ProgressDialog(getActivity());
+
     }
 
     @Override
@@ -118,6 +128,8 @@ public class LogInFragment extends Fragment {
         ((Button) view.findViewById(R.id.login_submit_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loading();
+                progress.show();
                 loginService(view);
 
             }
@@ -165,10 +177,13 @@ public class LogInFragment extends Fragment {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(tokenChangedKey,"False");
+                progress.dismiss();
+
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                progress.dismiss();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(tokenChangedKey,"True");
             }
@@ -197,6 +212,8 @@ public class LogInFragment extends Fragment {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 int statusCode = response.code();
+                progress.dismiss();
+
                 if(statusCode == 401) {
                     String errorText = "wrong username or password";
                     Toast.makeText(getActivity(),errorText,Toast.LENGTH_SHORT).show();
@@ -239,6 +256,8 @@ public class LogInFragment extends Fragment {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                progress.dismiss();
+
                 Toast.makeText(getActivity(),"connection failed",Toast.LENGTH_SHORT).show();
             }
         });

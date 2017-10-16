@@ -1,6 +1,7 @@
 package login;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -51,7 +52,13 @@ public class SchoolCodeFragment extends Fragment {
     final String headerAccessTokenKey = "header_access-token";
     final String userDataKey = "user_data";
     final String headerUidKey = "header_uid";
+    ProgressDialog progress;
 
+
+    public void loading(){
+        progress.setTitle(R.string.LoadDialogueTitle);
+        progress.setMessage(getString(R.string.LoadDialogueBody));
+    }
 
     public SchoolCodeFragment() {
 
@@ -74,7 +81,7 @@ public class SchoolCodeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         sharedPreferences = getActivity().getSharedPreferences("cur_user", MODE_PRIVATE);
-
+        progress = new ProgressDialog(getActivity());
 
         if(checkAuthenticate()) {
             Intent i = new Intent(getActivity().getApplicationContext(), MyKidsActivity.class);
@@ -103,7 +110,8 @@ public class SchoolCodeFragment extends Fragment {
         ((Button)view.findViewById(R.id.code_submit_btn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                loading();
+                progress.show();
                 getSchoolCode(view);
 
             }
@@ -116,7 +124,9 @@ public class SchoolCodeFragment extends Fragment {
                                           KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
                         || (actionId == EditorInfo.IME_ACTION_NEXT)) {
+
                     getSchoolCode(view);
+
                     return true;
                 }
                 return false;
@@ -162,6 +172,8 @@ public class SchoolCodeFragment extends Fragment {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Toast.makeText(getActivity().getApplicationContext(),"Incorrect code, try again!",Toast.LENGTH_SHORT).show();
+                progress.dismiss();
+
             }
         });
 
@@ -173,8 +185,10 @@ public class SchoolCodeFragment extends Fragment {
         ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
 
         Map<String,String> params = new HashMap();
-        String url = "/api/schools/1";
+        String url = "/api/get_school_by_code";
+        String code = ((AutoCompleteTextView)getActivity().findViewById(R.id.scool_code_edit_text)).getText().toString();
 
+        params.put("code",code);
         Call<JsonObject> call = apiService.getServise(url, params);
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -189,7 +203,7 @@ public class SchoolCodeFragment extends Fragment {
                     editor.putString(schoolDataKey, response.body().toString());
                     editor.putString(BaseUrlKey, schoolUrl);
                     editor.commit();
-
+                    progress.dismiss();
                     Intent i =  new Intent(getActivity().getApplicationContext(), LoginActivity.class);
                     startActivity(i);
                     getActivity().finish();
@@ -197,6 +211,7 @@ public class SchoolCodeFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                progress.dismiss();
                 Toast.makeText(getActivity().getApplicationContext(),"School connection failed",Toast.LENGTH_SHORT).show();
             }
         });
