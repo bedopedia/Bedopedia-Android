@@ -451,7 +451,7 @@ public class StudentFragment extends Fragment {
             TextView notificationNumberText= (TextView) getActivity().findViewById(R.id.student_notification_number);
 
             TextView messagecnt = (TextView) getActivity().findViewById(R.id.student_home_messaage_count_text);
-
+            TextView studentTitle = (TextView) getActivity().findViewById(R.id.student_title);
 
             if (MyKidsActivity.notificationNumber == 0) {
                 notificationNumberText.setVisibility(View.INVISIBLE);
@@ -469,15 +469,17 @@ public class StudentFragment extends Fragment {
             Toolbar studentFragmentToolbar = (Toolbar) getActivity().findViewById(R.id.custom_toolbar_id);
             ((AppCompatActivity)getActivity()).setSupportActionBar(studentFragmentToolbar);
             studentFragmentActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-            studentFragmentActionBar.setDisplayHomeAsUpEnabled(true);
             if(notificationLayout.isDrawerOpen(notificationList)){
-                SpannableString title = new SpannableString(getString(R.string.notificationString));
-                title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                studentFragmentActionBar.setTitle(title);
+                studentTitle.setText(getString(R.string.notificationString));
+//                SpannableString title = new SpannableString(getString(R.string.notificationString));
+//                title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                studentFragmentActionBar.setTitle(title);
             } else {
-                SpannableString title = new SpannableString(studentName);
-                title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                studentFragmentActionBar.setTitle(title);
+                studentTitle.setText(studentName);
+//                SpannableString title = new SpannableString(studentName);
+//                title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                studentFragmentActionBar.setTitle("");
+
             }
 
             notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
