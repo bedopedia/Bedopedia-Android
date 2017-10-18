@@ -5,7 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 
 import com.example.bedopedia.bedopedia_android.R;
@@ -30,18 +31,18 @@ public class StudentActivity extends AppCompatActivity {
 
 
         Toolbar studentACtivityToolBar = (Toolbar) findViewById(R.id.custom_toolbar_id);
+        studentACtivityToolBar.setTitle("");
         setSupportActionBar(studentACtivityToolBar);
-        studentACtivityActionBar = getSupportActionBar();
-        studentACtivityActionBar.setDisplayHomeAsUpEnabled(true);
+        ImageButton back = (ImageButton) findViewById(R.id.back_button_student);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         FragmentUtils.createFragment(getSupportFragmentManager(), StudentFragment.newInstance(), R.id.student_home_container);
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()  == android.R.id.home) {
-            onBackPressed();
-        }
-        return true;
-    }
+
 }

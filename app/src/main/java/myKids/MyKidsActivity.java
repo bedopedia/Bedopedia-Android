@@ -27,6 +27,7 @@ import android.text.SpannableString;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -296,7 +297,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
 
     public  void changeTheNotificationNumber() {
-        TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
+        TextView notificationNumberText= (TextView) findViewById(R.id.my_kids_notification_number);
         notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf"); //use this.getAssets if you are calling from an Activity
         notificationNumberText.setTypeface(roboto);
@@ -328,13 +329,16 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
         ImageViewHelper.getImageFromUrlWithIdFailure(context,avatarUrl, myAvatar, R.drawable.student);
 
-        myKidsToolbar = (Toolbar) findViewById(R.id.custom_toolbar_id);
+        myKidsToolbar = (Toolbar) findViewById(R.id.custom_toolbar_my_kids_id);
+        myKidsToolbar.setTitle("");
         setSupportActionBar(myKidsToolbar);
+        TextView myKidsTitle = (TextView)findViewById(R.id.student_title);
+        myKidsTitle.setText("My Kids");
+
         ActionBar myKidsActionbar = getSupportActionBar();
         myKidsActionbar.setDisplayHomeAsUpEnabled(true);
-        myKidsActionbar.setTitle(R.string.MyKidsTitle);
 
-        TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
+        TextView notificationNumberText= (TextView) findViewById(R.id.my_kids_notification_number);
 
         if (MyKidsActivity.notificationNumber == 0) {
             notificationNumberText.setVisibility(View.INVISIBLE);
@@ -342,7 +346,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
             notificationNumberText.setVisibility(View.VISIBLE);
         }
 
-        Button notificationButton =  (Button) findViewById(R.id.student_action_bar_notification);
+        Button notificationButton =  (Button) findViewById(R.id.my_kids_action_bar_notification);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mainToggle = new ActionBarDrawerToggle(
                 this, drawer, myKidsToolbar , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -402,7 +406,8 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
     Runnable updateNotification = new Runnable() {
         public void run() {
-            TextView notificationNumberText= (TextView) findViewById(R.id.student_notification_number);
+            TextView notificationNumberText= (TextView) findViewById(R.id.my_kids_notification_number);
+            TextView myKidsTitle = (TextView)findViewById(R.id.student_title);
             if (MyKidsActivity.notificationNumber == 0) {
                 notificationNumberText.setVisibility(View.INVISIBLE);
             } else  {
@@ -411,13 +416,15 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
             Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
             if(drawer.isDrawerOpen(notificationList)){
-                SpannableString drawerTitle = new SpannableString((getString(R.string.NotificationString)));
-                drawerTitle.setSpan(roboto,0,drawerTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                myKidsToolbar.setTitle(drawerTitle);
+//                SpannableString drawerTitle = new SpannableString((getString(R.string.NotificationString)));
+//                drawerTitle.setSpan(roboto,0,drawerTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                myKidsToolbar.setTitle(drawerTitle);
+                  myKidsTitle.setText((getString(R.string.NotificationString)));
             } else {
-                SpannableString title = new SpannableString(getString(R.string.MyKidsTitle));
-                title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                myKidsToolbar.setTitle(title);
+//                SpannableString title = new SpannableString(getString(R.string.MyKidsTitle));
+//                title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                myKidsToolbar.setTitle(title);
+                myKidsTitle.setText("My Kids");
             }
 
             notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
