@@ -337,7 +337,6 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
 
         ActionBar myKidsActionbar = getSupportActionBar();
         myKidsActionbar.setDisplayHomeAsUpEnabled(true);
-//        myKidsActionbar.setTitle(R.string.MyKidsTitle);
 
         TextView notificationNumberText= (TextView) findViewById(R.id.my_kids_notification_number);
 
