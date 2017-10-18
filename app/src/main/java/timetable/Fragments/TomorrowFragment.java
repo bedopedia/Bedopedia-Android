@@ -137,7 +137,7 @@ public class TomorrowFragment extends Fragment {
         long timeDifference = end.getTime() - start.getTime();
         int hours = (int) timeDifference / (60 * 60 * 1000);
         int minutes = (int) timeDifference / (60 * 1000) % 60;
-        return (hours * 60) + ((minutes * 60) / 100);
+        return (hours * 60) + minutes ;
     }
 
     private void displayEventSection(Date eventDate, int height, String courseName, String classRoom, Date startTime){
@@ -174,7 +174,7 @@ public class TomorrowFragment extends Fragment {
         mEventView.setTextColor(Color.parseColor("#000000"));
         mEventView.setText(courseName);
         mEventView.setTypeface(roboto);
-        mEventView.setTextSize(16);
+        mEventView.setTextSize(14);
         mEventView.setBackgroundColor(Color.parseColor(mainColors.get(randomNumber)));
         mLayout.addView(mEventView);
 
@@ -189,7 +189,7 @@ public class TomorrowFragment extends Fragment {
         mEventView3.setWidth(1200);
         mEventView3.setTextColor(Color.parseColor("#000000"));
         mEventView3.setTypeface(roboto1);
-        mEventView3.setTextSize(12);
+        mEventView3.setTextSize(10);
         mEventView3.setText(classRoom);
         mEventView3.setBackgroundColor(Color.parseColor(mainColors.get(randomNumber)));
         mLayout.addView(mEventView3);
