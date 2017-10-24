@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.bedopedia.bedopedia_android.gradeBook.ActivityCourse"
+    tools:context="com.skolera.skolera_android.gradeBook.ActivityCourse"
     android:orientation="vertical"
     android:scrollbars="vertical">
 

@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.AskTeacherActivity;
-import com.example.bedopedia.bedopedia_android.MessageThreadActivity;
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.AskTeacherActivity;
+import com.skolera.skolera_android.MessageThreadActivity;
+import com.skolera.skolera_android.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

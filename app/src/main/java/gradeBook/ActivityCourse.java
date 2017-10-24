@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 
 import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package com.skolera.skolera_android;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import Tools.FragmentUtils;
-import login.schoolCode;
 
 
 public class AskTeacherActivity extends AppCompatActivity {

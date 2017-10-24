@@ -4,7 +4,7 @@ package login;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 
 import Tools.FragmentUtils;
 

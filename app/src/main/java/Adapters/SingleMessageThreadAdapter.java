@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

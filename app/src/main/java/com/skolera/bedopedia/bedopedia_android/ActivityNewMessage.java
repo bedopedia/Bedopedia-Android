@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package com.skolera.skolera_android;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;

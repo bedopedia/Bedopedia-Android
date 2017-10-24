@@ -1,7 +1,6 @@
 package attendance;
 
 import android.app.Fragment;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.gson.JsonArray;
