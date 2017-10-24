@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package com.skolera.skolera_android;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.bedopedia.bedopedia_android", appContext.getPackageName());
+        assertEquals("com.skolera.skolera_android", appContext.getPackageName());
     }
 }

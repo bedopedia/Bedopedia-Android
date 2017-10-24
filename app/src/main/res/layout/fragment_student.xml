@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:background="@color/snow"
         android:fitsSystemWindows="true"
-        tools:context="com.example.bedopedia.bedopedia_android.student.StudentActivity">
+        tools:context="com.skolera.skolera_android.student.StudentActivity">
 
         <LinearLayout
             android:orientation="vertical"
@@ -30,7 +30,7 @@
             android:paddingBottom="@dimen/activity_vertical_margin"
 
             android:paddingTop="@dimen/activity_vertical_margin"
-            tools:context="com.example.bedopedia.bedopedia_android.student.StudentActivity"
+            tools:context="com.skolera.skolera_android.student.StudentActivity"
             >
 
             <LinearLayout

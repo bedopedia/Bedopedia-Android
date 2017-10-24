@@ -22,21 +22,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.AskTeacherActivity;
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.AskTeacherActivity;
+import com.skolera.skolera_android.R;
 
 import Tools.SharedPreferenceUtils;
-import student.StudentActivity;
 
 import Tools.ImageViewHelper;
 import login.schoolCode;

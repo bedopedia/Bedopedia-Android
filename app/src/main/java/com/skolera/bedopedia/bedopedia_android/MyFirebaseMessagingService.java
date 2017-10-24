@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package com.skolera.skolera_android;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;

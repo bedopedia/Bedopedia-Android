@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 
 /**
  * Created by khaled on 2/21/17.

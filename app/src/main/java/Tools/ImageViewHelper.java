@@ -16,11 +16,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 

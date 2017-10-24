@@ -7,8 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import behaviorNotes.BehaviorNotesActivity;
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 
 import java.io.Serializable;
 import java.util.List;

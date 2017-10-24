@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import Tools.FragmentUtils;
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 import java.util.List;
 
 /**
