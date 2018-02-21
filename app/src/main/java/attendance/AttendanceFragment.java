@@ -174,7 +174,7 @@ public class AttendanceFragment extends Fragment {
         compactCalendar.setUseThreeLetterAbbreviation(true);
         compactCalendar.setFirstDayOfWeek(Calendar.SUNDAY);
         compactCalendar.setSelected(false);
-
+        compactCalendar.shouldDrawIndicatorsBelowSelectedDays(true);
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
