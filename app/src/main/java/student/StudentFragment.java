@@ -607,17 +607,13 @@ public class StudentFragment extends Fragment {
                         tomorrow = "sunday";
                     }
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     formatter.setTimeZone(TimeZone.getTimeZone("Egypt"));
                     for (int i = 0; i < response.body().size(); i++) {
 
                         JsonObject slot = response.body().get(i);
                         String from = slot.get("from").getAsString();
                         String to = slot.get("to").getAsString();
-                        if (from.indexOf('.') != -1)
-                            from = from.substring(0, from.indexOf('.')) + 'Z';
-                        if (to.indexOf('.') != -1)
-                            to = to.substring(0, to.indexOf('.')) + 'Z';
                         String day = slot.get("day").getAsString();
                         String courseName = slot.get("course_name").getAsString();
                         String classRoom = slot.get("school_unit").getAsString();
@@ -625,9 +621,8 @@ public class StudentFragment extends Fragment {
                         Date fromDate = null;
                         Date toDate = null;
                         try {
-
-                            fromDate = formatter.parse(from.replaceAll("Z$", "+0000"));
-                            toDate = formatter.parse(to.replaceAll("Z$", "+0000"));
+                            fromDate = formatter.parse(from);
+                            toDate = formatter.parse(to);
 
                         } catch (ParseException e) {
                             e.printStackTrace();

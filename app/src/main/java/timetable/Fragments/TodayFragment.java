@@ -51,6 +51,7 @@ public class TodayFragment extends Fragment {
         Fragment fragment ;
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_NAME, (Serializable) todaySlots);
+
         fragment = new TodayFragment();
         fragment.setArguments(bundle);
 
