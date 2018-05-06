@@ -53,6 +53,7 @@ public class TimetableAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         Calendar calendar = CalendarUtils.getCalendarWithoutDate();
         Date date = calendar.getTime();
+
         String today = new SimpleDateFormat("EEE", Locale.ENGLISH).format(date.getTime());
         String todayNumber =  new SimpleDateFormat("dd", Locale.ENGLISH).format(date.getTime());
 
