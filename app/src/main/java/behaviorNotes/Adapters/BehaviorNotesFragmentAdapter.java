@@ -10,13 +10,12 @@ import android.widget.TextView;
 
 import behaviorNotes.BehaviorNote;
 
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 
 import java.util.List;
 
 import behaviorNotes.Fragments.NegativeFragment;
 import behaviorNotes.Fragments.PositiveFragment;
-import student.StudentFragment;
 
 
 /**

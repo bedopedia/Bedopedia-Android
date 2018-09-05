@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package com.skolera.skolera_android;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +20,7 @@ public class ActivityNewMessage extends AppCompatActivity {
         askTeacherActionbar.setDisplayHomeAsUpEnabled(true);
         askTeacherActionbar.setTitle("New Message");
 
-        FragmentUtils.createFragment(getSupportFragmentManager(), NewMessageFragment.newInstance(), R.id.newMessageContainer);
+        FragmentUtils.createFragment(getSupportFragmentManager(), com.skolera.skolera_android.NewMessageFragment.newInstance(), R.id.newMessageContainer);
 
     }
 

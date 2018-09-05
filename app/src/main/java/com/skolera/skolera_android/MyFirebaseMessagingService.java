@@ -1,13 +1,12 @@
-package com.example.bedopedia.bedopedia_android;
+package com.skolera.skolera_android;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.NotificationCompat;
-
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -21,6 +20,8 @@ import Models.Message;
 import Models.User;
 import myKids.MyKidsActivity;
 import student.StudentFragment;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by ali on 27/02/17.

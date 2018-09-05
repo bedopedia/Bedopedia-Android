@@ -2,7 +2,7 @@ package login;
 
 
 
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;

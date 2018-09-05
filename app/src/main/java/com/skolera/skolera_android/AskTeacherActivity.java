@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package com.skolera.skolera_android;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
@@ -10,7 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import Tools.FragmentUtils;
-import login.schoolCode;
+
+import static com.skolera.skolera_android.R.id.ask_teacher_toolbar_id;
 
 
 public class AskTeacherActivity extends AppCompatActivity {
@@ -21,7 +22,7 @@ public class AskTeacherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_teacher);
 
-        Toolbar askTeacherToolbar = (Toolbar) findViewById(R.id.ask_teacher_toolbar_id);
+        Toolbar askTeacherToolbar = (Toolbar) findViewById(ask_teacher_toolbar_id);
         setSupportActionBar(askTeacherToolbar);
         ActionBar askTeacherActionbar = getSupportActionBar();
         askTeacherActionbar.setDisplayHomeAsUpEnabled(true);
@@ -37,12 +38,12 @@ public class AskTeacherActivity extends AppCompatActivity {
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AskTeacherActivity.this, ActivityNewMessage.class);
+                Intent intent = new Intent(AskTeacherActivity.this, com.skolera.skolera_android.ActivityNewMessage.class);
                 intent.putExtra("student_id",studentId);
                 startActivity(intent);
             }
         });
-        FragmentUtils.createFragment(getSupportFragmentManager(), AskTeacherFragment.newInstance(this), R.id.askTeacherContainer);
+        FragmentUtils.createFragment(getSupportFragmentManager(), com.skolera.skolera_android.AskTeacherFragment.newInstance(this), R.id.askTeacherContainer);
 
     }
 

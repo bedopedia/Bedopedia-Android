@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package com.skolera.skolera_android;
 
 
 import android.app.ProgressDialog;
@@ -181,7 +181,7 @@ public class NewMessageFragment extends Fragment {
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(getActivity(),getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                 } else {
-                    Intent intent = new Intent(getActivity(), AskTeacherActivity.class);
+                    Intent intent = new Intent(getActivity(), com.skolera.skolera_android.AskTeacherActivity.class);
                     intent.putExtra(studentIdKey, studentId);
                     startActivity(intent);
                 }

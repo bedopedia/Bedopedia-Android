@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 
 import java.util.List;
 
@@ -94,9 +94,9 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
             if(courseGroup.getGrade().charAt(0) == 'A'){
                 gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
             } else if(courseGroup.getGrade().charAt(0) == 'F'){
-                gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_f_circle);
+                gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
             } else {
-                gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_bcd_circle);
+                gradeHolderItem.courseGrade.setBackgroundResource(R.drawable.grade_a_circle);
             }
         }
 

@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 import Tools.FragmentUtils;
 
 

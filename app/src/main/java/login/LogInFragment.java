@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -304,5 +304,6 @@ public class LogInFragment extends Fragment {
         ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setHint(R.string.fragmentLoginMail_tv);
         ((AutoCompleteTextView) rootView.findViewById(R.id.password_edit_text)).setHint(R.string.fragmentLoginPassword_tv);
         ((TextView) rootView.findViewById(R.id.forget_password)).setText(R.string.fragmentLoginForgetPassword_tv);
+        ((TextView) rootView.findViewById(R.id.forget_password)).setVisibility(View.INVISIBLE);
     }
 }

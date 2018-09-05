@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bedopedia.bedopedia_android">
+    android:versionCode="1"
+    android:versionName="@string/app_name"
+    package="com.skolera.skolera_android">
+
+
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,12 +18,12 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".MyFirebaseMessagingService">
+        <service android:name="com.skolera.skolera_android.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".FirebaseIDService">
+        <service android:name="com.skolera.skolera_android.FirebaseIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -81,16 +85,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".MessageThreadActivity"
+            android:name="com.skolera.skolera_android.MessageThreadActivity"
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".AskTeacherActivity"
+            android:name="com.skolera.skolera_android.AskTeacherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar"></activity>
-        <activity android:name=".ActivityNewMessage"
+        <activity android:name="com.skolera.skolera_android.ActivityNewMessage"
             android:theme="@style/NoActionBar" >>
     </activity>
     </application>

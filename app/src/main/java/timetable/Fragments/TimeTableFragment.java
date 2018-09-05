@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bedopedia.bedopedia_android.R;
+import com.skolera.skolera_android.R;
 
 import java.util.List;
 
@@ -57,6 +57,7 @@ public class TimeTableFragment extends Fragment {
         Bundle bundle = intent.getExtras();
         tomorrowSlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
         todaySlots = ( List<TimetableSlot> ) bundle.getSerializable(TodayFragment.KEY_NAME);
+
     }
 
     @Override

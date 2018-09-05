@@ -1,4 +1,4 @@
-package com.example.bedopedia.bedopedia_android;
+package com.skolera.skolera_android;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -35,8 +35,6 @@ import myKids.Student;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static timetable.TimetableActivity.context;
 
 /**
  * A simple {@link Fragment} subclass.
