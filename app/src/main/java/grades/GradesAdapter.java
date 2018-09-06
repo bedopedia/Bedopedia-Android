@@ -85,7 +85,6 @@ public class GradesAdapter extends ArrayAdapter<CourseGroup> {
                 context.startActivity(activityCourseIntent);
             }
         });
-
         if (!courseGroup.getIcon().equals("non")) {
             String imageName = courseGroup.getIcon();
             int res = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());

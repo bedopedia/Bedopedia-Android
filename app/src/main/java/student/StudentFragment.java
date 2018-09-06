@@ -502,6 +502,7 @@ public class StudentFragment extends Fragment {
 
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
+
                 int statusCode = response.code();
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
@@ -536,23 +537,24 @@ public class StudentFragment extends Fragment {
     public void getStudentGrades(){
         String url = "api/students/" + studentId + "/grade_certificate";
         Map<String, String> params = new HashMap<>();
-        Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
-        call.enqueue(new Callback<ArrayList<JsonObject> >() {
+        Call<JsonObject>  call = apiService.getServise(url, params);
+        call.enqueue(new Callback<JsonObject> () {
             @Override
-            public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
-                //progress.dismiss();
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
                 int statusCode = response.code();
                 if(statusCode == 401) {
                     Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                 } else {
                     if (statusCode == 200) {
+
                         int i = 0;
-                        for (; i < response.body().size()-1; i++) {
-                            JsonObject courseData = response.body().get(i);
+                        for (; i < response.body().getAsJsonArray("courses_grades").size()-1; i++) {
+                            JsonObject courseData = (JsonObject ) response.body().getAsJsonArray("courses_grades").get(i);
                             if(courseData.has("course_id"))
                             for(int j = 0 ; j < courseGroups.size() ; j++){
                                 if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt() && !courseData.get("grade").isJsonArray()) {
-                                    courseGroups.get(j).setGrade(courseData.get("grade").getAsString());
+                                    courseGroups.get(j).setGrade(courseData.getAsJsonObject("grade").get("numeric").getAsString());
                                     if (courseData.get("icon").toString().equals("null"))
                                         courseGroups.get(j).setIcon("dragon");
                                     else
@@ -563,8 +565,7 @@ public class StudentFragment extends Fragment {
                             }
 
                         }
-                       // totalGrade = response.body().get(i).get("total_grade").getAsString();
-                        totalGrade = "F";
+                        totalGrade = response.body().getAsJsonObject("grade").get("letter").getAsString();
                         totalGradeText.setText("Average grade:  "+totalGrade);
                     }
                 }
@@ -574,7 +575,7 @@ public class StudentFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 progress.dismiss();
                 Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
             }
