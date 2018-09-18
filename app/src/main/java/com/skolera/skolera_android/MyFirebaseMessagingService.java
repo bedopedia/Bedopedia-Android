@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -34,10 +35,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
+
         SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
         if (sharedPreferences.getString("is_logged_in", "").equals("true")) {
             Map<String, String> data = remoteMessage.getData();
-
 
             if (data.get("event").equals("notification")) {
 

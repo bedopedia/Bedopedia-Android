@@ -548,9 +548,12 @@ public class StudentFragment extends Fragment {
                 } else {
                     if (statusCode == 200) {
 
+
                         int i = 0;
-                        for (; i < response.body().getAsJsonArray("courses_grades").size()-1; i++) {
+                        for (; i < response.body().getAsJsonArray("courses_grades").size(); i++) {
+
                             JsonObject courseData = (JsonObject ) response.body().getAsJsonArray("courses_grades").get(i);
+
                             if(courseData.has("course_id"))
                             for(int j = 0 ; j < courseGroups.size() ; j++){
                                 if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt() && !courseData.get("grade").isJsonArray()) {
