@@ -166,6 +166,7 @@ public class LogInFragment extends Fragment {
         String id = SharedPreferenceUtils.getStringValue(userIdKey,"",sharedPreferences);
         String url = "api/users/" + id  ;
         String token = SharedPreferenceUtils.getStringValue("token","",sharedPreferences);
+        ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
         JsonObject params = new JsonObject();
         JsonObject tokenJson = new JsonObject();
         tokenJson.addProperty("mobile_device_token",token);
