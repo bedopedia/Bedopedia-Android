@@ -40,8 +40,8 @@ public class ActivityCourse extends AppCompatActivity {
     Context context;
     private Double totalStudent = 0.0;
     private Double totalCategory = 0.0 ;
-     String studentId, courseGroupId,courseId;
-     String courseName;
+    String studentId, courseGroupId,courseId;
+    String courseName;
     final String studentIdKey = "student_id";
     final String assignmentsKey = "assignments";
     final String studentKey = "student";
@@ -122,46 +122,98 @@ public class ActivityCourse extends AppCompatActivity {
 
                             ArrayList<ArrayList<String>> assignmentTempData = new ArrayList<>();
                             JsonObject item = entry.getValue().getAsJsonObject();
-                            if (item.has(assignmentsKey) && body.has(studentKey)  ) {
-                                JsonArray submittedAssignmentsArray = new JsonArray();
-                                if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedAssignmentsKey) ) {
-                                    submittedAssignmentsArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedAssignmentsKey).getAsJsonArray();
+                            JsonObject data = new JsonObject();
+                            if(entry.getKey().toString().equals("Coursework")){
+                                Set<Map.Entry<String, JsonElement>> tempEntries = item.getAsJsonObject("sub_categories").entrySet();
+                                for (Map.Entry<String, JsonElement> tEntry: tempEntries){
+                                    data = tEntry.getValue().getAsJsonObject();
+                                    if (data.has(assignmentsKey) && body.has(studentKey)  ) {
+                                        JsonArray submittedAssignmentsArray = new JsonArray();
+                                        if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedAssignmentsKey) ) {
+                                            submittedAssignmentsArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedAssignmentsKey).getAsJsonArray();
+                                        }
+                                        addAssignmentsToList(data.get(assignmentsKey).getAsJsonArray(), assignmentTempData, submittedAssignmentsArray , body.get(assignmentsAveragesKey).getAsJsonObject() );
+                                    }
+
+                                    if (data.has(quizzesKey)  &&  body.has(studentKey)  ) {
+                                        JsonArray submittedQuizzesArray = new JsonArray();
+                                        if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedQuizzesKey) ) {
+                                            submittedQuizzesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedQuizzesKey).getAsJsonArray();
+                                        }
+                                        addQuizzesToList(data.get(quizzesKey).getAsJsonArray(), assignmentTempData, submittedQuizzesArray , body.get(quizzesAveragesKey).getAsJsonObject() );
+                                    }
+
+                                    if (data.has(gradeItemsKey)  && body.has(studentKey)  ) {
+                                        JsonArray submittedGradesArray = new JsonArray();
+                                        if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedGradesKey)  ) {
+                                            submittedGradesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedGradesKey).getAsJsonArray();
+                                        }
+                                        addGradeItemsToList(data.get(gradeItemsKey).getAsJsonArray(), assignmentTempData, submittedGradesArray , body.get(gradesAveragesKey).getAsJsonObject() );
+                                    }
+
+                                    if(totalStudent == totalStudent.intValue()){
+                                        temp.add(totalStudent.intValue()+"");
+                                    }else{
+                                        temp.add(totalStudent.toString());
+                                    }
+                                    if(totalCategory == totalCategory.intValue()){
+                                        temp.add(totalCategory.intValue()+"");
+                                    }else{
+                                        temp.add(totalCategory.toString());
+                                    }
+
+
+                                    totalCategory = 0.0;
+                                    totalStudent = 0.0;
+                                    header.add(temp);
+                                    courseItemsTempData.add(assignmentTempData);
+
                                 }
-                                addAssignmentsToList(item.get(assignmentsKey).getAsJsonArray(), assignmentTempData, submittedAssignmentsArray , body.get(assignmentsAveragesKey).getAsJsonObject() );
-                            }
 
-                            if (item.has(quizzesKey)  &&  body.has(studentKey)  ) {
-                                JsonArray submittedQuizzesArray = new JsonArray();
-                                if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedQuizzesKey) ) {
-                                    submittedQuizzesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedQuizzesKey).getAsJsonArray();
+                            }else {
+                                data = item;
+                                if (data.has(assignmentsKey) && body.has(studentKey)  ) {
+                                    JsonArray submittedAssignmentsArray = new JsonArray();
+                                    if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedAssignmentsKey) ) {
+                                        submittedAssignmentsArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedAssignmentsKey).getAsJsonArray();
+                                    }
+                                    addAssignmentsToList(data.get(assignmentsKey).getAsJsonArray(), assignmentTempData, submittedAssignmentsArray , body.get(assignmentsAveragesKey).getAsJsonObject() );
                                 }
-                                addQuizzesToList(item.get(quizzesKey).getAsJsonArray(), assignmentTempData, submittedQuizzesArray , body.get(quizzesAveragesKey).getAsJsonObject() );
-                            }
 
-                            if (item.has(gradeItemsKey)  && body.has(studentKey)  ) {
-                                JsonArray submittedGradesArray = new JsonArray();
-                                if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedGradesKey)  ) {
-                                    submittedGradesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedGradesKey).getAsJsonArray();
+                                if (data.has(quizzesKey)  &&  body.has(studentKey)  ) {
+                                    JsonArray submittedQuizzesArray = new JsonArray();
+                                    if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedQuizzesKey) ) {
+                                        submittedQuizzesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedQuizzesKey).getAsJsonArray();
+                                    }
+                                    addQuizzesToList(data.get(quizzesKey).getAsJsonArray(), assignmentTempData, submittedQuizzesArray , body.get(quizzesAveragesKey).getAsJsonObject() );
                                 }
-                                addGradeItemsToList(item.get(gradeItemsKey).getAsJsonArray(), assignmentTempData, submittedGradesArray , body.get(gradesAveragesKey).getAsJsonObject() );
-                            }
 
-                            if(totalStudent == totalStudent.intValue()){
-                                temp.add(totalStudent.intValue()+"");
-                            }else{
-                                temp.add(totalStudent.toString());
-                            }
-                            if(totalCategory == totalCategory.intValue()){
-                                temp.add(totalCategory.intValue()+"");
-                            }else{
-                                temp.add(totalCategory.toString());
-                            }
+                                if (data.has(gradeItemsKey)  && body.has(studentKey)  ) {
+                                    JsonArray submittedGradesArray = new JsonArray();
+                                    if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedGradesKey)  ) {
+                                        submittedGradesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedGradesKey).getAsJsonArray();
+                                    }
+                                    addGradeItemsToList(data.get(gradeItemsKey).getAsJsonArray(), assignmentTempData, submittedGradesArray , body.get(gradesAveragesKey).getAsJsonObject() );
+                                }
+
+                                if(totalStudent == totalStudent.intValue()){
+                                    temp.add(totalStudent.intValue()+"");
+                                }else{
+                                    temp.add(totalStudent.toString());
+                                }
+                                if(totalCategory == totalCategory.intValue()){
+                                    temp.add(totalCategory.intValue()+"");
+                                }else{
+                                    temp.add(totalCategory.toString());
+                                }
 
 
-                            totalCategory = 0.0;
-                            totalStudent = 0.0;
-                            header.add(temp);
-                            courseItemsTempData.add(assignmentTempData);
+                                totalCategory = 0.0;
+                                totalStudent = 0.0;
+                                header.add(temp);
+                                courseItemsTempData.add(assignmentTempData);
+
+                            }
 
                         }
 
