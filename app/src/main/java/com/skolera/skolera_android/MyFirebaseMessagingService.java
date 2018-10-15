@@ -32,6 +32,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "FCM Service";
     private String messageKey = "message_content";
     private static int mdl = 0;
+
+
+    String token;
+    String tokenKey = "token";
+    String token_changedKey = "token_changed";
+    String TrueKey = "True";
+
+    @Override
+    public void onNewToken(String s) {
+        super.onNewToken(s);
+        token = s;
+        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(tokenKey,token);
+        editor.putString(token_changedKey,TrueKey);
+        editor.commit();
+    }
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 

@@ -23,19 +23,19 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
     @Override
     public void onTokenRefresh() {
         // Get updated InstanceID token.
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        token = refreshedToken;
-        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(tokenKey,token);
-        editor.putString(token_changedKey,TrueKey);
-        editor.commit();
+//        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+//        token = refreshedToken;
+//        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString(tokenKey,token);
+//        editor.putString(token_changedKey,TrueKey);
+//        editor.commit();
 
 
 
         // TODO: Implement this method to send any registration to your app's servers.
 
-        sendRegistrationToServer(refreshedToken);
+//        sendRegistrationToServer(refreshedToken);
     }
 
     /**
