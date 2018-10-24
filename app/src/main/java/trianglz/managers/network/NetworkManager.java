@@ -5,27 +5,44 @@ import android.util.Log;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
+import com.androidnetworking.gsonparserfactory.GsonParserFactory;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 
+import okhttp3.OkHttpClient;
+import trianglz.managers.App;
 import trianglz.utils.Constants;
 
 /**
  * Created by ${Aly} on 10/24/2018.
  */
 public class NetworkManager {
-    public static void get(String url, String headerValue, final HandleResponseListener handleResponseListener) {
-        Log.v("URL", url);
+
+
+    public static void get(String url, HashMap<String, String> headerValue, final HandleResponseListener handleResponseListener) {
+        GsonBuilder builder;
+        Gson gson;
+
+        builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL,Modifier.TRANSIENT,Modifier.STATIC);
+        builder.excludeFieldsWithoutExposeAnnotation();
+        builder.serializeNulls();
+        gson =builder.create();
+        AndroidNetworking.setParserFactory(new GsonParserFactory(gson));
         AndroidNetworking.get(url)
-                .addHeaders("Authorization", headerValue)
+                .addPathParameter("Code", "cis")
+                .addQueryParameter("Code", "cis")
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {

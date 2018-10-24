@@ -32,11 +32,7 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="login.LoginActivity"
@@ -97,7 +93,14 @@
             android:theme="@style/NoActionBar">
             >
         </activity>
-        <activity android:name="trianglz.ui.activities.SchoolLoginActivity"></activity>
+        <activity android:name="trianglz.ui.activities.SchoolLoginActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
