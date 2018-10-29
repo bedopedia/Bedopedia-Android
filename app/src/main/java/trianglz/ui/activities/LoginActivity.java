@@ -3,6 +3,7 @@ package trianglz.ui.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -37,7 +38,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_login:
+                if(validate(emailEditText.getText().toString(),passwordEditText.getText().toString())){
+
+                }
                 break;
         }
     }
+
+
+    public boolean validate(String email, String password) {
+        boolean valid = true;
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            // TODO: 10/29/2018
+//            ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setError("Enter a valid email address");
+            valid = false;
+        } else {
+//            ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setError(null);
+        }
+
+        if (password.isEmpty() || password.length() < 4) {
+            // TODO: 10/29/2018  Enter a valid password
+//            ((AutoCompleteTextView) rootView.findViewById(R.id.password_edit_text)).setError("");
+            valid = false;
+        } else {
+//            ((AutoCompleteTextView) rootView.findViewById(R.id.password_edit_text)).setError(null);
+        }
+
+        return valid;
+    }
+
 }

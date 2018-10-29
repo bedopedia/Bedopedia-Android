@@ -2,6 +2,8 @@ package trianglz.managers;
 
 import android.content.SharedPreferences;
 
+import trianglz.utils.Constants;
+
 /**
  * Created by ${Aly} on 10/24/2018.
  */
@@ -23,6 +25,15 @@ public class SessionManager {
     private SessionManager() {
         mPreferences = App.getInstance().getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         mEditor = mPreferences.edit();
+    }
+
+    public void creatSchoolSession(String id, String name, String code, String createdAt, String updatedAt){
+        mEditor.putString(Constants.KEY_ID, id);
+        mEditor.putString(Constants.KEY_NAME, name);
+        mEditor.putString(Constants.KEY_CODE, code);
+        mEditor.putString(Constants.KEY_CREATED_AT, createdAt);
+        mEditor.putString(Constants.KEY_UPADTED_AT, updatedAt);
+        mEditor.commit();
     }
 
 }

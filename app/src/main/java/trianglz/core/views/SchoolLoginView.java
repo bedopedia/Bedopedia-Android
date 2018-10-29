@@ -2,9 +2,17 @@ package trianglz.core.views;
 
 import android.content.Context;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
+
+import java.io.Serializable;
+
 import trianglz.core.presenters.SchoolLoginPresenter;
+import trianglz.managers.SessionManager;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.utils.Constants;
 
 /**
  * Created by ${Aly} on 10/24/2018.
@@ -21,8 +29,9 @@ public class SchoolLoginView {
     public void getSchoolUrl(String url,String code){
         UserManager.getSchoolUrl(url,code, new ResponseListener() {
             @Override
-            public void onSuccess(Object response) {
+            public void onSuccess(JSONObject response) {
                 presenter.onGetSchoolUrlSuccess();
+                
             }
 
             @Override
