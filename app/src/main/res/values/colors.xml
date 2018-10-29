@@ -25,5 +25,8 @@
     <color name="Medium_sea_green">#ff4caf50</color>
     <color name="whiteOP7">#b3ffffff</color>
     <color name="Manatee">#ff9b9b9b</color>
+    <color name="steel">#7a8993</color>
+    <color name="greyish_brown">#555555</color>
+    <color name="jade_green">#28bb4e</color>
 
 </resources>

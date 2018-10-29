@@ -47,5 +47,9 @@
     <string name="AttendanceExcusedLable">Excused</string>
     <string name="AttendanceAbsentLable">Absent</string>
     <string name="crash_toast_text">The Mobile app is crashing</string>
+    <string name="forget_your_password">Forget your password?</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
 
 </resources>
