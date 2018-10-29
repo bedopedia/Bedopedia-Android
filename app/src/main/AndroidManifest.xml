@@ -94,7 +94,8 @@
             >
         </activity>
         <activity android:name="trianglz.ui.activities.SchoolLoginActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_v2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

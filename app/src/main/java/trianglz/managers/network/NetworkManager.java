@@ -5,23 +5,17 @@ import android.util.Log;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
-import com.androidnetworking.gsonparserfactory.GsonParserFactory;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 
-import okhttp3.OkHttpClient;
-import trianglz.managers.App;
 import trianglz.utils.Constants;
 
 /**
@@ -30,19 +24,10 @@ import trianglz.utils.Constants;
 public class NetworkManager {
 
 
-    public static void get(String url, HashMap<String, String> headerValue, final HandleResponseListener handleResponseListener) {
-        GsonBuilder builder;
-        Gson gson;
-
-        builder = new GsonBuilder();
-        builder.excludeFieldsWithModifiers(Modifier.FINAL,Modifier.TRANSIENT,Modifier.STATIC);
-        builder.excludeFieldsWithoutExposeAnnotation();
-        builder.serializeNulls();
-        gson =builder.create();
-        AndroidNetworking.setParserFactory(new GsonParserFactory(gson));
+    public static void getWithParameter(String url, String code, HashMap<String, String> headerValue, final HandleResponseListener handleResponseListener) {
         AndroidNetworking.get(url)
-                .addPathParameter("Code", "cis")
-                .addQueryParameter("Code", "cis")
+                .addQueryParameter(Constants.KEY_CODE, code)
+                .addHeaders(headerValue)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -57,6 +42,26 @@ public class NetworkManager {
                     }
                 });
     }
+
+    public static void get(String url, String headerValue, final HandleResponseListener handleResponseListener) {
+        Log.v("URL", url);
+        AndroidNetworking.get(url)
+                .addHeaders("Authorization", headerValue)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        handleResponseListener.onSuccess(response);
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        handleResponseListener.onFailure(getErrorMessage(error), error.getErrorCode());
+                    }
+                });
+    }
+
 
     public static void getJsonArray(String url, String headerValue, final HandleArrayResponseListener handleArrayResponseListener) {
         AndroidNetworking.get(url)

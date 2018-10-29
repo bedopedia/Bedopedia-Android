@@ -18,8 +18,8 @@ public class SchoolLoginView {
         this.presenter = presenter;
     }
 
-    public void getSchoolUrl(String url,String header){
-        UserManager.getSchoolUrl(url,header, new ResponseListener() {
+    public void getSchoolUrl(String url,String code){
+        UserManager.getSchoolUrl(url,code, new ResponseListener() {
             @Override
             public void onSuccess(Object response) {
                 presenter.onGetSchoolUrlSuccess();
