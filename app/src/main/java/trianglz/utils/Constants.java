@@ -9,7 +9,13 @@ public class Constants {
     public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
     public static final String KEY_URL = "url";
+    public static final String SCHOOL = "School";
     public static final String KEY_CREATED_AT = "created_at";
     public static final String KEY_UPADTED_AT = "updated_at";
+    public static final String KEY_SCHOOL_DESCRIPTION = "school_description";
+    public static final String KEY_AVATER_URL = "avatar_url";
+    public static final String KEY_CONFIG = "config";
+    public static final String KEY_DEFAULT_CONFIGS = "default_configs";
+    public static final String KEY_GA_TRACKING_ID = "ga_tracking_id";
 
 }
