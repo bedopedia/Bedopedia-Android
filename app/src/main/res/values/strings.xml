@@ -51,5 +51,6 @@
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="school_code">School code</string>
 
 </resources>
