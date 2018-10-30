@@ -1,18 +1,17 @@
 package trianglz.components;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.AutoCompleteTextView;
+
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 /**
  * This file is spawned by Gemy on 10/30/2018.
  */
-@SuppressLint("AppCompatCustomView")
-public class SfproBlackAutocompTextView extends AutoCompleteTextView {
+public class SfproBlackMaterialEditText extends MaterialEditText {
     private Context context;
-    public SfproBlackAutocompTextView(Context context, AttributeSet attrs) {
+    public SfproBlackMaterialEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         CreateView(context);

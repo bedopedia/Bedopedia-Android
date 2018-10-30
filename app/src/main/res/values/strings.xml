@@ -56,6 +56,8 @@
     <string name="password_is_empty">Password is empty</string>
     <string name="email_is_empty">Email is empty</string>
     <string name="password_length_error">Password length should be more than 4 characters</string>
+    <string name="code_is_empty">Code is empty</string>
+    <string name="code_length_error">Code length error</string>
     <string name="skolera">Skolera</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="wrong_username_or_password">Wrong username or password</string>

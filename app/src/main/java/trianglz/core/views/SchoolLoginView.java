@@ -53,14 +53,14 @@ public class SchoolLoginView {
                 try {
                     JSONObject baseResponse = new JSONObject(String.valueOf(response));
                     JSONObject configObject = baseResponse.optJSONObject(Constants.KEY_CONFIG);
-                    String attendanceAllowSlot = configObject.getString("attendance_allow_teacher_record_slot");
+                    String attendanceAllowSlot = configObject.optString("attendance_allow_teacher_record_slot");
                     String attendanceAllowFullDay = configObject.optString("attendance_allow_teacher_record_full_day");
                     JSONArray defaultConfigArray = baseResponse.getJSONArray(Constants.KEY_DEFAULT_CONFIGS);
                     String defaultConfigSlot = defaultConfigArray.get(0).toString();
                     String defaultConfigFullDay = defaultConfigArray.get(1).toString();
 
                     School school = new School(id, name, schoolDescription, avatarUrl, gaTrackingId, attendanceAllowSlot,
-                            attendanceAllowFullDay, defaultConfigSlot, defaultConfigFullDay);
+                            attendanceAllowFullDay, defaultConfigSlot, defaultConfigFullDay,"");
                     presenter.onGetSchoolDataSuccess(school);
                 } catch (JSONException e) {
                     e.printStackTrace();

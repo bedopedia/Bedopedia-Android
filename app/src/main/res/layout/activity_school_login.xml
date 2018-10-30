@@ -21,14 +21,13 @@
         android:layout_marginTop="75dp"
         android:text="@string/school_code" />
 
-    <trianglz.components.SfproBlackEditText
+    <trianglz.components.SfproBlackMaterialEditText
         android:id="@+id/et_school_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:text="4 0 5 9"
         android:textSize="24sp" />
 
     <trianglz.components.SfProBlackButton
