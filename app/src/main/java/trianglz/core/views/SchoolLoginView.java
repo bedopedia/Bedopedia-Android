@@ -35,7 +35,7 @@ public class SchoolLoginView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                presenter.onGetSchoolUrlFailure();
+                presenter.onGetSchoolUrlFailure(message,errorCode);
             }
         });
     }
@@ -69,7 +69,7 @@ public class SchoolLoginView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-
+                presenter.onGetSchoolDataFailure(message,errorCode);
             }
         });
     }

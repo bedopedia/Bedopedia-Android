@@ -75,13 +75,13 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onGetSchoolUrlSuccess(String url) {
-        url += "/api/get_school_by_code";
         schoolUrl = url;
+        url += "/api/get_school_by_code";
         schoolLoginView.getSchoolData(url, codeEditText.getText().toString());
     }
 
     @Override
-    public void onGetSchoolUrlFailure() {
+    public void onGetSchoolUrlFailure(String message, int errorCode) {
         Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show();
         super.progress.dismiss();
     }
@@ -95,7 +95,7 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
     }
 
     @Override
-    public void onGetSchoolDataFailure() {
+    public void onGetSchoolDataFailure(String message,int errorCode) {
         super.progress.dismiss();
     }
 }

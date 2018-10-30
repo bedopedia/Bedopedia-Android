@@ -7,7 +7,7 @@ import trianglz.models.School;
  */
 public interface SchoolLoginPresenter {
     void onGetSchoolUrlSuccess(String url);
-    void onGetSchoolUrlFailure();
+    void onGetSchoolUrlFailure(String message,int errorCode);
     void onGetSchoolDataSuccess(School school);
-    void onGetSchoolDataFailure();
+    void onGetSchoolDataFailure(String message,int errorCode);
 }

@@ -56,7 +56,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
                 if(Util.isNetworkAvailable(this)){
                     if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
                         super.showLoadingDialog();
-                        String url = "http://104.248.52.14" + "/api/auth/sign_in";
+                        String url = school.schoolUrl + "/api/auth/sign_in";
                         loginView.login(url,emailEditText.getText().toString(), passwordEditText.getText().toString());
                     }
                 }else {
