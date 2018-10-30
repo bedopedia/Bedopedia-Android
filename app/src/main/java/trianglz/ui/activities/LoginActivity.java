@@ -1,10 +1,8 @@
 package trianglz.ui.activities;
 
 import android.app.ProgressDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -27,7 +25,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     private void bindViews() {
         emailEditText = findViewById(R.id.et_email);
         passwordEditText = findViewById(R.id.et_password);
-        loginBtn = findViewById(R.id.btn_verify);
+        loginBtn = findViewById(R.id.btn_login);
         loginBtn.setBackground(Util.getCurvedBackgroundColor(Util.convertDpToPixel(8,this),
                 getResources().getColor(R.color.jade_green)));
     }
@@ -39,7 +37,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btn_verify:
+            case R.id.btn_login:
                 super.showLoadingDialog();
 //                if(validate(emailEditText.getText().toString(),passwordEditText.getText().toString())){
 //
