@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
@@ -48,6 +47,8 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
                     if(Util.isNetworkAvailable(this)){
                         super.showLoadingDialog();
                         schoolLoginView.getSchoolUrl(ApiEndPoints.SCHOOL_CODE_BASE_URL, codeEditText.getText().toString());
+                    }else {
+                        Util.showNoInternetConnectionDialog(this);
                     }
                 }
                 break;
@@ -77,13 +78,20 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
     public void onGetSchoolUrlSuccess(String url) {
         schoolUrl = url;
         url += "/api/get_school_by_code";
-        schoolLoginView.getSchoolData(url, codeEditText.getText().toString());
+        if(Util.isNetworkAvailable(this)){
+            schoolLoginView.getSchoolData(url, codeEditText.getText().toString());
+        }else {
+            Util.showNoInternetConnectionDialog(this);
+        }
+
     }
 
     @Override
     public void onGetSchoolUrlFailure(String message, int errorCode) {
-        Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show();
         super.progress.dismiss();
+        if(errorCode == 401 || errorCode == 0){
+            Util.showErrorDialog(this,getResources().getString(R.string.skolera),getResources().getString(R.string.not_correct_school_code));
+        }
     }
 
     @Override
@@ -98,5 +106,8 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
     @Override
     public void onGetSchoolDataFailure(String message,int errorCode) {
         super.progress.dismiss();
+        if(errorCode == 401){
+            Util.showErrorDialog(this,getResources().getString(R.string.skolera),getResources().getString(R.string.wrong_username_or_password));
+        }
     }
 }

@@ -1,6 +1,5 @@
 package trianglz.ui.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.squareup.picasso.Picasso;
 
 import trianglz.core.presenters.LoginPresenter;
 import trianglz.core.views.LoginView;
-import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.School;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -61,7 +59,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
                         loginView.login(url,emailEditText.getText().toString(), passwordEditText.getText().toString(),school.schoolUrl);
                     }
                 }else {
-                    Util.showDialog(LoginActivity.this,getResources().getString(R.string.skolera),
+                    Util.showErrorDialog(LoginActivity.this,getResources().getString(R.string.skolera),
                             getResources().getString(R.string.no_internet_connection));
                 }
                 break;
@@ -123,7 +121,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         progress.dismiss();
         switch (errorCode){
             case 401:
-                Util.showDialog(this,getResources().getString(R.string.skolera),getResources().getString(R.string.wrong_username_or_password));
+                Util.showErrorDialog(this,getResources().getString(R.string.skolera),getResources().getString(R.string.wrong_username_or_password));
                 break;
         }
     }

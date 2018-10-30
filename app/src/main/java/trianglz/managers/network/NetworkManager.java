@@ -241,6 +241,9 @@ public class NetworkManager {
         }
         String message = "";
         try {
+            if(anError.getErrorBody() == null){
+                return "";
+            }
             JSONObject errorBody = new JSONObject(anError.getErrorBody());
             message = errorBody.optString(Constants.KEY_MESSAGE);
             return message;
