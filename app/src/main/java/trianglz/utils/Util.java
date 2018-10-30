@@ -8,6 +8,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.skolera.skolera_android.R;
+
 /**
  * Created by ${Aly} on 10/24/2018.
  */
@@ -34,6 +38,23 @@ public class Util {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float px = dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return px;
+    }
+
+    public static void showDialog(Context context, String title, String content){
+        new MaterialDialog.Builder(context)
+                .title(title)
+                .content(content)
+                .titleColor(context.getResources().getColor(R.color.jade_green))
+                .neutralText("Ok")
+                .neutralColor(context.getResources().getColor(R.color.steel))
+                .contentColor(context.getResources().getColor(R.color.jade_green))
+                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+
+                    }
+                })
+                .show();
     }
 
 }
