@@ -1,7 +1,5 @@
 package trianglz.managers.api;
 
-import com.google.gson.JsonObject;
-
 import org.json.JSONObject;
 
 import java.util.HashMap;
