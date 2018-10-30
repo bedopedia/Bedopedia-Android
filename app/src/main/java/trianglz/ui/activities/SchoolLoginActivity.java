@@ -88,6 +88,7 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onGetSchoolDataSuccess(School school) {
+        super.progress.dismiss();
         Intent myIntent = new Intent(SchoolLoginActivity.this, LoginActivity.class);
         school.schoolUrl = schoolUrl;
         myIntent.putExtra(Constants.SCHOOL, school);

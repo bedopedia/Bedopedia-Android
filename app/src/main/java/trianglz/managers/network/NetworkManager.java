@@ -123,10 +123,10 @@ public class NetworkManager {
 
     }
 
-    public static void put(String url, JSONObject object, String headerValue, final HandleResponseListener handleResponseListener) {
+    public static void put(String url, JSONObject object,HashMap<String,String> headersValues, final HandleResponseListener handleResponseListener) {
         if (object == null) {
             AndroidNetworking.put(url)
-                    .addHeaders("Authorization", headerValue)
+                    .addHeaders(headersValues)
                     .setPriority(Priority.HIGH)
                     .build()
                     .getAsJSONObject(new JSONObjectRequestListener() {
@@ -143,7 +143,7 @@ public class NetworkManager {
 
         } else {
             AndroidNetworking.put(url)
-                    .addHeaders("Authorization", headerValue)
+                    .addHeaders(headersValues)
                     .addJSONObjectBody(object)
                     .setPriority(Priority.HIGH)
                     .build()

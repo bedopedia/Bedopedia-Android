@@ -1,6 +1,7 @@
 package trianglz.ui.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -57,7 +58,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
                     if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
                         super.showLoadingDialog();
                         String url = school.schoolUrl + "/api/auth/sign_in";
-                        loginView.login(url,emailEditText.getText().toString(), passwordEditText.getText().toString());
+                        loginView.login(url,emailEditText.getText().toString(), passwordEditText.getText().toString(),school.schoolUrl);
                     }
                 }else {
                     Util.showDialog(LoginActivity.this,getResources().getString(R.string.skolera),
@@ -125,5 +126,21 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
                 Util.showDialog(this,getResources().getString(R.string.skolera),getResources().getString(R.string.wrong_username_or_password));
                 break;
         }
+    }
+
+    @Override
+    public void onTokenUpdatedSuccess() {
+        progress.dismiss();
+        openHomeActivity();
+    }
+
+    @Override
+    public void onTokenUpdatedFailure() {
+        openHomeActivity();
+    }
+
+    private void openHomeActivity(){
+        Intent intent = new Intent(this,HomeActivity.class);
+        this.startActivity(intent);
     }
 }

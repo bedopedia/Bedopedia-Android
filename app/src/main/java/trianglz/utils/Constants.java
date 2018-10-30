@@ -21,5 +21,8 @@ public class Constants {
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_MOBILE = "mobile";
 
+    public static final String  MOBILE_DEVICE_TOKEN ="mobile_device_token";
+    public static final String USER = "user";
+
 
 }
