@@ -17,5 +17,9 @@ public class Constants {
     public static final String KEY_CONFIG = "config";
     public static final String KEY_DEFAULT_CONFIGS = "default_configs";
     public static final String KEY_GA_TRACKING_ID = "ga_tracking_id";
+    public static final String KEY_EMAIL = "email";
+    public static final String KEY_PASSWORD = "password";
+    public static final String KEY_MOBILE = "mobile";
+
 
 }

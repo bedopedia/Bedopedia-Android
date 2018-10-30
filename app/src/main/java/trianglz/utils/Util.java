@@ -46,8 +46,8 @@ public class Util {
                 .content(content)
                 .titleColor(context.getResources().getColor(R.color.jade_green))
                 .neutralText("Ok")
-                .neutralColor(context.getResources().getColor(R.color.steel))
-                .contentColor(context.getResources().getColor(R.color.jade_green))
+                .neutralColor(context.getResources().getColor(R.color.jade_green))
+                .contentColor(context.getResources().getColor(R.color.steel))
                 .onNeutral(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(MaterialDialog dialog, DialogAction which) {

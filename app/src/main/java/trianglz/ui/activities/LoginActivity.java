@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
@@ -12,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import trianglz.core.presenters.LoginPresenter;
 import trianglz.core.views.LoginView;
+import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.School;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -51,8 +53,15 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
-                    super.showLoadingDialog();
+                if(Util.isNetworkAvailable(this)){
+                    if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
+                        super.showLoadingDialog();
+                        String url = "http://104.248.52.14" + "/api/auth/sign_in";
+                        loginView.login(url,emailEditText.getText().toString(), passwordEditText.getText().toString());
+                    }
+                }else {
+                    Util.showDialog(LoginActivity.this,getResources().getString(R.string.skolera),
+                            getResources().getString(R.string.no_internet_connection));
                 }
                 break;
         }
@@ -100,5 +109,21 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         editText.setUnderlineColor(getResources().getColor(R.color.pale_red));
         editText.setHideUnderline(false);
         editText.setErrorColor(getResources().getColor(R.color.tomato));
+    }
+
+    @Override
+    public void onLoginSuccess() {
+        progress.dismiss();
+        Toast.makeText(this, "SUCCESS", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLoginFailure(String message, int errorCode) {
+        progress.dismiss();
+        switch (errorCode){
+            case 401:
+                Util.showDialog(this,getResources().getString(R.string.skolera),getResources().getString(R.string.wrong_username_or_password));
+                break;
+        }
     }
 }

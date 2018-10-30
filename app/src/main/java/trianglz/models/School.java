@@ -6,7 +6,7 @@ import java.io.Serializable;
  * This file is spawned by Gemy on 10/29/2018.
  */
 public class School implements Serializable {
-    int id;
+    public int id;
     public String name;
     public String schoolDescription;
     public String avatarUrl;
