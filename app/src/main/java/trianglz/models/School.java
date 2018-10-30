@@ -6,7 +6,7 @@ import java.io.Serializable;
  * This file is spawned by Gemy on 10/29/2018.
  */
 public class School implements Serializable {
-    int id;
+    public int id;
     public String name;
     public String schoolDescription;
     public String avatarUrl;
@@ -15,8 +15,9 @@ public class School implements Serializable {
     public String attendanceAllowFullDay;
     public String defaultConfigSlot;
     public String defaultConfigFullDay;
+    public String schoolUrl;
 
-    public School(int id, String name, String schoolDescription, String avatarUrl, String gaTrackingId, String attendanceAllowSlot, String attendanceAllowFullDay, String defaultConfigSlot, String defaultConfigFullDay) {
+    public School(int id, String name, String schoolDescription, String avatarUrl, String gaTrackingId, String attendanceAllowSlot, String attendanceAllowFullDay, String defaultConfigSlot, String defaultConfigFullDay,String schoolUrl) {
         this.id = id;
         this.name = name;
         this.schoolDescription = schoolDescription;
@@ -26,6 +27,8 @@ public class School implements Serializable {
         this.attendanceAllowFullDay = attendanceAllowFullDay;
         this.defaultConfigSlot = defaultConfigSlot;
         this.defaultConfigFullDay = defaultConfigFullDay;
+        this.schoolUrl = schoolUrl;
+
     }
 
     public int getId() {

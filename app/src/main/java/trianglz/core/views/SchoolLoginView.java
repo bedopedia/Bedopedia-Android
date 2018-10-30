@@ -60,7 +60,7 @@ public class SchoolLoginView {
                     String defaultConfigFullDay = defaultConfigArray.get(1).toString();
 
                     School school = new School(id, name, schoolDescription, avatarUrl, gaTrackingId, attendanceAllowSlot,
-                            attendanceAllowFullDay, defaultConfigSlot, defaultConfigFullDay);
+                            attendanceAllowFullDay, defaultConfigSlot, defaultConfigFullDay,"");
                     presenter.onGetSchoolDataSuccess(school);
                 } catch (JSONException e) {
                     e.printStackTrace();

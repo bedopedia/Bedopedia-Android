@@ -20,7 +20,7 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
     private MaterialEditText codeEditText;
     private Button verifyBtn;
     private SchoolLoginView schoolLoginView;
-
+    private String schoolUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +33,7 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
         codeEditText = findViewById(R.id.et_school_name);
         verifyBtn = findViewById(R.id.btn_verify);
         schoolLoginView = new SchoolLoginView(this,this);
+        schoolUrl = "";
     }
 
     private void setListeners(){
@@ -74,7 +75,8 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onGetSchoolUrlSuccess(String url) {
-        url = url + "/api/get_school_by_code";
+        url += "/api/get_school_by_code";
+        schoolUrl = url;
         schoolLoginView.getSchoolData(url, codeEditText.getText().toString());
     }
 
@@ -87,6 +89,7 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
     @Override
     public void onGetSchoolDataSuccess(School school) {
         Intent myIntent = new Intent(SchoolLoginActivity.this, LoginActivity.class);
+        school.schoolUrl = schoolUrl;
         myIntent.putExtra(Constants.SCHOOL, school);
         SchoolLoginActivity.this.startActivity(myIntent);
     }
