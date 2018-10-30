@@ -58,5 +58,7 @@
     <string name="password_length_error">Password length should be more than 4 characters</string>
     <string name="code_is_empty">Code is empty</string>
     <string name="code_length_error">Code length error</string>
+    <string name="notifications">Notifications</string>
+    <string name="close">Close</string>
 
 </resources>
