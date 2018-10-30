@@ -56,10 +56,10 @@
         android:layout_marginBottom="4dp"/>
 
 
-        <AutoCompleteTextView
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:textColor="@color/black"
@@ -69,7 +69,7 @@
             android:hint="@string/email_address"
             android:layout_marginStart="22dp"
             android:layout_marginEnd="24dp"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="24dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -80,10 +80,10 @@
         android:textSize="17sp"
        />
 
-        <AutoCompleteTextView
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:textColor="@color/black"

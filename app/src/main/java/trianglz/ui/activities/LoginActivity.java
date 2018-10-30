@@ -1,35 +1,46 @@
 package trianglz.ui.activities;
 
 import android.app.ProgressDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Picasso;
 
+import trianglz.core.presenters.LoginPresenter;
+import trianglz.core.views.LoginView;
+import trianglz.models.School;
+import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class LoginActivity extends SuperActivity implements View.OnClickListener{
-    private EditText emailEditText,passwordEditText;
+public class LoginActivity extends SuperActivity implements View.OnClickListener, LoginPresenter {
+    private MaterialEditText emailEditText;
+    private MaterialEditText passwordEditText;
     private Button loginBtn;
-    private ProgressDialog progress;
+    private LoginView loginView;
+    private School school;
+    private ImageView schoolImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         bindViews();
         setListeners();
+        getDataFromIntent();
     }
 
     private void bindViews() {
         emailEditText = findViewById(R.id.et_email);
         passwordEditText = findViewById(R.id.et_password);
         loginBtn = findViewById(R.id.btn_verify);
-        loginBtn.setBackground(Util.getCurvedBackgroundColor(Util.convertDpToPixel(8,this),
+        loginBtn.setBackground(Util.getCurvedBackgroundColor(Util.convertDpToPixel(8, this),
                 getResources().getColor(R.color.jade_green)));
+        loginView = new LoginView(this, this);
+        schoolImageView = findViewById(R.id.img_school);
     }
 
     private void setListeners() {
@@ -38,12 +49,11 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_verify:
-                super.showLoadingDialog();
-//                if(validate(emailEditText.getText().toString(),passwordEditText.getText().toString())){
-//
-//                }
+                if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
+                    super.showLoadingDialog();
+                }
                 break;
         }
     }
@@ -52,22 +62,43 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     public boolean validate(String email, String password) {
         boolean valid = true;
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            // TODO: 10/29/2018
-//            ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setError("Enter a valid email address");
+            if(email.isEmpty()){
+                showErrorMessage(emailEditText, getResources().getString(R.string.email_is_empty));
+            }else {
+                showErrorMessage(emailEditText, getResources().getString(R.string.enter_valid_email));
+            }
             valid = false;
-        } else {
-//            ((AutoCompleteTextView) rootView.findViewById(R.id.email)).setError(null);
         }
-
         if (password.isEmpty() || password.length() < 4) {
-            // TODO: 10/29/2018  Enter a valid password
-//            ((AutoCompleteTextView) rootView.findViewById(R.id.password_edit_text)).setError("");
+            if (password.isEmpty()) {
+                showErrorMessage(passwordEditText, getResources().getString(R.string.password_is_empty));
+            } else {
+                showErrorMessage(passwordEditText, getResources().getString(R.string.password_length_error));
+            }
             valid = false;
-        } else {
-//            ((AutoCompleteTextView) rootView.findViewById(R.id.password_edit_text)).setError(null);
         }
 
         return valid;
     }
 
+    public void getDataFromIntent() {
+        school = (School) getIntent().getSerializableExtra(Constants.SCHOOL);
+        if (school != null) {
+            if (!school.avatarUrl.isEmpty() && school.avatarUrl != null) {
+                Picasso.with(this)
+                        .load(school.avatarUrl)
+                        .fit()
+                        .placeholder(getResources().getDrawable(R.drawable.logo_icon))
+                        .into(schoolImageView);
+            }
+        }
+
+    }
+
+    private void showErrorMessage(MaterialEditText editText, String message) {
+        editText.setError(message);
+        editText.setUnderlineColor(getResources().getColor(R.color.pale_red));
+        editText.setHideUnderline(false);
+        editText.setErrorColor(getResources().getColor(R.color.tomato));
+    }
 }

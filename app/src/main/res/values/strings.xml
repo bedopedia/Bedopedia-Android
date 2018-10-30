@@ -52,5 +52,9 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="school_code">School code</string>
+    <string name="enter_valid_email">Enter valid email</string>
+    <string name="password_is_empty">Password is empty</string>
+    <string name="email_is_empty">Email is empty</string>
+    <string name="password_length_error">Password length should be more than 4 characters</string>
 
 </resources>
