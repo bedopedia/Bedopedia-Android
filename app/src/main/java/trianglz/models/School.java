@@ -28,4 +28,41 @@ public class School implements Serializable {
         this.defaultConfigFullDay = defaultConfigFullDay;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSchoolDescription() {
+        return schoolDescription;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public String getGaTrackingId() {
+        return gaTrackingId;
+    }
+
+    public String getAttendanceAllowSlot() {
+        return attendanceAllowSlot;
+    }
+
+    public String getAttendanceAllowFullDay() {
+        return attendanceAllowFullDay;
+    }
+
+    public String getDefaultConfigSlot() {
+        return defaultConfigSlot;
+    }
+
+    public String getDefaultConfigFullDay() {
+        return defaultConfigFullDay;
+    }
+
+
 }

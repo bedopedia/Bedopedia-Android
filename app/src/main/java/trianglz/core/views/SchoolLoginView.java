@@ -2,6 +2,7 @@ package trianglz.core.views;
 
 import android.content.Context;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,9 +55,9 @@ public class SchoolLoginView {
                     JSONObject configObject = baseResponse.optJSONObject(Constants.KEY_CONFIG);
                     String attendanceAllowSlot = configObject.getString("attendance_allow_teacher_record_slot");
                     String attendanceAllowFullDay = configObject.optString("attendance_allow_teacher_record_full_day");
-                    // TODO: 10/29/2018 parse json array
-                    String defaultConfigSlot = "attendance_allow_teacher_record_slot";
-                    String defaultConfigFullDay = "attendance_allow_teacher_record_full_day";
+                    JSONArray defaultConfigArray = baseResponse.getJSONArray(Constants.KEY_DEFAULT_CONFIGS);
+                    String defaultConfigSlot = defaultConfigArray.get(0).toString();
+                    String defaultConfigFullDay = defaultConfigArray.get(1).toString();
 
                     School school = new School(id, name, schoolDescription, avatarUrl, gaTrackingId, attendanceAllowSlot,
                             attendanceAllowFullDay, defaultConfigSlot, defaultConfigFullDay);

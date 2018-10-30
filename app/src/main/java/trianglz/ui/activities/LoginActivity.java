@@ -36,8 +36,8 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     private void bindViews() {
         emailEditText = findViewById(R.id.et_email);
         passwordEditText = findViewById(R.id.et_password);
-        loginBtn = findViewById(R.id.btn_verify);
-        loginBtn.setBackground(Util.getCurvedBackgroundColor(Util.convertDpToPixel(8, this),
+        loginBtn = findViewById(R.id.btn_login);
+        loginBtn.setBackground(Util.getCurvedBackgroundColor(Util.convertDpToPixel(8,this),
                 getResources().getColor(R.color.jade_green)));
         loginView = new LoginView(this, this);
         schoolImageView = findViewById(R.id.img_school);
@@ -50,7 +50,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_verify:
+            case R.id.btn_login:
                 if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
                     super.showLoadingDialog();
                 }
