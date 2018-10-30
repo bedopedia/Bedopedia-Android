@@ -44,7 +44,7 @@
         android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="4dp"
-        android:src="@drawable/school_logo" />
+        android:src="@drawable/logo_icon" />
 
     <trianglz.components.SfproRegularTextView
         android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
         <trianglz.components.SfproBlackAutocompTextView
             android:id="@+id/et_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:textColor="@color/black"
@@ -82,14 +82,13 @@
         <trianglz.components.SfproBlackAutocompTextView
             android:id="@+id/et_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:singleLine="true"
             android:maxLines="1"
-            android:drawableEnd="@drawable/view_ico"
             android:drawablePadding="5dp"
             android:layout_marginStart="22dp"
             android:layout_marginEnd="24dp"

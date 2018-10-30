@@ -32,7 +32,7 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
 
     private void bindViews() {
         schoolNameEditText = findViewById(R.id.et_school_name);
-        verifyBtn = findViewById(R.id.btn_verify);
+        verifyBtn = findViewById(R.id.btn_login);
         schoolLoginView = new SchoolLoginView(this,this);
     }
 
@@ -43,7 +43,7 @@ public class SchoolLoginActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btn_verify:
+            case R.id.btn_login:
                 if(Util.isNetworkAvailable(this)){
                     schoolLoginView.getSchoolUrl(ApiEndPoints.SCHOOL_CODE_BASE_URL,schoolNameEditText.getText().toString());
                 }

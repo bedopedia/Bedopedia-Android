@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,9 +12,10 @@ import com.skolera.skolera_android.R;
 
 import trianglz.utils.Util;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends SuperActivity implements View.OnClickListener{
     private EditText emailEditText,passwordEditText;
     private Button loginBtn;
+    private ProgressDialog progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,8 +26,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void bindViews() {
         emailEditText = findViewById(R.id.et_email);
-        passwordEditText = findViewById(R.id.password_edit_text);
-        loginBtn = findViewById(R.id.btn_login);
+        passwordEditText = findViewById(R.id.et_password);
+        loginBtn = findViewById(R.id.btn_verify);
         loginBtn.setBackground(Util.getCurvedBackgroundColor(Util.convertDpToPixel(8,this),
                 getResources().getColor(R.color.jade_green)));
     }
@@ -37,10 +39,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btn_login:
-                if(validate(emailEditText.getText().toString(),passwordEditText.getText().toString())){
-
-                }
+            case R.id.btn_verify:
+                super.showLoadingDialog();
+//                if(validate(emailEditText.getText().toString(),passwordEditText.getText().toString())){
+//
+//                }
                 break;
         }
     }
