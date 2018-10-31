@@ -1,6 +1,5 @@
 package trianglz.ui.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,11 +14,11 @@ import trianglz.core.presenters.HomePresenter;
 import trianglz.core.views.HomeView;
 import trianglz.managers.SessionManager;
 import trianglz.models.Student;
-import trianglz.ui.adapters.KidsAdapter;
+import trianglz.ui.adapters.HomeAdapter;
 
-public class HomeActivity extends SuperActivity implements HomePresenter,View.OnClickListener,KidsAdapter.HomeAdapterInterface{
+public class HomeActivity extends SuperActivity implements HomePresenter,View.OnClickListener,HomeAdapter.HomeAdapterInterface{
     private RecyclerView recyclerView;
-    private KidsAdapter kidsAdapter;
+    private HomeAdapter homeAdapter;
     private String id;
     private HomeView homeView;
     private ImageButton notificationBtn;
@@ -38,8 +37,8 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
 
     private void bindViews() {
         recyclerView = findViewById(R.id.recycler_view);
-        kidsAdapter = new KidsAdapter(this,this);
-        recyclerView.setAdapter(kidsAdapter);
+        homeAdapter = new HomeAdapter(this,this);
+        recyclerView.setAdapter(homeAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         homeView = new HomeView(this,this);
         notificationBtn = findViewById(R.id.btn_notification);
@@ -61,7 +60,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
     @Override
     public void onGetStudentsHomeSuccess(ArrayList<Student> studentArrayList) {
         progress.dismiss();
-        kidsAdapter.addData(studentArrayList);
+        homeAdapter.addData(studentArrayList);
     }
 
     @Override

@@ -16,7 +16,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -24,13 +23,12 @@ import agency.tango.android.avatarview.views.AvatarView;
 import login.Services.ApiClient;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
-import trianglz.managers.SessionManager;
 import trianglz.models.Student;
 
 /**
  * Created by ${Aly} on 10/31/2018.
  */
-public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.KidsViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder> {
 
 
     private ArrayList<Student> mDataList;
@@ -38,7 +36,7 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.KidsViewHolder
     final String urlUploadsKey = "/uploads";
 
     private HomeAdapterInterface homeAdapterInterface;
-    public KidsAdapter(Context context, HomeAdapterInterface homeAdapterInterface) {
+    public HomeAdapter(Context context, HomeAdapterInterface homeAdapterInterface) {
         this.context = context;
         this.mDataList = new ArrayList<>();
         this.homeAdapterInterface = homeAdapterInterface;

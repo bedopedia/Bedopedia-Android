@@ -55,13 +55,13 @@ public class  AvatarPlaceholderModified extends AvatarPlaceholder {
         textPaint = new Paint();
         textPaint.setAntiAlias(true);
         textPaint.setColor(Color.parseColor("#FFFFFF"));
-        textPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        textPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.BOLD));
 
         backgroundPaint = new Paint();
         backgroundPaint.setAntiAlias(true);
         backgroundPaint.setStyle(Paint.Style.FILL);
         backgroundPaint.clearShadowLayer();
-        backgroundPaint.setColor(Color.parseColor("#783b4d"));
+        backgroundPaint.setColor(Color.parseColor("#28bb4e"));
     }
 
     @Override
