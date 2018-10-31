@@ -7,6 +7,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.androidnetworking.interfaces.OkHttpResponseAndJSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 
 import org.json.JSONArray;
@@ -16,6 +17,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
 
+import okhttp3.Headers;
+import okhttp3.Response;
+import trianglz.managers.SessionManager;
 import trianglz.utils.Constants;
 
 /**
@@ -63,9 +67,10 @@ public class NetworkManager {
     }
 
 
-    public static void getJsonArray(String url, String headerValue, final HandleArrayResponseListener handleArrayResponseListener) {
+    public static void getJsonArray(String url,HashMap<String,String> params ,HashMap<String,String> headersValue, final HandleArrayResponseListener handleArrayResponseListener) {
         AndroidNetworking.get(url)
-                .addHeaders("Authorization", headerValue)
+                .addQueryParameter(params)
+                .addHeaders(headersValue)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONArray(new JSONArrayRequestListener() {
@@ -83,23 +88,25 @@ public class NetworkManager {
     }
 
 
-    public static void post(String url, JSONObject object, HashMap<String,String> headerValues, final HandleResponseListener handleResponseListener) {
+    public static void post(String url, JSONObject object, final HashMap<String,String> headerValues, final HandleResponseListener handleResponseListener) {
         if (object == null) {
             AndroidNetworking.post(url)
                     .addHeaders(headerValues)
                     .setPriority(Priority.HIGH)
                     .build()
-                    .getAsJSONObject(new JSONObjectRequestListener() {
+                    .getAsOkHttpResponseAndJSONObject(new OkHttpResponseAndJSONObjectRequestListener() {
                         @Override
-                        public void onResponse(JSONObject response) {
-                            handleResponseListener.onSuccess(response);
+                        public void onResponse(Response okHttpResponse, JSONObject response) {
+                           Headers headers =  okHttpResponse.headers();
+                           handleResponseListener.onSuccess(response);
                         }
 
                         @Override
-                        public void onError(ANError error) {
-                            handleResponseListener.onFailure(getErrorMessage(error), error.getErrorCode());
+                        public void onError(ANError anError) {
+
                         }
                     });
+
 
         } else {
             AndroidNetworking.post(url)
@@ -107,15 +114,22 @@ public class NetworkManager {
                     .addJSONObjectBody(object)
                     .setPriority(Priority.HIGH)
                     .build()
-                    .getAsJSONObject(new JSONObjectRequestListener() {
+                    .getAsOkHttpResponseAndJSONObject(new OkHttpResponseAndJSONObjectRequestListener() {
                         @Override
-                        public void onResponse(JSONObject response) {
+                        public void onResponse(Response okHttpResponse, JSONObject response) {
+                            handleResponseListener.onSuccess(response);
+                            Headers headers = okHttpResponse.headers();
+                            String accessToken = headers.get("access-token");
+                            String tokenType = headers.get("token-type");
+                            String clientCode = headers.get("client");
+                            String uid = headers.get("uid");
+                            SessionManager.getInstance().setHeadersValue(accessToken,tokenType,clientCode,uid);
                             handleResponseListener.onSuccess(response);
                         }
 
                         @Override
-                        public void onError(ANError error) {
-                            handleResponseListener.onFailure(getErrorMessage(error), error.getErrorCode());
+                        public void onError(ANError anError) {
+
                         }
                     });
 

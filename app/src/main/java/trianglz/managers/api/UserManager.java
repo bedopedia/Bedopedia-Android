@@ -2,12 +2,14 @@ package trianglz.managers.api;
 
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
 import trianglz.managers.SessionManager;
+import trianglz.managers.network.HandleArrayResponseListener;
 import trianglz.managers.network.HandleResponseListener;
 import trianglz.managers.network.NetworkManager;
 import trianglz.utils.Constants;
@@ -88,19 +90,19 @@ public class UserManager {
         });
     }
 
-    public static void getStudentsHome(String url,String id, final ResponseListener responseListener) {
+    public static void getStudentsHome(String url,String id, final ArrayResponseListener arrayResponseListener) {
         HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String,String> paramsHashMap = new HashMap<>();
         paramsHashMap.put(Constants.PARENT_ID,id);
-        NetworkManager.getWithParameter(url+"",paramsHashMap ,headerHashMap, new HandleResponseListener() {
+        NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override
-            public void onSuccess(JSONObject response) {
-                responseListener.onSuccess(response);
+            public void onSuccess(JSONArray response) {
+                    arrayResponseListener.onSuccess(response);
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                responseListener.onFailure(message, errorCode);
+                arrayResponseListener.onFailure(message,errorCode);
             }
         });
     }

@@ -46,15 +46,23 @@ public class SessionManager {
 
     public void createLoginSession(String accessToken, String tokenType, String clientCode, String uid, String userName,
                                    String userId, String id){
-        mEditor.putString(this.accessToken, accessToken);
-        mEditor.putString(this.tokenType, tokenType);
-        mEditor.putString(this.clientCode, clientCode);
-        mEditor.putString(this.uid, accessToken);
-        mEditor .putString(this.uid,uid);
+//        mEditor.putString(this.accessToken, accessToken);
+//        mEditor.putString(this.tokenType, tokenType);
+//        mEditor.putString(this.clientCode, clientCode);
+//        mEditor .putString(this.uid,uid);
         mEditor.putString(this.userName, userName);
         mEditor.putString(this.userId, userId);
         mEditor.putString(this.id, id);
         mEditor.commit();
+    }
+
+    public void setHeadersValue(String accessToken, String tokenType, String clientCode, String uid){
+        mEditor.putString(this.accessToken, accessToken);
+        mEditor.putString(this.tokenType, tokenType);
+        mEditor.putString(this.clientCode, clientCode);
+        mEditor .putString(this.uid,uid);
+        mEditor.commit();
+
     }
 
     public void setFireBaseToken(String token){

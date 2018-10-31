@@ -1,10 +1,13 @@
 package trianglz.core.views;
 
 import android.content.Context;
+import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import trianglz.core.presenters.HomePresenter;
+import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 
@@ -20,17 +23,18 @@ public class HomeView {
         this.presenter = presenter;
     }
 
-    public void getStudents(String url, String id){
-        UserManager.getStudentsHome(url, id, new ResponseListener() {
+    public void getStudents(String url, String id) {
+        UserManager.getStudentsHome(url, id, new ArrayResponseListener() {
             @Override
-            public void onSuccess(JSONObject response) {
-
+            public void onSuccess(JSONArray responseArray) {
+                presenter.onGetStudentsHomeSuccess();
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-
+                presenter.onGetStudentsHomeFailure();
             }
         });
     }
+
 }

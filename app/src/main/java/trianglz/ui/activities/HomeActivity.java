@@ -53,11 +53,11 @@ public class HomeActivity extends SuperActivity implements HomePresenter{
 
     @Override
     public void onGetStudentsHomeSuccess() {
-
+        progress.dismiss();
     }
 
     @Override
     public void onGetStudentsHomeFailure() {
-
+        progress.dismiss();
     }
 }
