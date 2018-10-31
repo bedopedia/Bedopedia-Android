@@ -28,7 +28,8 @@
         android:layout_marginTop="18dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:text="ris"/>
 
     <trianglz.components.SfProBlackButton
         android:id="@+id/btn_verify"

@@ -27,6 +27,7 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
         setContentView(R.layout.activity_school_login);
         bindViews();
         setListeners();
+        onClick(verifyBtn);
     }
 
     private void bindViews() {
