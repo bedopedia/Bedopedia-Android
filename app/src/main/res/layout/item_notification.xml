@@ -4,10 +4,12 @@
     android:layout_height="80dp">
 
     <LinearLayout
+        android:id="@+id/item_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/image"
@@ -59,4 +61,9 @@
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="@color/transparent_steel"/>
 </FrameLayout>
