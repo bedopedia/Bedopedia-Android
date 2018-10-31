@@ -32,7 +32,9 @@
                 android:text="Ahmed mostafa"
                 android:layout_alignParentTop="true"
                 android:textColor="@color/greyish_brown"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

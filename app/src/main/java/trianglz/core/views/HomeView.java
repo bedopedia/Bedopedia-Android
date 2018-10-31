@@ -46,15 +46,15 @@ public class HomeView {
             JSONArray attenobdances = studentData.optJSONArray("attendances");
             kidsAttendances.add(attenobdances);
             myKids.add(new Student(Integer.parseInt(studentData.optString("id")),
-                    studentData.optString("firstname").substring(1, studentData.optString("firstname").length() - 1),
-                    studentData.optString("lastname").substring(1, studentData.optString("lastname").length() - 1),
-                    studentData.optString("gender").substring(1, studentData.optString("gender").length() - 1),
-                    studentData.optString("email").substring(1, studentData.optString("email").length() - 1),
-                    studentData.optString("avatar_url").substring(1, studentData.optString("avatar_url").length() - 1),
-                    studentData.optString("user_type").substring(1, studentData.optString("user_type").length() - 1),
-                    studentData.optString("level_name").substring(1, studentData.optString("level_name").length() - 1),
-                    studentData.optString("section_name").substring(1, studentData.optString("section_name").length() - 1),
-                   "",
+                    studentData.optString("firstname"),
+                    studentData.optString("lastname"),
+                    studentData.optString("gender"),
+                    studentData.optString("email"),
+                    studentData.optString("avatar_url"),
+                    studentData.optString("user_type"),
+                    studentData.optString("level_name"),
+                    studentData.optString("section_name"),
+                    studentData.optString("stage_name"),
                     studentData.optJSONObject("today_workload_status"),
                     0, null, null));
         }
