@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import trianglz.core.views.HomeView;
 import trianglz.managers.SessionManager;
 import trianglz.models.Student;
 import trianglz.ui.adapters.HomeAdapter;
+import trianglz.utils.Constants;
 
 public class HomeActivity extends SuperActivity implements HomePresenter,View.OnClickListener,HomeAdapter.HomeAdapterInterface{
     private RecyclerView recyclerView;
@@ -78,6 +80,14 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
 
     @Override
     public void onOpenStudentClicked(Student student) {
+        openStudentDetailActivity(student);
+    }
 
+    private void openStudentDetailActivity(Student student){
+        Intent intent = new Intent(this,StudentDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT,student);
+        intent.putExtra(Constants.STUDENT,bundle);
+        startActivity(intent);
     }
 }

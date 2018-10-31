@@ -26,5 +26,7 @@ public class Constants {
     public static final String PARENT_ID = "parent_id";
     public static final String KEY_BASE_URL = "base_url";
 
+    public static final String STUDENT = "student";
+
 
 }

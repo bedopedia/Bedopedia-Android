@@ -31,7 +31,9 @@
             android:name="login.schoolCode"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity
             android:name="login.LoginActivity"
             android:hardwareAccelerated="true"
@@ -99,18 +101,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="trianglz.ui.activities.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2"/>
-        <activity android:name="trianglz.ui.activities.SuperActivity"
-            android:theme="@style/AppTheme_v2"/>
-        <activity android:name="trianglz.ui.activities.HomeActivity"
-            android:theme="@style/AppTheme_v2">
-
-        </activity>
-
+            android:theme="@style/AppTheme_v2" />
+        <activity
+            android:name="trianglz.ui.activities.SuperActivity"
+            android:theme="@style/AppTheme_v2" />
+        <activity
+            android:name="trianglz.ui.activities.HomeActivity"
+            android:theme="@style/AppTheme_v2"
+            android:screenOrientation="portrait"/>
+        <activity android:name="trianglz.ui.activities.StudentDetailActivity"
+            android:theme="@style/AppTheme_v2"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

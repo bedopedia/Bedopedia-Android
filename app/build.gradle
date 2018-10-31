@@ -54,7 +54,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'agency.tango.android:avatar-view:0.0.2'
     implementation 'agency.tango.android:avatar-view-picasso:0.0.2'
-
+    implementation 'com.sasank.roundedhorizontalprogress:roundedhorizontalprogress:1.0.1'
 }
 
 
