@@ -30,5 +30,8 @@
     <color name="jade_green">#28bb4e</color>
     <color name="tomato">#f44336</color>
     <color name="pale_red">#db4437</color>
+    <color name="lightish_red">#ff354e</color>
+    <color name="dusty_orange">#ee7e33</color>
+    <color name="silver">#c8c7cc</color>
 
 </resources>

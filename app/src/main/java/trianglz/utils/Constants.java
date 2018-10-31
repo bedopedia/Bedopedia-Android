@@ -23,6 +23,8 @@ public class Constants {
 
     public static final String  MOBILE_DEVICE_TOKEN ="mobile_device_token";
     public static final String USER = "user";
+    public static final String PARENT_ID = "parent_id";
+    public static final String KEY_BASE_URL = "base_url";
 
 
 }

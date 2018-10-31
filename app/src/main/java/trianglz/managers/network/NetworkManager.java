@@ -24,9 +24,9 @@ import trianglz.utils.Constants;
 public class NetworkManager {
 
 
-    public static void getWithParameter(String url, String code, HashMap<String, String> headerValue, final HandleResponseListener handleResponseListener) {
+    public static void getWithParameter(String url, HashMap params, HashMap<String, String> headerValue, final HandleResponseListener handleResponseListener) {
         AndroidNetworking.get(url)
-                .addQueryParameter(Constants.KEY_CODE, code)
+                .addQueryParameter(params)
                 .addHeaders(headerValue)
                 .setPriority(Priority.HIGH)
                 .build()

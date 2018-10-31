@@ -29,9 +29,9 @@
     <string name="askTeacherTitle">Ask Teacher</string>
     <string name="attendanceTitle">Attendance</string>
     <string name="notificationString">Notification</string>
-    <string name="assignments">ASSIGNMENTS</string>
-    <string name="quizzes">QUIZZES</string>
-    <string name="events">EVENTS</string>
+    <string name="assignments">Assignments</string>
+    <string name="quizzes">Quizzes</string>
+    <string name="events">Events</string>
     <string name="LoadDialogueTitle">Loading</string>
     <string name="LoadDialogueBody">Wait while loading...</string>
     <string name="Dialogue401Title">Not Authorized</string>

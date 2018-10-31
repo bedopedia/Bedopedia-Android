@@ -92,4 +92,12 @@ public class SessionManager {
         return hashMap;
     }
 
+    public  void setBaseUrl(String url) {
+        mEditor.putString(Constants.KEY_BASE_URL, url);
+        mEditor.commit();
+    }
+    public String getBaseUrl(){
+        return mPreferences.getString(Constants.KEY_BASE_URL,"");
+    }
+
 }

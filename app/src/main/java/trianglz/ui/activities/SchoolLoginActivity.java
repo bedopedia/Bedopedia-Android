@@ -10,6 +10,7 @@ import com.skolera.skolera_android.R;
 
 import trianglz.core.presenters.SchoolLoginPresenter;
 import trianglz.core.views.SchoolLoginView;
+import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.School;
 import trianglz.utils.Constants;
@@ -77,6 +78,7 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
     @Override
     public void onGetSchoolUrlSuccess(String url) {
         schoolUrl = url;
+        SessionManager.getInstance().setBaseUrl(url);
         url += "/api/get_school_by_code";
         if(Util.isNetworkAvailable(this)){
             schoolLoginView.getSchoolData(url, codeEditText.getText().toString());

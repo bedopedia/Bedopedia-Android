@@ -18,8 +18,10 @@ import trianglz.utils.Constants;
 public class UserManager {
 
     public static void getSchoolUrl(String url,String code, final ResponseListener responseListener) {
-        HashMap<String,String> hashMap = SessionManager.getInstance().getHeaderHashMap();
-        NetworkManager.getWithParameter(url+"",code+"" ,hashMap, new HandleResponseListener() {
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String,String> paramsHashMap = new HashMap<>();
+        paramsHashMap.put(Constants.KEY_CODE,code);
+        NetworkManager.getWithParameter(url+"",paramsHashMap,headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 responseListener.onSuccess(response);
@@ -43,6 +45,7 @@ public class UserManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         NetworkManager.post(url+"",jsonObject ,hashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -81,6 +84,23 @@ public class UserManager {
             public void onFailure(String message, int errorCode) {
                 SessionManager.getInstance().setTokenChangedValue(true);
                 responseListener.onFailure(message,errorCode);
+            }
+        });
+    }
+
+    public static void getStudentsHome(String url,String id, final ResponseListener responseListener) {
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String,String> paramsHashMap = new HashMap<>();
+        paramsHashMap.put(Constants.PARENT_ID,id);
+        NetworkManager.getWithParameter(url+"",paramsHashMap ,headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
             }
         });
     }
