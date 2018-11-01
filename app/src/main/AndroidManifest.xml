@@ -93,6 +93,11 @@
             android:name="trianglz.ui.activities.SchoolLoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="trianglz.ui.activities.LoginActivity"
@@ -100,11 +105,6 @@
         <activity android:name="trianglz.ui.activities.NotificationsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
             android:name="trianglz.ui.activities.SuperActivity"
             android:theme="@style/AppTheme_v2" />
