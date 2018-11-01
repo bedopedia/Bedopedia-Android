@@ -29,9 +29,9 @@
     <string name="askTeacherTitle">Ask Teacher</string>
     <string name="attendanceTitle">Attendance</string>
     <string name="notificationString">Notification</string>
-    <string name="assignments">ASSIGNMENTS</string>
-    <string name="quizzes">QUIZZES</string>
-    <string name="events">EVENTS</string>
+    <string name="assignments">Assignments</string>
+    <string name="quizzes">Quizzes</string>
+    <string name="events">Events</string>
     <string name="LoadDialogueTitle">Loading</string>
     <string name="LoadDialogueBody">Wait while loading...</string>
     <string name="Dialogue401Title">Not Authorized</string>
@@ -60,5 +60,14 @@
     <string name="code_length_error">Code length error</string>
     <string name="notifications">Notifications</string>
     <string name="close">Close</string>
+    <string name="skolera">Skolera</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="wrong_username_or_password">Wrong username or password</string>
+    <string name="not_correct_school_code">Not correct School Code"</string>
+    <string name="messages">Messages</string>
+    <string name="time_table">Time table</string>
+    <string name="grades">Grades</string>
+    <string name="behavior_notes">Behavior notes</string>
+    <string name="attendance">Attendance</string>
 
 </resources>

@@ -43,7 +43,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="15dp"
         android:src="@drawable/logo_icon" />
 
     <trianglz.components.SfproRegularTextView
@@ -68,7 +68,8 @@
             android:maxLines="1"
             android:layout_marginStart="22dp"
             android:layout_marginEnd="24dp"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="24dp"
+            android:text="pris17116@skolera.com"/>
 
     <trianglz.components.SfproRegularTextView
         android:layout_width="wrap_content"
@@ -93,6 +94,7 @@
             android:layout_marginStart="22dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="32dp"
+            android:text="pRIS17116123"
             />
 
 

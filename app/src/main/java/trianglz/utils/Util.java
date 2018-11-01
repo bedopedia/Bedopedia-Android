@@ -40,14 +40,14 @@ public class Util {
         return px;
     }
 
-    public static void showDialog(Context context, String title, String content){
+    public static void showErrorDialog(Context context, String title, String content){
         new MaterialDialog.Builder(context)
                 .title(title)
                 .content(content)
                 .titleColor(context.getResources().getColor(R.color.jade_green))
                 .neutralText("Ok")
-                .neutralColor(context.getResources().getColor(R.color.steel))
-                .contentColor(context.getResources().getColor(R.color.jade_green))
+                .neutralColor(context.getResources().getColor(R.color.jade_green))
+                .contentColor(context.getResources().getColor(R.color.steel))
                 .onNeutral(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(MaterialDialog dialog, DialogAction which) {
@@ -55,6 +55,19 @@ public class Util {
                     }
                 })
                 .show();
+    }
+
+
+    public static void showNoInternetConnectionDialog(Context context){
+        showErrorDialog(context,context.getResources().getString(R.string.skolera),context.getResources().getString(R.string.no_internet_connection));
+    }
+
+    public static boolean isNullOrEmpty(String string) {
+        return string == null || string.isEmpty();
+    }
+
+    public static boolean isNotNullOrEmpty(String string) {
+        return string != null && string.isEmpty() == false;
     }
 
 }

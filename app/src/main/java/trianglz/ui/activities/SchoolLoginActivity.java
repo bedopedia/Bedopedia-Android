@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
 
 import trianglz.core.presenters.SchoolLoginPresenter;
 import trianglz.core.views.SchoolLoginView;
+import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.School;
 import trianglz.utils.Constants;
@@ -27,6 +27,7 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
         setContentView(R.layout.activity_school_login);
         bindViews();
         setListeners();
+        onClick(verifyBtn);
     }
 
     private void bindViews() {
@@ -48,6 +49,8 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
                     if(Util.isNetworkAvailable(this)){
                         super.showLoadingDialog();
                         schoolLoginView.getSchoolUrl(ApiEndPoints.SCHOOL_CODE_BASE_URL, codeEditText.getText().toString());
+                    }else {
+                        Util.showNoInternetConnectionDialog(this);
                     }
                 }
                 break;
@@ -75,19 +78,28 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onGetSchoolUrlSuccess(String url) {
-        url += "/api/get_school_by_code";
         schoolUrl = url;
-        schoolLoginView.getSchoolData(url, codeEditText.getText().toString());
+        SessionManager.getInstance().setBaseUrl(url);
+        url += "/api/get_school_by_code";
+        if(Util.isNetworkAvailable(this)){
+            schoolLoginView.getSchoolData(url, codeEditText.getText().toString());
+        }else {
+            Util.showNoInternetConnectionDialog(this);
+        }
+
     }
 
     @Override
-    public void onGetSchoolUrlFailure() {
-        Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show();
+    public void onGetSchoolUrlFailure(String message, int errorCode) {
         super.progress.dismiss();
+        if(errorCode == 401 || errorCode == 0){
+            Util.showErrorDialog(this,getResources().getString(R.string.skolera),getResources().getString(R.string.not_correct_school_code));
+        }
     }
 
     @Override
     public void onGetSchoolDataSuccess(School school) {
+        super.progress.dismiss();
         Intent myIntent = new Intent(SchoolLoginActivity.this, LoginActivity.class);
         school.schoolUrl = schoolUrl;
         myIntent.putExtra(Constants.SCHOOL, school);
@@ -95,7 +107,10 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
     }
 
     @Override
-    public void onGetSchoolDataFailure() {
+    public void onGetSchoolDataFailure(String message,int errorCode) {
         super.progress.dismiss();
+        if(errorCode == 401){
+            Util.showErrorDialog(this,getResources().getString(R.string.skolera),getResources().getString(R.string.wrong_username_or_password));
+        }
     }
 }

@@ -1,10 +1,11 @@
 package trianglz.ui.activities;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
@@ -31,6 +32,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         bindViews();
         setListeners();
         getDataFromIntent();
+        onClick(loginBtn);
     }
 
     private void bindViews() {
@@ -51,8 +53,15 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
-                    super.showLoadingDialog();
+                if(Util.isNetworkAvailable(this)){
+                    if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
+                        super.showLoadingDialog();
+                        String url = school.schoolUrl + "/api/auth/sign_in";
+                        loginView.login(url,emailEditText.getText().toString(), passwordEditText.getText().toString(),school.schoolUrl);
+                    }
+                }else {
+                    Util.showErrorDialog(LoginActivity.this,getResources().getString(R.string.skolera),
+                            getResources().getString(R.string.no_internet_connection));
                 }
                 break;
         }
@@ -100,5 +109,37 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         editText.setUnderlineColor(getResources().getColor(R.color.pale_red));
         editText.setHideUnderline(false);
         editText.setErrorColor(getResources().getColor(R.color.tomato));
+    }
+
+    @Override
+    public void onLoginSuccess() {
+        progress.dismiss();
+        Toast.makeText(this, "SUCCESS", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLoginFailure(String message, int errorCode) {
+        progress.dismiss();
+        switch (errorCode){
+            case 401:
+                Util.showErrorDialog(this,getResources().getString(R.string.skolera),getResources().getString(R.string.wrong_username_or_password));
+                break;
+        }
+    }
+
+    @Override
+    public void onTokenUpdatedSuccess() {
+        progress.dismiss();
+        openHomeActivity();
+    }
+
+    @Override
+    public void onTokenUpdatedFailure() {
+        openHomeActivity();
+    }
+
+    private void openHomeActivity(){
+        Intent intent = new Intent(this,HomeActivity.class);
+        this.startActivity(intent);
     }
 }
