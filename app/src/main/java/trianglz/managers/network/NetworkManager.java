@@ -47,10 +47,10 @@ public class NetworkManager {
                 });
     }
 
-    public static void get(String url, String headerValue, final HandleResponseListener handleResponseListener) {
+    public static void get(String url, HashMap<String, String> headerValue, final HandleResponseListener handleResponseListener) {
         Log.v("URL", url);
         AndroidNetworking.get(url)
-                .addHeaders("Authorization", headerValue)
+                .addHeaders(headerValue)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {

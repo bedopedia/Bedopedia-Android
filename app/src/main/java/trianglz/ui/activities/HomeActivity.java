@@ -74,8 +74,14 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_notification:
+                openNotificationsActivity();
                 break;
         }
+    }
+
+    private void openNotificationsActivity() {
+        Intent myIntent = new Intent(HomeActivity.this, NotificationsActivity.class);
+        HomeActivity.this.startActivity(myIntent);
     }
 
     @Override
