@@ -14,19 +14,19 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
+import trianglz.models.Notification;
+
 /**
  * This file is spawned by Gemy on 10/31/2018.
  */
-public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.NotificationsViewHolder> {
     private Context context;
+    private ArrayList<Notification> notificationArrayList;
 
     public NotificationsAdapter(Context context) {
         this.context = context;
-        this.stringArrayList = new ArrayList<>();
+        this.notificationArrayList = new ArrayList<>();
     }
-
-    private ArrayList<String> stringArrayList;
-
 
     @Override
     public int getItemViewType(int position) {
@@ -35,11 +35,29 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NotificationsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_notification, parent, false);
         return new NotificationsViewHolder(view);
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull NotificationsViewHolder holder, int position) {
+        Notification notification = notificationArrayList.get(position);
+        holder.nameTv.setText(notification.getStudentNames());
+        holder.dateTv.setText(notification.getDate());
+        holder.descriptionTv.setText(notification.getMessage());
+    }
+
+    @Override
+    public int getItemCount() {
+        return notificationArrayList.size();
+    }
+    public void addData(ArrayList<Notification> notifications) {
+        notificationArrayList.clear();
+        notificationArrayList.addAll(notifications);
+        notifyDataSetChanged();
+
+    }
     public class NotificationsViewHolder extends RecyclerView.ViewHolder {
         LinearLayout itemLayout;
         TextView nameTv,dateTv, descriptionTv;
@@ -52,20 +70,5 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             descriptionTv = itemView.findViewById(R.id.tv_description);
             imageView = itemView.findViewById(R.id.image);
         }
-    }
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return stringArrayList.size();
-    }
-    public void addData(ArrayList<String> dataList) {
-        stringArrayList.clear();
-        stringArrayList.addAll(dataList);
-        notifyDataSetChanged();
-
     }
 }

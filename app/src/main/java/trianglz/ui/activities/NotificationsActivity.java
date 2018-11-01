@@ -3,30 +3,31 @@ package trianglz.ui.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
 
 import com.skolera.skolera_android.R;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
-import trianglz.core.presenters.NotificatoinsPresenter;
+import trianglz.core.presenters.NotificationsPresenter;
 import trianglz.core.views.NotificationsView;
 import trianglz.managers.SessionManager;
+import trianglz.models.Notification;
 import trianglz.ui.activities.adapters.NotificationsAdapter;
 
-public class NotificationsActivity extends SuperActivity implements NotificatoinsPresenter {
+public class NotificationsActivity extends SuperActivity implements NotificationsPresenter , View.OnClickListener{
 
     private RecyclerView recyclerView;
     private NotificationsAdapter adapter;
-    private String id;
+    private Button closeBtn;
     private NotificationsView notificationsView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
         bindViews();
+        setListeners();
         getNotifications();
     }
     private void bindViews() {
@@ -34,17 +35,12 @@ public class NotificationsActivity extends SuperActivity implements Notificatoin
         adapter = new NotificationsAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        adapter.addData(getFakeData());
         notificationsView = new NotificationsView(this, this);
-
+        closeBtn = findViewById(R.id.btn_close);
     }
-    private ArrayList<String> getFakeData() {
-        ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add("");
 
-        }
-        return list;
+    private void setListeners() {
+        closeBtn.setOnClickListener(this);
     }
     private void getNotifications() {
         String url = SessionManager.getInstance().getBaseUrl()+ "/api/users/"+"3164" +"/notifications";
@@ -53,13 +49,22 @@ public class NotificationsActivity extends SuperActivity implements Notificatoin
     }
 
     @Override
-    public void onGetNotificationSuccess(JSONObject response) {
-        progress.dismiss();
+    public void onGetNotificationSuccess(ArrayList<Notification> notifications) {
+     progress.dismiss();
+     adapter.addData(notifications);
     }
 
     @Override
     public void onGetNotificationFailure() {
         progress.dismiss();
-        Toast.makeText(this, "network failed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_close:
+                finish();
+                break;
+        }
     }
 }
