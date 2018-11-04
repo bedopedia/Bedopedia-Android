@@ -2,6 +2,10 @@ package trianglz.core.views;
 
 import android.content.Context;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -21,6 +26,7 @@ import trianglz.core.presenters.StudentDetailPresenter;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
 import trianglz.utils.Constants;
 
@@ -80,6 +86,22 @@ public class StudentDetailView {
             @Override
             public void onFailure(String message, int errorCode) {
                 studentDetailPresenter.onGetTimeTableFailure(message, errorCode);
+            }
+        });
+
+    }
+
+
+    public void getStudentBehavioursNotes(String url,String id){
+        UserManager.getStudentBehaviourNotes(url, id, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                studentDetailPresenter.onGetBehaviorNotesSuccess(parseBehaviourNotes(response));
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                studentDetailPresenter.onGetBehaviorNotesFailure(message,errorCode);
             }
         });
 
@@ -193,6 +215,31 @@ public class StudentDetailView {
         timeTableData.add(tomorrowSlots);
         timeTableData.add(nextSlot);
         return timeTableData;
+    }
+
+    private   HashMap<String,List<BehaviorNote>> parseBehaviourNotes(JSONObject response){
+        HashMap<String,List<BehaviorNote>> behaviorNoteHashMap = new HashMap<>();
+        List<BehaviorNote> positiveBehaviorNotesList = new ArrayList<>();
+        List<BehaviorNote> negativeBehaviorNotesList = new ArrayList<>();
+
+        JSONArray behaviourNotes = response.optJSONArray("behavior_notes");
+        for(int i = 0 ; i<behaviourNotes.length(); i++){
+            JSONObject note = behaviourNotes.optJSONObject(i);
+            String category = note.optString("category");
+            String noteBody =  note.optString("note");
+            if(category.equals("Cooperative") ||
+                    category.equals("Politeness") ||
+                    category.equals("Punctuality") ||
+                    category.equals("Leadership") ||
+                    category.equals("Honesty"))
+                positiveBehaviorNotesList.add(new BehaviorNote(category,noteBody));
+            else
+                negativeBehaviorNotesList.add(new BehaviorNote(category,noteBody));
+        }
+        behaviorNoteHashMap.put(Constants.KEY_POSITIVE,positiveBehaviorNotesList);
+        behaviorNoteHashMap.put(Constants.KEY_NEGATIVE,negativeBehaviorNotesList);
+        return behaviorNoteHashMap;
+
     }
 
 }

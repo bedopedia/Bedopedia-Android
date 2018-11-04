@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import agency.tango.android.avatarview.IImageLoader;
@@ -45,7 +46,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private AvatarView studentImage;
     private ArrayList<Student> studentArrayList;
     private ArrayList<Attendance> attendanceArrayList;
-    private TextView nameTextView, levelTextView, nextSlotTextView,studentGradeTextView;
+    private TextView nameTextView, levelTextView, nextSlotTextView,studentGradeTextView,
+    positiveCounterTextView,negativeCounterTextView;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private String studentName = "";
@@ -89,6 +91,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         behaviourNotesLayout = findViewById(R.id.layout_behavior_notes);
         studentDetailView = new StudentDetailView(this, this);
         backBtn = findViewById(R.id.btn_back);
+        positiveCounterTextView = findViewById(R.id.tv_positive_counter);
+        negativeCounterTextView = findViewById(R.id.tv_negative_counter);
         String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
         if (Util.isNetworkAvailable(this)) {
             studentDetailView.getStudentCourses(courseUrl);
@@ -176,12 +180,30 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         todaySlots = (List<TimeTableSlot>) timeTableData.get(0);
         tomorrowSlots = (List<TimeTableSlot>) timeTableData.get(1);
         nextSlotTextView.setText(nextSlot);
-        progress.dismiss();
+        String url = SessionManager.getInstance().getBaseUrl() + "/api/behavior_notes";
+        studentDetailView.getStudentBehavioursNotes(url,student.getId()+"");
     }
 
     @Override
     public void onGetTimeTableFailure(String message, int code) {
         progress.dismiss();
+    }
+
+    @Override
+    public void onGetBehaviorNotesSuccess( HashMap<String,List<BehaviorNote>> behaviorNoteHashMap) {
+        List<BehaviorNote> positiveBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_POSITIVE);
+        List<BehaviorNote> negativeBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_NEGATIVE);
+        String positiveCounter = positiveBehaviorNotes.size()+"";
+        String negativeCounter = negativeBehaviorNotes.size()+"";
+        positiveCounterTextView.setText(positiveCounter);
+        negativeCounterTextView.setText(negativeCounter);
+        progress.dismiss();
+    }
+
+    @Override
+    public void onGetBehaviorNotesFailure(String message, int code) {
+        progress.dismiss();
+
     }
 
     @Override

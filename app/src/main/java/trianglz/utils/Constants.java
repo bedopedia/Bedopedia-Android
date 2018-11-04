@@ -50,5 +50,10 @@ public class Constants {
     public static final String KEY_DRAGON = "dragon";
     public static final String KEY_ICON = "icon";
     public static final String KEY_LETTER = "letter";
+    public static final String KEY_STUDENT_ID = "student_id";
+    public static final String KEY_USER_TYPE = "user_type";
+    public static final String KEY_PARENTS = "parents";
+    public static final String KEY_POSITIVE = "positive";
+    public static final String KEY_NEGATIVE = "negative";
 
 }
