@@ -67,5 +67,10 @@ public class Constants {
     public static final String KEY_DATE = "date";
     public static final String KEY_STATUS = "status";
     public static final String KEY_ABSENT = "absent";
+    public static final String KEY_LATE = "late";
+    public static final String  KEY_COMMENT = "comment";
+    public static final String  KEY_NO_COMMENT = "No Comment";
+    public static final String  KEY_EXCUSED = "excused";
+    public static final String KEY_NULL = "null";
 
 }

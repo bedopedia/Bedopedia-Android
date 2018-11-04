@@ -92,15 +92,14 @@
         <activity
             android:name="trianglz.ui.activities.SchoolLoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2">
-        </activity>
+            android:theme="@style/AppTheme_v2"></activity>
         <activity
             android:name="trianglz.ui.activities.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="trianglz.ui.activities.NotificationsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2"></activity>
+            android:theme="@style/AppTheme_v2" />
         android:name="trianglz.ui.activities.SuperActivity"
         android:theme="@style/AppTheme_v2" />
         <activity
@@ -111,7 +110,8 @@
             android:name="trianglz.ui.activities.StudentDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />
-        <activity android:name="trianglz.ui.activities.SplashActivity"
+        <activity
+            android:name="trianglz.ui.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2">
             <intent-filter>
@@ -121,17 +121,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="trianglz.ui.activities.HomeActivity"
+            android:name="trianglz.ui.activities.TimeTableActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />
-        <activity
-            android:name="trianglz.ui.activities.StudentDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2" />
-        <activity android:name="trianglz.ui.activities.TimeTableActivity"
+        <activity android:name="trianglz.ui.activities.AttendanceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2"/>
-
     </application>
 
 </manifest>

@@ -74,5 +74,16 @@
     <string name="absent">Absent</string>
     <string name="out">out</string>
     <string name="days">days</string>
-
+    <array name="weekdays_cust">
+        <item>S</item>
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+    </array>
+    <string name="w" translatable="false">W</string>
+    <string name="excused">Excused</string>
+    <string name="late">Late</string>
 </resources>

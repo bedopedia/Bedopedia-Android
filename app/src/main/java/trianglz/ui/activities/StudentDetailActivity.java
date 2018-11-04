@@ -27,7 +27,6 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import attendance.Attendance;
-import attendance.AttendanceActivity;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.core.presenters.StudentDetailPresenter;
@@ -274,7 +273,10 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
 
     private void openAttendanceActivity() {
         Intent attendanceIntent = new Intent(this, AttendanceActivity.class);
-        attendanceIntent.putExtra(Constants.KEY_ATTENDANCE, attendance);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT,student);
+        bundle.putString(Constants.KEY_ATTENDANCE, attendance);
+        attendanceIntent.putExtra(Constants.KEY_BUNDLE,bundle);
         startActivity(attendanceIntent);
     }
 
