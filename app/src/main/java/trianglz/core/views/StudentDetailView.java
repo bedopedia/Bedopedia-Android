@@ -2,10 +2,6 @@ package trianglz.core.views;
 
 import android.content.Context;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -222,16 +218,16 @@ public class StudentDetailView {
         List<BehaviorNote> positiveBehaviorNotesList = new ArrayList<>();
         List<BehaviorNote> negativeBehaviorNotesList = new ArrayList<>();
 
-        JSONArray behaviourNotes = response.optJSONArray("behavior_notes");
+        JSONArray behaviourNotes = response.optJSONArray(Constants.KEY_BEHAVIOUR_NOTES);
         for(int i = 0 ; i<behaviourNotes.length(); i++){
             JSONObject note = behaviourNotes.optJSONObject(i);
-            String category = note.optString("category");
-            String noteBody =  note.optString("note");
-            if(category.equals("Cooperative") ||
-                    category.equals("Politeness") ||
-                    category.equals("Punctuality") ||
-                    category.equals("Leadership") ||
-                    category.equals("Honesty"))
+            String category = note.optString(Constants.KEY_CATEGORY);
+            String noteBody =  note.optString(Constants.KEY_NOTE);
+            if(category.equals(Constants.KEY_COOPERATIVE) ||
+                    category.equals(Constants.KEY_POLITENESS) ||
+                    category.equals(Constants.KEY_PUNCTUALITY) ||
+                    category.equals(Constants.KEY_LEADER_SHIP) ||
+                    category.equals(Constants.KEY_HONESTY))
                 positiveBehaviorNotesList.add(new BehaviorNote(category,noteBody));
             else
                 negativeBehaviorNotesList.add(new BehaviorNote(category,noteBody));

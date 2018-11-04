@@ -9,6 +9,8 @@ import android.widget.ImageButton;
 
 import com.skolera.skolera_android.R;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 
 import trianglz.core.presenters.HomePresenter;
@@ -24,6 +26,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
     private String id;
     private HomeView homeView;
     private ImageButton notificationBtn;
+    private  ArrayList<JSONArray> kidsAttendances;
 
 
     @Override
@@ -44,6 +47,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         homeView = new HomeView(this,this);
         notificationBtn = findViewById(R.id.btn_notification);
+        kidsAttendances = new ArrayList<>();
 
     }
 
@@ -60,9 +64,13 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
     }
 
     @Override
-    public void onGetStudentsHomeSuccess(ArrayList<Student> studentArrayList) {
+    public void onGetStudentsHomeSuccess(ArrayList<Object> dataObjectArrayList) {
         progress.dismiss();
+        ArrayList<JSONArray> attendanceJsonArray =(ArrayList<JSONArray>) dataObjectArrayList.get(0);
+        this.kidsAttendances = attendanceJsonArray;
+        ArrayList<Student> studentArrayList = (ArrayList<Student>) dataObjectArrayList.get(1);
         homeAdapter.addData(studentArrayList);
+
     }
 
     @Override
@@ -85,15 +93,16 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
     }
 
     @Override
-    public void onOpenStudentClicked(Student student) {
-        openStudentDetailActivity(student);
+    public void onOpenStudentClicked(Student student,int position) {
+        openStudentDetailActivity(student,position);
     }
 
-    private void openStudentDetailActivity(Student student){
+    private void openStudentDetailActivity(Student student,int position){
         Intent intent = new Intent(this,StudentDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT,student);
-        intent.putExtra(Constants.STUDENT,bundle);
+        bundle.putSerializable(Constants.KEY_ATTENDANCE,kidsAttendances.get(position).toString());
+        intent.putExtra(Constants.KEY_BUNDLE,bundle);
         startActivity(intent);
     }
 }

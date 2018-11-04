@@ -8,6 +8,6 @@ import trianglz.models.Student;
  * Created by ${Aly} on 10/31/2018.
  */
 public interface HomePresenter {
-    void onGetStudentsHomeSuccess(ArrayList<Student> studentArrayList);
+    void onGetStudentsHomeSuccess(ArrayList<Object> objectArrayList);
     void onGetStudentsHomeFailure();
 }

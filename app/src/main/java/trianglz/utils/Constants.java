@@ -55,5 +55,17 @@ public class Constants {
     public static final String KEY_PARENTS = "parents";
     public static final String KEY_POSITIVE = "positive";
     public static final String KEY_NEGATIVE = "negative";
+    public static final String KEY_BEHAVIOUR_NOTES = "behavior_notes";
+    public static final String KEY_CATEGORY = "category";
+    public static final String KEY_NOTE = "note";
+    public static final String KEY_COOPERATIVE = "Cooperative";
+    public static final String KEY_POLITENESS = "Politeness";
+    public static final String KEY_PUNCTUALITY = "Punctuality";
+    public static final String KEY_LEADER_SHIP = "Leadership";
+    public static final String KEY_HONESTY = "Honesty";
+    public static final String KEY_ATTENDANCE = "attendance";
+    public static final String KEY_DATE = "date";
+    public static final String KEY_STATUS = "status";
+    public static final String KEY_ABSENT = "absent";
 
 }

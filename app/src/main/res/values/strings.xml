@@ -71,5 +71,8 @@
     <string name="attendance">Attendance</string>
     <string name="copy_rights">All Right reserved ® Skolera LMS</string>
     <string name="average_grade">Average grade</string>
+    <string name="absent">Absent</string>
+    <string name="out">out</string>
+    <string name="days">days</string>
 
 </resources>

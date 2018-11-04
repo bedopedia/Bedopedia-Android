@@ -38,7 +38,8 @@ public class HomeView {
         });
     }
 
-    private ArrayList<Student> parseHomeResponse(JSONArray response) {
+    private ArrayList<Object> parseHomeResponse(JSONArray response) {
+        ArrayList<Object> objectArrayList = new ArrayList<>();
         ArrayList<JSONArray> kidsAttendances = new ArrayList<>();
         ArrayList<trianglz.models.Student> myKids = new ArrayList<>();
         for (int i = 0; i < response.length(); i++) {
@@ -58,8 +59,9 @@ public class HomeView {
                     studentData.optJSONObject("today_workload_status"),
                     0, null, null));
         }
-
-        return myKids;
+        objectArrayList.add(kidsAttendances);
+        objectArrayList.add(myKids);
+        return objectArrayList;
 
     }
 
