@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -36,6 +35,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
     final String urlUploadsKey = "/uploads";
 
     private HomeAdapterInterface homeAdapterInterface;
+
     public HomeAdapter(Context context, HomeAdapterInterface homeAdapterInterface) {
         this.context = context;
         this.mDataList = new ArrayList<>();
@@ -52,36 +52,36 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
 
     @Override
     public void onBindViewHolder(final KidsViewHolder holder, final int position) {
-        Student student  = mDataList.get(position);
-        if(position == mDataList.size()-1){
+        Student student = mDataList.get(position);
+        if (position == mDataList.size() - 1) {
             holder.lineView.setVisibility(View.GONE);
         }
         String name = student.firstName + " " + student.lastName;
         holder.studentName.setText(name);
         String imageUrl = student.getAvatar();
-        if(imageUrl.substring(0,8).equals(urlUploadsKey)) {
+        if (imageUrl.substring(0, 8).equals(urlUploadsKey)) {
             imageUrl = ApiClient.BASE_URL + imageUrl;
         }
-        setStudentImage(imageUrl,holder,name);
+        setStudentImage(imageUrl, holder, name);
         setAttendanceCircle(student.getTodayAttendance(), holder);
         holder.gradeTextView.setText(student.level);
-        String quizzes = context.getResources().getString(R.string.quizzes)+ " " + String.valueOf(student.getTodayQuizzesCount());
+        String quizzes = context.getResources().getString(R.string.quizzes) + " " + String.valueOf(student.getTodayQuizzesCount());
         holder.quizzesTextView.setText(quizzes);
-        String assignments = context.getResources().getString(R.string.quizzes)+ " " + String.valueOf(student.getTodayAssignmentsCount());
-        holder.quizzesTextView.setText(assignments);
-        String events = context.getResources().getString(R.string.quizzes)+ " " + String.valueOf(student.getTodayEventsCount());
-        holder.quizzesTextView.setText(events);
+        String assignments = context.getResources().getString(R.string.assignments) + " " + String.valueOf(student.getTodayAssignmentsCount());
+        holder.assignmentsTextView.setText(assignments);
+        String events = context.getResources().getString(R.string.events) + " " + String.valueOf(student.getTodayEventsCount());
+        holder.eventsTextView.setText(events);
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                homeAdapterInterface.onOpenStudentClicked(mDataList.get(position),position);
+                homeAdapterInterface.onOpenStudentClicked(mDataList.get(position), position);
             }
         });
 
         holder.openImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                homeAdapterInterface.onOpenStudentClicked(mDataList.get(position),position);
+                homeAdapterInterface.onOpenStudentClicked(mDataList.get(position), position);
             }
         });
 
@@ -100,8 +100,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
     }
 
     public class KidsViewHolder extends RecyclerView.ViewHolder {
-        public TextView studentName,gradeTextView,stateTextView,quizzesTextView,
-        assignmentsTextView,eventsTextView;
+        public TextView studentName, gradeTextView, stateTextView, quizzesTextView,
+                assignmentsTextView, eventsTextView;
         public ImageView stateImageView;
         public AvatarView studentImageView;
         public ImageButton openImageButton;
@@ -127,25 +127,25 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
     }
 
     public void setAttendanceCircle(String attendanceStatus, KidsViewHolder holder) {
-        attendanceStatus = attendanceStatus.substring(0,1).toUpperCase() + attendanceStatus.substring(1).toLowerCase();
+        attendanceStatus = attendanceStatus.substring(0, 1).toUpperCase() + attendanceStatus.substring(1).toLowerCase();
         holder.stateTextView.setText(attendanceStatus);
-        if(attendanceStatus.equals("Present")) {
+        if (attendanceStatus.equals("Present")) {
             holder.stateImageView.setBackgroundResource(R.drawable.attendance_circle_green);
         } else if (attendanceStatus.equals("Not taken")) {
             holder.stateImageView.setBackgroundResource(R.drawable.attendance_circle_grey);
         } else if (attendanceStatus.equals("Late")) {
             holder.stateImageView.setBackgroundResource(R.drawable.attendance_circle_yellow);
-        }else if (attendanceStatus.equals("Excused")) {
+        } else if (attendanceStatus.equals("Excused")) {
             holder.stateImageView.setBackgroundResource(R.drawable.attendance_circle_blue);
         } else if (attendanceStatus.equals("Absent")) {
             holder.stateImageView.setBackgroundResource(R.drawable.attendance_circle_red);
         }
     }
 
-    private void setStudentImage(String imageUrl, final KidsViewHolder holder, final String name){
+    private void setStudentImage(String imageUrl, final KidsViewHolder holder, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
             holder.imageLoader = new PicassoLoader();
-            holder.imageLoader.loadImage( holder.studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+            holder.imageLoader.loadImage(holder.studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
         } else {
             Picasso.with(context)
                     .load(imageUrl)
@@ -160,13 +160,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
                         @Override
                         public void onError() {
                             holder.imageLoader = new PicassoLoader();
-                            holder.imageLoader.loadImage( holder.studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+                            holder.imageLoader.loadImage(holder.studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
                         }
                     });
         }
     }
 
-    public interface HomeAdapterInterface{
+    public interface HomeAdapterInterface {
         void onOpenStudentClicked(Student student, int position);
     }
 

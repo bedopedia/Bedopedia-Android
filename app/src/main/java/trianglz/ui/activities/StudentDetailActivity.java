@@ -5,14 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -58,7 +52,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private ArrayList<Student> studentArrayList;
     private ArrayList<Attendance> attendanceArrayList;
     private TextView nameTextView, levelTextView, nextSlotTextView, studentGradeTextView,
-            positiveCounterTextView, negativeCounterTextView,attendanceTextView;
+            positiveCounterTextView, negativeCounterTextView, attendanceTextView;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private String studentName = "";
@@ -69,6 +63,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
     private ArrayList<JSONArray> attendanceList;
+    private TextView quizzesTextView, assignmentsTextView, eventsTextView;
 
 
     @Override
@@ -109,7 +104,11 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         negativeCounterTextView = findViewById(R.id.tv_negative_counter);
         progressBar = findViewById(R.id.progress_bar);
         attendanceTextView = findViewById(R.id.tv_attendance);
+        quizzesTextView = findViewById(R.id.tv_quizzes);
+        assignmentsTextView = findViewById(R.id.tv_assignment);
+        eventsTextView = findViewById(R.id.tv_events);
         setAttendance();
+        setBottomText(student);
         String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
         if (Util.isNetworkAvailable(this)) {
             studentDetailView.getStudentCourses(courseUrl);
@@ -136,7 +135,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
 
     private void getValueFromIntent() {
         student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
-        attendance =(String) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ATTENDANCE);
+        attendance = (String) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ATTENDANCE);
     }
 
     private void setStudentImage(String imageUrl, final String name) {
@@ -167,21 +166,21 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         try {
             JSONArray jsonArray = new JSONArray(attendance);
             Set<Date> attendanceDates = new HashSet<>();
-            absentDays=0;
-            for(int i = 0 ; i<jsonArray.length(); i++){
+            absentDays = 0;
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject day = jsonArray.optJSONObject(i);
                 Date date = new Date();
                 date.setTime(day.optLong(Constants.KEY_DATE));
-                if(!attendanceDates.contains(date)){
-                    if(day.optString(Constants.KEY_STATUS).equals(Constants.KEY_ABSENT))
+                if (!attendanceDates.contains(date)) {
+                    if (day.optString(Constants.KEY_STATUS).equals(Constants.KEY_ABSENT))
                         absentDays++;
                 }
                 attendanceDates.add(date);
             }
             if (attendanceDates.size() != 0)
-                progressBar.setProgress((absentDays*100)/attendanceDates.size());
-            String attendance = getResources().getString(R.string.absent)+ " " + absentDays +
-                     " "+ getResources().getString(R.string.out)+ " " + attendanceDates.size() + " " +
+                progressBar.setProgress((absentDays * 100) / attendanceDates.size());
+            String attendance = getResources().getString(R.string.absent) + " " + absentDays +
+                    " " + getResources().getString(R.string.out) + " " + attendanceDates.size() + " " +
                     getResources().getString(R.string.days);
             attendanceTextView.setText(attendance);
         } catch (JSONException e) {
@@ -273,9 +272,18 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
 
     }
 
-    private void openAttendanceActivity(){
+    private void openAttendanceActivity() {
         Intent attendanceIntent = new Intent(this, AttendanceActivity.class);
-        attendanceIntent.putExtra(Constants.KEY_ATTENDANCE,attendance);
+        attendanceIntent.putExtra(Constants.KEY_ATTENDANCE, attendance);
         startActivity(attendanceIntent);
+    }
+
+    private void setBottomText(Student student) {
+        String quizzes = getResources().getString(R.string.quizzes) + " " + String.valueOf(student.getTodayQuizzesCount());
+        quizzesTextView.setText(quizzes);
+        String assignments = getResources().getString(R.string.assignments) + " " + String.valueOf(student.getTodayAssignmentsCount());
+        assignmentsTextView.setText(assignments);
+        String events = getResources().getString(R.string.events) + " " + String.valueOf(student.getTodayEventsCount());
+        eventsTextView.setText(events);
     }
 }
