@@ -3,6 +3,7 @@ package trianglz.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private String studentName = "";
     private StudentDetailView studentDetailView;
     private LinearLayout attendanceLayout,timeTableLayout,gradesLayout,behaviourNotesLayout;
+    private ImageButton backBtn;
 
 
     @Override
@@ -86,6 +88,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         gradesLayout = findViewById(R.id.layout_grades);
         behaviourNotesLayout = findViewById(R.id.layout_behavior_notes);
         studentDetailView = new StudentDetailView(this, this);
+        backBtn = findViewById(R.id.btn_back);
         String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
         if (Util.isNetworkAvailable(this)) {
             studentDetailView.getStudentCourses(courseUrl);
@@ -101,6 +104,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         timeTableLayout.setOnClickListener(this);
         gradesLayout.setOnClickListener(this);
         behaviourNotesLayout.setOnClickListener(this);
+        backBtn.setOnClickListener(this);
 
     }
 
@@ -185,6 +189,9 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         switch (view.getId()){
             case R.id.layout_timetable:
                 openTimeTableActivity();
+                break;
+            case R.id.btn_back:
+                onBackPressed();
                 break;
         }
     }
