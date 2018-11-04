@@ -52,7 +52,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             paginationInterface.onReachPosition();
         }
         Notification notification = notificationArrayList.get(position);
-        holder.nameTv.setText(notification.getStudentNames());
         holder.dateTv.setText(notification.getDate());
         holder.descriptionTv.setText(notification.getMessage());
         holder.descriptionTv.setTextColor(ResourcesCompat.getColor(context.getResources(), R.color.steel, null));
@@ -73,13 +72,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     public class NotificationsViewHolder extends RecyclerView.ViewHolder {
         LinearLayout itemLayout;
-        TextView nameTv, dateTv, descriptionTv;
+        TextView dateTv, descriptionTv;
         ImageView imageView;
 
         public NotificationsViewHolder(View itemView) {
             super(itemView);
             itemLayout = itemView.findViewById(R.id.item_layout);
-            nameTv = itemView.findViewById(R.id.tv_student_name);
             dateTv = itemView.findViewById(R.id.tv_date);
             descriptionTv = itemView.findViewById(R.id.tv_description);
             imageView = itemView.findViewById(R.id.image);
