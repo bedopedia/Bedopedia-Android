@@ -105,10 +105,10 @@ public class UserManager {
         });
     }
 
-    public static void getNotifications(String url, final ResponseListener responseListener) {
+    public static void getNotifications(String url, int pageNumber, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> params = new HashMap<>();
-        params.put("page" , "1");
+        params.put("page", pageNumber + "");
         params.put("per_page" , "20");
         NetworkManager.getWithParameter(url, params, headerHashMap, new HandleResponseListener() {
             @Override

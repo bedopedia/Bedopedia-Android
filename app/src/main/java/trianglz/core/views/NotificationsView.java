@@ -26,8 +26,8 @@ public class NotificationsView {
         this.presenter = presenter;
     }
 
-    public void getNotifications(String url) {
-        UserManager.getNotifications(url,new ResponseListener() {
+    public void getNotifications(String url, int pageNumber) {
+        UserManager.getNotifications(url, pageNumber, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 presenter.onGetNotificationSuccess(parseNotificationResponse(response));
