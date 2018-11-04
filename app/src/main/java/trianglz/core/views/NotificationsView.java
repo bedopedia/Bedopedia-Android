@@ -54,9 +54,7 @@ public class NotificationsView {
             JSONObject notificationObj = notificationArray.optJSONObject(i);
             JSONObject to = notificationObj.optJSONObject("to");
             String name = to.optString("firstname");
-            String message = notificationObj.optString("text");
-            message.replaceAll()
-            notifications.add(new Notification(notificationObj.optString(message),
+            notifications.add(new Notification(notificationObj.optString("text"),
                     notificationObj.optString("created_at"),
                     notificationObj.optString("logo"),
                     name,

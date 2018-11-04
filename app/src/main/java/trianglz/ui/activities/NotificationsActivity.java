@@ -52,7 +52,7 @@ public class NotificationsActivity extends SuperActivity implements Notification
         // TODO: 11/4/2018 get dynamic true id
         if (Util.isNetworkAvailable(this)) {
             String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" + "3164" + "/notifications";
-//            showLoadingDialog();
+            showLoadingDialog();
             if (!pagination) {
                 pageNumber = 1;
             }
