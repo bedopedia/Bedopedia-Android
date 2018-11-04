@@ -106,4 +106,37 @@ public class UserManager {
             }
         });
     }
+
+
+    public static void getStudentCourse(String url, final ArrayResponseListener arrayResponseListener) {
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String,String> paramsHashMap = new HashMap<>();
+        NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                arrayResponseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                arrayResponseListener.onFailure(message,errorCode);
+            }
+        });
+    }
+
+    public static void getStudentTimeTable(String url, final ArrayResponseListener arrayResponseListener) {
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String,String> paramsHashMap = new HashMap<>();
+        NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                arrayResponseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                arrayResponseListener.onFailure(message,errorCode);
+            }
+        });
+    }
 }

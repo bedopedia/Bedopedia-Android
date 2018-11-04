@@ -61,6 +61,7 @@ public class SessionManager {
         mEditor.putString(this.tokenType, tokenType);
         mEditor.putString(this.clientCode, clientCode);
         mEditor .putString(this.uid,uid);
+        mEditor.putBoolean(Constants.KEY_IS_LOGGED_IN,true);
         mEditor.commit();
 
     }
@@ -108,4 +109,11 @@ public class SessionManager {
         return mPreferences.getString(Constants.KEY_BASE_URL,"");
     }
 
+    public String getEmail() {
+        return mPreferences.getString(Constants.KEY_EMAIL,"");
+    }
+
+    public boolean getIsLoggedIn(){
+        return mPreferences.getBoolean(Constants.KEY_IS_LOGGED_IN,false);
+    }
 }

@@ -28,5 +28,18 @@ public class Constants {
 
     public static final String STUDENT = "student";
 
+    public static final String COURSE = "course";
+    public static final String KEY_COURSE_NAME = "course_name";
+    public static final String KEY_IS_LOGGED_IN = "isLoggedIn";
+    public static final String THURSDAY = "thursday";
+    public static final String KEY_FROM  = "from";
+    public static final String KEY_TO = "to";
+    public static final String KEY_DAY = "day";
+    public static final String KEY_SCHOOL_UNIT = "school_unit";
+    public static final String KEY_BUNDLE = "bundle";
+    public static final String KEY_TODAY ="today";
+    public static final String KEY_TOMORROW = "tomorrow";
+
+
 
 }
