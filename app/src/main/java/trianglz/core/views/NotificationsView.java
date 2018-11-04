@@ -26,8 +26,8 @@ public class NotificationsView {
         this.presenter = presenter;
     }
 
-    public void getNotifications(String url) {
-        UserManager.getNotifications(url,new ResponseListener() {
+    public void getNotifications(String url, int pageNumber) {
+        UserManager.getNotifications(url, pageNumber, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 presenter.onGetNotificationSuccess(parseNotificationResponse(response));
@@ -54,7 +54,9 @@ public class NotificationsView {
             JSONObject notificationObj = notificationArray.optJSONObject(i);
             JSONObject to = notificationObj.optJSONObject("to");
             String name = to.optString("firstname");
-            notifications.add(new Notification(notificationObj.optString("text"),
+            String message = notificationObj.optString("text");
+            message.replaceAll()
+            notifications.add(new Notification(notificationObj.optString(message),
                     notificationObj.optString("created_at"),
                     notificationObj.optString("logo"),
                     name,
