@@ -5,12 +5,13 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.widget.TextView;
 
 /**
  * This file is spawned by Gemy on 10/30/2018.
  */
 @SuppressLint("AppCompatCustomView")
-public class SfproRegularTextView extends AutoResizeTextView {
+public class SfproRegularTextView extends TextView {
     private Context context;
 
     public SfproRegularTextView(Context context, @Nullable AttributeSet attrs) {
