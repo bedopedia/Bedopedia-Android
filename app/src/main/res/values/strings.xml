@@ -70,5 +70,6 @@
     <string name="behavior_notes">Behavior notes</string>
     <string name="attendance">Attendance</string>
     <string name="copy_rights">All Right reserved ® Skolera LMS</string>
+    <string name="average_grade">Average grade</string>
 
 </resources>

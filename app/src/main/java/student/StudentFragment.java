@@ -548,7 +548,6 @@ public class StudentFragment extends Fragment {
                 } else {
                     if (statusCode == 200) {
 
-
                         int i = 0;
                         for (; i < response.body().getAsJsonArray("courses_grades").size(); i++) {
 

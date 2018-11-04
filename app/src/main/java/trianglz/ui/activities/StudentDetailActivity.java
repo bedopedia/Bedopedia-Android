@@ -27,6 +27,7 @@ import trianglz.core.presenters.StudentDetailPresenter;
 import trianglz.core.views.StudentDetailView;
 import trianglz.managers.SessionManager;
 import trianglz.models.BehaviorNote;
+import trianglz.models.CourseGroup;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
 import trianglz.utils.Constants;
@@ -141,8 +142,21 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     }
 
     @Override
-    public void onGetStudentGradesSuccess(ArrayList<trianglz.models.CourseGroup> courseGroups) {
+    public void onGetStudentCourseGroupSuccess(ArrayList<CourseGroup> courseGroups) {
         this.courseGroups = courseGroups;
+        String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/grade_certificate";
+        studentDetailView.getStudentGrades(url,courseGroups);
+    }
+
+    @Override
+    public void onGetStudentCourseGroupFailure(String message, int code) {
+        progress.dismiss();
+    }
+
+    @Override
+    public void onGetStudentGradesSuccess(ArrayList<trianglz.models.CourseGroup> courseGroups,String totalGrade) {
+        totalGrade = getResources().getString(R.string.average_grade) + " " +totalGrade;
+        studentGradeTextView.setText(totalGrade);
         String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
         studentDetailView.getStudentTimeTable(timeTableUrl);
     }

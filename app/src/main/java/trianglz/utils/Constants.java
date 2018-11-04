@@ -43,7 +43,12 @@ public class Constants {
     public static final String KEY_BUNDLE = "bundle";
     public static final String KEY_TODAY ="today";
     public static final String KEY_TOMORROW = "tomorrow";
-
-
+    public static final String KEY_COURSES_GRADES = "courses_grades";
+    public static final String KEY_COURSE_ID = "course_id";
+    public static final String KEY_GRADE = "grade";
+    public static final String KEY_NUMERIC = "numeric";
+    public static final String KEY_DRAGON = "dragon";
+    public static final String KEY_ICON = "icon";
+    public static final String KEY_LETTER = "letter";
 
 }
