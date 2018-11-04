@@ -25,6 +25,10 @@ public class Constants {
     public static final String USER = "user";
     public static final String PARENT_ID = "parent_id";
     public static final String KEY_BASE_URL = "base_url";
+    // Notification's specified fields
+    public static final String KEY_NOTIFICATION = "notifications";
+    public static final String KEY_ADDITIONAL_PARAMS = "additional_params";
+    public static final String KEY_STUDENT_NAMES = "studentNames";
 
     public static final String STUDENT = "student";
 

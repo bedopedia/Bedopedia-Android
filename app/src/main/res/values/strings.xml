@@ -58,6 +58,8 @@
     <string name="password_length_error">Password length should be more than 4 characters</string>
     <string name="code_is_empty">Code is empty</string>
     <string name="code_length_error">Code length error</string>
+    <string name="notifications">Notifications</string>
+    <string name="close">Close</string>
     <string name="skolera">Skolera</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="wrong_username_or_password">Wrong username or password</string>
@@ -67,5 +69,6 @@
     <string name="grades">Grades</string>
     <string name="behavior_notes">Behavior notes</string>
     <string name="attendance">Attendance</string>
+    <string name="copy_rights">All Right reserved ® Skolera LMS</string>
 
 </resources>
