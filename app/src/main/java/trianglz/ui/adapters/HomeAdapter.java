@@ -65,11 +65,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
         setStudentImage(imageUrl, holder, name);
         setAttendanceCircle(student.getTodayAttendance(), holder);
         holder.gradeTextView.setText(student.level);
-        String quizzes = context.getResources().getString(R.string.quizzes) + " " + String.valueOf(student.getTodayQuizzesCount());
+        String quizzes = String.valueOf(student.getTodayQuizzesCount()  + " " +context.getResources().getString(R.string.quizzes) );
         holder.quizzesTextView.setText(quizzes);
-        String assignments = context.getResources().getString(R.string.assignments) + " " + String.valueOf(student.getTodayAssignmentsCount());
+        String assignments = String.valueOf(student.getTodayAssignmentsCount()  + " " +context.getResources().getString(R.string.assignments) );
         holder.assignmentsTextView.setText(assignments);
-        String events = context.getResources().getString(R.string.events) + " " + String.valueOf(student.getTodayEventsCount());
+        String events = String.valueOf(student.getTodayEventsCount()  + " " +context.getResources().getString(R.string.events) );
         holder.eventsTextView.setText(events);
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -279,11 +279,11 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     }
 
     private void setBottomText(Student student) {
-        String quizzes = getResources().getString(R.string.quizzes) + " " + String.valueOf(student.getTodayQuizzesCount());
+        String quizzes = String.valueOf(student.getTodayQuizzesCount()) + " " + getResources().getString(R.string.quizzes);
         quizzesTextView.setText(quizzes);
-        String assignments = getResources().getString(R.string.assignments) + " " + String.valueOf(student.getTodayAssignmentsCount());
+        String assignments = String.valueOf(student.getTodayAssignmentsCount()) + " " + getResources().getString(R.string.assignments);
         assignmentsTextView.setText(assignments);
-        String events = getResources().getString(R.string.events) + " " + String.valueOf(student.getTodayEventsCount());
+        String events = String.valueOf(student.getTodayEventsCount()) + " " + getResources().getString(R.string.events);
         eventsTextView.setText(events);
     }
 }
