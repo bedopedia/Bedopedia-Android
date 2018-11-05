@@ -64,6 +64,27 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     private void setListeners() {
         todayTv.setOnClickListener(this);
         tomorrowTv.setOnClickListener(this);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    setTextBackgrounds(0);
+                } else {
+                    setTextBackgrounds(1);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -99,17 +120,17 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         switch (view.getId()) {
             case R.id.tv_today:
                 mViewPager.setCurrentItem(0);
-                setTextBackgrounds(view.getId());
+                setTextBackgrounds(0);
                 break;
             case R.id.tv_tomorrow:
                 mViewPager.setCurrentItem(1);
-                setTextBackgrounds(view.getId());
+                setTextBackgrounds(1);
                 break;
         }
     }
 
-    private void setTextBackgrounds(int id) {
-        if (id == R.id.tv_today) {
+    private void setTextBackgrounds(int pageNumber) {
+        if (pageNumber == 0) {
             todayTv.setBackground(getResources().getDrawable(R.drawable.text_solid_background));
             todayTv.setTextColor(getResources().getColor(R.color.white));
             tomorrowTv.setBackground(rootView.getBackground());
