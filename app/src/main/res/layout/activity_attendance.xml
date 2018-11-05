@@ -98,7 +98,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp">
+        >
         <View
             android:id="@+id/view_bottom"
             android:layout_width="match_parent"
@@ -138,7 +138,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:background="@color/vivid_purple"
+                    android:background="@drawable/curved_purple_vivid"
                     android:visibility="visible"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
@@ -173,7 +173,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:background="@color/squash"
+                    android:background="@drawable/curved_squash"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:id="@+id/view_excused"
@@ -209,7 +209,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:background= "@color/orange_red"
+                    android:background= "@drawable/curved_orange_red"
                     android:visibility="invisible"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"

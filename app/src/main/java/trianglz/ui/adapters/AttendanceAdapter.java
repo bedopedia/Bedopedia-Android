@@ -42,11 +42,11 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Ho
     @Override
     public void onBindViewHolder(Holder holder, int position) {
         if (state == STATE.EXCUSED) {
-            holder.lineView.setBackgroundColor(context.getResources().getColor(R.color.squash));
+            holder.lineView.setBackground(context.getResources().getDrawable(R.drawable.curved_squash));
         } else if (state == STATE.LATE) {
-            holder.lineView.setBackgroundColor(context.getResources().getColor(R.color.vivid_purple));
+            holder.lineView.setBackground(context.getResources().getDrawable(R.drawable.curved_purple_vivid));
         } else {
-            holder.lineView.setBackgroundColor(context.getResources().getColor(R.color.orange_red));
+            holder.lineView.setBackground(context.getResources().getDrawable(R.drawable.curved_orange_red));
         }
         Attendance attendanceItem = items.get(position);
         Calendar cal = CalendarUtils.getCalendar(attendanceItem.getDate());

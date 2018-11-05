@@ -120,22 +120,22 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                     if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
                         lateDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
                     else
-                        lateDates.add(new Attendance(date, Constants.KEY_NO_COMMENT));
+                        lateDates.add(new Attendance(date, ""));
                 } else if (day.optString(Constants.KEY_STATUS).equals(Constants.KEY_ABSENT)) {
                     if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
                         absentDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
                     else
-                        absentDates.add(new Attendance(date, Constants.KEY_NO_COMMENT));
+                        absentDates.add(new Attendance(date, ""));
                 } else if (day.optString(Constants.KEY_STATUS).equals(Constants.KEY_EXCUSED)) {
                     if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
                         excusedDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
                     else
-                        excusedDates.add(new Attendance(date, Constants.KEY_NO_COMMENT));
+                        excusedDates.add(new Attendance(date, ""));
                 } else if (day.optString(Constants.KEY_STATUS).equals("present")) {
                     if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
                         presentDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
                     else
-                        presentDates.add(new Attendance(date, Constants.KEY_NO_COMMENT));
+                        presentDates.add(new Attendance(date, ""));
                 }
             }
 
