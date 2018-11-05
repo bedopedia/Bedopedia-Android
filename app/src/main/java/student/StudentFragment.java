@@ -29,12 +29,12 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.skolera.skolera_android.AskTeacherActivity;
-import com.skolera.skolera_android.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.skolera.skolera_android.AskTeacherActivity;
+import com.skolera.skolera_android.R;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -52,7 +52,6 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import Adapters.NotificationAdapter;
-import trianglz.models.Notification;
 import Tools.CalendarUtils;
 import Tools.Dialogue;
 import Tools.ImageViewHelper;
@@ -72,10 +71,10 @@ import myKids.Student;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timetable.Fragments.TodayFragment;
-import timetable.Fragments.TomorrowFragment;
+import trianglz.models.TimeTableSlot;
 import timetable.TimetableActivity;
-import timetable.TimetableSlot;
+import trianglz.models.Notification;
+import trianglz.utils.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -141,8 +140,8 @@ public class StudentFragment extends Fragment {
     List<Notification> notifications;
     ArrayList<Badge> badges;
 
-    public  List<TimetableSlot> todaySlots;
-    public  List<TimetableSlot> tomorrowSlots;
+    public  List<TimeTableSlot> todaySlots;
+    public  List<TimeTableSlot> tomorrowSlots;
 
     public  List<BehaviorNote> positiveNotesList;
     public static List<BehaviorNote> negativeNotesList;
@@ -173,8 +172,8 @@ public class StudentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         badges = new ArrayList<Badge>();
-        todaySlots = new ArrayList<TimetableSlot>();
-        tomorrowSlots = new ArrayList<TimetableSlot>();
+        todaySlots = new ArrayList<TimeTableSlot>();
+        tomorrowSlots = new ArrayList<TimeTableSlot>();
 
         positiveNotesList = new ArrayList<BehaviorNote>();
         negativeNotesList = new ArrayList<BehaviorNote>();
@@ -413,8 +412,8 @@ public class StudentFragment extends Fragment {
                 Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
                 timeTableIntent.putExtra(studentIdKey, studentId);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(TomorrowFragment.KEY_NAME, (Serializable) tomorrowSlots);
-                bundle.putSerializable(TodayFragment.KEY_NAME, (Serializable) todaySlots);
+                bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
+                bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
                 timeTableIntent.putExtras(bundle);
                 startActivity(timeTableIntent);
             }
@@ -632,9 +631,9 @@ public class StudentFragment extends Fragment {
                         }
 
                         if (day.equals(today)){
-                            todaySlots.add(new TimetableSlot(fromDate, toDate, day, courseName, classRoom));
+                            todaySlots.add(new TimeTableSlot(fromDate, toDate, day, courseName, classRoom));
                         } else if (day.equals(tomorrow)) {
-                            tomorrowSlots.add(new TimetableSlot(fromDate, toDate, day, courseName, classRoom));
+                            tomorrowSlots.add(new TimeTableSlot(fromDate, toDate, day, courseName, classRoom));
                         }
 
                     }
@@ -644,7 +643,7 @@ public class StudentFragment extends Fragment {
                     Collections.sort(tomorrowSlots);
                     SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 
-                    for (TimetableSlot timeSlotIterator : todaySlots){
+                    for (TimeTableSlot timeSlotIterator : todaySlots){
                         if ((timeSlotIterator.getFrom().getHours() == current.getHours() && timeSlotIterator.getFrom().getMinutes() >= current.getMinutes()) ||
                                 timeSlotIterator.getFrom().getHours() > current.getHours()){
                             nextSlotFound = true;
@@ -653,7 +652,7 @@ public class StudentFragment extends Fragment {
                         }
                     }
                     if(!nextSlotFound && tomorrowSlots.size() > 0){
-                        TimetableSlot timeSlot = tomorrowSlots.get(0);
+                        TimeTableSlot timeSlot = tomorrowSlots.get(0);
                         nextSlot.setText("Next: " + timeSlot.getCourseName() + ", " + timeSlot.getDay() + " " + dateFormat.format(timeSlot.getFrom()));
                     }
                 }

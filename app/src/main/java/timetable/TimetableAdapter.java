@@ -13,17 +13,18 @@ import java.util.Locale;
 import Tools.CalendarUtils;
 import timetable.Fragments.TodayFragment;
 import timetable.Fragments.TomorrowFragment;
+import trianglz.models.TimeTableSlot;
 
 /**
  * Created by khaled on 3/2/17.
  */
 
 public class TimetableAdapter extends FragmentPagerAdapter {
-    List<TimetableSlot> tomorrowSlots;
-    List<TimetableSlot> todaySlots;
+    List<TimeTableSlot> tomorrowSlots;
+    List<TimeTableSlot> todaySlots;
     final String ThuKey = "Thu";
 
-    public TimetableAdapter(FragmentManager fm,  List<TimetableSlot> tomorrowSlots ,List<TimetableSlot> todaySlots){
+    public TimetableAdapter(FragmentManager fm, List<TimeTableSlot> tomorrowSlots , List<TimeTableSlot> todaySlots){
         super(fm);
         this.tomorrowSlots = tomorrowSlots;
         this.todaySlots = todaySlots;

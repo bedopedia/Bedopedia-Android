@@ -16,8 +16,6 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
-import Tools.CalendarUtils;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +26,9 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import timetable.TimetableSlot;
+import Tools.CalendarUtils;
+import trianglz.models.TimeTableSlot;
+import trianglz.utils.Constants;
 
 /**
  * Created by khaled on 3/2/17.
@@ -47,10 +47,10 @@ public class TodayFragment extends Fragment {
 
 
 
-    public static Fragment newInstance(List<TimetableSlot> todaySlots){
+    public static Fragment newInstance(List<TimeTableSlot> todaySlots){
         Fragment fragment ;
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_NAME, (Serializable) todaySlots);
+        bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
 
         fragment = new TodayFragment();
         fragment.setArguments(bundle);
@@ -95,7 +95,7 @@ public class TodayFragment extends Fragment {
         mLayout = (RelativeLayout) rootView.findViewById(R.id.today_event_column);
         nowSign = new TextView(getActivity());
         nowEventView = new TextView(getActivity());
-        List<TimetableSlot> todaySlots = ( List<TimetableSlot> ) getArguments().getSerializable(KEY_NAME);
+        List<TimeTableSlot> todaySlots = ( List<TimeTableSlot> ) getArguments().getSerializable(Constants.KEY_TODAY);
         displayDailyEvents(todaySlots);
         displayNowTime();
 
@@ -196,9 +196,9 @@ public class TodayFragment extends Fragment {
 
     }
 
-    private void displayDailyEvents(List<TimetableSlot> todaySlots){
+    private void displayDailyEvents(List<TimeTableSlot> todaySlots){
 
-        for(TimetableSlot eObject : todaySlots){
+        for(TimeTableSlot eObject : todaySlots){
             Date eventDate = eObject.getFrom();
             Date endDate = eObject.getTo();
             String courseName = eObject.getCourseName();

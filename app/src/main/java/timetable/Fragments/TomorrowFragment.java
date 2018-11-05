@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
-import Tools.CalendarUtils;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,7 +22,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import timetable.TimetableSlot;
+import Tools.CalendarUtils;
+import trianglz.models.TimeTableSlot;
+import trianglz.utils.Constants;
 
 /**
  * Created by khaled on 3/2/17.
@@ -39,10 +39,10 @@ public class TomorrowFragment extends Fragment {
 
 
 
-    public static Fragment newInstance(List<TimetableSlot> tomorrowSlots){
+    public static Fragment newInstance(List<TimeTableSlot> tomorrowSlots){
         Fragment fragment ;
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_NAME, (Serializable) tomorrowSlots);
+        bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
 
         fragment = new TomorrowFragment();
         fragment.setArguments(bundle);
@@ -83,7 +83,7 @@ public class TomorrowFragment extends Fragment {
         headerColors.add("#ffffd180");
 
         mLayout = (RelativeLayout) rootView.findViewById(R.id.tomorrow_event_column);
-        List<TimetableSlot> tomorrowSlots = ( List<TimetableSlot> ) getArguments().getSerializable(KEY_NAME);
+        List<TimeTableSlot> tomorrowSlots = ( List<TimeTableSlot> ) getArguments().getSerializable(Constants.KEY_TOMORROW);
         displayDailyEvents(tomorrowSlots);
 
         TextView tomorrow7AM = (TextView) rootView.findViewById(R.id.tomorrow_7am);
@@ -119,9 +119,9 @@ public class TomorrowFragment extends Fragment {
     }
 
 
-    private void displayDailyEvents( List<TimetableSlot> tomorrowSlots){
+    private void displayDailyEvents( List<TimeTableSlot> tomorrowSlots){
 
-        for(TimetableSlot eObject : tomorrowSlots){
+        for(TimeTableSlot eObject : tomorrowSlots){
             Date eventDate = eObject.getFrom();
             Date endDate = eObject.getTo();
             String courseName = eObject.getCourseName();

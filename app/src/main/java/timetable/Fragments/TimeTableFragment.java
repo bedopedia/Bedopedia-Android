@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 
 import com.skolera.skolera_android.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import timetable.TimetableAdapter;
-import timetable.TimetableSlot;
+import trianglz.models.TimeTableSlot;
+import trianglz.utils.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,8 +33,8 @@ public class TimeTableFragment extends Fragment {
     private TimetableAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     TabLayout tabLayout;
-    List<TimetableSlot> tomorrowSlots;
-    List<TimetableSlot> todaySlots;
+    List<TimeTableSlot> tomorrowSlots;
+    List<TimeTableSlot> todaySlots;
 
     public TimeTableFragment() {
         // Required empty public constructor
@@ -54,9 +56,9 @@ public class TimeTableFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getActivity().getIntent();
-        Bundle bundle = intent.getExtras();
-        tomorrowSlots = ( List<TimetableSlot> ) bundle.getSerializable(TomorrowFragment.KEY_NAME);
-        todaySlots = ( List<TimetableSlot> ) bundle.getSerializable(TodayFragment.KEY_NAME);
+        Bundle bundle = intent.getBundleExtra(Constants.KEY_BUNDLE);
+        tomorrowSlots = (ArrayList<TimeTableSlot>) bundle.getSerializable(Constants.KEY_TOMORROW);
+        todaySlots = (ArrayList<TimeTableSlot> ) bundle.getSerializable(Constants.KEY_TODAY);
 
     }
 
