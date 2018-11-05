@@ -1,4 +1,4 @@
-package timetable;
+package trianglz.ui.activities.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,19 +11,20 @@ import java.util.List;
 import java.util.Locale;
 
 import Tools.CalendarUtils;
-import timetable.Fragments.TodayFragment;
-import timetable.Fragments.TomorrowFragment;
+import trianglz.ui.activities.fragments.TodayFragment;
+import trianglz.ui.activities.fragments.TomorrowFragment;
+import trianglz.models.TimeTableSlot;
 
 /**
  * Created by khaled on 3/2/17.
  */
 
 public class TimetableAdapter extends FragmentPagerAdapter {
-    List<TimetableSlot> tomorrowSlots;
-    List<TimetableSlot> todaySlots;
+    List<TimeTableSlot> tomorrowSlots;
+    List<TimeTableSlot> todaySlots;
     final String ThuKey = "Thu";
 
-    public TimetableAdapter(FragmentManager fm,  List<TimetableSlot> tomorrowSlots ,List<TimetableSlot> todaySlots){
+    public TimetableAdapter(FragmentManager fm, List<TimeTableSlot> tomorrowSlots , List<TimeTableSlot> todaySlots){
         super(fm);
         this.tomorrowSlots = tomorrowSlots;
         this.todaySlots = todaySlots;

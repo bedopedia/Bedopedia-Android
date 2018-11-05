@@ -1,4 +1,4 @@
-package trianglz.ui.adapters;
+package trianglz.ui.activities.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

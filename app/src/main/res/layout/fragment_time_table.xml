@@ -1,33 +1,97 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    tools:context="timetable.Fragments.TimeTableFragment">
+    tools:context="trianglz.ui.activities.fragments.TimeTableFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <android.support.design.widget.TabLayout
-        android:layout_marginTop="?android:attr/actionBarSize"
-        style="@style/TabLayoutStyle"
-        android:id="@+id/timetable_tabs"
-        android:background="@color/colorPrimary"
-        app:tabIndicatorColor="@color/colorAccent"
-        app:tabMaxWidth="0dp"
-        app:tabGravity="fill"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        <Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/white"
+            android:elevation="1dp"
+            tools:targetApi="lollipop">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
-        android:layout_gravity="bottom"
-        android:id="@+id/timetable_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                <ImageButton
+                    android:id="@+id/back_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/white"
+                    android:src="@drawable/chevron_left" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.SfproSemiBoldTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="@string/timetable"
+                        android:textSize="17sp" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_texts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/hollow_green_background"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <trianglz.components.SfuiRegularTextView
+                            android:id="@+id/tv_today"
+                            android:layout_width="120dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/text_solid_background"
+                            android:gravity="center"
+                            android:text="@string/today"
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
+
+                        <trianglz.components.SfuiRegularTextView
+                            android:id="@+id/tv_tomorrow"
+                            android:layout_width="120dp"
+                            android:layout_height="28dp"
+                            android:gravity="center"
+                            android:text="@string/tomorrow"
+                            android:textAlignment="center"
+                            android:textColor="@color/jade_green" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="14dp"
+
+                    android:src="@drawable/profile_pic" />
+            </RelativeLayout>
+        </Toolbar>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/timetable_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </LinearLayout>
 

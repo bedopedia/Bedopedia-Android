@@ -17,13 +17,13 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import Tools.CalendarUtils;
-import timetable.TimetableSlot;
 import trianglz.core.presenters.StudentDetailPresenter;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
+import trianglz.models.TimeTableSlot;
 import trianglz.utils.Constants;
 
 /**
@@ -147,8 +147,8 @@ public class StudentDetailView {
     private ArrayList<Object> parseStudentTimeTable(JSONArray jsonArray) {
         ArrayList<Object> timeTableData = new ArrayList<>();
         String nextSlot = "";
-        List<TimetableSlot> todaySlots = new ArrayList<TimetableSlot>();
-        List<TimetableSlot> tomorrowSlots = new ArrayList<>();
+        List<TimeTableSlot> todaySlots = new ArrayList<TimeTableSlot>();
+        List<TimeTableSlot> tomorrowSlots = new ArrayList<>();
         Calendar calendar = CalendarUtils.getCalendarWithoutDate();
         Date date = calendar.getTime();
         String today = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
@@ -183,9 +183,9 @@ public class StudentDetailView {
             }
 
             if (day.equals(today)) {
-                todaySlots.add(new TimetableSlot(fromDate, toDate, day, courseName, classRoom));
+                todaySlots.add(new TimeTableSlot(fromDate, toDate, day, courseName, classRoom));
             } else if (day.equals(tomorrow)) {
-                tomorrowSlots.add(new TimetableSlot(fromDate, toDate, day, courseName, classRoom));
+                tomorrowSlots.add(new TimeTableSlot(fromDate, toDate, day, courseName, classRoom));
             }
 
         }
@@ -195,7 +195,7 @@ public class StudentDetailView {
         Collections.sort(tomorrowSlots);
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 
-        for (TimetableSlot timeSlotIterator : todaySlots) {
+        for (TimeTableSlot timeSlotIterator : todaySlots) {
             if ((timeSlotIterator.getFrom().getHours() == current.getHours() && timeSlotIterator.getFrom().getMinutes() >= current.getMinutes()) ||
                     timeSlotIterator.getFrom().getHours() > current.getHours()) {
                 nextSlotFound = true;
@@ -204,7 +204,7 @@ public class StudentDetailView {
             }
         }
         if (!nextSlotFound && tomorrowSlots.size() > 0) {
-            TimetableSlot timeSlot = tomorrowSlots.get(0);
+            TimeTableSlot timeSlot = tomorrowSlots.get(0);
             nextSlot = ("Next: " + timeSlot.getCourseName() + ", " + timeSlot.getDay() + " " + dateFormat.format(timeSlot.getFrom()));
         }
         timeTableData.add(todaySlots);

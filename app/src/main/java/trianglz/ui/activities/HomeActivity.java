@@ -17,7 +17,7 @@ import trianglz.core.presenters.HomePresenter;
 import trianglz.core.views.HomeView;
 import trianglz.managers.SessionManager;
 import trianglz.models.Student;
-import trianglz.ui.adapters.HomeAdapter;
+import trianglz.ui.activities.adapters.HomeAdapter;
 import trianglz.utils.Constants;
 
 public class HomeActivity extends SuperActivity implements HomePresenter,View.OnClickListener,HomeAdapter.HomeAdapterInterface{

@@ -261,7 +261,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     }
 
     private void openTimeTableActivity() {
-        Intent timeTableIntent = new Intent(this, TimeTableActivity.class);
+        Intent timeTableIntent = new Intent(this, TimetableActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
         bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
