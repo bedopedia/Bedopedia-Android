@@ -4,7 +4,6 @@ package trianglz.ui.activities.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -17,8 +16,8 @@ import com.skolera.skolera_android.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import trianglz.ui.activities.adapters.TimetableAdapter;
 import trianglz.models.TimeTableSlot;
+import trianglz.ui.activities.adapters.TimetableAdapter;
 import trianglz.utils.Constants;
 
 /**
@@ -32,7 +31,6 @@ public class TimeTableFragment extends Fragment {
 
     private TimetableAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    TabLayout tabLayout;
     List<TimeTableSlot> tomorrowSlots;
     List<TimeTableSlot> todaySlots;
 
@@ -67,7 +65,6 @@ public class TimeTableFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_time_table, container, false);
         mViewPager = rootView.findViewById(R.id.timetable_container);
-        tabLayout = rootView.findViewById(R.id.timetable_tabs);
 
         return rootView;
     }
@@ -81,6 +78,5 @@ public class TimeTableFragment extends Fragment {
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        tabLayout.setupWithViewPager(mViewPager);
     }
 }

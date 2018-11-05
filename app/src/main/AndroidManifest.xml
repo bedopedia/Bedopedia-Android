@@ -73,9 +73,9 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name="trianglz.ui.activities.TimetableActivity"
-            android:hardwareAccelerated="false"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/AppTheme_v2" />
         <activity
             android:name=".MessageThreadActivity"
             android:hardwareAccelerated="true"
