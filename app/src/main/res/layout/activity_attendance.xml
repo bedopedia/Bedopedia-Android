@@ -21,6 +21,7 @@
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:padding="10dp"
+            android:id="@+id/btn_back"
             android:src="@drawable/chevron_left" />
 
         <TextView
@@ -72,7 +73,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="200dp"
        >
 
         <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -81,7 +82,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            app:compactCalendarTargetHeight="300dp"
+            app:compactCalendarTargetHeight="230dp"
             app:compactCalendarBackgroundColor="@android:color/transparent"
             app:compactCalendarCurrentDayBackgroundColor="@color/jade_green"
             app:compactCalendarCurrentDayTextColor="@color/black"
@@ -94,111 +95,131 @@
             />
 
     </FrameLayout>
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal">
-
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp">
+        <View
+            android:id="@+id/view_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:alpha="0.2"
+            android:background="#000000"
+            android:layout_gravity="bottom"/>
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:text="12"
-                android:textColor="@color/vivid_purple"
-                android:textSize="14sp"
-                android:id="@+id/tv_late_counter"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:id="@+id/layout_late">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:textSize="14sp"
-                android:textColor="@color/gunmetal"
-                android:text="@string/late"
-                android:layout_marginBottom="9dp"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:background="@color/vivid_purple"
-                android:visibility="invisible"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:text="12"
+                    android:textColor="@color/vivid_purple"
+                    android:textSize="14sp"
+                    android:id="@+id/tv_late_counter"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/gunmetal"
+                    android:text="@string/late"
+                    android:layout_marginBottom="9dp"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/vivid_purple"
+                    android:visibility="visible"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:id="@+id/view_late"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:id="@+id/layout_excused">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:text="12"
+                    android:textColor="@color/squash"
+                    android:textSize="14sp"
+                    android:id="@+id/tv_excused_counter"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/gunmetal"
+                    android:text="@string/excused"
+                    android:layout_marginBottom="9dp"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/squash"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:id="@+id/view_excused"
+                    android:visibility="invisible"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:id="@+id/layout_absent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:text="12"
+                    android:textColor="@color/orange_red"
+                    android:textSize="14sp"
+                    android:id="@+id/tv_absent_counter"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/gunmetal"
+                    android:text="@string/absent"
+                    android:layout_marginBottom="9dp"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background= "@color/orange_red"
+                    android:visibility="invisible"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:id="@+id/view_absent"/>
+
+            </LinearLayout>
         </LinearLayout>
+    </FrameLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:text="12"
-                android:textColor="@color/squash"
-                android:textSize="14sp"
-                android:id="@+id/tv_excused_counter"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:textSize="14sp"
-                android:textColor="@color/gunmetal"
-                android:text="@string/excused"
-                android:layout_marginBottom="9dp"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:background="@color/squash"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-               />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:text="12"
-                android:textColor="@color/orange_red"
-                android:textSize="14sp"
-                android:id="@+id/tv_absent_counter"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:textSize="14sp"
-                android:textColor="@color/gunmetal"
-                android:text="@string/absent"
-                android:layout_marginBottom="9dp"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:background= "@color/orange_red"
-                android:visibility="invisible"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
-
-        </LinearLayout>
-    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"

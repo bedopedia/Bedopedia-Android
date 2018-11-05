@@ -87,4 +87,5 @@
     <string name="excused">Excused</string>
     <string name="late">Late</string>
     <string name="today">Today</string>
+    <string name="no_comment_is_available">No Comment available</string>
 </resources>
