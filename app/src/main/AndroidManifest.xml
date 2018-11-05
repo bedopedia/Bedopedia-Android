@@ -95,7 +95,8 @@
             android:theme="@style/AppTheme_v2"></activity>
         <activity
             android:name="trianglz.ui.activities.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_v2"/>
         <activity
             android:name="trianglz.ui.activities.NotificationsActivity"
             android:screenOrientation="portrait"

@@ -56,20 +56,20 @@
         android:layout_marginBottom="4dp"/>
 
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/et_email"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:singleLine="true"
-            android:maxLines="1"
-            android:layout_marginStart="22dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="24dp"
-            android:text="pris17116@skolera.com"/>
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="22dp"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Popo090@hotmail.com"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
     <trianglz.components.SfproRegularTextView
         android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
             android:layout_marginStart="22dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="32dp"
-            android:text="pRIS17116123"
+            android:text="pRIS17478123"
             />
 
 

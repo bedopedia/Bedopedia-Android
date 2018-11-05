@@ -129,7 +129,7 @@ public class NetworkManager {
 
                         @Override
                         public void onError(ANError anError) {
-
+                            handleResponseListener.onFailure(getErrorMessage(anError), anError.getErrorCode());
                         }
                     });
 
