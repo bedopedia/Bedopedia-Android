@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
@@ -25,14 +25,16 @@ import trianglz.utils.Constants;
  * Use the {@link TimeTableFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TimeTableFragment extends Fragment {
-    FragmentManager fragmentManager;
+public class TimeTableFragment extends Fragment implements View.OnClickListener {
 
 
     private TimetableAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     List<TimeTableSlot> tomorrowSlots;
     List<TimeTableSlot> todaySlots;
+    private TextView todayTv;
+    private TextView tomorrowTv;
+    private View rootView;
 
     public TimeTableFragment() {
         // Required empty public constructor
@@ -57,15 +59,20 @@ public class TimeTableFragment extends Fragment {
         Bundle bundle = intent.getBundleExtra(Constants.KEY_BUNDLE);
         tomorrowSlots = (ArrayList<TimeTableSlot>) bundle.getSerializable(Constants.KEY_TOMORROW);
         todaySlots = (ArrayList<TimeTableSlot> ) bundle.getSerializable(Constants.KEY_TODAY);
+    }
 
+    private void setListeners() {
+        todayTv.setOnClickListener(this);
+        tomorrowTv.setOnClickListener(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_time_table, container, false);
+        rootView = inflater.inflate(R.layout.fragment_time_table, container, false);
         mViewPager = rootView.findViewById(R.id.timetable_container);
-
+        bindViews();
+        setListeners();
         return rootView;
     }
 
@@ -77,6 +84,41 @@ public class TimeTableFragment extends Fragment {
         mSectionsPagerAdapter = new TimetableAdapter(getActivity().getSupportFragmentManager(), tomorrowSlots, todaySlots);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(0);
+        mViewPager.setHorizontalScrollBarEnabled(false);
 
+    }
+
+    private void bindViews() {
+        todayTv = rootView.findViewById(R.id.tv_today);
+        tomorrowTv = rootView.findViewById(R.id.tv_tomorrow);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_today:
+                mViewPager.setCurrentItem(0);
+                setTextBackgrounds(view.getId());
+                break;
+            case R.id.tv_tomorrow:
+                mViewPager.setCurrentItem(1);
+                setTextBackgrounds(view.getId());
+                break;
+        }
+    }
+
+    private void setTextBackgrounds(int id) {
+        if (id == R.id.tv_today) {
+            todayTv.setBackground(getResources().getDrawable(R.drawable.text_solid_background));
+            todayTv.setTextColor(getResources().getColor(R.color.white));
+            tomorrowTv.setBackground(rootView.getBackground());
+            tomorrowTv.setTextColor(getResources().getColor(R.color.jade_green));
+        } else {
+            todayTv.setBackground(rootView.getBackground());
+            tomorrowTv.setBackground(getResources().getDrawable(R.drawable.text_solid_background));
+            tomorrowTv.setTextColor(getResources().getColor(R.color.white));
+            todayTv.setTextColor(getResources().getColor(R.color.jade_green));
+        }
     }
 }
