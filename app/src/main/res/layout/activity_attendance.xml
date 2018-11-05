@@ -44,34 +44,55 @@
             android:src="@drawable/notify" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="March 2016"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:id="@+id/tv_month_year_header"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@string/today"
+            android:textSize="17sp"
+            android:textColor="@color/jade_green"
+            android:textStyle="bold"
+            />
+
+    </RelativeLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="260dp"
+       >
 
         <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/compactcalendar_view"
             android:layout_width="fill_parent"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            app:compactCalendarTargetHeight="300dp"
             app:compactCalendarBackgroundColor="@android:color/transparent"
             app:compactCalendarCurrentDayBackgroundColor="@color/jade_green"
             app:compactCalendarCurrentDayTextColor="@color/black"
             app:compactCalendarCurrentSelectedDayBackgroundColor="@color/jade_green"
             app:compactCalendarCurrentSelectedDayTextColor="@color/black"
-            app:compactCalendarMultiEventIndicatorColor="#fff"
+            app:compactCalendarMultiEventIndicatorColor="@color/squash"
             app:compactCalendarOtherMonthDaysTextColor="@color/black"
-            app:compactCalendarTargetHeight="300dp"
             app:compactCalendarTextColor="@color/black"
-            app:compactCalendarTextSize="12sp" />
+            app:compactCalendarTextSize="12sp"
+            />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:background="@color/transparent"
-            android:clickable="true"
-            android:focusable="true" />
     </FrameLayout>
 
     <LinearLayout
@@ -91,7 +112,8 @@
                 android:layout_height="24dp"
                 android:text="12"
                 android:textColor="@color/vivid_purple"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:id="@+id/tv_late_counter"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -123,7 +145,8 @@
                 android:layout_height="24dp"
                 android:text="12"
                 android:textColor="@color/squash"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:id="@+id/tv_excused_counter"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -155,7 +178,8 @@
                 android:layout_height="24dp"
                 android:text="12"
                 android:textColor="@color/orange_red"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:id="@+id/tv_absent_counter"/>
 
             <TextView
                 android:layout_width="wrap_content"

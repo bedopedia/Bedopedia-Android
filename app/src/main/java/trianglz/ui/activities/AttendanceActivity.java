@@ -1,19 +1,14 @@
 package trianglz.ui.activities;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.CalendarView;
+import android.view.View;
+import android.widget.TextView;
 
-import com.fasterxml.jackson.databind.util.EnumValues;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -22,12 +17,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Locale;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -40,14 +35,16 @@ import trianglz.models.Student;
 import trianglz.utils.Constants;
 
 public class AttendanceActivity extends AppCompatActivity {
-    String TAG = "testttststts";
     private CompactCalendarView compactCalendarView;
-    private ArrayList<Attendance> absentDates,lateDates,excusedDates;
+    private ArrayList<Attendance> absentDates,lateDates,excusedDates,presentDates;
     private JSONArray attendanceJsonArray;
     private RecyclerView recyclerView;
     private IImageLoader imageLoader;
     private AvatarView studentImageView;
     private Student student;
+    private TextView monthYearTextView,lateCounterTextView,excusedCounterTextView,absentCounterTextView;
+    DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
+    final String[] months = dateFormatSymbols.getMonths();
 
 
     @Override
@@ -58,20 +55,36 @@ public class AttendanceActivity extends AppCompatActivity {
         getValueFromIntent();
         setRecyclerView();
         setStudentImage(student.getAvatar(),student.firstName +" " +student.lastName);
+        final Calendar calendar = Calendar.getInstance();
+        compactCalendarView.addEvent(new Event(R.color.jade_green,calendar.getTime().getTime()));
+        compactCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
+
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-
+                if(dateClicked.getYear() == calendar.getTime().getYear()
+                        && dateClicked.getMonth() == calendar.getTime().getMonth()
+                        && dateClicked.getDay() == calendar.getTime().getDay()){
+                    compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.jade_green));
+                }else {
+                    compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.transparent));
+                }
             }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-
+                monthYearTextView.setText(months[firstDayOfNewMonth.getMonth()]);
 
             }
         });
-
-
+        compactCalendarView.removeAllEvents();
+        createEvents(excusedDates,R.color.squash);
+        createEvents(absentDates,R.color.orange_red);
+        createEvents(lateDates,R.color.vivid_purple);
+        createEvents(presentDates,R.color.jade_green);
+        lateCounterTextView.setText(lateDates.size()+"");
+        absentCounterTextView.setText(absentDates.size()+"");
+        excusedCounterTextView.setText(excusedDates.size()+"");
     }
 
     private void bindViews(){
@@ -79,11 +92,15 @@ public class AttendanceActivity extends AppCompatActivity {
         absentDates = new ArrayList<>();
         lateDates = new ArrayList<>();
         excusedDates = new ArrayList<>();
+        presentDates = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         imageLoader = new PicassoLoader();
         studentImageView = findViewById(R.id.img_student);
-
+        monthYearTextView = findViewById(R.id.tv_month_year_header);
+        lateCounterTextView = findViewById(R.id.tv_late_counter);
+        excusedCounterTextView = findViewById(R.id.tv_excused_counter);
+        absentCounterTextView = findViewById(R.id.tv_absent_counter);
     }
 
     private void getValueFromIntent() {
@@ -117,8 +134,14 @@ public class AttendanceActivity extends AppCompatActivity {
                     excusedDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
                 else
                     excusedDates.add(new Attendance(date, Constants.KEY_NO_COMMENT));
+            }else if (day.optString(Constants.KEY_STATUS).equals("present")){
+                if ( !day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
+                    presentDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
+                else
+                    presentDates.add(new Attendance(date, Constants.KEY_NO_COMMENT));
             }
         }
+
 
     }
 
@@ -157,6 +180,13 @@ public class AttendanceActivity extends AppCompatActivity {
                             imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
                         }
                     });
+        }
+    }
+
+
+    private void createEvents(ArrayList<Attendance> attendanceArrayList, int color){
+        for(int i = 0; i<attendanceArrayList.size(); i++){
+            compactCalendarView.addEvent(new Event(getResources().getColor(color),attendanceArrayList.get(i).getDate().getTime()));
         }
     }
 
