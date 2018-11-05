@@ -1,4 +1,4 @@
-package timetable.Fragments;
+package trianglz.ui.activities.fragments;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -29,6 +29,7 @@ import trianglz.utils.Constants;
 /**
  * Created by khaled on 3/2/17.
  */
+/** file modified by gemy */
 
 public class TomorrowFragment extends Fragment {
 
@@ -82,25 +83,25 @@ public class TomorrowFragment extends Fragment {
         mainColors.add("#ffffe0b2");
         headerColors.add("#ffffd180");
 
-        mLayout = (RelativeLayout) rootView.findViewById(R.id.tomorrow_event_column);
+        mLayout = rootView.findViewById(R.id.tomorrow_event_column);
         List<TimeTableSlot> tomorrowSlots = ( List<TimeTableSlot> ) getArguments().getSerializable(Constants.KEY_TOMORROW);
         displayDailyEvents(tomorrowSlots);
 
-        TextView tomorrow7AM = (TextView) rootView.findViewById(R.id.tomorrow_7am);
-        TextView tomorrow8AM = (TextView) rootView.findViewById(R.id.tomorrow_8am);
-        TextView tomorrow9AM = (TextView) rootView.findViewById(R.id.tomorrow_9am);
-        TextView tomorrow10AM = (TextView) rootView.findViewById(R.id.tomorrow_10am);
-        TextView tomorrow11AM = (TextView) rootView.findViewById(R.id.tomorrow_11am);
-        TextView tomorrow12PM = (TextView) rootView.findViewById(R.id.tomorrow_12pm);
-        TextView tomorrow1PM = (TextView) rootView.findViewById(R.id.tomorrow_1pm);
-        TextView tomorrow2PM = (TextView) rootView.findViewById(R.id.tomorrow_2pm);
-        TextView tomorrow3PM = (TextView) rootView.findViewById(R.id.tomorrow_3pm);
-        TextView tomorrow4PM = (TextView) rootView.findViewById(R.id.tomorrow_4pm);
-        TextView tomorrow5PM = (TextView) rootView.findViewById(R.id.tomorrow_5pm);
-        TextView tomorrow6PM = (TextView) rootView.findViewById(R.id.tomorrow_6pm);
-        TextView tomorrow7PM = (TextView) rootView.findViewById(R.id.tomorrow_7pm);
+        TextView tomorrow7AM = rootView.findViewById(R.id.tomorrow_7am);
+        TextView tomorrow8AM = rootView.findViewById(R.id.tomorrow_8am);
+        TextView tomorrow9AM = rootView.findViewById(R.id.tomorrow_9am);
+        TextView tomorrow10AM = rootView.findViewById(R.id.tomorrow_10am);
+        TextView tomorrow11AM = rootView.findViewById(R.id.tomorrow_11am);
+        TextView tomorrow12PM = rootView.findViewById(R.id.tomorrow_12pm);
+        TextView tomorrow1PM = rootView.findViewById(R.id.tomorrow_1pm);
+        TextView tomorrow2PM = rootView.findViewById(R.id.tomorrow_2pm);
+        TextView tomorrow3PM = rootView.findViewById(R.id.tomorrow_3pm);
+        TextView tomorrow4PM = rootView.findViewById(R.id.tomorrow_4pm);
+        TextView tomorrow5PM = rootView.findViewById(R.id.tomorrow_5pm);
+        TextView tomorrow6PM = rootView.findViewById(R.id.tomorrow_6pm);
+        TextView tomorrow7PM = rootView.findViewById(R.id.tomorrow_7pm);
 
-        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
+        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/sfui_semibold.ttf");
         tomorrow7AM.setTypeface(roboto);
         tomorrow8AM.setTypeface(roboto);
         tomorrow9AM.setTypeface(roboto);
@@ -155,8 +156,8 @@ public class TomorrowFragment extends Fragment {
         int minutes = calendar.get(Calendar.MINUTE);
         int eventPosition = (int) (31.0 + ((hours - 7)*60.0) + (minutes/60.0) * 60.0) ;
 
-        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
-        Typeface roboto1 = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Regular.ttf");
+        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/circular_bold.ttf");
+        Typeface roboto1 = Typeface.createFromAsset(getActivity().getAssets(), "font/circular_book.ttf");
 
         int randomNumber = (int) (Math.random()*10);
 
@@ -169,7 +170,7 @@ public class TomorrowFragment extends Fragment {
         mEventView.setPadding(24, 8, 24, 0);
         mEventView.setHeight(getInDp(height/2));
         mEventView.setWidth(1200);
-        mEventView.setTextColor(Color.parseColor("#000000"));
+        mEventView.setTextColor(Color.parseColor("#52616b"));
         mEventView.setText(courseName);
         mEventView.setTypeface(roboto);
         mEventView.setTextSize(14);
@@ -185,7 +186,7 @@ public class TomorrowFragment extends Fragment {
         mEventView3.setPadding(24,8, 24, 16);
         mEventView3.setHeight(getInDp(height/2));
         mEventView3.setWidth(1200);
-        mEventView3.setTextColor(Color.parseColor("#000000"));
+        mEventView3.setTextColor(Color.parseColor("#7a8993"));
         mEventView3.setTypeface(roboto1);
         mEventView3.setTextSize(10);
         mEventView3.setText(classRoom);

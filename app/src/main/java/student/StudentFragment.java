@@ -72,7 +72,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import trianglz.models.TimeTableSlot;
-import timetable.TimetableActivity;
+import trianglz.ui.activities.TimetableActivity;
 import trianglz.models.Notification;
 import trianglz.utils.Constants;
 

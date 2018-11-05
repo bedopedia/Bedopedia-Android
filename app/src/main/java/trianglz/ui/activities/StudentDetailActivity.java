@@ -28,7 +28,6 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import attendance.Attendance;
 import attendance.AttendanceActivity;
-import timetable.TimetableActivity;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.core.presenters.StudentDetailPresenter;

@@ -1,4 +1,4 @@
-package timetable;
+package trianglz.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,13 +11,13 @@ import com.skolera.skolera_android.R;
 
 
 import Tools.FragmentUtils;
-import timetable.Fragments.TimeTableFragment;
+import trianglz.ui.activities.fragments.TimeTableFragment;
 
 
 /**
  * Created by khaled on 3/1/17.
  */
-
+/** file modified by gemy */
 public class TimetableActivity extends AppCompatActivity {
 
     
@@ -28,11 +28,11 @@ public class TimetableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timetable);
 
-        Toolbar timeTabeToolbar = (Toolbar) findViewById(R.id.default_toolbar_id);
-        setSupportActionBar(timeTabeToolbar);
-        ActionBar timeTabeActionBar = getSupportActionBar();
-        timeTabeActionBar.setDisplayHomeAsUpEnabled(true);
-        timeTabeActionBar.setTitle(R.string.TimeTableTitle);
+        Toolbar timeTableToolbar = findViewById(R.id.default_toolbar_id);
+        setSupportActionBar(timeTableToolbar);
+        ActionBar timeTableActionBar = getSupportActionBar();
+        timeTableActionBar.setDisplayHomeAsUpEnabled(true);
+        timeTableActionBar.setTitle(R.string.TimeTableTitle);
         FragmentUtils.createFragment(getSupportFragmentManager(), TimeTableFragment.newInstance(), R.id.timetable_main_container);
     }
 

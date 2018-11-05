@@ -1,6 +1,6 @@
-package timetable.Fragments;
+package trianglz.ui.activities.fragments;
 
-
+/** file modified by gemy */
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +17,7 @@ import com.skolera.skolera_android.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import timetable.TimetableAdapter;
+import trianglz.ui.activities.adapters.TimetableAdapter;
 import trianglz.models.TimeTableSlot;
 import trianglz.utils.Constants;
 
@@ -66,8 +66,8 @@ public class TimeTableFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_time_table, container, false);
-        mViewPager = (ViewPager) rootView.findViewById(R.id.timetable_container);
-        tabLayout = (TabLayout) rootView.findViewById(R.id.timetable_tabs);
+        mViewPager = rootView.findViewById(R.id.timetable_container);
+        tabLayout = rootView.findViewById(R.id.timetable_tabs);
 
         return rootView;
     }
