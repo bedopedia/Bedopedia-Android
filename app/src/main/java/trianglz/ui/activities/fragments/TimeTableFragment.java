@@ -1,20 +1,27 @@
 package trianglz.ui.activities.fragments;
 
-/** file modified by gemy */
+/**
+ * file modified by gemy
+ */
+
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import trianglz.models.TimeTableSlot;
 import trianglz.ui.activities.adapters.TimetableAdapter;
@@ -35,6 +42,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     private TextView todayTv;
     private TextView tomorrowTv;
     private View rootView;
+    private ImageButton backBtn;
 
     public TimeTableFragment() {
         // Required empty public constructor
@@ -58,12 +66,13 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         Intent intent = getActivity().getIntent();
         Bundle bundle = intent.getBundleExtra(Constants.KEY_BUNDLE);
         tomorrowSlots = (ArrayList<TimeTableSlot>) bundle.getSerializable(Constants.KEY_TOMORROW);
-        todaySlots = (ArrayList<TimeTableSlot> ) bundle.getSerializable(Constants.KEY_TODAY);
+        todaySlots = (ArrayList<TimeTableSlot>) bundle.getSerializable(Constants.KEY_TODAY);
     }
 
     private void setListeners() {
         todayTv.setOnClickListener(this);
         tomorrowTv.setOnClickListener(this);
+        backBtn.setOnClickListener(this);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -94,6 +103,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         mViewPager = rootView.findViewById(R.id.timetable_container);
         bindViews();
         setListeners();
+        increaseButtonsHitArea();
         return rootView;
     }
 
@@ -113,6 +123,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     private void bindViews() {
         todayTv = rootView.findViewById(R.id.tv_today);
         tomorrowTv = rootView.findViewById(R.id.tv_tomorrow);
+        backBtn = rootView.findViewById(R.id.back_btn);
     }
 
     @Override
@@ -126,6 +137,10 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
                 mViewPager.setCurrentItem(1);
                 setTextBackgrounds(1);
                 break;
+            case R.id.back_btn:
+                Objects.requireNonNull(getActivity()).onBackPressed();
+                break;
+
         }
     }
 
@@ -142,4 +157,20 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
             todayTv.setTextColor(getResources().getColor(R.color.jade_green));
         }
     }
+
+    private void increaseButtonsHitArea() {
+        final View parent = (View) backBtn.getParent();
+        parent.post(new Runnable() {
+            public void run() {
+                final Rect rect = new Rect();
+                backBtn.getHitRect(rect);
+                rect.top -= 100;    // increase top hit area
+                rect.left -= 100;   // increase left hit area
+                rect.bottom += 100; // increase bottom hit area
+                rect.right += 100;  // increase right hit area
+                parent.setTouchDelegate(new TouchDelegate(rect, backBtn));
+            }
+        });
+    }
+
 }
