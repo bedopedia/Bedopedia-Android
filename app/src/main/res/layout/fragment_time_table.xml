@@ -1,23 +1,91 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     tools:context="trianglz.ui.activities.fragments.TimeTableFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/white"
+            android:elevation="1dp"
+            tools:targetApi="lollipop">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="0.1"
+                    android:src="@drawable/chevron_left" />
 
-    <android.support.v4.view.ViewPager
-        android:layout_gravity="bottom"
-        android:id="@+id/timetable_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.SfproSemiBoldTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="@string/timetable"
+                        android:textSize="17sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/hollow_green_background"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <trianglz.components.SfuiRegularTextView
+                            android:layout_width="120dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/text_solid_background"
+                            android:gravity="center"
+                            android:text="@string/today"
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
+
+                        <trianglz.components.SfuiRegularTextView
+                            android:layout_width="120dp"
+                            android:layout_height="28dp"
+                            android:gravity="center"
+                            android:text="@string/tomorrow"
+                            android:textAlignment="center"
+                            android:textColor="@color/jade_green" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="14dp"
+                    android:src="@drawable/profile_pic" />
+            </LinearLayout>
+        </Toolbar>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/timetable_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </LinearLayout>
 
