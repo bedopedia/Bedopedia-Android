@@ -1,9 +1,7 @@
-package timetable.Fragments;
+package trianglz.ui.activities.fragments;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -16,8 +14,6 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
-import Tools.CalendarUtils;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,48 +21,44 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import timetable.TimetableSlot;
+import Tools.CalendarUtils;
+import trianglz.models.TimeTableSlot;
+import trianglz.utils.Constants;
 
 /**
  * Created by khaled on 3/2/17.
  */
+/** file modified by gemy */
 
-public class TodayFragment extends Fragment {
+public class TomorrowFragment extends Fragment {
 
-    public static RelativeLayout mLayout;
-    public static TextView nowSign;
-    public static TextView nowEventView;
-    public Activity act;
+    private RelativeLayout mLayout;
     ArrayList<String> mainColors;
     ArrayList<String> headerColors;
-
-    public static final String KEY_NAME = "todaySlots";
-
+    public static final String KEY_NAME = "tomorrowSlots";
 
 
-    public static Fragment newInstance(List<TimetableSlot> todaySlots){
+
+    public static Fragment newInstance(List<TimeTableSlot> tomorrowSlots){
         Fragment fragment ;
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_NAME, (Serializable) todaySlots);
+        bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
 
-        fragment = new TodayFragment();
+        fragment = new TomorrowFragment();
         fragment.setArguments(bundle);
 
         return fragment;
     }
 
-
-
     public int getInDp(int dimensionInPixel){
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimensionInPixel, act.getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimensionInPixel, getResources().getDisplayMetrics());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.today_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.tomorrow_fragment, container, false);
+
         mainColors = new ArrayList<String>();
         headerColors = new ArrayList<String>();
 
@@ -91,114 +83,46 @@ public class TodayFragment extends Fragment {
         mainColors.add("#ffffe0b2");
         headerColors.add("#ffffd180");
 
-        act = getActivity();
-        mLayout = (RelativeLayout) rootView.findViewById(R.id.today_event_column);
-        nowSign = new TextView(getActivity());
-        nowEventView = new TextView(getActivity());
-        List<TimetableSlot> todaySlots = ( List<TimetableSlot> ) getArguments().getSerializable(KEY_NAME);
-        displayDailyEvents(todaySlots);
-        displayNowTime();
+        mLayout = rootView.findViewById(R.id.tomorrow_event_column);
+        List<TimeTableSlot> tomorrowSlots = ( List<TimeTableSlot> ) getArguments().getSerializable(Constants.KEY_TOMORROW);
+        displayDailyEvents(tomorrowSlots);
 
+        TextView tomorrow7AM = rootView.findViewById(R.id.tomorrow_7am);
+        TextView tomorrow8AM = rootView.findViewById(R.id.tomorrow_8am);
+        TextView tomorrow9AM = rootView.findViewById(R.id.tomorrow_9am);
+        TextView tomorrow10AM = rootView.findViewById(R.id.tomorrow_10am);
+        TextView tomorrow11AM = rootView.findViewById(R.id.tomorrow_11am);
+        TextView tomorrow12PM = rootView.findViewById(R.id.tomorrow_12pm);
+        TextView tomorrow1PM = rootView.findViewById(R.id.tomorrow_1pm);
+        TextView tomorrow2PM = rootView.findViewById(R.id.tomorrow_2pm);
+        TextView tomorrow3PM = rootView.findViewById(R.id.tomorrow_3pm);
+        TextView tomorrow4PM = rootView.findViewById(R.id.tomorrow_4pm);
+        TextView tomorrow5PM = rootView.findViewById(R.id.tomorrow_5pm);
+        TextView tomorrow6PM = rootView.findViewById(R.id.tomorrow_6pm);
+        TextView tomorrow7PM = rootView.findViewById(R.id.tomorrow_7pm);
 
-
-        TextView today7AM = (TextView) rootView.findViewById(R.id.today_7am);
-        TextView today8AM = (TextView) rootView.findViewById(R.id.today_8am);
-        TextView today9AM = (TextView) rootView.findViewById(R.id.today_9am);
-        TextView today10AM = (TextView) rootView.findViewById(R.id.today_10am);
-        TextView today11AM = (TextView) rootView.findViewById(R.id.today_11am);
-        TextView today12PM = (TextView) rootView.findViewById(R.id.today_12pm);
-        TextView today1PM = (TextView) rootView.findViewById(R.id.today_1pm);
-        TextView today2PM = (TextView) rootView.findViewById(R.id.today_2pm);
-        TextView today3PM = (TextView) rootView.findViewById(R.id.today_3pm);
-        TextView today4PM = (TextView) rootView.findViewById(R.id.today_4pm);
-        TextView today5PM = (TextView) rootView.findViewById(R.id.today_5pm);
-        TextView today6PM = (TextView) rootView.findViewById(R.id.today_6pm);
-        TextView today7PM = (TextView) rootView.findViewById(R.id.today_7pm);
-
-        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
-        today7AM.setTypeface(roboto);
-        today8AM.setTypeface(roboto);
-        today9AM.setTypeface(roboto);
-        today10AM.setTypeface(roboto);
-        today11AM.setTypeface(roboto);
-        today12PM.setTypeface(roboto);
-        today1PM.setTypeface(roboto);
-        today2PM.setTypeface(roboto);
-        today3PM.setTypeface(roboto);
-        today4PM.setTypeface(roboto);
-        today5PM.setTypeface(roboto);
-        today6PM.setTypeface(roboto);
-        today7PM.setTypeface(roboto);
+        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/sfui_semibold.ttf");
+        tomorrow7AM.setTypeface(roboto);
+        tomorrow8AM.setTypeface(roboto);
+        tomorrow9AM.setTypeface(roboto);
+        tomorrow10AM.setTypeface(roboto);
+        tomorrow11AM.setTypeface(roboto);
+        tomorrow12PM.setTypeface(roboto);
+        tomorrow1PM.setTypeface(roboto);
+        tomorrow2PM.setTypeface(roboto);
+        tomorrow3PM.setTypeface(roboto);
+        tomorrow4PM.setTypeface(roboto);
+        tomorrow5PM.setTypeface(roboto);
+        tomorrow6PM.setTypeface(roboto);
+        tomorrow7PM.setTypeface(roboto);
 
         return rootView;
     }
-    public void updateTimeNow(){
 
 
-        Date nowDate = new Date();
-        Calendar calendar = CalendarUtils.getGregorianCalendar(nowDate);// creates a new calendar instance
-        int hours = calendar.get(Calendar.HOUR_OF_DAY);
-        int minutes = calendar.get(Calendar.MINUTE);
-        if(hours >= 7 && hours < 19) {
-            int linePosition = (int) (31.0 + ((hours - 7)*60.0) + (minutes/60.0) * 60.0) ;
+    private void displayDailyEvents( List<TimeTableSlot> tomorrowSlots){
 
-            mLayout.removeView(nowSign);
-            mLayout.removeView(nowEventView);
-
-            RelativeLayout.LayoutParams lParam1 = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            lParam1.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            lParam1.topMargin = getInDp(linePosition-5);
-            lParam1.leftMargin = 0;
-            nowSign.setLayoutParams(lParam1);
-            nowSign.setPadding(24, 0, 24, 0);
-            nowSign.setHeight(getInDp(11));
-            nowSign.setWidth(11);
-
-            int id = R.drawable.now_circle;
-            Drawable d = act.getResources().getDrawable(id);
-            nowSign.setBackground(d);
-            mLayout.addView(nowSign);
-
-
-            RelativeLayout.LayoutParams lParam = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            lParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            lParam.topMargin = getInDp(linePosition);
-            lParam.leftMargin = getInDp(10);
-            nowEventView.setLayoutParams(lParam);
-            nowEventView.setPadding(24, 0, 24, 0);
-            nowEventView.setHeight(getInDp(1));
-            nowEventView.setWidth(2500);
-            nowEventView.setGravity(0x11);
-            nowEventView.setBackgroundColor(Color.RED);
-            mLayout.addView(nowEventView);
-
-
-        }
-    }
-    public void displayNowTime(){
-
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask()
-        {
-            public void run()
-            {
-                act.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        updateTimeNow();
-
-                    }
-                });
-            }
-        }, 0, 1000);
-
-
-    }
-
-    private void displayDailyEvents(List<TimetableSlot> todaySlots){
-
-        for(TimetableSlot eObject : todaySlots){
+        for(TimeTableSlot eObject : tomorrowSlots){
             Date eventDate = eObject.getFrom();
             Date endDate = eObject.getTo();
             String courseName = eObject.getCourseName();
@@ -232,8 +156,8 @@ public class TodayFragment extends Fragment {
         int minutes = calendar.get(Calendar.MINUTE);
         int eventPosition = (int) (31.0 + ((hours - 7)*60.0) + (minutes/60.0) * 60.0) ;
 
-        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
-        Typeface roboto1 = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Regular.ttf");
+        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/circular_bold.ttf");
+        Typeface roboto1 = Typeface.createFromAsset(getActivity().getAssets(), "font/circular_book.ttf");
 
         int randomNumber = (int) (Math.random()*10);
 
@@ -245,8 +169,8 @@ public class TodayFragment extends Fragment {
         mEventView.setLayoutParams(lParam);
         mEventView.setPadding(24, 8, 24, 0);
         mEventView.setHeight(getInDp(height/2));
-        mEventView.setWidth(2500);
-        mEventView.setTextColor(Color.parseColor("#000000"));
+        mEventView.setWidth(1200);
+        mEventView.setTextColor(Color.parseColor("#52616b"));
         mEventView.setText(courseName);
         mEventView.setTypeface(roboto);
         mEventView.setTextSize(14);
@@ -261,8 +185,8 @@ public class TodayFragment extends Fragment {
         mEventView3.setLayoutParams(lParam3);
         mEventView3.setPadding(24,8, 24, 16);
         mEventView3.setHeight(getInDp(height/2));
-        mEventView3.setWidth(2500);
-        mEventView3.setTextColor(Color.parseColor("#000000"));
+        mEventView3.setWidth(1200);
+        mEventView3.setTextColor(Color.parseColor("#7a8993"));
         mEventView3.setTypeface(roboto1);
         mEventView3.setTextSize(10);
         mEventView3.setText(classRoom);

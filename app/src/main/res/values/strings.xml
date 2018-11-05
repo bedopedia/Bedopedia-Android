@@ -74,5 +74,8 @@
     <string name="absent">Absent</string>
     <string name="out">out</string>
     <string name="days">days</string>
+    <string name="timetable">Timetable</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="today">Today</string>
 
 </resources>

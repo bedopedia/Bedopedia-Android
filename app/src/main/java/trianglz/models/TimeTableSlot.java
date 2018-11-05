@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by ${Aly} on 10/31/2018.
  */
-public class TimeTableSlot implements Comparable<timetable.TimetableSlot>, Serializable {
+public class TimeTableSlot implements Comparable<TimeTableSlot>, Serializable {
     private Date from;
     private Date to;
     private String day;
@@ -70,14 +70,12 @@ public class TimeTableSlot implements Comparable<timetable.TimetableSlot>, Seria
     public void setClassRoom(String classRoom) {
         this.classRoom = classRoom;
     }
-
     @Override
-    public int compareTo(@NonNull timetable.TimetableSlot o) {
+    public int compareTo(@NonNull TimeTableSlot o) {
         if(this.getFrom().getHours() > o.getFrom().getHours())
             return 1;
         else if (this.getFrom().getHours() < o.getFrom().getHours())
             return -1;
         return 0;
     }
-
 }
