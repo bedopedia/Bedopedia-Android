@@ -114,7 +114,8 @@
             android:text="@string/quizzes"
             android:textAllCaps="false"
             android:textColor="@color/lightish_red"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:includeFontPadding="false"/>
 
         <trianglz.components.SfuiSemiBoldTextView
             android:id="@+id/tv_assignment"
@@ -124,18 +125,21 @@
             android:gravity="center"
             android:text="@string/assignments"
             android:textColor="@color/jade_green"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:includeFontPadding="false"/>
 
 
         <trianglz.components.SfuiSemiBoldTextView
             android:id="@+id/tv_events"
-            android:layout_width="64dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:gravity="center"
             android:text="@string/events"
             android:textColor="@color/dusty_orange"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:includeFontPadding="false"/>
 
     </RelativeLayout>
 
