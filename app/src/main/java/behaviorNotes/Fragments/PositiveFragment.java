@@ -40,8 +40,8 @@ public class PositiveFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.positive_fragment, container, false);
 
         List<BehaviorNote> positiveBehaviorNotes = ( List<BehaviorNote> ) getArguments().getSerializable(KEY_NAME);
-        ListView notes = (ListView) rootView.findViewById(R.id.positive_notes);
-        BehaviorNotesAdapter adapter = new BehaviorNotesAdapter(getActivity(), R.layout.single_behaviour_note, positiveBehaviorNotes);
+        ListView notes = rootView.findViewById(R.id.positive_notes);
+        BehaviorNotesAdapter adapter = new BehaviorNotesAdapter(getActivity(), R.layout.item_behaviour_note, positiveBehaviorNotes);
         notes.setAdapter(adapter);
 
         return rootView;

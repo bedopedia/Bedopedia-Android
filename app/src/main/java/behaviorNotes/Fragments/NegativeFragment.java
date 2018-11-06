@@ -38,7 +38,7 @@ public class NegativeFragment extends Fragment{
 
         List<BehaviorNote> negativeBehaviorNotes = ( List<BehaviorNote> ) getArguments().getSerializable(KEY_NAME);
         ListView notes = (ListView) rootView.findViewById(R.id.negative_notes);
-        BehaviorNotesAdapter adapter = new BehaviorNotesAdapter(getActivity(), R.layout.single_behaviour_note, negativeBehaviorNotes);
+        BehaviorNotesAdapter adapter = new BehaviorNotesAdapter(getActivity(), R.layout.item_behaviour_note, negativeBehaviorNotes);
         notes.setAdapter(adapter);
 
         return rootView;

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <trianglz.components.CircularBoldTextView
+        android:id="@+id/teacher_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Mr.Ahmed Abdallah"
+        android:textColor="@color/gunmetal"
+        android:textSize="16sp" />
+
+    <trianglz.components.CircularMediumTextView
+        android:id="@+id/title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:text="Helpful and Kindness"
+        android:textColor="@color/gunmetal"
+        android:textSize="14sp" />
+
+    <trianglz.components.CircularBookTextView
+        android:id="@+id/message_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty.
+This achievement will never happen without your efforts."
+        android:textColor="@color/steel"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="14dp"
+        android:background="@color/steel_transparent"/>
+
+</LinearLayout>

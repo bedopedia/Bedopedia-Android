@@ -41,12 +41,10 @@ public class BehaviorNotesAdapter extends ArrayAdapter {
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.single_behaviour_note, parent, false);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.item_behaviour_note, parent, false);
         }
         behaviorNotesHolderItem=new BehaviorNotesHolder();
 
-        behaviorNotesHolderItem.category = (TextView) view.findViewById(R.id.category_name);
-        behaviorNotesHolderItem.noteContent = (TextView) view.findViewById(R.id.note_content);
 
         Typeface robotoMedium = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf");
         Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
