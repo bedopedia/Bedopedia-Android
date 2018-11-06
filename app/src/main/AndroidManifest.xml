@@ -70,7 +70,7 @@
             android:name="behaviorNotes.BehaviorNotesActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/AppTheme_v2" />
         <activity
             android:name="trianglz.ui.activities.TimetableActivity"
             android:hardwareAccelerated="true"

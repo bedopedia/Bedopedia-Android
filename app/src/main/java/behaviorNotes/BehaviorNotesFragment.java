@@ -2,20 +2,20 @@ package behaviorNotes;
 
 
 import android.content.Context;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
 import java.util.List;
+import java.util.Objects;
 
 import behaviorNotes.Adapters.BehaviorNotesFragmentAdapter;
 import behaviorNotes.Fragments.NegativeFragment;
@@ -26,23 +26,24 @@ import behaviorNotes.Fragments.PositiveFragment;
  * Use the {@link BehaviorNotesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BehaviorNotesFragment extends Fragment {
 
-    String studentId, id;
+/**
+ * modified by gemy
+ */
+public class BehaviorNotesFragment extends Fragment implements View.OnClickListener {
+
+    String studentId;
     final String studentIdKey = "student_id";
     public static Context context;
-    TabLayout tabLayout;
     private BehaviorNotesFragmentAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
-    TextView positiveTitle;
-    TextView positiveCounter;
-    TextView negativeTitle;
-    TextView negativeCounter;
-    View positiveTab;
-    View negativeTab;
     List<BehaviorNote> positiveNotesList;
     List<BehaviorNote> negativeNotesList;
+    private TextView positiveTv;
+    private TextView negativeTv;
+    private View rootView;
+    private ImageButton backBtn;
 
     public BehaviorNotesFragment() {
         // Required empty public constructor
@@ -51,6 +52,7 @@ public class BehaviorNotesFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
      * @return A new instance of fragment BehaviorNotesFragment.
      */
 
@@ -64,7 +66,7 @@ public class BehaviorNotesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras= this.getActivity().getIntent().getExtras();
+        Bundle extras = this.getActivity().getIntent().getExtras();
         studentId = extras.getString(studentIdKey);
         context = getActivity();
         Bundle bundle = getActivity().getIntent().getExtras();
@@ -75,7 +77,9 @@ public class BehaviorNotesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_behavior_notes, container, false);
+        rootView = inflater.inflate(R.layout.fragment_behavior_notes, container, false);
+        bindViews();
+        setListeners();
         return rootView;
 
     }
@@ -83,57 +87,73 @@ public class BehaviorNotesFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
 
-
-        mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getActivity().getSupportFragmentManager(), positiveNotesList, negativeNotesList,getActivity());
-        mViewPager = (ViewPager) view.findViewById(R.id.behavior_notes_container);
-        tabLayout = (TabLayout) view.findViewById(R.id.behavior_notes_tabs);
+    private void bindViews() {
+        mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getActivity().getSupportFragmentManager(), positiveNotesList, negativeNotesList, getActivity());
+        mViewPager = rootView.findViewById(R.id.behavior_notes_container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        tabLayout.setupWithViewPager(mViewPager);
-        positiveTab = mSectionsPagerAdapter.getTabView(0);
-        negativeTab = mSectionsPagerAdapter.getTabView(1);
-        tabLayout.getTabAt(0).setCustomView(positiveTab);
-        tabLayout.getTabAt(1).setCustomView(negativeTab);
+        positiveTv = rootView.findViewById(R.id.tv_positive);
+        negativeTv = rootView.findViewById(R.id.tv_negative);
+        backBtn = rootView.findViewById(R.id.back_btn);
+    }
 
-        positiveTitle = (TextView) positiveTab.findViewById(R.id.behavior_note_tab_title);
-        positiveCounter = (TextView) positiveTab.findViewById(R.id.behavior_note_tab_counter);
-        positiveTitle.setText(R.string.positiveBehaviorNotes);
+    private void setListeners() {
+        positiveTv.setOnClickListener(this);
+        negativeTv.setOnClickListener(this);
+        backBtn.setOnClickListener(this);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-        negativeTitle = (TextView) negativeTab.findViewById(R.id.behavior_note_tab_title);
-        negativeCounter = (TextView) negativeTab.findViewById(R.id.behavior_note_tab_counter);
-        negativeTitle.setText(R.string.negativeBehaviorNotes);
-
-        positiveTitle.setTextColor(getResources().getColor(R.color.white));
-        positiveCounter.setBackgroundResource(R.drawable.notes_selected_counter);
-
-        negativeTitle.setTextColor(getResources().getColor(R.color.white));
-        negativeCounter.setBackgroundResource(R.drawable.notes_unselected_counter);
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
             @Override
-            public void onTabSelected(TabLayout.Tab tab){
-                int position = tab.getPosition();
-                if(position == 0){
-                    positiveTitle.setTextColor(getResources().getColor(R.color.white));
-                    positiveCounter.setBackgroundResource(R.drawable.notes_selected_counter);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                    negativeTitle.setTextColor(getResources().getColor(R.color.whiteOP7));
-                    negativeCounter.setBackgroundResource(R.drawable.notes_unselected_counter);
-                } else{
-                    positiveTitle.setTextColor(getResources().getColor(R.color.whiteOP7));
-                    positiveCounter.setBackgroundResource(R.drawable.notes_unselected_counter);
-                    negativeTitle.setTextColor(getResources().getColor(R.color.white));
-                    negativeCounter.setBackgroundResource(R.drawable.notes_selected_counter);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    setTextBackgrounds(0);
+                } else {
+                    setTextBackgrounds(1);
                 }
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
+            public void onPageScrollStateChanged(int state) {
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+    }
+
+    private void setTextBackgrounds(int pageNumber) {
+        if (pageNumber == 0) {
+            positiveTv.setBackground(getResources().getDrawable(R.drawable.text_solid_background));
+            positiveTv.setTextColor(getResources().getColor(R.color.white));
+            negativeTv.setBackground(rootView.getBackground());
+            negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
+        } else {
+            positiveTv.setBackground(rootView.getBackground());
+            negativeTv.setBackground(getResources().getDrawable(R.drawable.text_solid_background));
+            negativeTv.setTextColor(getResources().getColor(R.color.white));
+            positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_positive:
+                mViewPager.setCurrentItem(0);
+                setTextBackgrounds(0);
+                break;
+            case R.id.tv_negative:
+                mViewPager.setCurrentItem(1);
+                setTextBackgrounds(1);
+                break;
+            case R.id.back_btn:
+                Objects.requireNonNull(getActivity()).onBackPressed();
+                break;
+
+        }
     }
 }

@@ -10,18 +10,81 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.design.widget.TabLayout
-            style="@style/TabLayoutStyle"
-            android:id="@+id/behavior_notes_tabs"
-            android:background="@color/colorPrimary"
-            app:tabIndicatorColor="@color/colorAccent"
-            app:tabMaxWidth="0dp"
-            app:tabGravity="fill"
-            android:layout_marginTop="?attr/actionBarSize"
+        <Toolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="80dp"
+            android:background="@color/white"
+            android:elevation="1dp"
+            tools:targetApi="lollipop">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <ImageButton
+                    android:id="@+id/back_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/white"
+                    android:src="@drawable/chevron_left" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.SfproSemiBoldTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="@string/behaviour_notes"
+                        android:textSize="17sp" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_texts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/hollow_green_background"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <trianglz.components.SfuiRegularTextView
+                            android:id="@+id/tv_positive"
+                            android:layout_width="120dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/text_solid_background"
+                            android:gravity="center"
+                            android:text="@string/positiveBehaviorNotes"
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
+
+                        <trianglz.components.SfuiRegularTextView
+                            android:id="@+id/tv_negative"
+                            android:layout_width="120dp"
+                            android:layout_height="28dp"
+                            android:gravity="center"
+                            android:text="@string/negativeBehaviorNotes"
+                            android:textAlignment="center"
+                            android:textColor="@color/jade_green" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="14dp"
+
+                    android:src="@drawable/profile_pic" />
+            </RelativeLayout>
+        </Toolbar>
         <android.support.v4.view.ViewPager
             android:id="@+id/behavior_notes_container"
             android:layout_width="match_parent"
