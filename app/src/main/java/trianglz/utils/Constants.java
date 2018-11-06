@@ -72,5 +72,8 @@ public class Constants {
     public static final String  KEY_NO_COMMENT = "No Comment";
     public static final String  KEY_EXCUSED = "excused";
     public static final String KEY_NULL = "null";
+    // behaviour notes constants
+    public static final String KEY_POSITIVE_NOTES_LIST = "positiveNotesList";
+    public static final String KEY_NEGATIVE_NOTES_LIST = "negativeNotesList";
 
 }

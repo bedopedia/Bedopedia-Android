@@ -13,7 +13,8 @@ import Tools.FragmentUtils;
 /**
  * Created by khaled on 2/27/17.
  */
-
+/**
+ * modified by gemy */
 public class BehaviorNotesActivity extends AppCompatActivity {
 
 
@@ -25,7 +26,7 @@ public class BehaviorNotesActivity extends AppCompatActivity {
 
 
 
-        Toolbar behaviorNotesToolbar = (Toolbar) findViewById(R.id.default_toolbar_id);
+        Toolbar behaviorNotesToolbar = findViewById(R.id.default_toolbar_id);
         setSupportActionBar(behaviorNotesToolbar);
         ActionBar behaviorNotesActionbar = getSupportActionBar();
         behaviorNotesActionbar.setDisplayHomeAsUpEnabled(true);

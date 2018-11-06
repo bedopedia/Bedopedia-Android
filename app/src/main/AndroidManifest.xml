@@ -121,10 +121,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="trianglz.ui.activities.TimeTableActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2" />
+
         <activity android:name="trianglz.ui.activities.AttendanceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2"/>

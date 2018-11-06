@@ -27,6 +27,7 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import attendance.Attendance;
+import behaviorNotes.BehaviorNotesActivity;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.core.presenters.StudentDetailPresenter;
@@ -257,6 +258,9 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             case R.id.layout_attendance:
                 openAttendanceActivity();
                 break;
+            case R.id.layout_behavior_notes:
+                openBehaviourNotesActivity();
+                break;
         }
     }
 
@@ -269,6 +273,16 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(timeTableIntent);
 
+    }
+
+    private void openBehaviourNotesActivity() {
+        Intent behaviorNotesIntent = new Intent(this, BehaviorNotesActivity.class);
+        behaviorNotesIntent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveNotesList);
+        bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeNotesList);
+        behaviorNotesIntent.putExtras(bundle);
+        startActivity(behaviorNotesIntent);
     }
 
     private void openAttendanceActivity() {
