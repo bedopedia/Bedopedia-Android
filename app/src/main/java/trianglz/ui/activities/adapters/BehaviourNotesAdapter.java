@@ -43,7 +43,10 @@ public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAd
 
     @Override
     public void onBindViewHolder(@NonNull BehaviourNotesViewHolder holder, int position) {
-
+        BehaviorNote behaviorNote = behaviorNotes.get(position);
+        holder.teacherNameTv.setText(behaviorNote.teacherName);
+        holder.titleTv.setText(behaviorNote.title);
+        holder.messageTv.setText(behaviorNote.message);
     }
 
     @Override
@@ -56,7 +59,7 @@ public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAd
         notifyDataSetChanged();
     }
 
-    public class BehaviourNotesViewHolder extends RecyclerView.ViewHolder {
+    class BehaviourNotesViewHolder extends RecyclerView.ViewHolder {
         LinearLayout itemLayout;
         TextView teacherNameTv, titleTv, messageTv;
 

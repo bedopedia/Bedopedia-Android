@@ -237,7 +237,13 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         String negativeCounter = negativeBehaviorNotes.size() + "";
         positiveCounterTextView.setText(positiveCounter);
         negativeCounterTextView.setText(negativeCounter);
-        positiveBehaviorNotes.add(new BehaviorNote("aaa", "asdfdsggdfgfd"));
+        //adding dummy data while waiting to api to get fixed
+        positiveBehaviorNotes.add(new BehaviorNote("Mr.Adham napolsi", "very good boi","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        positiveBehaviorNotes.add(new BehaviorNote("Dr.khalil el mohammady", "what a wonderful world","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        positiveBehaviorNotes.add(new BehaviorNote("jannet el maghraby", "this kid is a natural","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
         progress.dismiss();
     }
 

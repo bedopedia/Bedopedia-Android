@@ -20,9 +20,8 @@ import java.util.List;
 import java.util.Objects;
 
 import behaviorNotes.Adapters.BehaviorNotesFragmentAdapter;
-import behaviorNotes.Fragments.NegativeFragment;
-import behaviorNotes.Fragments.PositiveFragment;
 import trianglz.models.BehaviorNote;
+import trianglz.utils.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,8 +72,8 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         studentId = extras.getString(studentIdKey);
         context = getActivity();
         Bundle bundle = getActivity().getIntent().getExtras();
-        positiveNotesList = (List<BehaviorNote>) bundle.getSerializable(PositiveFragment.KEY_NAME);
-        negativeNotesList = (List<BehaviorNote>) bundle.getSerializable(NegativeFragment.KEY_NAME);
+        positiveNotesList = (List<BehaviorNote>) bundle.getSerializable(Constants.KEY_POSITIVE_NOTES_LIST);
+        negativeNotesList = (List<BehaviorNote>) bundle.getSerializable(Constants.KEY_NEGATIVE_NOTES_LIST);
     }
 
     @Override
