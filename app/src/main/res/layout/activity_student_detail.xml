@@ -376,7 +376,7 @@
                             android:paddingEnd="8dp"
                             android:paddingTop="16dp"
                             android:paddingBottom="10dp">
-                            <TextView
+                            <trianglz.components.SfuiSemiBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="22dp"
                                 android:textSize="18sp"
@@ -385,6 +385,7 @@
                                 android:layout_alignParentTop="true"
                                 android:maxLines="1"
                                 android:singleLine="true"
+                                android:includeFontPadding="false"
                                 android:ellipsize="end"/>
 
                             <LinearLayout
@@ -397,7 +398,7 @@
                                     android:layout_height="match_parent"
                                     android:src="@drawable/positive_icon"/>
 
-                                <TextView
+                                <trianglz.components.SfproRegularTextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:gravity="center_vertical"
@@ -406,6 +407,7 @@
                                     android:text="3"
                                     android:layout_marginStart="8dp"
                                     android:layout_marginEnd="23dp"
+                                    android:includeFontPadding="false"
                                     android:id="@+id/tv_positive_counter"/>
 
                                 <ImageView
@@ -414,13 +416,14 @@
                                     android:src="@drawable/negative_icon"
                                     />
 
-                                <TextView
+                                <trianglz.components.SfproRegularTextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:gravity="center_vertical"
                                     android:textSize="14sp"
                                     android:textColor="@color/steel"
                                     android:text="3"
+                                    android:includeFontPadding="false"
                                     android:layout_marginStart="8dp"
                                     android:layout_marginEnd="23dp"
                                     android:id="@+id/tv_negative_counter"/>
@@ -482,13 +485,14 @@
 
 
             <trianglz.components.SfuiSemiBoldTextView
-                android:layout_width="64dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textSize="16sp"
                 android:textColor="@color/dusty_orange"
                 android:text="@string/events"
                 android:gravity="center"
                 android:layout_alignParentEnd="true"
+                android:maxLines="1"
                 android:id="@+id/tv_events"
                 android:includeFontPadding="false"
                 />
