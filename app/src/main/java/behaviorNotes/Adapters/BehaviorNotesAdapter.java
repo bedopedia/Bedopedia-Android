@@ -12,7 +12,7 @@ import com.skolera.skolera_android.R;
 
 import java.util.List;
 
-import behaviorNotes.BehaviorNote;
+import trianglz.models.BehaviorNote;
 
 /**
  * Created by khaled on 2/27/17.

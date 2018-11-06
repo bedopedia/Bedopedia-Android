@@ -20,6 +20,7 @@ import java.util.Objects;
 import behaviorNotes.Adapters.BehaviorNotesFragmentAdapter;
 import behaviorNotes.Fragments.NegativeFragment;
 import behaviorNotes.Fragments.PositiveFragment;
+import trianglz.models.BehaviorNote;
 
 /**
  * A simple {@link Fragment} subclass.

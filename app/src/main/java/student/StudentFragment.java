@@ -60,7 +60,6 @@ import Tools.SharedPreferenceUtils;
 import attendance.AttendanceActivity;
 import badges.Badge;
 import badges.BadgesFragment;
-import behaviorNotes.BehaviorNote;
 import behaviorNotes.BehaviorNotesActivity;
 import grades.CourseGroup;
 import grades.GradesAvtivity;
@@ -71,9 +70,10 @@ import myKids.Student;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import trianglz.models.BehaviorNote;
+import trianglz.models.Notification;
 import trianglz.models.TimeTableSlot;
 import trianglz.ui.activities.TimetableActivity;
-import trianglz.models.Notification;
 import trianglz.utils.Constants;
 
 /**

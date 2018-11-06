@@ -44,8 +44,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
 
     private List<TimeTableSlot> todaySlots;
     private List<TimeTableSlot> tomorrowSlots;
-    private List<BehaviorNote> positiveNotesList;
-    private static List<BehaviorNote> negativeNotesList;
+    private List<BehaviorNote> positiveBehaviorNotes;
+    private List<BehaviorNote> negativeBehaviorNotes;
     private ArrayList<trianglz.models.CourseGroup> courseGroups;
     private Student student;
     private AvatarView studentImage;
@@ -80,8 +80,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private void bindViews() {
         todaySlots = new ArrayList<>();
         tomorrowSlots = new ArrayList<>();
-        positiveNotesList = new ArrayList<>();
-        negativeNotesList = new ArrayList<>();
+        positiveBehaviorNotes = new ArrayList<>();
+        negativeBehaviorNotes = new ArrayList<>();
         courseGroups = new ArrayList<>();
         studentArrayList = new ArrayList<>();
         nameTextView = findViewById(R.id.tv_name);
@@ -231,12 +231,13 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
 
     @Override
     public void onGetBehaviorNotesSuccess(HashMap<String, List<BehaviorNote>> behaviorNoteHashMap) {
-        List<BehaviorNote> positiveBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_POSITIVE);
-        List<BehaviorNote> negativeBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_NEGATIVE);
+        positiveBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_POSITIVE);
+        negativeBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_NEGATIVE);
         String positiveCounter = positiveBehaviorNotes.size() + "";
         String negativeCounter = negativeBehaviorNotes.size() + "";
         positiveCounterTextView.setText(positiveCounter);
         negativeCounterTextView.setText(negativeCounter);
+        positiveBehaviorNotes.add(new BehaviorNote("aaa", "asdfdsggdfgfd"));
         progress.dismiss();
     }
 
@@ -279,8 +280,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         Intent behaviorNotesIntent = new Intent(this, BehaviorNotesActivity.class);
         behaviorNotesIntent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveNotesList);
-        bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeNotesList);
+        bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveBehaviorNotes);
+        bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeBehaviorNotes);
         behaviorNotesIntent.putExtras(bundle);
         startActivity(behaviorNotesIntent);
     }

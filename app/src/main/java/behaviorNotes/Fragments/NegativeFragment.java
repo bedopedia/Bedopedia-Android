@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import behaviorNotes.Adapters.BehaviorNotesAdapter;
-import behaviorNotes.BehaviorNote;
+import trianglz.models.BehaviorNote;
 
 /**
  * Created by khaled on 3/9/17.
