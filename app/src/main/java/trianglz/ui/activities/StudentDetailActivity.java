@@ -233,17 +233,11 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     public void onGetBehaviorNotesSuccess(HashMap<String, List<BehaviorNote>> behaviorNoteHashMap) {
         positiveBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_POSITIVE);
         negativeBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_NEGATIVE);
+        addBehaviourNotesDummyData();
         String positiveCounter = positiveBehaviorNotes.size() + "";
         String negativeCounter = negativeBehaviorNotes.size() + "";
         positiveCounterTextView.setText(positiveCounter);
         negativeCounterTextView.setText(negativeCounter);
-        //adding dummy data while waiting to api to get fixed
-        positiveBehaviorNotes.add(new BehaviorNote("Mr.Adham napolsi", "very good boi","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
-                "This achievement will never happen without your efforts."));
-        positiveBehaviorNotes.add(new BehaviorNote("Dr.khalil el mohammady", "what a wonderful world","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
-                "This achievement will never happen without your efforts."));
-        positiveBehaviorNotes.add(new BehaviorNote("jannet el maghraby", "this kid is a natural","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
-                "This achievement will never happen without your efforts."));
         progress.dismiss();
     }
 
@@ -308,5 +302,33 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         assignmentsTextView.setText(assignments);
         String events = String.valueOf(student.getTodayEventsCount()) + " " + getResources().getString(R.string.events);
         eventsTextView.setText(events);
+    }
+
+    private void addBehaviourNotesDummyData() {
+        //adding dummy data while waiting to api to get fixed
+        positiveBehaviorNotes.add(new BehaviorNote("Mr.Adham napolsi", "very good boi","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        positiveBehaviorNotes.add(new BehaviorNote("Dr.khalil el mohammady", "what a wonderful world","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        positiveBehaviorNotes.add(new BehaviorNote("jannet el maghraby", "this kid is a natural","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        positiveBehaviorNotes.add(new BehaviorNote("Mr.Adham napolsi", "very good boi","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        positiveBehaviorNotes.add(new BehaviorNote("Dr.khalil el mohammady", "what a wonderful world","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        positiveBehaviorNotes.add(new BehaviorNote("jannet el maghraby", "this kid is a natural","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        negativeBehaviorNotes.add(new BehaviorNote("Mr.Adham napolsi", "pls help","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        negativeBehaviorNotes.add(new BehaviorNote("Dr.khalil el mohammady", "get him decapitated","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        negativeBehaviorNotes.add(new BehaviorNote("jannet el maghraby", "so badd","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        negativeBehaviorNotes.add(new BehaviorNote("Mr.Adham napolsi", "pls help","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        negativeBehaviorNotes.add(new BehaviorNote("Dr.khalil el mohammady", "get him decapitated","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
+        negativeBehaviorNotes.add(new BehaviorNote("jannet el maghraby", "so badd","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
+                "This achievement will never happen without your efforts."));
     }
 }

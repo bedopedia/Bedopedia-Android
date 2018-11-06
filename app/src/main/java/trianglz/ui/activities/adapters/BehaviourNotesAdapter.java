@@ -45,7 +45,12 @@ public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAd
     public void onBindViewHolder(@NonNull BehaviourNotesViewHolder holder, int position) {
         BehaviorNote behaviorNote = behaviorNotes.get(position);
         holder.teacherNameTv.setText(behaviorNote.teacherName);
-        holder.titleTv.setText(behaviorNote.title);
+        if (behaviorNote.title != null) {
+            holder.titleTv.setText(behaviorNote.title);
+        } else {
+            holder.titleTv.setText("No title");
+        }
+
         holder.messageTv.setText(behaviorNote.message);
     }
 
