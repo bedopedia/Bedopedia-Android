@@ -5,14 +5,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.skolera.skolera_android.R;
 
 import java.io.Serializable;
 import java.util.List;
 
-import behaviorNotes.Adapters.BehaviorNotesAdapter;
 import trianglz.models.BehaviorNote;
 
 /**
@@ -36,10 +34,6 @@ public class NegativeFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.negative_fragment, container, false);
 
-        List<BehaviorNote> negativeBehaviorNotes = ( List<BehaviorNote> ) getArguments().getSerializable(KEY_NAME);
-        ListView notes = (ListView) rootView.findViewById(R.id.negative_notes);
-        BehaviorNotesAdapter adapter = new BehaviorNotesAdapter(getActivity(), R.layout.item_behaviour_note, negativeBehaviorNotes);
-        notes.setAdapter(adapter);
 
         return rootView;
     }

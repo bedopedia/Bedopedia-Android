@@ -2,11 +2,13 @@ package behaviorNotes;
 
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -81,6 +83,7 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         rootView = inflater.inflate(R.layout.fragment_behavior_notes, container, false);
         bindViews();
         setListeners();
+        increaseButtonsHitArea();
         return rootView;
 
     }
@@ -122,6 +125,20 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+    }
+    private void increaseButtonsHitArea() {
+        final View parent = (View) backBtn.getParent();
+        parent.post(new Runnable() {
+            public void run() {
+                final Rect rect = new Rect();
+                backBtn.getHitRect(rect);
+                rect.top -= 100;    // increase top hit area
+                rect.left -= 100;   // increase left hit area
+                rect.bottom += 100; // increase bottom hit area
+                rect.right += 100;  // increase right hit area
+                parent.setTouchDelegate(new TouchDelegate(rect, backBtn));
             }
         });
     }

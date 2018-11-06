@@ -5,34 +5,41 @@ import java.io.Serializable;
 /**
  * Created by ${Aly} on 10/31/2018.
  */
-public class BehaviorNote  implements Serializable {
-    String category;
-    String text;
+public class BehaviorNote implements Serializable {
 
+    public String teacherName;
+    public String title;
+    public String message;
+
+    public BehaviorNote(String teacherName, String title, String message) {
+        this.teacherName = teacherName;
+        this.title = title;
+        this.message = message;
+    }
     public BehaviorNote() {
-        this.category = "";
-        this.text = "";
+        this.teacherName = "";
+        this.message = "";
     }
 
-    public BehaviorNote(String category, String text) {
-        this.category = category;
-        this.text = text;
+    public BehaviorNote(String teacherName, String message) {
+        this.teacherName = teacherName;
+        this.message = message;
     }
 
-    public String getCategory() {
-        return category;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
-    public String getText() {
-        return text;
+    public String getMessage() {
+        return message;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 }

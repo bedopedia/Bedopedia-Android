@@ -85,6 +85,10 @@
                     android:src="@drawable/profile_pic" />
             </RelativeLayout>
         </Toolbar>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/steel_transparent"/>
         <android.support.v4.view.ViewPager
             android:id="@+id/behavior_notes_container"
             android:layout_width="match_parent"
