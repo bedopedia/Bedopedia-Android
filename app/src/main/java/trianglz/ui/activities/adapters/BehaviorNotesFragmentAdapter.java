@@ -1,4 +1,4 @@
-package behaviorNotes.Adapters;
+package trianglz.ui.activities.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -12,8 +12,8 @@ import com.skolera.skolera_android.R;
 
 import java.util.List;
 
-import behaviorNotes.Fragments.NegativeFragment;
-import behaviorNotes.Fragments.PositiveFragment;
+import trianglz.ui.activities.fragments.NegativeFragment;
+import trianglz.ui.activities.fragments.PositiveFragment;
 import trianglz.models.BehaviorNote;
 
 

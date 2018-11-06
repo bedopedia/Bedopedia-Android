@@ -67,7 +67,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="behaviorNotes.BehaviorNotesActivity"
+            android:name="trianglz.ui.activities.BehaviorNotesActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />

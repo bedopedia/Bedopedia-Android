@@ -60,7 +60,7 @@ import Tools.SharedPreferenceUtils;
 import attendance.AttendanceActivity;
 import badges.Badge;
 import badges.BadgesFragment;
-import behaviorNotes.BehaviorNotesActivity;
+import trianglz.ui.activities.BehaviorNotesActivity;
 import grades.CourseGroup;
 import grades.GradesAvtivity;
 import login.Services.ApiClient;
