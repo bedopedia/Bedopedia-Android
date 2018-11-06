@@ -24,7 +24,7 @@
             android:id="@+id/btn_back"
             android:src="@drawable/chevron_left" />
 
-        <TextView
+        <trianglz.components.SfproBoldTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
-        <TextView
+        <trianglz.components.SfuiBoldTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -59,14 +59,13 @@
             android:id="@+id/tv_month_year_header"
             />
 
-        <TextView
+        <trianglz.components.SfuiBoldTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text="@string/today"
             android:textSize="17sp"
             android:textColor="@color/jade_green"
-            android:textStyle="bold"
             />
 
     </RelativeLayout>
@@ -119,7 +118,7 @@
                 android:gravity="center"
                 android:id="@+id/layout_late">
 
-                <TextView
+                <trianglz.components.CircularMediumTextView
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:text="12"
@@ -127,7 +126,7 @@
                     android:textSize="14sp"
                     android:id="@+id/tv_late_counter"/>
 
-                <TextView
+                <trianglz.components.CircularBookTextView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:textSize="14sp"
@@ -154,7 +153,7 @@
                 android:gravity="center"
                 android:id="@+id/layout_excused">
 
-                <TextView
+                <trianglz.components.CircularMediumTextView
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:text="12"
@@ -162,7 +161,7 @@
                     android:textSize="14sp"
                     android:id="@+id/tv_excused_counter"/>
 
-                <TextView
+                <trianglz.components.CircularBookTextView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:textSize="14sp"
@@ -190,7 +189,7 @@
                 android:gravity="center"
                 android:id="@+id/layout_absent">
 
-                <TextView
+                <trianglz.components.CircularMediumTextView
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:text="12"
@@ -198,7 +197,7 @@
                     android:textSize="14sp"
                     android:id="@+id/tv_absent_counter"/>
 
-                <TextView
+                <trianglz.components.CircularBookTextView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:textSize="14sp"
