@@ -93,4 +93,6 @@
     <string name="no_comment_is_available">No Comment available</string>
     <string name="behaviour_notes">Behaviour notes</string>
     <string name="subjects">Subjects</string>
+    <string name="all">All</string>
+    <string name="quarters">Quarters</string>
 </resources>

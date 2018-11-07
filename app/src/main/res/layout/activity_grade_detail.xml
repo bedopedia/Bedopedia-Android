@@ -1,9 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="trianglz.ui.activities.GradeDetailActivity">
+    tools:context="trianglz.ui.activities.GradeDetailActivity"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:elevation="1dp"
+       >
 
-</android.support.constraint.ConstraintLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:src="@drawable/chevron_left" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <trianglz.components.SfproSemiBoldTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:text="@string/behaviour_notes"
+                    android:textSize="17sp"
+                    android:id="@+id/tv_subject_header"/>
+
+                <LinearLayout
+                    android:id="@+id/layout_texts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/hollow_green_background"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <trianglz.components.SfuiRegularTextView
+                        android:id="@+id/tv_positive"
+                        android:layout_width="120dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/text_solid_background"
+                        android:gravity="center"
+                        android:text="@string/all"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+
+                    <trianglz.components.SfuiRegularTextView
+                        android:id="@+id/tv_negative"
+                        android:layout_width="120dp"
+                        android:layout_height="28dp"
+                        android:gravity="center"
+                        android:text="@string/quarters"
+                        android:textAlignment="center"
+                        android:textColor="@color/jade_green" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="14dp"
+
+                android:src="@drawable/profile_pic" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/recycler_view"/>
+
+</LinearLayout>
