@@ -21,7 +21,7 @@ import trianglz.models.CourseGroup;
  */
 public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
     public Context context;
-    List<CourseGroup> mDataList;
+    public List<CourseGroup> mDataList;
     GradesAdapterInterface gradesAdapterInterface;
 
 

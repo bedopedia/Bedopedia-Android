@@ -61,7 +61,7 @@ public class GradesActivity extends AppCompatActivity implements GradesAdapter.G
 
     @Override
     public void onSubjectSelected(int position) {
-
+        openGradeDetailActivity(courseGroups.get(position));
     }
 
     private void setStudentImage(String imageUrl, final String name) {
@@ -86,5 +86,13 @@ public class GradesActivity extends AppCompatActivity implements GradesAdapter.G
                         }
                     });
         }
+    }
+
+    private void openGradeDetailActivity(CourseGroup courseGroup){
+        Intent intent = new Intent(this,GradeDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_COURSE_GROUPS,courseGroup);
+        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        startActivity(intent);
     }
 }
