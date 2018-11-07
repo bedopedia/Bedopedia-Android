@@ -260,6 +260,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
                 break;
             case R.id.layout_behavior_notes:
                 openBehaviourNotesActivity();
+                break;
             case R.id.layout_grades:
                 openGradesActivity();
                 break;
