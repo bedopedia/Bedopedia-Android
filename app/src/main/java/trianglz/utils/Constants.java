@@ -75,5 +75,6 @@ public class Constants {
     // behaviour notes constants
     public static final String KEY_POSITIVE_NOTES_LIST = "positiveNotesList";
     public static final String KEY_NEGATIVE_NOTES_LIST = "negativeNotesList";
+    public static final String KEY_COURSE_GROUPS = "courseGroups";
 
 }

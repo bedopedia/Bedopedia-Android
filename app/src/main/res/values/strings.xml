@@ -92,4 +92,5 @@
     <string name="late">Late</string>
     <string name="no_comment_is_available">No Comment available</string>
     <string name="behaviour_notes">Behaviour notes</string>
+    <string name="subjects">Subjects</string>
 </resources>

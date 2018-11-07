@@ -260,8 +260,19 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
                 break;
             case R.id.layout_behavior_notes:
                 openBehaviourNotesActivity();
+            case R.id.layout_grades:
+                openGradesActivity();
                 break;
         }
+    }
+
+    private void openGradesActivity() {
+        Intent gradesIntent = new Intent(this, GradesActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT,student);
+        bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroups);
+        gradesIntent.putExtra(Constants.KEY_BUNDLE,bundle);
+        startActivity(gradesIntent);
     }
 
     private void openTimeTableActivity() {
