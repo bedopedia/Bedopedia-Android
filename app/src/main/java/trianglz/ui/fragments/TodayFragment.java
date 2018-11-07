@@ -1,4 +1,4 @@
-package trianglz.ui.activities.fragments;
+package trianglz.ui.fragments;
 
 import android.app.Activity;
 import android.graphics.Color;

@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.skolera.skolera_android.R;
 
 import Tools.FragmentUtils;
-import trianglz.ui.activities.fragments.TimeTableFragment;
+import trianglz.ui.fragments.TimeTableFragment;
 
 
 /**

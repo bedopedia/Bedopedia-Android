@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import com.skolera.skolera_android.R;
 
 import Tools.FragmentUtils;
-import trianglz.ui.activities.fragments.BehaviorNotesFragment;
+import trianglz.ui.fragments.BehaviorNotesFragment;
 
 /**
  * Created by khaled on 2/27/17.

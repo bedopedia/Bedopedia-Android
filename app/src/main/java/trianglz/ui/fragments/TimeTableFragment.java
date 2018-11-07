@@ -1,4 +1,4 @@
-package trianglz.ui.activities.fragments;
+package trianglz.ui.fragments;
 
 /**
  * file modified by gemy
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 import trianglz.models.TimeTableSlot;
-import trianglz.ui.activities.adapters.TimetableAdapter;
+import trianglz.ui.adapters.TimetableAdapter;
 import trianglz.utils.Constants;
 
 /**

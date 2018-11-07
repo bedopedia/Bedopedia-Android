@@ -1,4 +1,4 @@
-package trianglz.ui.activities.fragments;
+package trianglz.ui.fragments;
 
 
 import android.content.Context;
@@ -19,7 +19,7 @@ import com.skolera.skolera_android.R;
 import java.util.List;
 import java.util.Objects;
 
-import trianglz.ui.activities.adapters.BehaviorNotesFragmentAdapter;
+import trianglz.ui.adapters.BehaviorNotesFragmentAdapter;
 import trianglz.models.BehaviorNote;
 import trianglz.utils.Constants;
 

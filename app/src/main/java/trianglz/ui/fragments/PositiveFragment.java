@@ -1,4 +1,4 @@
-package trianglz.ui.activities.fragments;
+package trianglz.ui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 import trianglz.models.BehaviorNote;
-import trianglz.ui.activities.adapters.BehaviourNotesAdapter;
+import trianglz.ui.adapters.BehaviourNotesAdapter;
 import trianglz.utils.Constants;
 
 /**

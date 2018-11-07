@@ -15,7 +15,7 @@ import trianglz.core.presenters.NotificationsPresenter;
 import trianglz.core.views.NotificationsView;
 import trianglz.managers.SessionManager;
 import trianglz.models.Notification;
-import trianglz.ui.activities.adapters.NotificationsAdapter;
+import trianglz.ui.adapters.NotificationsAdapter;
 import trianglz.utils.Util;
 
 public class NotificationsActivity extends SuperActivity implements NotificationsPresenter , View.OnClickListener,AdapterPaginationInterface {
