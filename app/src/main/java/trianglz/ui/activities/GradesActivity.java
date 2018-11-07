@@ -92,6 +92,7 @@ public class GradesActivity extends AppCompatActivity implements GradesAdapter.G
         Intent intent = new Intent(this,GradeDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_COURSE_GROUPS,courseGroup);
+        bundle.putSerializable(Constants.STUDENT,student);
         intent.putExtra(Constants.KEY_BUNDLE,bundle);
         startActivity(intent);
     }

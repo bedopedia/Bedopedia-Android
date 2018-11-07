@@ -59,7 +59,6 @@ public class StudentDetailView {
         UserManager.getStudentGrades(url, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                parseStudentGrades(response, courseGroups);
                 String totalGrade = response.optJSONObject(Constants.KEY_GRADE).optString(Constants.KEY_LETTER);
                 studentDetailPresenter.onGetStudentGradesSuccess(parseStudentGrades(response, courseGroups), totalGrade);
             }

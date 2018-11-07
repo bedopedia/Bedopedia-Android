@@ -48,7 +48,6 @@ public class NetworkManager {
     }
 
     public static void get(String url, HashMap<String, String> headerValue, final HandleResponseListener handleResponseListener) {
-        Log.v("URL", url);
         AndroidNetworking.get(url)
                 .addHeaders(headerValue)
                 .setPriority(Priority.HIGH)

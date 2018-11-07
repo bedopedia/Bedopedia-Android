@@ -192,4 +192,22 @@ public class UserManager {
         });
 
     }
+
+    public static void getAverageGrades(String url,String id, final ResponseListener responseListener){
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String,String> paramsHashMap = new HashMap<>();
+        paramsHashMap.put(Constants.KEY_STUDENT_ID,id);
+        NetworkManager.getWithParameter(url,paramsHashMap,headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+
+    }
 }

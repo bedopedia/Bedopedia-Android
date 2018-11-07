@@ -18,7 +18,7 @@
             android:layout_height="match_parent">
 
             <ImageButton
-                android:id="@+id/back_btn"
+                android:id="@+id/btn_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -72,14 +72,14 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <ImageView
+            <agency.tango.android.avatarview.views.AvatarView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="14dp"
-
-                android:src="@drawable/profile_pic" />
+                android:src="@drawable/profile_pic"
+                android:id="@+id/img_student"/>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
     <android.support.v7.widget.RecyclerView
