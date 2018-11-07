@@ -128,6 +128,7 @@ public class StudentDetailView {
                     if (courseGroups.get(j).getCourseId() == courseData.optInt(Constants.KEY_COURSE_ID)
                             && !(courseData.opt(Constants.KEY_GRADE) instanceof JSONArray)) {
                         courseGroups.get(j).setGrade(courseData.optJSONObject(Constants.KEY_GRADE).optString(Constants.KEY_NUMERIC));
+                        courseGroups.get(j).setLetter(courseData.optJSONObject(Constants.KEY_GRADE).optString(Constants.KEY_LETTER));
                         if (courseData.optString(Constants.KEY_ICON).equals("null"))
                             // TODO: 11/4/2018 change dragon icon in grades
                             courseGroups.get(j).setIcon(Constants.KEY_DRAGON);

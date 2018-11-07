@@ -41,7 +41,7 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
         CourseGroup courseGroup = mDataList.get(position);
-        holder.gradeTextView.setText(courseGroup.getGrade());
+        holder.gradeTextView.setText(courseGroup.getLetter());
         holder.subjectNameTextView.setText(courseGroup.getCourseName());
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override

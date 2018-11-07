@@ -12,6 +12,7 @@ public class CourseGroup implements Serializable {
     String courseName;
     String grade;
     String icon;
+    String letter = "";
 
     public CourseGroup() {
         this.id = 0;
@@ -65,6 +66,14 @@ public class CourseGroup implements Serializable {
 
     public void setGrade(String grade) {
         this.grade = grade;
+    }
+
+    public void setLetter(String letter) {
+        this.letter = letter;
+    }
+
+    public String getLetter() {
+        return letter;
     }
 
     public String getIcon() {
