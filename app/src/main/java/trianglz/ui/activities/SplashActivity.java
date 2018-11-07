@@ -28,10 +28,10 @@ public class SplashActivity extends AppCompatActivity {
                 }else {
                     openSchoolLoginActivity();
                 }
-
+                finish();
             }
         }, 3000);
-        finish();
+
     }
 
 
