@@ -76,5 +76,23 @@ public class Constants {
     public static final String KEY_POSITIVE_NOTES_LIST = "positiveNotesList";
     public static final String KEY_NEGATIVE_NOTES_LIST = "negativeNotesList";
     public static final String KEY_COURSE_GROUPS = "courseGroups";
-
+    public static final String KEY_CATEGORIES = "categories";
+    public static final String KEY_TEST_QUIZZES = "Tests\\/ Quizzes";
+    public static final String KEY_MAX_GRADE = "max_grade";
+    public static final String KEY_COURSE_GROUP_ID = "course_group_id";
+    public static final String KEY_CATEGORY_ID = "category_id";
+    public static final String KEY_STUDENTS = "students";
+    public static final String KEY_ASSIGNMENTS = "assignments";
+    public static final String KEY_QUIZZES = "quizzes";
+    public static final String KEY_GRADE_ITEMS = "grade_items";
+    public static final String KEY_TOTAL = "total";
+    public static final String KEY_TOTAL_SCORE = "total_score";
+    public static final String KEY_GRADE_VIEW = "grade_view";
+    public static final String KEY_FEED_BACK = "feedback";
+    public static final String KEY_END_DATE = "end_date";
+    public static final String KEY_LOCK = "lock";
+    public static final String KEY_PUBLISH = "publish";
+    public static final String KEY_START_DATE = "start_date";
+    public static final String KEY_WEIGHT = "weight";
+    public static final String KEY_SUB_GRADING_ATTRIBUTES = "sub_grading_periods_attributes";
 }

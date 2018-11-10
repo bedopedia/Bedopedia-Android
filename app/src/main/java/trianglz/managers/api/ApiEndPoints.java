@@ -12,4 +12,12 @@ public class ApiEndPoints {
     public static String averageGradeEndPoint(int courseId, int courseGroupId){
         return "/api/courses/"+ courseId +"/course_groups/"+ courseGroupId+"/student_grade";
     }
+
+    public static String studentGradeBook (int courseId, int courseGroupId){
+       return  "/api/courses/"+ courseId +"/course_groups/"+ courseGroupId +"/student_grade_book";
+    }
+
+    public static String getSemesters (){
+        return  "/api/grading_periods/course_grading_periods";
+    }
 }

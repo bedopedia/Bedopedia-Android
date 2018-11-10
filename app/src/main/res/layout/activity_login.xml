@@ -67,7 +67,7 @@
         android:inputType="textEmailAddress"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="pris17116@skolera.com"
+        android:text="Popo090@hotmail.com"
         android:textColor="@color/black"
         android:textSize="16sp" />
 
@@ -94,7 +94,7 @@
             android:layout_marginStart="22dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="32dp"
-            android:text="pRIS17116123"
+            android:text="pRIS17478123"
             />
 
 

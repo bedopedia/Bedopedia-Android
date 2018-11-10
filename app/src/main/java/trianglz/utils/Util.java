@@ -6,11 +6,17 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.skolera.skolera_android.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by ${Aly} on 10/24/2018.
@@ -68,6 +74,22 @@ public class Util {
 
     public static boolean isNotNullOrEmpty(String string) {
         return string != null && string.isEmpty() == false;
+    }
+
+    public static boolean isDateInside(String startString, String endString, String currentString){
+            Date start = null;
+            Date end = null;
+            Date current = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        try {
+             start = formatter.parse(startString);
+             end = formatter.parse(endString);
+             current = formatter.parse(currentString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return current.compareTo(start) >= 0 && current.compareTo(end) <= 0;
     }
 
 }
