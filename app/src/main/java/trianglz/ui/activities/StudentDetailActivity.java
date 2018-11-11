@@ -3,6 +3,7 @@ package trianglz.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private StudentDetailView studentDetailView;
     private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout;
     private ImageButton backBtn;
+    private Button messagesBtn;
     private String attendance;
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
@@ -115,6 +117,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         } else {
             Util.showNoInternetConnectionDialog(this);
         }
+        messagesBtn = findViewById(R.id.btn_messages);
 
     }
 
@@ -124,6 +127,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         gradesLayout.setOnClickListener(this);
         behaviourNotesLayout.setOnClickListener(this);
         backBtn.setOnClickListener(this);
+        messagesBtn.setOnClickListener(this);
 
     }
 
@@ -264,7 +268,18 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             case R.id.layout_grades:
                 openGradesActivity();
                 break;
+            case R.id.btn_messages:
+                openMessagesActivity();
+                break;
         }
+    }
+
+    private void openMessagesActivity() {
+        Intent intent = new Intent(this,ContactTeacherActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT,student);
+        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        startActivity(intent);
     }
 
     private void openGradesActivity() {

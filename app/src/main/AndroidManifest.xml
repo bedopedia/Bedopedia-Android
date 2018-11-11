@@ -129,7 +129,11 @@
             android:name="trianglz.ui.activities.GradesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />
-        <activity android:name="trianglz.ui.activities.GradeDetailActivity"
+        <activity
+            android:name="trianglz.ui.activities.GradeDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_v2" />
+        <activity android:name="trianglz.ui.activities.ContactTeacherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2"/>
     </application>
