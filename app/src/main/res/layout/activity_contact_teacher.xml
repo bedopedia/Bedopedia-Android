@@ -44,5 +44,17 @@
             android:id="@+id/btn_new_message"
             android:src="@drawable/new_icon_group" />
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e5e5e5"
+        android:layout_gravity="bottom"
+        />
+    
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/recycler_view"/>
 
 </LinearLayout>

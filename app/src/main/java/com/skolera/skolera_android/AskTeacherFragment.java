@@ -120,6 +120,8 @@ public class AskTeacherFragment extends Fragment {
     public void loading(){
         progress.setTitle(R.string.LoadDialogueTitle);
         progress.setMessage(getString(R.string.LoadDialogueBody));
+
+
     }
 
     private class MessageThreads extends AsyncTask {

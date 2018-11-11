@@ -243,6 +243,22 @@ public class UserManager {
                 responseListener.onFailure(message,errorCode);
             }
         });
+    }
 
+    public static void getMessages(String url, String id, final ArrayResponseListener responseListener){
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String,String> paramsHashMap = new HashMap<>();
+        paramsHashMap.put(Constants.KEY_USER_ID,id);
+        NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message,errorCode);
+            }
+        });
     }
 }

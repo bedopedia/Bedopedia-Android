@@ -95,4 +95,24 @@ public class Constants {
     public static final String KEY_START_DATE = "start_date";
     public static final String KEY_WEIGHT = "weight";
     public static final String KEY_SUB_GRADING_ATTRIBUTES = "sub_grading_periods_attributes";
+    public static final String KEY_USER_ID = "user_id";
+    public static final String KEY_MESSAGES = "messages";
+    public static final String KEY_USER = "user";
+    public static final String KEY_FIRST_NAME = "first_name";
+    public static final String KEY_LAST_NAME = "last_name";
+    public static final String KEY_GENDER = "gender";
+    public static final String KEY_BODY = "body";
+    public static final String KEY_ALL_MESSAGES = "allMessages";
+    public static final String KEY_LAST_ADDED_DATE = "last_added_date";
+    public static final String KEY_OTHER_NAMES = "others_names";
+    public static final String KEY_IS_READ = "is_read";
+    public static final String KEY_OTHER_AVATARS = "others_avatars";
+    public static final String KEY_TAG = "tag";
+    public static final String KEY_PARTICIPANTS = "participants";
+    public static final String KEY_THREAD_ID = "thread_id";
+    public static final String KEY_USER_AVATAR_URL = "user_avatar_url";
+    public static final String KEY_ATTACHMENT_URL = "attachment_url";
+    public static final String KEY_FILE_NAME = "filename";
+    public static final String KEY_EXT = "ext";
+
 }
