@@ -20,7 +20,12 @@ public class ApiEndPoints {
     public static String getSemesters (){
         return  "/api/grading_periods/course_grading_periods";
     }
+
     public static String getThreads(){
         return "/api/threads";
+    }
+
+    public static String getCourseGroups(int studentId){
+        return "/api/students/" + studentId + "/course_groups";
     }
 }

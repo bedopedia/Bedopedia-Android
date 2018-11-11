@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.skolera.skolera_android.AskTeacherActivity;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
@@ -75,7 +77,7 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
                onBackPressed();
                break;
            case R.id.btn_new_message:
-               // TODO: 11/11/2018 openNewMessage
+               openNewMessageActivity();
                break;
        }
     }
@@ -94,5 +96,13 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
     @Override
     public void onThreadClicked(int position) {
 
+    }
+
+    private void openNewMessageActivity(){
+        Intent intent = new Intent(this, NewMessageActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT,student);
+       intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        startActivity(intent);
     }
 }

@@ -114,5 +114,7 @@ public class Constants {
     public static final String KEY_ATTACHMENT_URL = "attachment_url";
     public static final String KEY_FILE_NAME = "filename";
     public static final String KEY_EXT = "ext";
+    public static final String KEY_SOURCE = "source";
+    public static final String KEY_HOME = "home";
 
 }
