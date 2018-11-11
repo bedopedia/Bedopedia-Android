@@ -13,6 +13,12 @@ import com.skolera.skolera_android.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import gradeBook.Course;
+import trianglz.models.Assignment;
+import trianglz.models.CourseGradingPeriods;
+import trianglz.models.GradeItem;
+import trianglz.models.Quiz;
+
 /**
  * Created by ${Aly} on 11/7/2018.
  */
@@ -51,7 +57,26 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-
+        if(mDataList.get(position) instanceof CourseGradingPeriods){
+            CourseGradingPeriods courseGradingPeriods = (CourseGradingPeriods) mDataList.get(position);
+            QuarterViewHolder quarterViewHolder = ((QuarterViewHolder)holder);
+            quarterViewHolder.quarterTextView.setText(courseGradingPeriods.name);
+        }else if(mDataList.get(position) instanceof Assignment){
+            DetailViewHolder detailViewHolder = ((DetailViewHolder)holder);
+            Assignment assignment = (Assignment) mDataList.get(position);
+            detailViewHolder.classWorkTextView.setText(assignment.name);
+            detailViewHolder.markTextView.setText(assignment.grade+"/"+assignment.total);
+        }else if(mDataList.get(position) instanceof Quiz){
+            DetailViewHolder detailViewHolder = ((DetailViewHolder)holder);
+            Quiz quiz = (Quiz) mDataList.get(position);
+            detailViewHolder.classWorkTextView.setText(quiz.name);
+            detailViewHolder.markTextView.setText(quiz.grade+"/"+quiz.total);
+        }else if(mDataList.get(position) instanceof GradeItem){
+            DetailViewHolder detailViewHolder = ((DetailViewHolder)holder);
+            GradeItem gradeItem = (GradeItem) mDataList.get(position);
+            detailViewHolder.classWorkTextView.setText(gradeItem.name);
+            detailViewHolder.markTextView.setText(gradeItem.grade+"/"+gradeItem.total);
+        }
     }
 
     @Override
@@ -61,12 +86,14 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
+        if (mDataList.get(position)instanceof CourseGradingPeriods) {
             return TYPE_QUARTER;
-        } else if (position == 1) {
-            return TYPE_HEADER;
-        } else {
+        } else if (mDataList.get(position) instanceof Assignment ||
+                mDataList.get(position) instanceof Quiz ||
+                mDataList.get(position) instanceof GradeItem) {
             return TYPE_DETAIL;
+        } else {
+            return TYPE_HEADER;
         }
     }
 
@@ -78,11 +105,9 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public class QuarterViewHolder extends RecyclerView.ViewHolder {
         public TextView quarterTextView;
-        public TextView quarterGradeTextView;
         public QuarterViewHolder(View itemView) {
             super(itemView);
             quarterTextView = itemView.findViewById(R.id.tv_quarter);
-            quarterGradeTextView = itemView.findViewById(R.id.tv_quarter_grade);
         }
     }
 
@@ -103,7 +128,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             super(itemView);
         classWorkTextView = itemView.findViewById(R.id.tv_class_work);
         markTextView = itemView.findViewById(R.id.tv_mark);
-        averageGradeTextView = itemView.findViewById(R.id.average_grade);
+        averageGradeTextView = itemView.findViewById(R.id.tv_avg_grade);
         stateTextView = itemView.findViewById(R.id.tv_state);
         }
     }

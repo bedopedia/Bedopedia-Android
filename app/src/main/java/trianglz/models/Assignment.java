@@ -6,11 +6,11 @@ package trianglz.models;
 
 
 public class Assignment {
-     int id = 0;
-     String name  = "";
-     double total = 0;
-     double grade = 0;
-     double gradeView = 0;
+     public int id = 0;
+     public String name  = "";
+     public double total = 0;
+     public double grade = 0;
+     public double gradeView = 0;
      public String feedBack;
      public String endDate;
 

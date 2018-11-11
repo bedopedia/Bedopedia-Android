@@ -12,7 +12,10 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -46,7 +49,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     private ArrayList<Quiz> quizArrayList;
     private ArrayList<Assignment> assignmentArrayList;
     private ArrayList<GradeItem> gradeItemArrayList;
-    private HashMap<CourseGradingPeriods,Object> semsterHashMap;
+    private HashMap<CourseGradingPeriods,ArrayList<Object>> semesterHashMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +88,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         quizArrayList = new ArrayList<>();
         assignmentArrayList = new ArrayList<>();
         gradeItemArrayList = new ArrayList<>();
-        semsterHashMap = new HashMap<>();
+        semesterHashMap = new HashMap<>();
     }
 
     private void setListeners(){
@@ -171,8 +174,14 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
     private void setAdapterData(ArrayList<CourseGradingPeriods> courseGradingPeriodsArrayList){
         ArrayList<CourseGradingPeriods> allSemesterArrayList = handleSemesters(courseGradingPeriodsArrayList);
+        for(int i = 0; i<allSemesterArrayList.size(); i++){
+            semesterHashMap.put(allSemesterArrayList.get(i),new ArrayList<>());
+        }
         setQuizzesInHashMap(allSemesterArrayList);
         setGradingItems(allSemesterArrayList);
+        setAssignmentArrayList(allSemesterArrayList);
+        setData();
+
     }
 
     private  ArrayList<CourseGradingPeriods> handleSemesters(ArrayList<CourseGradingPeriods> courseGradingPeriodsArrayList){
@@ -184,15 +193,17 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
                 expandedSemesters.add(courseGradingPeriods.subGradingPeriodsAttributes);
             }
         }
-        return expandedSemesters;
+        return reverse(expandedSemesters);
     }
 
     private void setQuizzesInHashMap( ArrayList<CourseGradingPeriods> expandedSemesters ){
         for(int i = 0; i<quizArrayList.size(); i++){
             for(int j = 0; j< expandedSemesters.size(); j++){
-                if(Util.isDateInside(expandedSemesters.get(i).startDate,
-                        expandedSemesters.get(i).endDate,quizArrayList.get(i).endDate)){
-                    semsterHashMap.put(expandedSemesters.get(j),quizArrayList.get(i));
+                if(Util.isDateInside(expandedSemesters.get(j).startDate,
+                        expandedSemesters.get(j).endDate,quizArrayList.get(i).endDate)){
+                    ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(j));
+                    objectArrayList.add((quizArrayList.get(i)));
+                    semesterHashMap.put(expandedSemesters.get(j),objectArrayList);
                 }
             }
         }
@@ -201,22 +212,48 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     private void setGradingItems( ArrayList<CourseGradingPeriods> expandedSemesters ){
         for(int i = 0; i<gradeItemArrayList.size(); i++){
             for(int j = 0; j< expandedSemesters.size(); j++){
-                if(Util.isDateInside(expandedSemesters.get(i).startDate,
-                        expandedSemesters.get(i).endDate,gradeItemArrayList.get(i).endDate)){
-                    semsterHashMap.put(expandedSemesters.get(j),gradeItemArrayList.get(i));
+                if(Util.isDateInside(expandedSemesters.get(j).startDate,
+                        expandedSemesters.get(j).endDate,gradeItemArrayList.get(i).endDate)){
+                    ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(j));
+                    objectArrayList.add((gradeItemArrayList.get(i)));
+                    semesterHashMap.put(expandedSemesters.get(j),objectArrayList);
                 }
             }
         }
     }
 
-    private void setAssignmentArrayList( ArrayList<CourseGradingPeriods> expandedSemesters ){
+        private void setAssignmentArrayList( ArrayList<CourseGradingPeriods> expandedSemesters ){
         for(int i = 0; i<assignmentArrayList.size(); i++){
             for(int j = 0; j< expandedSemesters.size(); j++){
-                if(Util.isDateInside(expandedSemesters.get(i).startDate,
-                        expandedSemesters.get(i).endDate,assignmentArrayList.get(i).endDate)){
-                    semsterHashMap.put(expandedSemesters.get(j),assignmentArrayList.get(i));
+                if(Util.isDateInside(expandedSemesters.get(j).startDate,
+                        expandedSemesters.get(j).endDate,assignmentArrayList.get(i).endDate)){
+                    ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(j));
+                    objectArrayList.add((assignmentArrayList.get(i)));
+                    semesterHashMap.put(expandedSemesters.get(j),objectArrayList);
                 }
             }
         }
+    }
+
+    private void setData(){
+        ArrayList<Object> mDataList = new ArrayList<>();
+        Iterator it = semesterHashMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            mDataList.add(pair.getKey());
+            ArrayList<Object> objectArrayList =(ArrayList<Object>) pair.getValue();
+            for(int i = 0; i<objectArrayList.size(); i++){
+                mDataList.add(objectArrayList.get(i));
+            }
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+        gradeDetailAdapter.addData(mDataList);
+    }
+
+    public ArrayList<CourseGradingPeriods> reverse(ArrayList<CourseGradingPeriods> list) {
+        for(int i = 0, j = list.size() - 1; i < j; i++) {
+            list.add(i, list.remove(j));
+        }
+        return list;
     }
 }

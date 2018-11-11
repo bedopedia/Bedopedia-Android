@@ -5,14 +5,14 @@ package trianglz.models;
  */
 public class CourseGradingPeriods {
     public String endDate;
-    int id;
-    boolean lock;
-    String name;
-    boolean publish;
+    public int id;
+    public boolean lock;
+    public String name;
+    public boolean publish;
     public String startDate;
     public CourseGradingPeriods subGradingPeriodsAttributes;
-    int weight;
-    boolean isChild;
+    public int weight;
+    public boolean isChild;
 
     public CourseGradingPeriods(String endDate, int id, boolean lock, String name, boolean publish,
                                 String startDate, CourseGradingPeriods subGradingPeriodsAttributes, int weight, boolean isChild) {
