@@ -8,11 +8,14 @@ import android.widget.ImageButton;
 
 import com.skolera.skolera_android.R;
 
+import java.util.ArrayList;
+
 import trianglz.core.presenters.NewMessagePresenter;
 import trianglz.core.views.NewMessageView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Student;
+import trianglz.models.Subject;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
@@ -62,7 +65,7 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
     }
 
     @Override
-    public void onGetCourseGroupsSuccess() {
+    public void onGetCourseGroupsSuccess(ArrayList<Subject> subjectArrayList) {
         progress.dismiss();
     }
 

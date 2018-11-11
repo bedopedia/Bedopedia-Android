@@ -116,5 +116,32 @@ public class Constants {
     public static final String KEY_EXT = "ext";
     public static final String KEY_SOURCE = "source";
     public static final String KEY_HOME = "home";
+    public static final String KEY_COURSE = "course";
+    public static final String KEY_CHECK_LIST_STRING = "checklist_string";
+    public static final String KEY_DESCRIPTION = "description";
+    public static final String KEY_OWNER_ID = "owner_id";
+    public static final String KEY_QUESTION_POOL_ID = "question_pool_id";
+    public static final String KEY_SEMESTER_ID = "semester_id";
+    public static final String KEY_HOD_ID = "hod_id";
+    public static final String KEY_PASS_LIMIT = "pass_limit";
+    public static final String KEY_SHOW_FINAL_GRADE = "show_final_grade";
+    public static final String KEY_ICON_NAME = "icon_name";
+    public static final String KEY_LEVEL_ID = "level_id";
+    public static final String KEY_DELETED_AT = "deleted_at";
+    public static final String KEY_CALCULATED_IN_TOTAL = "calculated_in_total";
+    public static final String KEY_HIDE = "hide";
+    public static final String KEY_TOTAL_GRADE = "total_grade";
+    public static final String KEY_THUMB_URL = "thumb_url";
+    public static final String KEY_NAME_WITH_TITLE = "name_with_title";
+    public static final String KEY_ACTABLE_ID = "actable_id";
+    public static final String KEY_TEACHERS = "teachers";
+    public static final String KEY_SECTION_ID = "section_id";
+    public static final String KEY_IS_DELETED = "is_deleted";
+    public static final String KEY_IS_PRESCHOOL = "is_preschool";
+    public static final String KEY_STAGE = "stage";
+    public static final String KEY_COMPLETED_LESSONS_COUNT = "completed_lessons_count";
+    public static final String KEY_LAST_COMPLETED_LESSON_NAME = "lastCompletedLessonName";
+    public static final String KEY_LESSONS_COUNT = "lessons_count";
+
 
 }
