@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="trianglz.ui.activities.NewMessageActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="trianglz.ui.activities.NewMessageActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -14,13 +14,13 @@
         android:paddingStart="8dp">
 
         <ImageButton
+            android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:padding="10dp"
-            android:id="@+id/btn_back"
             android:src="@drawable/chevron_left" />
 
         <trianglz.components.SfproBoldTextView
@@ -35,17 +35,50 @@
             android:textStyle="bold" />
 
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e5e5e5"
         android:layout_gravity="bottom"
-        />
+        android:background="#e5e5e5" />
+
+    <trianglz.components.SfproRegularTextView
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:text="@string/select_a_course"
+        android:textColor="@color/warm_grey"
+        android:textSize="16sp"
+        android:id="@+id/tv_header_subject"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e5e5e5" />
+
+    <trianglz.components.SfproRegularTextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:text="@string/select_teacher"
+        android:textColor="@color/silver"
+        android:textSize="16sp"
+        android:id="@+id/tv_header_teacher"
+        android:visibility="gone"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e5e5e5" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/recycler_view"/>
+        android:layout_weight="1" />
 
 </LinearLayout>
