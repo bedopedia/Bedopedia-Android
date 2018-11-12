@@ -15,13 +15,18 @@ import com.vanniktech.emoji.EmojiEditText;
 
 import java.util.ArrayList;
 
+import trianglz.core.presenters.ChatPresenter;
+import trianglz.core.views.ChatView;
 import trianglz.managers.SessionManager;
 import trianglz.models.Message;
+import trianglz.models.MessageAttributes;
 import trianglz.models.MessageThread;
+import trianglz.models.User;
 import trianglz.ui.adapters.ChatAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
-public class ChatActivity extends SuperActivity implements View.OnClickListener {
+public class ChatActivity extends SuperActivity implements View.OnClickListener,ChatPresenter {
     private MessageThread messageThread;
     private TextView chatHeaderTextView;
     private ImageButton backBtn;
@@ -29,6 +34,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener 
     private RecyclerView recyclerView;
     private EmojiEditText messageEditText;
     private Button sendBtn;
+    private ChatView chatView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +61,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener 
         chatAdapter.addData(getAdapterData(messageThread.messageArrayList));
         messageEditText = findViewById(R.id.et_message);
         sendBtn = findViewById(R.id.enter_chat1);
+        chatView = new ChatView(this,this);
     }
     private void setListeners(){
         backBtn.setOnClickListener(this);
@@ -69,7 +76,8 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener 
                 break;
             case R.id.enter_chat1:
                 if(isMessageValid()){
-
+                    addMessageToAdapter(messageEditText.getText().toString());
+                    messageEditText.setText("");
                 }
                 break;
         }
@@ -85,7 +93,19 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener 
         return !messageEditText.getText().toString().isEmpty();
     }
 
-    private void sendMessage(String message){
+    private void addMessageToAdapter(String messageString){
+        User user = new User();
+        user.setId(Integer.valueOf(SessionManager.getInstance().getUserId()));
+        Message message = new Message("",messageString,
+                Util.getCurrentDate(),"","",messageThread.id,messageThread.id,"",user);
+        chatAdapter.mDataList.add(message);
+        chatAdapter.notifyItemInserted(chatAdapter.mDataList.size()-1);
+        chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size()-1, chatAdapter.mDataList.size());
+        recyclerView.smoothScrollToPosition(chatAdapter.mDataList.size()-1);
+    }
 
+    private void sendMessage(String message){
+        MessageAttributes messageAttributes = new MessageAttributes(SessionManager.getInstance().getUserId(),message,"");
+        chatView.sendMessage(messageAttributes);
     }
 }

@@ -15,6 +15,7 @@ import com.skolera.skolera_android.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -92,4 +93,11 @@ public class Util {
         return current.compareTo(start) >= 0 && current.compareTo(end) <= 0;
     }
 
+
+    public static String getCurrentDate(){
+        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        Date today = Calendar.getInstance().getTime();
+        String reportDate = df.format(today);
+        return reportDate;
+    }
 }
