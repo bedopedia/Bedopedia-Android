@@ -30,6 +30,7 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
     private NewMessageView newMessageView;
     private NewMessageAdapter newMessageAdapter;
     private TextView subjectHeaderTextView,teacherHeaderTextView;
+    private  ArrayList<Object> subjectObjectArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +52,18 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
         backBtn = findViewById(R.id.btn_back);
         recyclerView = findViewById(R.id.recycler_view);
         newMessageView = new NewMessageView(this,this);
-        newMessageAdapter = new NewMessageAdapter(this,this);
+        newMessageAdapter = new NewMessageAdapter(this,this, NewMessageAdapter.Type.SUBJECT);
         recyclerView.setAdapter(newMessageAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         subjectHeaderTextView = findViewById(R.id.tv_header_subject);
         teacherHeaderTextView = findViewById(R.id.tv_header_teacher);
+        subjectObjectArrayList = new ArrayList<>();
+
     }
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
+        subjectHeaderTextView.setOnClickListener(this);
     }
 
     private void getValueFromIntent() {
@@ -72,12 +76,22 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
             case R.id.btn_back:
                 onBackPressed();
                 break;
+            case R.id.tv_header_subject:
+                if(subjectHeaderTextView.getText().toString() != getResources().getString(R.string.select_a_course)){
+                    newMessageAdapter.subjectName = "";
+                    teacherHeaderTextView.setVisibility(View.GONE);
+                    subjectHeaderTextView.setText(getResources().getString(R.string.select_a_course));
+                    subjectHeaderTextView.setTextColor(getResources().getColor(R.color.warm_grey));
+                    newMessageAdapter.addData(subjectObjectArrayList, NewMessageAdapter.Type.SUBJECT);
+                }
+                break;
         }
     }
 
     @Override
     public void onGetCourseGroupsSuccess(ArrayList<Subject> subjectArrayList) {
-        newMessageAdapter.addData(subjectArrayList);
+        subjectObjectArrayList.addAll(subjectArrayList);
+        newMessageAdapter.addData(subjectObjectArrayList, NewMessageAdapter.Type.SUBJECT);
         progress.dismiss();
     }
 
@@ -88,12 +102,28 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
 
     @Override
     public void onSubjectSelected(int position) {
-        if(newMessageAdapter.mDataList.get(position).courseName.equals(subjectHeaderTextView.getText().toString())){
-            teacherHeaderTextView.setVisibility(View.GONE);
-            subjectHeaderTextView.setText(getResources().getString(R.string.select_a_course));
-        }else {
-            subjectHeaderTextView.setText(newMessageAdapter.mDataList.get(position).courseName);
-            teacherHeaderTextView.setVisibility(View.VISIBLE);
+        if(newMessageAdapter.type.equals(NewMessageAdapter.Type.SUBJECT)) {
+            if (((Subject) newMessageAdapter.mDataList.get(position)).courseName.equals(subjectHeaderTextView.getText().toString())) {
+                newMessageAdapter.subjectName = "";
+                teacherHeaderTextView.setVisibility(View.GONE);
+                subjectHeaderTextView.setText(getResources().getString(R.string.select_a_course));
+                subjectHeaderTextView.setTextColor(getResources().getColor(R.color.warm_grey));
+                newMessageAdapter.addData(subjectObjectArrayList, NewMessageAdapter.Type.SUBJECT);
+            } else {
+                subjectHeaderTextView.setText(((Subject) newMessageAdapter.mDataList.get(position)).courseName);
+                teacherHeaderTextView.setVisibility(View.VISIBLE);
+                subjectHeaderTextView.setTextColor(getResources().getColor(R.color.gunmetal));
+                newMessageAdapter.subjectName = ((Subject) newMessageAdapter.mDataList.get(position)).courseName;
+                ArrayList<Object> teacherObjectArrayList = new ArrayList<>();
+                teacherObjectArrayList.addAll(((Subject) newMessageAdapter.mDataList.get(position)).teacherArrayList);
+                newMessageAdapter.addData(teacherObjectArrayList, NewMessageAdapter.Type.TEACHER);
+            }
         }
+
+    }
+
+    @Override
+    public void onTeacherSelected(int position) {
+
     }
 }

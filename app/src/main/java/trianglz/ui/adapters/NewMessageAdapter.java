@@ -5,31 +5,33 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import trianglz.models.Subject;
+import trianglz.models.Teacher;
 
 /**
  * Created by ${Aly} on 11/11/2018.
  */
 public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Holder> {
     public Context context;
-    public ArrayList<Subject> mDataList;
+    public ArrayList<Object> mDataList;
     NewMessageAdapterInterface newMessageAdapterInterface;
+    public Type type;
+    public String subjectName = "";
 
-
-    public NewMessageAdapter(Context context, NewMessageAdapterInterface newMessageAdapterInterface) {
+    public NewMessageAdapter(Context context,
+                             NewMessageAdapterInterface newMessageAdapterInterface
+                              , Type type) {
         this.context = context;
         this.mDataList = new ArrayList<>();
         this.newMessageAdapterInterface = newMessageAdapterInterface;
+        this.type = type;
     }
 
     @Override
@@ -41,23 +43,36 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Ho
 
     @Override
     public void onBindViewHolder(final Holder holder, final int position) {
-        Subject subject = mDataList.get(position);
-        String teacherCount = "";
-        if(subject.teacherArrayList.size()>1){
-           teacherCount = (subject.teacherArrayList.size()+" " +
-                   context.getResources().getString(R.string.teacher));
-        }else {
-            teacherCount = (subject.teacherArrayList.size()+" "+
-                    context.getResources().getString(R.string.teacher));
-        }
-        holder.teacherCountTextView.setText(teacherCount);
-        holder.subjectNameTextView.setText(subject.courseName);
-        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newMessageAdapterInterface.onSubjectSelected(holder.getAdapterPosition());
+        if(type == Type.SUBJECT){
+            Subject subject = (Subject) mDataList.get(position);
+            String teacherCount = "";
+            if (subject.teacherArrayList.size() > 1) {
+                teacherCount = (subject.teacherArrayList.size() + " " +
+                        context.getResources().getString(R.string.teacher));
+            } else {
+                teacherCount = (subject.teacherArrayList.size() + " " +
+                        context.getResources().getString(R.string.teacher));
             }
-        });
+            holder.teacherCountTextView.setText(teacherCount);
+            holder.subjectNameTextView.setText(subject.courseName);
+            holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(type.equals(Type.TEACHER)){
+                        newMessageAdapterInterface.onTeacherSelected(holder.getAdapterPosition());
+                    }else {
+                        newMessageAdapterInterface.onSubjectSelected(holder.getAdapterPosition());
+                    }
+
+                }
+            });
+        }else {
+            Teacher teacher =(Teacher) mDataList.get(position);
+            holder.subjectNameTextView.setText(teacher.name);
+            holder.teacherCountTextView.setText(subjectName);
+        }
+
+
     }
 
     @Override
@@ -65,7 +80,8 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Ho
         return mDataList.size();
     }
 
-    public void addData(ArrayList<Subject> courseGroupList) {
+    public void addData(ArrayList<Object> courseGroupList,Type type) {
+        this.type = type;
         this.mDataList.clear();
         this.mDataList.addAll(courseGroupList);
         notifyDataSetChanged();
@@ -73,7 +89,7 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Ho
 
     public static class Holder extends RecyclerView.ViewHolder {
 
-        public TextView subjectNameTextView,teacherCountTextView;
+        public TextView subjectNameTextView, teacherCountTextView;
         public LinearLayout itemLayout;
 
         public Holder(View itemView) {
@@ -87,6 +103,11 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Ho
 
     public interface NewMessageAdapterInterface {
         void onSubjectSelected(int position);
+        void onTeacherSelected(int position);
+    }
+
+    public enum Type {
+        TEACHER, SUBJECT
     }
 
 }
