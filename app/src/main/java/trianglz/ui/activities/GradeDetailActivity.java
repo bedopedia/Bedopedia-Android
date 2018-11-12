@@ -197,13 +197,13 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void setQuizzesInHashMap( ArrayList<CourseGradingPeriods> expandedSemesters ){
-        for(int i = 0; i<quizArrayList.size(); i++){
-            for(int j = 0; j< expandedSemesters.size(); j++){
-                if(Util.isDateInside(expandedSemesters.get(j).startDate,
-                        expandedSemesters.get(j).endDate,quizArrayList.get(i).endDate)){
-                    ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(j));
-                    objectArrayList.add((quizArrayList.get(i)));
-                    semesterHashMap.put(expandedSemesters.get(j),objectArrayList);
+        for(int quiz = 0; quiz<quizArrayList.size(); quiz++){
+            for(int semester = 0; semester< expandedSemesters.size(); semester++){
+                if(Util.isDateInside(expandedSemesters.get(semester).startDate,
+                        expandedSemesters.get(semester).endDate,quizArrayList.get(quiz).endDate)){
+                    ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(semester));
+                    objectArrayList.add((quizArrayList.get(quiz)));
+                    semesterHashMap.put(expandedSemesters.get(semester),objectArrayList);
                 }
             }
         }

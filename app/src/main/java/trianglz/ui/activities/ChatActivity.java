@@ -81,7 +81,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
             case R.id.enter_chat1:
                 if (isMessageValid()) {
                     addMessageToAdapter(messageEditText.getText().toString());
-                    sendMessage(messageEditText.getText().toString());
+//                    sendMessage(messageEditText.getText().toString());
                     messageEditText.setText("");
                 }
                 break;

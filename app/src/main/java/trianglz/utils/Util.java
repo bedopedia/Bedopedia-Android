@@ -12,6 +12,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.skolera.skolera_android.R;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -95,10 +96,10 @@ public class Util {
 
 
     public static String getCurrentDate() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        Date today = Calendar.getInstance().getTime();
-        String reportDate = df.format(today);
-        return reportDate;
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        String date = df.format(Calendar.getInstance().getTime());
+        return date;
     }
 
     public static boolean isSameDay(String date1String, String date2String) {
