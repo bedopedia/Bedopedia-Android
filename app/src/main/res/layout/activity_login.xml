@@ -67,7 +67,7 @@
         android:inputType="textEmailAddress"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="Popo090@hotmail.com"
+        android:text="pFIS-170118@skolera.com"
         android:textColor="@color/black"
         android:textSize="16sp" />
 
@@ -85,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:singleLine="true"
@@ -94,7 +94,7 @@
             android:layout_marginStart="22dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="32dp"
-            android:text="pRIS17478123"
+            android:text="asdasd123"
             />
 
 
