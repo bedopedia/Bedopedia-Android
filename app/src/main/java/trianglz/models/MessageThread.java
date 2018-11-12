@@ -2,6 +2,7 @@ package trianglz.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,6 +36,9 @@ public class MessageThread implements  Serializable{
         this.otherNames = otherNames;
         this.participantArrayList = participantArrayList;
         this.tag = tag;
+    }
+    public void reverseMessagesOrder() {
+        Collections.reverse(this.messageArrayList);
     }
 }
 

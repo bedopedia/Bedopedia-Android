@@ -78,9 +78,9 @@ public class ContactTeacherView {
                 String userType = user.optString(Constants.KEY_USER_TYPE);
                 User sender = new User(userId, firstName, lastName, gender, "",
                         avatarUrl, userType);
-                Object attachmentUrl = messageObj.opt(Constants.KEY_ATTACHMENT_URL);
-                Object fileName = messageObj.opt(Constants.KEY_FILE_NAME);
-                Object ext = messageObj.opt(Constants.KEY_EXT);
+                String attachmentUrl = messageObj.opt(Constants.KEY_ATTACHMENT_URL).toString();
+                String fileName = messageObj.opt(Constants.KEY_FILE_NAME).toString();
+                String ext = messageObj.opt(Constants.KEY_EXT).toString();
                 String body = messageObj.optString(Constants.KEY_BODY);
                 String createdAt = messageObj.optString(Constants.KEY_CREATED_AT);
                 String updatedAt = messageObj.optString(Constants.KEY_UPADTED_AT);

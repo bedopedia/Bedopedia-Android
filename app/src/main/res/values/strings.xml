@@ -101,4 +101,6 @@
     <string name="teacher">teacher</string>
     <string name="teachers">teachers</string>
     <string name="select_teacher">Select teacher</string>
+    <string name="write_a_message">write a message …</string>
+    <string name="send">Send</string>
 </resources>

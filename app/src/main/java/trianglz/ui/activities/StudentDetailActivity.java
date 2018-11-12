@@ -181,7 +181,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
                 attendanceDates.add(date);
             }
             if (attendanceDates.size() != 0)
-                progressBar.setProgress((absentDays * 100) / attendanceDates.size());
+                progressBar.setProgress(((attendanceDates.size()-absentDays) * 100) / attendanceDates.size());
             String attendance = getResources().getString(R.string.absent) + " " + absentDays +
                     " " + getResources().getString(R.string.out) + " " + attendanceDates.size() + " " +
                     getResources().getString(R.string.days);

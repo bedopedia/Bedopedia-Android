@@ -12,7 +12,7 @@
         android:id="@+id/item_layout">
         <trianglz.components.SfproRegularTextView
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="22dp"
             android:textSize="17sp"
             android:textColor="@color/gunmetal"
             android:id="@+id/tv_subject_name"

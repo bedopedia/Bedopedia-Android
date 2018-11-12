@@ -84,6 +84,10 @@ public class SessionManager {
     public String getId(){
         return mPreferences.getString(id,"");
     }
+
+    public String getUserId(){
+        return mPreferences.getString(userId,"");
+    }
     public String getTokenKey(){
         return mPreferences.getString(tokenKey,"");
     }

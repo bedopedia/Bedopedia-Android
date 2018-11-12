@@ -6,6 +6,8 @@ import android.os.Environment;
 
 import com.androidnetworking.AndroidNetworking;
 import com.skolera.skolera_android.R;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
@@ -36,6 +38,7 @@ public class App extends Application {
         super.onCreate();
         mApp = this;
         AndroidNetworking.initialize(getApplicationContext());
+        EmojiManager.install(new GoogleEmojiProvider());
         ACRA.init(this);
     }
 

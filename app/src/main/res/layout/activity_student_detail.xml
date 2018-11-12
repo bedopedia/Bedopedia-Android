@@ -198,7 +198,7 @@
                                 android:progress="50"
                                 android:visibility="visible"
                                 app:backgroundColor="@color/white_two"
-                                app:progressColor="@color/pinkish_orange" />
+                                app:progressColor="@color/jade_green" />
                         </LinearLayout>
 
 

@@ -38,9 +38,58 @@
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e5e5e5"
+        android:layout_gravity="bottom"
+        />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:id="@+id/recycler_view"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e5e5e5"
+        android:layout_gravity="bottom"
+        />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white_70"
+        android:padding="7dp">
+
+        <com.vanniktech.emoji.EmojiEditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:singleLine="false"
+            android:inputType="textMultiLine"
+            android:textSize="17sp"
+            android:textColorHint="#c4c0bd"
+            android:background="@drawable/curved_white_background"
+            android:hint="@string/write_a_message"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:imeOptions="actionDone"
+            android:id="@+id/et_message"/>
+        <Button
+            android:id="@+id/enter_chat1"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:text="@string/send"
+            android:background="@color/transparent"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            />
+
+    </LinearLayout>
 
 </LinearLayout>
