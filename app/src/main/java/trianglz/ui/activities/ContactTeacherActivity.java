@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageButton;
@@ -43,14 +44,6 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
         bindViews();
         setListeners();
         student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
-        // TODO: 11/11/2018 ask about incase student id is equal "none"
-        if(Util.isNetworkAvailable(this)){
-            showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-            contactTeacherView.getMessages(url,SessionManager.getInstance().getId());
-        }else {
-            Util.showNoInternetConnectionDialog(this);
-        }
     }
 
     private void bindViews(){
@@ -68,6 +61,19 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
     private void setListeners(){
         backBtn.setOnClickListener(this);
         newMessageBtn.setOnClickListener(this);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Util.isNetworkAvailable(this)){
+            showLoadingDialog();
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
+            contactTeacherView.getMessages(url,SessionManager.getInstance().getId());
+        }else {
+            Util.showNoInternetConnectionDialog(this);
+        }
     }
 
     @Override
