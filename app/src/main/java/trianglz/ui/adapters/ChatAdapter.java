@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 
 import trianglz.models.Message;
+import trianglz.utils.Util;
 
 
 /**
@@ -62,17 +63,22 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if(mDataList.get(position) instanceof String){
-            // TODO: 11/12/2018 add dates
+            String date = ((String )mDataList.get(position));
+            TimeViewHolder timeViewHolder = ((TimeViewHolder)holder);
+            timeViewHolder.timeTextView.setText(date);
         }else {
             Message message = (Message) mDataList.get(position);
             String body = android.text.Html.fromHtml(message.body).toString();
             body = StringEscapeUtils.unescapeJava(body);
+            String messageTime = setMessageTime(Util.convertStringToDate(message.createdAt).getTime());
             if(userId.equals(String.valueOf(message.user.getId()))){
                 MeViewHolder meViewHolder = ((MeViewHolder)holder);
                 meViewHolder.bodyTextView.setText(body);
+                meViewHolder.messageTimeTextView.setText(messageTime);
             }else {
                 OtherViewHolder otherViewHolder = ((OtherViewHolder)holder);
                 otherViewHolder.bodyTextView.setText(body);
+                otherViewHolder.messageTimeTextView.setText(messageTime);
             }
         }
 
@@ -108,17 +114,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private class OtherViewHolder extends RecyclerView.ViewHolder {
         public TextView bodyTextView;
+        public TextView messageTimeTextView;
         public OtherViewHolder(View itemView) {
             super(itemView);
             bodyTextView = itemView.findViewById(R.id.tv_body);
+            messageTimeTextView = itemView.findViewById(R.id.tv_date);
         }
     }
 
     private class MeViewHolder extends RecyclerView.ViewHolder {
         public TextView bodyTextView;
+        public TextView messageTimeTextView;
         public MeViewHolder(View itemView) {
             super(itemView);
             bodyTextView = itemView.findViewById(R.id.tv_body);
+            messageTimeTextView = itemView.findViewById(R.id.tv_date);
         }
     }
 
@@ -128,11 +138,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public TimeViewHolder(View itemView) {
             super(itemView);
-
+           timeTextView = itemView.findViewById(R.id.tv_date_header);
         }
     }
 
-    private String setMessageTime(long timeStamp) {
+
+    public static String setMessageTime(long timeStamp) {
+
         String date = "";
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timeStamp * 1000);
@@ -140,6 +152,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         date = simpleDateFormat.format(cal.getTime());
         return date;
     }
+
 
 
 }

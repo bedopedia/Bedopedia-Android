@@ -23,14 +23,29 @@
             android:layout_marginEnd="100dp"
             android:textColor="@color/purple_brown"
             android:id="@+id/tv_body"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_marginTop="-1.5dp"
+                android:layout_width="8dp"
+                android:layout_height="16dp"
+                android:layout_gravity="start"
+                android:background="@drawable/corner_other"
+                />
+            <trianglz.components.SfproRegularTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/tv_date"
+                android:textSize="12sp"
+                android:textColor="@color/steel_two"
+                android:layout_marginBottom="6dp"
+                />
+        </LinearLayout>
 
-        <ImageView
-            android:layout_marginTop="-1.5dp"
-            android:layout_width="8dp"
-            android:layout_height="16dp"
-            android:layout_gravity="start"
-            android:background="@drawable/corner_other"
-            />
+
 
     </LinearLayout>
 

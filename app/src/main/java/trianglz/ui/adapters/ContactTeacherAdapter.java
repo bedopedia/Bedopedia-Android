@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,19 +13,15 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
-import Tools.CalendarUtils;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.models.MessageThread;
+import trianglz.utils.Util;
 
 /**
  * Created by ${Aly} on 11/11/2018.
@@ -57,8 +52,8 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
         MessageThread messageThread = mDataList.get(position);
         holder.teacherName.setText(messageThread.otherNames);
         holder.subjectTextView.setText(messageThread.courseName);
-        holder.dateBtn.setText(getDate(messageThread.lastAddedDate));
-        setTeacherImage(messageThread.otherAvatars,messageThread.otherNames,holder);
+        holder.dateBtn.setText(Util.getDate(messageThread.lastAddedDate));
+        setTeacherImage(messageThread.otherAvatars, messageThread.otherNames, holder);
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +67,7 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
         return mDataList.size();
     }
 
-    public void addData( ArrayList<MessageThread> messageThreadArrayList) {
+    public void addData(ArrayList<MessageThread> messageThreadArrayList) {
         this.mDataList.clear();
         this.mDataList.addAll(messageThreadArrayList);
         notifyDataSetChanged();
@@ -95,34 +90,10 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
         }
     }
 
-    public interface ContactTeacherAdapterInterface{
+    public interface ContactTeacherAdapterInterface {
         void onThreadClicked(int position);
     }
 
-
-    private String getDate(String messageTime){
-        String finalData = "";
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-
-        Date date = null;
-        try {
-            date = fmt.parse(messageTime);
-            SimpleDateFormat fmtOut = new SimpleDateFormat("dd/MM/yyyy");
-            String [] dates = fmtOut.format(date).split(" ");
-            Calendar cal = CalendarUtils.getCalendar(Calendar.getInstance().getTime());
-            Integer day = cal.get(Calendar.DAY_OF_MONTH);
-            String notificationDate = fmtOut.format(date);
-            if (dates[0].equals(String.valueOf(day))) {
-                notificationDate = "Today" + notificationDate.substring(dates[0].length()+dates[1].length()+1);
-            } else if (dates[0].equals(String.valueOf(day  - 1))) {
-                notificationDate = "Yesterday" + notificationDate.substring(dates[0].length()+dates[1].length()+1);
-            }
-           finalData = notificationDate;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return finalData;
-    }
 
     private void setTeacherImage(String imageUrl, final String name, final Holder holder) {
         if (imageUrl == null || imageUrl.equals("")) {
