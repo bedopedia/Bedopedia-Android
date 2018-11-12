@@ -13,11 +13,14 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 import com.vanniktech.emoji.EmojiEditText;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.util.ArrayList;
 
 import trianglz.core.presenters.ChatPresenter;
 import trianglz.core.views.ChatView;
 import trianglz.managers.SessionManager;
+import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Message;
 import trianglz.models.MessageAttributes;
 import trianglz.models.MessageThread;
@@ -77,6 +80,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
             case R.id.enter_chat1:
                 if(isMessageValid()){
                     addMessageToAdapter(messageEditText.getText().toString());
+                    sendMessage(messageEditText.getText().toString());
                     messageEditText.setText("");
                 }
                 break;
@@ -105,7 +109,19 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     }
 
     private void sendMessage(String message){
-        MessageAttributes messageAttributes = new MessageAttributes(SessionManager.getInstance().getUserId(),message,"");
-        chatView.sendMessage(messageAttributes);
+        message = StringEscapeUtils.escapeJava(message);
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSendMessageUrl(messageThread.id);
+        chatView.sendMessage(url,message,messageThread.id+"",
+                SessionManager.getInstance().getUserId(),messageThread.id+"",messageThread.name);
+    }
+
+    @Override
+    public void onSendMessageSuccess() {
+
+    }
+
+    @Override
+    public void onSendMessageFailure(String message, int errorCode) {
+
     }
 }

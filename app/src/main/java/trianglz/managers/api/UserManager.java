@@ -278,4 +278,38 @@ public class UserManager {
             }
         });
     }
+
+
+    public static void sendMessage(String url, String body, String messageThreadId, String userId,
+                                   String id, String title, final ResponseListener responseListener){
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject parametersJsonObject = new JSONObject();
+        JSONObject messageThreadJsonObject = new JSONObject();
+        JSONArray messageAttributesJsonArray = new JSONArray();
+        JSONObject messageAttributesJsonObject = new JSONObject();
+        try {
+            messageAttributesJsonObject.put(Constants.KEY_BODY,body);
+            messageAttributesJsonObject.put(Constants.KEY_MESSAGE_THREAD_ID, messageThreadId);
+            messageAttributesJsonObject.put(Constants.KEY_USER_ID, userId);
+            messageAttributesJsonArray.put(messageAttributesJsonObject);
+            messageThreadJsonObject.put(Constants.KEY_MESSAGE_ATTRIBUTES,messageAttributesJsonArray);
+            messageThreadJsonObject.put(Constants.KEY_ID,id);
+            messageThreadJsonObject.put(Constants.KEY_TITLE,title);
+            parametersJsonObject.put(Constants.KEY_MESSAGE_THREAD,messageThreadJsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.put(url,parametersJsonObject,headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+
+    }
 }

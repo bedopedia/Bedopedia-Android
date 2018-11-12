@@ -142,6 +142,9 @@ public class Constants {
     public static final String KEY_COMPLETED_LESSONS_COUNT = "completed_lessons_count";
     public static final String KEY_LAST_COMPLETED_LESSON_NAME = "lastCompletedLessonName";
     public static final String KEY_LESSONS_COUNT = "lessons_count";
-
+    public static final String KEY_MESSAGE_THREAD = "message_thread";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_MESSAGE_ATTRIBUTES = "messages_attributes";
+    public static final String KEY_MESSAGE_THREAD_ID = "messageThreadId";
 
 }

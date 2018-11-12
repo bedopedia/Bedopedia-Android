@@ -28,4 +28,8 @@ public class ApiEndPoints {
     public static String getCourseGroups(int studentId){
         return "/api/students/" + studentId + "/course_groups";
     }
+
+    public static String getSendMessageUrl(int threadId){
+        return "/api/threads/"+threadId;
+    }
 }

@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,13 +65,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             // TODO: 11/12/2018 add dates
         }else {
             Message message = (Message) mDataList.get(position);
-            Log.v("TEST_IDS",userId +"-----"+ String.valueOf(message.user.getId()));
+            String body = android.text.Html.fromHtml(message.body).toString();
+            body = StringEscapeUtils.unescapeJava(body);
             if(userId.equals(String.valueOf(message.user.getId()))){
                 MeViewHolder meViewHolder = ((MeViewHolder)holder);
-                meViewHolder.bodyTextView.setText(android.text.Html.fromHtml(message.body).toString());
+                meViewHolder.bodyTextView.setText(body);
             }else {
                 OtherViewHolder otherViewHolder = ((OtherViewHolder)holder);
-                otherViewHolder.bodyTextView.setText(android.text.Html.fromHtml(message.body).toString());
+                otherViewHolder.bodyTextView.setText(body);
             }
         }
 

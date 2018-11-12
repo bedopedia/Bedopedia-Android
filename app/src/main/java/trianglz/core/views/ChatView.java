@@ -1,19 +1,13 @@
 package trianglz.core.views;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.widget.Toast;
 
-import com.skolera.skolera_android.MessageThreadActivity;
+import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import Models.MessageAttributes;
-import Tools.SharedPreferenceUtils;
-import login.Services.ApiClient;
-import login.Services.ApiInterface;
 import trianglz.core.presenters.ChatPresenter;
+import trianglz.managers.api.ResponseListener;
+import trianglz.managers.api.UserManager;
+import trianglz.models.MessageAttributes;
 
 /**
  * Created by ${Aly} on 11/12/2018.
@@ -28,7 +22,20 @@ public class ChatView {
     }
 
 
-    public void sendMessage(trianglz.models.MessageAttributes messageAttributes) {
+    public void sendMessage(String url, String body, String messageThreadId, String userId,
+                            String id, String threadName) {
+
+        UserManager.sendMessage(url, body, messageThreadId, userId, id, threadName, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+
+            }
+        });
 
     }
 }
