@@ -2,6 +2,7 @@ package trianglz.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ${Aly} on 11/11/2018.

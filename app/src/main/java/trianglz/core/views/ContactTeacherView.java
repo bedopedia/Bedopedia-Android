@@ -1,19 +1,12 @@
 package trianglz.core.views;
 
 import android.content.Context;
-import android.util.Pair;
-import android.widget.ListView;
-
-import com.google.gson.JsonObject;
-import com.skolera.skolera_android.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Map;
 
-import Adapters.AskTeacherAdapter;
 import trianglz.core.presenters.ContactTeacherPresenter;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.UserManager;
@@ -92,7 +85,7 @@ public class ContactTeacherView {
                 String createdAt = messageObj.optString(Constants.KEY_CREATED_AT);
                 String updatedAt = messageObj.optString(Constants.KEY_UPADTED_AT);
                 int messageThreadId = messageObj.optInt(Constants.KEY_ID);
-                Message message = new Message(attachmentUrl,body, createdAt,ext,fileName,userId,messageThreadId,updatedAt, sender);
+                Message message = new Message(attachmentUrl,body, createdAt, ext,fileName,userId,messageThreadId,updatedAt, sender);
                 messageArrayList.add(message);
             }
 

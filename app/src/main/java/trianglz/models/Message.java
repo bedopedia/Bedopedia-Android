@@ -1,10 +1,6 @@
 package trianglz.models;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
-
-import Models.User;
 
 /**
  * Created by ${Aly} on 11/11/2018.

@@ -95,7 +95,16 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
 
     @Override
     public void onThreadClicked(int position) {
+        MessageThread messageThread = contactTeacherAdapter.mDataList.get(position);
+        openChatActivity(messageThread);
+    }
 
+    private void openChatActivity(MessageThread messageThread) {
+        Intent intent = new Intent(this,ChatActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_MESSAGES,messageThread);
+        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        startActivity(intent);
     }
 
     private void openNewMessageActivity(){
