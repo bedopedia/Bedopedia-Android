@@ -223,7 +223,14 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         String nextSlot = (String) timeTableData.get(2);
         todaySlots = (List<TimeTableSlot>) timeTableData.get(0);
         tomorrowSlots = (List<TimeTableSlot>) timeTableData.get(1);
-        nextSlotTextView.setText(nextSlot);
+        if(nextSlot.isEmpty()){
+            nextSlotTextView.setText(getResources().getString(R.string.there_is_no_time_table));
+            timeTableLayout.setClickable(false);
+        }else {
+            timeTableLayout.setClickable(true);
+            nextSlotTextView.setText(nextSlot);
+        }
+
         String url = SessionManager.getInstance().getBaseUrl() + "/api/behavior_notes";
         studentDetailView.getStudentBehavioursNotes(url, student.getId() + "");
     }

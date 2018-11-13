@@ -105,4 +105,5 @@
     <string name="write_a_message">write a message …</string>
     <string name="send">Send</string>
     <string name="grade_items">Grade items</string>
+    <string name="there_is_no_time_table">There is no time table</string>
 </resources>
