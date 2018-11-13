@@ -76,6 +76,9 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             GradeItem gradeItem = (GradeItem) mDataList.get(position);
             detailViewHolder.classWorkTextView.setText(gradeItem.name);
             detailViewHolder.markTextView.setText(gradeItem.grade+"/"+gradeItem.total);
+        }else {
+            HeaderViewHolder headerViewHolder = ((HeaderViewHolder)holder);
+            headerViewHolder.headerTextView.setText(((String)mDataList.get(position)));
         }
     }
 

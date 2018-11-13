@@ -197,11 +197,16 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void setQuizzesInHashMap( ArrayList<CourseGradingPeriods> expandedSemesters ){
+        boolean isToAdd = true;
         for(int quiz = 0; quiz<quizArrayList.size(); quiz++){
             for(int semester = 0; semester< expandedSemesters.size(); semester++){
                 if(Util.isDateInside(expandedSemesters.get(semester).startDate,
                         expandedSemesters.get(semester).endDate,quizArrayList.get(quiz).endDate)){
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(semester));
+                    if(isToAdd){
+                        isToAdd = false;
+                        objectArrayList.add(getResources().getString(R.string.quizzes));
+                    }
                     objectArrayList.add((quizArrayList.get(quiz)));
                     semesterHashMap.put(expandedSemesters.get(semester),objectArrayList);
                 }
@@ -210,11 +215,16 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void setGradingItems( ArrayList<CourseGradingPeriods> expandedSemesters ){
+        boolean isToAdd = true;
         for(int i = 0; i<gradeItemArrayList.size(); i++){
             for(int j = 0; j< expandedSemesters.size(); j++){
                 if(Util.isDateInside(expandedSemesters.get(j).startDate,
                         expandedSemesters.get(j).endDate,gradeItemArrayList.get(i).endDate)){
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(j));
+                    if(isToAdd){
+                        isToAdd = false;
+                        objectArrayList.add(getResources().getString(R.string.grade_items));
+                    }
                     objectArrayList.add((gradeItemArrayList.get(i)));
                     semesterHashMap.put(expandedSemesters.get(j),objectArrayList);
                 }
@@ -223,11 +233,16 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     }
 
         private void setAssignmentArrayList( ArrayList<CourseGradingPeriods> expandedSemesters ){
+        boolean isToAdd = true;
         for(int i = 0; i<assignmentArrayList.size(); i++){
             for(int j = 0; j< expandedSemesters.size(); j++){
                 if(Util.isDateInside(expandedSemesters.get(j).startDate,
                         expandedSemesters.get(j).endDate,assignmentArrayList.get(i).endDate)){
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(j));
+                    if(isToAdd){
+                        isToAdd = false;
+                        objectArrayList.add(getResources().getString(R.string.assignments));
+                    }
                     objectArrayList.add((assignmentArrayList.get(i)));
                     semesterHashMap.put(expandedSemesters.get(j),objectArrayList);
                 }
