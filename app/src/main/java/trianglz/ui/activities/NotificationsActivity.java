@@ -18,7 +18,7 @@ import trianglz.models.Notification;
 import trianglz.ui.adapters.NotificationsAdapter;
 import trianglz.utils.Util;
 
-public class NotificationsActivity extends SuperActivity implements NotificationsPresenter , View.OnClickListener,AdapterPaginationInterface {
+public class NotificationsActivity extends SuperActivity implements NotificationsPresenter, View.OnClickListener, AdapterPaginationInterface {
 
     private RecyclerView recyclerView;
     private NotificationsAdapter adapter;
@@ -26,6 +26,7 @@ public class NotificationsActivity extends SuperActivity implements Notification
     private NotificationsView notificationsView;
     private int pageNumber;
     private boolean newIncomingNotificationData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,10 +36,11 @@ public class NotificationsActivity extends SuperActivity implements Notification
         getNotifications(false);
         showLoadingDialog();
     }
+
     private void bindViews() {
         pageNumber = 1;
         recyclerView = findViewById(R.id.recycler_view);
-        adapter = new NotificationsAdapter(this,this);
+        adapter = new NotificationsAdapter(this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         notificationsView = new NotificationsView(this, this);
@@ -48,26 +50,28 @@ public class NotificationsActivity extends SuperActivity implements Notification
     private void setListeners() {
         closeBtn.setOnClickListener(this);
     }
+
     private void getNotifications(boolean pagination) {
-        // TODO: 11/4/2018 get dynamic true id
         if (Util.isNetworkAvailable(this)) {
             showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" + "3164" + "/notifications";
+            String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
+                    SessionManager.getInstance().getUserId() + "/notifications";
             if (!pagination) {
                 pageNumber = 1;
             }
             notificationsView.getNotifications(url, pageNumber);
         } else {
-            Util.showErrorDialog(this,"Error fetching data"
-                    ,"please check your internet connection and try again");
+            Util.showNoInternetConnectionDialog(this);
         }
     }
 
     @Override
     public void onGetNotificationSuccess(ArrayList<Notification> notifications) {
-     progress.dismiss();
-     newIncomingNotificationData = notifications.size() != 0;
-     adapter.addData(notifications , newIncomingNotificationData);
+        if (progress.isShowing()) {
+            progress.dismiss();
+        }
+        newIncomingNotificationData = notifications.size() != 0;
+        adapter.addData(notifications, newIncomingNotificationData);
     }
 
     @Override
@@ -77,7 +81,7 @@ public class NotificationsActivity extends SuperActivity implements Notification
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_close:
                 finish();
                 break;

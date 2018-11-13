@@ -73,7 +73,7 @@ public class UserManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        NetworkManager.put("", params, hashMap, new HandleResponseListener() {
+        NetworkManager.put(url, params, hashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 SessionManager.getInstance().setTokenChangedValue(false);

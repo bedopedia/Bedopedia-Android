@@ -70,8 +70,8 @@ public class LoginView {
         if (!SessionManager.getInstance().getTokenChangedValue()) {
             return;
         }
-        String id = SessionManager.getInstance().getId();
-        url = url + "api/users/" + id;
+        String id = SessionManager.getInstance().getUserId();
+        url = SessionManager.getInstance().getBaseUrl() + "/api/users/" + id;
         String token = SessionManager.getInstance().getTokenKey();
         UserManager.updateToken(url, token, new ResponseListener() {
             @Override
