@@ -132,12 +132,14 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
     @Override
     public void onTeacherSelected(int position) {
         Teacher teacher = (Teacher) newMessageAdapter.mDataList.get(position);
-        openChatActivity();
+        openChatActivity(teacher.id,selectedSubject.id);
     }
 
 
-    private void openChatActivity() {
+    private void openChatActivity(int teacherId, int courseId) {
         Intent intent = new Intent(this,ChatActivity.class);
+        intent.putExtra(Constants.KEY_TEACHER_ID,teacherId);
+        intent.putExtra(Constants.KEY_COURSE_ID,courseId);
         startActivity(intent);
     }
 }

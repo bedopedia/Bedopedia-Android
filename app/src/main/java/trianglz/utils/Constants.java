@@ -146,5 +146,8 @@ public class Constants {
     public static final String KEY_TITLE = "title";
     public static final String KEY_MESSAGE_ATTRIBUTES = "messages_attributes";
     public static final String KEY_MESSAGE_THREAD_ID = "messageThreadId";
+    public static final String KEY_USER_IDS = "user_ids";
+    public static final String KEY_TEACHER_ID = "teacher_id";
+    public static final String KEY_CREATOR = "creator";
 
 }

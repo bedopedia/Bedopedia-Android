@@ -35,6 +35,9 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     private EmojiEditText messageEditText;
     private Button sendBtn;
     private ChatView chatView;
+    private int teacherId;
+    private int courseId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,9 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         if(getIntent().getBundleExtra(Constants.KEY_BUNDLE)!= null){
             messageThread = (MessageThread) getIntent().getBundleExtra(Constants.KEY_BUNDLE)
                     .getSerializable(Constants.KEY_MESSAGES);
+        }else {
+            teacherId = getIntent().getIntExtra(Constants.KEY_TEACHER_ID,0);
+            courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID,0);
         }
         if(messageThread != null){
             messageThread.reverseMessagesOrder();
@@ -93,7 +99,11 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
                         sendMessage(messageEditText.getText().toString());
                         messageEditText.setText("");
                     }else {
-                        // TODO: 11/13/2018 call create new thread
+                        showLoadingDialog();
+                        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
+                        chatView.sendFirstMessage(url,teacherId+"",
+                                SessionManager.getInstance().getUserId(),
+                                messageEditText.getText().toString(),courseId+"");
                     }
 
                 }
@@ -116,17 +126,24 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         user.setId(Integer.valueOf(SessionManager.getInstance().getUserId()));
         Message message = new Message("", messageString,
                Util.convertLocaleToUtc(Util.getCurrentDate()), "", "", messageThread.id, messageThread.id, "", user);
-        if(!(chatAdapter.mDataList.get(chatAdapter.mDataList.size()-1) instanceof String)){
-            Message lastMessage = (Message) chatAdapter.mDataList.get(chatAdapter.mDataList.size()-1);
-            if(!Util.isSameDay(message.createdAt,lastMessage.createdAt)){
-                chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate()));
-                chatAdapter.mDataList.add(message);
-                chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() -1);
-                chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
-            }else {
-                chatAdapter.mDataList.add(message);
-                chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
-                chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 1, chatAdapter.mDataList.size());
+        if(chatAdapter.mDataList.size() == 0){
+            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate()));
+            chatAdapter.mDataList.add(message);
+            chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
+            chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
+        }else {
+            if (!(chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1) instanceof String)) {
+                Message lastMessage = (Message) chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1);
+                if (!Util.isSameDay(message.createdAt, lastMessage.createdAt)) {
+                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate()));
+                    chatAdapter.mDataList.add(message);
+                    chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
+                    chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
+                } else {
+                    chatAdapter.mDataList.add(message);
+                    chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
+                    chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 1, chatAdapter.mDataList.size());
+                }
             }
         }
         recyclerView.smoothScrollToPosition(chatAdapter.mDataList.size() - 1);
@@ -141,12 +158,35 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
 
     @Override
     public void onSendMessageSuccess() {
-
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
     }
 
     @Override
     public void onSendMessageFailure(String message, int errorCode) {
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+    }
 
+    @Override
+    public void onFirstMessageSuccess(MessageThread messageThread) {
+        messageEditText.setText("");
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        this.messageThread = messageThread;
+        ArrayList<Object> adapterDataObjectArrayList = getAdapterData(messageThread.messageArrayList);
+        chatAdapter.addData(adapterDataObjectArrayList);
+        recyclerView.smoothScrollToPosition(adapterDataObjectArrayList.size() - 1);
+    }
+
+    @Override
+    public void onFirstMessageFailure(String message, int errorCode) {
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
     }
 
     private ArrayList<Object> setDates(ArrayList<Object> messageObjectArrayList) {

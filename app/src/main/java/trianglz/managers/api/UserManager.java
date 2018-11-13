@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import trianglz.managers.SessionManager;
@@ -300,6 +301,44 @@ public class UserManager {
             e.printStackTrace();
         }
         NetworkManager.put(url,parametersJsonObject,headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+
+    }
+
+    public static void sendFirstMessage(String url,String teacherId,String userId,String body,String courseId , final ResponseListener responseListener){
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject parametersJsonObject = new JSONObject();
+        JSONObject messageThreadJsonObject = new JSONObject();
+        JSONArray messageAttributesJsonArray = new JSONArray();
+        JSONObject messageAttributesJsonObject = new JSONObject();
+        String[] userIds = new String[]{teacherId,userId};
+        ArrayList<String> list = new ArrayList<String>();
+        list.add(teacherId);
+        list.add(userId);
+
+        try {
+            messageAttributesJsonObject.put(Constants.KEY_BODY,body);
+            messageAttributesJsonObject.put(Constants.KEY_USER_ID, userId);
+            messageAttributesJsonArray.put(messageAttributesJsonObject);
+            messageThreadJsonObject.put(Constants.KEY_MESSAGE_ATTRIBUTES,messageAttributesJsonArray);
+            messageThreadJsonObject.put(Constants.KEY_COURSE_ID,courseId);
+            messageThreadJsonObject.put(Constants.KEY_NAME,".");
+            messageThreadJsonObject.put(Constants.KEY_TAG,".");
+            parametersJsonObject.put(Constants.KEY_MESSAGE_THREAD,messageThreadJsonObject);
+            parametersJsonObject.put(Constants.KEY_USER_IDS,new JSONArray(list));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url,parametersJsonObject,headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 responseListener.onSuccess(response);
