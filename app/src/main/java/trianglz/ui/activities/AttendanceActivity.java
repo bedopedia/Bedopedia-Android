@@ -155,6 +155,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             }
         }
         recyclerView.setAdapter(attendanceAdapter);
+        attendanceAdapter.addData(lateDates,AttendanceAdapter.STATE.LATE);
     }
 
 
