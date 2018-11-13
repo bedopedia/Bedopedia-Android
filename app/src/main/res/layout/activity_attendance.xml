@@ -7,77 +7,95 @@
     android:orientation="vertical"
     tools:context="trianglz.ui.activities.AttendanceActivity">
 
-    <RelativeLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center_vertical"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp">
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
 
-        <ImageButton
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:padding="10dp"
-            android:id="@+id/btn_back"
-            android:src="@drawable/chevron_left" />
+            android:orientation="vertical">
 
-        <trianglz.components.SfproBoldTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:text="@string/attendance"
-            android:textColor="@color/greyish_brown"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp">
 
-        <agency.tango.android.avatarview.views.AvatarView
-            android:id="@+id/img_student"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:src="@drawable/notify" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/silver"/>
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:src="@drawable/chevron_left" />
+
+                <trianglz.components.SfproBoldTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:text="@string/attendance"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <agency.tango.android.avatarview.views.AvatarView
+                    android:id="@+id/img_student"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/notify" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/silver" />
+        </LinearLayout>
+
+
+    </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
+
         <trianglz.components.SfuiBoldTextView
+            android:id="@+id/tv_month_year_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:text="March 2016"
-            android:textSize="17sp"
             android:textColor="@color/black"
-            android:id="@+id/tv_month_year_header"
-            />
+            android:textSize="17sp" />
 
         <trianglz.components.SfuiBoldTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text="@string/today"
-            android:textSize="17sp"
             android:textColor="@color/jade_green"
-            />
+            android:textSize="17sp" />
 
     </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-       >
+        android:layout_height="200dp">
 
         <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/compactcalendar_view"
@@ -85,7 +103,6 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            app:compactCalendarTargetHeight="230dp"
             app:compactCalendarBackgroundColor="@android:color/transparent"
             app:compactCalendarCurrentDayBackgroundColor="@color/jade_green"
             app:compactCalendarCurrentDayTextColor="@color/black"
@@ -93,135 +110,135 @@
             app:compactCalendarCurrentSelectedDayTextColor="@color/black"
             app:compactCalendarMultiEventIndicatorColor="@color/squash"
             app:compactCalendarOtherMonthDaysTextColor="@color/black"
+            app:compactCalendarTargetHeight="230dp"
             app:compactCalendarTextColor="@color/black"
-            app:compactCalendarTextSize="12sp"
-            />
+            app:compactCalendarTextSize="12sp" />
 
     </FrameLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <View
             android:id="@+id/view_bottom"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_gravity="bottom"
             android:alpha="0.2"
-            android:background="#000000"
-            android:layout_gravity="bottom"/>
+            android:background="#000000" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/layout_late"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:gravity="center"
-                android:id="@+id/layout_late">
+                android:orientation="vertical">
 
                 <trianglz.components.CircularMediumTextView
+                    android:id="@+id/tv_late_counter"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:text="12"
                     android:textColor="@color/vivid_purple"
-                    android:textSize="14sp"
-                    android:id="@+id/tv_late_counter"/>
+                    android:textSize="14sp" />
 
                 <trianglz.components.CircularBookTextView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/gunmetal"
-                    android:text="@string/late"
                     android:layout_marginBottom="9dp"
-                    />
+                    android:text="@string/late"
+                    android:textColor="@color/gunmetal"
+                    android:textSize="14sp" />
+
                 <View
+                    android:id="@+id/view_late"
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:background="@drawable/curved_purple_vivid"
-                    android:visibility="visible"
-                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:id="@+id/view_late"/>
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/curved_purple_vivid"
+                    android:visibility="visible" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_excused"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:gravity="center"
-                android:id="@+id/layout_excused">
+                android:orientation="vertical">
 
                 <trianglz.components.CircularMediumTextView
+                    android:id="@+id/tv_excused_counter"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:text="12"
                     android:textColor="@color/squash"
-                    android:textSize="14sp"
-                    android:id="@+id/tv_excused_counter"/>
+                    android:textSize="14sp" />
 
                 <trianglz.components.CircularBookTextView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/gunmetal"
-                    android:text="@string/excused"
                     android:layout_marginBottom="9dp"
-                    />
+                    android:text="@string/excused"
+                    android:textColor="@color/gunmetal"
+                    android:textSize="14sp" />
+
                 <View
+                    android:id="@+id/view_excused"
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:background="@drawable/curved_squash"
-                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:id="@+id/view_excused"
-                    android:visibility="invisible"
-                    />
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/curved_squash"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_absent"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:gravity="center"
-                android:id="@+id/layout_absent">
+                android:orientation="vertical">
 
                 <trianglz.components.CircularMediumTextView
+                    android:id="@+id/tv_absent_counter"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
                     android:text="12"
                     android:textColor="@color/orange_red"
-                    android:textSize="14sp"
-                    android:id="@+id/tv_absent_counter"/>
+                    android:textSize="14sp" />
 
                 <trianglz.components.CircularBookTextView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/gunmetal"
-                    android:text="@string/absent"
                     android:layout_marginBottom="9dp"
-                    />
+                    android:text="@string/absent"
+                    android:textColor="@color/gunmetal"
+                    android:textSize="14sp" />
+
                 <View
+                    android:id="@+id/view_absent"
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:background= "@drawable/curved_orange_red"
-                    android:visibility="invisible"
-                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:id="@+id/view_absent"/>
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/curved_orange_red"
+                    android:visibility="invisible" />
 
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
-
 
 
     <android.support.v7.widget.RecyclerView
