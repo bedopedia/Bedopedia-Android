@@ -17,6 +17,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import Tools.CalendarUtils;
 
@@ -98,7 +100,9 @@ public class Util {
     public static String getCurrentDate() {
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        String date = df.format(Calendar.getInstance().getTime());
+        df.setTimeZone(TimeZone.getDefault());
+        Date dateObject = Calendar.getInstance().getTime();
+        String date = df.format(dateObject);
         return date;
     }
 
@@ -125,7 +129,7 @@ public class Util {
 
     public static String getDate(String messageTime) {
         String finalData = "";
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         Date date = null;
         try {
@@ -149,7 +153,7 @@ public class Util {
 
 
     public static Date convertStringToDate(String dateString) {
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date date = null;
         try {
             date = fmt.parse(dateString);
@@ -158,6 +162,46 @@ public class Util {
         }
         return date;
     }
+
+
+
+    public static Date convertUtcToLocal(String dateString){
+        String formattedDate = "";
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date date = null;
+        try {
+            date = df.parse(dateString);
+            df.setTimeZone(TimeZone.getDefault());
+            formattedDate = df.format(date);
+            Date date1 = df.parse(formattedDate);
+            return date1;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(date == null){
+            date = Calendar.getInstance().getTime();
+        }
+        return date;
+    }
+
+
+    public static String convertLocaleToUtc(String dateString){
+        String formattedDate = "";
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+        df.setTimeZone(TimeZone.getDefault());
+        Date date = null;
+        try {
+            date = df.parse(dateString);
+            df.setTimeZone(TimeZone.getTimeZone("UTC"));
+            formattedDate = df.format(date);
+            return formattedDate;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 
 
 }

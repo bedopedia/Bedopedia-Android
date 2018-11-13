@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -70,7 +71,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Message message = (Message) mDataList.get(position);
             String body = android.text.Html.fromHtml(message.body).toString();
             body = StringEscapeUtils.unescapeJava(body);
-            String messageTime = setMessageTime(Util.convertStringToDate(message.createdAt).getTime());
+            String messageTime = setMessageTime(Util.convertUtcToLocal(message.createdAt));
             if(userId.equals(String.valueOf(message.user.getId()))){
                 MeViewHolder meViewHolder = ((MeViewHolder)holder);
                 meViewHolder.bodyTextView.setText(body);
@@ -143,14 +144,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-    public static String setMessageTime(long timeStamp) {
-
-        String date = "";
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(timeStamp * 1000);
+    public static String setMessageTime(Date date) {
+        String dateString = "";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
-        date = simpleDateFormat.format(cal.getTime());
-        return date;
+        dateString = simpleDateFormat.format(date);
+        return dateString;
     }
 
 

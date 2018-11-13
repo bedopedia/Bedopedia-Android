@@ -81,7 +81,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
             case R.id.enter_chat1:
                 if (isMessageValid()) {
                     addMessageToAdapter(messageEditText.getText().toString());
-//                    sendMessage(messageEditText.getText().toString());
+                    sendMessage(messageEditText.getText().toString());
                     messageEditText.setText("");
                 }
                 break;
@@ -102,11 +102,11 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         User user = new User();
         user.setId(Integer.valueOf(SessionManager.getInstance().getUserId()));
         Message message = new Message("", messageString,
-                Util.getCurrentDate(), "", "", messageThread.id, messageThread.id, "", user);
+               Util.convertLocaleToUtc(Util.getCurrentDate()), "", "", messageThread.id, messageThread.id, "", user);
         if(!(chatAdapter.mDataList.get(chatAdapter.mDataList.size()-1) instanceof String)){
             Message lastMessage = (Message) chatAdapter.mDataList.get(chatAdapter.mDataList.size()-1);
             if(!Util.isSameDay(message.createdAt,lastMessage.createdAt)){
-                chatAdapter.mDataList.add(message.createdAt);
+                chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate()));
                 chatAdapter.mDataList.add(message);
                 chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() -1);
                 chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
