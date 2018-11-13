@@ -36,6 +36,7 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
     private ContactTeacherView contactTeacherView;
     private RecyclerView recyclerView;
     private ContactTeacherAdapter contactTeacherAdapter;
+    private ArrayList<MessageThread> messageThreadArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
         recyclerView.setAdapter(contactTeacherAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8,this),false));
+        messageThreadArrayList = new ArrayList<>();
 
     }
 
@@ -90,6 +92,7 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
 
     @Override
     public void onGetMessagesSuccess(ArrayList<MessageThread> messageThreadArrayList) {
+        this.messageThreadArrayList = messageThreadArrayList;
         contactTeacherAdapter.addData(messageThreadArrayList);
         progress.dismiss();
     }

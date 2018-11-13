@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,8 +17,10 @@ import trianglz.core.presenters.NewMessagePresenter;
 import trianglz.core.views.NewMessageView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
+import trianglz.models.MessageThread;
 import trianglz.models.Student;
 import trianglz.models.Subject;
+import trianglz.models.Teacher;
 import trianglz.ui.adapters.NewMessageAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -31,6 +34,8 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
     private NewMessageAdapter newMessageAdapter;
     private TextView subjectHeaderTextView,teacherHeaderTextView;
     private  ArrayList<Object> subjectObjectArrayList;
+    private ArrayList<MessageThread> messageThreadArrayList;
+    private Subject selectedSubject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +115,7 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
                 subjectHeaderTextView.setTextColor(getResources().getColor(R.color.warm_grey));
                 newMessageAdapter.addData(subjectObjectArrayList, NewMessageAdapter.Type.SUBJECT);
             } else {
+                selectedSubject = ((Subject) newMessageAdapter.mDataList.get(position));
                 subjectHeaderTextView.setText(((Subject) newMessageAdapter.mDataList.get(position)).courseName);
                 teacherHeaderTextView.setVisibility(View.VISIBLE);
                 subjectHeaderTextView.setTextColor(getResources().getColor(R.color.gunmetal));
@@ -117,6 +123,7 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
                 ArrayList<Object> teacherObjectArrayList = new ArrayList<>();
                 teacherObjectArrayList.addAll(((Subject) newMessageAdapter.mDataList.get(position)).teacherArrayList);
                 newMessageAdapter.addData(teacherObjectArrayList, NewMessageAdapter.Type.TEACHER);
+
             }
         }
 
@@ -124,6 +131,13 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
 
     @Override
     public void onTeacherSelected(int position) {
+        Teacher teacher = (Teacher) newMessageAdapter.mDataList.get(position);
+        openChatActivity();
+    }
 
+
+    private void openChatActivity() {
+        Intent intent = new Intent(this,ChatActivity.class);
+        startActivity(intent);
     }
 }

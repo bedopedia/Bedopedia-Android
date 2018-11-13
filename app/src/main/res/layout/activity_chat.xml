@@ -33,7 +33,8 @@
             android:textColor="@color/greyish_brown"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:id="@+id/tv_chat_header"/>
+            android:id="@+id/tv_chat_header"
+            android:text="@string/new_message"/>
 
 
     </RelativeLayout>

@@ -46,22 +46,30 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     }
 
     private void getValueFromIntent() {
-        messageThread = (MessageThread) getIntent().getBundleExtra(Constants.KEY_BUNDLE)
-                .getSerializable(Constants.KEY_MESSAGES);
-        messageThread.reverseMessagesOrder();
+        if(getIntent().getBundleExtra(Constants.KEY_BUNDLE)!= null){
+            messageThread = (MessageThread) getIntent().getBundleExtra(Constants.KEY_BUNDLE)
+                    .getSerializable(Constants.KEY_MESSAGES);
+        }
+        if(messageThread != null){
+            messageThread.reverseMessagesOrder();
+        }
     }
 
     private void bindViews() {
         chatHeaderTextView = findViewById(R.id.tv_chat_header);
-        chatHeaderTextView.setText(messageThread.otherNames);
+        if(messageThread != null){
+            chatHeaderTextView.setText(messageThread.otherNames);
+        }
         backBtn = findViewById(R.id.btn_back);
         recyclerView = findViewById(R.id.recycler_view);
         chatAdapter = new ChatAdapter(this, SessionManager.getInstance().getUserId());
         recyclerView.setAdapter(chatAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        ArrayList<Object> adapterDataObjectArrayList = getAdapterData(messageThread.messageArrayList);
-        chatAdapter.addData(adapterDataObjectArrayList);
-        recyclerView.smoothScrollToPosition(adapterDataObjectArrayList.size() - 1);
+        if(messageThread != null){
+            ArrayList<Object> adapterDataObjectArrayList = getAdapterData(messageThread.messageArrayList);
+            chatAdapter.addData(adapterDataObjectArrayList);
+            recyclerView.smoothScrollToPosition(adapterDataObjectArrayList.size() - 1);
+        }
         messageEditText = findViewById(R.id.et_message);
         sendBtn = findViewById(R.id.enter_chat1);
         chatView = new ChatView(this, this);
@@ -80,9 +88,14 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
                 break;
             case R.id.enter_chat1:
                 if (isMessageValid()) {
-                    addMessageToAdapter(messageEditText.getText().toString());
-                    sendMessage(messageEditText.getText().toString());
-                    messageEditText.setText("");
+                    if(messageThread != null){
+                        addMessageToAdapter(messageEditText.getText().toString());
+                        sendMessage(messageEditText.getText().toString());
+                        messageEditText.setText("");
+                    }else {
+                        // TODO: 11/13/2018 call create new thread
+                    }
+
                 }
                 break;
         }

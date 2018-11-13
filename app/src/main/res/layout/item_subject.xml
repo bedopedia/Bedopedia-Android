@@ -45,7 +45,5 @@
         android:layout_height="1dp"
         android:background="#e5e5e5"
         android:layout_gravity="bottom"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
         />
 </FrameLayout>
