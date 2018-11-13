@@ -16,6 +16,7 @@ import java.util.List;
 import gradeBook.Course;
 import trianglz.models.Assignment;
 import trianglz.models.CourseGradingPeriods;
+import trianglz.models.GradeHeader;
 import trianglz.models.GradeItem;
 import trianglz.models.Quiz;
 
@@ -78,7 +79,10 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             detailViewHolder.markTextView.setText(gradeItem.grade+"/"+gradeItem.total);
         }else {
             HeaderViewHolder headerViewHolder = ((HeaderViewHolder)holder);
-            headerViewHolder.headerTextView.setText(((String)mDataList.get(position)));
+            GradeHeader gradeHeader = ((GradeHeader)mDataList.get(position));
+            headerViewHolder.headerTextView.setText(gradeHeader.header);
+            String average = gradeHeader.sumOfStudentMarks +"/" + gradeHeader.totalSummtion;
+            headerViewHolder.headerGradeTextView.setText(average);
         }
     }
 

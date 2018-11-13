@@ -29,6 +29,7 @@ import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Assignment;
 import trianglz.models.CourseGradingPeriods;
 import trianglz.models.CourseGroup;
+import trianglz.models.GradeHeader;
 import trianglz.models.GradeItem;
 import trianglz.models.Quiz;
 import trianglz.models.Student;
@@ -198,6 +199,9 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
     private void setQuizzesInHashMap( ArrayList<CourseGradingPeriods> expandedSemesters ){
         boolean isToAdd = true;
+        int headerPosition = -1;
+        double studentMark = 0;
+        double totalMarks = 0;
         for(int quiz = 0; quiz<quizArrayList.size(); quiz++){
             for(int semester = 0; semester< expandedSemesters.size(); semester++){
                 if(Util.isDateInside(expandedSemesters.get(semester).startDate,
@@ -205,9 +209,19 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(semester));
                     if(isToAdd){
                         isToAdd = false;
-                        objectArrayList.add(getResources().getString(R.string.quizzes));
+                        GradeHeader gradeHeader = new GradeHeader();
+                        gradeHeader.header = getResources().getString(R.string.quizzes);
+                        objectArrayList.add(gradeHeader);
+                        headerPosition = objectArrayList.size()-1;
                     }
-                    objectArrayList.add((quizArrayList.get(quiz)));
+                    Quiz quiz1 = quizArrayList.get(quiz);
+                    objectArrayList.add(quiz1);
+                    totalMarks = totalMarks + quiz1.total;
+                    studentMark = studentMark + quiz1.grade;
+                    GradeHeader gradeHeader = (GradeHeader) objectArrayList.get(headerPosition);
+                    gradeHeader.sumOfStudentMarks = studentMark;
+                    gradeHeader.totalSummtion = totalMarks;
+                    objectArrayList.set(headerPosition,gradeHeader);
                     semesterHashMap.put(expandedSemesters.get(semester),objectArrayList);
                 }
             }
@@ -216,6 +230,9 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
     private void setGradingItems( ArrayList<CourseGradingPeriods> expandedSemesters ){
         boolean isToAdd = true;
+        int headerPosition = -1;
+        double studentMark = 0;
+        double totalMarks = 0;
         for(int i = 0; i<gradeItemArrayList.size(); i++){
             for(int j = 0; j< expandedSemesters.size(); j++){
                 if(Util.isDateInside(expandedSemesters.get(j).startDate,
@@ -223,9 +240,19 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(j));
                     if(isToAdd){
                         isToAdd = false;
-                        objectArrayList.add(getResources().getString(R.string.grade_items));
+                        GradeHeader gradeHeader = new GradeHeader();
+                        gradeHeader.header = getResources().getString(R.string.grade_items);
+                        objectArrayList.add(gradeHeader);
+                        headerPosition = objectArrayList.size()-1;
                     }
-                    objectArrayList.add((gradeItemArrayList.get(i)));
+                    GradeItem gradeItem = gradeItemArrayList.get(i);
+                    objectArrayList.add(gradeItem);
+                    totalMarks = totalMarks + gradeItem.total;
+                    studentMark = studentMark + gradeItem.grade;
+                    GradeHeader gradeHeader = (GradeHeader) objectArrayList.get(headerPosition);
+                    gradeHeader.sumOfStudentMarks = studentMark;
+                    gradeHeader.totalSummtion = totalMarks;
+                    objectArrayList.set(headerPosition,gradeHeader);
                     semesterHashMap.put(expandedSemesters.get(j),objectArrayList);
                 }
             }
@@ -234,6 +261,9 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
         private void setAssignmentArrayList( ArrayList<CourseGradingPeriods> expandedSemesters ){
         boolean isToAdd = true;
+        int headerPosition = -1;
+        double studentMark = 0;
+        double totalMarks = 0;
         for(int i = 0; i<assignmentArrayList.size(); i++){
             for(int j = 0; j< expandedSemesters.size(); j++){
                 if(Util.isDateInside(expandedSemesters.get(j).startDate,
@@ -241,12 +271,23 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(j));
                     if(isToAdd){
                         isToAdd = false;
-                        objectArrayList.add(getResources().getString(R.string.assignments));
+                        GradeHeader gradeHeader = new GradeHeader();
+                        gradeHeader.header = getResources().getString(R.string.assignments);
+                        objectArrayList.add(gradeHeader);
+                        headerPosition = objectArrayList.size()-1;
                     }
-                    objectArrayList.add((assignmentArrayList.get(i)));
+                    Assignment assignment = assignmentArrayList.get(i);
+                    objectArrayList.add(assignment);
+                    totalMarks = totalMarks + assignment.total;
+                    studentMark = studentMark + assignment.grade;
+                    GradeHeader gradeHeader = (GradeHeader) objectArrayList.get(headerPosition);
+                    gradeHeader.sumOfStudentMarks = studentMark;
+                    gradeHeader.totalSummtion = totalMarks;
+                    objectArrayList.set(headerPosition,gradeHeader);
                     semesterHashMap.put(expandedSemesters.get(j),objectArrayList);
                 }
             }
+
         }
     }
 
