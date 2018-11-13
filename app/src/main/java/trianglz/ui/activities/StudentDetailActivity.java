@@ -65,6 +65,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
     private ArrayList<JSONArray> attendanceList;
     private TextView quizzesTextView, assignmentsTextView, eventsTextView;
+    private ImageButton notificationBtn;
 
 
     @Override
@@ -118,7 +119,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             Util.showNoInternetConnectionDialog(this);
         }
         messagesBtn = findViewById(R.id.btn_messages);
-
+        notificationBtn = findViewById(R.id.btn_notification);
     }
 
     private void setListeners() {
@@ -128,7 +129,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         behaviourNotesLayout.setOnClickListener(this);
         backBtn.setOnClickListener(this);
         messagesBtn.setOnClickListener(this);
-
+        notificationBtn.setOnClickListener(this);
     }
 
     private void setStudentData() {
@@ -279,6 +280,9 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             case R.id.btn_messages:
                 openMessagesActivity();
                 break;
+            case R.id.btn_notification:
+                openNotificationsActivity();
+                break;
         }
     }
 
@@ -365,4 +369,11 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         negativeBehaviorNotes.add(new BehaviorNote("jannet el maghraby", "so badd","Thanks alot for being were there when nobody gave me a prayer of succuss no one to support, build and craft. You were here almost for 2 years day and nights working really hard, catching the moon without losing the ground. I’m grateful for your appreciation of situation difficulty. \n" +
                 "This achievement will never happen without your efforts."));
     }
+
+
+    private void openNotificationsActivity() {
+        Intent myIntent = new Intent(StudentDetailActivity.this, NotificationsActivity.class);
+        startActivity(myIntent);
+    }
+
 }
