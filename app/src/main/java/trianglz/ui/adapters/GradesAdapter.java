@@ -10,10 +10,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import agency.tango.android.avatarview.IImageLoader;
+import agency.tango.android.avatarview.loader.PicassoLoader;
+import agency.tango.android.avatarview.views.AvatarView;
+import trianglz.components.AvatarPlaceholderModified;
+import trianglz.components.CircleTransform;
 import trianglz.models.CourseGroup;
 
 /**
@@ -49,6 +56,8 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
                 gradesAdapterInterface.onSubjectSelected(position);
             }
         });
+
+        setSubjectName(courseGroup.getIcon(),getSubjectNameForPlaceHolder(courseGroup.getCourseName()),holder);
     }
 
     @Override
@@ -65,8 +74,9 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
     public static class Holder extends RecyclerView.ViewHolder {
 
         public TextView subjectNameTextView, gradeTextView;
-        public ImageView subjectImageView;
+        public AvatarView subjectImageView;
         public LinearLayout itemLayout;
+        public IImageLoader imageLoader;
 
         public Holder(View itemView) {
             super(itemView);
@@ -74,11 +84,48 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
             gradeTextView = itemView.findViewById(R.id.tv_grade);
             subjectImageView = itemView.findViewById(R.id.img_subject);
             itemLayout = itemView.findViewById(R.id.item_layout);
+            imageLoader = new PicassoLoader();
         }
     }
 
     public interface GradesAdapterInterface{
         void onSubjectSelected(int position);
+    }
+
+
+    private void setSubjectName(String imageUrl, final String name, final Holder holder) {
+        if (imageUrl == null || imageUrl.equals("")) {
+            holder.imageLoader = new PicassoLoader();
+            holder.imageLoader.loadImage(holder.subjectImageView, new AvatarPlaceholderModified(name), "Path of Image");
+        } else {
+            Picasso.with(context)
+                    .load(imageUrl)
+                    .fit()
+                    .transform(new CircleTransform())
+                    .into(holder.subjectImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            holder.imageLoader = new PicassoLoader();
+                            holder.imageLoader.loadImage(holder.subjectImageView, new AvatarPlaceholderModified(name), "Path of Image");
+                        }
+                    });
+        }
+    }
+
+
+    private String getSubjectNameForPlaceHolder(String name){
+
+        if(name.indexOf('&') != -1){
+            int indexOfAnd = name.indexOf('&');
+            name = name.substring(0, indexOfAnd-1) + name.substring(indexOfAnd+1);
+        }
+
+        return name;
     }
 
 }
