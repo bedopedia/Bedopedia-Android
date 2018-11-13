@@ -101,7 +101,7 @@ public class NewMessageView {
             String avatarUrl = teacherJsonObject.optString(Constants.KEY_AVATER_URL);
             String firstName = teacherJsonObject.optString(Constants.KEY_FIRST_NAME);
             String gender = teacherJsonObject.optString(Constants.KEY_GENDER);
-            int id = teacherJsonObject.optInt(Constants.KEY_ID);
+            int id = teacherJsonObject.optInt(Constants.KEY_USER_ID);
             String lastName = teacherJsonObject.optString(Constants.KEY_FIRST_NAME);
             String name = teacherJsonObject.optString(Constants.KEY_NAME);
             String nameWithTitle = teacherJsonObject.optString(Constants.KEY_NAME_WITH_TITLE);
