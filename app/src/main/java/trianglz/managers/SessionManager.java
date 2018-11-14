@@ -44,12 +44,8 @@ public class SessionManager {
         mEditor = mPreferences.edit();
     }
 
-    public void createLoginSession(String accessToken, String tokenType, String clientCode, String uid, String userName,
+    public void createLoginSession( String userName,
                                    String userId, String id){
-//        mEditor.putString(this.accessToken, accessToken);
-//        mEditor.putString(this.tokenType, tokenType);
-//        mEditor.putString(this.clientCode, clientCode);
-//        mEditor .putString(this.uid,uid);
         mEditor.putString(this.userName, userName);
         mEditor.putString(this.userId, userId);
         mEditor.putString(this.id, id);
@@ -117,7 +113,23 @@ public class SessionManager {
         return mPreferences.getString(Constants.KEY_EMAIL,"");
     }
 
+    public void setloginValues(String schoolUrl,String email, String password){
+        mEditor.putString(Constants.KEY_SCHOOL_URL,schoolUrl);
+        mEditor.putString(Constants.KEY_EMAIL,email);
+        mEditor.putString(Constants.KEY_PASSWORD,password);
+        mEditor.commit();
+    }
+
     public boolean getIsLoggedIn(){
         return mPreferences.getBoolean(Constants.KEY_IS_LOGGED_IN,false);
+    }
+
+
+    public String getSchoolUrl(){
+        return mPreferences.getString(Constants.KEY_SCHOOL_URL,"");
+    }
+
+    public String getPassword(){
+        return mPreferences.getString(Constants.KEY_PASSWORD,"");
     }
 }

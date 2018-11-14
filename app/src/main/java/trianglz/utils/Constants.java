@@ -150,4 +150,6 @@ public class Constants {
     public static final String KEY_TEACHER_ID = "teacher_id";
     public static final String KEY_CREATOR = "creator";
 
+    public static final String KEY_SCHOOL_URL = "school_url";
+
 }

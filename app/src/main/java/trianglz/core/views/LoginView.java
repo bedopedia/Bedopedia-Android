@@ -31,7 +31,8 @@ public class LoginView {
             @Override
             public void onSuccess(JSONObject response) {
                 parseLoginResponse(response);
-                refreshFireBaseToken(schoolUrl);
+                refreshFireBaseToken();
+                loginPresenter.onLoginSuccess();
             }
 
             @Override
@@ -41,37 +42,33 @@ public class LoginView {
         });
     }
 
-    public void refreshFireBaseToken(final String url) {
+    public void refreshFireBaseToken() {
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener((Activity) context, new OnSuccessListener<InstanceIdResult>() {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 String token = instanceIdResult.getToken();
                 SessionManager.getInstance().setFireBaseToken(token);
-                updateToken(url);
-                loginPresenter.onTokenUpdatedSuccess();
+                updateToken();
+
             }
 
         });
     }
 
     private void parseLoginResponse(JSONObject response) {
-        String accessToken = response.optString("access-token");
-        String tokenType = response.optString("token-type");
-        String clientCode = response.optString("client");
-        String uid = response.optString("uid");
         JSONObject data = response.optJSONObject("data");
         String username = data.optString("username");
         String userId = data.optString("id");
         String id = data.optString("actable_id");
-        SessionManager.getInstance().createLoginSession(accessToken, tokenType, clientCode, uid, username, userId, id);
+        SessionManager.getInstance().createLoginSession(username, userId, id);
     }
-    public void updateToken(String url) {
+    public void updateToken() {
 
         if (!SessionManager.getInstance().getTokenChangedValue()) {
             return;
         }
-        String id = SessionManager.getInstance().getUserId();
-        url = SessionManager.getInstance().getBaseUrl() + "/api/users/" + id;
+        String url = SessionManager.getInstance().getBaseUrl() + "/api/users/"
+                + SessionManager.getInstance().getUserId();
         String token = SessionManager.getInstance().getTokenKey();
         UserManager.updateToken(url, token, new ResponseListener() {
             @Override

@@ -1,6 +1,11 @@
 package trianglz.core.views;
 
+import android.app.Activity;
 import android.content.Context;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,7 +13,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import trianglz.core.presenters.HomePresenter;
+import trianglz.managers.SessionManager;
 import trianglz.managers.api.ArrayResponseListener;
+import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Student;
 
@@ -62,6 +69,38 @@ public class HomeView {
         objectArrayList.add(kidsAttendances);
         objectArrayList.add(myKids);
         return objectArrayList;
+
+    }
+
+    public void refreshFireBaseToken() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener((Activity) context, new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String token = instanceIdResult.getToken();
+                SessionManager.getInstance().setFireBaseToken(token);
+                updateToken();
+            }
+
+        });
+    }
+
+    public void updateToken() {
+        if (!SessionManager.getInstance().getTokenChangedValue()) {
+            return;
+        }
+        String url = SessionManager.getInstance().getBaseUrl() + "/api/users/"
+                + SessionManager.getInstance().getUserId();
+        String token = SessionManager.getInstance().getTokenKey();
+        UserManager.updateToken(url, token, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+            }
+        });
+
 
     }
 

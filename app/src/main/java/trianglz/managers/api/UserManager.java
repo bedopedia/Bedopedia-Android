@@ -47,7 +47,7 @@ public class UserManager {
             e.printStackTrace();
         }
 
-        NetworkManager.post(url + "", jsonObject, hashMap, new HandleResponseListener() {
+        NetworkManager.postLogin(url + "", jsonObject, hashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 responseListener.onSuccess(response);

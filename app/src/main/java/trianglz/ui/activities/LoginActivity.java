@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import trianglz.core.presenters.LoginPresenter;
 import trianglz.core.views.LoginView;
+import trianglz.managers.SessionManager;
 import trianglz.models.School;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -114,7 +115,10 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     @Override
     public void onLoginSuccess() {
         progress.dismiss();
-        Toast.makeText(this, "SUCCESS", Toast.LENGTH_SHORT).show();
+        openHomeActivity();
+        String url = school.schoolUrl + "/api/auth/sign_in";
+        SessionManager.getInstance().setloginValues(url,emailEditText.getText().toString(),
+                passwordEditText.getText().toString());
     }
 
     @Override
@@ -129,8 +133,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     @Override
     public void onTokenUpdatedSuccess() {
-        progress.dismiss();
-        openHomeActivity();
+
     }
 
     @Override
