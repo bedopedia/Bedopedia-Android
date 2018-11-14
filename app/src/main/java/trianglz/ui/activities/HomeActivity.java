@@ -1,18 +1,23 @@
 package trianglz.ui.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.skolera.skolera_android.R;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+import trianglz.components.LocalHelper;
 import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.HomePresenter;
 import trianglz.core.views.HomeView;
@@ -20,6 +25,7 @@ import trianglz.managers.SessionManager;
 import trianglz.models.Student;
 import trianglz.ui.adapters.HomeAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 public class HomeActivity extends SuperActivity implements HomePresenter,View.OnClickListener,
         HomeAdapter.HomeAdapterInterface,SettingsDialog.SettingsDialogInterface{
@@ -118,11 +124,47 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
 
     @Override
     public void onChangeLanguageClicked() {
-
+        changeLanguage();
     }
 
     @Override
     public void onSignOutClicked() {
+
+    }
+
+
+
+
+    private void changeLanguage() {
+        if (LocalHelper.getLanguage(this).equals("ar")) {
+            updateViews("en");
+        } else {
+            updateViews("ar");
+        }
+    }
+
+
+    private void updateViews(String languageCode) {
+
+        LocalHelper.setLocale(this, languageCode);
+        LocalHelper.getLanguage(this);
+        restartApp();
+    }
+
+    public void restartApp() {
+        Intent intent = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
+        if (this instanceof Activity) {
+            (this).finish();
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Runtime.getRuntime().exit(0);
+            }
+        }, 0);
 
     }
 }

@@ -16,6 +16,8 @@ import org.acra.annotation.ReportsCrashes;
 
 import java.io.File;
 
+import trianglz.components.LocalHelper;
+
 /**
  * Created by ${Aly} on 10/24/2018.
  */
@@ -45,7 +47,7 @@ public class App extends Application {
 
     @Override
     protected void attachBaseContext(Context context) {
-        super.attachBaseContext(context);
+        super.attachBaseContext(LocalHelper.onAttach(context,"en"));
         MultiDex.install(this);
     }
 
