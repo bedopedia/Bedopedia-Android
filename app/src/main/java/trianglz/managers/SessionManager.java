@@ -27,8 +27,6 @@ public class SessionManager {
 
     //firebase
     String tokenKey = "token";
-    String token_changedKey = "token_changed";
-    boolean TrueKey = true;
 
 
 
@@ -64,7 +62,6 @@ public class SessionManager {
 
     public void setFireBaseToken(String token){
         mEditor.putString(tokenKey,token);
-        mEditor.putBoolean(token_changedKey,TrueKey);
         mEditor.commit();
     }
 

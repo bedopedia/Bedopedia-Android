@@ -36,7 +36,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
         bindViews();
         setListeners();
         getStudentsHome();
-        homeView.updateToken();
+        homeView.refreshFireBaseToken();
     }
 
 
