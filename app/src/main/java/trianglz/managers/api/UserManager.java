@@ -77,13 +77,12 @@ public class UserManager {
         NetworkManager.put(url, params, hashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                SessionManager.getInstance().setTokenChangedValue(false);
+
                 responseListener.onSuccess(response);
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                SessionManager.getInstance().setTokenChangedValue(true);
                 responseListener.onFailure(message, errorCode);
             }
         });

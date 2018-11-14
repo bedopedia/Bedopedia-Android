@@ -68,14 +68,8 @@ public class SessionManager {
         mEditor.commit();
     }
 
-    public boolean getTokenChangedValue(){
-        return mPreferences.getBoolean(token_changedKey,true);
-    }
 
-    public void setTokenChangedValue(boolean trueKey){
-        mEditor.putBoolean(token_changedKey,trueKey);
-        mEditor.commit();
-    }
+
 
     public String getId(){
         return mPreferences.getString(id,"");

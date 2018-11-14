@@ -2,6 +2,7 @@ package trianglz.core.views;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -85,12 +86,11 @@ public class HomeView {
     }
 
     public void updateToken() {
-        if (!SessionManager.getInstance().getTokenChangedValue()) {
-            return;
-        }
+
         String url = SessionManager.getInstance().getBaseUrl() + "/api/users/"
                 + SessionManager.getInstance().getUserId();
         String token = SessionManager.getInstance().getTokenKey();
+        Log.v("TEST_TOKEN",token);
         UserManager.updateToken(url, token, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
