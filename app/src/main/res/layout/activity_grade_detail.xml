@@ -52,7 +52,7 @@
                     android:orientation="horizontal">
 
                     <trianglz.components.SfuiRegularTextView
-                        android:id="@+id/tv_positive"
+                        android:id="@+id/tv_all"
                         android:layout_width="120dp"
                         android:layout_height="28dp"
                         android:background="@drawable/text_solid_background"
@@ -62,11 +62,11 @@
                         android:textColor="@color/white" />
 
                     <trianglz.components.SfuiRegularTextView
-                        android:id="@+id/tv_negative"
+                        android:id="@+id/tv_current"
                         android:layout_width="120dp"
                         android:layout_height="28dp"
                         android:gravity="center"
-                        android:text="@string/quarters"
+                        android:text="@string/current"
                         android:textAlignment="center"
                         android:textColor="@color/jade_green" />
                 </LinearLayout>

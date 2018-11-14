@@ -14,8 +14,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -55,6 +57,9 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     private ArrayList<Assignment> assignmentArrayList;
     private ArrayList<GradeItem> gradeItemArrayList;
     private HashMap<CourseGradingPeriods,ArrayList<Object>> semesterHashMap;
+    private TextView allTextView,currentTextView;
+    private ArrayList<Object> allSemestersList;
+    private ArrayList<Object> currentSemester;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,10 +99,16 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         assignmentArrayList = new ArrayList<>();
         gradeItemArrayList = new ArrayList<>();
         semesterHashMap = new HashMap<>();
+        allTextView = findViewById(R.id.tv_all);
+        currentTextView = findViewById(R.id.tv_current);
+        allSemestersList = new ArrayList<>();
+        currentSemester = new ArrayList<>();
     }
 
     private void setListeners(){
         backBtn.setOnClickListener(this);
+        allTextView.setOnClickListener(this);
+        currentTextView.setOnClickListener(this);
     }
 
 
@@ -106,6 +117,14 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         switch (view.getId()){
             case R.id.btn_back:
                 onBackPressed();
+                break;
+            case R.id.tv_all:
+                setTextBackgrounds(0);
+                gradeDetailAdapter.addData(allSemestersList);
+                break;
+            case R.id.tv_current:
+                setTextBackgrounds(1);
+                gradeDetailAdapter.addData(currentSemester);
                 break;
         }
     }
@@ -296,35 +315,62 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void setData(){
-        ArrayList<Object> mDataList = new ArrayList<>();
+        boolean isCurrent = false;
+        allSemestersList = new ArrayList<>();
+       currentSemester = new ArrayList<>();
         List keys = sortKeys();
         for(int i = 0 ;i <keys.size() ; i++){
-            mDataList.add(keys.get(i));
+            allSemestersList.add(keys.get(i));
+            CourseGradingPeriods courseGradingPeriods = (CourseGradingPeriods) keys.get(i);
+            if(Util.isDateInside(courseGradingPeriods.startDate,courseGradingPeriods.endDate,Util.getCurrentDate())){
+                currentSemester.add(keys.get(i));
+                isCurrent = true;
+            }
             ArrayList<Object> objectArrayList = semesterHashMap.get(keys.get(i));
             for(int j = 0; j<objectArrayList.size(); j++){
-                mDataList.add(objectArrayList.get(j));
+                allSemestersList.add(objectArrayList.get(j));
+                if(isCurrent){
+                    currentSemester.add(objectArrayList.get(j));
+                }
             }
+            isCurrent = false;
         }
-        gradeDetailAdapter.addData(mDataList);
+        gradeDetailAdapter.addData(allSemestersList);
     }
 
     private List sortKeys(){
         List keys = new ArrayList(semesterHashMap.keySet());
-        CourseGradingPeriods keyArray[] = new CourseGradingPeriods[keys.size()];
-        for(int i = 0; i<keys.size(); i++){
-            keyArray[i] =(CourseGradingPeriods) keys.get(i);
-        }
-        Arrays.sort(keyArray, new Comparator<CourseGradingPeriods>() {
-            @Override
-            public int compare(CourseGradingPeriods entry1, CourseGradingPeriods entry2) {
-                Long time1 =(Util.convertStringToDate(entry1.endDate).getTime());
-                long time2 = (Util.convertStringToDate(entry2.endDate).getTime());
-                return time1.compareTo(time2);
+        if(keys.size()>0){
+            CourseGradingPeriods keyArray[] = new CourseGradingPeriods[keys.size()];
+            for(int i = 0; i<keys.size(); i++){
+                keyArray[i] =(CourseGradingPeriods) keys.get(i);
             }
-        });
-        for(int i = 0; i<keys.size(); i++){
-             keys.set(i,keyArray[i]);
+            Arrays.sort(keyArray, new Comparator<CourseGradingPeriods>() {
+                @Override
+                public int compare(CourseGradingPeriods entry1, CourseGradingPeriods entry2) {
+                    Long time1 =(Util.convertStringToDate(entry1.endDate).getTime());
+                    long time2 = (Util.convertStringToDate(entry2.endDate).getTime());
+                    return time1.compareTo(time2);
+                }
+            });
+            for(int i = 0; i<keys.size(); i++){
+                keys.set(i,keyArray[i]);
+            }
         }
         return keys;
+    }
+
+    private void setTextBackgrounds(int pageNumber) {
+        if (pageNumber == 0) {
+            allTextView.setBackground(getResources().getDrawable(R.drawable.text_solid_background));
+            allTextView.setTextColor(getResources().getColor(R.color.white));
+            currentTextView.setBackgroundColor(getResources().getColor(R.color.white_three));
+            currentTextView.setTextColor(getResources().getColor(R.color.jade_green));
+        } else {
+            allTextView.setBackgroundColor(getResources().getColor(R.color.white_three));
+            currentTextView.setBackground(getResources().getDrawable(R.drawable.text_solid_background));
+            currentTextView.setTextColor(getResources().getColor(R.color.white));
+            allTextView.setTextColor(getResources().getColor(R.color.jade_green));
+        }
     }
 }
