@@ -204,4 +204,24 @@ public class Util {
 
 
 
+    public static boolean isDate1Prevous(String date1String, String date2String){
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            date1 = fmt.parse(date1String);
+            date2 = fmt.parse(date1String);
+            if(date1.getTime()<date2.getTime()){
+                return true;
+            }else {
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+
+
 }

@@ -3,6 +3,7 @@ package trianglz.ui.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -12,9 +13,12 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import agency.tango.android.avatarview.IImageLoader;
@@ -179,8 +183,8 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
             semesterHashMap.put(allSemesterArrayList.get(i),new ArrayList<>());
         }
         setQuizzesInHashMap(allSemesterArrayList);
-        setGradingItems(allSemesterArrayList);
         setAssignmentArrayList(allSemesterArrayList);
+        setGradingItems(allSemesterArrayList);
         setData();
 
     }
@@ -194,7 +198,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
                 expandedSemesters.add(courseGradingPeriods.subGradingPeriodsAttributes);
             }
         }
-        return reverse(expandedSemesters);
+        return (expandedSemesters);
     }
 
     private void setQuizzesInHashMap( ArrayList<CourseGradingPeriods> expandedSemesters ){
@@ -293,23 +297,34 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
     private void setData(){
         ArrayList<Object> mDataList = new ArrayList<>();
-        Iterator it = semesterHashMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            mDataList.add(pair.getKey());
-            ArrayList<Object> objectArrayList =(ArrayList<Object>) pair.getValue();
-            for(int i = 0; i<objectArrayList.size(); i++){
-                mDataList.add(objectArrayList.get(i));
+        List keys = sortKeys();
+        for(int i = 0 ;i <keys.size() ; i++){
+            mDataList.add(keys.get(i));
+            ArrayList<Object> objectArrayList = semesterHashMap.get(keys.get(i));
+            for(int j = 0; j<objectArrayList.size(); j++){
+                mDataList.add(objectArrayList.get(j));
             }
-            it.remove(); // avoids a ConcurrentModificationException
         }
         gradeDetailAdapter.addData(mDataList);
     }
 
-    public ArrayList<CourseGradingPeriods> reverse(ArrayList<CourseGradingPeriods> list) {
-        for(int i = 0, j = list.size() - 1; i < j; i++) {
-            list.add(i, list.remove(j));
+    private List sortKeys(){
+        List keys = new ArrayList(semesterHashMap.keySet());
+        CourseGradingPeriods keyArray[] = new CourseGradingPeriods[keys.size()];
+        for(int i = 0; i<keys.size(); i++){
+            keyArray[i] =(CourseGradingPeriods) keys.get(i);
         }
-        return list;
+        Arrays.sort(keyArray, new Comparator<CourseGradingPeriods>() {
+            @Override
+            public int compare(CourseGradingPeriods entry1, CourseGradingPeriods entry2) {
+                Long time1 =(Util.convertStringToDate(entry1.endDate).getTime());
+                long time2 = (Util.convertStringToDate(entry2.endDate).getTime());
+                return time1.compareTo(time2);
+            }
+        });
+        for(int i = 0; i<keys.size(); i++){
+             keys.set(i,keyArray[i]);
+        }
+        return keys;
     }
 }
