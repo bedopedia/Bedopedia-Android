@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -25,7 +26,7 @@ import trianglz.models.Student;
 import trianglz.ui.adapters.GradesAdapter;
 import trianglz.utils.Constants;
 
-public class GradesActivity extends AppCompatActivity implements GradesAdapter.GradesAdapterInterface {
+public class GradesActivity extends AppCompatActivity implements GradesAdapter.GradesAdapterInterface,View.OnClickListener {
     private ImageButton backBtn;
     private AvatarView studentImageView;
     private RecyclerView recyclerView;
@@ -39,6 +40,7 @@ public class GradesActivity extends AppCompatActivity implements GradesAdapter.G
         setContentView(R.layout.activity_grades);
         getValueFromIntent();
         bindViews();
+        setListeners();
     }
 
     private void getValueFromIntent(){
@@ -57,6 +59,9 @@ public class GradesActivity extends AppCompatActivity implements GradesAdapter.G
         recyclerView.setAdapter(gradesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         gradesAdapter.addData(courseGroups);
+    }
+    private void setListeners(){
+        backBtn.setOnClickListener(this);
     }
 
     @Override
@@ -95,5 +100,14 @@ public class GradesActivity extends AppCompatActivity implements GradesAdapter.G
         bundle.putSerializable(Constants.STUDENT,student);
         intent.putExtra(Constants.KEY_BUNDLE,bundle);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_back:
+                onBackPressed();
+                break;
+        }
     }
 }
