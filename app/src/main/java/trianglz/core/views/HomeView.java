@@ -41,7 +41,7 @@ public class HomeView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                presenter.onGetStudentsHomeFailure();
+                presenter.onGetStudentsHomeFailure(message,errorCode);
             }
         });
     }

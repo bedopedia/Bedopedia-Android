@@ -164,8 +164,14 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onGetAverageGradeFailure(String message,int errorCode) {
-        progress.dismiss();
-        // TODO: 11/8/2018 check error code 
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
     }
 
     @Override
@@ -180,7 +186,14 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onGetStudentGradeBookFailure(String message,int errorCode) {
-        progress.dismiss();
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
     }
 
     @Override
@@ -192,7 +205,14 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onGetSemesterFailure(String message, int errorCode) {
-        progress.dismiss();
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
     }
 
 

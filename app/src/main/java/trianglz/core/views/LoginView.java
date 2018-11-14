@@ -64,20 +64,18 @@ public class LoginView {
         SessionManager.getInstance().createLoginSession(username, userId, id);
     }
     public void updateToken() {
-
         String url = SessionManager.getInstance().getBaseUrl() + "/api/users/"
                 + SessionManager.getInstance().getUserId();
         String token = SessionManager.getInstance().getTokenKey();
-        Log.v("TEST_TOKEN",token);
         UserManager.updateToken(url, token, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                loginPresenter.onTokenUpdatedSuccess();
+
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                loginPresenter.onTokenUpdatedFailure();
+
             }
         });
 

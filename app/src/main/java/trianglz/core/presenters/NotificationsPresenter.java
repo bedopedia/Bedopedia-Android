@@ -9,5 +9,5 @@ import trianglz.models.Notification;
  */
 public interface NotificationsPresenter {
     void onGetNotificationSuccess(ArrayList<Notification> notifications);
-    void onGetNotificationFailure();
+    void onGetNotificationFailure(String message, int errorCode);
 }

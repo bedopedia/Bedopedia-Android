@@ -123,11 +123,13 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     @Override
     public void onLoginFailure(String message, int errorCode) {
-        progress.dismiss();
-        switch (errorCode){
-            case 401:
-                Util.showErrorDialog(this,getResources().getString(R.string.skolera),getResources().getString(R.string.wrong_username_or_password));
-                break;
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
         }
     }
 
@@ -138,7 +140,6 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     @Override
     public void onTokenUpdatedFailure() {
-        openHomeActivity();
     }
 
     private void openHomeActivity(){

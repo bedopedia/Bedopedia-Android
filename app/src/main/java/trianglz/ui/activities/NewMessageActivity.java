@@ -102,7 +102,14 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
 
     @Override
     public void onGetCourseGroupsFailure(String message, int errorCode) {
-        progress.dismiss();
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
     }
 
     @Override

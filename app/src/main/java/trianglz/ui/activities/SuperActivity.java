@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.skolera.skolera_android.R;
 
 import trianglz.managers.SessionManager;
@@ -34,5 +36,25 @@ public class SuperActivity extends AppCompatActivity {
     private void openSchoolLoginActivity(Context context) {
         Intent intent = new Intent(context, SchoolLoginActivity.class);
         startActivity(intent);
+    }
+
+
+
+
+    public static void showErrorDialog(Context context) {
+        new MaterialDialog.Builder(context)
+                .title("Skolera")
+                .content(context.getResources().getString(R.string.system_error))
+                .titleColor(context.getResources().getColor(R.color.jade_green))
+                .neutralText(context.getResources().getString(R.string.ok))
+                .neutralColor(context.getResources().getColor(R.color.jade_green))
+                .contentColor(context.getResources().getColor(R.color.steel))
+                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+
+                    }
+                })
+                .show();
     }
 }

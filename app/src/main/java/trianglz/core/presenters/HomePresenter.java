@@ -9,5 +9,5 @@ import trianglz.models.Student;
  */
 public interface HomePresenter {
     void onGetStudentsHomeSuccess(ArrayList<Object> objectArrayList);
-    void onGetStudentsHomeFailure();
+    void onGetStudentsHomeFailure(String message,int errorCode);
 }

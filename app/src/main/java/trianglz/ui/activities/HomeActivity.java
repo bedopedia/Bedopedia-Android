@@ -86,8 +86,15 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
     }
 
     @Override
-    public void onGetStudentsHomeFailure() {
-        progress.dismiss();
+    public void onGetStudentsHomeFailure(String message,int errorCode) {
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
     }
 
     @Override

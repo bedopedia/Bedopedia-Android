@@ -75,8 +75,15 @@ public class NotificationsActivity extends SuperActivity implements Notification
     }
 
     @Override
-    public void onGetNotificationFailure() {
-        progress.dismiss();
+    public void onGetNotificationFailure(String message, int errorCode) {
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
     }
 
     @Override

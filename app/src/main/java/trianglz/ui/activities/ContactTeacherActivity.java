@@ -99,7 +99,14 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
 
     @Override
     public void onGetMessagesFailure(String message, int errorCode) {
-        progress.dismiss();
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
     }
 
     @Override

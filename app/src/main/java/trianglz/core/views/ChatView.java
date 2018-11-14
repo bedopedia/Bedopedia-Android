@@ -40,7 +40,7 @@ public class ChatView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-
+                chatPresenter.onSendMessageFailure(message,errorCode);
             }
         });
 

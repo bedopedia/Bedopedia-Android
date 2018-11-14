@@ -44,7 +44,7 @@ public class NotificationsView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                presenter.onGetNotificationFailure();
+                presenter.onGetNotificationFailure(message,errorCode);
             }
         });
     }

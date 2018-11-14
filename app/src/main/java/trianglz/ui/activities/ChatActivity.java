@@ -168,6 +168,11 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         if(progress.isShowing()){
             progress.dismiss();
         }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
     }
 
     @Override
@@ -186,6 +191,11 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     public void onFirstMessageFailure(String message, int errorCode) {
         if(progress.isShowing()){
             progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
         }
     }
 

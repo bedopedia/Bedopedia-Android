@@ -91,9 +91,13 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onGetSchoolUrlFailure(String message, int errorCode) {
-        super.progress.dismiss();
-        if(errorCode == 401 || errorCode == 0){
-            Util.showErrorDialog(this,getResources().getString(R.string.skolera),getResources().getString(R.string.not_correct_school_code));
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
         }
     }
 
@@ -108,9 +112,13 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onGetSchoolDataFailure(String message,int errorCode) {
-        super.progress.dismiss();
-        if(errorCode == 401){
-            Util.showErrorDialog(this,getResources().getString(R.string.skolera),getResources().getString(R.string.wrong_username_or_password));
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
         }
     }
 }

@@ -65,7 +65,7 @@ public class StudentDetailView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-
+                studentDetailPresenter.onGetStudentGradesFailure(message,errorCode);
             }
         });
     }

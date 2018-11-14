@@ -6,6 +6,5 @@ package trianglz.core.presenters;
 public interface LoginPresenter {
     void onLoginSuccess();
     void onLoginFailure(String message,int code);
-    void onTokenUpdatedSuccess();
-    void onTokenUpdatedFailure();
+
 }
