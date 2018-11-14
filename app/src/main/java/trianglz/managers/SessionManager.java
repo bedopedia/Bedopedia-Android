@@ -123,4 +123,9 @@ public class SessionManager {
     public String getPassword(){
         return mPreferences.getString(Constants.KEY_PASSWORD,"");
     }
+
+    public void logoutUser() {
+        mEditor.clear();
+        mEditor.commit();
+    }
 }

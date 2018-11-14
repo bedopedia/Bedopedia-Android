@@ -129,7 +129,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
 
     @Override
     public void onSignOutClicked() {
-
+        logoutUser(this);
     }
 
 
