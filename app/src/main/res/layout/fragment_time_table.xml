@@ -10,12 +10,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Toolbar
+        <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="@color/white"
             android:elevation="1dp"
-            tools:targetApi="lollipop">
+            >
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -84,7 +84,7 @@
 
                     android:src="@drawable/profile_pic" />
             </RelativeLayout>
-        </Toolbar>
+        </android.support.v7.widget.Toolbar>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/timetable_container"
