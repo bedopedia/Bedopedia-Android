@@ -107,4 +107,8 @@
     <string name="grade_items">Grade items</string>
     <string name="there_is_no_time_table">There is no time table</string>
     <string name="current">Current</string>
+    <string name="ok">ok</string>
+    <string name="change_language">Change language</string>
+    <string name="sign_out">Sign out</string>
+    <string name="cancel">Cancel</string>
 </resources>

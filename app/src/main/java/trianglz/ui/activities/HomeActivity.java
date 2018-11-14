@@ -13,6 +13,7 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.HomePresenter;
 import trianglz.core.views.HomeView;
 import trianglz.managers.SessionManager;
@@ -20,13 +21,16 @@ import trianglz.models.Student;
 import trianglz.ui.adapters.HomeAdapter;
 import trianglz.utils.Constants;
 
-public class HomeActivity extends SuperActivity implements HomePresenter,View.OnClickListener,HomeAdapter.HomeAdapterInterface{
+public class HomeActivity extends SuperActivity implements HomePresenter,View.OnClickListener,
+        HomeAdapter.HomeAdapterInterface,SettingsDialog.SettingsDialogInterface{
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
     private String id;
     private HomeView homeView;
     private ImageButton notificationBtn;
     private  ArrayList<JSONArray> kidsAttendances;
+    private SettingsDialog settingsDialog;
+    private ImageButton settingsBtn;
 
 
     @Override
@@ -48,11 +52,13 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
         homeView = new HomeView(this,this);
         notificationBtn = findViewById(R.id.btn_notification);
         kidsAttendances = new ArrayList<>();
-
+        settingsDialog = new SettingsDialog(this,R.style.SettingsDialog,this);
+        settingsBtn = findViewById(R.id.btn_setting);
     }
 
     private void setListeners(){
         notificationBtn.setOnClickListener(this);
+        settingsBtn.setOnClickListener(this);
     }
 
 
@@ -84,6 +90,9 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
             case R.id.btn_notification:
                 openNotificationsActivity();
                 break;
+            case R.id.btn_setting:
+                settingsDialog.show();
+                break;
         }
     }
 
@@ -104,5 +113,16 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
         bundle.putSerializable(Constants.KEY_ATTENDANCE,kidsAttendances.get(position).toString());
         intent.putExtra(Constants.KEY_BUNDLE,bundle);
         startActivity(intent);
+    }
+
+
+    @Override
+    public void onChangeLanguageClicked() {
+
+    }
+
+    @Override
+    public void onSignOutClicked() {
+
     }
 }
