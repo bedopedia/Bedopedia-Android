@@ -54,11 +54,13 @@ public class SplashActivity extends AppCompatActivity implements SplashPresenter
     @Override
     public void onLoginSuccess() {
         openHomeActivity();
+        finish();
     }
 
     @Override
     public void onLoginFailure(String message, int code) {
         // TODO: 11/14/2018 handle login failure in splash
         openSchoolLoginActivity();
+        finish();
     }
 }
