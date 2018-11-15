@@ -60,6 +60,9 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     private TextView allTextView,currentTextView;
     private ArrayList<Object> allSemestersList;
     private ArrayList<Object> currentSemester;
+    private HashMap<String,Double> quizzesHashMap;
+    private HashMap<String,Double> assignmentsHashMap;
+    private HashMap<String,Double> gradeItemHashMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +106,9 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         currentTextView = findViewById(R.id.tv_current);
         allSemestersList = new ArrayList<>();
         currentSemester = new ArrayList<>();
+        quizzesHashMap = new HashMap<>();
+        assignmentsHashMap = new HashMap<>();
+        gradeItemHashMap = new HashMap<>();
     }
 
     private void setListeners(){
@@ -156,7 +162,14 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     }
 
     @Override
-    public void onGetAverageGradesSuccess() {
+    public void onGetAverageGradesSuccess(HashMap<String,Double> quizzesHashMap,
+                                          HashMap<String,Double> assignmentsHashMap,
+                                          HashMap<String,Double> gradeItemHashMap) {
+
+        this.quizzesHashMap = quizzesHashMap;
+        this.assignmentsHashMap = assignmentsHashMap;
+        this.gradeItemHashMap = gradeItemHashMap;
+
         String courseGradePeriodUrl = SessionManager.getInstance().getBaseUrl() +
                 ApiEndPoints.studentGradeBook(courseGroup.getCourseId(),courseGroup.getId());
         gradeDetailView.getStudentGradeBook(courseGradePeriodUrl,student.getId());
@@ -179,7 +192,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         this.assignmentArrayList = assignmentArrayList;
         this.quizArrayList = quizArrayList;
         this.gradeItemArrayList = gradeItemArrayList;
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSemesters();
+`        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSemesters();
         gradeDetailView.getSemesters(url, courseGroup.getId()+"");
     }
 
@@ -391,7 +404,26 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
             allTextView.setTextColor(getResources().getColor(R.color.jade_green));
             currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
             currentTextView.setTextColor(getResources().getColor(R.color.white));
+        }
+    }
 
+
+    private void setAverageValues(){
+        for(int i = 0; i<assignmentArrayList.size(); i++){
+            if(assignmentsHashMap.get(assignmentArrayList.get(i).id+"") != null){
+                assignmentArrayList.get(i).averageGrade = assignmentsHashMap.get(assignmentArrayList.get(i).id+"");
+            }
+        }
+        for(int i = 0; i<quizArrayList.size(); i++){
+            if(quizzesHashMap.get(quizArrayList.get(i).id+"") != null){
+                quizArrayList.get(i).averageGrade = quizzesHashMap.get(quizArrayList.get(i).id+"");
+            }
+        }
+
+        for(int i = 0; i<gradeItemArrayList.size(); i++){
+            if(gradeItemHashMap.get(gradeItemArrayList.get(i).id+"") != null){
+                gradeItemArrayList.get(i).averageGrade = gradeItemHashMap.get(gradeItemArrayList.get(i).id+"");
+            }
         }
     }
 }

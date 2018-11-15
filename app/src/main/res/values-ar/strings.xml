@@ -90,6 +90,6 @@
         <item>الجمعة</item>
         <item>السبت</item>
     </array>
-
+    <string name="continue_">continue</string>
 
 </resources>

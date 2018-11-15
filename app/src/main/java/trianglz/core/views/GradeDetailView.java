@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import trianglz.managers.api.ArrayResponseListener;
@@ -36,7 +37,7 @@ public class GradeDetailView {
         UserManager.getAverageGrades(url, id, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                presenter.onGetAverageGradesSuccess();
+                parseAverageStudentsMarks(response);
             }
 
             @Override
@@ -91,6 +92,27 @@ public class GradeDetailView {
                 presenter.onGetStudentGradeBookSuccess(assignmentArrayList,quizArrayList,gradeItemArrayList);
             }
         }
+    }
+
+
+    private void parseAverageStudentsMarks(JSONObject jsonObject){
+        JSONObject assignmentsAverages = jsonObject.optJSONObject("assignments_averages");
+        JSONObject quizzesAverage = jsonObject.optJSONObject("quizzes_averages");
+        JSONObject grades_averages = jsonObject.optJSONObject("grades_averages");
+        presenter.onGetAverageGradesSuccess(parseAverage(quizzesAverage)
+                ,parseAverage(assignmentsAverages),parseAverage(grades_averages));
+    }
+
+    private HashMap<String,Double> parseAverage(JSONObject jsonObject) {
+        HashMap<String,Double> averageHashMap = new HashMap<>();
+        Iterator<?> keys = jsonObject.keys();
+        while( keys.hasNext() ) {
+            String key = (String)keys.next();
+            Double value = jsonObject.optDouble(key);
+            averageHashMap.put(key,value);
+        }
+
+      return averageHashMap;
     }
 
 
