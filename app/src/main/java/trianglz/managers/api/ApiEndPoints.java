@@ -32,4 +32,7 @@ public class ApiEndPoints {
     public static String getSendMessageUrl(int threadId){
         return "/api/threads/"+threadId;
     }
+    public static String setAsSeen(String userId){
+        return "/api/users/"+ userId +"/notifications/mark_as_seen";
+    }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -66,6 +67,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private ArrayList<JSONArray> attendanceList;
     private TextView quizzesTextView, assignmentsTextView, eventsTextView;
     private ImageButton notificationBtn;
+    private ImageView redCircleImageView;
 
 
     @Override
@@ -120,6 +122,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         }
         messagesBtn = findViewById(R.id.btn_messages);
         notificationBtn = findViewById(R.id.btn_notification);
+        redCircleImageView = findViewById(R.id.img_red_circle);
+
     }
 
     private void setListeners() {
@@ -136,6 +140,15 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().getNotficiationCounter()>0){
+            redCircleImageView.setVisibility(View.VISIBLE);
+        }else {
+            redCircleImageView.setVisibility(View.GONE);
+        }
+    }
 
     private void getValueFromIntent() {
         student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);

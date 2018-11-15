@@ -3,6 +3,7 @@ package trianglz.ui.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,6 +15,7 @@ import trianglz.core.presenters.AdapterPaginationInterface;
 import trianglz.core.presenters.NotificationsPresenter;
 import trianglz.core.views.NotificationsView;
 import trianglz.managers.SessionManager;
+import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Notification;
 import trianglz.ui.adapters.NotificationsAdapter;
 import trianglz.utils.Util;
@@ -33,8 +35,16 @@ public class NotificationsActivity extends SuperActivity implements Notification
         setContentView(R.layout.activity_notifications);
         bindViews();
         setListeners();
-        getNotifications(false);
-        showLoadingDialog();
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.setAsSeen(SessionManager.getInstance().getUserId());
+        notificationsView.setAsSeen(url);
+        SessionManager.getInstance().setNotificationCounterToZero();
+        if(Util.isNetworkAvailable(this)){
+            getNotifications(false);
+            showLoadingDialog();
+        }else {
+            Util.showNoInternetConnectionDialog(this);
+        }
+
     }
 
     private void bindViews() {

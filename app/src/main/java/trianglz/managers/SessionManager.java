@@ -130,4 +130,12 @@ public class SessionManager {
         mEditor.clear();
         mEditor.commit();
     }
+    public void setNotificationCounterToZero(){
+        mEditor.putInt(this.unSeenNotification,0);
+        mEditor.commit();
+    }
+    public int getNotficiationCounter()
+    {
+        return mPreferences.getInt(this.unSeenNotification,0);
+    }
 }

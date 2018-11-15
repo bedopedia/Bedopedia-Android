@@ -350,4 +350,21 @@ public class UserManager {
         });
 
     }
+
+
+    public static void setAsSeen(String url , final ResponseListener responseListener){
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        NetworkManager.postSeenNotification(url, null, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+
+            }
+        });
+
+    }
 }

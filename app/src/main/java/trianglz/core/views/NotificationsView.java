@@ -17,10 +17,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
+import retrofit2.http.Url;
 import trianglz.core.presenters.NotificationsPresenter;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Notification;
+import trianglz.models.User;
 import trianglz.utils.Constants;
 
 /**
@@ -88,5 +90,21 @@ public class NotificationsView {
             return "Today";
         }
         return finalDate;
+    }
+
+
+    public void setAsSeen(String url){
+        UserManager.setAsSeen(url, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+
+            }
+        });
+
     }
 }

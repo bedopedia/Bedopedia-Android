@@ -257,7 +257,7 @@ public class NetworkManager {
             e.printStackTrace();
             return e.getMessage();
         }
-    }
+}
 
     public static void postNotification(String url, JSONObject object, HashMap<String, String> headerHashMap, final HandleResponseListener handleResponseListener) {
         if (object == null) {
@@ -348,4 +348,24 @@ public class NetworkManager {
 
     }
 
+    public static void postSeenNotification(String url, JSONObject object, final HashMap<String,String> headerValues, final HandleArrayResponseListener handleArrayResponseListener) {
+        if (object == null) {
+            AndroidNetworking.post(url)
+                    .addHeaders(headerValues)
+                    .setPriority(Priority.HIGH)
+                    .build()
+                    .getAsJSONArray(new JSONArrayRequestListener() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            handleArrayResponseListener.onSuccess(response);
+                        }
+
+                        @Override
+                        public void onError(ANError anError) {
+                            handleArrayResponseListener.onFailure(getErrorMessage(anError), anError.getErrorCode());
+                        }
+                    });
+
+        }
+    }
 }

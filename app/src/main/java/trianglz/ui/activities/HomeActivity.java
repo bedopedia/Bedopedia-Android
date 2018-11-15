@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -37,7 +38,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
     private  ArrayList<JSONArray> kidsAttendances;
     private SettingsDialog settingsDialog;
     private ImageButton settingsBtn;
-
+    private ImageView redCircleImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         homeView = new HomeView(this,this);
         notificationBtn = findViewById(R.id.btn_notification);
+        redCircleImageView = findViewById(R.id.img_red_circle);
         kidsAttendances = new ArrayList<>();
         settingsDialog = new SettingsDialog(this,R.style.SettingsDialog,this);
         settingsBtn = findViewById(R.id.btn_setting);
@@ -67,6 +69,15 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
         settingsBtn.setOnClickListener(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().getNotficiationCounter()>0){
+            redCircleImageView.setVisibility(View.VISIBLE);
+        }else {
+            redCircleImageView.setVisibility(View.GONE);
+        }
+    }
 
     private void getStudentsHome() {
         id = SessionManager.getInstance().getId();
