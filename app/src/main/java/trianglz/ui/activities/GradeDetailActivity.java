@@ -382,15 +382,16 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
     private void setTextBackgrounds(int pageNumber) {
         if (pageNumber == 0) {
-            allTextView.setBackground(getResources().getDrawable(R.drawable.text_solid_background));
+            allTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
             allTextView.setTextColor(getResources().getColor(R.color.white));
-            currentTextView.setBackgroundColor(getResources().getColor(R.color.white_three));
+            currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
             currentTextView.setTextColor(getResources().getColor(R.color.jade_green));
         } else {
-            allTextView.setBackgroundColor(getResources().getColor(R.color.white_three));
-            currentTextView.setBackground(getResources().getDrawable(R.drawable.text_solid_background));
-            currentTextView.setTextColor(getResources().getColor(R.color.white));
+            allTextView.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
             allTextView.setTextColor(getResources().getColor(R.color.jade_green));
+            currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
+            currentTextView.setTextColor(getResources().getColor(R.color.white));
+
         }
     }
 }
