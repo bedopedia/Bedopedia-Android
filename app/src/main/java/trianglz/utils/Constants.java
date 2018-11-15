@@ -75,6 +75,7 @@ public class Constants {
     // behaviour notes constants
     public static final String KEY_POSITIVE_NOTES_LIST = "positiveNotesList";
     public static final String KEY_NEGATIVE_NOTES_LIST = "negativeNotesList";
+    public static final String KEY_OTHER_NOTES_LIST = "otherNotesList";
     public static final String KEY_COURSE_GROUPS = "courseGroups";
     public static final String KEY_CATEGORIES = "categories";
     public static final String KEY_TEST_QUIZZES = "Tests\\/ Quizzes";
@@ -151,5 +152,10 @@ public class Constants {
     public static final String KEY_CREATOR = "creator";
 
     public static final String KEY_SCHOOL_URL = "school_url";
+    public static final String KEY_TYPE = "type";
+    public static final String OTHER = "Other";
+    public static final String GOOD = "Good";
+    public static final String BAD = "Bad";
+    public static final String KEY_OWNER = "owner";
 
 }

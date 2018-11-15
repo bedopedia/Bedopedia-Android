@@ -47,13 +47,14 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private List<TimeTableSlot> tomorrowSlots;
     private List<BehaviorNote> positiveBehaviorNotes;
     private List<BehaviorNote> negativeBehaviorNotes;
+    private List<BehaviorNote> otherBehaviorNotes;
     private ArrayList<trianglz.models.CourseGroup> courseGroups;
     private Student student;
     private AvatarView studentImage;
     private ArrayList<Student> studentArrayList;
     private ArrayList<Attendance> attendanceArrayList;
     private TextView nameTextView, levelTextView, nextSlotTextView, studentGradeTextView,
-            positiveCounterTextView, negativeCounterTextView, attendanceTextView;
+            positiveCounterTextView, negativeCounterTextView,otherCounterTextView, attendanceTextView;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private String studentName = "";
@@ -77,8 +78,13 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         getValueFromIntent();
         bindViews();
         setListeners();
-        setStudentData();
-
+        String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
+        if (Util.isNetworkAvailable(this)) {
+            studentDetailView.getStudentCourses(courseUrl);
+            showLoadingDialog();
+        } else {
+            Util.showNoInternetConnectionDialog(this);
+        }
     }
 
     private void bindViews() {
@@ -86,6 +92,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         tomorrowSlots = new ArrayList<>();
         positiveBehaviorNotes = new ArrayList<>();
         negativeBehaviorNotes = new ArrayList<>();
+        otherBehaviorNotes = new ArrayList<>();
         courseGroups = new ArrayList<>();
         studentArrayList = new ArrayList<>();
         nameTextView = findViewById(R.id.tv_name);
@@ -106,6 +113,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         backBtn = findViewById(R.id.btn_back);
         positiveCounterTextView = findViewById(R.id.tv_positive_counter);
         negativeCounterTextView = findViewById(R.id.tv_negative_counter);
+        otherCounterTextView = findViewById(R.id.tv_other_counter);
         progressBar = findViewById(R.id.progress_bar);
         attendanceTextView = findViewById(R.id.tv_attendance);
         quizzesTextView = findViewById(R.id.tv_quizzes);
@@ -113,13 +121,6 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         eventsTextView = findViewById(R.id.tv_events);
         setAttendance();
         setBottomText(student);
-        String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
-        if (Util.isNetworkAvailable(this)) {
-            studentDetailView.getStudentCourses(courseUrl);
-            showLoadingDialog();
-        } else {
-            Util.showNoInternetConnectionDialog(this);
-        }
         messagesBtn = findViewById(R.id.btn_messages);
         notificationBtn = findViewById(R.id.btn_notification);
         redCircleImageView = findViewById(R.id.img_red_circle);
@@ -136,9 +137,6 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         notificationBtn.setOnClickListener(this);
     }
 
-    private void setStudentData() {
-
-    }
 
     @Override
     protected void onResume() {
@@ -279,10 +277,13 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     public void onGetBehaviorNotesSuccess(HashMap<String, List<BehaviorNote>> behaviorNoteHashMap) {
         positiveBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_POSITIVE);
         negativeBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_NEGATIVE);
+        otherBehaviorNotes = behaviorNoteHashMap.get(Constants.OTHER);
         String positiveCounter = positiveBehaviorNotes.size() + "";
         String negativeCounter = negativeBehaviorNotes.size() + "";
+        String otherCounter = otherBehaviorNotes.size() +"";
         positiveCounterTextView.setText(positiveCounter);
         negativeCounterTextView.setText(negativeCounter);
+        otherCounterTextView.setText(otherCounter);
         if(progress.isShowing())
         progress.dismiss();
     }
@@ -361,7 +362,10 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveBehaviorNotes);
         bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeBehaviorNotes);
-        behaviorNotesIntent.putExtras(bundle);
+        bundle.putSerializable(Constants.KEY_OTHER_NOTES_LIST, (Serializable) otherBehaviorNotes);
+        bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
+        bundle.putSerializable(Constants.STUDENT,student);
+        behaviorNotesIntent.putExtra(Constants.KEY_BUNDLE,bundle);
         startActivity(behaviorNotesIntent);
     }
 

@@ -10,7 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/white"
-        android:elevation="1dp"
+        android:elevation="2dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
        >
 
         <RelativeLayout

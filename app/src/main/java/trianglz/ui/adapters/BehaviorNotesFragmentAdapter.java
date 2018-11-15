@@ -13,6 +13,7 @@ import com.skolera.skolera_android.R;
 import java.util.List;
 
 import trianglz.ui.fragments.NegativeFragment;
+import trianglz.ui.fragments.OtherFragment;
 import trianglz.ui.fragments.PositiveFragment;
 import trianglz.models.BehaviorNote;
 
@@ -24,11 +25,15 @@ import trianglz.models.BehaviorNote;
 public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
     List<BehaviorNote> positiveNotesList;
     List<BehaviorNote> negativeNotesList;
+    List<BehaviorNote> otherNoteList;
     Context context;
-    public BehaviorNotesFragmentAdapter(FragmentManager fm, List<BehaviorNote> positiveNotesList,List<BehaviorNote> negativeNotesList, Context context) {
+    public BehaviorNotesFragmentAdapter(FragmentManager fm, List<BehaviorNote> positiveNotesList,
+                                        List<BehaviorNote> negativeNotesList,
+                                        List<BehaviorNote> otherNotesList, Context context) {
         super(fm);
         this.positiveNotesList = positiveNotesList;
         this.negativeNotesList = negativeNotesList;
+        this.otherNoteList = otherNotesList;
         this.context = context;
     }
 
@@ -39,8 +44,10 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
 
         if (position == 0) {
             fragment = PositiveFragment.newInstance(positiveNotesList);
-        } else {
+        } else if(position == 1) {
             fragment =  NegativeFragment.newInstance(negativeNotesList);
+        }else {
+            fragment =  OtherFragment.newInstance(otherNoteList);
         }
 
         return fragment;
@@ -48,14 +55,19 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         if (position == 0)
             return "POSITIVE";
-        return "NEGATIVE";
+        else if(position == 1){
+            return "NEGATIVE";
+        }else {
+            return "OTHER";
+        }
+
     }
 
     public View getTabView(int position) {

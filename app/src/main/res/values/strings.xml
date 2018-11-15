@@ -113,4 +113,8 @@
     <string name="cancel">Cancel</string>
     <string name="no_title">No title</string>
     <string name="system_error">System error</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="other">Other</string>
 </resources>

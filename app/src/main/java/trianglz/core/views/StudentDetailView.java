@@ -217,23 +217,24 @@ public class StudentDetailView {
         HashMap<String,List<BehaviorNote>> behaviorNoteHashMap = new HashMap<>();
         List<BehaviorNote> positiveBehaviorNotesList = new ArrayList<>();
         List<BehaviorNote> negativeBehaviorNotesList = new ArrayList<>();
-
+        List<BehaviorNote> otherBehaviorNotesList = new ArrayList<>();
         JSONArray behaviourNotes = response.optJSONArray(Constants.KEY_BEHAVIOUR_NOTES);
         for(int i = 0 ; i<behaviourNotes.length(); i++){
             JSONObject note = behaviourNotes.optJSONObject(i);
-            String category = note.optString(Constants.KEY_CATEGORY);
+            String type = note.optString(Constants.KEY_TYPE);
             String noteBody =  note.optString(Constants.KEY_NOTE);
-            if(category.equals(Constants.KEY_COOPERATIVE) ||
-                    category.equals(Constants.KEY_POLITENESS) ||
-                    category.equals(Constants.KEY_PUNCTUALITY) ||
-                    category.equals(Constants.KEY_LEADER_SHIP) ||
-                    category.equals(Constants.KEY_HONESTY))
-                positiveBehaviorNotesList.add(new BehaviorNote(category,noteBody));
-            else
-                negativeBehaviorNotesList.add(new BehaviorNote(category,noteBody));
+            String teacherName = note.optJSONObject(Constants.KEY_OWNER).optString(Constants.KEY_NAME);
+            if(type.equals(Constants.GOOD)){
+                positiveBehaviorNotesList.add(new BehaviorNote(teacherName,noteBody));
+            }else if(type.equals(Constants.BAD)){
+                negativeBehaviorNotesList.add(new BehaviorNote(teacherName,noteBody));
+            }else if(type.equals(Constants.OTHER)){
+                otherBehaviorNotesList.add(new BehaviorNote(teacherName,noteBody));
+            }
         }
         behaviorNoteHashMap.put(Constants.KEY_POSITIVE,positiveBehaviorNotesList);
         behaviorNoteHashMap.put(Constants.KEY_NEGATIVE,negativeBehaviorNotesList);
+        behaviorNoteHashMap.put(Constants.OTHER,otherBehaviorNotesList);
         return behaviorNoteHashMap;
 
     }

@@ -14,26 +14,33 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="@color/white"
-            android:elevation="1dp"
-            tools:targetApi="lollipop">
+            android:elevation="2dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp"
+          >
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                >
 
                 <ImageButton
                     android:id="@+id/back_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="20dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:background="@color/white"
-                    android:src="@drawable/chevron_left" />
+                    android:src="@drawable/chevron_left"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginTop="20dp"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -47,7 +54,7 @@
 
                     <LinearLayout
                         android:id="@+id/layout_texts"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:background="@drawable/hollow_green_background"
@@ -56,47 +63,58 @@
 
                         <trianglz.components.SfuiRegularTextView
                             android:id="@+id/tv_positive"
-                            android:layout_width="120dp"
+                            android:layout_width="0dp"
                             android:layout_height="28dp"
-                            android:background="@drawable/text_solid_background"
+                            android:layout_weight="1"
+                            android:background="@drawable/curved_solid_left_green"
                             android:gravity="center"
                             android:text="@string/positiveBehaviorNotes"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 
+
                         <trianglz.components.SfuiRegularTextView
                             android:id="@+id/tv_negative"
-                            android:layout_width="120dp"
+                            android:layout_width="0dp"
                             android:layout_height="28dp"
+                            android:layout_weight="1"
                             android:gravity="center"
                             android:text="@string/negativeBehaviorNotes"
+                            android:textAlignment="center"
+                            android:textColor="@color/jade_green" />
+
+
+                        <trianglz.components.SfuiRegularTextView
+                            android:id="@+id/tv_other"
+                            android:layout_width="0dp"
+                            android:layout_height="28dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/curved_stroke_right_green"
+                            android:gravity="center"
+                            android:text="@string/other"
                             android:textAlignment="center"
                             android:textColor="@color/jade_green" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="13dp"
-                    android:layout_marginEnd="14dp"
-
-                    android:src="@drawable/profile_pic" />
-            </RelativeLayout>
+                <agency.tango.android.avatarview.views.AvatarView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:id="@+id/img_student"
+                    android:layout_marginTop="20dp"/>
+            </LinearLayout>
         </android.support.v7.widget.Toolbar>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/steel_transparent"/>
+            android:background="@color/steel_transparent" />
+
         <android.support.v4.view.ViewPager
             android:id="@+id/behavior_notes_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
-
 
 
     </LinearLayout>
