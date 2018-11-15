@@ -1,0 +1,95 @@
+<resources>
+    <string name="app_name">Skolera</string>
+    <string name="fragmentStudentAttendance_tv">الحضور</string>
+    <string name="fragmentStudentTimetable_tv">جدول المواعيد</string>
+    <string name="fragmentStudentGrades_tv">الدرجات</string>
+    <string name="fragmentStudentBehaviorNotes_tv">ملاحظات السلوك</string>
+    <string name="positiveBehaviorNotes">إيجابى</string>
+    <string name="negativeBehaviorNotes">سلبى</string>
+    <string name="behaviorNotesTitle">ملاحظات السلوك</string>
+    <string name="attendanceTitle">الحضور</string>
+    <string name="notificationString">الإشعارات</string>
+    <string name="quizzes">اختبارات</string>
+    <string name="assignments">واجبات</string>
+    <string name="events">احداث</string>
+    <string name="LoadDialogueTitle">جارى التحميل</string>
+    <string name="LoadDialogueBody">Wait while loading...</string>
+    <string name="Dialogue401Title">Not Authorized</string>
+    <string name="Dialogue401Body">you don\'t have the right to do this</string>
+    <string name="ConnectionErrorTitle">خطأ فى الشبكة</string>
+    <string name="ConnectionErrorBody">Check your Netwotk connection and Try again</string>
+    <string name="TimeTableTitle">جدول المواعيد</string>
+    <string name="InvalidMail">خطأ فى البريد ألكترونى </string>
+    <string name="SuccessMessage">success</string>
+    <string name="NotValidMail">not Valid email</string>
+    <string name="AttendanceLateLable">متأخر</string>
+    <string name="AttendanceExcusedLable">معذور</string>
+    <string name="AttendanceAbsentLable">غائب</string>
+    <string name="crash_toast_text">The Mobile app is crashing</string>
+    <string name="school_code">كود المدرسة</string>
+    <string name="enter_valid_email">Enter valid email</string>
+    <string name="password_is_empty">Password is empty</string>
+    <string name="email_is_empty">Email is empty</string>
+    <string name="password_length_error">Password length should be more than 4 characters</string>
+    <string name="code_is_empty">Code is empty</string>
+    <string name="code_length_error">Code length error</string>
+    <string name="notifications">الإشعارات</string>
+    <string name="close">اغلاق</string>
+    <string name="wrong_username_or_password">خطأفى إسم المستخدم أو كلمةالسر</string>
+    <string name="not_correct_school_code">خطأ فى كودالمدرسة"</string>
+    <string name="messages">الرسائل</string>
+    <string name="time_table">جدول الحضور</string>
+    <string name="grades">الدرجات</string>
+    <string name="behavior_notes">ملاحظات السلوك</string>
+    <string name="attendance">الحضور</string>
+    <string name="copy_rights">All Right reserved ® Skolera LMS</string>
+    <string name="average_grade">الدرجة المتوسطة</string>
+    <string name="absent">غائب</string>
+    <string name="timetable">جدول المواعيد</string>
+    <string name="tomorrow">غدا</string>
+    <string name="today">اليوم</string>
+    <string name="w" translatable="false">W</string>
+    <string name="excused">معذور</string>
+    <string name="late">متأخر</string>
+    <string name="no_comment_is_available">لا يوجد تعليق</string>
+    <string name="behaviour_notes">ملاحظات السلوك</string>
+    <string name="subjects">المواد</string>
+    <string name="contact_teacher">تواصل مع المعلم</string>
+    <string name="new_message">رسالة جديدة</string>
+    <string name="select_a_course">اختار مادة</string>
+    <string name="teacher">المعلم</string>
+    <string name="teachers">المعلمين</string>
+    <string name="select_teacher">إختار المعلم</string>
+    <string name="write_a_message">إرسال رسالة .....</string>
+    <string name="grade_items">Grade items</string>
+    <string name="there_is_no_time_table">لا يوجدجدول حضور</string>
+    <string name="current">الحالى</string>
+    <string name="change_language">Change language</string>
+    <string name="sign_out">تسجيل خروج</string>
+    <string name="no_title">لا يوجد عنوان</string>
+    <string name="system_error">System error</string>
+    <string name="login">تسجيل الدخول</string>
+
+    <string name="email_address">البريد الإلكترونى</string>
+    <string name="password">كلمه المرور</string>
+    <string name="send">إرسال</string>
+    <string name="ok">تم</string>
+    <string name="no_internet_connection">لا يوجد انترنت</string>
+    <string name="all">الكل</string>
+
+    <string name="cancel">إلغاء</string>
+
+
+
+    <array name="weekdays_cust">
+        <item>الأحد</item>
+        <item>الأثنين</item>
+        <item>الثلاثاء</item>
+        <item>الأربعاء</item>
+        <item>الخميس</item>
+        <item>الجمعة</item>
+        <item>السبت</item>
+    </array>
+
+
+</resources>
