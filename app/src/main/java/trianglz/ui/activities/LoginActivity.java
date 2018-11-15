@@ -133,14 +133,6 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         }
     }
 
-    @Override
-    public void onTokenUpdatedSuccess() {
-
-    }
-
-    @Override
-    public void onTokenUpdatedFailure() {
-    }
 
     private void openHomeActivity(){
         Intent intent = new Intent(this,HomeActivity.class);

@@ -41,7 +41,7 @@ public class HomeView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                presenter.onGetStudentsHomeFailure(message,errorCode);
+                presenter.onGetStudentsHomeFailure(message, errorCode);
             }
         });
     }
@@ -90,10 +90,11 @@ public class HomeView {
         String url = SessionManager.getInstance().getBaseUrl() + "/api/users/"
                 + SessionManager.getInstance().getUserId();
         String token = SessionManager.getInstance().getTokenKey();
-        Log.v("TEST_TOKEN",token);
+        Log.v("TEST_TOKEN", token);
         UserManager.updateToken(url, token, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
+
             }
 
             @Override
@@ -103,5 +104,6 @@ public class HomeView {
 
 
     }
+
 
 }

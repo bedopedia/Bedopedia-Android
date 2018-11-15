@@ -24,6 +24,7 @@ public class SessionManager {
     private String userName ="userName";
     private String userId = "userId";
     private String id = "id";
+    private String unSeenNotification = "unseen_notifications";
 
     //firebase
     String tokenKey = "token";
@@ -43,10 +44,11 @@ public class SessionManager {
     }
 
     public void createLoginSession( String userName,
-                                   String userId, String id){
+                                   String userId, String id,int unSeenNotficationCounter){
         mEditor.putString(this.userName, userName);
         mEditor.putString(this.userId, userId);
         mEditor.putString(this.id, id);
+        mEditor.putInt(this.unSeenNotification,unSeenNotficationCounter);
         mEditor.commit();
     }
 

@@ -61,7 +61,8 @@ public class LoginView {
         String username = data.optString("username");
         String userId = data.optString("id");
         String id = data.optString("actable_id");
-        SessionManager.getInstance().createLoginSession(username, userId, id);
+        int unSeenNotification = data.optInt("unseen_notifications");
+        SessionManager.getInstance().createLoginSession(username, userId, id,unSeenNotification);
     }
     public void updateToken() {
         String url = SessionManager.getInstance().getBaseUrl() + "/api/users/"
