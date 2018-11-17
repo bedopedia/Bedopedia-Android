@@ -11,7 +11,7 @@ import trianglz.core.presenters.SplashPresenter;
 import trianglz.core.views.SplashView;
 import trianglz.managers.SessionManager;
 
-public class SplashActivity extends AppCompatActivity implements SplashPresenter {
+public class SplashActivity extends SuperActivity implements SplashPresenter {
     private SplashView splashView;
 
     @Override

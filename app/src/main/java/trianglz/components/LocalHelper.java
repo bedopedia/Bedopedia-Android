@@ -14,23 +14,23 @@ import java.util.Locale;
  * Created by ${Aly} on 11/14/2018.
  */
 public class LocalHelper {
-        private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
+    private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
 
-        public static Context onAttach(Context context) {
+    public static Context onAttach(Context context) {
         String lang = getPersistedData(context, Locale.getDefault().getLanguage());
         return setLocale(context, lang);
     }
 
-        public static Context onAttach(Context context, String defaultLanguage) {
+    public static Context onAttach(Context context, String defaultLanguage) {
         String lang = getPersistedData(context, defaultLanguage);
         return setLocale(context, lang);
     }
 
-        public static String getLanguage(Context context) {
+    public static String getLanguage(Context context) {
         return getPersistedData(context, Locale.getDefault().getLanguage());
     }
 
-        public static Context setLocale(Context context, String language) {
+    public static Context setLocale(Context context, String language) {
         persist(context, language);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -40,12 +40,12 @@ public class LocalHelper {
         return updateResourcesLegacy(context, language);
     }
 
-        private static String getPersistedData(Context context, String defaultLanguage) {
+    private static String getPersistedData(Context context, String defaultLanguage) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getString(SELECTED_LANGUAGE, defaultLanguage);
     }
 
-        private static void persist(Context context, String language) {
+    private static void persist(Context context, String language) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
 
@@ -53,8 +53,8 @@ public class LocalHelper {
         editor.apply();
     }
 
-        @TargetApi(Build.VERSION_CODES.N)
-        private static Context updateResources(Context context, String language) {
+    @TargetApi(Build.VERSION_CODES.N)
+    private static Context updateResources(Context context, String language) {
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
 
@@ -65,8 +65,8 @@ public class LocalHelper {
         return context.createConfigurationContext(configuration);
     }
 
-        @SuppressWarnings("deprecation")
-        private static Context updateResourcesLegacy(Context context, String language) {
+    @SuppressWarnings("deprecation")
+    private static Context updateResourcesLegacy(Context context, String language) {
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
 

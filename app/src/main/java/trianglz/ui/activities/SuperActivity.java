@@ -10,6 +10,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.skolera.skolera_android.R;
 
+import trianglz.components.LocalHelper;
 import trianglz.managers.SessionManager;
 
 public class SuperActivity extends AppCompatActivity {
@@ -56,5 +57,10 @@ public class SuperActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocalHelper.onAttach(base,"en"));
     }
 }

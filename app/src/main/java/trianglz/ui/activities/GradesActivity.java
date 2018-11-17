@@ -26,7 +26,7 @@ import trianglz.models.Student;
 import trianglz.ui.adapters.GradesAdapter;
 import trianglz.utils.Constants;
 
-public class GradesActivity extends AppCompatActivity implements GradesAdapter.GradesAdapterInterface,View.OnClickListener {
+public class GradesActivity extends SuperActivity implements GradesAdapter.GradesAdapterInterface,View.OnClickListener {
     private ImageButton backBtn;
     private AvatarView studentImageView;
     private RecyclerView recyclerView;

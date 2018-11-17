@@ -14,7 +14,7 @@ import trianglz.ui.fragments.BehaviorNotesFragment;
  */
 /**
  * modified by gemy */
-public class BehaviorNotesActivity extends AppCompatActivity {
+public class BehaviorNotesActivity extends SuperActivity {
 
 
 

@@ -245,6 +245,10 @@
                         android:src="@drawable/shape" />
 
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/black_10" />
 
                 <LinearLayout
                     android:id="@+id/layout_timetable"

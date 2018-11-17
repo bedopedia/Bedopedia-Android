@@ -36,7 +36,7 @@ import trianglz.models.Student;
 import trianglz.ui.adapters.AttendanceAdapter;
 import trianglz.utils.Constants;
 
-public class AttendanceActivity extends AppCompatActivity implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener {
+public class AttendanceActivity extends SuperActivity implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener {
     private CompactCalendarView compactCalendarView;
     private ArrayList<Attendance> absentDates, lateDates, excusedDates, presentDates;
     private JSONArray attendanceJsonArray;

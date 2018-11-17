@@ -14,7 +14,7 @@ import trianglz.ui.fragments.TimeTableFragment;
  * Created by khaled on 3/1/17.
  */
 /** file modified by gemy */
-public class TimetableActivity extends AppCompatActivity {
+public class TimetableActivity extends SuperActivity {
 
     
     public static Context context;
