@@ -13,25 +13,25 @@
     <string name="assignments">واجبات</string>
     <string name="events">احداث</string>
     <string name="LoadDialogueTitle">جارى التحميل</string>
-    <string name="LoadDialogueBody">Wait while loading...</string>
+    <string name="LoadDialogueBody">انتظر حتى بتم التحميل ...</string>
     <string name="Dialogue401Title">Not Authorized</string>
     <string name="Dialogue401Body">you don\'t have the right to do this</string>
     <string name="ConnectionErrorTitle">خطأ فى الشبكة</string>
-    <string name="ConnectionErrorBody">Check your Netwotk connection and Try again</string>
+    <string name="ConnectionErrorBody">تأكد بأتصالك بشبكةالانترنت</string>
     <string name="TimeTableTitle">جدول المواعيد</string>
     <string name="InvalidMail">خطأ فى البريد ألكترونى </string>
     <string name="SuccessMessage">success</string>
-    <string name="NotValidMail">not Valid email</string>
+    <string name="NotValidMail">خطأ فى البريد الالكترونى</string>
     <string name="AttendanceLateLable">متأخر</string>
     <string name="AttendanceExcusedLable">معذور</string>
     <string name="AttendanceAbsentLable">غائب</string>
     <string name="crash_toast_text">The Mobile app is crashing</string>
     <string name="school_code">كود المدرسة</string>
-    <string name="enter_valid_email">Enter valid email</string>
-    <string name="password_is_empty">Password is empty</string>
-    <string name="email_is_empty">Email is empty</string>
+    <string name="enter_valid_email">ادخل بريد الكترونى صحيح</string>
+    <string name="password_is_empty">كلمة السر فارغة</string>
+    <string name="email_is_empty">البريد الالكترونى فارغ</string>
     <string name="password_length_error">Password length should be more than 4 characters</string>
-    <string name="code_is_empty">Code is empty</string>
+    <string name="code_is_empty">كود المدرسة فارغ</string>
     <string name="code_length_error">Code length error</string>
     <string name="notifications">الإشعارات</string>
     <string name="close">اغلاق</string>
@@ -62,9 +62,9 @@
     <string name="select_teacher">إختار المعلم</string>
     <string name="write_a_message">إرسال رسالة .....</string>
     <string name="grade_items">Grade items</string>
-    <string name="there_is_no_time_table">لا يوجدجدول حضور</string>
+    <string name="there_is_no_time_table">لا يوجد جدول حضور</string>
     <string name="current">الحالى</string>
-    <string name="change_language">Change language</string>
+    <string name="change_language">تغيير اللغة الى الانجليزية</string>
     <string name="sign_out">تسجيل خروج</string>
     <string name="no_title">لا يوجد عنوان</string>
     <string name="system_error">System error</string>
@@ -90,7 +90,7 @@
         <item>الجمعة</item>
         <item>السبت</item>
     </array>
-    <string name="continue_">continue</string>
-    <string name="average_grade_is">Avg. grade is</string>
+    <string name="continue_">متابعة</string>
+    <string name="average_grade_is">الدرجة المتوسطة</string>
 
 </resources>
