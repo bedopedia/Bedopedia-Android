@@ -139,8 +139,13 @@ public class StudentDetailView {
                 }
 
         }
-
-        return courseGroups;
+       ArrayList<CourseGroup> courseGroupWithnoEmptyGrade = new ArrayList<>();
+        for(int i = 0; i <courseGroups.size(); i++){
+            if(courseGroups.get(i).getGrade() != null){
+                courseGroupWithnoEmptyGrade.add(courseGroups.get(i));
+            }
+        }
+        return courseGroupWithnoEmptyGrade;
 
     }
 

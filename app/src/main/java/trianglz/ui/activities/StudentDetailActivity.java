@@ -226,6 +226,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
 
     @Override
     public void onGetStudentGradesSuccess(ArrayList<trianglz.models.CourseGroup> courseGroups, String totalGrade) {
+        this.courseGroups = courseGroups;
         totalGrade = getResources().getString(R.string.average_grade) + " " + totalGrade;
         studentGradeTextView.setText(totalGrade);
         String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
