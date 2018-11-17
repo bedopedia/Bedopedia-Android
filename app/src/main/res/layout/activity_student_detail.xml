@@ -129,7 +129,6 @@
         android:includeFontPadding="false"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:text="Ahmed Mostafa"
         android:textColor="@color/greyish_brown"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -143,7 +142,6 @@
         android:includeFontPadding="false"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:text="Ahmed Mostafa"
         android:textColor="@color/steel"
         android:textSize="14sp" />
 
@@ -215,7 +213,6 @@
                                 android:includeFontPadding="false"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                android:text="Absent 300 out 300 days"
                                 android:textColor="@color/steel"
                                 android:textSize="14sp" />
 
@@ -294,7 +291,6 @@
                             android:includeFontPadding="false"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:text="Next: Math K1, Sunday 7:30 am"
                             android:textColor="@color/steel"
                             android:textSize="14sp" />
 
@@ -365,7 +361,6 @@
                                 android:includeFontPadding="false"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                android:text="Average grade: B+"
                                 android:textColor="@color/steel"
                                 android:textSize="14sp" />
 
@@ -448,7 +443,6 @@
                                     android:layout_marginEnd="23dp"
                                     android:gravity="center_vertical"
                                     android:includeFontPadding="false"
-                                    android:text="3"
                                     android:textColor="@color/steel"
                                     android:textSize="14sp" />
 
@@ -465,7 +459,6 @@
                                     android:layout_marginEnd="23dp"
                                     android:gravity="center_vertical"
                                     android:includeFontPadding="false"
-                                    android:text="3"
                                     android:textColor="@color/steel"
                                     android:textSize="14sp" />
 
@@ -485,7 +478,6 @@
                                     android:layout_marginEnd="23dp"
                                     android:gravity="center_vertical"
                                     android:includeFontPadding="false"
-                                    android:text="3"
                                     android:textColor="@color/steel"
                                     android:textSize="14sp" />
 
