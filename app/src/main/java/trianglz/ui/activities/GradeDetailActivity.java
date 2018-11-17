@@ -192,7 +192,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         this.assignmentArrayList = assignmentArrayList;
         this.quizArrayList = quizArrayList;
         this.gradeItemArrayList = gradeItemArrayList;
-`        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSemesters();
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSemesters();
         gradeDetailView.getSemesters(url, courseGroup.getId()+"");
     }
 

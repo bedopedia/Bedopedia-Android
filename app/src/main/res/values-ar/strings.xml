@@ -91,5 +91,6 @@
         <item>السبت</item>
     </array>
     <string name="continue_">continue</string>
+    <string name="average_grade_is">Avg. grade is</string>
 
 </resources>
