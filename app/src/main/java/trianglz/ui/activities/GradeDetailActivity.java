@@ -12,6 +12,7 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -237,6 +238,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         setQuizzesInHashMap(allSemesterArrayList);
         setAssignmentArrayList(allSemesterArrayList);
         setGradingItems(allSemesterArrayList);
+        setAverageValues();
         setData();
 
     }
@@ -409,20 +411,23 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
 
     private void setAverageValues(){
+        DecimalFormat df = new DecimalFormat("#.#");
+
         for(int i = 0; i<assignmentArrayList.size(); i++){
             if(assignmentsHashMap.get(assignmentArrayList.get(i).id+"") != null){
-                assignmentArrayList.get(i).averageGrade = assignmentsHashMap.get(assignmentArrayList.get(i).id+"");
+                assignmentArrayList.get(i).averageGrade = df.format(assignmentsHashMap.get(assignmentArrayList.get(i).id+""));
             }
         }
         for(int i = 0; i<quizArrayList.size(); i++){
             if(quizzesHashMap.get(quizArrayList.get(i).id+"") != null){
-                quizArrayList.get(i).averageGrade = quizzesHashMap.get(quizArrayList.get(i).id+"");
+                quizArrayList.get(i).averageGrade = df.format(quizzesHashMap.get(quizArrayList.get(i).id+"")) ;
+
             }
         }
 
         for(int i = 0; i<gradeItemArrayList.size(); i++){
             if(gradeItemHashMap.get(gradeItemArrayList.get(i).id+"") != null){
-                gradeItemArrayList.get(i).averageGrade = gradeItemHashMap.get(gradeItemArrayList.get(i).id+"");
+                gradeItemArrayList.get(i).averageGrade = df.format(gradeItemHashMap.get(gradeItemArrayList.get(i).id+""));
             }
         }
     }

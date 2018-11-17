@@ -3,6 +3,7 @@ package trianglz.ui.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,8 +92,10 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             HeaderViewHolder headerViewHolder = ((HeaderViewHolder)holder);
             GradeHeader gradeHeader = ((GradeHeader)mDataList.get(position));
             headerViewHolder.headerTextView.setText(gradeHeader.header);
-            String average = gradeHeader.sumOfStudentMarks +"/" + gradeHeader.totalSummtion;
-            headerViewHolder.headerGradeTextView.setText(average);
+            String studentMark = getColoredSpanned(gradeHeader.sumOfStudentMarks+"", "#28bb4e");
+            String totalSum = getColoredSpanned("/" + gradeHeader.totalSummtion,"#52616b");
+            String average = studentMark +totalSum;
+            headerViewHolder.headerGradeTextView.setText(Html.fromHtml(average));
         }
     }
 
@@ -149,6 +152,9 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         stateTextView = itemView.findViewById(R.id.tv_state);
         }
     }
-
+    private String getColoredSpanned(String text, String color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
+    }
 
 }

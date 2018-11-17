@@ -13,7 +13,7 @@ public class Assignment {
      public double gradeView = 0;
      public String feedBack;
      public String endDate;
-     public double averageGrade = 0;
+     public String averageGrade = "";
 
     public Assignment(int id, String name, double total, double grade, double gradeView,String feedBack,String endDate) {
         this.id = id;

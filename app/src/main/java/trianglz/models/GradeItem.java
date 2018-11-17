@@ -12,7 +12,7 @@ public class GradeItem {
     public double gradeView;
     public String feedBack;
     public String endDate;
-    public double averageGrade = 0;
+    public String averageGrade = "";
 
     public GradeItem(int id, String name, int maxGrade, double total, double grade, double gradeView, String feedBack, String endDate) {
         this.id = id;
