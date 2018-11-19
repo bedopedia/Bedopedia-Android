@@ -71,14 +71,10 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     public boolean validate(String email, String password) {
         boolean valid = true;
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             if(email.isEmpty()){
                 showErrorMessage(emailEditText, getResources().getString(R.string.email_is_empty));
-            }else {
-                showErrorMessage(emailEditText, getResources().getString(R.string.enter_valid_email));
+                valid = false;
             }
-            valid = false;
-        }
         if (password.isEmpty() || password.length() < 4) {
             if (password.isEmpty()) {
                 showErrorMessage(passwordEditText, getResources().getString(R.string.password_is_empty));
@@ -126,8 +122,8 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
+        if(errorCode == 401 ){
+          Util.showErrorDialog(this,"Skolera",getResources().getString(R.string.wrong_username_or_password));
         }else {
             showErrorDialog(this);
         }

@@ -92,5 +92,6 @@
     </array>
     <string name="continue_">متابعة</string>
     <string name="average_grade_is">الدرجة المتوسطة</string>
+    <string name="wrong_email_or_password">خطأ فى البريد الالكترونى اوكلمة السر</string>
 
 </resources>

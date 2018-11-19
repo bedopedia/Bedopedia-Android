@@ -40,9 +40,14 @@ public class UserManager {
         HashMap<String, String> hashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(Constants.KEY_EMAIL, email);
+            if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                jsonObject.put(Constants.KEY_USERNAME,email);
+            }else {
+                jsonObject.put(Constants.KEY_EMAIL, email);
+            }
             jsonObject.put(Constants.KEY_PASSWORD, password);
             jsonObject.put(Constants.KEY_MOBILE, true);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

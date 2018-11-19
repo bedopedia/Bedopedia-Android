@@ -94,8 +94,9 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
+        if(errorCode == 401 ){
+        Util.showErrorDialog(this,"Skolera",getResources().
+                getString(R.string.not_correct_school_code));
         }else {
             showErrorDialog(this);
         }
