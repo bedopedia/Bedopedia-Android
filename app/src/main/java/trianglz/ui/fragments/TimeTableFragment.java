@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import trianglz.components.CustomRtlViewPager;
 import trianglz.models.TimeTableSlot;
 import trianglz.ui.adapters.TimetableAdapter;
 import trianglz.utils.Constants;
@@ -36,7 +37,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
 
 
     private TimetableAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+    private CustomRtlViewPager mViewPager;
     List<TimeTableSlot> tomorrowSlots;
     List<TimeTableSlot> todaySlots;
     private TextView todayTv;
@@ -101,6 +102,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_time_table, container, false);
         mViewPager = rootView.findViewById(R.id.timetable_container);
+        mViewPager.setPagingEnabled(true);
         bindViews();
         setListeners();
         increaseButtonsHitArea();

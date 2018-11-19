@@ -26,6 +26,7 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.CustomRtlViewPager;
 import trianglz.models.Student;
 import trianglz.ui.adapters.BehaviorNotesFragmentAdapter;
 import trianglz.models.BehaviorNote;
@@ -46,7 +47,7 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
     final String studentIdKey = "student_id";
     public static Context context;
     private BehaviorNotesFragmentAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+    private CustomRtlViewPager mViewPager;
 
     List<BehaviorNote> positiveNotesList;
     List<BehaviorNote> negativeNotesList;
@@ -111,6 +112,7 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
     private void bindViews() {
         mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getActivity().getSupportFragmentManager(), positiveNotesList, negativeNotesList, otherNoteList,getActivity());
         mViewPager = rootView.findViewById(R.id.behavior_notes_container);
+        mViewPager.setPagingEnabled(true);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         positiveTv = rootView.findViewById(R.id.tv_positive);
         negativeTv = rootView.findViewById(R.id.tv_negative);
