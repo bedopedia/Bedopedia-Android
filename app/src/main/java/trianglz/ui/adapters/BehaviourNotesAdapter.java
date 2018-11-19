@@ -14,6 +14,7 @@ import com.skolera.skolera_android.R;
 import java.util.ArrayList;
 
 import trianglz.models.BehaviorNote;
+import trianglz.utils.Constants;
 
 /**
  * This file is spawned by Gemy on 11/6/2018.
@@ -21,10 +22,12 @@ import trianglz.models.BehaviorNote;
 public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAdapter.BehaviourNotesViewHolder> {
     private Context context;
     private ArrayList<BehaviorNote> behaviorNotes;
+    private String type ="";
 
-    public BehaviourNotesAdapter(Context context) {
+    public BehaviourNotesAdapter(Context context,String type) {
         this.context = context;
         this.behaviorNotes = new ArrayList<>();
+        this.type = type;
 
     }
 
@@ -44,13 +47,14 @@ public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAd
     @Override
     public void onBindViewHolder(@NonNull BehaviourNotesViewHolder holder, int position) {
         BehaviorNote behaviorNote = behaviorNotes.get(position);
-        holder.teacherNameTv.setText(android.text.Html.fromHtml(behaviorNote.teacherName).toString());
-        if (behaviorNote.title != null) {
-            holder.titleTv.setText(android.text.Html.fromHtml(behaviorNote.title).toString());
-        } else {
-            holder.titleTv.setText(context.getResources().getString(R.string.no_title));
+        if(type.equals(Constants.KEY_POSITIVE)){
+            holder.titleTv.setText(context.getResources().getString(R.string.positiveBehaviorNotes));
+        }else if(type.equals(Constants.KEY_NEGATIVE)){
+            holder.titleTv.setText(context.getResources().getString(R.string.negativeBehaviorNotes));
+        }else {
+            holder.titleTv.setText(context.getResources().getString(R.string.other));
         }
-
+        holder.teacherNameTv.setText(android.text.Html.fromHtml(behaviorNote.teacherName).toString());
         holder.messageTv.setText(android.text.Html.fromHtml(behaviorNote.message).toString());
     }
 

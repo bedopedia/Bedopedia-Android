@@ -51,7 +51,7 @@ public class NegativeFragment extends Fragment{
         //noinspection unchecked
         negativeBehaviourNotes = (ArrayList<BehaviorNote>) Objects.requireNonNull(getArguments()).getSerializable(Constants.KEY_NEGATIVE_NOTES_LIST);
         recyclerView = rootView.findViewById(R.id.recycler_view);
-        adapter = new BehaviourNotesAdapter(getActivity());
+        adapter = new BehaviourNotesAdapter(getActivity(),Constants.KEY_NEGATIVE);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         adapter.addData(negativeBehaviourNotes);

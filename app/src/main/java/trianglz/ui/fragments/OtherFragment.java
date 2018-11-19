@@ -48,7 +48,7 @@ public class OtherFragment extends Fragment{
         //noinspection unchecked
         otherBehaviorNotes = (ArrayList<BehaviorNote>) Objects.requireNonNull(getArguments()).getSerializable(Constants.KEY_OTHER_NOTES_LIST);
         recyclerView = rootView.findViewById(R.id.recycler_view);
-        adapter = new BehaviourNotesAdapter(getActivity());
+        adapter = new BehaviourNotesAdapter(getActivity(),Constants.OTHER);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         adapter.addData(otherBehaviorNotes);

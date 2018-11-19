@@ -53,7 +53,7 @@ public class PositiveFragment extends Fragment {
         //noinspection unchecked
         positiveBehaviorNotes = (ArrayList<BehaviorNote>) Objects.requireNonNull(getArguments()).getSerializable(Constants.KEY_POSITIVE_NOTES_LIST);
         recyclerView = rootView.findViewById(R.id.recycler_view);
-        adapter = new BehaviourNotesAdapter(getActivity());
+        adapter = new BehaviourNotesAdapter(getActivity(),Constants.KEY_POSITIVE);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         adapter.addData(positiveBehaviorNotes);
