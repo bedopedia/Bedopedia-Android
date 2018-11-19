@@ -107,9 +107,8 @@ public class StudentDetailView {
         ArrayList<trianglz.models.CourseGroup> courseGroups = new ArrayList<>();
         for (int i = 0; i < responseArray.length(); i++) {
             JSONObject courseGroupData = responseArray.optJSONObject(i);
-            JSONObject course = courseGroupData.optJSONObject(Constants.COURSE);
             int id = courseGroupData.optInt(Constants.KEY_ID);
-            int courseId = course.optInt(Constants.KEY_ID);
+            int courseId = courseGroupData.optInt(Constants.KEY_COURSE_ID);
             String name = courseGroupData.optString(Constants.KEY_NAME);
             String courseName = courseGroupData.optString(Constants.KEY_COURSE_NAME);
             courseGroups.add(new trianglz.models.CourseGroup(id, courseId, name, courseName));
