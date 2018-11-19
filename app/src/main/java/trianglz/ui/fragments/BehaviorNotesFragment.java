@@ -175,6 +175,9 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
             positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
             otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
             negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
+        }else {
+            setTextBackgrounds(1);
+            setTextBackgrounds(0);
         }
     }
 

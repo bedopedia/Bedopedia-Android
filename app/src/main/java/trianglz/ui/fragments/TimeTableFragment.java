@@ -18,12 +18,20 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import agency.tango.android.avatarview.IImageLoader;
+import agency.tango.android.avatarview.loader.PicassoLoader;
+import agency.tango.android.avatarview.views.AvatarView;
+import trianglz.components.AvatarPlaceholderModified;
+import trianglz.components.CircleTransform;
 import trianglz.components.CustomRtlViewPager;
+import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
 import trianglz.ui.adapters.TimetableAdapter;
 import trianglz.utils.Constants;
@@ -44,6 +52,8 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     private TextView tomorrowTv;
     private View rootView;
     private ImageButton backBtn;
+    private AvatarView studentImage;
+    private Student student;
 
     public TimeTableFragment() {
         // Required empty public constructor
@@ -68,6 +78,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         Bundle bundle = intent.getBundleExtra(Constants.KEY_BUNDLE);
         tomorrowSlots = (ArrayList<TimeTableSlot>) bundle.getSerializable(Constants.KEY_TOMORROW);
         todaySlots = (ArrayList<TimeTableSlot>) bundle.getSerializable(Constants.KEY_TODAY);
+        student = (Student)bundle.getSerializable(Constants.STUDENT);
     }
 
     private void setListeners() {
@@ -105,6 +116,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         mViewPager.setPagingEnabled(true);
         bindViews();
         setListeners();
+        setStudentImage();
         increaseButtonsHitArea();
         return rootView;
     }
@@ -126,6 +138,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         todayTv = rootView.findViewById(R.id.tv_today);
         tomorrowTv = rootView.findViewById(R.id.tv_tomorrow);
         backBtn = rootView.findViewById(R.id.back_btn);
+        studentImage = rootView.findViewById(R.id.img_student);
     }
 
     @Override
@@ -173,6 +186,34 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
                 parent.setTouchDelegate(new TouchDelegate(rect, backBtn));
             }
         });
+    }
+
+    private void setStudentImage() {
+        String imageUrl = student.getAvatar();
+        final String name = student.firstName +" " + student.lastName;
+        final IImageLoader[] imageLoader = {new PicassoLoader()};
+        if (imageUrl == null || imageUrl.equals("")) {
+            imageLoader[0] = new PicassoLoader();
+            imageLoader[0].loadImage(studentImage, new AvatarPlaceholderModified(name), "Path of Image");
+        } else
+        {
+            Picasso.with(getActivity())
+                    .load(imageUrl)
+                    .fit()
+                    .transform(new CircleTransform())
+                    .into(studentImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            imageLoader[0] = new PicassoLoader();
+                            imageLoader[0].loadImage(studentImage, new AvatarPlaceholderModified(name), "Path of Image");
+                        }
+                    });
+        }
     }
 
 }

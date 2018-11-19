@@ -81,7 +81,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="13dp"
                     android:layout_marginEnd="14dp"
-
+                    android:id="@+id/img_student"
                     android:src="@drawable/profile_pic" />
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
