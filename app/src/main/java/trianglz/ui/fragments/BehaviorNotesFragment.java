@@ -31,6 +31,7 @@ import trianglz.models.Student;
 import trianglz.ui.adapters.BehaviorNotesFragmentAdapter;
 import trianglz.models.BehaviorNote;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -122,6 +123,7 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         imageLoader = new PicassoLoader();
         String name = student.firstName + " " + student.lastName;
         setStudentImage(student.getAvatar(),name);
+        setHeader();
     }
 
     private void setListeners() {
@@ -168,30 +170,66 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         });
     }
 
-    private void setTextBackgrounds(int pageNumber) {
-        if (pageNumber == 0) {
-            positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
-            positiveTv.setTextColor(getResources().getColor(R.color.white));
+    private void setHeader(){
+        if(Util.getLocale(getActivity()).equals("ar")) {
+            positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
+            otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
             negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
-            negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
-            otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
-            otherTv.setTextColor(getResources().getColor(R.color.jade_green));
-
-        } else if(pageNumber == 1){
-            positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
-            positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
-            negativeTv.setBackground(getResources().getDrawable(R.drawable.solid_green_background));
-            negativeTv.setTextColor(getResources().getColor(R.color.white));
-            otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
-            otherTv.setTextColor(getResources().getColor(R.color.jade_green));
-        }else {
-            positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
-            positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
-            negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
-            negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
-            otherTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
-            otherTv.setTextColor(getResources().getColor(R.color.white));
         }
+    }
+
+    private void setTextBackgrounds(int pageNumber) {
+        if(Util.getLocale(getActivity()).equals("ar")){
+            if (pageNumber == 0) {
+                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
+                positiveTv.setTextColor(getResources().getColor(R.color.white));
+                negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
+                negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
+                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
+                otherTv.setTextColor(getResources().getColor(R.color.jade_green));
+
+            } else if(pageNumber == 1){
+                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
+                positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
+                negativeTv.setBackground(getResources().getDrawable(R.drawable.solid_green_background));
+                negativeTv.setTextColor(getResources().getColor(R.color.white));
+                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
+                otherTv.setTextColor(getResources().getColor(R.color.jade_green));
+            }else {
+                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
+                positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
+                negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
+                negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
+                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
+                otherTv.setTextColor(getResources().getColor(R.color.white));
+            }
+
+        }else {
+            if (pageNumber == 0) {
+                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
+                positiveTv.setTextColor(getResources().getColor(R.color.white));
+                negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
+                negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
+                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
+                otherTv.setTextColor(getResources().getColor(R.color.jade_green));
+
+            } else if(pageNumber == 1){
+                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
+                positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
+                negativeTv.setBackground(getResources().getDrawable(R.drawable.solid_green_background));
+                negativeTv.setTextColor(getResources().getColor(R.color.white));
+                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
+                otherTv.setTextColor(getResources().getColor(R.color.jade_green));
+            }else {
+                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
+                positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
+                negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
+                negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
+                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
+                otherTv.setTextColor(getResources().getColor(R.color.white));
+            }
+        }
+
     }
 
     @Override

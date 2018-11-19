@@ -202,4 +202,11 @@ public class Util {
         return "";
     }
 
+    public static String getLocale(Context context) {
+        Locale current = context.getResources().getConfiguration().locale;
+        if (current.toString().contains("ar"))
+            return "ar";
+        else return "en";
+    }
+
 }

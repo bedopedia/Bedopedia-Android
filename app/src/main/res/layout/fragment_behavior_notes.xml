@@ -57,9 +57,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:background="@drawable/hollow_green_background"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        >
 
                         <trianglz.components.SfuiRegularTextView
                             android:id="@+id/tv_positive"
@@ -73,6 +73,7 @@
                             android:textColor="@color/white" />
 
 
+
                         <trianglz.components.SfuiRegularTextView
                             android:id="@+id/tv_negative"
                             android:layout_width="0dp"
@@ -82,6 +83,7 @@
                             android:text="@string/negativeBehaviorNotes"
                             android:textAlignment="center"
                             android:textColor="@color/jade_green" />
+
 
 
                         <trianglz.components.SfuiRegularTextView
