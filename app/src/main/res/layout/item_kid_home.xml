@@ -93,7 +93,9 @@
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
-                android:src="@drawable/shape" />
+                android:src="@drawable/shape"
+                android:focusable="false"
+                android:clickable="false"/>
         </FrameLayout>
 
     </LinearLayout>
