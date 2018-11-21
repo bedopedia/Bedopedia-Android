@@ -32,7 +32,7 @@
     <string name="email_is_empty">البريد الالكترونى فارغ</string>
     <string name="password_length_error">Password length should be more than 4 characters</string>
     <string name="code_is_empty">كود المدرسة فارغ</string>
-    <string name="code_length_error">Code length error</string>
+    <string name="code_length_error">خطأ فى كود المدرسة</string>
     <string name="notifications">الإشعارات</string>
     <string name="close">اغلاق</string>
     <string name="wrong_username_or_password">خطأ فى إسم المستخدم أو كلمةالسر</string>
@@ -104,4 +104,5 @@
     <string name="enter_email">ادخل البريد الالكترونى</string>
     <string name="enter_password">ادخل كلمة السر</string>
     <string name="enter_school_code">ادخل كود المدرسة</string>
+    <string name="wrong_school_code">خطأ فى كود المدرسة</string>
 </resources>
