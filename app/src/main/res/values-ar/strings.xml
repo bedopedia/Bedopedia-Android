@@ -98,5 +98,7 @@
     <string name="update_is_available">يوجد اصدار جديد</string>
     <string name="check_latest_version">يوجد اصدار جديد متاح للتطبيق . برجاء التحديث للأصدار الجديد</string>
     <string name="update_now">حدث الأن</string>
-
+    <string name="attend">حضر</string>
+    <string name="out">من</string>
+    <string name="days">يوم</string>
 </resources>
