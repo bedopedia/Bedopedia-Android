@@ -120,4 +120,8 @@
     <string name="continue_">continue</string>
     <string name="average_grade_is">Avg. grade is</string>
     <string name="wrong_email_or_password">Wrong email or password</string>
+
+    <string name="update_is_available">Update available</string>
+    <string name="check_latest_version">A new version of app is available. Please update to version now.</string>
+    <string name="update_now">Update now</string>
 </resources>

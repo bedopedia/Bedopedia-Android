@@ -1,7 +1,10 @@
 package trianglz.ui.activities;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +13,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.skolera.skolera_android.R;
 
 import org.json.JSONArray;
@@ -26,16 +30,15 @@ import trianglz.managers.SessionManager;
 import trianglz.models.Student;
 import trianglz.ui.adapters.HomeAdapter;
 import trianglz.utils.Constants;
-import trianglz.utils.Util;
 
-public class HomeActivity extends SuperActivity implements HomePresenter,View.OnClickListener,
-        HomeAdapter.HomeAdapterInterface,SettingsDialog.SettingsDialogInterface{
+public class HomeActivity extends SuperActivity implements HomePresenter, View.OnClickListener,
+        HomeAdapter.HomeAdapterInterface, SettingsDialog.SettingsDialogInterface {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
     private String id;
     private HomeView homeView;
     private ImageButton notificationBtn;
-    private  ArrayList<JSONArray> kidsAttendances;
+    private ArrayList<JSONArray> kidsAttendances;
     private SettingsDialog settingsDialog;
     private ImageButton settingsBtn;
     private ImageView redCircleImageView;
@@ -48,23 +51,23 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
         setListeners();
         getStudentsHome();
         homeView.refreshFireBaseToken();
+        checkVersionOnStore();
     }
-
 
     private void bindViews() {
         recyclerView = findViewById(R.id.recycler_view);
-        homeAdapter = new HomeAdapter(this,this);
+        homeAdapter = new HomeAdapter(this, this);
         recyclerView.setAdapter(homeAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        homeView = new HomeView(this,this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        homeView = new HomeView(this, this);
         notificationBtn = findViewById(R.id.btn_notification);
         redCircleImageView = findViewById(R.id.img_red_circle);
         kidsAttendances = new ArrayList<>();
-        settingsDialog = new SettingsDialog(this,R.style.SettingsDialog,this);
+        settingsDialog = new SettingsDialog(this, R.style.SettingsDialog, this);
         settingsBtn = findViewById(R.id.btn_setting);
     }
 
-    private void setListeners(){
+    private void setListeners() {
         notificationBtn.setOnClickListener(this);
         settingsBtn.setOnClickListener(this);
     }
@@ -72,24 +75,24 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().getNotficiationCounter()>0){
+        if (SessionManager.getInstance().getNotficiationCounter() > 0) {
             redCircleImageView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             redCircleImageView.setVisibility(View.GONE);
         }
     }
 
     private void getStudentsHome() {
         id = SessionManager.getInstance().getId();
-        String url = SessionManager.getInstance().getBaseUrl()+ "/api/parents/" + id + "/children";
+        String url = SessionManager.getInstance().getBaseUrl() + "/api/parents/" + id + "/children";
         showLoadingDialog();
-        homeView.getStudents(url,id);
+        homeView.getStudents(url, id);
     }
 
     @Override
     public void onGetStudentsHomeSuccess(ArrayList<Object> dataObjectArrayList) {
         progress.dismiss();
-        ArrayList<JSONArray> attendanceJsonArray =(ArrayList<JSONArray>) dataObjectArrayList.get(0);
+        ArrayList<JSONArray> attendanceJsonArray = (ArrayList<JSONArray>) dataObjectArrayList.get(0);
         this.kidsAttendances = attendanceJsonArray;
         ArrayList<Student> studentArrayList = (ArrayList<Student>) dataObjectArrayList.get(1);
         homeAdapter.addData(studentArrayList);
@@ -97,20 +100,20 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
     }
 
     @Override
-    public void onGetStudentsHomeFailure(String message,int errorCode) {
-        if(progress.isShowing()){
+    public void onGetStudentsHomeFailure(String message, int errorCode) {
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             logoutUser(this);
-        }else {
+        } else {
             showErrorDialog(this);
         }
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_notification:
                 openNotificationsActivity();
                 break;
@@ -126,16 +129,16 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
     }
 
     @Override
-    public void onOpenStudentClicked(Student student,int position) {
-        openStudentDetailActivity(student,position);
+    public void onOpenStudentClicked(Student student, int position) {
+        openStudentDetailActivity(student, position);
     }
 
-    private void openStudentDetailActivity(Student student,int position){
-        Intent intent = new Intent(this,StudentDetailActivity.class);
+    private void openStudentDetailActivity(Student student, int position) {
+        Intent intent = new Intent(this, StudentDetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT,student);
-        bundle.putSerializable(Constants.KEY_ATTENDANCE,kidsAttendances.get(position).toString());
-        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        bundle.putSerializable(Constants.STUDENT, student);
+        bundle.putSerializable(Constants.KEY_ATTENDANCE, kidsAttendances.get(position).toString());
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
     }
 
@@ -149,8 +152,6 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
     public void onSignOutClicked() {
         logoutUser(this);
     }
-
-
 
 
     private void changeLanguage() {
@@ -185,4 +186,42 @@ public class HomeActivity extends SuperActivity implements HomePresenter,View.On
         }, 0);
 
     }
+
+
+    private void checkVersionOnStore() {
+        AppUpdater appUpdater = new AppUpdater(this)
+                .setDisplay(Display.DIALOG)
+                .setUpdateFrom(UpdateFrom.GOOGLE_PLAY)
+                .setTitleOnUpdateAvailable(getResources().getString(R.string.update_is_available))
+                .setContentOnUpdateAvailable(getResources().getString(R.string.check_latest_version))
+                .setButtonUpdate(getResources().getString(R.string.update_now))
+                .setButtonUpdateClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        openStore();
+                    }
+                })
+                .setButtonDoNotShowAgain(getResources().getString(R.string.cancel))
+                .setButtonDoNotShowAgainClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setCancelable(true); // Dialog could not be;
+        appUpdater.start();
+    }
+
+    private void openStore() {
+        try {
+            Uri uri = Uri.parse("market://details?id=" + getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id="
+                            + getPackageName())));
+        }
+    }
+
 }
