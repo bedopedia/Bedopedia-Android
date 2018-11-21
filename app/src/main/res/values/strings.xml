@@ -1,24 +1,24 @@
 <resources>
-    <string name="app_name">Skolera</string>
-    <string name="title_activity_message_thread">Message_thread</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="fragmentLoginMessage_tv">Enter your email and password to sign in.</string>
-    <string name="fragmentLoginMail_tv">Email</string>
-    <string name="fragmentLogin_btn">Login</string>
-    <string name="fragmentLoginPassword_tv">Password</string>
-    <string name="fragmentLoginForgetPassword_tv">Forget password?</string>
-    <string name="fragmentSchoolcodeMeesage_tv">Enter school code to proceed with sign in</string>
-    <string name="fragmentSchoolcodeHint_tv">School code</string>
-    <string name="fragmentSchoolcodeContinue_btn">CONTINUE</string>
-    <string name="copyRights_tv">Copyright© 2017 Skolera.</string>
-    <string name="fragmentForgetPasswordResetPassword_btn">REST PASSWORD</string>
-    <string name="fragmentForgetPassowdMessage_tv">Type your email below to reset your password.</string>
-    <string name="fragmentForgetPasswordMail_tv">Email</string>
-    <string name="ForgetPasswordTitle">Forget Password</string>
-    <string name="NotificationString">Notifications</string>
-    <string name="GradesTitle">Grades</string>
-    <string name="MyKidsTitle">My Kids</string>
+    <string name="app_name" translatable="false">Skolera</string>
+    <string name="title_activity_message_thread" translatable="false">Message_thread</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="fragmentLoginMessage_tv" translatable="false">Enter your email and password to sign in.</string>
+    <string name="fragmentLoginMail_tv" translatable="false">Email</string>
+    <string name="fragmentLogin_btn" translatable="false">Login</string>
+    <string name="fragmentLoginPassword_tv" translatable="false">Password</string>
+    <string name="fragmentLoginForgetPassword_tv" translatable="false">Forget password?</string>
+    <string name="fragmentSchoolcodeMeesage_tv" translatable="false">Enter school code to proceed with sign in</string>
+    <string name="fragmentSchoolcodeHint_tv" translatable="false">School code</string>
+    <string name="fragmentSchoolcodeContinue_btn" translatable="false">CONTINUE</string>
+    <string name="copyRights_tv" translatable="false">Copyright© 2017 Skolera.</string>
+    <string name="fragmentForgetPasswordResetPassword_btn" translatable="false">REST PASSWORD</string>
+    <string name="fragmentForgetPassowdMessage_tv" translatable="false">Type your email below to reset your password.</string>
+    <string name="fragmentForgetPasswordMail_tv" translatable="false">Email</string>
+    <string name="ForgetPasswordTitle" translatable="false">Forget Password</string>
+    <string name="NotificationString" translatable="false">Notifications</string>
+    <string name="GradesTitle" translatable="false">Grades</string>
+    <string name="MyKidsTitle" translatable="false">My Kids</string>
     <string name="fragmentStudentAttendance_tv">Attendance</string>
     <string name="fragmentStudentTimetable_tv">Time Table</string>
     <string name="fragmentStudentGrades_tv">Grades</string>
@@ -26,7 +26,7 @@
     <string name="positiveBehaviorNotes">Positive</string>
     <string name="negativeBehaviorNotes">Negative</string>
     <string name="behaviorNotesTitle">Behavior Notes</string>
-    <string name="askTeacherTitle">Ask Teacher</string>
+    <string name="askTeacherTitle" translatable="false">Ask Teacher</string>
     <string name="attendanceTitle">Attendance</string>
     <string name="notificationString">Notification</string>
     <string name="assignments">Assignments</string>
@@ -38,7 +38,7 @@
     <string name="Dialogue401Body">you don\'t have the right to do this</string>
     <string name="ConnectionErrorTitle">Connection Failed</string>
     <string name="ConnectionErrorBody">Check your Netwotk connection and Try again</string>
-    <string name="Badges">Badges</string>
+    <string name="Badges" translatable="false">Badges</string>
     <string name="TimeTableTitle">Time Table</string>
     <string name="InvalidMail">invalid email</string>
     <string name="SuccessMessage">success</string>
@@ -47,7 +47,7 @@
     <string name="AttendanceExcusedLable">Excused</string>
     <string name="AttendanceAbsentLable">Absent</string>
     <string name="crash_toast_text">The Mobile app is crashing</string>
-    <string name="forget_your_password">Forget your password?</string>
+    <string name="forget_your_password" translatable="false">Forget your password?</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
@@ -60,7 +60,7 @@
     <string name="code_length_error">Code length error</string>
     <string name="notifications">Notifications</string>
     <string name="close">Close</string>
-    <string name="skolera">Skolera</string>
+    <string name="skolera" translatable="false">Skolera</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="wrong_username_or_password">Wrong username or password</string>
     <string name="not_correct_school_code">Not correct School Code"</string>
@@ -95,7 +95,7 @@
     <string name="behaviour_notes">Behaviour notes</string>
     <string name="subjects">Subjects</string>
     <string name="all">All</string>
-    <string name="quarters">Quarters</string>
+    <string name="quarters" translatable="false">Quarters</string>
     <string name="contact_teacher">Contact Teacher</string>
     <string name="new_message">New message</string>
     <string name="select_a_course">Select a course</string>
@@ -115,7 +115,7 @@
     <string name="system_error">System error</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="other">Other</string>
     <string name="continue_">continue</string>
     <string name="average_grade_is">Avg. grade is</string>
