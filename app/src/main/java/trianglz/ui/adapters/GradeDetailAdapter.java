@@ -68,6 +68,9 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             Assignment assignment = (Assignment) mDataList.get(position);
             detailViewHolder.classWorkTextView.setText(assignment.name);
             detailViewHolder.markTextView.setText(assignment.grade+"/"+assignment.total);
+            if(assignment.averageGrade.isEmpty()){
+                assignment.averageGrade = "0";
+            }
             String averageGrade = context.getResources().getString(R.string.average_grade_is)
                    +" "+ assignment.averageGrade+"";
             detailViewHolder.averageGradeTextView.setText(averageGrade);
@@ -76,6 +79,9 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             Quiz quiz = (Quiz) mDataList.get(position);
             detailViewHolder.classWorkTextView.setText(quiz.name);
             detailViewHolder.markTextView.setText(quiz.grade+"/"+quiz.total);
+            if(quiz.averageGrade.isEmpty()){
+                quiz.averageGrade = "0";
+            }
             String averageGrade = context.getResources().getString(R.string.average_grade_is)
                     +" "+  quiz.averageGrade+"";
             detailViewHolder.averageGradeTextView.setText(averageGrade);
@@ -85,6 +91,9 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             GradeItem gradeItem = (GradeItem) mDataList.get(position);
             detailViewHolder.classWorkTextView.setText(gradeItem.name);
             detailViewHolder.markTextView.setText(gradeItem.grade+"/"+gradeItem.total);
+            if(gradeItem.averageGrade.isEmpty()){
+                gradeItem.averageGrade = "0";
+            }
             String averageGrade = context.getResources().getString(R.string.average_grade_is)
                     +" "+gradeItem.averageGrade+"";
             detailViewHolder.averageGradeTextView.setText(averageGrade);
