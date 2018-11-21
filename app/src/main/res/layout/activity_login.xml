@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="trianglz.ui.activities.LoginActivity">
+    tools:context="trianglz.ui.activities.LoginActivity"
+    android:id="@+id/parent_view">
 
     <RelativeLayout
         android:layout_width="match_parent"

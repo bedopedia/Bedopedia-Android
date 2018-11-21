@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
 
+import trianglz.components.HideKeyboardOnTouch;
 import trianglz.core.presenters.SchoolLoginPresenter;
 import trianglz.core.views.SchoolLoginView;
 import trianglz.managers.SessionManager;
@@ -22,6 +24,7 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
     private Button verifyBtn;
     private SchoolLoginView schoolLoginView;
     private String schoolUrl;
+    private LinearLayout parentView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,10 +38,12 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
         verifyBtn = findViewById(R.id.btn_verify);
         schoolLoginView = new SchoolLoginView(this,this);
         schoolUrl = "";
+        parentView = findViewById(R.id.parent_view);
     }
 
     private void setListeners(){
         verifyBtn.setOnClickListener(this);
+        parentView.setOnTouchListener(new HideKeyboardOnTouch(this));
     }
 
     @Override

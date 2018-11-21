@@ -6,12 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Picasso;
 
+import trianglz.components.HideKeyboardOnTouch;
 import trianglz.core.presenters.LoginPresenter;
 import trianglz.core.views.LoginView;
 import trianglz.managers.SessionManager;
@@ -27,6 +29,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     private School school;
     private ImageView schoolImageView;
     private ImageButton backBtn;
+    private LinearLayout parentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +49,13 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         loginView = new LoginView(this, this);
         schoolImageView = findViewById(R.id.img_school);
         backBtn = findViewById(R.id.btn_back);
+        parentView = findViewById(R.id.parent_view);
     }
 
     private void setListeners() {
         loginBtn.setOnClickListener(this);
         backBtn.setOnClickListener(this);
+        parentView.setOnTouchListener(new HideKeyboardOnTouch(this));
     }
 
     @Override
