@@ -33,7 +33,6 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         bindViews();
         setListeners();
         getDataFromIntent();
-        onClick(loginBtn);
     }
 
     private void bindViews() {

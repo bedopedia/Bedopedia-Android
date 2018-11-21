@@ -2,6 +2,7 @@ package trianglz.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,7 +28,6 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
         setContentView(R.layout.activity_school_login);
         bindViews();
         setListeners();
-        onClick(verifyBtn);
     }
 
     private void bindViews() {
