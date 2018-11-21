@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     private LoginView loginView;
     private School school;
     private ImageView schoolImageView;
+    private ImageButton backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +45,12 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
                 getResources().getColor(R.color.jade_green)));
         loginView = new LoginView(this, this);
         schoolImageView = findViewById(R.id.img_school);
+        backBtn = findViewById(R.id.btn_back);
     }
 
     private void setListeners() {
         loginBtn.setOnClickListener(this);
+        backBtn.setOnClickListener(this);
     }
 
     @Override
@@ -63,6 +67,9 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
                     Util.showErrorDialog(LoginActivity.this,getResources().getString(R.string.skolera),
                             getResources().getString(R.string.no_internet_connection));
                 }
+                break;
+            case R.id.btn_back:
+                onBackPressed();
                 break;
         }
     }

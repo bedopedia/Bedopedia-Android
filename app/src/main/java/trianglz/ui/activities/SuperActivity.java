@@ -36,6 +36,7 @@ public class SuperActivity extends AppCompatActivity {
 
     private void openSchoolLoginActivity(Context context) {
         Intent intent = new Intent(context, SchoolLoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
