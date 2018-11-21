@@ -82,6 +82,11 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        
+    }
+
     private void getStudentsHome() {
         id = SessionManager.getInstance().getId();
         String url = SessionManager.getInstance().getBaseUrl() + "/api/parents/" + id + "/children";
