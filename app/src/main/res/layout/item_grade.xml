@@ -11,9 +11,10 @@
         android:orientation="horizontal">
         <agency.tango.android.avatarview.views.AvatarView
             android:id="@+id/img_subject"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_margin="16sp"
+            android:layout_gravity="center_vertical"
             />
         <trianglz.components.SfproSemiBoldTextView
             android:layout_width="0dp"

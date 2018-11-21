@@ -71,6 +71,9 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         getValueFromIntent();
         bindViews();
         setListeners();
+        if(Util.getLocale(this).equals("ar")){
+            setTextBackgrounds(0);
+        }
         if(Util.isNetworkAvailable(this)){
             showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(),courseGroup.getId());
@@ -396,17 +399,32 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void setTextBackgrounds(int pageNumber) {
-        if (pageNumber == 0) {
-            allTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
-            allTextView.setTextColor(getResources().getColor(R.color.white));
-            currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
-            currentTextView.setTextColor(getResources().getColor(R.color.jade_green));
-        } else {
-            allTextView.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
-            allTextView.setTextColor(getResources().getColor(R.color.jade_green));
-            currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
-            currentTextView.setTextColor(getResources().getColor(R.color.white));
+        if(Util.getLocale(this).equals("ar")){
+            if (pageNumber == 0) {
+                allTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
+                allTextView.setTextColor(getResources().getColor(R.color.white));
+                currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
+                currentTextView.setTextColor(getResources().getColor(R.color.jade_green));
+            } else {
+                allTextView.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
+                allTextView.setTextColor(getResources().getColor(R.color.jade_green));
+                currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
+                currentTextView.setTextColor(getResources().getColor(R.color.white));
+            }
+        }else {
+            if (pageNumber == 0) {
+                allTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
+                allTextView.setTextColor(getResources().getColor(R.color.white));
+                currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
+                currentTextView.setTextColor(getResources().getColor(R.color.jade_green));
+            } else {
+                allTextView.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
+                allTextView.setTextColor(getResources().getColor(R.color.jade_green));
+                currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
+                currentTextView.setTextColor(getResources().getColor(R.color.white));
+            }
         }
+
     }
 
 
