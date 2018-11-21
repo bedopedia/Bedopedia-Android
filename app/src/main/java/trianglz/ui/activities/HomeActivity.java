@@ -84,7 +84,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
 
     @Override
     public void onBackPressed() {
-        
+
     }
 
     private void getStudentsHome() {
