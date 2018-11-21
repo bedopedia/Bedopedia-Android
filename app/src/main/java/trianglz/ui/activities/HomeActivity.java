@@ -191,24 +191,26 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
     private void checkVersionOnStore() {
         AppUpdater appUpdater = new AppUpdater(this)
                 .setDisplay(Display.DIALOG)
+                .showEvery(1)
                 .setUpdateFrom(UpdateFrom.GOOGLE_PLAY)
                 .setTitleOnUpdateAvailable(getResources().getString(R.string.update_is_available))
                 .setContentOnUpdateAvailable(getResources().getString(R.string.check_latest_version))
-                .setButtonUpdate(getResources().getString(R.string.update_now))
+                .setButtonUpdate(getResources().getString(R.string.cancel))
                 .setButtonUpdateClickListener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        openStore();
-                    }
-                })
-                .setButtonDoNotShowAgain(getResources().getString(R.string.cancel))
-                .setButtonDoNotShowAgainClickListener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                     }
                 })
-                .setCancelable(true); // Dialog could not be;
+                .setButtonDismiss("")
+                .setButtonDoNotShowAgain(getResources().getString(R.string.update_now))
+                .setButtonDoNotShowAgainClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        openStore();
+                    }
+                })
+                .setCancelable(false); // Dialog could not be;
         appUpdater.start();
     }
 

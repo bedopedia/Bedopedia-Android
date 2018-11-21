@@ -94,4 +94,9 @@
     <string name="average_grade_is">الدرجة المتوسطة</string>
     <string name="wrong_email_or_password">خطأ فى البريد الالكترونى اوكلمة السر</string>
 
+
+    <string name="update_is_available">يوجد اصدار جديد</string>
+    <string name="check_latest_version">يوجد اصدار جديد متاح للتطبيق . برجاء التحديث للأصدار الجديد</string>
+    <string name="update_now">حدث الأن</string>
+
 </resources>
