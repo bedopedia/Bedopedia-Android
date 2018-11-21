@@ -18,22 +18,23 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             />
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:paddingTop="8dp"
-            android:paddingBottom="13dp">
+            android:paddingBottom="13dp"
+            android:orientation="horizontal">
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="22dp"
-                android:orientation="horizontal"
-                android:layout_alignParentTop="true"
-                android:layout_marginBottom="9dp">
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+               >
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="start"
                     android:textSize="17sp"
                     android:textColor="@color/gunmetal"
@@ -41,34 +42,9 @@
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:id="@+id/tv_teacher_name"/>
-                <trianglz.components.SfproRegularButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:drawableEnd="@drawable/shape"
-                    android:background="@color/transparent"
-                    android:layout_marginEnd="13.5dp"
-                    android:id="@+id/btn_date"
-                    android:text="Yesterday"
-                    android:textAllCaps="false"
-                    android:drawablePadding="10dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/steel"
-                    android:layout_marginStart="5dp"
-                    android:includeFontPadding="false"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:orientation="horizontal"
-                android:layout_alignParentBottom="true"
-                >
                 <trianglz.components.SfproRegularTextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="start"
                     android:textSize="15sp"
                     android:textColor="@color/steel"
@@ -78,12 +54,28 @@
                     android:id="@+id/tv_subject_name"
                     />
 
+            </LinearLayout>
+
+            <trianglz.components.SfproRegularButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableEnd="@drawable/shape"
+                android:background="@color/transparent"
+                android:layout_marginEnd="13.5dp"
+                android:id="@+id/btn_date"
+                android:text="Yesterday"
+                android:textAllCaps="false"
+                android:drawablePadding="10dp"
+                android:textSize="15sp"
+                android:textColor="@color/steel"
+                android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
+                />
 
             </LinearLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
 
-    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

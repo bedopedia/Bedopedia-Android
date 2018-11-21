@@ -229,11 +229,11 @@ public class StudentDetailView {
             String noteBody =  note.optString(Constants.KEY_NOTE);
             String teacherName = note.optJSONObject(Constants.KEY_OWNER).optString(Constants.KEY_NAME);
             if(type.equals(Constants.GOOD)){
-                positiveBehaviorNotesList.add(new BehaviorNote(teacherName,noteBody));
+                positiveBehaviorNotesList.add(new BehaviorNote(teacherName,type,noteBody));
             }else if(type.equals(Constants.BAD)){
-                negativeBehaviorNotesList.add(new BehaviorNote(teacherName,noteBody));
+                negativeBehaviorNotesList.add(new BehaviorNote(teacherName,type,noteBody));
             }else if(type.equals(Constants.OTHER)){
-                otherBehaviorNotesList.add(new BehaviorNote(teacherName,noteBody));
+                otherBehaviorNotesList.add(new BehaviorNote(teacherName,type,noteBody));
             }
         }
         behaviorNoteHashMap.put(Constants.KEY_POSITIVE,positiveBehaviorNotesList);
