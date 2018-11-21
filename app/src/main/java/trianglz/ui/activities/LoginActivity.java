@@ -2,11 +2,14 @@ package trianglz.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -17,11 +20,13 @@ import trianglz.components.HideKeyboardOnTouch;
 import trianglz.core.presenters.LoginPresenter;
 import trianglz.core.views.LoginView;
 import trianglz.managers.SessionManager;
+import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.School;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class LoginActivity extends SuperActivity implements View.OnClickListener, LoginPresenter {
+public class LoginActivity extends SuperActivity implements View.OnClickListener, LoginPresenter,
+        TextView.OnEditorActionListener{
     private MaterialEditText emailEditText;
     private MaterialEditText passwordEditText;
     private Button loginBtn;
@@ -56,6 +61,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         loginBtn.setOnClickListener(this);
         backBtn.setOnClickListener(this);
         parentView.setOnTouchListener(new HideKeyboardOnTouch(this));
+        passwordEditText.setOnEditorActionListener(this);
     }
 
     @Override
@@ -144,5 +150,27 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     private void openHomeActivity(){
         Intent intent = new Intent(this,HomeActivity.class);
         this.startActivity(intent);
+    }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        if (i == EditorInfo.IME_ACTION_DONE) {
+            switch (textView.getId()) {
+                case R.id.et_password:
+                    if(Util.isNetworkAvailable(this)){
+                        if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
+                            super.showLoadingDialog();
+                            String url = school.schoolUrl + "/api/auth/sign_in";
+                            loginView.login(url,emailEditText.getText().toString(), passwordEditText.getText().toString(),school.schoolUrl);
+                        }
+                    }else {
+                        Util.showErrorDialog(LoginActivity.this,getResources().getString(R.string.skolera),
+                                getResources().getString(R.string.no_internet_connection));
+                    }
+                    break;
+
+            }
+        }
+        return false;
     }
 }

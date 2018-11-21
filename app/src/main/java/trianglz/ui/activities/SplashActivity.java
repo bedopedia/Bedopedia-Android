@@ -10,6 +10,7 @@ import com.skolera.skolera_android.R;
 import trianglz.core.presenters.SplashPresenter;
 import trianglz.core.views.SplashView;
 import trianglz.managers.SessionManager;
+import trianglz.utils.Util;
 
 public class SplashActivity extends SuperActivity implements SplashPresenter {
     private SplashView splashView;
@@ -20,7 +21,11 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
         setContentView(R.layout.activity_splash);
         splashView = new SplashView(this, this);
         if (SessionManager.getInstance().getIsLoggedIn()) {
-            splashView.login();
+            if(Util.isNetworkAvailable(this)){
+                splashView.login();
+            }else {
+                startSchoolCodeActivity();
+            }
         } else {
             startSchoolCodeActivity();
         }

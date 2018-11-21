@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
@@ -19,7 +21,8 @@ import trianglz.models.School;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class SchoolLoginActivity extends SuperActivity implements View.OnClickListener,SchoolLoginPresenter {
+public class SchoolLoginActivity extends SuperActivity implements View.OnClickListener,SchoolLoginPresenter,
+        TextView.OnEditorActionListener {
     private MaterialEditText codeEditText;
     private Button verifyBtn;
     private SchoolLoginView schoolLoginView;
@@ -44,6 +47,7 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
     private void setListeners(){
         verifyBtn.setOnClickListener(this);
         parentView.setOnTouchListener(new HideKeyboardOnTouch(this));
+        codeEditText.setOnEditorActionListener(this);
     }
 
     @Override
@@ -126,5 +130,26 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
         }else {
             showErrorDialog(this);
         }
+    }
+
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+       if (i == EditorInfo.IME_ACTION_DONE) {
+            switch (textView.getId()) {
+                case R.id.et_school_name:
+                    if (validate(codeEditText.getText().toString())) {
+                        if(Util.isNetworkAvailable(SchoolLoginActivity.this)){
+                            SchoolLoginActivity.super.showLoadingDialog();
+                            schoolLoginView.getSchoolUrl(ApiEndPoints.SCHOOL_CODE_BASE_URL, codeEditText.getText().toString());
+                        }else {
+                            Util.showNoInternetConnectionDialog(SchoolLoginActivity.this);
+                        }
+                    }
+                    break;
+
+            }
+        }
+        return false;
     }
 }
