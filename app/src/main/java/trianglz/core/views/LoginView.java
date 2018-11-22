@@ -14,6 +14,7 @@ import trianglz.core.presenters.LoginPresenter;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.utils.Util;
 
 /**
  * Created by ${Aly} on 10/30/2018.
@@ -68,7 +69,13 @@ public class LoginView {
         String url = SessionManager.getInstance().getBaseUrl() + "/api/users/"
                 + SessionManager.getInstance().getUserId();
         String token = SessionManager.getInstance().getTokenKey();
-        UserManager.updateToken(url, token, new ResponseListener() {
+        String locale = "";
+        if(Util.getLocale(context).equals("ar")){
+            locale = "ar";
+        }else {
+            locale = "en";
+        }
+        UserManager.updateToken(url, token,locale, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
 

@@ -65,6 +65,12 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
     public boolean validate(String code) {
         boolean valid = true;
         if (code.isEmpty() || code.length() < 2) {

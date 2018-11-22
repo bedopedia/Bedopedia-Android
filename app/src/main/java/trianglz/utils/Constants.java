@@ -158,5 +158,6 @@ public class Constants {
     public static final String BAD = "Bad";
     public static final String KEY_OWNER = "owner";
     public static final String KEY_USERNAME = "username";
+    public static final String KEY_LOCALE = "locale";
 
 }

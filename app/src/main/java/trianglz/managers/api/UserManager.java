@@ -65,12 +65,14 @@ public class UserManager {
         });
     }
 
-    public static void updateToken(String url, String token, final ResponseListener responseListener) {
+    public static void updateToken(String url, String token,String locale, final ResponseListener responseListener) {
         HashMap<String, String> hashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject params = new JSONObject();
         JSONObject tokenJson = new JSONObject();
+
         try {
             tokenJson.put(Constants.MOBILE_DEVICE_TOKEN, token);
+            tokenJson.put(Constants.KEY_LOCALE, locale);
         } catch (JSONException e) {
             e.printStackTrace();
         }

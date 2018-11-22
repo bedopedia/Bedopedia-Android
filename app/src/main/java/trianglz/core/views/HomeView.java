@@ -19,6 +19,7 @@ import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Student;
+import trianglz.utils.Util;
 
 /**
  * Created by ${Aly} on 10/31/2018.
@@ -90,8 +91,13 @@ public class HomeView {
         String url = SessionManager.getInstance().getBaseUrl() + "/api/users/"
                 + SessionManager.getInstance().getUserId();
         String token = SessionManager.getInstance().getTokenKey();
-        Log.v("TEST_TOKEN", token);
-        UserManager.updateToken(url, token, new ResponseListener() {
+        String locale = "";
+        if(Util.getLocale(context).equals("ar")){
+            locale = "ar";
+        }else {
+            locale = "en";
+        }
+        UserManager.updateToken(url, token,locale, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
 
