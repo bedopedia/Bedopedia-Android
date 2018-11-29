@@ -3,7 +3,6 @@ package trianglz.ui.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -15,14 +14,9 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -44,7 +38,7 @@ import trianglz.ui.adapters.GradeDetailAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class GradeDetailActivity extends SuperActivity implements View.OnClickListener,GradeDetailPresenter {
+public class GradeDetailActivity extends SuperActivity implements View.OnClickListener, GradeDetailPresenter {
     private CourseGroup courseGroup;
     private RecyclerView recyclerView;
     private GradeDetailAdapter gradeDetailAdapter;
@@ -57,13 +51,14 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     private ArrayList<Quiz> quizArrayList;
     private ArrayList<Assignment> assignmentArrayList;
     private ArrayList<GradeItem> gradeItemArrayList;
-    private HashMap<CourseGradingPeriods,ArrayList<Object>> semesterHashMap;
-    private TextView allTextView,currentTextView;
+    private HashMap<CourseGradingPeriods, ArrayList<Object>> semesterHashMap;
+    private TextView allTextView, currentTextView;
     private ArrayList<Object> allSemestersList;
     private ArrayList<Object> currentSemester;
-    private HashMap<String,Double> quizzesHashMap;
-    private HashMap<String,Double> assignmentsHashMap;
-    private HashMap<String,Double> gradeItemHashMap;
+    private HashMap<String, Double> quizzesHashMap;
+    private HashMap<String, Double> assignmentsHashMap;
+    private HashMap<String, Double> gradeItemHashMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,17 +66,17 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         getValueFromIntent();
         bindViews();
         setListeners();
-        if(Util.getLocale(this).equals("ar")){
+        if (Util.getLocale(this).equals("ar")) {
             setTextBackgrounds(0);
         }
-        if(Util.isNetworkAvailable(this)){
+        if (Util.isNetworkAvailable(this)) {
             showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(),courseGroup.getId());
-            gradeDetailView.getAverageGrade(url,student.getId()+"");
-        }else {
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(), courseGroup.getId());
+            gradeDetailView.getAverageGrade(url, student.getId() + "");
+        } else {
             Util.showNoInternetConnectionDialog(this);
         }
-        
+
     }
 
     private void getValueFromIntent() {
@@ -93,13 +88,13 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         recyclerView = findViewById(R.id.recycler_view);
         gradeDetailAdapter = new GradeDetailAdapter(this);
         recyclerView.setAdapter(gradeDetailAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         studentImageView = findViewById(R.id.img_student);
         backBtn = findViewById(R.id.btn_back);
         imageLoader = new PicassoLoader();
         setStudentImage();
         backBtn = findViewById(R.id.btn_back);
-        gradeDetailView = new GradeDetailView(this,this);
+        gradeDetailView = new GradeDetailView(this, this);
         subjectHeaderTextView = findViewById(R.id.tv_subject_header);
         subjectHeaderTextView.setText(courseGroup.getCourseName());
         quizArrayList = new ArrayList<>();
@@ -115,7 +110,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         gradeItemHashMap = new HashMap<>();
     }
 
-    private void setListeners(){
+    private void setListeners() {
         backBtn.setOnClickListener(this);
         allTextView.setOnClickListener(this);
         currentTextView.setOnClickListener(this);
@@ -124,7 +119,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_back:
                 onBackPressed();
                 break;
@@ -156,6 +151,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
                         public void onSuccess() {
 
                         }
+
                         @Override
                         public void onError() {
                             imageLoader = new PicassoLoader();
@@ -166,27 +162,27 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     }
 
     @Override
-    public void onGetAverageGradesSuccess(HashMap<String,Double> quizzesHashMap,
-                                          HashMap<String,Double> assignmentsHashMap,
-                                          HashMap<String,Double> gradeItemHashMap) {
+    public void onGetAverageGradesSuccess(HashMap<String, Double> quizzesHashMap,
+                                          HashMap<String, Double> assignmentsHashMap,
+                                          HashMap<String, Double> gradeItemHashMap) {
 
         this.quizzesHashMap = quizzesHashMap;
         this.assignmentsHashMap = assignmentsHashMap;
         this.gradeItemHashMap = gradeItemHashMap;
 
         String courseGradePeriodUrl = SessionManager.getInstance().getBaseUrl() +
-                ApiEndPoints.studentGradeBook(courseGroup.getCourseId(),courseGroup.getId());
-        gradeDetailView.getStudentGradeBook(courseGradePeriodUrl,student.getId());
+                ApiEndPoints.studentGradeBook(courseGroup.getCourseId(), courseGroup.getId());
+        gradeDetailView.getStudentGradeBook(courseGradePeriodUrl, student.getId());
     }
 
     @Override
-    public void onGetAverageGradeFailure(String message,int errorCode) {
-        if(progress.isShowing()){
+    public void onGetAverageGradeFailure(String message, int errorCode) {
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             logoutUser(this);
-        }else {
+        } else {
             showErrorDialog(this);
         }
     }
@@ -197,18 +193,18 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         this.quizArrayList = quizArrayList;
         this.gradeItemArrayList = gradeItemArrayList;
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSemesters();
-        gradeDetailView.getSemesters(url, courseGroup.getCourseId()+"");
+        gradeDetailView.getSemesters(url, courseGroup.getCourseId() + "");
     }
 
 
     @Override
-    public void onGetStudentGradeBookFailure(String message,int errorCode) {
-        if(progress.isShowing()){
+    public void onGetStudentGradeBookFailure(String message, int errorCode) {
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             logoutUser(this);
-        }else {
+        } else {
             showErrorDialog(this);
         }
     }
@@ -222,21 +218,21 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onGetSemesterFailure(String message, int errorCode) {
-        if(progress.isShowing()){
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             logoutUser(this);
-        }else {
+        } else {
             showErrorDialog(this);
         }
     }
 
 
-    private void setAdapterData(ArrayList<CourseGradingPeriods> courseGradingPeriodsArrayList){
+    private void setAdapterData(ArrayList<CourseGradingPeriods> courseGradingPeriodsArrayList) {
         ArrayList<CourseGradingPeriods> allSemesterArrayList = handleSemesters(courseGradingPeriodsArrayList);
-        for(int i = 0; i<allSemesterArrayList.size(); i++){
-            semesterHashMap.put(allSemesterArrayList.get(i),new ArrayList<>());
+        for (int i = 0; i < allSemesterArrayList.size(); i++) {
+            semesterHashMap.put(allSemesterArrayList.get(i), new ArrayList<>());
         }
         setQuizzesInHashMap(allSemesterArrayList);
         setAssignmentArrayList(allSemesterArrayList);
@@ -246,128 +242,137 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
     }
 
-    private  ArrayList<CourseGradingPeriods> handleSemesters(ArrayList<CourseGradingPeriods> courseGradingPeriodsArrayList){
+    private ArrayList<CourseGradingPeriods> handleSemesters(ArrayList<CourseGradingPeriods> courseGradingPeriodsArrayList) {
         ArrayList<CourseGradingPeriods> expandedSemesters = new ArrayList<>();
-        for(int i =0; i<courseGradingPeriodsArrayList.size(); i++){
+        for (int i = 0; i < courseGradingPeriodsArrayList.size(); i++) {
             CourseGradingPeriods courseGradingPeriods = courseGradingPeriodsArrayList.get(i);
             expandedSemesters.add(courseGradingPeriods);
-            if(courseGradingPeriods.subGradingPeriodsAttributes != null){
+            if (courseGradingPeriods.subGradingPeriodsAttributes != null) {
                 expandedSemesters.add(courseGradingPeriods.subGradingPeriodsAttributes);
             }
         }
         return (expandedSemesters);
     }
 
-    private void setQuizzesInHashMap( ArrayList<CourseGradingPeriods> expandedSemesters ){
+    private void setQuizzesInHashMap(ArrayList<CourseGradingPeriods> expandedSemesters) {
         boolean isToAdd = true;
         int headerPosition = -1;
         double studentMark = 0;
         double totalMarks = 0;
-        for(int quiz = 0; quiz<quizArrayList.size(); quiz++){
-            for(int semester = 0; semester< expandedSemesters.size(); semester++){
-                if(Util.isDateInside(expandedSemesters.get(semester).startDate,
-                        expandedSemesters.get(semester).endDate,quizArrayList.get(quiz).endDate)){
+        for (int semester = 0; semester < expandedSemesters.size(); semester++) {
+            isToAdd = true;
+            for (int quiz = 0; quiz < quizArrayList.size(); quiz++) {
+                if (Util.isDateInside(expandedSemesters.get(semester).startDate,
+                        expandedSemesters.get(semester).endDate, quizArrayList.get(quiz).endDate)) {
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(semester));
-                    if(isToAdd){
+                    if (isToAdd) {
                         isToAdd = false;
                         GradeHeader gradeHeader = new GradeHeader();
                         gradeHeader.header = getResources().getString(R.string.quizzes);
                         objectArrayList.add(gradeHeader);
-                        headerPosition = objectArrayList.size()-1;
+                        headerPosition = objectArrayList.size() - 1;
                     }
                     Quiz quiz1 = quizArrayList.get(quiz);
                     objectArrayList.add(quiz1);
                     totalMarks = totalMarks + quiz1.total;
                     studentMark = studentMark + quiz1.grade;
-                    GradeHeader gradeHeader = (GradeHeader) objectArrayList.get(headerPosition);
-                    gradeHeader.sumOfStudentMarks = studentMark;
-                    gradeHeader.totalSummtion = totalMarks;
-                    objectArrayList.set(headerPosition,gradeHeader);
-                    semesterHashMap.put(expandedSemesters.get(semester),objectArrayList);
+                    if(objectArrayList.get(headerPosition) instanceof GradeHeader){
+                        GradeHeader gradeHeader = (GradeHeader) objectArrayList.get(headerPosition);
+                        gradeHeader.sumOfStudentMarks = studentMark;
+                        gradeHeader.totalSummtion = totalMarks;
+                        objectArrayList.set(headerPosition, gradeHeader);
+                        semesterHashMap.put(expandedSemesters.get(semester), objectArrayList);
+                    }
                 }
             }
         }
     }
 
-    private void setGradingItems( ArrayList<CourseGradingPeriods> expandedSemesters ){
+    private void setGradingItems(ArrayList<CourseGradingPeriods> expandedSemesters) {
         boolean isToAdd = true;
         int headerPosition = -1;
         double studentMark = 0;
         double totalMarks = 0;
-        for(int i = 0; i<gradeItemArrayList.size(); i++){
-            for(int j = 0; j< expandedSemesters.size(); j++){
-                if(Util.isDateInside(expandedSemesters.get(j).startDate,
-                        expandedSemesters.get(j).endDate,gradeItemArrayList.get(i).endDate)){
-                    ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(j));
-                    if(isToAdd){
+        for (int i = 0; i < expandedSemesters.size(); i++) {
+            isToAdd = true;
+            for (int j = 0; j < gradeItemArrayList.size(); j++) {
+                if (Util.isDateInside(expandedSemesters.get(i).startDate,
+                        expandedSemesters.get(i).endDate, gradeItemArrayList.get(j).endDate)) {
+                    ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(i));
+                    if (isToAdd) {
                         isToAdd = false;
                         GradeHeader gradeHeader = new GradeHeader();
                         gradeHeader.header = getResources().getString(R.string.grade_items);
                         objectArrayList.add(gradeHeader);
-                        headerPosition = objectArrayList.size()-1;
+                        headerPosition = objectArrayList.size() - 1;
                     }
-                    GradeItem gradeItem = gradeItemArrayList.get(i);
+                    GradeItem gradeItem = gradeItemArrayList.get(j);
                     objectArrayList.add(gradeItem);
                     totalMarks = totalMarks + gradeItem.total;
                     studentMark = studentMark + gradeItem.grade;
-                    GradeHeader gradeHeader = (GradeHeader) objectArrayList.get(headerPosition);
-                    gradeHeader.sumOfStudentMarks = studentMark;
-                    gradeHeader.totalSummtion = totalMarks;
-                    objectArrayList.set(headerPosition,gradeHeader);
-                    semesterHashMap.put(expandedSemesters.get(j),objectArrayList);
+                    if (objectArrayList.get(headerPosition) instanceof GradeHeader) {
+                        GradeHeader gradeHeader = (GradeHeader) objectArrayList.get(headerPosition);
+                        gradeHeader.sumOfStudentMarks = studentMark;
+                        gradeHeader.totalSummtion = totalMarks;
+                        objectArrayList.set(headerPosition, gradeHeader);
+                        semesterHashMap.put(expandedSemesters.get(i), objectArrayList);
+                    }
                 }
             }
         }
     }
 
-        private void setAssignmentArrayList( ArrayList<CourseGradingPeriods> expandedSemesters ){
+    private void setAssignmentArrayList(ArrayList<CourseGradingPeriods> expandedSemesters) {
         boolean isToAdd = true;
         int headerPosition = -1;
         double studentMark = 0;
         double totalMarks = 0;
-        for(int i = 0; i<assignmentArrayList.size(); i++){
-            for(int j = 0; j< expandedSemesters.size(); j++){
-                if(Util.isDateInside(expandedSemesters.get(j).startDate,
-                        expandedSemesters.get(j).endDate,assignmentArrayList.get(i).endDate)){
-                    ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(j));
-                    if(isToAdd){
+        for (int i = 0; i < expandedSemesters.size(); i++) {
+            isToAdd = true;
+            for (int j = 0; j < assignmentArrayList.size(); j++) {
+                if (Util.isDateInside(expandedSemesters.get(i).startDate,
+                        expandedSemesters.get(i).endDate, assignmentArrayList.get(j).endDate)) {
+                    ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(i));
+                    if (isToAdd) {
                         isToAdd = false;
                         GradeHeader gradeHeader = new GradeHeader();
                         gradeHeader.header = getResources().getString(R.string.assignments);
                         objectArrayList.add(gradeHeader);
-                        headerPosition = objectArrayList.size()-1;
+                        headerPosition = objectArrayList.size() - 1;
                     }
-                    Assignment assignment = assignmentArrayList.get(i);
+                    Assignment assignment = assignmentArrayList.get(j);
                     objectArrayList.add(assignment);
                     totalMarks = totalMarks + assignment.total;
                     studentMark = studentMark + assignment.grade;
-                    GradeHeader gradeHeader = (GradeHeader) objectArrayList.get(headerPosition);
-                    gradeHeader.sumOfStudentMarks = studentMark;
-                    gradeHeader.totalSummtion = totalMarks;
-                    objectArrayList.set(headerPosition,gradeHeader);
-                    semesterHashMap.put(expandedSemesters.get(j),objectArrayList);
+                    if (objectArrayList.get(headerPosition) instanceof GradeHeader) {
+                        GradeHeader gradeHeader = (GradeHeader) objectArrayList.get(headerPosition);
+                        gradeHeader.sumOfStudentMarks = studentMark;
+                        gradeHeader.totalSummtion = totalMarks;
+                        objectArrayList.set(headerPosition, gradeHeader);
+                        semesterHashMap.put(expandedSemesters.get(i), objectArrayList);
+                    }
                 }
             }
 
         }
     }
 
-    private void setData(){
+    private void setData() {
         boolean isCurrent = false;
         allSemestersList = new ArrayList<>();
-       currentSemester = new ArrayList<>();
+        currentSemester = new ArrayList<>();
         List keys = sortKeys();
-        for(int i = 0 ;i <keys.size() ; i++){
+        for (int i = 0; i < keys.size(); i++) {
             allSemestersList.add(keys.get(i));
             CourseGradingPeriods courseGradingPeriods = (CourseGradingPeriods) keys.get(i);
-            if(Util.isDateInside(courseGradingPeriods.startDate,courseGradingPeriods.endDate,Util.getCurrentDate())){
+            if (Util.isDateInside(courseGradingPeriods.startDate, courseGradingPeriods.endDate, Util.getCurrentDate())) {
                 currentSemester.add(keys.get(i));
                 isCurrent = true;
             }
             ArrayList<Object> objectArrayList = semesterHashMap.get(keys.get(i));
-            for(int j = 0; j<objectArrayList.size(); j++){
+            for (int j = 0; j < objectArrayList.size(); j++) {
                 allSemestersList.add(objectArrayList.get(j));
-                if(isCurrent){
+                if (isCurrent) {
                     currentSemester.add(objectArrayList.get(j));
                 }
             }
@@ -376,30 +381,30 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         gradeDetailAdapter.addData(allSemestersList);
     }
 
-    private List sortKeys(){
+    private List sortKeys() {
         List keys = new ArrayList(semesterHashMap.keySet());
-        if(keys.size()>0){
+        if (keys.size() > 0) {
             CourseGradingPeriods keyArray[] = new CourseGradingPeriods[keys.size()];
-            for(int i = 0; i<keys.size(); i++){
-                keyArray[i] =(CourseGradingPeriods) keys.get(i);
+            for (int i = 0; i < keys.size(); i++) {
+                keyArray[i] = (CourseGradingPeriods) keys.get(i);
             }
             Arrays.sort(keyArray, new Comparator<CourseGradingPeriods>() {
                 @Override
                 public int compare(CourseGradingPeriods entry1, CourseGradingPeriods entry2) {
-                    Long time1 =(Util.convertStringToDate(entry1.endDate).getTime());
+                    Long time1 = (Util.convertStringToDate(entry1.endDate).getTime());
                     long time2 = (Util.convertStringToDate(entry2.endDate).getTime());
                     return time1.compareTo(time2);
                 }
             });
-            for(int i = 0; i<keys.size(); i++){
-                keys.set(i,keyArray[i]);
+            for (int i = 0; i < keys.size(); i++) {
+                keys.set(i, keyArray[i]);
             }
         }
         return keys;
     }
 
     private void setTextBackgrounds(int pageNumber) {
-        if(Util.getLocale(this).equals("ar")){
+        if (Util.getLocale(this).equals("ar")) {
             if (pageNumber == 0) {
                 allTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
                 allTextView.setTextColor(getResources().getColor(R.color.white));
@@ -411,7 +416,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
                 currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
                 currentTextView.setTextColor(getResources().getColor(R.color.white));
             }
-        }else {
+        } else {
             if (pageNumber == 0) {
                 allTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
                 allTextView.setTextColor(getResources().getColor(R.color.white));
@@ -428,24 +433,24 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     }
 
 
-    private void setAverageValues(){
+    private void setAverageValues() {
         DecimalFormat df = new DecimalFormat("#.#");
 
-        for(int i = 0; i<assignmentArrayList.size(); i++){
-            if(assignmentsHashMap.get(assignmentArrayList.get(i).id+"") != null){
-                assignmentArrayList.get(i).averageGrade = df.format(assignmentsHashMap.get(assignmentArrayList.get(i).id+""));
+        for (int i = 0; i < assignmentArrayList.size(); i++) {
+            if (assignmentsHashMap.get(assignmentArrayList.get(i).id + "") != null) {
+                assignmentArrayList.get(i).averageGrade = df.format(assignmentsHashMap.get(assignmentArrayList.get(i).id + ""));
             }
         }
-        for(int i = 0; i<quizArrayList.size(); i++){
-            if(quizzesHashMap.get(quizArrayList.get(i).id+"") != null){
-                quizArrayList.get(i).averageGrade = df.format(quizzesHashMap.get(quizArrayList.get(i).id+"")) ;
+        for (int i = 0; i < quizArrayList.size(); i++) {
+            if (quizzesHashMap.get(quizArrayList.get(i).id + "") != null) {
+                quizArrayList.get(i).averageGrade = df.format(quizzesHashMap.get(quizArrayList.get(i).id + ""));
 
             }
         }
 
-        for(int i = 0; i<gradeItemArrayList.size(); i++){
-            if(gradeItemHashMap.get(gradeItemArrayList.get(i).id+"") != null){
-                gradeItemArrayList.get(i).averageGrade = df.format(gradeItemHashMap.get(gradeItemArrayList.get(i).id+""));
+        for (int i = 0; i < gradeItemArrayList.size(); i++) {
+            if (gradeItemHashMap.get(gradeItemArrayList.get(i).id + "") != null) {
+                gradeItemArrayList.get(i).averageGrade = df.format(gradeItemHashMap.get(gradeItemArrayList.get(i).id + ""));
             }
         }
     }
