@@ -7,9 +7,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -305,8 +308,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
             }
             isToAdd = true;
             for (int j = 0; j < gradeItemArrayList.size(); j++) {
-                if (Util.isDateInside(expandedSemesters.get(i).startDate,
-                        expandedSemesters.get(i).endDate, gradeItemArrayList.get(j).endDate)) {
+                if (expandedSemesters.get(i).id == gradeItemArrayList.get(j).gradingPeriodId ) {
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(i));
                     if (isToAdd) {
                         isToAdd = false;
@@ -377,9 +379,15 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         for (int i = 0; i < keys.size(); i++) {
             allSemestersList.add(keys.get(i));
             CourseGradingPeriods courseGradingPeriods = (CourseGradingPeriods) keys.get(i);
-            if (Util.isDateInside(courseGradingPeriods.startDate, courseGradingPeriods.endDate, Util.getCurrentDate())) {
+            if (Util.isDateInside(courseGradingPeriods.startDate, courseGradingPeriods.endDate, Util.getCurrentDate())
+                    && !courseGradingPeriods.isParent) {
                 currentSemester.add(keys.get(i));
                 isCurrent = true;
+            }else if(courseGradingPeriods.isChild){
+                if (Util.isDateInside(courseGradingPeriods.parentStartDate, courseGradingPeriods.parentEndDate, Util.getCurrentDate())) {
+                    currentSemester.add(keys.get(i));
+                    isCurrent = true;
+                }
             }
             ArrayList<Object> objectArrayList = semesterHashMap.get(keys.get(i));
             for (int j = 0; j < objectArrayList.size(); j++) {
@@ -432,6 +440,8 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         }
         return keys;
     }
+
+
 
     private void setTextBackgrounds(int pageNumber) {
         if (Util.getLocale(this).equals("ar")) {

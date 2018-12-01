@@ -167,7 +167,8 @@ public class GradeDetailView {
             double gradeView = jsonObject.optDouble(Constants.KEY_GRADE_VIEW);
             String feedBack = jsonObject.optString(Constants.KEY_FEED_BACK);
             String endDate = jsonObject.optString(Constants.KEY_END_DATE);
-            gradeItemArrayList.add(new GradeItem(id,name,maxGrade,total,grade,gradeView,feedBack,endDate));
+            int gradingPeriodId = jsonObject.optInt(Constants.KEY_GRADING_PERIOD_ID);
+            gradeItemArrayList.add(new GradeItem(id,name,maxGrade,total,grade,gradeView,feedBack,endDate,gradingPeriodId));
         }
         return gradeItemArrayList;
     }
@@ -197,6 +198,8 @@ public class GradeDetailView {
                 int subWeight = subGradeObject.optInt(Constants.KEY_WEIGHT);
                 subCourseGradingPeriods = new CourseGradingPeriods(subEndDate,
                         subID,subLock,subName,subPublish,subStartDate,null,subWeight,true,false);
+                subCourseGradingPeriods.parentStartDate = startDate;
+                subCourseGradingPeriods.parentEndDate = endDate;
                 subGradingPeriodsArrayList.add(subCourseGradingPeriods);
             }
             if(subGradingPeriodsArrayList.size()>0){

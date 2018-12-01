@@ -17,6 +17,9 @@ public class CourseGradingPeriods {
     public boolean isChild;
     public boolean isParent;
 
+    public String parentStartDate = "";
+    public  String parentEndDate = "";
+
     public CourseGradingPeriods(String endDate, int id, boolean lock, String name, boolean publish,
                                 String startDate, ArrayList<CourseGradingPeriods> subGradingPeriodsAttributes,
                                 int weight, boolean isChild, boolean isParent) {

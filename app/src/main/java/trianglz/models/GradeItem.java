@@ -13,8 +13,10 @@ public class GradeItem {
     public String feedBack;
     public String endDate;
     public String averageGrade = "";
+    public int gradingPeriodId;
 
-    public GradeItem(int id, String name, int maxGrade, double total, double grade, double gradeView, String feedBack, String endDate) {
+    public GradeItem(int id, String name, int maxGrade, double total, double grade,
+                     double gradeView, String feedBack, String endDate, int gradingPeriodId) {
         this.id = id;
         this.name = name;
         this.maxGrade = maxGrade;
@@ -23,5 +25,6 @@ public class GradeItem {
         this.gradeView = gradeView;
         this.feedBack = feedBack;
         this.endDate = endDate;
+        this.gradingPeriodId = gradingPeriodId;
     }
 }
