@@ -1,5 +1,7 @@
 package trianglz.models;
 
+import java.util.ArrayList;
+
 /**
  * Created by ${Aly} on 11/9/2018.
  */
@@ -10,12 +12,14 @@ public class CourseGradingPeriods {
     public String name;
     public boolean publish;
     public String startDate;
-    public CourseGradingPeriods subGradingPeriodsAttributes;
+    public ArrayList<CourseGradingPeriods> subGradingPeriodsAttributes;
     public int weight;
     public boolean isChild;
+    public boolean isParent;
 
     public CourseGradingPeriods(String endDate, int id, boolean lock, String name, boolean publish,
-                                String startDate, CourseGradingPeriods subGradingPeriodsAttributes, int weight, boolean isChild) {
+                                String startDate, ArrayList<CourseGradingPeriods> subGradingPeriodsAttributes,
+                                int weight, boolean isChild, boolean isParent) {
         this.endDate = endDate;
         this.id = id;
         this.lock = lock;
@@ -25,5 +29,6 @@ public class CourseGradingPeriods {
         this.subGradingPeriodsAttributes = subGradingPeriodsAttributes;
         this.weight = weight;
         this.isChild = isChild;
+        this.isParent = isParent;
     }
 }

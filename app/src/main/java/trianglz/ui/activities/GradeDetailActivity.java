@@ -248,7 +248,10 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
             CourseGradingPeriods courseGradingPeriods = courseGradingPeriodsArrayList.get(i);
             expandedSemesters.add(courseGradingPeriods);
             if (courseGradingPeriods.subGradingPeriodsAttributes != null) {
-                expandedSemesters.add(courseGradingPeriods.subGradingPeriodsAttributes);
+                for(int j = 0; j<courseGradingPeriods.subGradingPeriodsAttributes.size(); j++){
+                    expandedSemesters.add(courseGradingPeriods.subGradingPeriodsAttributes.get(j));
+                }
+
             }
         }
         return (expandedSemesters);
@@ -260,6 +263,9 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         double studentMark = 0;
         double totalMarks = 0;
         for (int semester = 0; semester < expandedSemesters.size(); semester++) {
+            if(expandedSemesters.get(semester).isParent){
+                continue;
+            }
             isToAdd = true;
             for (int quiz = 0; quiz < quizArrayList.size(); quiz++) {
                 if (Util.isDateInside(expandedSemesters.get(semester).startDate,
@@ -294,6 +300,9 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         double studentMark = 0;
         double totalMarks = 0;
         for (int i = 0; i < expandedSemesters.size(); i++) {
+            if(expandedSemesters.get(i).isParent){
+                continue;
+            }
             isToAdd = true;
             for (int j = 0; j < gradeItemArrayList.size(); j++) {
                 if (Util.isDateInside(expandedSemesters.get(i).startDate,
@@ -328,6 +337,9 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         double studentMark = 0;
         double totalMarks = 0;
         for (int i = 0; i < expandedSemesters.size(); i++) {
+            if(expandedSemesters.get(i).isParent){
+                continue;
+            }
             isToAdd = true;
             for (int j = 0; j < assignmentArrayList.size(); j++) {
                 if (Util.isDateInside(expandedSemesters.get(i).startDate,
@@ -393,7 +405,25 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
                 public int compare(CourseGradingPeriods entry1, CourseGradingPeriods entry2) {
                     Long time1 = (Util.convertStringToDate(entry1.endDate).getTime());
                     long time2 = (Util.convertStringToDate(entry2.endDate).getTime());
-                    return time1.compareTo(time2);
+                    Long time3 = (Util.convertStringToDate(entry1.startDate).getTime());
+                    long time4 = (Util.convertStringToDate(entry2.startDate).getTime());
+                    int endResult =  time1.compareTo(time2);
+                    int startResult = time3.compareTo(time4);
+                    if(startResult == 0 || endResult == 0){
+                        if(startResult == 0){
+                            if(endResult>0){
+                                return -1;
+                            }else {
+                                return 1;
+                            }
+                        }else{
+                            return startResult;
+                        }
+
+                    }else {
+                        return endResult;
+                    }
+
                 }
             });
             for (int i = 0; i < keys.size(); i++) {

@@ -185,8 +185,9 @@ public class GradeDetailView {
             String startDate = jsonObject.optString(Constants.KEY_START_DATE);
             int weight = jsonObject.optInt(Constants.KEY_WEIGHT);
             JSONArray subGradingArray = jsonObject.optJSONArray(Constants.KEY_SUB_GRADING_ATTRIBUTES);
+            ArrayList<CourseGradingPeriods> subGradingPeriodsArrayList = new ArrayList<>();
             for(int j = 0; j<subGradingArray.length(); j++){
-                JSONObject subGradeObject = subGradingArray.optJSONObject(i);
+                JSONObject subGradeObject = subGradingArray.optJSONObject(j);
                 String subEndDate = subGradeObject.optString(Constants.KEY_END_DATE);
                 int subID = subGradeObject.optInt(Constants.KEY_ID);
                 boolean subLock = subGradeObject.optBoolean(Constants.KEY_LOCK);
@@ -195,12 +196,19 @@ public class GradeDetailView {
                 String subStartDate = subGradeObject.optString(Constants.KEY_START_DATE);
                 int subWeight = subGradeObject.optInt(Constants.KEY_WEIGHT);
                 subCourseGradingPeriods = new CourseGradingPeriods(subEndDate,
-                        subID,subLock,subName,subPublish,subStartDate,null,subWeight,true);
+                        subID,subLock,subName,subPublish,subStartDate,null,subWeight,true,false);
+                subGradingPeriodsArrayList.add(subCourseGradingPeriods);
+            }
+            if(subGradingPeriodsArrayList.size()>0){
+                gradingPeriodsArrayList.add(new CourseGradingPeriods(endDate+"",id,lock,
+                        name,publish,startDate,subGradingPeriodsArrayList,
+                        weight,false,true));
+            }else {
+                gradingPeriodsArrayList.add(new CourseGradingPeriods(endDate+"",id,lock,
+                        name,publish,startDate,subGradingPeriodsArrayList,
+                        weight,false,false));
             }
 
-            gradingPeriodsArrayList.add(new CourseGradingPeriods(endDate+"",id,lock,
-                    name,publish,startDate,subCourseGradingPeriods,
-                    weight,false));
         }
         return gradingPeriodsArrayList;
     }
