@@ -185,8 +185,8 @@ public class UserManager {
         HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String,String> paramsHashMap = new HashMap<>();
         paramsHashMap.put(Constants.KEY_STUDENT_ID , studentId);
-        paramsHashMap.put(Constants.KEY_USER_TYPE , Constants.KEY_PARENTS);
-        NetworkManager.getWithParameter(url, headerHashMap, paramsHashMap, new HandleResponseListener() {
+        paramsHashMap.put(Constants.KEY_USER_TYPE ,"Parents");
+        NetworkManager.getWithParameter(url, paramsHashMap, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 responseListener.onSuccess(response);
