@@ -20,6 +20,7 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.utils.Util;
 
@@ -51,7 +52,18 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
     public void onBindViewHolder(final Holder holder, final int position) {
         MessageThread messageThread = mDataList.get(position);
         holder.teacherName.setText(messageThread.otherNames);
-        holder.subjectTextView.setText(messageThread.courseName);
+        if(!messageThread.courseName.isEmpty() && !messageThread.courseName.equals("null")){
+            holder.subjectTextView.setText(messageThread.courseName);
+        }else {
+            if(messageThread.messageArrayList.size()>0){
+                Message message = messageThread.messageArrayList.get(messageThread.messageArrayList.size()-1);
+                String body = android.text.Html.fromHtml(message.body).toString().trim();
+                holder.subjectTextView.setText(body);
+            }else {
+                holder.subjectTextView.setText("");
+            }
+        }
+
         holder.dateBtn.setText(Util.getDate(messageThread.lastAddedDate));
         setTeacherImage(messageThread.otherAvatars, messageThread.otherNames, holder);
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {

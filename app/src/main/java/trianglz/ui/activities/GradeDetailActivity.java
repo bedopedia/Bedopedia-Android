@@ -474,7 +474,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
 
     private void setAverageValues() {
-        DecimalFormat df = new DecimalFormat("#.#");
+        DecimalFormat df = new DecimalFormat("#.##");
 
         for (int i = 0; i < assignmentArrayList.size(); i++) {
             if (assignmentsHashMap.get(assignmentArrayList.get(i).id + "") != null) {
