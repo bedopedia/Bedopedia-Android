@@ -101,10 +101,16 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             HeaderViewHolder headerViewHolder = ((HeaderViewHolder)holder);
             GradeHeader gradeHeader = ((GradeHeader)mDataList.get(position));
             headerViewHolder.headerTextView.setText(gradeHeader.header);
-            String studentMark = getColoredSpanned(gradeHeader.sumOfStudentMarks+"", "#28bb4e");
-            String totalSum = getColoredSpanned("/" + gradeHeader.totalSummtion,"#52616b");
-            String average = studentMark +totalSum;
-            headerViewHolder.headerGradeTextView.setText(Html.fromHtml(average));
+            if(gradeHeader.publish){
+                headerViewHolder.headerGradeTextView.setVisibility(View.VISIBLE);
+                String studentMark = getColoredSpanned(gradeHeader.sumOfStudentMarks+"", "#28bb4e");
+                String totalSum = getColoredSpanned("/" + gradeHeader.totalSummtion,"#52616b");
+                String average = studentMark +totalSum;
+                headerViewHolder.headerGradeTextView.setText(Html.fromHtml(average));
+            }else {
+                headerViewHolder.headerGradeTextView.setVisibility(View.INVISIBLE);
+            }
+
         }
     }
 

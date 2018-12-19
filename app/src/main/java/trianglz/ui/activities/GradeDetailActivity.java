@@ -278,6 +278,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
                         isToAdd = false;
                         GradeHeader gradeHeader = new GradeHeader();
                         gradeHeader.header = getResources().getString(R.string.quizzes);
+                        gradeHeader.publish = expandedSemesters.get(semester).publish;
                         objectArrayList.add(gradeHeader);
                         headerPosition = objectArrayList.size() - 1;
                     }
@@ -314,6 +315,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
                         isToAdd = false;
                         GradeHeader gradeHeader = new GradeHeader();
                         gradeHeader.header = getResources().getString(R.string.grade_items);
+                        gradeHeader.publish = expandedSemesters.get(i).publish;
                         objectArrayList.add(gradeHeader);
                         headerPosition = objectArrayList.size() - 1;
                     }
@@ -351,6 +353,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
                         isToAdd = false;
                         GradeHeader gradeHeader = new GradeHeader();
                         gradeHeader.header = getResources().getString(R.string.assignments);
+                        gradeHeader.publish = expandedSemesters.get(i).publish;
                         objectArrayList.add(gradeHeader);
                         headerPosition = objectArrayList.size() - 1;
                     }

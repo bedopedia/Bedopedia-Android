@@ -7,4 +7,5 @@ public class GradeHeader {
     public String header;
     public Double sumOfStudentMarks;
     public Double totalSummtion;
+    public boolean publish;
 }
