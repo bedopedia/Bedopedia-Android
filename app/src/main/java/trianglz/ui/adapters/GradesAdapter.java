@@ -48,7 +48,7 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
         CourseGroup courseGroup = mDataList.get(position);
-        if(courseGroup.getLetter().isEmpty() || courseGroup.getLetter().equals("--")){
+        if(courseGroup.getLetter().isEmpty() || courseGroup.getLetter().equals("--") || !courseGroup.publish){
             holder.gradeTextView.setVisibility(View.GONE);
         }else {
             holder.gradeTextView.setVisibility(View.VISIBLE);

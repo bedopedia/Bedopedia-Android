@@ -135,6 +135,17 @@ public class StudentDetailView {
                     } else {
                         courseGroups.get(j).setIcon("non");
                     }
+                    JSONArray gradingPeriodsGradesJsonArray = courseData.optJSONArray(Constants.KEY_GRADING_PERIODS_GRADES);
+                    for(int gradingPeriodPos =0; gradingPeriodPos<gradingPeriodsGradesJsonArray.length();gradingPeriodPos++){
+                        JSONObject gradingPeriodGradeJsonObject = gradingPeriodsGradesJsonArray.optJSONObject(gradingPeriodPos);
+                        boolean publish = gradingPeriodGradeJsonObject.optBoolean(Constants.KEY_PUBLISH);
+                        if(!publish){
+                            courseGroups.get(j).publish = false;
+                        }
+                        if(!publish){
+                            break;
+                        }
+                    }
                 }
 
         }

@@ -13,6 +13,7 @@ public class CourseGroup implements Serializable {
     String grade;
     String icon;
     String letter = "";
+    public boolean publish = true;
 
     public CourseGroup() {
         this.id = 0;
