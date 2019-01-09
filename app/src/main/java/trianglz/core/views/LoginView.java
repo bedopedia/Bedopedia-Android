@@ -14,6 +14,8 @@ import trianglz.core.presenters.LoginPresenter;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.Actor;
+import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
 /**
@@ -33,8 +35,6 @@ public class LoginView {
             @Override
             public void onSuccess(JSONObject response) {
                 parseLoginResponse(response);
-                refreshFireBaseToken();
-                loginPresenter.onLoginSuccess();
             }
 
             @Override
@@ -64,6 +64,22 @@ public class LoginView {
         String id = data.optString("actable_id");
         int unSeenNotification = data.optInt("unseen_notifications");
         SessionManager.getInstance().createLoginSession(username, userId, id,unSeenNotification);
+        String userType = data.optString(Constants.KEY_USER_TYPE);
+        if(userType.equals("parent")){
+            SessionManager.getInstance().setUserType(true);
+            refreshFireBaseToken();
+            loginPresenter.onLoginSuccess();
+        }else {
+            SessionManager.getInstance().setUserType(false);
+            String firstName =  data.optString("firstname");
+            String lastName = data.optString("lastname");
+            String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);
+            String avtarUrl = data.optString(Constants.KEY_AVATER_URL);
+            Actor actor = new Actor(firstName,lastName,actableType,avtarUrl);
+            refreshFireBaseToken();
+            loginPresenter.onLoginSuccess(actor);
+        }
+
     }
     public void updateToken() {
         String url = SessionManager.getInstance().getBaseUrl() + "/api/users/"

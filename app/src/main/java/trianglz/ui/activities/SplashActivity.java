@@ -56,15 +56,23 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
         SplashActivity.this.startActivity(intent);
     }
 
+    private void openStudentDetailActivity() {
+        Intent intent = new Intent(SplashActivity.this, StudentDetailActivity.class);
+        SplashActivity.this.startActivity(intent);
+    }
+
     @Override
     public void onLoginSuccess() {
-        openHomeActivity();
+        if(SessionManager.getInstance().getUserType()){
+            openHomeActivity();
+        }else {
+            openStudentDetailActivity();
+        }
         finish();
     }
 
     @Override
     public void onLoginFailure(String message, int code) {
-        // TODO: 11/14/2018 handle login failure in splash
         openSchoolLoginActivity();
         finish();
     }

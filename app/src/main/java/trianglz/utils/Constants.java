@@ -161,4 +161,8 @@ public class Constants {
     public static final String KEY_LOCALE = "locale";
     public static final String KEY_GRADING_PERIOD_ID = "grading_period_id";
     public static final String KEY_GRADING_PERIODS_GRADES = "grading_periods_grades";
+
+
+    public static final String KEY_ACTABLE_TYPE = "actable_type";
+    public static final String KEY_ACTOR = "actor";
 }
