@@ -128,5 +128,7 @@
     <string name="enter_password">Enter password</string>
     <string name="enter_school_code">Enter school code</string>
     <string name="wrong_school_code">Wrong school code</string>
-    <string name="annoucment">Annoucment</string>
+
+    <string name="annoucment">Announcement</string>
+    <string name="unread_notifications">Unread Notifications</string>
 </resources>

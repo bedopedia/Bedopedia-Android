@@ -187,6 +187,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             levelTextView.setText(actor.actableType);
             actorHeaderLayout.setVisibility(View.VISIBLE);
             studentHeaderLayout.setVisibility(View.INVISIBLE);
+            String notificationText = SessionManager.getInstance().getNotficiationCounter() + " "+getResources().getString(R.string.unread_notifications);
+            notificationTextView.setText(notificationText);
         }else {
             parentLayout.setVisibility(View.VISIBLE);
             teacherLayout.setVisibility(View.GONE);
