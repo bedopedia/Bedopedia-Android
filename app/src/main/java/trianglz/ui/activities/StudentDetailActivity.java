@@ -1,7 +1,9 @@
 package trianglz.ui.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -32,6 +34,8 @@ import agency.tango.android.avatarview.views.AvatarView;
 import attendance.Attendance;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.LocalHelper;
+import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.StudentDetailPresenter;
 import trianglz.core.views.StudentDetailView;
 import trianglz.managers.SessionManager;
@@ -43,7 +47,8 @@ import trianglz.models.TimeTableSlot;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class StudentDetailActivity extends SuperActivity implements StudentDetailPresenter, View.OnClickListener {
+public class StudentDetailActivity extends SuperActivity implements StudentDetailPresenter,
+        View.OnClickListener,SettingsDialog.SettingsDialogInterface {
 
     private List<TimeTableSlot> todaySlots;
     private List<TimeTableSlot> tomorrowSlots;
@@ -79,6 +84,10 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private RelativeLayout bottomLayout;
     private Actor actor;
     private String actorName = "";
+    private ImageButton settingsBtn;
+    private LinearLayout studentHeaderLayout,actorHeaderLayout;
+    private SettingsDialog settingsDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +151,11 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         annoucmentLayout = findViewById(R.id.layout_annoucment);
         annoucmentTextView = findViewById(R.id.tv_annoucment);
         bottomLayout = findViewById(R.id.layout_bottom);
+        settingsBtn = findViewById(R.id.btn_setting);
+        studentHeaderLayout = findViewById(R.id.layout_student_header);
+        actorHeaderLayout = findViewById(R.id.layout_actor_header);
+        settingsDialog = new SettingsDialog(this, R.style.SettingsDialog, this);
+
 
     }
 
@@ -158,6 +172,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         notificationLayout.setOnClickListener(this);
         messagesLayout.setOnClickListener(this);
         annoucmentLayout.setOnClickListener(this);
+        settingsBtn.setOnClickListener(this);
     }
 
     private void setParentActorView() {
@@ -170,6 +185,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             setStudentImage(actor.imageUrl,actorName);
             nameTextView.setText(actorName);
             levelTextView.setText(actor.actableType);
+            actorHeaderLayout.setVisibility(View.VISIBLE);
+            studentHeaderLayout.setVisibility(View.INVISIBLE);
         }else {
             parentLayout.setVisibility(View.VISIBLE);
             teacherLayout.setVisibility(View.GONE);
@@ -181,6 +198,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             nameTextView.setText(studentName);
             levelTextView.setText(student.level);
             messagesBtn.setVisibility(View.VISIBLE);
+            actorHeaderLayout.setVisibility(View.INVISIBLE);
+            studentHeaderLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -388,6 +407,9 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             case R.id.layout_annoucment:
                 // TODO: 1/9/19 open annoucment layout
                 break;
+            case R.id.btn_setting:
+                settingsDialog.show();
+                break;
         }
     }
 
@@ -457,4 +479,47 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         startActivity(myIntent);
     }
 
+    @Override
+    public void onChangeLanguageClicked() {
+        changeLanguage();
+    }
+
+    @Override
+    public void onSignOutClicked() {
+        logoutUser(this);
+    }
+
+
+    private void changeLanguage() {
+        if (LocalHelper.getLanguage(this).equals("ar")) {
+            updateViews("en");
+        } else {
+            updateViews("ar");
+        }
+    }
+
+
+    private void updateViews(String languageCode) {
+
+        LocalHelper.setLocale(this, languageCode);
+        LocalHelper.getLanguage(this);
+        restartApp();
+    }
+
+    public void restartApp() {
+        Intent intent = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
+        if (this instanceof Activity) {
+            (this).finish();
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Runtime.getRuntime().exit(0);
+            }
+        }, 0);
+
+    }
 }
