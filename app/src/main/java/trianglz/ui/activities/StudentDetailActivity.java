@@ -400,7 +400,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
                 openNotificationsActivity();
                 break;
             case R.id.layout_notification:
-                // TODO: 1/9/19 openNotificationLayout
+               openNotificationsActivity();
                 break;
             case R.id.layout_messages:
                 // TODO: 1/9/19 open message layout

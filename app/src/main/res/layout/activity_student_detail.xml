@@ -590,12 +590,12 @@
                         android:id="@+id/layout_notification">
 
                         <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
-                            android:src="@drawable/timetable" />
+                            android:src="@drawable/ic_notification" />
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -661,12 +661,12 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="55dp"
+                                android:layout_height="55dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="16dp"
                                 android:layout_marginEnd="16dp"
-                                android:src="@drawable/grades" />
+                                android:src="@drawable/ic_messages" />
 
                             <RelativeLayout
                                 android:layout_width="0dp"
@@ -729,12 +729,12 @@
                         android:id="@+id/layout_annoucment">
 
                         <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
-                            android:src="@drawable/timetable" />
+                            android:src="@drawable/ic_annoucement" />
 
                         <RelativeLayout
                             android:layout_width="0dp"
