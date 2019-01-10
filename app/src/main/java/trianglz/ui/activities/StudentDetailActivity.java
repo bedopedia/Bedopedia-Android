@@ -407,7 +407,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
                 openMessagesActivity();
                 break;
             case R.id.layout_annoucment:
-                // TODO: 1/9/19 open annoucment layout
+                openAnnouncement();
                 break;
             case R.id.btn_setting:
                 settingsDialog.show();
@@ -523,5 +523,15 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             }
         }, 0);
 
+    }
+
+
+
+    private void openAnnouncement() {
+        Intent intent = new Intent(this,AnnouncementActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_ACTOR,actor);
+        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        startActivity(intent);
     }
 }

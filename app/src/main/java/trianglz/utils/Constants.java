@@ -165,4 +165,9 @@ public class Constants {
 
     public static final String KEY_ACTABLE_TYPE = "actable_type";
     public static final String KEY_ACTOR = "actor";
+    public static final String KEY_ANNOUNCEMENTS = "announcements";
+    public static final String KEY_END_AT = "end_at";
+    public static final String KEY_ADMIN_ID = "admin_id";
+    public static final String KEY_ANNOUNCEMENT_RECEIVERS = "announcement_receivers";
+    public static final String KEY_ANNOUCEMENT_ID = "announcement_id";
 }

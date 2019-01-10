@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="6dp">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/img_annoucement"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="17sp"
+            android:textColor="@color/greyish_brown"
+            android:text="test"
+            android:layout_marginTop="18dp"
+            android:ellipsize="end"
+            android:layout_marginStart="10dp"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:id="@+id/tv_header"/>
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:text="9:15 am"
+            android:background="@color/transparent"
+            android:drawableEnd="@drawable/shape"
+            android:layout_marginTop="11dp"
+            android:id="@+id/btn_date"
+            android:textColor="@color/steel"/>
+        
+    </LinearLayout>
+    
+    <trianglz.components.SfuiRegularTextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="10dp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:text="Dear Parents, MIS believes that Food, to alarge extent, defines our life. It determines our mood, behaviors, and directs us towards specific actions. students will lear"
+        android:textSize="15sp"
+        android:textAlignment="textStart"
+        android:paddingStart="5dp"
+        android:id="@+id/tv_content"
+      />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black_10"
+        android:id="@+id/view_line"/>
+
+</LinearLayout>
