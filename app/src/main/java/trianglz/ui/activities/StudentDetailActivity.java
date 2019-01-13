@@ -93,6 +93,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private ImageButton settingsBtn;
     private LinearLayout studentHeaderLayout,actorHeaderLayout;
     private SettingsDialog settingsDialog;
+    private TextView notifcationCounterTextView,announcementCounterTextView,messagesCounterTextView;
 
 
     @Override
@@ -166,8 +167,9 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         studentHeaderLayout = findViewById(R.id.layout_student_header);
         actorHeaderLayout = findViewById(R.id.layout_actor_header);
         settingsDialog = new SettingsDialog(this, R.style.SettingsDialog, this);
-
-
+        notifcationCounterTextView = findViewById(R.id.tv_notifcation_counter);
+        messagesCounterTextView = findViewById(R.id.tv_messages_counter);
+        announcementCounterTextView = findViewById(R.id.tv_announcement_counter);
     }
 
     private void setListeners() {

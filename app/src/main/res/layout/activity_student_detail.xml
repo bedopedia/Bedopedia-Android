@@ -588,14 +588,37 @@
                         android:layout_height="80dp"
                         android:orientation="horizontal"
                         android:id="@+id/layout_notification">
+                        <RelativeLayout
+                            android:layout_width="71dp"
+                            android:layout_height="71dp">
+                            <ImageView
+                                android:layout_width="55dp"
+                                android:layout_height="55dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/ic_notification"
+                                android:layout_centerInParent="true"/>
 
-                        <ImageView
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:src="@drawable/ic_notification" />
+
+
+                                <TextView
+                                    android:layout_width="17dp"
+                                    android:layout_height="17dp"
+                                    android:background="@drawable/actor_red_circle"
+                                    android:textColor="@color/white"
+                                    android:gravity="center"
+                                    android:textSize="8sp"
+                                    android:layout_marginEnd="4dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:id="@+id/tv_notifcation_counter"
+                                    android:visibility="gone"
+                                    />
+
+
+
+
+
+                        </RelativeLayout>
+
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -660,13 +683,33 @@
                             android:layout_height="80dp"
                             android:orientation="horizontal">
 
+                            <RelativeLayout
+                                android:layout_width="71dp"
+                                android:layout_height="71dp">
+
                             <ImageView
                                 android:layout_width="55dp"
                                 android:layout_height="55dp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:src="@drawable/ic_messages" />
+
+                                android:src="@drawable/ic_messages"
+                                android:layout_centerInParent="true"/>
+
+                                <TextView
+                                    android:layout_width="17dp"
+                                    android:layout_height="17dp"
+                                    android:background="@drawable/actor_red_circle"
+                                    android:textColor="@color/white"
+                                    android:gravity="center"
+                                    android:textSize="8sp"
+                                    android:layout_marginEnd="4dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:id="@+id/tv_messages_counter"
+                                    android:visibility="gone"
+                                    />
+
+
+
+                            </RelativeLayout>
 
                             <RelativeLayout
                                 android:layout_width="0dp"
@@ -727,14 +770,31 @@
                         android:layout_height="80dp"
                         android:orientation="horizontal"
                         android:id="@+id/layout_annoucment">
+                        <RelativeLayout
+                            android:layout_width="71dp"
+                            android:layout_height="71dp">
 
                         <ImageView
                             android:layout_width="55dp"
                             android:layout_height="55dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
+                            android:layout_centerInParent="true"
                             android:src="@drawable/ic_annoucement" />
+
+                            <TextView
+                                android:layout_width="17dp"
+                                android:layout_height="17dp"
+                                android:background="@drawable/actor_red_circle"
+                                android:textColor="@color/white"
+                                android:gravity="center"
+                                android:textSize="8sp"
+                                android:layout_marginEnd="4dp"
+                                android:layout_alignParentEnd="true"
+                                android:id="@+id/tv_announcement_counter"
+                                android:visibility="gone"
+                                />
+
+
+                        </RelativeLayout>
 
                         <RelativeLayout
                             android:layout_width="0dp"
