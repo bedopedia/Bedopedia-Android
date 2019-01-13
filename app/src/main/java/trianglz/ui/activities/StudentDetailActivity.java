@@ -16,6 +16,7 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,9 +40,14 @@ import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.StudentDetailPresenter;
 import trianglz.core.views.StudentDetailView;
 import trianglz.managers.SessionManager;
+import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
+import trianglz.models.Announcement;
 import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
+import trianglz.models.Message;
+import trianglz.models.MessageThread;
+import trianglz.models.Notification;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
 import trianglz.utils.Constants;
@@ -106,7 +112,12 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
                 Util.showNoInternetConnectionDialog(this);
             }
         }else {
-            // TODO: 1/9/19 call new end point
+            if(Util.isNetworkAvailable(this)){
+                getNotifications(false);
+                showLoadingDialog();
+            }else {
+                Util.showNoInternetConnectionDialog(this);
+            }
         }
 
     }
@@ -376,6 +387,99 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     }
 
     @Override
+    public void onGetNotificationSuccess(ArrayList<Notification> notificationArrayList) {
+        if(notificationArrayList.size()>0){
+            Notification notification = notificationArrayList.get(0);
+            notificationTextView.setText(notification.getMessage());
+        }else {
+            notificationTextView.setText(getResources().getString(R.string.there_is_no_notifications));
+        }
+
+        if(Util.isNetworkAvailable(this)){
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
+            studentDetailView.getMessages(url,SessionManager.getInstance().getId());
+        }else {
+            if(progress.isShowing()){
+                progress.dismiss();
+            }
+            Util.showNoInternetConnectionDialog(this);
+        }
+
+
+    }
+
+    @Override
+    public void onGetNotificationFailure(String message, int errorCode) {
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
+    }
+
+    @Override
+    public void onGetMessagesSuccess(ArrayList<MessageThread> messageArrayList) {
+        if(messageArrayList.size() > 0){
+            // TODO: 1/13/19 add message Text
+        }else {
+         messagesTextView.setText(getResources().getString(R.string.there_is_no_messages));
+        }
+        if(Util.isNetworkAvailable(this)){
+            getAnnouncement();
+        }else {
+            if(progress.isShowing()){
+                progress.dismiss();
+            }
+            Util.showNoInternetConnectionDialog(this);
+        }
+
+    }
+
+    @Override
+    public void onGetMessagesFailure(String message, int errorCode) {
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
+    }
+
+
+    @Override
+    public void onGetAnnouncementsSuccess(ArrayList<Announcement> announcementArrayList) {
+        if(announcementArrayList.size()>0){
+            Announcement announcement = announcementArrayList.get(0);
+            String body = android.text.Html.fromHtml(announcement.body).toString();
+            body = StringEscapeUtils.unescapeJava(body);
+            annoucmentTextView.setText(body);
+        }else {
+            annoucmentTextView.setText(getResources().getString(R.string.there_is_no_announcements));
+        }
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+    }
+
+    @Override
+    public void onGetAnnouncementsFailure(String message, int errorCode) {
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
+    }
+
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.layout_timetable:
@@ -539,5 +643,19 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         if(SessionManager.getInstance().getUserType()){
             super.onBackPressed();
         }
+    }
+
+    private void getNotifications(boolean pagination) {
+        showLoadingDialog();
+        String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
+                SessionManager.getInstance().getUserId() + "/notifications";
+        studentDetailView.getNotifications(url, 1, 1);
+    }
+
+    private void getAnnouncement() {
+
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(1,actor.actableType,1);
+        studentDetailView.getAnnouncement(url);
+
     }
 }

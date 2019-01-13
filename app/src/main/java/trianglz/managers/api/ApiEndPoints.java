@@ -36,9 +36,9 @@ public class ApiEndPoints {
         return "/api/users/"+ userId +"/notifications/mark_as_seen";
     }
 
-    public static String getNotificationUrl(int pageNumber,String user_type){
+    public static String getAnnouncementUrl(int pageNumber, String user_type, int numberPerPage){
 
-    return "/api/announcements?order_by_end_at=asc&page="+pageNumber+"&per_page=10&running_announcement=true&user_type="+user_type;
+    return "/api/announcements?order_by_end_at=asc&page="+pageNumber+"&per_page="+numberPerPage+"&running_announcement=true&user_type="+user_type;
 
     }
 

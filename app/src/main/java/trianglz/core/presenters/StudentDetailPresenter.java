@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import trianglz.models.Announcement;
 import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
+import trianglz.models.Message;
+import trianglz.models.MessageThread;
+import trianglz.models.Notification;
 
 /**
  * Created by ${Aly} on 11/4/2018.
@@ -23,4 +27,16 @@ public interface StudentDetailPresenter {
 
     void onGetBehaviorNotesSuccess( HashMap<String,List<BehaviorNote>> behaviorNoteHashMap);
     void onGetBehaviorNotesFailure(String message,int code);
+
+
+    void onGetNotificationSuccess(ArrayList<Notification> notification);
+    void onGetNotificationFailure(String message, int code);
+
+
+    void onGetAnnouncementsSuccess(ArrayList<Announcement> announcementArrayList);
+    void onGetAnnouncementsFailure(String message, int code);
+
+
+    void onGetMessagesSuccess(ArrayList<MessageThread> messageArrayList);
+    void onGetMessagesFailure(String message, int code);
 }

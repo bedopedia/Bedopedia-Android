@@ -69,7 +69,7 @@ public class NotificationsActivity extends SuperActivity implements Notification
             if (!pagination) {
                 pageNumber = 1;
             }
-            notificationsView.getNotifications(url, pageNumber);
+            notificationsView.getNotifications(url, pageNumber,20);
         } else {
             Util.showNoInternetConnectionDialog(this);
         }

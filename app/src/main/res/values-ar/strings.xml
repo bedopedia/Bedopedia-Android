@@ -107,4 +107,7 @@
 
     <string name="announcement">Annoucment</string>
     <string name="unread_notifications">Unread Notifications</string>
+    <string name="there_is_no_announcements">There is no announcements</string>
+    <string name="there_is_no_notifications">There is no notifications</string>
+    <string name="there_is_no_messages">There is no messages</string>
 </resources>

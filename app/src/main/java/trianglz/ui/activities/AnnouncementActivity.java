@@ -1,11 +1,9 @@
 package trianglz.ui.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -96,7 +94,7 @@ public class AnnouncementActivity extends SuperActivity implements View.OnClickL
             if (!pagination) {
                 pageNumber = 1;
             }
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getNotificationUrl(pageNumber,actor.actableType);
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(pageNumber,actor.actableType, 20);
             announcementView.getAnnouncement(url);
 
     }
