@@ -7,9 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +40,22 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
     }
 
     @Override
-    public void onBindViewHolder(AnnouncementAdapter.Holder holder, final int position) {
+    public void onBindViewHolder(final AnnouncementAdapter.Holder holder, final int position) {
         if (position == mDataList.size() - 2 && newData) {
             announcementAdapterInterface.onReachPosition();
         }
         Announcement announcement = mDataList.get(holder.getAdapterPosition());
-        holder.contentTextView.setText(announcement.body);
+        String body = android.text.Html.fromHtml(announcement.body).toString();
+        body = StringEscapeUtils.unescapeJava(body);
+        holder.contentTextView.setText(body);
         holder.announcementHeaderTextView.setText(announcement.title);
         holder.dateBtn.setText(announcement.createdAt);
+        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                announcementAdapterInterface.onAnnouncementSelected(mDataList.get(holder.getAdapterPosition()));
+            }
+        });
 
     }
 
@@ -65,18 +76,21 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         public ImageView announcementImage;
         public TextView announcementHeaderTextView,contentTextView;
         public Button dateBtn;
+        public LinearLayout itemLayout;
 
         public Holder(View itemView) {
             super(itemView);
             announcementImage = itemView.findViewById(R.id.img_annoucement);
+            announcementImage.setVisibility(View.GONE);
             announcementHeaderTextView = itemView.findViewById(R.id.tv_header);
             dateBtn = itemView.findViewById(R.id.btn_date);
             contentTextView = itemView.findViewById(R.id.tv_content);
+            itemLayout = itemView.findViewById(R.id.item_layout);
         }
     }
 
     public interface AnnouncementAdapterInterface{
-        void onAnnouncementSelected(int position);
+        void onAnnouncementSelected(Announcement announcement);
         void onReachPosition();
     }
 

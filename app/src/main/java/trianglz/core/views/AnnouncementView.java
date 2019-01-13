@@ -1,16 +1,25 @@
 package trianglz.core.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.format.DateUtils;
+
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
 
 import trianglz.core.presenters.AnnouncementInterface;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
-import trianglz.models.AnnoucementReceiver;
+import trianglz.models.AnnouncementReceiver;
 import trianglz.models.Announcement;
 import trianglz.utils.Constants;
 
@@ -43,7 +52,7 @@ public class AnnouncementView {
         ArrayList<Announcement> announcementArrayList = new ArrayList<>();
         for(int i = 0; i< announcementJsonArray.length(); i++){
             JSONObject announcementJsonObject = announcementJsonArray.optJSONObject(i);
-            ArrayList<AnnoucementReceiver> annoucementReceiverArrayList = new ArrayList<>();
+            ArrayList<AnnouncementReceiver> announcementReceiverArrayList = new ArrayList<>();
             int id = announcementJsonObject.optInt(Constants.KEY_ID);
             String title = announcementJsonObject.optString(Constants.KEY_TITLE);
             String body = announcementJsonObject.optString(Constants.KEY_BODY);
@@ -56,11 +65,29 @@ public class AnnouncementView {
                 int annoucementReceiverId = announcementReceiverObject.optInt(Constants.KEY_ID);
                 int annoucenmentID = announcementReceiverObject.optInt(Constants.KEY_ANNOUCEMENT_ID);
                 String userType =  announcementReceiverObject.optString(Constants.KEY_USER_TYPE);
-                AnnoucementReceiver annoucementReceiver = new AnnoucementReceiver(annoucementReceiverId,annoucenmentID,userType);
-                annoucementReceiverArrayList.add(annoucementReceiver);
+                AnnouncementReceiver announcementReceiver = new AnnouncementReceiver(annoucementReceiverId,annoucenmentID,userType);
+                announcementReceiverArrayList.add(announcementReceiver);
             }
-            announcementArrayList.add( new Announcement(id,title,body,endAt,createdAt,annoucementReceiverArrayList));
+            announcementArrayList.add( new Announcement(id,title,body,formatDate(endAt),formatDate(createdAt), announcementReceiverArrayList));
         }
         return announcementArrayList;
+    }
+
+
+    private String formatDate(String time) {
+        ISO8601DateFormat iso = new ISO8601DateFormat();
+        @SuppressLint("SimpleDateFormat")
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd,' 'hh:mm a");
+        Date date = null;
+        try {
+            date = iso.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String finalDate = dateFormat.format(date);
+        if (DateUtils.isToday(Objects.requireNonNull(date).getTime())) {
+            return "Today";
+        }
+        return finalDate;
     }
 }

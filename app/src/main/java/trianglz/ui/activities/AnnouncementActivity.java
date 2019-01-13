@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -79,8 +80,8 @@ public class AnnouncementActivity extends SuperActivity implements View.OnClickL
     }
 
     @Override
-    public void onAnnouncementSelected(int position) {
-
+    public void onAnnouncementSelected(Announcement announcement) {
+        openAnnouncementDetailActivity(announcement);
     }
 
     @Override
@@ -114,6 +115,15 @@ public class AnnouncementActivity extends SuperActivity implements View.OnClickL
         if (progress.isShowing()) {
             progress.dismiss();
         }
-        Log.v("TEST_MESSAGE",message);
+    }
+
+
+    private void  openAnnouncementDetailActivity(Announcement announcement){
+        Intent intent = new Intent(this, AnnouncementDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_ANNOUNCEMENTS, announcement);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        startActivity(intent);
+
     }
 }

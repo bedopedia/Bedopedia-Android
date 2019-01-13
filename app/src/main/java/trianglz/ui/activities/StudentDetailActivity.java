@@ -403,7 +403,6 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
                openNotificationsActivity();
                 break;
             case R.id.layout_messages:
-                // TODO: 1/9/19 open message layout
                 openMessagesActivity();
                 break;
             case R.id.layout_annoucment:
@@ -533,5 +532,12 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         bundle.putSerializable(Constants.KEY_ACTOR,actor);
         intent.putExtra(Constants.KEY_BUNDLE,bundle);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(SessionManager.getInstance().getUserType()){
+            super.onBackPressed();
+        }
     }
 }

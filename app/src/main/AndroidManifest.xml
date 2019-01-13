@@ -137,9 +137,13 @@
             android:name="trianglz.ui.activities.ChatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />
-        <activity android:name="trianglz.ui.activities.AnnouncementActivity"
+        <activity
+            android:name="trianglz.ui.activities.AnnouncementActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2"/>
+            android:theme="@style/AppTheme_v2" />
+        <activity android:name="trianglz.ui.activities.AnnouncementDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_v2" />
     </application>
 
 </manifest>
