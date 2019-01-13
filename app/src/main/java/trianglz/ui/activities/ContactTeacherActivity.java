@@ -9,6 +9,7 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.skolera.skolera_android.AskTeacherActivity;
 import com.skolera.skolera_android.R;
@@ -22,6 +23,7 @@ import trianglz.core.presenters.ContactTeacherPresenter;
 import trianglz.core.views.ContactTeacherView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
+import trianglz.models.Actor;
 import trianglz.models.MessageThread;
 import trianglz.models.Student;
 import trianglz.ui.adapters.ContactTeacherAdapter;
@@ -37,6 +39,8 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
     private RecyclerView recyclerView;
     private ContactTeacherAdapter contactTeacherAdapter;
     private ArrayList<MessageThread> messageThreadArrayList;
+    private Actor actor;
+    private TextView headerTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,12 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
         setContentView(R.layout.activity_contact_teacher);
         bindViews();
         setListeners();
-        student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
+        if(SessionManager.getInstance().getUserType()){
+            student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
+        }else {
+            actor = (Actor)  getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
+        }
+
     }
 
     private void bindViews(){
@@ -57,6 +66,14 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8,this),false));
         messageThreadArrayList = new ArrayList<>();
+        headerTextView = findViewById(R.id.tv_header);
+        if(SessionManager.getInstance().getUserType()){
+            headerTextView.setText(getResources().getString(R.string.contact_teacher));
+            newMessageBtn.setVisibility(View.VISIBLE);
+        }else {
+            headerTextView.setText(getResources().getString(R.string.messages));
+            newMessageBtn.setVisibility(View.INVISIBLE);
+        }
 
     }
 

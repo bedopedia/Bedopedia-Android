@@ -521,7 +521,11 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private void openMessagesActivity() {
         Intent intent = new Intent(this,ContactTeacherActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT,student);
+        if(SessionManager.getInstance().getUserType()){
+            bundle.putSerializable(Constants.STUDENT,student);
+        }else {
+            bundle.putSerializable(Constants.KEY_ACTOR,actor);
+        }
         intent.putExtra(Constants.KEY_BUNDLE,bundle);
         startActivity(intent);
     }
