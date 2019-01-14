@@ -202,6 +202,12 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             studentHeaderLayout.setVisibility(View.INVISIBLE);
             String notificationText = SessionManager.getInstance().getNotficiationCounter() + " "+getResources().getString(R.string.unread_notifications);
             notificationTextView.setText(notificationText);
+            if(SessionManager.getInstance().getNotficiationCounter() > 0){
+                notifcationCounterTextView.setVisibility(View.VISIBLE);
+                notifcationCounterTextView.setText(SessionManager.getInstance().getNotficiationCounter()+"");
+            }else {
+                notifcationCounterTextView.setVisibility(View.INVISIBLE);
+            }
         }else {
             parentLayout.setVisibility(View.VISIBLE);
             teacherLayout.setVisibility(View.GONE);
