@@ -128,4 +128,8 @@
     <string name="enter_password">Enter password</string>
     <string name="enter_school_code">Enter school code</string>
     <string name="wrong_school_code">Wrong school code</string>
+    <string name="weekly_planner">Weekly planner</string>
+    <string name="see_more">See more</string>
+    <string name="tv_placeholder_weekly_planner">Dear Parents,
+MIS believes that Food, to a large extent, defines our life. It determines our mood, behaviors, and directs us towards specific actions. students will learn about "Healthy Food" on Thursday October 11, 2018.</string>
 </resources>
