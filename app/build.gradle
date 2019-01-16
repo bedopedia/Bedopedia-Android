@@ -34,6 +34,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.google.firebase:firebase-crash:11.8.0'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
