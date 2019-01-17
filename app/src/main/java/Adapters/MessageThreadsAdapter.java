@@ -44,7 +44,6 @@ public class MessageThreadsAdapter extends ArrayAdapter
     }
 
     public static  class MessageThreadHolder{
-        //TODO refactor this
         TextView title;
         TextView lastMessage;
         TextView date;

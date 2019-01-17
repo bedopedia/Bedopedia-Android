@@ -64,7 +64,6 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
 
     @Override
     public void onLoginFailure(String message, int code) {
-        // TODO: 11/14/2018 handle login failure in splash
         openSchoolLoginActivity();
         finish();
     }

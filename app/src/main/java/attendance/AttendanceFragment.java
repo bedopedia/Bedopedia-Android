@@ -57,7 +57,6 @@ public class AttendanceFragment extends Fragment {
 
 
 
-    // TODO: Rename and change types of parameters
 
 
     public AttendanceFragment() {

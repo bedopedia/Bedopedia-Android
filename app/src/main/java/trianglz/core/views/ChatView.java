@@ -62,22 +62,6 @@ public class ChatView {
     }
 
 
-    public void sendImageMessage(String url,String attachment, String teacherId, String userId,String body,String courseId){
-        File file = new File(attachment);
-        UserManager.sendImageMessage(url, file, teacherId, userId, body, courseId, new ResponseListener() {
-            @Override
-            public void onSuccess(JSONObject response) {
-
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-
-            }
-        });
-
-    }
-
     private MessageThread parseFirstMessageResponse(JSONObject messageThread) {
         int courseId = messageThread.optInt(Constants.KEY_COURSE_ID);
         String courseName = messageThread.optString(Constants.KEY_COURSE_NAME);

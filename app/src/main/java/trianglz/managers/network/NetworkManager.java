@@ -210,7 +210,7 @@ public class NetworkManager {
     }
 
     public static void upload(String url,JSONObject jsonObject, File file,HashMap<String,String> headersValues, final HandleResponseListener handleResponseListener) {
-
+        // TODO: 1/17/19 check fast android networking for multipart
         AndroidNetworking.upload(url)
                 .addHeaders(headersValues)
                 .addMultipartParameter(jsonObject)
@@ -219,7 +219,6 @@ public class NetworkManager {
                 .setUploadProgressListener(new UploadProgressListener() {
                     @Override
                     public void onProgress(long bytesUploaded, long totalBytes) {
-                        Log.v("UPLOADED_PROGRESS", bytesUploaded + "-" + totalBytes);
 
                     }
 

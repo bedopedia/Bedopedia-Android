@@ -378,45 +378,4 @@ public class UserManager {
 
     }
 
-
-    public static void sendImageMessage(String url, File file, String teacherId, String userId, String body, String courseId , final ResponseListener responseListener) {
-        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
-        JSONObject parametersJsonObject = new JSONObject();
-        JSONObject messageThreadJsonObject = new JSONObject();
-        JSONArray messageAttributesJsonArray = new JSONArray();
-        JSONObject messageAttributesJsonObject = new JSONObject();
-        String[] userIds = new String[]{teacherId, userId};
-        ArrayList<String> list = new ArrayList<String>();
-        list.add(teacherId);
-        list.add(userId);
-
-        try {
-            messageAttributesJsonObject.put(Constants.KEY_BODY, body);
-            messageAttributesJsonObject.put(Constants.KEY_USER_ID, userId);
-            messageAttributesJsonArray.put(messageAttributesJsonObject);
-            messageThreadJsonObject.put(Constants.KEY_MESSAGE_ATTRIBUTES, messageAttributesJsonArray);
-            messageThreadJsonObject.put(Constants.KEY_COURSE_ID, courseId);
-            messageThreadJsonObject.put(Constants.KEY_NAME, ".");
-            messageThreadJsonObject.put(Constants.KEY_TAG, ".");
-            messageThreadJsonObject.put("attachment",file);
-            parametersJsonObject.put(Constants.KEY_MESSAGE_THREAD, messageThreadJsonObject);
-            parametersJsonObject.put(Constants.KEY_USER_IDS, new JSONArray(list));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        NetworkManager.upload(url, parametersJsonObject, file, headerHashMap, new HandleResponseListener() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                Log.v("TEST_IMAGE_UPLOAD",response.toString());
-
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-                Log.v("TEST_IMAGE_UPLOAD",message);
-
-            }
-        });
-    }
 }

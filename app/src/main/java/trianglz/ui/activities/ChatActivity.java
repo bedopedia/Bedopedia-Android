@@ -122,6 +122,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
                             @Override
                             public void onImagesSelected(Uri uri) {
                                 addImageToAdapter(uri);
+
                             }
                         },
                         this,
@@ -173,14 +174,12 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
 
 
     private void addImageToAdapter(Uri imageUri) {
-        String url;
-        if(messageThread != null){
-             url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSendMessageUrl(messageThread.id);
-        }else {
-             url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-        }
+        // TODO: 1/17/19 add image to adapter (need to know how the object of image will be )
 
-        chatView.sendImageMessage(url,imageUri.getPath(),teacherId+"",SessionManager.getInstance().getUserId(),"",courseId+"");
+    }
+
+    private void sendImage(Uri imageUri) {
+        // TODO: 1/17/19 send image to backend  (need to know the jsonObject will be send  )
 
     }
 

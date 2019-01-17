@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -31,6 +32,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_ME = 0;
     private static final int TYPE_OTHER = 1;
     private static final int TYPE_DATE = 2;
+    private static final int TYPE_ME_IMAGE = 3;
+    private static final int TYPE_OTHER_IMAGE = 4;
 
     public List<Object> mDataList;
 
@@ -55,7 +58,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (viewType == TYPE_OTHER) {
             View view = LayoutInflater.from(context).inflate(R.layout.item_other, parent, false);
             return new OtherViewHolder(view);
-        } else {
+        }else if (viewType == TYPE_ME_IMAGE) {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_me_image, parent, false);
+            return new OtherViewHolder(view);
+        }else if (viewType == TYPE_OTHER_IMAGE) {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_other_image, parent, false);
+            return new OtherViewHolder(view);
+        }else {
             View view = LayoutInflater.from(context).inflate(R.layout.item_message_time, parent, false);
             return new TimeViewHolder(view);
         }
@@ -96,6 +105,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (mDataList.get(position) instanceof String) {
             return TYPE_DATE;
         } else {
+            // TODO: 1/17/19 check the response to different between image and text
             Message message = (Message) mDataList.get(position);
             if (userId.equals(String.valueOf(message.user.getId()))) {
                 return TYPE_ME;
@@ -132,6 +142,30 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             messageTimeTextView = itemView.findViewById(R.id.tv_date);
         }
     }
+
+    private class ImageMeViewHolder extends RecyclerView.ViewHolder {
+        public ImageView imageView;
+        public TextView messageTimeTextView;
+        public ImageMeViewHolder(View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.img_view);
+            messageTimeTextView = itemView.findViewById(R.id.textview_time);
+        }
+    }
+
+
+    private class ImageOtherViewHolder extends RecyclerView.ViewHolder {
+        public ImageView imageView;
+        public TextView messageTimeTextView;
+        public ImageOtherViewHolder(View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.img_view);
+            messageTimeTextView = itemView.findViewById(R.id.textview_time);
+        }
+    }
+
+
+
 
 
     private class TimeViewHolder extends RecyclerView.ViewHolder {
