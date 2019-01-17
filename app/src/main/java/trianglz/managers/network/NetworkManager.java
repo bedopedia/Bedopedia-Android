@@ -209,11 +209,11 @@ public class NetworkManager {
 
     }
 
-    public static void upload(String url, File file, String headerValue, final HandleResponseListener handleResponseListener) {
+    public static void upload(String url,JSONObject jsonObject, File file,HashMap<String,String> headersValues, final HandleResponseListener handleResponseListener) {
 
         AndroidNetworking.upload(url)
-                .addHeaders("Authorization", headerValue)
-                .addMultipartFile("certificate_data", file)
+                .addHeaders(headersValues)
+                .addMultipartParameter(jsonObject)
                 .setPriority(Priority.HIGH)
                 .build()
                 .setUploadProgressListener(new UploadProgressListener() {

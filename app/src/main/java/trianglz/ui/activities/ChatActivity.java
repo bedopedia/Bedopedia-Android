@@ -1,11 +1,13 @@
 package trianglz.ui.activities;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -15,6 +17,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 
+import trianglz.components.OnImageSelectedListener;
 import trianglz.core.presenters.ChatPresenter;
 import trianglz.core.views.ChatView;
 import trianglz.managers.SessionManager;
@@ -37,6 +40,8 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     private ChatView chatView;
     private int teacherId;
     private int courseId;
+    private ImageButton imageBtn;
+    private LinearLayout rootView;
 
 
     @Override
@@ -79,11 +84,14 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         messageEditText = findViewById(R.id.et_message);
         sendBtn = findViewById(R.id.enter_chat1);
         chatView = new ChatView(this, this);
+        imageBtn = findViewById(R.id.btn_image);
+        rootView = findViewById(R.id.root_view);
     }
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
         sendBtn.setOnClickListener(this);
+        imageBtn.setOnClickListener(this);
     }
 
     @Override
@@ -107,6 +115,18 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
                     }
 
                 }
+                break;
+            case R.id.btn_image:
+                Util.selectImagesFromGallery(
+                        new OnImageSelectedListener() {
+                            @Override
+                            public void onImagesSelected(Uri uri) {
+                                addImageToAdapter(uri);
+                            }
+                        },
+                        this,
+                        rootView
+                );
                 break;
         }
     }
@@ -147,6 +167,21 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
             }
         }
         recyclerView.smoothScrollToPosition(chatAdapter.mDataList.size() - 1);
+    }
+
+
+
+
+    private void addImageToAdapter(Uri imageUri) {
+        String url;
+        if(messageThread != null){
+             url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSendMessageUrl(messageThread.id);
+        }else {
+             url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
+        }
+
+        chatView.sendImageMessage(url,imageUri.getPath(),teacherId+"",SessionManager.getInstance().getUserId(),"",courseId+"");
+
     }
 
     private void sendMessage(String message) {

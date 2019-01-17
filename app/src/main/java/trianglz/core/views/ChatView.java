@@ -5,6 +5,7 @@ import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import trianglz.core.presenters.ChatPresenter;
@@ -58,6 +59,23 @@ public class ChatView {
                 chatPresenter.onFirstMessageFailure(message, errorCode);
             }
         });
+    }
+
+
+    public void sendImageMessage(String url,String attachment, String teacherId, String userId,String body,String courseId){
+        File file = new File(attachment);
+        UserManager.sendImageMessage(url, file, teacherId, userId, body, courseId, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+
+            }
+        });
+
     }
 
     private MessageThread parseFirstMessageResponse(JSONObject messageThread) {

@@ -1,15 +1,26 @@
 package trianglz.utils;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
+import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.single.CompositePermissionListener;
+import com.karumi.dexter.listener.single.PermissionListener;
+import com.karumi.dexter.listener.single.SnackbarOnDeniedPermissionListener;
 import com.skolera.skolera_android.R;
 
 import java.text.DateFormat;
@@ -21,6 +32,9 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import Tools.CalendarUtils;
+import gun0912.tedbottompicker.TedBottomPicker;
+import trianglz.components.DexterPermissionErrorListener;
+import trianglz.components.OnImageSelectedListener;
 
 /**
  * Created by ${Aly} on 10/24/2018.
@@ -208,5 +222,75 @@ public class Util {
             return "ar";
         else return "en";
     }
+
+    public static void selectImagesFromGallery(final OnImageSelectedListener listener,
+                                               final FragmentActivity activity,
+                                               final ViewGroup rootView) {
+
+
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted(PermissionGrantedResponse response) {
+
+                TedBottomPicker tedBottomPicker;
+
+
+                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) {
+
+                    tedBottomPicker = new TedBottomPicker.Builder(activity)
+                            .showCameraTile(false)
+                            .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
+                                @Override
+                                public void onImageSelected(Uri uri) {
+                                    listener.onImagesSelected(uri);
+                                }
+                            })
+                            .create();
+
+                    tedBottomPicker.show(activity.getSupportFragmentManager());
+
+                } else {
+
+
+                    tedBottomPicker = new TedBottomPicker.Builder(activity)
+                            .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
+                                @Override
+                                public void onImageSelected(Uri uri) {
+                                    listener.onImagesSelected(uri);
+                                }
+                            })
+                            .create();
+
+                    tedBottomPicker.show(activity.getSupportFragmentManager());
+                }
+
+            }
+
+            @Override
+            public void onPermissionDenied(PermissionDeniedResponse response) {
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(com.karumi.dexter.listener.PermissionRequest permission, PermissionToken token) {
+                token.continuePermissionRequest();
+            }
+        };
+
+        PermissionListener snackbarPermissionListener = SnackbarOnDeniedPermissionListener.Builder
+                .with(rootView,"")
+                .withOpenSettingsButton("")
+                .build();
+
+        PermissionListener writeExternalPermissionListener = new CompositePermissionListener(permissionListener,
+                snackbarPermissionListener);
+
+        Dexter.withActivity(activity)
+                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(writeExternalPermissionListener)
+                .withErrorListener(new DexterPermissionErrorListener())
+                .check();
+
+    }
+
 
 }
