@@ -132,7 +132,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:text="@string/see_more"
-                        android:textColor="@color/greyish_brown" />
+                        />
                 </FrameLayout>
             </LinearLayout>
             <LinearLayout
@@ -162,7 +162,7 @@
                     app:stl_dividerThickness="0dp"
                     app:stl_defaultTabBackground="?attr/selectableItemBackground"
                     app:stl_defaultTabTextAllCaps="false"
-                    app:stl_defaultTabTextColor="@color/jade_green"
+                    app:stl_defaultTabTextColor="@drawable/custom_tab"
                     app:stl_defaultTabTextSize="16sp"
                     app:stl_defaultTabTextHorizontalPadding="16dp"
                     app:stl_defaultTabTextMinWidth="0dp"
