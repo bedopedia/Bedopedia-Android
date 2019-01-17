@@ -228,12 +228,22 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().getNotficiationCounter()>0){
-            redCircleImageView.setVisibility(View.VISIBLE);
-        }else {
-            redCircleImageView.setVisibility(View.GONE);
+        if (SessionManager.getInstance().getUserType()) {
+            if (SessionManager.getInstance().getNotficiationCounter() > 0) {
+                redCircleImageView.setVisibility(View.VISIBLE);
+            } else {
+                redCircleImageView.setVisibility(View.GONE);
+            }
+        } else {
+            if (SessionManager.getInstance().getNotficiationCounter() > 0) {
+                notifcationCounterTextView.setVisibility(View.VISIBLE);
+                notifcationCounterTextView.setText(SessionManager.getInstance().getNotficiationCounter()+"");
+            }else {
+                notifcationCounterTextView.setVisibility(View.INVISIBLE);
+            }
         }
     }
+
 
     private void getValueFromIntent() {
         if(SessionManager.getInstance().getUserType()){
