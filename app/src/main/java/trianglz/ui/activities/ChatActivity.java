@@ -107,6 +107,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
                         sendMessage(messageEditText.getText().toString());
                         messageEditText.setText("");
                     }else {
+                        // TODO: 1/17/19  reminder with biram to check if i should parse the response of first message ( send first message in empty chat )_ 
                         showLoadingDialog();
                         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
                         chatView.sendFirstMessage(url,teacherId+"",
