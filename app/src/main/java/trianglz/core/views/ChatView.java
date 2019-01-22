@@ -1,11 +1,16 @@
 package trianglz.core.views;
 
 import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import trianglz.core.presenters.ChatPresenter;
@@ -45,6 +50,35 @@ public class ChatView {
             }
         });
 
+    }
+
+    public void sendImage(String url, String fileName, Uri uri) {
+        URI uri1 = null;
+        try {
+            uri1 = new URI(uri.toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        UserManager.sendImage(url, fileName, uri1, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+            }
+        });
+    }
+    private void vibrate () {
+        Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            //deprecated in API 26
+            v.vibrate(500);
+        }
     }
 
     public void sendFirstMessage(String url, String teacherId, String userId, String body, String courseId) {

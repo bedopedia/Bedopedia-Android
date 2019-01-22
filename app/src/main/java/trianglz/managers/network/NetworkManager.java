@@ -1,7 +1,5 @@
 package trianglz.managers.network;
 
-import android.util.Log;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -166,6 +164,35 @@ public class NetworkManager {
                     });
 
         }
+
+    }
+    public static void postImageFile(String url, String fileName,File image,HashMap<String,String> headersValues, final HandleResponseListener handleResponseListener) {
+
+            AndroidNetworking.upload(url)
+                    .addHeaders(headersValues)
+                    .addMultipartParameter(Constants.KEY_BODY, Constants.KEY_FILE_ATTACHED)
+                    .addMultipartParameter(Constants.KEY_FILENAME, fileName)
+                    .addMultipartFile(Constants.KEY_ATTACHMENT, image)
+                    .setPriority(Priority.HIGH)
+                    .build()
+                    .setUploadProgressListener(new UploadProgressListener() {
+                        @Override
+                        public void onProgress(long bytesUploaded, long totalBytes) {
+                            // do anything with progress
+                        }
+                    })
+                    .getAsJSONObject(new JSONObjectRequestListener() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            handleResponseListener.onSuccess(response);
+                        }
+
+                        @Override
+                        public void onError(ANError error) {
+                        }
+                    });
+
+
 
     }
 

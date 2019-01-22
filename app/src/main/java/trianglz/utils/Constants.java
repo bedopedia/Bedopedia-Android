@@ -161,4 +161,9 @@ public class Constants {
     public static final String KEY_LOCALE = "locale";
     public static final String KEY_GRADING_PERIOD_ID = "grading_period_id";
     public static final String KEY_GRADING_PERIODS_GRADES = "grading_periods_grades";
+
+    //Sending image in chat
+    public static final String KEY_FILE_ATTACHED = "file attached";
+    public static final String KEY_FILENAME = "filename";
+    public static final String KEY_ATTACHMENT = "attachment";
 }

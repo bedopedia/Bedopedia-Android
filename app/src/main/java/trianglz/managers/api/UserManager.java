@@ -1,12 +1,11 @@
 package trianglz.managers.api;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -321,6 +320,22 @@ public class UserManager {
             }
         });
 
+    }
+
+    public static void sendImage(String url, String fileName, URI uri, final ResponseListener responseListener ) {
+        HashMap<String, String> headersValues = SessionManager.getInstance().getHeaderHashMap();
+        File image = new File(uri);
+        NetworkManager.postImageFile(url, fileName, image, headersValues, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
     }
 
     public static void sendFirstMessage(String url,String teacherId,String userId,String body,String courseId , final ResponseListener responseListener){

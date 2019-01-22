@@ -122,6 +122,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
                         new OnImageSelectedListener() {
                             @Override
                             public void onImagesSelected(Uri uri) {
+                                sendImage(uri);
                                 addImageToAdapter(uri);
 
                             }
@@ -181,6 +182,9 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
 
     private void sendImage(Uri imageUri) {
         // TODO: 1/17/19 send image to backend  (need to know the jsonObject will be send  )
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSendImageId(messageThread.id);
+        chatView.sendImage(url,"1",imageUri);
+
 
     }
 
