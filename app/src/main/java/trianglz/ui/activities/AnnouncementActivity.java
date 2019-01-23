@@ -11,6 +11,7 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
+import trianglz.components.BottomItemDecoration;
 import trianglz.core.presenters.AnnouncementInterface;
 import trianglz.core.views.AnnouncementView;
 import trianglz.managers.SessionManager;
@@ -60,6 +61,7 @@ public class AnnouncementActivity extends SuperActivity implements View.OnClickL
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL,false));
+        recyclerView.addItemDecoration(new BottomItemDecoration((int)Util.convertDpToPixel(6,this),false));
         announcementView = new AnnouncementView(this,this);
 
     }

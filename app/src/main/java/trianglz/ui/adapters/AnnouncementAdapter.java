@@ -18,7 +18,9 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import trianglz.components.RoundCornersTransformation;
 import trianglz.models.Announcement;
+import trianglz.utils.Util;
 
 public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapter.Holder> {
     public Context context;
@@ -61,10 +63,12 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
            holder.announcementImage.setVisibility(View.VISIBLE);
             Picasso.with(context)
                     .load(announcement.imageUrl)
+                    .transform(new RoundCornersTransformation((int) Util.convertDpToPixel(5,context),0))
                     .fit()
                     .into(holder.announcementImage);
         }else {
             holder.announcementImage.setVisibility(View.GONE);
+
         }
 
     }
