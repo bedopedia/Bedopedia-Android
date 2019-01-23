@@ -67,7 +67,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
                     .fit()
                     .into(holder.announcementImage);
         }else {
-            holder.announcementImage.setVisibility(View.GONE);
+            holder.announcementImage.setVisibility(View.INVISIBLE);
 
         }
 
