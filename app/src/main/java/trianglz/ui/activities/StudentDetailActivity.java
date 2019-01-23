@@ -428,9 +428,16 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
 
     @Override
     public void onGetNotificationFailure(String message, int errorCode) {
-        if(progress.isShowing()){
-            progress.dismiss();
+        if(Util.isNetworkAvailable(this)){
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
+            studentDetailView.getMessages(url,SessionManager.getInstance().getId());
+        }else {
+            if(progress.isShowing()){
+                progress.dismiss();
+            }
+            Util.showNoInternetConnectionDialog(this);
         }
+
         if(errorCode == 401 || errorCode == 500 ){
             logoutUser(this);
         }else {
@@ -458,8 +465,13 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
 
     @Override
     public void onGetMessagesFailure(String message, int errorCode) {
-        if(progress.isShowing()){
-            progress.dismiss();
+        if(Util.isNetworkAvailable(this)){
+            getAnnouncement();
+        }else {
+            if(progress.isShowing()){
+                progress.dismiss();
+            }
+            Util.showNoInternetConnectionDialog(this);
         }
         if(errorCode == 401 || errorCode == 500 ){
             logoutUser(this);
