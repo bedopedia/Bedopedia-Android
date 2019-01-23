@@ -62,13 +62,21 @@ public class ChatView {
         UserManager.sendImage(url, fileName, uri1, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-
+                chatPresenter.onSendImageSuccess(parseSendImageResponse(response));
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
+                chatPresenter.onSendImageFailure();
             }
         });
+    }
+
+    private String parseSendImageResponse(JSONObject json) {
+        String attachmentUrl = json.optString(Constants.KEY_ATTACHMENT_URL);
+        JSONObject user = json.optJSONObject(Constants.KEY_USER);
+        String userId = user.optString(Constants.KEY_ID);
+        return attachmentUrl;
     }
     private void vibrate () {
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);

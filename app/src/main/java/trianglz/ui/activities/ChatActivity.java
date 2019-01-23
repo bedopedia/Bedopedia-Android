@@ -123,7 +123,6 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
                             @Override
                             public void onImagesSelected(Uri uri) {
                                 sendImage(uri);
-                                addImageToAdapter(uri);
 
                             }
                         },
@@ -175,8 +174,34 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
 
 
 
-    private void addImageToAdapter(Uri imageUri) {
-        // TODO: 1/17/19 add image to adapter (need to know how the object of image will be )
+    private void addImageToAdapter(String attachmentUrl) {
+
+        User user = new User();
+        user.setId(Integer.valueOf(SessionManager.getInstance().getUserId()));
+        Message message = new Message(attachmentUrl, "",
+                Util.convertLocaleToUtc(Util.getCurrentDate()), "", "", messageThread.id, messageThread.id, "", user);
+        if(chatAdapter.mDataList.size() == 0){
+            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate()));
+            chatAdapter.mDataList.add(message);
+            chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
+            chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
+        }else {
+            if (!(chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1) instanceof String)) {
+                Message lastMessage = (Message) chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1);
+                if (!Util.isSameDay(message.createdAt, lastMessage.createdAt)) {
+                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate()));
+                    chatAdapter.mDataList.add(message);
+                    chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
+                    chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
+                } else {
+                    chatAdapter.mDataList.add(message);
+                    chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
+                    chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 1, chatAdapter.mDataList.size());
+                }
+            }
+        }
+        recyclerView.smoothScrollToPosition(chatAdapter.mDataList.size() - 1);
+
 
     }
 
@@ -236,6 +261,16 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         }else {
             showErrorDialog(this);
         }
+    }
+
+    @Override
+    public void onSendImageSuccess(String attachmentUrl) {
+        addImageToAdapter(attachmentUrl);
+    }
+
+    @Override
+    public void onSendImageFailure() {
+        showErrorDialog(this);
     }
 
     private ArrayList<Object> setDates(ArrayList<Object> messageObjectArrayList) {

@@ -2,7 +2,6 @@ package trianglz.ui.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -78,17 +76,30 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             timeViewHolder.timeTextView.setText(date);
         }else {
             Message message = (Message) mDataList.get(position);
-            String body = android.text.Html.fromHtml(message.body).toString();
-            body = StringEscapeUtils.unescapeJava(body);
-            String messageTime = setMessageTime(Util.convertUtcToLocal(message.createdAt));
-            if(userId.equals(String.valueOf(message.user.getId()))){
-                MeViewHolder meViewHolder = ((MeViewHolder)holder);
-                meViewHolder.bodyTextView.setText(body);
-                meViewHolder.messageTimeTextView.setText(messageTime);
-            }else {
-                OtherViewHolder otherViewHolder = ((OtherViewHolder)holder);
-                otherViewHolder.bodyTextView.setText(body);
-                otherViewHolder.messageTimeTextView.setText(messageTime);
+            if (!message.attachmentUrl.equals("") && !message.attachmentUrl.equals("null")) {
+
+//                String imageUrl = message.attachmentUrl;
+//                if (userId.equals(String.valueOf(message.user.getId()))) {
+//                    ImageMeViewHolder imageMeViewHolder = ((ImageMeViewHolder) holder);
+//                    Picasso.with(context).load(imageUrl).into(imageMeViewHolder.imageView);
+//                } else {
+//                    OtherViewHolder otherViewHolder = ((OtherViewHolder) holder);
+//                    otherViewHolder.bodyTextView.setText(body);
+//                    otherViewHolder.messageTimeTextView.setText(messageTime);
+//                }
+            } else {
+                String body = android.text.Html.fromHtml(message.body).toString();
+                body = StringEscapeUtils.unescapeJava(body);
+                String messageTime = setMessageTime(Util.convertUtcToLocal(message.createdAt));
+                if (userId.equals(String.valueOf(message.user.getId()))) {
+                    MeViewHolder meViewHolder = ((MeViewHolder) holder);
+                    meViewHolder.bodyTextView.setText(body);
+                    meViewHolder.messageTimeTextView.setText(messageTime);
+                } else {
+                    OtherViewHolder otherViewHolder = ((OtherViewHolder) holder);
+                    otherViewHolder.bodyTextView.setText(body);
+                    otherViewHolder.messageTimeTextView.setText(messageTime);
+                }
             }
         }
 

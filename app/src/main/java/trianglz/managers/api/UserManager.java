@@ -254,13 +254,13 @@ public class UserManager {
         });
     }
 
-    public static void getMessages(String url, String id, final ArrayResponseListener responseListener){
+    public static void getMessages(String url, String id, final ResponseListener responseListener){
         HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String,String> paramsHashMap = new HashMap<>();
         paramsHashMap.put(Constants.KEY_USER_ID,id);
-        NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
+        NetworkManager.getWithParameter(url, paramsHashMap, headerHashMap, new HandleResponseListener() {
             @Override
-            public void onSuccess(JSONArray response) {
+            public void onSuccess(JSONObject response) {
                 responseListener.onSuccess(response);
             }
 

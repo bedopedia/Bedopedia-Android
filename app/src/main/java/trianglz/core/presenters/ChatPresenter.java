@@ -10,4 +10,6 @@ public interface ChatPresenter {
     void onSendMessageFailure(String message,int errorCode);
     void onFirstMessageSuccess(MessageThread messageThread);
     void onFirstMessageFailure(String message,int errorCode);
+    void onSendImageSuccess(String attachmentUrl);
+    void onSendImageFailure();
 }

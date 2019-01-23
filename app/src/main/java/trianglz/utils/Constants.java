@@ -166,4 +166,6 @@ public class Constants {
     public static final String KEY_FILE_ATTACHED = "file attached";
     public static final String KEY_FILENAME = "filename";
     public static final String KEY_ATTACHMENT = "attachment";
+    public static final String KEY_MESSAGE_THREADS = "message_threads";
+
 }

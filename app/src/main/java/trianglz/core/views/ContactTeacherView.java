@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import trianglz.core.presenters.ContactTeacherPresenter;
-import trianglz.managers.api.ArrayResponseListener;
+import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Message;
 import trianglz.models.MessageThread;
@@ -29,10 +29,10 @@ public class ContactTeacherView {
     }
 
     public void getMessages(String url, String id) {
-        UserManager.getMessages(url, id, new ArrayResponseListener() {
+        UserManager.getMessages(url, id, new ResponseListener() {
             @Override
-            public void onSuccess(JSONArray responseArray) {
-                contactTeacherPresenter.onGetMessagesSuccess(parseGetMessagesResponse(responseArray));
+            public void onSuccess(JSONObject response) {
+                contactTeacherPresenter.onGetMessagesSuccess(parseGetMessagesResponse(response));
             }
 
             @Override
@@ -42,20 +42,21 @@ public class ContactTeacherView {
         });
     }
 
-    private ArrayList<MessageThread> parseGetMessagesResponse(JSONArray threads) {
+    private ArrayList<MessageThread> parseGetMessagesResponse(JSONObject threads) {
         ArrayList<MessageThread> messageThreadArrayList = new ArrayList<>();
-        for (int i = 0; i < threads.length(); i++) {
-            JSONObject messageThread = threads.optJSONObject(i);
-            int courseId = messageThread.optInt(Constants.KEY_COURSE_ID);
-            String courseName = messageThread.optString(Constants.KEY_COURSE_NAME);
-            int id = messageThread.optInt(Constants.KEY_ID);
-            boolean isRead = messageThread.optBoolean(Constants.KEY_IS_READ);
-            String otherAvatar = messageThread.optJSONArray(Constants.KEY_OTHER_AVATARS).toString();
-            String otherNames = messageThread.optString(Constants.KEY_OTHER_NAMES);
-            String tag = messageThread.optString(Constants.KEY_TAG);
-            String lastAddedDate = messageThread.optString(Constants.KEY_LAST_ADDED_DATE);
-            String name = messageThread.optString(Constants.KEY_NAME);
-            JSONArray participantsJsonArray = messageThread.optJSONArray(Constants.KEY_PARTICIPANTS);
+            JSONArray messageThreads = threads.optJSONArray(Constants.KEY_MESSAGE_THREADS);
+        for (int i = 0; i < messageThreads.length(); i++) {
+            JSONObject thread = messageThreads.optJSONObject(i);
+            int courseId = thread.optInt(Constants.KEY_ID);
+            String courseName = thread.optString(Constants.KEY_NAME);
+            int id = thread.optInt(Constants.KEY_ID);
+            boolean isRead = thread.optBoolean(Constants.KEY_IS_READ);
+            String otherAvatar = thread.optJSONArray(Constants.KEY_OTHER_AVATARS).toString();
+            String otherNames = thread.optString(Constants.KEY_OTHER_NAMES);
+            String tag = thread.optString(Constants.KEY_TAG);
+            String lastAddedDate = thread.optString(Constants.KEY_LAST_ADDED_DATE);
+            String name = thread.optString(Constants.KEY_NAME);
+            JSONArray participantsJsonArray = thread.optJSONArray(Constants.KEY_PARTICIPANTS);
             ArrayList<Participant> participantArrayList = new ArrayList<>();
             if(!participantArrayList.isEmpty()){
             for(int p = 0; p < participantsJsonArray.length(); p++){
@@ -66,7 +67,7 @@ public class ContactTeacherView {
                 String userAvatarUrl = participantJsonObject.optString(Constants.KEY_USER_AVATAR_URL);
                 participantArrayList.add(new Participant(participantName,threadId,userId,userAvatarUrl));
             }}
-            JSONArray messages = messageThread.optJSONArray(Constants.KEY_MESSAGES);
+            JSONArray messages = thread.optJSONArray(Constants.KEY_MESSAGES);
             ArrayList<Message> messageArrayList = new ArrayList<>();
             for (int j = 0; j < messages.length(); j++) {
                 JSONObject messageObj = messages.optJSONObject(j);
