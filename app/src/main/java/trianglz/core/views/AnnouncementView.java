@@ -57,8 +57,9 @@ public class AnnouncementView {
             String title = announcementJsonObject.optString(Constants.KEY_TITLE);
             String body = announcementJsonObject.optString(Constants.KEY_BODY);
             String endAt = announcementJsonObject.optString(Constants.KEY_END_AT);
-            String adminId = announcementJsonObject.optString(Constants.KEY_ADMIN_ID);
+            int adminId = announcementJsonObject.optInt(Constants.KEY_ADMIN_ID);
             String createdAt = announcementJsonObject.optString(Constants.KEY_CREATED_AT);
+            String imageUrl =  announcementJsonObject.optString(Constants.KEY_IMAGE_URL);
             JSONArray announcementReceiversJsonArray = announcementJsonObject.optJSONArray(Constants.KEY_ANNOUNCEMENT_RECEIVERS);
             for(int j= 0; j< announcementReceiversJsonArray.length(); j++){
                 JSONObject announcementReceiverObject = announcementReceiversJsonArray.optJSONObject(j);
@@ -68,7 +69,7 @@ public class AnnouncementView {
                 AnnouncementReceiver announcementReceiver = new AnnouncementReceiver(annoucementReceiverId,annoucenmentID,userType);
                 announcementReceiverArrayList.add(announcementReceiver);
             }
-            announcementArrayList.add( new Announcement(id,title,body,formatDate(endAt),formatDate(createdAt), announcementReceiverArrayList));
+            announcementArrayList.add( new Announcement(id,title,body,formatDate(endAt),formatDate(createdAt),adminId,imageUrl, announcementReceiverArrayList));
         }
         return announcementArrayList;
     }

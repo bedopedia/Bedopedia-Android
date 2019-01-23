@@ -170,5 +170,6 @@ public class Constants {
     public static final String KEY_ADMIN_ID = "admin_id";
     public static final String KEY_ANNOUNCEMENT_RECEIVERS = "announcement_receivers";
     public static final String KEY_ANNOUCEMENT_ID = "announcement_id";
+    public static final String KEY_IMAGE_URL = "image_url";
 
 }

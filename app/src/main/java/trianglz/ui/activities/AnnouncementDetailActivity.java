@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -43,6 +44,15 @@ public class AnnouncementDetailActivity extends SuperActivity implements View.On
         String body = android.text.Html.fromHtml(announcement.body).toString();
         body = StringEscapeUtils.unescapeJava(body);
         bodyTextView.setText(body);
+        if(announcement.imageUrl != null && !announcement.imageUrl.isEmpty() && !announcement.imageUrl.equals("null")){
+            announcementImageView.setVisibility(View.VISIBLE);
+            Picasso.with(this)
+                    .load(announcement.imageUrl)
+                    .fit()
+                    .into(announcementImageView);
+        }else {
+            announcementImageView.setVisibility(View.GONE);
+        }
     }
 
     private void setListeners(){

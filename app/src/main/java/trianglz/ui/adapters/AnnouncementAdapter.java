@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -56,6 +57,15 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
                 announcementAdapterInterface.onAnnouncementSelected(mDataList.get(holder.getAdapterPosition()));
             }
         });
+        if(announcement.imageUrl !=null && !announcement.imageUrl.isEmpty() && !announcement.imageUrl.equals("null")){
+           holder.announcementImage.setVisibility(View.VISIBLE);
+            Picasso.with(context)
+                    .load(announcement.imageUrl)
+                    .fit()
+                    .into(holder.announcementImage);
+        }else {
+            holder.announcementImage.setVisibility(View.GONE);
+        }
 
     }
 
