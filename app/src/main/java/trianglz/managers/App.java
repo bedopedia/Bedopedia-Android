@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.support.multidex.MultiDex;
 
 import com.androidnetworking.AndroidNetworking;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.skolera.skolera_android.R;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
@@ -43,6 +44,7 @@ public class App extends Application {
         AndroidNetworking.initialize(getApplicationContext());
         EmojiManager.install(new GoogleEmojiProvider());
         ACRA.init(this);
+        Fresco.initialize(this);
     }
 
     @Override
