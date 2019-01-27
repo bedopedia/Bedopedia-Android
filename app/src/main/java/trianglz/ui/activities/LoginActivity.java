@@ -129,6 +129,9 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     @Override
     public void onLoginSuccess(Actor actor) {
         openStudentDetailActivity(actor);
+        String url = school.schoolUrl + "/api/auth/sign_in";
+        SessionManager.getInstance().setloginValues(url,emailEditText.getText().toString(),
+                passwordEditText.getText().toString());
     }
 
     @Override

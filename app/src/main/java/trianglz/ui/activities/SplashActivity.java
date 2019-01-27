@@ -10,6 +10,8 @@ import com.skolera.skolera_android.R;
 import trianglz.core.presenters.SplashPresenter;
 import trianglz.core.views.SplashView;
 import trianglz.managers.SessionManager;
+import trianglz.models.Actor;
+import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
 public class SplashActivity extends SuperActivity implements SplashPresenter {
@@ -56,18 +58,25 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
         SplashActivity.this.startActivity(intent);
     }
 
-    private void openStudentDetailActivity() {
-        Intent intent = new Intent(SplashActivity.this, StudentDetailActivity.class);
-        SplashActivity.this.startActivity(intent);
+    private void openStudentDetailActivity(Actor actor) {
+        Intent intent = new Intent(this,StudentDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_ACTOR,actor);
+        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        this.startActivity(intent);
     }
 
     @Override
     public void onLoginSuccess() {
         if(SessionManager.getInstance().getUserType()){
             openHomeActivity();
-        }else {
-            openStudentDetailActivity();
         }
+        finish();
+    }
+
+    @Override
+    public void onLoginSuccess(Actor actor) {
+        openStudentDetailActivity(actor);
         finish();
     }
 
