@@ -9,9 +9,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 
@@ -112,10 +114,15 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
             imageLoader = new PicassoLoader();
             imageLoader.loadImage(holder.teacherImageView, new AvatarPlaceholderModified(name), "Path of Image");
         } else {
+            Transformation transformation = new RoundedTransformationBuilder()
+                    .oval(true)
+                    .borderColor(R.color.jade_green)
+                    .borderWidthDp(2)
+                    .build();
             Picasso.with(context)
                     .load(imageUrl)
                     .fit()
-                    .transform(new CircleTransform())
+                    .transform(transformation)
                     .into(holder.teacherImageView, new Callback() {
                         @Override
                         public void onSuccess() {
