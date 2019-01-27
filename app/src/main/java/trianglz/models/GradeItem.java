@@ -9,14 +9,14 @@ public class GradeItem {
     public int maxGrade;
     public double total;
     public double grade;
-    public double gradeView;
+    public String gradeView;
     public String feedBack;
     public String endDate;
     public String averageGrade = "";
     public int gradingPeriodId;
 
     public GradeItem(int id, String name, int maxGrade, double total, double grade,
-                     double gradeView, String feedBack, String endDate, int gradingPeriodId) {
+                     String gradeView, String feedBack, String endDate, int gradingPeriodId) {
         this.id = id;
         this.name = name;
         this.maxGrade = maxGrade;

@@ -126,7 +126,7 @@ public class GradeDetailView {
             String name = jsonObject.optString(Constants.KEY_NAME);
             int total = jsonObject.optInt(Constants.KEY_TOTAL);
             double grade = jsonObject.optDouble(Constants.KEY_GRADE);
-            double gradeView = jsonObject.optDouble(Constants.KEY_GRADE_VIEW);
+            String gradeView = jsonObject.optString(Constants.KEY_GRADE_VIEW);
             String feedBack = jsonObject.optString(Constants.KEY_FEED_BACK);
             String endDate = jsonObject.optString(Constants.KEY_END_DATE);
             assignmentArrayList.add(new Assignment(id,name,total,grade,gradeView,feedBack,endDate));
@@ -145,7 +145,7 @@ public class GradeDetailView {
             double total = jsonObject.optDouble(Constants.KEY_TOTAL);
             double totalScore = jsonObject.optDouble(Constants.KEY_TOTAL_SCORE);
             double grade = jsonObject.optDouble(Constants.KEY_GRADE);
-            double gradeView = jsonObject.optDouble(Constants.KEY_GRADE_VIEW);
+            String gradeView = jsonObject.optString(Constants.KEY_GRADE_VIEW);
             String feedBack = jsonObject.optString(Constants.KEY_FEED_BACK);
             String endDate = jsonObject.optString(Constants.KEY_END_DATE);
             quizArrayList.add(new Quiz(id,name,totalScore,total,grade,gradeView,feedBack,endDate));
@@ -164,7 +164,7 @@ public class GradeDetailView {
             int maxGrade = jsonObject.optInt(Constants.KEY_MAX_GRADE);
             double total = jsonObject.optDouble(Constants.KEY_TOTAL);
             double grade = jsonObject.optDouble(Constants.KEY_GRADE);
-            double gradeView = jsonObject.optDouble(Constants.KEY_GRADE_VIEW);
+            String gradeView = jsonObject.optString(Constants.KEY_GRADE_VIEW);
             String feedBack = jsonObject.optString(Constants.KEY_FEED_BACK);
             String endDate = jsonObject.optString(Constants.KEY_END_DATE);
             int gradingPeriodId = jsonObject.optInt(Constants.KEY_GRADING_PERIOD_ID);

@@ -10,12 +10,12 @@ public class Assignment {
      public String name  = "";
      public double total = 0;
      public double grade = 0;
-     public double gradeView = 0;
+     public String gradeView = "";
      public String feedBack;
      public String endDate;
      public String averageGrade = "";
 
-    public Assignment(int id, String name, double total, double grade, double gradeView,String feedBack,String endDate) {
+    public Assignment(int id, String name, double total, double grade, String gradeView,String feedBack,String endDate) {
         this.id = id;
         this.name = name;
         this.total = total;

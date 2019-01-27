@@ -10,12 +10,12 @@ public class Quiz {
     public double totalScore;
     public  double total;
     public  double grade;
-    public  double gradeView;
+    public  String gradeView;
     public String feedBack;
     public  String endDate;
     public String averageGrade = "";
 
-    public Quiz(int id, String name, double totalScore, double total, double grade, double gradeView, String feedBack, String endDate) {
+    public Quiz(int id, String name, double totalScore, double total, double grade, String gradeView, String feedBack, String endDate) {
         this.id = id;
         this.name = name;
         this.totalScore = totalScore;
