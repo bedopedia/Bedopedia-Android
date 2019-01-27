@@ -8,7 +8,7 @@ import trianglz.models.MessageThread;
 public interface ChatPresenter {
     void onSendMessageSuccess();
     void onSendMessageFailure(String message,int errorCode);
-    void onFirstMessageSuccess(MessageThread messageThread);
+    void onFirstMessageSuccess();
     void onFirstMessageFailure(String message,int errorCode);
     void onSendImageSuccess(String attachmentUrl);
     void onSendImageFailure();

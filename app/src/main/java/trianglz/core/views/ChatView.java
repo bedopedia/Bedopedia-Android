@@ -93,7 +93,7 @@ public class ChatView {
         UserManager.sendFirstMessage(url, teacherId, userId, body, courseId, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                chatPresenter.onFirstMessageSuccess(parseFirstMessageResponse(response));
+                chatPresenter.onFirstMessageSuccess();
             }
 
             @Override
