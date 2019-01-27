@@ -448,7 +448,13 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     @Override
     public void onGetMessagesSuccess(ArrayList<MessageThread> messageArrayList,int unreadMessageCount) {
         if(messageArrayList.size() > 0){
-            // TODO: 1/13/19 add message Text
+            MessageThread messageThread = messageArrayList.get(0);
+            if(messageThread.messageArrayList.size()>0){
+                Message latestMessage = messageThread.messageArrayList.get(messageArrayList.size()-1);
+                String body = android.text.Html.fromHtml(latestMessage.body).toString();
+                body = StringEscapeUtils.unescapeJava(body);
+                messagesTextView.setText(body);
+            }
         }else {
          messagesTextView.setText(getResources().getString(R.string.there_is_no_messages));
         }
