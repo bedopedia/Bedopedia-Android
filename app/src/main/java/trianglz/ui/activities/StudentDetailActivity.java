@@ -451,7 +451,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         if(messageArrayList.size() > 0){
             MessageThread messageThread = messageArrayList.get(0);
             if(messageThread.messageArrayList.size()>0){
-                Message latestMessage = messageThread.messageArrayList.get(messageArrayList.size()-1);
+                Message latestMessage = messageThread.messageArrayList.get(0);
                 String body = android.text.Html.fromHtml(latestMessage.body).toString();
                 body = StringEscapeUtils.unescapeJava(body);
                 messagesTextView.setText(body);
@@ -562,9 +562,6 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     }
 
     private void openMessagesActivity() {
-        if(!SessionManager.getInstance().getUserType()){
-            messagesCounterTextView.setVisibility(View.INVISIBLE);
-        }
         Intent intent = new Intent(this,ContactTeacherActivity.class);
         Bundle bundle = new Bundle();
         if(SessionManager.getInstance().getUserType()){
