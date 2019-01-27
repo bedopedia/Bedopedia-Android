@@ -1,18 +1,22 @@
 package trianglz.ui.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,17 +35,26 @@ import agency.tango.android.avatarview.views.AvatarView;
 import attendance.Attendance;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.LocalHelper;
+import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.StudentDetailPresenter;
 import trianglz.core.views.StudentDetailView;
 import trianglz.managers.SessionManager;
+import trianglz.managers.api.ApiEndPoints;
+import trianglz.models.Actor;
+import trianglz.models.Announcement;
 import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
+import trianglz.models.Message;
+import trianglz.models.MessageThread;
+import trianglz.models.Notification;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class StudentDetailActivity extends SuperActivity implements StudentDetailPresenter, View.OnClickListener {
+public class StudentDetailActivity extends SuperActivity implements StudentDetailPresenter,
+        View.OnClickListener,SettingsDialog.SettingsDialogInterface {
 
     private List<TimeTableSlot> todaySlots;
     private List<TimeTableSlot> tomorrowSlots;
@@ -71,6 +84,18 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private ImageView redCircleImageView;
 
 
+    private LinearLayout parentLayout,teacherLayout;
+    private TextView notificationTextView,annoucmentTextView,messagesTextView;
+    private LinearLayout notificationLayout,annoucmentLayout,messagesLayout;
+    private RelativeLayout bottomLayout;
+    private Actor actor;
+    private String actorName = "";
+    private ImageButton settingsBtn;
+    private LinearLayout studentHeaderLayout,actorHeaderLayout;
+    private SettingsDialog settingsDialog;
+    private TextView notifcationCounterTextView,announcementCounterTextView,messagesCounterTextView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,13 +103,24 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         getValueFromIntent();
         bindViews();
         setListeners();
-        String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
-        if (Util.isNetworkAvailable(this)) {
-            studentDetailView.getStudentCourses(courseUrl);
-            showLoadingDialog();
-        } else {
-            Util.showNoInternetConnectionDialog(this);
+        setParentActorView();
+        if(SessionManager.getInstance().getUserType()){
+            String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
+            if (Util.isNetworkAvailable(this)) {
+                studentDetailView.getStudentCourses(courseUrl);
+                showLoadingDialog();
+            } else {
+                Util.showNoInternetConnectionDialog(this);
+            }
+        }else {
+            if(Util.isNetworkAvailable(this)){
+                getNotifications(false);
+                showLoadingDialog();
+            }else {
+                Util.showNoInternetConnectionDialog(this);
+            }
         }
+
     }
 
     private void bindViews() {
@@ -96,13 +132,9 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         courseGroups = new ArrayList<>();
         studentArrayList = new ArrayList<>();
         nameTextView = findViewById(R.id.tv_name);
-        studentName = student.firstName + " " + student.lastName;
-        nameTextView.setText(studentName);
         levelTextView = findViewById(R.id.tv_level);
-        levelTextView.setText(student.level);
         studentImageView = findViewById(R.id.img_student);
         imageLoader = new PicassoLoader();
-        setStudentImage(student.getAvatar(), studentName);
         nextSlotTextView = findViewById(R.id.tv_time_table);
         studentGradeTextView = findViewById(R.id.tv_grade);
         attendanceLayout = findViewById(R.id.layout_attendance);
@@ -119,12 +151,25 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         quizzesTextView = findViewById(R.id.tv_quizzes);
         assignmentsTextView = findViewById(R.id.tv_assignment);
         eventsTextView = findViewById(R.id.tv_events);
-        setAttendance();
-        setBottomText(student);
         messagesBtn = findViewById(R.id.btn_messages);
         notificationBtn = findViewById(R.id.btn_notification);
         redCircleImageView = findViewById(R.id.img_red_circle);
-
+        parentLayout = findViewById(R.id.layout_parent);
+        teacherLayout = findViewById(R.id.layout_teacher);
+        notificationTextView = findViewById(R.id.tv_notification);
+        notificationLayout = findViewById(R.id.layout_notification);
+        messagesTextView = findViewById(R.id.tv_message);
+        messagesLayout = findViewById(R.id.layout_messages);
+        annoucmentLayout = findViewById(R.id.layout_annoucment);
+        annoucmentTextView = findViewById(R.id.tv_annoucment);
+        bottomLayout = findViewById(R.id.layout_bottom);
+        settingsBtn = findViewById(R.id.btn_setting);
+        studentHeaderLayout = findViewById(R.id.layout_student_header);
+        actorHeaderLayout = findViewById(R.id.layout_actor_header);
+        settingsDialog = new SettingsDialog(this, R.style.SettingsDialog, this);
+        notifcationCounterTextView = findViewById(R.id.tv_notifcation_counter);
+        messagesCounterTextView = findViewById(R.id.tv_messages_counter);
+        announcementCounterTextView = findViewById(R.id.tv_announcement_counter);
     }
 
     private void setListeners() {
@@ -135,22 +180,79 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         backBtn.setOnClickListener(this);
         messagesBtn.setOnClickListener(this);
         notificationBtn.setOnClickListener(this);
+
+        //actor listeners
+        notificationLayout.setOnClickListener(this);
+        messagesLayout.setOnClickListener(this);
+        annoucmentLayout.setOnClickListener(this);
+        settingsBtn.setOnClickListener(this);
+    }
+
+    private void setParentActorView() {
+        if(!SessionManager.getInstance().getUserType()){
+            parentLayout.setVisibility(View.GONE);
+            teacherLayout.setVisibility(View.VISIBLE);
+            bottomLayout.setVisibility(View.GONE);
+            messagesBtn.setVisibility(View.INVISIBLE);
+            actorName = actor.firstName + " " + actor.lastName;
+            setStudentImage(actor.imageUrl,actorName);
+            nameTextView.setText(actorName);
+            levelTextView.setText(actor.actableType);
+            actorHeaderLayout.setVisibility(View.VISIBLE);
+            studentHeaderLayout.setVisibility(View.INVISIBLE);
+            String notificationText = SessionManager.getInstance().getNotficiationCounter() + " "+getResources().getString(R.string.unread_notifications);
+            notificationTextView.setText(notificationText);
+            if(SessionManager.getInstance().getNotficiationCounter() > 0){
+                notifcationCounterTextView.setVisibility(View.VISIBLE);
+                notifcationCounterTextView.setText(SessionManager.getInstance().getNotficiationCounter()+"");
+            }else {
+                notifcationCounterTextView.setVisibility(View.INVISIBLE);
+            }
+        }else {
+            parentLayout.setVisibility(View.VISIBLE);
+            teacherLayout.setVisibility(View.GONE);
+            bottomLayout.setVisibility(View.VISIBLE);
+            studentName = student.firstName + " " + student.lastName;
+            setAttendance();
+            setBottomText(student);
+            setStudentImage(student.getAvatar(), studentName);
+            nameTextView.setText(studentName);
+            levelTextView.setText(student.level);
+            messagesBtn.setVisibility(View.VISIBLE);
+            actorHeaderLayout.setVisibility(View.INVISIBLE);
+            studentHeaderLayout.setVisibility(View.VISIBLE);
+        }
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(SessionManager.getInstance().getNotficiationCounter()>0){
-            redCircleImageView.setVisibility(View.VISIBLE);
-        }else {
-            redCircleImageView.setVisibility(View.GONE);
+        if (SessionManager.getInstance().getUserType()) {
+            if (SessionManager.getInstance().getNotficiationCounter() > 0) {
+                redCircleImageView.setVisibility(View.VISIBLE);
+            } else {
+                redCircleImageView.setVisibility(View.GONE);
+            }
+        } else {
+            if (SessionManager.getInstance().getNotficiationCounter() > 0) {
+                notifcationCounterTextView.setVisibility(View.VISIBLE);
+                notifcationCounterTextView.setText(SessionManager.getInstance().getNotficiationCounter()+"");
+            }else {
+                notifcationCounterTextView.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
+
     private void getValueFromIntent() {
-        student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
-        attendance = (String) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ATTENDANCE);
+        if(SessionManager.getInstance().getUserType()){
+            student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
+            attendance = (String) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ATTENDANCE);
+        }else {
+            actor = (Actor) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
+        }
+
     }
 
     private void setStudentImage(String imageUrl, final String name) {
@@ -303,6 +405,111 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     }
 
     @Override
+    public void onGetNotificationSuccess(ArrayList<Notification> notificationArrayList) {
+        if(notificationArrayList.size()>0){
+            Notification notification = notificationArrayList.get(0);
+            notificationTextView.setText(notification.getMessage());
+        }else {
+            notificationTextView.setText(getResources().getString(R.string.there_is_no_notifications));
+        }
+
+        if(Util.isNetworkAvailable(this)){
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
+            studentDetailView.getMessages(url,SessionManager.getInstance().getId());
+        }else {
+            if(progress.isShowing()){
+                progress.dismiss();
+            }
+            Util.showNoInternetConnectionDialog(this);
+        }
+
+
+    }
+
+    @Override
+    public void onGetNotificationFailure(String message, int errorCode) {
+        if(Util.isNetworkAvailable(this)){
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
+            studentDetailView.getMessages(url,SessionManager.getInstance().getId());
+        }else {
+            if(progress.isShowing()){
+                progress.dismiss();
+            }
+            Util.showNoInternetConnectionDialog(this);
+        }
+
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
+    }
+
+    @Override
+    public void onGetMessagesSuccess(ArrayList<MessageThread> messageArrayList,int unreadMessageCount) {
+        if(messageArrayList.size() > 0){
+            // TODO: 1/13/19 add message Text
+        }else {
+         messagesTextView.setText(getResources().getString(R.string.there_is_no_messages));
+        }
+        if(Util.isNetworkAvailable(this)){
+            getAnnouncement();
+        }else {
+            if(progress.isShowing()){
+                progress.dismiss();
+            }
+            Util.showNoInternetConnectionDialog(this);
+        }
+
+    }
+
+    @Override
+    public void onGetMessagesFailure(String message, int errorCode) {
+        if(Util.isNetworkAvailable(this)){
+            getAnnouncement();
+        }else {
+            if(progress.isShowing()){
+                progress.dismiss();
+            }
+            Util.showNoInternetConnectionDialog(this);
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
+    }
+
+
+    @Override
+    public void onGetAnnouncementsSuccess(ArrayList<Announcement> announcementArrayList) {
+        if(announcementArrayList.size()>0){
+            Announcement announcement = announcementArrayList.get(0);
+            String body = android.text.Html.fromHtml(announcement.body).toString();
+            body = StringEscapeUtils.unescapeJava(body);
+            annoucmentTextView.setText(body);
+        }else {
+            annoucmentTextView.setText(getResources().getString(R.string.there_is_no_announcements));
+        }
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+    }
+
+    @Override
+    public void onGetAnnouncementsFailure(String message, int errorCode) {
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 || errorCode == 500 ){
+            logoutUser(this);
+        }else {
+            showErrorDialog(this);
+        }
+    }
+
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.layout_timetable:
@@ -326,13 +533,29 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             case R.id.btn_notification:
                 openNotificationsActivity();
                 break;
+            case R.id.layout_notification:
+               openNotificationsActivity();
+                break;
+            case R.id.layout_messages:
+                openMessagesActivity();
+                break;
+            case R.id.layout_annoucment:
+                openAnnouncement();
+                break;
+            case R.id.btn_setting:
+                settingsDialog.show();
+                break;
         }
     }
 
     private void openMessagesActivity() {
         Intent intent = new Intent(this,ContactTeacherActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT,student);
+        if(SessionManager.getInstance().getUserType()){
+            bundle.putSerializable(Constants.STUDENT,student);
+        }else {
+            bundle.putSerializable(Constants.KEY_ACTOR,actor);
+        }
         intent.putExtra(Constants.KEY_BUNDLE,bundle);
         startActivity(intent);
     }
@@ -395,4 +618,78 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         startActivity(myIntent);
     }
 
+    @Override
+    public void onChangeLanguageClicked() {
+        changeLanguage();
+    }
+
+    @Override
+    public void onSignOutClicked() {
+        logoutUser(this);
+    }
+
+
+    private void changeLanguage() {
+        if (LocalHelper.getLanguage(this).equals("ar")) {
+            updateViews("en");
+        } else {
+            updateViews("ar");
+        }
+    }
+
+
+    private void updateViews(String languageCode) {
+
+        LocalHelper.setLocale(this, languageCode);
+        LocalHelper.getLanguage(this);
+        restartApp();
+    }
+
+    public void restartApp() {
+        Intent intent = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
+        if (this instanceof Activity) {
+            (this).finish();
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Runtime.getRuntime().exit(0);
+            }
+        }, 0);
+
+    }
+
+
+
+    private void openAnnouncement() {
+        Intent intent = new Intent(this,AnnouncementActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_ACTOR,actor);
+        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(SessionManager.getInstance().getUserType()){
+            super.onBackPressed();
+        }
+    }
+
+    private void getNotifications(boolean pagination) {
+        showLoadingDialog();
+        String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
+                SessionManager.getInstance().getUserId() + "/notifications";
+        studentDetailView.getNotifications(url, 1, 1);
+    }
+
+    private void getAnnouncement() {
+
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(1,actor.actableType,1);
+        studentDetailView.getAnnouncement(url);
+
+    }
 }

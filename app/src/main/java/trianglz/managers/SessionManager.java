@@ -30,6 +30,8 @@ public class SessionManager {
     String tokenKey = "token";
 
 
+    private String userType = "";
+
 
     public static SessionManager getInstance() {
         if (mInstance == null) {
@@ -137,5 +139,16 @@ public class SessionManager {
     public int getNotficiationCounter()
     {
         return mPreferences.getInt(this.unSeenNotification,0);
+    }
+
+
+    public void setUserType(boolean isParent){
+        mEditor.putBoolean(Constants.KEY_USER_TYPE,isParent);
+        mEditor.commit();
+    }
+
+    public boolean getUserType()
+    {
+        return mPreferences.getBoolean(Constants.KEY_USER_TYPE,false);
     }
 }

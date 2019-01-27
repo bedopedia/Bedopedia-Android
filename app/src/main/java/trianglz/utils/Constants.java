@@ -168,4 +168,16 @@ public class Constants {
     public static final String KEY_ATTACHMENT = "attachment";
     public static final String KEY_MESSAGE_THREADS = "message_threads";
 
+
+
+    public static final String KEY_ACTABLE_TYPE = "actable_type";
+    public static final String KEY_ACTOR = "actor";
+    public static final String KEY_ANNOUNCEMENTS = "announcements";
+    public static final String KEY_END_AT = "end_at";
+    public static final String KEY_ADMIN_ID = "admin_id";
+    public static final String KEY_ANNOUNCEMENT_RECEIVERS = "announcement_receivers";
+    public static final String KEY_ANNOUCEMENT_ID = "announcement_id";
+    public static final String KEY_IMAGE_URL = "image_url";
+    public static final String KEY_UNREAD_MESSAGE_COUNT = "unread_messages_count";
+
 }

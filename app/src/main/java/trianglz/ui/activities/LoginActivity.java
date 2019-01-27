@@ -21,6 +21,7 @@ import trianglz.core.presenters.LoginPresenter;
 import trianglz.core.views.LoginView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
+import trianglz.models.Actor;
 import trianglz.models.School;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -126,9 +127,16 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     }
 
     @Override
+    public void onLoginSuccess(Actor actor) {
+        openStudentDetailActivity(actor);
+    }
+
+    @Override
     public void onLoginSuccess() {
         progress.dismiss();
-        openHomeActivity();
+        if(SessionManager.getInstance().getUserType()){
+            openHomeActivity();
+        }
         String url = school.schoolUrl + "/api/auth/sign_in";
         SessionManager.getInstance().setloginValues(url,emailEditText.getText().toString(),
                 passwordEditText.getText().toString());
@@ -149,6 +157,14 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     private void openHomeActivity(){
         Intent intent = new Intent(this,HomeActivity.class);
+        this.startActivity(intent);
+    }
+
+    private void openStudentDetailActivity(Actor actor){
+        Intent intent = new Intent(this,StudentDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_ACTOR,actor);
+        intent.putExtra(Constants.KEY_BUNDLE,bundle);
         this.startActivity(intent);
     }
 
