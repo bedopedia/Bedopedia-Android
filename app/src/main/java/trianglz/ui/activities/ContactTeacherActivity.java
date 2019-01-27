@@ -41,6 +41,7 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
     private ArrayList<MessageThread> messageThreadArrayList;
     private Actor actor;
     private TextView headerTextView;
+    private boolean isOpeningThread = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
         }else {
             Util.showNoInternetConnectionDialog(this);
         }
+        isOpeningThread = false;
     }
 
     @Override
@@ -128,8 +130,13 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
 
     @Override
     public void onThreadClicked(int position) {
-        MessageThread messageThread = contactTeacherAdapter.mDataList.get(position);
-        openChatActivity(messageThread);
+        if(!isOpeningThread){
+            isOpeningThread = true;
+            MessageThread messageThread = contactTeacherAdapter.mDataList.get(position);
+            openChatActivity(messageThread);
+        }
+
+
     }
 
     private void openChatActivity(MessageThread messageThread) {
@@ -146,5 +153,11 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
         bundle.putSerializable(Constants.STUDENT,student);
        intent.putExtra(Constants.KEY_BUNDLE,bundle);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isOpeningThread = false;
     }
 }
