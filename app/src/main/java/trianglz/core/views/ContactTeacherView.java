@@ -48,7 +48,7 @@ public class ContactTeacherView {
         for (int i = 0; i < messageThreads.length(); i++) {
             JSONObject thread = messageThreads.optJSONObject(i);
             int courseId = thread.optInt(Constants.KEY_ID);
-            String courseName = thread.optString(Constants.KEY_NAME);
+            String courseName = thread.optString(Constants.KEY_COURSE_NAME);
             int id = thread.optInt(Constants.KEY_ID);
             boolean isRead = thread.optBoolean(Constants.KEY_IS_READ);
             JSONArray avatarJsonArray =  thread.optJSONArray(Constants.KEY_OTHER_AVATARS);
