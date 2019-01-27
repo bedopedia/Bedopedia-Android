@@ -30,7 +30,7 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|start"
                >
                 <TextView
                     android:layout_width="match_parent"
@@ -41,7 +41,9 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:id="@+id/tv_teacher_name"/>
+                    android:id="@+id/tv_teacher_name"
+                    android:textAlignment="viewStart"
+                    />
                 <trianglz.components.SfproRegularTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -52,6 +54,7 @@
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:id="@+id/tv_subject_name"
+                    android:textAlignment="viewStart"
                     />
 
             </LinearLayout>

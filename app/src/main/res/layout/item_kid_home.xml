@@ -37,7 +37,9 @@
                 android:maxLines="1"
                 android:text="Ahmed mostafa"
                 android:textColor="@color/greyish_brown"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textAlignment="viewStart"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,7 +57,9 @@
                     android:maxLines="1"
                     android:text="3rd Grade"
                     android:textColor="@color/steel"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textAlignment="viewStart"
+                    />
 
                 <ImageView
                     android:id="@+id/img_state"
@@ -75,7 +79,9 @@
                     android:singleLine="true"
                     android:text="3rd Grade"
                     android:textColor="@color/steel"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textAlignment="viewStart"
+                    />
 
             </LinearLayout>
         </RelativeLayout>

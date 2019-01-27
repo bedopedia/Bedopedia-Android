@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
         <agency.tango.android.avatarview.views.AvatarView
             android:id="@+id/img_subject"
             android:layout_width="50dp"
@@ -19,15 +20,17 @@
         <trianglz.components.SfproSemiBoldTextView
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/tv_subject_name"
-            android:gravity="center_vertical"
             android:textSize="18sp"
             android:textColor="@color/greyish_brown"
             android:text="Arabic"
             android:paddingEnd="5dp"
             android:maxLines="1"
             android:ellipsize="end"
+            android:textAlignment="viewStart"
+            android:singleLine="true"
+
             />
 
         <TextView

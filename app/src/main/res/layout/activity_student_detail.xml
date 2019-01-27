@@ -255,7 +255,9 @@
                                 android:singleLine="true"
                                 android:text="@string/attendance"
                                 android:textColor="@color/greyish_brown"
-                                android:textSize="18sp" />
+                                android:textSize="18sp"
+                                android:textAlignment="viewStart"
+                                />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -276,7 +278,9 @@
                                     android:maxLines="1"
                                     android:singleLine="true"
                                     android:textColor="@color/steel"
-                                    android:textSize="14sp" />
+                                    android:textSize="14sp"
+                                    android:textAlignment="viewStart"
+                                    />
 
 
                                 <com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar
@@ -344,7 +348,9 @@
                                 android:singleLine="true"
                                 android:text="@string/time_table"
                                 android:textColor="@color/greyish_brown"
-                                android:textSize="18sp" />
+                                android:textSize="18sp"
+                                android:textAlignment="viewStart"
+                                />
 
                             <trianglz.components.SfproRegularTextView
                                 android:id="@+id/tv_time_table"
@@ -356,7 +362,9 @@
                                 android:maxLines="1"
                                 android:singleLine="true"
                                 android:textColor="@color/steel"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:textAlignment="viewStart"
+                                />
 
                         </RelativeLayout>
 
@@ -416,7 +424,9 @@
                                     android:singleLine="true"
                                     android:text="@string/grades"
                                     android:textColor="@color/greyish_brown"
-                                    android:textSize="18sp" />
+                                    android:textSize="18sp"
+                                    android:textAlignment="viewStart"
+                                    />
 
                                 <trianglz.components.SfproRegularTextView
                                     android:id="@+id/tv_grade"
@@ -428,7 +438,9 @@
                                     android:maxLines="1"
                                     android:singleLine="true"
                                     android:textColor="@color/steel"
-                                    android:textSize="14sp" />
+                                    android:textSize="14sp"
+                                    android:textAlignment="viewStart"
+                                    />
 
                             </RelativeLayout>
 
@@ -490,7 +502,9 @@
                                     android:singleLine="true"
                                     android:text="@string/behavior_notes"
                                     android:textColor="@color/greyish_brown"
-                                    android:textSize="18sp" />
+                                    android:textSize="18sp"
+                                    android:textAlignment="viewStart"
+                                    />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -512,7 +526,9 @@
                                         android:gravity="center_vertical"
                                         android:includeFontPadding="false"
                                         android:textColor="@color/steel"
-                                        android:textSize="14sp" />
+                                        android:textSize="14sp"
+                                        android:textAlignment="viewStart"
+                                        />
 
                                     <ImageView
                                         android:layout_width="24dp"
@@ -528,7 +544,9 @@
                                         android:gravity="center_vertical"
                                         android:includeFontPadding="false"
                                         android:textColor="@color/steel"
-                                        android:textSize="14sp" />
+                                        android:textSize="14sp"
+                                        android:textAlignment="viewStart"
+                                        />
 
 
 
@@ -547,7 +565,9 @@
                                         android:gravity="center_vertical"
                                         android:includeFontPadding="false"
                                         android:textColor="@color/steel"
-                                        android:textSize="14sp" />
+                                        android:textSize="14sp"
+                                        android:textAlignment="viewStart"
+                                        />
 
 
                                 </LinearLayout>
@@ -639,7 +659,9 @@
                                 android:singleLine="true"
                                 android:text="@string/notifications"
                                 android:textColor="@color/greyish_brown"
-                                android:textSize="18sp" />
+                                android:textSize="18sp"
+                                android:textAlignment="viewStart"
+                                />
 
                             <trianglz.components.SfproRegularTextView
                                 android:layout_width="match_parent"
@@ -651,7 +673,9 @@
                                 android:singleLine="true"
                                 android:textColor="@color/steel"
                                 android:textSize="14sp"
-                                android:id="@+id/tv_notification"/>
+                                android:id="@+id/tv_notification"
+                                android:textAlignment="viewStart"
+                                />
 
                         </RelativeLayout>
 
@@ -730,7 +754,9 @@
                                     android:singleLine="true"
                                     android:text="@string/messages"
                                     android:textColor="@color/greyish_brown"
-                                    android:textSize="18sp" />
+                                    android:textSize="18sp"
+                                    android:textAlignment="viewStart"
+                                    />
 
                                 <trianglz.components.SfproRegularTextView
                                     android:layout_width="match_parent"
@@ -742,7 +768,9 @@
                                     android:singleLine="true"
                                     android:textColor="@color/steel"
                                     android:textSize="14sp"
-                                    android:id="@+id/tv_message"/>
+                                    android:id="@+id/tv_message"
+                                    android:textAlignment="viewStart"
+                                    />
 
                             </RelativeLayout>
 
@@ -815,7 +843,9 @@
                                 android:singleLine="true"
                                 android:text="@string/announcement"
                                 android:textColor="@color/greyish_brown"
-                                android:textSize="18sp" />
+                                android:textSize="18sp"
+                                android:textAlignment="viewStart"
+                                />
 
                             <trianglz.components.SfproRegularTextView
                                 android:layout_width="match_parent"
@@ -827,7 +857,9 @@
                                 android:singleLine="true"
                                 android:textColor="@color/steel"
                                 android:textSize="14sp"
-                                android:id="@+id/tv_annoucment"/>
+                                android:id="@+id/tv_annoucment"
+                                android:textAlignment="viewStart"
+                                />
 
                         </RelativeLayout>
 

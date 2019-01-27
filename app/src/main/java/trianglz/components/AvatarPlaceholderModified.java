@@ -118,16 +118,29 @@ public class  AvatarPlaceholderModified extends AvatarPlaceholder {
         if(Util.isNotNullOrEmpty(name)){
             if(name.contains(" & ")){
                 String [] nameArray = name.split(" & ");
-                return nameArray[0].substring(0,1).toUpperCase() +
-                        nameArray[1].substring(0,1).toUpperCase();
+                if(nameArray.length>1){
+                    return nameArray[0].substring(0,1).toUpperCase() +
+                            nameArray[1].substring(0,1).toUpperCase();
+                }else {
+                    return nameArray[0].substring(0,2).toUpperCase();
+                }
+
             }else if(name.contains("&")){
                 String [] nameArray = name.split("&");
-                return nameArray[0].substring(0,1).toUpperCase() +
-                        nameArray[1].substring(0,1).toUpperCase();
+                if(nameArray.length>1){
+                    return nameArray[0].substring(0,1).toUpperCase() +
+                            nameArray[1].substring(0,1).toUpperCase();
+                }else {
+                    return nameArray[0].substring(0,2).toUpperCase();
+                }
             }else if(name.contains(" ")){
                 String [] nameArray = name.split(" ");
-                return nameArray[0].substring(0,1).toUpperCase() +
-                        nameArray[1].substring(0,1).toUpperCase();
+                if(nameArray.length>1){
+                    return nameArray[0].substring(0,1).toUpperCase() +
+                            nameArray[1].substring(0,1).toUpperCase();
+                }else {
+                    return nameArray[0].substring(0,2).toUpperCase();
+                }
             }else{
                 return name.substring(0,2).toUpperCase();
             }
