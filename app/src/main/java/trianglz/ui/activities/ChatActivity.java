@@ -79,7 +79,9 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         if(messageThread != null){
             ArrayList<Object> adapterDataObjectArrayList = getAdapterData(messageThread.messageArrayList);
             chatAdapter.addData(adapterDataObjectArrayList);
-            recyclerView.smoothScrollToPosition(adapterDataObjectArrayList.size() - 1);
+            if(adapterDataObjectArrayList.size() > 0){
+                recyclerView.smoothScrollToPosition(adapterDataObjectArrayList.size() - 1);
+            }
         }
         messageEditText = findViewById(R.id.et_message);
         sendBtn = findViewById(R.id.enter_chat1);
@@ -135,7 +137,16 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
 
     private ArrayList<Object> getAdapterData(ArrayList<Message> messageArrayList) {
         ArrayList<Object> messageObjectArrayList = new ArrayList<>();
-        messageObjectArrayList.addAll(messageArrayList);
+        for(int i = 0; i<messageArrayList.size(); i++){
+            Message message = messageArrayList.get(i);
+            if(!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")){
+                if(Util.isImageUrl(message.attachmentUrl)){
+                    messageObjectArrayList.add(message);
+                }
+            }else {
+                messageObjectArrayList.add(message);
+            }
+        }
         return  setDates(messageObjectArrayList);
     }
 

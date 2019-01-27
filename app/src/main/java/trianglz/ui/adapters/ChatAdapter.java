@@ -163,7 +163,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             } else {
                 if(!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")){
-                    return TYPE_ME_IMAGE;
+                    return TYPE_OTHER_IMAGE;
                 }else {
                     return TYPE_OTHER;
                 }

@@ -8,6 +8,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
@@ -23,6 +24,9 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import com.karumi.dexter.listener.single.SnackbarOnDeniedPermissionListener;
 import com.skolera.skolera_android.R;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -289,6 +293,33 @@ public class Util {
                 .withListener(writeExternalPermissionListener)
                 .withErrorListener(new DexterPermissionErrorListener())
                 .check();
+
+    }
+
+
+    public static boolean isImageUrl(String url){
+
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            //your codes here
+
+            URLConnection connection = null;
+            try {
+                connection = new URL(url).openConnection();
+                String contentType = connection.getHeaderField("Content-Type");
+                boolean isImage = contentType.startsWith("image/");
+                return isImage;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+
+        }
+        return false;
 
     }
 
