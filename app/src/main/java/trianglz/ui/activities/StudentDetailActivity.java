@@ -241,6 +241,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             }else {
                 notifcationCounterTextView.setVisibility(View.INVISIBLE);
             }
+
         }
     }
 
@@ -458,6 +459,12 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         }else {
          messagesTextView.setText(getResources().getString(R.string.there_is_no_messages));
         }
+        if (unreadMessageCount> 0) {
+            messagesCounterTextView.setVisibility(View.VISIBLE);
+            messagesCounterTextView.setText(unreadMessageCount+"");
+        }else {
+            messagesCounterTextView.setVisibility(View.INVISIBLE);
+        }
         if(Util.isNetworkAvailable(this)){
             getAnnouncement();
         }else {
@@ -555,6 +562,9 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     }
 
     private void openMessagesActivity() {
+        if(!SessionManager.getInstance().getUserType()){
+            messagesCounterTextView.setVisibility(View.INVISIBLE);
+        }
         Intent intent = new Intent(this,ContactTeacherActivity.class);
         Bundle bundle = new Bundle();
         if(SessionManager.getInstance().getUserType()){
