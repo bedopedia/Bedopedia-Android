@@ -116,8 +116,15 @@ public class  AvatarPlaceholderModified extends AvatarPlaceholder {
         name = name.trim();
 
         if(Util.isNotNullOrEmpty(name)){
-
-            if(name.contains(" ")){
+            if(name.contains(" & ")){
+                String [] nameArray = name.split(" & ");
+                return nameArray[0].substring(0,1).toUpperCase() +
+                        nameArray[1].substring(0,1).toUpperCase();
+            }else if(name.contains("&")){
+                String [] nameArray = name.split("&");
+                return nameArray[0].substring(0,1).toUpperCase() +
+                        nameArray[1].substring(0,1).toUpperCase();
+            }else if(name.contains(" ")){
                 String [] nameArray = name.split(" ");
                 return nameArray[0].substring(0,1).toUpperCase() +
                         nameArray[1].substring(0,1).toUpperCase();

@@ -396,7 +396,13 @@ public class StudentDetailView {
             String courseName = messageThread.optString(Constants.KEY_COURSE_NAME);
             int id = messageThread.optInt(Constants.KEY_ID);
             boolean isRead = messageThread.optBoolean(Constants.KEY_IS_READ);
-            String otherAvatar = messageThread.optJSONArray(Constants.KEY_OTHER_AVATARS).toString();
+            JSONArray avatarJsonArray =  messageThread.optJSONArray(Constants.KEY_OTHER_AVATARS);
+            String otherAvatar;
+            if(avatarJsonArray.length()>0){
+                otherAvatar = avatarJsonArray.optString(avatarJsonArray.length()-1);
+            }else {
+                otherAvatar = avatarJsonArray.toString();
+            }
             String otherNames = messageThread.optString(Constants.KEY_OTHER_NAMES);
             String tag = messageThread.optString(Constants.KEY_TAG);
             String lastAddedDate = messageThread.optString(Constants.KEY_LAST_ADDED_DATE);

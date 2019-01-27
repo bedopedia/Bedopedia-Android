@@ -51,7 +51,13 @@ public class ContactTeacherView {
             String courseName = thread.optString(Constants.KEY_NAME);
             int id = thread.optInt(Constants.KEY_ID);
             boolean isRead = thread.optBoolean(Constants.KEY_IS_READ);
-            String otherAvatar = thread.optJSONArray(Constants.KEY_OTHER_AVATARS).toString();
+            JSONArray avatarJsonArray =  thread.optJSONArray(Constants.KEY_OTHER_AVATARS);
+            String otherAvatar;
+            if(avatarJsonArray.length()>0){
+                otherAvatar = avatarJsonArray.optString(avatarJsonArray.length()-1);
+            }else {
+                otherAvatar = avatarJsonArray.toString();
+            }
             String otherNames = thread.optString(Constants.KEY_OTHER_NAMES);
             String tag = thread.optString(Constants.KEY_TAG);
             String lastAddedDate = thread.optString(Constants.KEY_LAST_ADDED_DATE);
