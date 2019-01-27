@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -21,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import trianglz.components.RoundCornersTransformation;
 import trianglz.models.Message;
 import trianglz.utils.Util;
 
@@ -84,9 +87,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (userId.equals(String.valueOf(message.user.getId()))) {
                     ImageMeViewHolder imageMeViewHolder = ((ImageMeViewHolder) holder);
                     imageMeViewHolder.messageTimeTextView.setText(messageTime);
+                    Transformation transformation = new RoundedTransformationBuilder()
+                            .cornerRadiusDp((int)Util.convertDpToPixel(5,context))
+                            .oval(false)
+                            .build();
                     Picasso.with(context)
                             .load(message.attachmentUrl)
                             .fit()
+                            .transform(transformation)
                             .centerCrop()
                             .into(imageMeViewHolder.imageView);
                     imageMeViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -106,8 +114,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 } else {
                     ImageOtherViewHolder imageOtherViewHolder = ((ImageOtherViewHolder) holder);
                     imageOtherViewHolder.messageTimeTextView.setText(messageTime);
+                    Transformation transformation = new RoundedTransformationBuilder()
+                            .cornerRadiusDp((int)Util.convertDpToPixel(5,context))
+                            .oval(false)
+                            .build();
                     Picasso.with(context)
                             .load(message.attachmentUrl)
+                            .transform(transformation)
                             .fit()
                             .centerCrop()
                             .into(imageOtherViewHolder.imageView);

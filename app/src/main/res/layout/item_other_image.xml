@@ -12,7 +12,7 @@
         android:layout_marginLeft="8dp"
         android:layout_alignParentLeft="true"
         android:background="@drawable/chat_other_image_background"
-        android:padding="4dp">
+        >
 
 
         <ImageView
