@@ -105,9 +105,10 @@
     <string name="wrong_school_code">خطأ فى كود المدرسة</string>
 
 
-    <string name="announcement">Annoucment</string>
-    <string name="unread_notifications">Unread Notifications</string>
-    <string name="there_is_no_announcements">There is no announcements</string>
-    <string name="there_is_no_notifications">There is no notifications</string>
-    <string name="there_is_no_messages">There is no messages</string>
+    <string name="announcement">نبيهات</string>
+    <string name="unread_notifications">اشعارات جديدة</string>
+    <string name="there_is_no_announcements">لا يوجد تنبيهات</string>
+    <string name="there_is_no_notifications">لا يوجد اشعارات</string>
+    <string name="there_is_no_messages">لا يوجد رسائل</string>
+
 </resources>

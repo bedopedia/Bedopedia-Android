@@ -48,6 +48,7 @@ public class AnnouncementDetailActivity extends SuperActivity implements View.On
             announcementImageView.setVisibility(View.VISIBLE);
             Picasso.with(this)
                     .load(announcement.imageUrl)
+                    .centerCrop()
                     .fit()
                     .into(announcementImageView);
         }else {

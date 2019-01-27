@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="135dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/item_layout"
     android:clickable="true"
@@ -48,15 +48,14 @@
             android:textAlignment="textEnd"
             android:id="@+id/btn_date"
             android:textColor="@color/steel"
-            android:drawablePadding="5dp"/>
+            android:drawablePadding="5dp"
+            android:textAllCaps="false"/>
         
     </LinearLayout>
     
     <trianglz.components.SfuiRegularTextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:maxLines="3"
+        android:layout_height="wrap_content"
         android:ellipsize="end"
         android:text="Dear Parents, MIS believes that Food, to alarge extent, defines our life. It determines our mood, behaviors, and directs us towards specific actions. students will lear"
         android:textSize="15sp"
@@ -64,6 +63,8 @@
         android:id="@+id/tv_content"
         android:paddingStart="20dp"
         android:paddingEnd="15dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
       />
 
     <View
