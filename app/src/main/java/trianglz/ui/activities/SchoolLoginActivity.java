@@ -54,10 +54,11 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_verify:
-                if (validate(codeEditText.getText().toString())) {
+                String code = codeEditText.getText().toString().trim();
+                if (validate(code)) {
                     if(Util.isNetworkAvailable(this)){
                         super.showLoadingDialog();
-                        schoolLoginView.getSchoolUrl(ApiEndPoints.SCHOOL_CODE_BASE_URL, codeEditText.getText().toString());
+                        schoolLoginView.getSchoolUrl(ApiEndPoints.SCHOOL_CODE_BASE_URL, code);
                     }else {
                         Util.showNoInternetConnectionDialog(this);
                     }
