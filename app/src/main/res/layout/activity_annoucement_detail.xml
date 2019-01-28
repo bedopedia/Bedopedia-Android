@@ -25,16 +25,23 @@
             android:src="@drawable/chevron_left" />
 
         <trianglz.components.SfproBoldTextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:text="@string/announcement"
             android:textColor="@color/greyish_brown"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:id="@+id/tv_header"/>
+            android:id="@+id/tv_header"
+            android:layout_toEndOf="@id/btn_back"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:textAlignment="center"
+            />
 
     </RelativeLayout>
 
