@@ -22,6 +22,7 @@ import trianglz.managers.api.UserManager;
 import trianglz.models.AnnouncementReceiver;
 import trianglz.models.Announcement;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 public class AnnouncementView {
     private Context context;
@@ -69,7 +70,7 @@ public class AnnouncementView {
                 AnnouncementReceiver announcementReceiver = new AnnouncementReceiver(annoucementReceiverId,annoucenmentID,userType);
                 announcementReceiverArrayList.add(announcementReceiver);
             }
-            announcementArrayList.add( new Announcement(id,title,body,formatDate(endAt),formatDate(createdAt),adminId,imageUrl, announcementReceiverArrayList));
+            announcementArrayList.add( new Announcement(id,title,body,Util.getDate(endAt),Util.getDate(createdAt),adminId,imageUrl, announcementReceiverArrayList));
         }
         return announcementArrayList;
     }
