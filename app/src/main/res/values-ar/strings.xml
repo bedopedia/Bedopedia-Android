@@ -110,5 +110,7 @@
     <string name="there_is_no_announcements">لا يوجد تنبيهات</string>
     <string name="there_is_no_notifications">لا يوجد اشعارات</string>
     <string name="there_is_no_messages">لا يوجد رسائل</string>
+    <string name="yesterday">الامس</string>
+
 
 </resources>

@@ -149,9 +149,10 @@ public class Util {
     }
 
 
-    public static String getDate(String messageTime) {
+    public static String getDate(String messageTime,Context context) {
+        Locale locale = new Locale(Util.getLocale(context));
         String finalData = "";
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",locale);
 
         Date date = null;
         try {
@@ -162,9 +163,9 @@ public class Util {
             Integer day = cal.get(Calendar.DAY_OF_MONTH);
             String notificationDate = fmtOut.format(date);
             if (dates[0].equals(String.valueOf(day))) {
-                notificationDate = "Today" + notificationDate.substring(dates[0].length() + dates[1].length() + 1);
+                notificationDate = context.getResources().getString(R.string.today) + notificationDate.substring(dates[0].length() + dates[1].length() + 1);
             } else if (dates[0].equals(String.valueOf(day - 1))) {
-                notificationDate = "Yesterday" + notificationDate.substring(dates[0].length() + dates[1].length() + 1);
+                notificationDate = context.getResources().getString(R.string.yesterday) + notificationDate.substring(dates[0].length() + dates[1].length() + 1);
             }
             finalData = notificationDate;
         } catch (ParseException e) {

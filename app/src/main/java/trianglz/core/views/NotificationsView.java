@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.format.DateUtils;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.skolera.skolera_android.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 import retrofit2.http.Url;
@@ -24,6 +26,7 @@ import trianglz.managers.api.UserManager;
 import trianglz.models.Notification;
 import trianglz.models.User;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * This file is spawned by Gemy on 11/1/2018.
@@ -76,9 +79,10 @@ public class NotificationsView {
     }
 
     private String formatDate(String time) {
+        Locale locale = new Locale(Util.getLocale(context));
         ISO8601DateFormat iso = new ISO8601DateFormat();
         @SuppressLint("SimpleDateFormat")
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd,' 'hh:mm a");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd,' 'hh:mm a",locale);
         Date date = null;
         try {
             date = iso.parse(time);
@@ -87,7 +91,7 @@ public class NotificationsView {
         }
         String finalDate = dateFormat.format(date);
         if (DateUtils.isToday(Objects.requireNonNull(date).getTime())) {
-            return "Today";
+            return context.getResources().getString(R.string.today);
         }
         return finalDate;
     }

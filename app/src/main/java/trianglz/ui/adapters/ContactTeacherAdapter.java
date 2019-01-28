@@ -78,7 +78,7 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
             }
         }
 
-        holder.dateBtn.setText(Util.getDate(messageThread.lastAddedDate));
+        holder.dateBtn.setText(Util.getDate(messageThread.lastAddedDate,context));
         setTeacherImage(messageThread.otherAvatars, messageThread.otherNames, holder);
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override

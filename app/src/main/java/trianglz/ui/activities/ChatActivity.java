@@ -166,7 +166,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         Message message = new Message("", messageString,
                Util.convertLocaleToUtc(Util.getCurrentDate()), "", "", messageThread.id, messageThread.id, "", user);
         if(chatAdapter.mDataList.size() == 0){
-            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate()));
+            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
             chatAdapter.mDataList.add(message);
             chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
             chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
@@ -174,7 +174,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
             if (!(chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1) instanceof String)) {
                 Message lastMessage = (Message) chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1);
                 if (!Util.isSameDay(message.createdAt, lastMessage.createdAt)) {
-                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate()));
+                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
                     chatAdapter.mDataList.add(message);
                     chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
                     chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
@@ -196,7 +196,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         Message message = new Message("", messageString,
                 Util.convertLocaleToUtc(Util.getCurrentDate()), "", "",1, 2, "", user);
         if(chatAdapter.mDataList.size() == 0){
-            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate()));
+            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
             chatAdapter.mDataList.add(message);
             chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
             chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
@@ -204,7 +204,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
             if (!(chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1) instanceof String)) {
                 Message lastMessage = (Message) chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1);
                 if (!Util.isSameDay(message.createdAt, lastMessage.createdAt)) {
-                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate()));
+                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
                     chatAdapter.mDataList.add(message);
                     chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
                     chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
@@ -227,7 +227,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         Message message = new Message(attachmentUrl, "",
                 Util.convertLocaleToUtc(Util.getCurrentDate()), "", "", messageThread.id, messageThread.id, "", user);
         if(chatAdapter.mDataList.size() == 0){
-            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate()));
+            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
             chatAdapter.mDataList.add(message);
             chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
             chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
@@ -235,7 +235,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
             if (!(chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1) instanceof String)) {
                 Message lastMessage = (Message) chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1);
                 if (!Util.isSameDay(message.createdAt, lastMessage.createdAt)) {
-                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate()));
+                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
                     chatAdapter.mDataList.add(message);
                     chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
                     chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
@@ -329,14 +329,14 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
               i = j;
               j = j+1;
           }else {
-              messageObjectArrayList.add(j,Util.getDate(message2.createdAt));
+              messageObjectArrayList.add(j,Util.getDate(message2.createdAt,this));
               i = j+1;
               j = j+2;
           }
       }
       if(messageObjectArrayList.size()>0){
           Message message = (Message) messageObjectArrayList.get(0);
-          messageObjectArrayList.add(0,Util.getDate(message.createdAt));
+          messageObjectArrayList.add(0,Util.getDate(message.createdAt,this));
       }
       return messageObjectArrayList;
     }
