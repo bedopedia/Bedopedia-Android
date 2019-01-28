@@ -126,6 +126,8 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
             imageLoader = new PicassoLoader();
             imageLoader.loadImage(holder.teacherImageView, new AvatarPlaceholderModified(name), "Path of Image");
         } else {
+            imageLoader = new PicassoLoader();
+            imageLoader.loadImage(holder.teacherImageView, new AvatarPlaceholderModified(name), "Path of Image");
             Transformation transformation = new RoundedTransformationBuilder()
                     .oval(true)
                     .borderColor(R.color.jade_green)
