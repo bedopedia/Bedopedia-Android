@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -114,7 +115,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
             case R.id.enter_chat1:
                 if (isMessageValid()) {
                     if(messageThread != null){
-                        addMessageToAdapter(messageEditText.getText().toString());
+                        addMessageToAdapter(Html.toHtml(messageEditText.getText()));
                         sendMessage(messageEditText.getText().toString());
                         messageEditText.setText("");
                     }else {
@@ -123,7 +124,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
                         chatView.sendFirstMessage(url,teacherId+"",
                                 SessionManager.getInstance().getUserId(),
                                 messageEditText.getText().toString(),courseId+"");
-                        addFirstMessageToAdapter(messageEditText.getText().toString());
+                        addFirstMessageToAdapter(Html.toHtml(messageEditText.getText()));
                     }
 
                 }
@@ -154,7 +155,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     }
 
     private boolean isMessageValid() {
-        return !messageEditText.getText().toString().isEmpty();
+        return !messageEditText.getText().toString().isEmpty() && !android.text.Html.fromHtml(messageEditText.getText().toString()).toString().isEmpty() ;
     }
 
     private void addMessageToAdapter(String messageString) {
