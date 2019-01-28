@@ -8,6 +8,8 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Message;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
@@ -30,6 +32,7 @@ import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -38,6 +41,7 @@ import java.util.TimeZone;
 import Tools.CalendarUtils;
 import gun0912.tedbottompicker.TedBottomPicker;
 import trianglz.components.DexterPermissionErrorListener;
+import trianglz.components.MimeTypeInterface;
 import trianglz.components.OnImageSelectedListener;
 
 /**
@@ -297,31 +301,38 @@ public class Util {
     }
 
 
-    public static boolean isImageUrl(String url){
+    public static void isImageUrl(final ArrayList<Object> messageArrayList, final MimeTypeInterface mimeTypeInterface) {
+        final ArrayList<Object> filteredArrayList = new ArrayList<>();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < messageArrayList.size(); i++) {
+                    if (messageArrayList.get(i) instanceof String) {
+                        filteredArrayList.add(messageArrayList.get(i));
+                    } else {
+                        trianglz.models.Message message = (trianglz.models.Message) messageArrayList.get(i);
+                        if (!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")) {
+                            URLConnection connection = null;
+                            try {
+                                connection = new URL(message.attachmentUrl).openConnection();
+                                String contentType = connection.getHeaderField("Content-Type");
+                                boolean isImage = contentType.startsWith("image/");
+                                if (isImage) {
+                                    filteredArrayList.add(messageArrayList.get(i));
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            filteredArrayList.add(messageArrayList.get(i));
+                        }
 
-        int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8)
-        {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-            //your codes here
+                    }
+                }
 
-            URLConnection connection = null;
-            try {
-                connection = new URL(url).openConnection();
-                String contentType = connection.getHeaderField("Content-Type");
-                boolean isImage = contentType.startsWith("image/");
-                return isImage;
-            } catch (IOException e) {
-                e.printStackTrace();
+                mimeTypeInterface.onCheckType(filteredArrayList);
+
             }
-            return false;
-
-        }
-        return false;
-
+        });
     }
-
-
 }

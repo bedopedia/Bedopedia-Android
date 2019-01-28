@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import trianglz.components.RoundCornersTransformation;
 import trianglz.models.Message;
 import trianglz.utils.Util;
 

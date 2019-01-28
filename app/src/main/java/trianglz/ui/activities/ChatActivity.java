@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 
+import trianglz.components.MimeTypeInterface;
 import trianglz.components.OnImageSelectedListener;
 import trianglz.core.presenters.ChatPresenter;
 import trianglz.core.views.ChatView;
@@ -29,7 +30,7 @@ import trianglz.ui.adapters.ChatAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class ChatActivity extends SuperActivity implements View.OnClickListener, ChatPresenter {
+public class ChatActivity extends SuperActivity implements View.OnClickListener, ChatPresenter,MimeTypeInterface {
     private MessageThread messageThread;
     private TextView chatHeaderTextView;
     private ImageButton backBtn;
@@ -89,11 +90,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         recyclerView.setAdapter(chatAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         if(messageThread != null){
-            ArrayList<Object> adapterDataObjectArrayList = getAdapterData(messageThread.messageArrayList);
-            chatAdapter.addData(adapterDataObjectArrayList);
-            if(adapterDataObjectArrayList.size() > 0){
-                recyclerView.smoothScrollToPosition(adapterDataObjectArrayList.size() - 1);
-            }
+          setAdapterData(messageThread.messageArrayList);
         }
         messageEditText = findViewById(R.id.et_message);
         sendBtn = findViewById(R.id.enter_chat1);
@@ -121,7 +118,6 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
                         sendMessage(messageEditText.getText().toString());
                         messageEditText.setText("");
                     }else {
-                        // TODO: 1/17/19  reminder with biram to check if i should parse the response of first message ( send first message in empty chat )_ 
                         showLoadingDialog();
                         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
                         chatView.sendFirstMessage(url,teacherId+"",
@@ -148,19 +144,13 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         }
     }
 
-    private ArrayList<Object> getAdapterData(ArrayList<Message> messageArrayList) {
-        ArrayList<Object> messageObjectArrayList = new ArrayList<>();
-        for(int i = 0; i<messageArrayList.size(); i++){
-            Message message = messageArrayList.get(i);
-            if(!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")){
-                if(Util.isImageUrl(message.attachmentUrl)){
-                    messageObjectArrayList.add(message);
-                }
-            }else {
-                messageObjectArrayList.add(message);
-            }
+    private void setAdapterData(ArrayList<Message> messageArrayList) {
+        if(messageArrayList.size()>0){
+            showLoadingDialog();
+            ArrayList<Object> messageObjectArrayList = new ArrayList<>();
+            messageObjectArrayList.addAll(messageArrayList);
+            Util.isImageUrl(messageObjectArrayList,this);
         }
-        return  setDates(messageObjectArrayList);
     }
 
     private boolean isMessageValid() {
@@ -259,7 +249,6 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     }
 
     private void sendImage(Uri imageUri) {
-        // TODO: 1/17/19 send image to backend  (need to know the jsonObject will be send  )
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSendImageId(messageThread.id);
         chatView.sendImage(url,"1",imageUri);
         addImageToAdapter(imageUri.toString());
@@ -347,5 +336,22 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
           messageObjectArrayList.add(0,Util.getDate(message.createdAt));
       }
       return messageObjectArrayList;
+    }
+
+    @Override
+    public void onCheckType(final ArrayList<Object> filteredMessageArrayList) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(progress.isShowing()){
+                    progress.dismiss();
+                }
+                ArrayList<Object> messagesWithDates = setDates(filteredMessageArrayList);
+                chatAdapter.addData(messagesWithDates);
+                if(messagesWithDates.size() > 0){
+                    recyclerView.smoothScrollToPosition(messagesWithDates.size()-1);
+                }
+            }
+        });
     }
 }
