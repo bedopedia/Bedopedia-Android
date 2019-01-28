@@ -135,6 +135,7 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
                     .build();
             Picasso.with(context)
                     .load(imageUrl)
+                    .noPlaceholder()
                     .fit()
                     .transform(transformation)
                     .into(holder.teacherImageView, new Callback() {
