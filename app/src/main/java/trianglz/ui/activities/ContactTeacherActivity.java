@@ -104,7 +104,11 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
                onBackPressed();
                break;
            case R.id.btn_new_message:
-               openNewMessageActivity();
+               if(Util.isNetworkAvailable(this)){
+                   openNewMessageActivity();
+               }else {
+                   Util.showNoInternetConnectionDialog(this);
+               }
                break;
        }
     }
@@ -131,9 +135,14 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
     @Override
     public void onThreadClicked(int position) {
         if(!isOpeningThread){
-            isOpeningThread = true;
-            MessageThread messageThread = contactTeacherAdapter.mDataList.get(position);
-            openChatActivity(messageThread);
+            if(Util.isNetworkAvailable(this)){
+                isOpeningThread = true;
+                MessageThread messageThread = contactTeacherAdapter.mDataList.get(position);
+                openChatActivity(messageThread);
+            }else {
+                Util.showNoInternetConnectionDialog(this);
+            }
+
         }
 
 
