@@ -53,7 +53,19 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
     @Override
     public void onBindViewHolder(final Holder holder, final int position) {
         MessageThread messageThread = mDataList.get(position);
-        holder.teacherName.setText(messageThread.otherNames);
+        String name  = "";
+        if(messageThread.otherNames.contains("&")) {
+            String[] nameArray = messageThread.otherNames.split("&");
+            if (nameArray.length > 1) {
+                name =  nameArray[0]+
+                        nameArray[1];
+            } else {
+                name = nameArray[0];
+            }
+            holder.teacherName.setText(name);
+        }else {
+            holder.teacherName.setText(messageThread.otherNames);
+        }
         if(!messageThread.courseName.isEmpty() && !messageThread.courseName.equals("null")){
             holder.subjectTextView.setText(messageThread.courseName);
         }else {
