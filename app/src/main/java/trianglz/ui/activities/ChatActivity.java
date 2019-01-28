@@ -68,8 +68,20 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
 
     private void bindViews() {
         chatHeaderTextView = findViewById(R.id.tv_chat_header);
-        if(messageThread != null){
-            chatHeaderTextView.setText(messageThread.otherNames);
+        if(messageThread != null) {
+            String name  = "";
+            if(messageThread.otherNames.contains("&")) {
+                String[] nameArray = messageThread.otherNames.split("&");
+                if (nameArray.length > 1) {
+                    name =  nameArray[0]+
+                            nameArray[1];
+                } else {
+                    name = nameArray[0];
+                }
+                chatHeaderTextView.setText(name);
+            }else {
+                chatHeaderTextView.setText(messageThread.otherNames);
+            }
         }
         backBtn = findViewById(R.id.btn_back);
         recyclerView = findViewById(R.id.recycler_view);
