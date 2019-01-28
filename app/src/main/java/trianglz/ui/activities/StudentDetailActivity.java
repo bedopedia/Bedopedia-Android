@@ -261,9 +261,12 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             imageLoader = new PicassoLoader();
             imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
         } else {
+            imageLoader = new PicassoLoader();
+            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
             Picasso.with(this)
                     .load(imageUrl)
                     .fit()
+                    .noPlaceholder()
                     .transform(new CircleTransform())
                     .into(studentImageView, new Callback() {
                         @Override

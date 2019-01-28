@@ -195,11 +195,13 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader[0] = new PicassoLoader();
             imageLoader[0].loadImage(studentImage, new AvatarPlaceholderModified(name), "Path of Image");
-        } else
-        {
+        }else{
+            imageLoader[0] = new PicassoLoader();
+            imageLoader[0].loadImage(studentImage, new AvatarPlaceholderModified(name), "Path of Image");
             Picasso.with(getActivity())
                     .load(imageUrl)
                     .fit()
+                    .noPlaceholder()
                     .transform(new CircleTransform())
                     .into(studentImage, new Callback() {
                         @Override

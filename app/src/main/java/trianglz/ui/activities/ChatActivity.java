@@ -130,17 +130,19 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
                 }
                 break;
             case R.id.btn_image:
-                Util.selectImagesFromGallery(
-                        new OnImageSelectedListener() {
-                            @Override
-                            public void onImagesSelected(Uri uri) {
-                                sendImage(uri);
+                if(chatAdapter.mDataList.size()>0){
+                    Util.selectImagesFromGallery(
+                            new OnImageSelectedListener() {
+                                @Override
+                                public void onImagesSelected(Uri uri) {
+                                    sendImage(uri);
 
-                            }
-                        },
-                        this,
-                        rootView
-                );
+                                }
+                            },
+                            this,
+                            rootView
+                    );
+                }
                 break;
         }
     }

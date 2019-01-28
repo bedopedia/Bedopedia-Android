@@ -261,11 +261,13 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();
             imageLoader.loadImage(studentImage, new AvatarPlaceholderModified(name), "Path of Image");
-        } else
-            {
+        } else{
+            imageLoader = new PicassoLoader();
+            imageLoader.loadImage(studentImage, new AvatarPlaceholderModified(name), "Path of Image");
             Picasso.with(getActivity())
                     .load(imageUrl)
                     .fit()
+                    .noPlaceholder()
                     .transform(new CircleTransform())
                     .into(studentImage, new Callback() {
                         @Override

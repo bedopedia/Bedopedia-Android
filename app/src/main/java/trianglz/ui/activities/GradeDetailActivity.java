@@ -145,8 +145,11 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
             imageLoader = new PicassoLoader();
             imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
         } else {
+            imageLoader = new PicassoLoader();
+            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
             Picasso.with(this)
                     .load(imageUrl)
+                    .noPlaceholder()
                     .fit()
                     .transform(new CircleTransform())
                     .into(studentImageView, new Callback() {

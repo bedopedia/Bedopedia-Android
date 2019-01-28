@@ -147,9 +147,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
             holder.imageLoader = new PicassoLoader();
             holder.imageLoader.loadImage(holder.studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
         } else {
+            holder.imageLoader = new PicassoLoader();
+            holder.imageLoader.loadImage(holder.studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
             Picasso.with(context)
                     .load(imageUrl)
                     .fit()
+                    .noPlaceholder()
                     .transform(new CircleTransform())
                     .into(holder.studentImageView, new Callback() {
                         @Override
