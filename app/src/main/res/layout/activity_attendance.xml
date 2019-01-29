@@ -112,7 +112,8 @@
             app:compactCalendarOtherMonthDaysTextColor="@color/black"
             app:compactCalendarTargetHeight="230dp"
             app:compactCalendarTextColor="@color/black"
-            app:compactCalendarTextSize="12sp" />
+            app:compactCalendarTextSize="12sp"
+            />
 
     </FrameLayout>
 

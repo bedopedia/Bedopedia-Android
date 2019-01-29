@@ -21,10 +21,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -68,6 +71,8 @@ public class AttendanceActivity extends SuperActivity implements View.OnClickLis
 
     private void bindViews() {
         compactCalendarView = findViewById(R.id.compactcalendar_view);
+        compactCalendarView.setLocale(TimeZone.getDefault(),new Locale("en"));
+        compactCalendarView.setUseThreeLetterAbbreviation(true);
         absentDates = new ArrayList<>();
         lateDates = new ArrayList<>();
         excusedDates = new ArrayList<>();
@@ -261,10 +266,11 @@ public class AttendanceActivity extends SuperActivity implements View.OnClickLis
     }
 
     private String setHeaderDate(Date date) {
-        DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
+        DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(new Locale("en"));
         String[] months = dateFormatSymbols.getMonths();
         String monthString = months[date.getMonth()];
-        String year = (String) DateFormat.format("yyyy", date);
-        return monthString + " " + year;
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy", new Locale("en"));
+        String yearDate = fmt.format(date);
+        return monthString + " " + yearDate;
     }
 }

@@ -79,10 +79,9 @@ public class NotificationsView {
     }
 
     private String formatDate(String time) {
-        Locale locale = new Locale(Util.getLocale(context));
         ISO8601DateFormat iso = new ISO8601DateFormat();
         @SuppressLint("SimpleDateFormat")
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd,' 'hh:mm a",locale);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd,' 'hh:mm a",new Locale("en"));
         Date date = null;
         try {
             date = iso.parse(time);

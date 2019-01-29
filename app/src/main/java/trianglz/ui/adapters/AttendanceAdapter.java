@@ -13,6 +13,7 @@ import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import Tools.CalendarUtils;
 import attendance.Attendance;
@@ -50,7 +51,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Ho
         }
         Attendance attendanceItem = items.get(position);
         Calendar cal = CalendarUtils.getCalendar(attendanceItem.getDate());
-        DateFormatSymbols dfs = new DateFormatSymbols();
+        DateFormatSymbols dfs = new DateFormatSymbols(new Locale("en"));
         String[] months = dfs.getMonths();
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);

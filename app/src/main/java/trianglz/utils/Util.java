@@ -150,14 +150,13 @@ public class Util {
 
 
     public static String getDate(String messageTime,Context context) {
-        Locale locale = new Locale(Util.getLocale(context));
         String finalData = "";
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",locale);
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",new Locale("en"));
 
         Date date = null;
         try {
             date = fmt.parse(messageTime);
-            SimpleDateFormat fmtOut = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd/MM/yyyy",new Locale("en"));
             String[] dates = fmtOut.format(date).split(" ");
             Calendar cal = CalendarUtils.getCalendar(Calendar.getInstance().getTime());
             Integer day = cal.get(Calendar.DAY_OF_MONTH);
