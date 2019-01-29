@@ -51,43 +51,20 @@
         android:layout_gravity="bottom"
         android:background="#e5e5e5" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ImageView
+
+     <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
                 android:id="@+id/img_annoucement"
                 android:visibility="gone"/>
 
-            <trianglz.components.SfproSemiBoldTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/greyish_brown"
-                android:textSize="18sp"
-                android:text="TESTING"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
-                android:id="@+id/tv_secondary_title"
-                />
 
-            <trianglz.components.SfproRegularTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="10dp"
-                android:paddingTop="5dp"
-                android:id="@+id/tv_body"
-                android:text="Dear Parents,
-MIS believes that Food, to a large extent, defines our life. It determines our mood, behaviors, and directs us towards specific actions. students will learn about on Thursday October 11, 2018."/>
 
-        </LinearLayout>
-    </ScrollView>
+     <WebView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/web_view"
+                    />
 
 
 </LinearLayout>

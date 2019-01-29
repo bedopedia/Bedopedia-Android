@@ -2,6 +2,7 @@ package trianglz.ui.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +20,7 @@ public class AnnouncementDetailActivity extends SuperActivity implements View.On
     private TextView headerTextView;
     private Announcement announcement;
     private ImageView announcementImageView;
-    private TextView secondaryTextView,bodyTextView;
+    private WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +39,6 @@ public class AnnouncementDetailActivity extends SuperActivity implements View.On
         headerTextView = findViewById(R.id.tv_header);
         announcementImageView = findViewById(R.id.img_annoucement);
         headerTextView.setText(announcement.title);
-        secondaryTextView = findViewById(R.id.tv_secondary_title);
-        secondaryTextView.setText(announcement.title);
-        bodyTextView = findViewById(R.id.tv_body);
-        String body = android.text.Html.fromHtml(announcement.body).toString();
-        body = StringEscapeUtils.unescapeJava(body);
-        bodyTextView.setText(body);
         if(announcement.imageUrl != null && !announcement.imageUrl.isEmpty() && !announcement.imageUrl.equals("null")){
             announcementImageView.setVisibility(View.VISIBLE);
             Picasso.with(this)
@@ -54,6 +49,8 @@ public class AnnouncementDetailActivity extends SuperActivity implements View.On
         }else {
             announcementImageView.setVisibility(View.GONE);
         }
+        webView = findViewById(R.id.web_view);
+        webView.loadData(announcement.body, "text/html", null);
     }
 
     private void setListeners(){
