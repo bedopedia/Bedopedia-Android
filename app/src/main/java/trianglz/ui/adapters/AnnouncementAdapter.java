@@ -101,6 +101,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
             announcementHeaderTextView = itemView.findViewById(R.id.tv_header);
             dateBtn = itemView.findViewById(R.id.btn_date);
             contentTextView = itemView.findViewById(R.id.tv_content);
+            contentTextView.setVisibility(View.GONE);
             itemLayout = itemView.findViewById(R.id.item_layout);
         }
     }
