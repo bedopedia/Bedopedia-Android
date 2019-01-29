@@ -103,6 +103,20 @@ public class ChatView {
         });
     }
 
+    public void setAsSeen(String url,int id){
+        UserManager.setAsSeenThread(url,id, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+
+            }
+        });
+    }
+
 
     private MessageThread parseFirstMessageResponse(JSONObject messageThread) {
         int courseId = messageThread.optInt(Constants.KEY_COURSE_ID);

@@ -179,5 +179,6 @@ public class Constants {
     public static final String KEY_ANNOUCEMENT_ID = "announcement_id";
     public static final String KEY_IMAGE_URL = "image_url";
     public static final String KEY_UNREAD_MESSAGE_COUNT = "unread_messages_count";
+    public static final String KEY_THREADS_IDS = "thread_ids";
 
 }

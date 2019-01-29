@@ -409,4 +409,29 @@ public class UserManager {
             }
         });
     }
+
+
+    public static void setAsSeenThread(String url,int threadId, final ResponseListener responseListener){
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject parametersJsonObject = new JSONObject();
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(threadId);
+        try {
+            parametersJsonObject.put(Constants.KEY_THREADS_IDS,new JSONArray(list));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url,parametersJsonObject,headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+
+    }
 }

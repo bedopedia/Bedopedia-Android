@@ -46,4 +46,9 @@ public class ApiEndPoints {
 
     }
 
+
+    public static String getSetReadThreadUrl(){
+        return "/api/thread_participants/bulk_mark_as_read";
+    }
+
 }

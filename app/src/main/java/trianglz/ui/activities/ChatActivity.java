@@ -50,6 +50,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        chatView = new ChatView(this, this);
         getValueFromIntent();
         bindViews();
         setListeners();
@@ -65,6 +66,8 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         }
         if(messageThread != null){
             messageThread.reverseMessagesOrder();
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSetReadThreadUrl();
+            chatView.setAsSeen(url,messageThread.id);
         }
     }
 
@@ -95,7 +98,6 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         }
         messageEditText = findViewById(R.id.et_message);
         sendBtn = findViewById(R.id.enter_chat1);
-        chatView = new ChatView(this, this);
         imageBtn = findViewById(R.id.btn_image);
         rootView = findViewById(R.id.root_view);
     }

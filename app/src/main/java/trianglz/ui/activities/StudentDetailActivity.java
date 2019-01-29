@@ -112,14 +112,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             } else {
                 Util.showNoInternetConnectionDialog(this);
             }
-        }else {
-            if(Util.isNetworkAvailable(this)){
-                getNotifications(false);
-                showLoadingDialog();
-            }else {
-                Util.showNoInternetConnectionDialog(this);
-            }
         }
+
 
     }
 
@@ -228,6 +222,14 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     @Override
     protected void onResume() {
         super.onResume();
+        if(!SessionManager.getInstance().getUserType()){
+            if(Util.isNetworkAvailable(this)){
+                getNotifications(false);
+                showLoadingDialog();
+            }else {
+                Util.showNoInternetConnectionDialog(this);
+            }
+        }
         if (SessionManager.getInstance().getUserType()) {
             if (SessionManager.getInstance().getNotficiationCounter() > 0) {
                 redCircleImageView.setVisibility(View.VISIBLE);
