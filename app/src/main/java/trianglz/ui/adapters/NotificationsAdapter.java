@@ -55,6 +55,21 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         holder.dateTv.setText(notification.getDate());
         holder.descriptionTv.setText(notification.getMessage());
         holder.descriptionTv.setTextColor(ResourcesCompat.getColor(context.getResources(), R.color.steel, null));
+        if (notification.getType().contains("graded")){
+            holder.logo.setImageResource(R.drawable.grades);
+        } else if (notification.getType().contains("assignments")) {
+            holder.logo.setImageResource(R.drawable.notification_2_copy);
+        } else if (notification.getType().contains("quizzes")) {
+            holder.logo.setImageResource(R.drawable.quizzes_ico);
+        } else if (notification.getType().contains("zones")) {
+            holder.logo.setImageResource(R.drawable.zones);
+        } else if (notification.getType().contains("events")) {
+            holder.logo.setImageResource(R.drawable.mydays);
+        } else if (notification.getType().equals("virtual")) {
+            holder.logo.setImageResource(R.drawable.virtualclass);
+        }else {
+            holder.logo.setImageResource(R.drawable.notifications);
+        }
     }
 
     @Override
@@ -73,14 +88,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public class NotificationsViewHolder extends RecyclerView.ViewHolder {
         LinearLayout itemLayout;
         TextView dateTv, descriptionTv;
-        ImageView imageView;
+        ImageView logo;
 
         public NotificationsViewHolder(View itemView) {
             super(itemView);
             itemLayout = itemView.findViewById(R.id.item_layout);
             dateTv = itemView.findViewById(R.id.tv_date);
             descriptionTv = itemView.findViewById(R.id.tv_description);
-            imageView = itemView.findViewById(R.id.image);
+            logo = itemView.findViewById(R.id.image);
         }
     }
 }

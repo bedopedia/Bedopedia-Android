@@ -126,4 +126,13 @@ public class AnnouncementActivity extends SuperActivity implements View.OnClickL
         startActivity(intent);
 
     }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+    }
 }

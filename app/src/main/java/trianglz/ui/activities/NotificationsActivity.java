@@ -110,4 +110,12 @@ public class NotificationsActivity extends SuperActivity implements Notification
         pageNumber++;
         getNotifications(true);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+    }
 }
