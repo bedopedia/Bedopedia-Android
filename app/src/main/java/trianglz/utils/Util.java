@@ -318,8 +318,11 @@ public class Util {
                                 String contentType = connection.getHeaderField("Content-Type");
                                 boolean isImage = contentType.startsWith("image/");
                                 if (isImage) {
-                                    filteredArrayList.add(messageArrayList.get(i));
+                                    message.isImage = true;
+                                }else {
+                                    message.isImage = false;
                                 }
+                                filteredArrayList.add(message);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

@@ -15,6 +15,7 @@ public class  Message implements Serializable {
     public int threadId;
     public String updatedAT;
     public trianglz.models.User user;
+    public boolean isImage = false;
 
     public Message(String attachmentUrl, String body, String createdAt, String ext, String fileName,
                    int id, int threadId, String updatedAT, trianglz.models.User user) {

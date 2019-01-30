@@ -1,6 +1,8 @@
 package trianglz.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +39,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_DATE = 2;
     private static final int TYPE_ME_IMAGE = 3;
     private static final int TYPE_OTHER_IMAGE = 4;
+    private static final int TYPE_ME_ATTACHMENT = 5;
+    private static final int TYPE_OTHER_ATTACHMENT = 6;
 
     public List<Object> mDataList;
 
@@ -67,6 +71,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }else if (viewType == TYPE_OTHER_IMAGE) {
             View view = LayoutInflater.from(context).inflate(R.layout.item_other_image, parent, false);
             return new ImageOtherViewHolder(view);
+        }else if (viewType == TYPE_ME_ATTACHMENT) {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_me_attachment, parent, false);
+            return new AttachmentMeViewHolder(view);
+        }else if (viewType == TYPE_OTHER_ATTACHMENT) {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_other_attachment, parent, false);
+            return new AttachmentOtherViewHolder(view);
         }else {
             View view = LayoutInflater.from(context).inflate(R.layout.item_message_time, parent, false);
             return new TimeViewHolder(view);
@@ -83,60 +93,84 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             final Message message = (Message) mDataList.get(position);
             String messageTime = setMessageTime(Util.convertUtcToLocal(message.createdAt));
             if (!message.attachmentUrl.equals("") && !message.attachmentUrl.equals("null")) {
-                if (userId.equals(String.valueOf(message.user.getId()))) {
-                    ImageMeViewHolder imageMeViewHolder = ((ImageMeViewHolder) holder);
-                    imageMeViewHolder.messageTimeTextView.setText(messageTime);
-                    Transformation transformation = new RoundedTransformationBuilder()
-                            .cornerRadiusDp((int)Util.convertDpToPixel(5,context))
-                            .oval(false)
-                            .build();
-                    Picasso.with(context)
-                            .load(message.attachmentUrl)
-                            .fit()
-                            .transform(transformation)
-                            .centerCrop()
-                            .into(imageMeViewHolder.imageView);
-                    imageMeViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ArrayList<String> images = new ArrayList<>();
-                            images.add(message.attachmentUrl);
-                            new ImageViewer.Builder<>(context, images)
-                                    .setStartPosition(0)
-                                    .hideStatusBar(false)
-                                    .allowZooming(true)
-                                    .allowSwipeToDismiss(true)
-                                    .setBackgroundColorRes((R.color.munsell))
-                                    .show();
-                        }
-                    });
-                } else {
-                    ImageOtherViewHolder imageOtherViewHolder = ((ImageOtherViewHolder) holder);
-                    imageOtherViewHolder.messageTimeTextView.setText(messageTime);
-                    Transformation transformation = new RoundedTransformationBuilder()
-                            .cornerRadiusDp((int)Util.convertDpToPixel(5,context))
-                            .oval(false)
-                            .build();
-                    Picasso.with(context)
-                            .load(message.attachmentUrl)
-                            .transform(transformation)
-                            .fit()
-                            .centerCrop()
-                            .into(imageOtherViewHolder.imageView);
-                    imageOtherViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ArrayList<String> images = new ArrayList<>();
-                            images.add(message.attachmentUrl);
-                            new ImageViewer.Builder<>(context, images)
-                                    .setStartPosition(0)
-                                    .hideStatusBar(false)
-                                    .allowZooming(true)
-                                    .allowSwipeToDismiss(true)
-                                    .setBackgroundColorRes((R.color.munsell))
-                                    .show();
-                        }
-                    });
+                if(message.isImage || message.ext.equals("null") || message.ext.isEmpty()){
+                    if (userId.equals(String.valueOf(message.user.getId()))) {
+                        ImageMeViewHolder imageMeViewHolder = ((ImageMeViewHolder) holder);
+                        imageMeViewHolder.messageTimeTextView.setText(messageTime);
+                        Transformation transformation = new RoundedTransformationBuilder()
+                                .cornerRadiusDp((int)Util.convertDpToPixel(5,context))
+                                .oval(false)
+                                .build();
+                        Picasso.with(context)
+                                .load(message.attachmentUrl)
+                                .fit()
+                                .transform(transformation)
+                                .centerCrop()
+                                .into(imageMeViewHolder.imageView);
+                        imageMeViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ArrayList<String> images = new ArrayList<>();
+                                images.add(message.attachmentUrl);
+                                new ImageViewer.Builder<>(context, images)
+                                        .setStartPosition(0)
+                                        .hideStatusBar(false)
+                                        .allowZooming(true)
+                                        .allowSwipeToDismiss(true)
+                                        .setBackgroundColorRes((R.color.munsell))
+                                        .show();
+                            }
+                        });
+                    } else {
+                        ImageOtherViewHolder imageOtherViewHolder = ((ImageOtherViewHolder) holder);
+                        imageOtherViewHolder.messageTimeTextView.setText(messageTime);
+                        Transformation transformation = new RoundedTransformationBuilder()
+                                .cornerRadiusDp((int)Util.convertDpToPixel(5,context))
+                                .oval(false)
+                                .build();
+                        Picasso.with(context)
+                                .load(message.attachmentUrl)
+                                .transform(transformation)
+                                .fit()
+                                .centerCrop()
+                                .into(imageOtherViewHolder.imageView);
+                        imageOtherViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ArrayList<String> images = new ArrayList<>();
+                                images.add(message.attachmentUrl);
+                                new ImageViewer.Builder<>(context, images)
+                                        .setStartPosition(0)
+                                        .hideStatusBar(false)
+                                        .allowZooming(true)
+                                        .allowSwipeToDismiss(true)
+                                        .setBackgroundColorRes((R.color.munsell))
+                                        .show();
+                            }
+                        });
+                    }
+                }else {
+                    if (userId.equals(String.valueOf(message.user.getId()))) {
+                        AttachmentMeViewHolder attachmentMeViewHolder = (AttachmentMeViewHolder) (holder);
+                        setAttachmentImage(attachmentMeViewHolder.imageView,message.ext);
+                        attachmentMeViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                openAttachment(message.attachmentUrl);
+                            }
+                        });
+
+                    }else {
+                        AttachmentOtherViewHolder attachmentOtherViewHolder = (AttachmentOtherViewHolder) (holder);
+                        setAttachmentImage(attachmentOtherViewHolder.imageView,message.ext);
+                        attachmentOtherViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                openAttachment(message.attachmentUrl);
+                            }
+                        });
+
+                    }
                 }
             } else {
                 String body = android.text.Html.fromHtml(message.body).toString();
@@ -169,13 +203,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Message message = (Message) mDataList.get(position);
             if (userId.equals(String.valueOf(message.user.getId()))) {
                 if(!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")){
-                    return TYPE_ME_IMAGE;
+                    if(message.isImage || message.ext.equals("null") || message.ext.isEmpty()){
+                        return TYPE_ME_IMAGE;
+                    }else {
+                        return TYPE_ME_ATTACHMENT;
+                    }
                 }else {
                     return TYPE_ME;
                 }
             } else {
                 if(!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")){
-                    return TYPE_OTHER_IMAGE;
+                    if(message.isImage || message.ext.equals("null") || message.ext.isEmpty()){
+                        return TYPE_OTHER_IMAGE;
+                    }else {
+                        return TYPE_OTHER_ATTACHMENT;
+                    }
                 }else {
                     return TYPE_OTHER;
                 }
@@ -192,9 +234,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private class OtherViewHolder extends RecyclerView.ViewHolder {
-        public TextView bodyTextView;
-        public TextView messageTimeTextView;
-        public OtherViewHolder(View itemView) {
+         TextView bodyTextView;
+         TextView messageTimeTextView;
+         OtherViewHolder(View itemView) {
             super(itemView);
             bodyTextView = itemView.findViewById(R.id.tv_body);
             messageTimeTextView = itemView.findViewById(R.id.tv_date);
@@ -202,9 +244,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private class MeViewHolder extends RecyclerView.ViewHolder {
-        public TextView bodyTextView;
-        public TextView messageTimeTextView;
-        public MeViewHolder(View itemView) {
+         TextView bodyTextView;
+         TextView messageTimeTextView;
+         MeViewHolder(View itemView) {
             super(itemView);
             bodyTextView = itemView.findViewById(R.id.tv_body);
             messageTimeTextView = itemView.findViewById(R.id.tv_date);
@@ -212,9 +254,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private class ImageMeViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
-        public TextView messageTimeTextView;
-        public ImageMeViewHolder(View itemView) {
+         ImageView imageView;
+         TextView messageTimeTextView;
+         ImageMeViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.img_view);
             messageTimeTextView = itemView.findViewById(R.id.textview_time);
@@ -223,10 +265,33 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private class ImageOtherViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
-        public TextView messageTimeTextView;
+         ImageView imageView;
+         TextView messageTimeTextView;
 
-        public ImageOtherViewHolder(View itemView) {
+         ImageOtherViewHolder(View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.img_view);
+            messageTimeTextView = itemView.findViewById(R.id.textview_time);
+        }
+    }
+
+
+    private class AttachmentMeViewHolder extends RecyclerView.ViewHolder {
+         ImageView imageView;
+         TextView messageTimeTextView;
+         AttachmentMeViewHolder(View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.img_view);
+            messageTimeTextView = itemView.findViewById(R.id.textview_time);
+        }
+    }
+
+
+    private class AttachmentOtherViewHolder extends RecyclerView.ViewHolder {
+         ImageView imageView;
+         TextView messageTimeTextView;
+
+         AttachmentOtherViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.img_view);
             messageTimeTextView = itemView.findViewById(R.id.textview_time);
@@ -235,12 +300,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
 
-
-
     private class TimeViewHolder extends RecyclerView.ViewHolder {
-        public TextView timeTextView;
+         TextView timeTextView;
 
-        public TimeViewHolder(View itemView) {
+         TimeViewHolder(View itemView) {
             super(itemView);
            timeTextView = itemView.findViewById(R.id.tv_date_header);
         }
@@ -254,6 +317,33 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return dateString;
     }
 
+    private void setAttachmentImage(ImageView attachmentImageView, String ext){
+        if(ext.contains("pdf")){
+            attachmentImageView.setImageResource((R.drawable.pdf_icon));
+        }else if(ext.contains("doc")){
+            attachmentImageView.setImageResource((R.drawable.doc_icon));
+        }else if(ext.contains("pp")){
+            attachmentImageView.setImageResource((R.drawable.ppt_icon));
+        }else if(ext.contains("xl")){
+            attachmentImageView.setImageResource((R.drawable.xlsx_icon));
+        }else if(ext.contains("rar") || ext.contains("zip")){
+            attachmentImageView.setImageResource((R.drawable.zip_icon));
+        }else if(ext.contains("mp3") || ext.contains("wav")){
+            attachmentImageView.setImageResource((R.drawable.audio_icon));
+        }else if(ext.contains("mp4") || ext.contains("3gp")){
+            attachmentImageView.setImageResource((R.drawable.video_icon));
+        }else {
+            attachmentImageView.setImageResource((R.drawable.file_icon));
+        }
+
+    }
+
+
+    private void openAttachment(String attachmentUrl) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(attachmentUrl));
+        context.startActivity(i);
+    }
 
 
 }
