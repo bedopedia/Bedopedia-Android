@@ -1,7 +1,10 @@
 package trianglz.ui.activities;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -12,6 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -112,6 +118,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             } else {
                 Util.showNoInternetConnectionDialog(this);
             }
+        }else{
+            checkVersionOnStore();
         }
 
 
@@ -709,5 +717,44 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(1,actor.actableType,1);
         studentDetailView.getAnnouncement(url);
 
+    }
+
+
+    private void checkVersionOnStore() {
+        AppUpdater appUpdater = new AppUpdater(this)
+                .setDisplay(Display.DIALOG)
+                .showEvery(1)
+                .setUpdateFrom(UpdateFrom.GOOGLE_PLAY)
+                .setTitleOnUpdateAvailable(getResources().getString(R.string.update_is_available))
+                .setContentOnUpdateAvailable(getResources().getString(R.string.check_latest_version))
+                .setButtonUpdate(getResources().getString(R.string.cancel))
+                .setButtonUpdateClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setButtonDismiss("")
+                .setButtonDoNotShowAgain(getResources().getString(R.string.update_now))
+                .setButtonDoNotShowAgainClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        openStore();
+                    }
+                })
+                .setCancelable(false); // Dialog could not be;
+        appUpdater.start();
+    }
+
+    private void openStore() {
+        try {
+            Uri uri = Uri.parse("market://details?id=" + getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id="
+                            + getPackageName())));
+        }
     }
 }
