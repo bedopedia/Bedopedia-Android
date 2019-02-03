@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ import trianglz.ui.adapters.ChatAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class ChatActivity extends SuperActivity implements View.OnClickListener, ChatPresenter,MimeTypeInterface {
+public class ChatActivity extends SuperActivity implements View.OnClickListener,ChatPresenter {
     private MessageThread messageThread;
     private TextView chatHeaderTextView;
     private ImageButton backBtn;
@@ -44,7 +45,6 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     private int courseId;
     private ImageButton imageBtn;
     private LinearLayout rootView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +68,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
             messageThread.reverseMessagesOrder();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSetReadThreadUrl();
             chatView.setAsSeen(url,messageThread.id);
+
         }
     }
 
@@ -132,7 +133,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
                 }
                 break;
             case R.id.btn_image:
-                if(chatAdapter.mDataList.size()>0){
+                if(chatAdapter.mDataList.size()>0 && messageThread != null){
                     Util.selectImagesFromGallery(
                             new OnImageSelectedListener() {
                                 @Override
@@ -151,10 +152,12 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
 
     private void setAdapterData(ArrayList<Message> messageArrayList) {
         if(messageArrayList.size()>0){
-            showLoadingDialog();
+//            showLoadingDialog();
             ArrayList<Object> messageObjectArrayList = new ArrayList<>();
             messageObjectArrayList.addAll(messageArrayList);
-            Util.isImageUrl(messageObjectArrayList,this);
+            chatAdapter.addData(setDates(messageObjectArrayList));
+//            checkNullExtensions();
+//            Util.isImageUrl(messageObjectArrayList,this);
         }
     }
 
@@ -227,7 +230,8 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         User user = new User();
         user.setId(Integer.valueOf(SessionManager.getInstance().getUserId()));
         Message message = new Message(attachmentUrl, "",
-                Util.convertLocaleToUtc(Util.getCurrentDate()), "", "", messageThread.id, messageThread.id, "", user);
+                Util.convertLocaleToUtc(Util.getCurrentDate()), "png", "", messageThread.id, messageThread.id, "", user);
+        message.isImage = true;
         if(chatAdapter.mDataList.size() == 0){
             chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
             chatAdapter.mDataList.add(message);
@@ -254,11 +258,11 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     }
 
     private void sendImage(Uri imageUri) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSendImageId(messageThread.id);
-        chatView.sendImage(url,"1",imageUri);
-        addImageToAdapter(imageUri.toString());
-
-
+        if(messageThread != null){
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSendImageId(messageThread.id);
+            chatView.sendImage(url,"1",imageUri);
+            addImageToAdapter(imageUri.toString());
+        }
     }
 
     private void sendMessage(String message) {
@@ -293,10 +297,6 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         if(progress.isShowing()){
             progress.dismiss();
         }
-//        this.messageThread = messageThread;
-//        ArrayList<Object> adapterDataObjectArrayList = getAdapterData(messageThread.messageArrayList);
-//        chatAdapter.addData(adapterDataObjectArrayList);
-//        recyclerView.smoothScrollToPosition(adapterDataObjectArrayList.size() - 1);
     }
 
     @Override
@@ -342,21 +342,32 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
       }
       return messageObjectArrayList;
     }
+//
+//    @Override
+//    public void onCheckType(final Message message, final int position) {
+//        this.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if(position < chatAdapter.mDataList.size() && !message.isImage){
+//                    chatAdapter.mDataList.set(position, message);
+//                    chatAdapter.notifyItemChanged(position);
+//                }
+//            }
+//        });
+//    }
 
-    @Override
-    public void onCheckType(final ArrayList<Object> filteredMessageArrayList) {
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(progress.isShowing()){
-                    progress.dismiss();
-                }
-                ArrayList<Object> messagesWithDates = setDates(filteredMessageArrayList);
-                chatAdapter.addData(messagesWithDates);
-                if(messagesWithDates.size() > 0){
-                    recyclerView.smoothScrollToPosition(messagesWithDates.size()-1);
-                }
-            }
-        });
-    }
+
+//    private void checkNullExtensions(){
+//        for(int i = 0 ; i<chatAdapter.mDataList.size(); i++){
+//            if(!(chatAdapter.mDataList.get(i) instanceof  String)){
+//                Message message = (Message)chatAdapter.mDataList.get(i);
+//                if(!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")){
+//                    if(message.ext.isEmpty() || message.ext.equals("null")){
+//                        Util.isImageUrl(message,i,this);
+//                    }
+//                }
+//
+//            }
+//        }
+//    }
 }

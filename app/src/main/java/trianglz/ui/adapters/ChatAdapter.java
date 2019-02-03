@@ -9,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.stfalcon.frescoimageviewer.ImageViewer;
@@ -25,14 +27,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import trianglz.components.MimeTypeInterface;
 import trianglz.models.Message;
+import trianglz.ui.activities.ChatActivity;
 import trianglz.utils.Util;
 
 
 /**
  * Created by ${Aly} on 11/12/2018.
  */
-public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements MimeTypeInterface {
 
     private static final int TYPE_ME = 0;
     private static final int TYPE_OTHER = 1;
@@ -92,8 +96,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }else {
             final Message message = (Message) mDataList.get(position);
             String messageTime = setMessageTime(Util.convertUtcToLocal(message.createdAt));
-            if (!message.attachmentUrl.equals("") && !message.attachmentUrl.equals("null")) {
-                if(message.isImage || message.ext.equals("null") || message.ext.isEmpty()){
+            if (!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")) {
+                if(message.isImage || message.ext.isEmpty() || message.ext.equals("null")){
                     if (userId.equals(String.valueOf(message.user.getId()))) {
                         ImageMeViewHolder imageMeViewHolder = ((ImageMeViewHolder) holder);
                         imageMeViewHolder.messageTimeTextView.setText(messageTime);
@@ -106,7 +110,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 .fit()
                                 .transform(transformation)
                                 .centerCrop()
-                                .into(imageMeViewHolder.imageView);
+                                .into(imageMeViewHolder.imageView, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        Util.isImageUrl(message,holder.getAdapterPosition(),ChatAdapter.this);
+                                    }
+                                });
                         imageMeViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -133,7 +147,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 .transform(transformation)
                                 .fit()
                                 .centerCrop()
-                                .into(imageOtherViewHolder.imageView);
+                                .into(imageOtherViewHolder.imageView, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        Util.isImageUrl(message,holder.getAdapterPosition(),ChatAdapter.this);
+                                    }
+                                });
                         imageOtherViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -150,27 +174,30 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         });
                     }
                 }else {
-                    if (userId.equals(String.valueOf(message.user.getId()))) {
-                        AttachmentMeViewHolder attachmentMeViewHolder = (AttachmentMeViewHolder) (holder);
-                        setAttachmentImage(attachmentMeViewHolder.imageView,message.ext);
-                        attachmentMeViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                openAttachment(message.attachmentUrl);
-                            }
-                        });
 
-                    }else {
-                        AttachmentOtherViewHolder attachmentOtherViewHolder = (AttachmentOtherViewHolder) (holder);
-                        setAttachmentImage(attachmentOtherViewHolder.imageView,message.ext);
-                        attachmentOtherViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                openAttachment(message.attachmentUrl);
-                            }
-                        });
+                        if (userId.equals(String.valueOf(message.user.getId()))) {
+                            AttachmentMeViewHolder attachmentMeViewHolder = (AttachmentMeViewHolder) (holder);
+                            attachmentMeViewHolder.progressBar.setVisibility(View.GONE);
+                            setAttachmentImage(attachmentMeViewHolder.imageView,message.ext);
+                            attachmentMeViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    openAttachment(message.attachmentUrl);
+                                }
+                            });
 
-                    }
+                        }else {
+                            AttachmentOtherViewHolder attachmentOtherViewHolder = (AttachmentOtherViewHolder) (holder);
+                            setAttachmentImage(attachmentOtherViewHolder.imageView,message.ext);
+                            attachmentOtherViewHolder.progressBar.setVisibility(View.GONE);
+                            attachmentOtherViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    openAttachment(message.attachmentUrl);
+                                }
+                            });
+
+                        }
                 }
             } else {
                 String body = android.text.Html.fromHtml(message.body).toString();
@@ -203,7 +230,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Message message = (Message) mDataList.get(position);
             if (userId.equals(String.valueOf(message.user.getId()))) {
                 if(!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")){
-                    if(message.isImage || message.ext.equals("null") || message.ext.isEmpty()){
+                    if(message.isImage || message.ext.isEmpty() || message.ext.equals("null") ){
                         return TYPE_ME_IMAGE;
                     }else {
                         return TYPE_ME_ATTACHMENT;
@@ -213,7 +240,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             } else {
                 if(!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")){
-                    if(message.isImage || message.ext.equals("null") || message.ext.isEmpty()){
+                    if(message.isImage  || message.ext.isEmpty() || message.ext.equals("null")){
                         return TYPE_OTHER_IMAGE;
                     }else {
                         return TYPE_OTHER_ATTACHMENT;
@@ -230,6 +257,19 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         mDataList.clear();
         mDataList.addAll(data);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCheckType(final Message message,final int position) {
+        ((ChatActivity)context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(position < mDataList.size() && !message.isImage){
+                    mDataList.set(position, message);
+                    notifyItemChanged(position);
+                }
+            }
+        });
     }
 
 
@@ -279,23 +319,28 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private class AttachmentMeViewHolder extends RecyclerView.ViewHolder {
          ImageView imageView;
          TextView messageTimeTextView;
+         ProgressBar progressBar;
          AttachmentMeViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.img_view);
             messageTimeTextView = itemView.findViewById(R.id.textview_time);
-        }
+            progressBar  =  itemView.findViewById(R.id.progress_bar);
+             progressBar.setVisibility(View.GONE);
+         }
     }
 
 
     private class AttachmentOtherViewHolder extends RecyclerView.ViewHolder {
          ImageView imageView;
          TextView messageTimeTextView;
-
+         ProgressBar progressBar;
          AttachmentOtherViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.img_view);
             messageTimeTextView = itemView.findViewById(R.id.textview_time);
-        }
+            progressBar  =  itemView.findViewById(R.id.progress_bar);
+            progressBar.setVisibility(View.GONE);
+         }
     }
 
 

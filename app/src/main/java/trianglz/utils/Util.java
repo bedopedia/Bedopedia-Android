@@ -9,8 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Message;
-import android.os.StrictMode;
+
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
@@ -43,6 +42,7 @@ import gun0912.tedbottompicker.TedBottomPicker;
 import trianglz.components.DexterPermissionErrorListener;
 import trianglz.components.MimeTypeInterface;
 import trianglz.components.OnImageSelectedListener;
+import trianglz.models.Message;
 
 /**
  * Created by ${Aly} on 10/24/2018.
@@ -301,41 +301,23 @@ public class Util {
     }
 
 
-    public static void isImageUrl(final ArrayList<Object> messageArrayList, final MimeTypeInterface mimeTypeInterface) {
+    public static void isImageUrl(final Message message, final int position , final MimeTypeInterface mimeTypeInterface) {
         final ArrayList<Object> filteredArrayList = new ArrayList<>();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < messageArrayList.size(); i++) {
-                    if (messageArrayList.get(i) instanceof String) {
-                        filteredArrayList.add(messageArrayList.get(i));
-                    } else {
-                        trianglz.models.Message message = (trianglz.models.Message) messageArrayList.get(i);
-                        if (!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")) {
-                            URLConnection connection = null;
+                           URLConnection connection = null;
                             try {
                                 connection = new URL(message.attachmentUrl).openConnection();
                                 String contentType = connection.getHeaderField("Content-Type");
                                 boolean isImage = contentType.startsWith("image/");
-                                if (isImage) {
-                                    message.isImage = true;
-                                }else {
-                                    message.isImage = false;
-                                }
-                                filteredArrayList.add(message);
+                                message.isImage = isImage;
+                                mimeTypeInterface.onCheckType(message,position);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        } else {
-                            filteredArrayList.add(messageArrayList.get(i));
                         }
 
-                    }
-                }
-
-                mimeTypeInterface.onCheckType(filteredArrayList);
-
-            }
         });
     }
 }
