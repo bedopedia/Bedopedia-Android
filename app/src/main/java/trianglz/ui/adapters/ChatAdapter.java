@@ -177,6 +177,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
                         if (userId.equals(String.valueOf(message.user.getId()))) {
                             AttachmentMeViewHolder attachmentMeViewHolder = (AttachmentMeViewHolder) (holder);
+                            attachmentMeViewHolder.messageTimeTextView.setText(messageTime);
                             attachmentMeViewHolder.progressBar.setVisibility(View.GONE);
                             setAttachmentImage(attachmentMeViewHolder.imageView,message.ext);
                             attachmentMeViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -188,6 +189,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
                         }else {
                             AttachmentOtherViewHolder attachmentOtherViewHolder = (AttachmentOtherViewHolder) (holder);
+                            attachmentOtherViewHolder.messageTimeTextView.setText(messageTime);
                             setAttachmentImage(attachmentOtherViewHolder.imageView,message.ext);
                             attachmentOtherViewHolder.progressBar.setVisibility(View.GONE);
                             attachmentOtherViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
