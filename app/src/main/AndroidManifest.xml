@@ -145,6 +145,11 @@
         <activity android:name="trianglz.ui.activities.AnnouncementDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />
+        <activity android:name="trianglz.ui.activities.WeeklyPlannerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_v2">
+
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="trianglz.ui.activities.WeeklyPlannerActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:src="@drawable/chevron_left" />
+
+                <trianglz.components.SfproBoldTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:text="@string/weekly_planner"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <agency.tango.android.avatarview.views.AvatarView
+                    android:id="@+id/img_student"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/notify" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/silver" />
+        </LinearLayout>
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/snow">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:background="@drawable/round_white_background"
+                android:layout_marginHorizontal="12dp"
+                android:elevation="4dp"
+
+
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="146dp"
+                    android:scaleType="fitCenter"
+                    android:paddingHorizontal="4dp"
+                    android:src="@drawable/logo" />
+
+                <trianglz.components.SfuiSemiBoldTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:text="General Activities"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="18sp" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <trianglz.components.SfuiRegularTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:maxLines="4"
+                        android:paddingHorizontal="12dp"
+                        android:text="@string/tv_placeholder_weekly_planner" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/gradient_weekly_planner_background" />
+
+                    <trianglz.components.SfuiMediumTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="@string/see_more"
+                        />
+                </FrameLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <com.ogaclejapan.smarttablayout.SmartTabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    app:stl_indicatorAlwaysInCenter="false"
+                    app:stl_indicatorWithoutPadding="false"
+                    app:stl_indicatorInFront="true"
+                    app:stl_indicatorInterpolation="smart"
+                    app:stl_indicatorGravity="bottom"
+                    app:stl_indicatorColor="@color/jade_green"
+                    app:stl_indicatorThickness="4dp"
+                    app:stl_indicatorWidth="auto"
+                    app:stl_indicatorCornerRadius="2dp"
+                    app:stl_overlineColor="#4D000000"
+                    app:stl_overlineThickness="0dp"
+                    app:stl_underlineColor="#b9b9b9"
+                    app:stl_underlineThickness="1dp"
+                    app:stl_dividerColor="@color/white"
+                    app:stl_dividerThickness="0dp"
+                    app:stl_defaultTabBackground="?attr/selectableItemBackground"
+                    app:stl_defaultTabTextAllCaps="false"
+                    app:stl_defaultTabTextColor="@drawable/custom_tab"
+                    app:stl_defaultTabTextSize="16sp"
+                    app:stl_defaultTabTextHorizontalPadding="16dp"
+                    app:stl_defaultTabTextMinWidth="0dp"
+                    app:stl_distributeEvenly="false"
+                    app:stl_clickable="true"
+                    app:stl_titleOffset="24dp"
+                    app:stl_drawDecorationAfterTab="false"
+                    />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

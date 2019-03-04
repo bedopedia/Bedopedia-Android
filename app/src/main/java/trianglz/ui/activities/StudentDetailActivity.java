@@ -78,7 +78,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private IImageLoader imageLoader;
     private String studentName = "";
     private StudentDetailView studentDetailView;
-    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout;
+    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout,weeklyPlannerLayout;
     private ImageButton backBtn;
     private Button messagesBtn;
     private String attendance;
@@ -140,6 +140,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         nextSlotTextView = findViewById(R.id.tv_time_table);
         studentGradeTextView = findViewById(R.id.tv_grade);
         attendanceLayout = findViewById(R.id.layout_attendance);
+        weeklyPlannerLayout = findViewById(R.id.layout_weekly_planner);
         timeTableLayout = findViewById(R.id.layout_timetable);
         gradesLayout = findViewById(R.id.layout_grades);
         behaviourNotesLayout = findViewById(R.id.layout_behavior_notes);
@@ -176,6 +177,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
 
     private void setListeners() {
         attendanceLayout.setOnClickListener(this);
+        weeklyPlannerLayout.setOnClickListener(this);
         timeTableLayout.setOnClickListener(this);
         gradesLayout.setOnClickListener(this);
         behaviourNotesLayout.setOnClickListener(this);
@@ -571,7 +573,15 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             case R.id.btn_setting:
                 settingsDialog.show();
                 break;
+            case R.id.layout_weekly_planner:
+                openWeeklyPlannerActivity();
+                break;
         }
+    }
+
+    private void openWeeklyPlannerActivity() {
+        Intent myIntent = new Intent(StudentDetailActivity.this, WeeklyPlannerActivity.class);
+        startActivity(myIntent);
     }
 
     private void openMessagesActivity() {
