@@ -38,16 +38,16 @@ public class DayFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        adapter.addData(createDummyData());
+//        adapter.addData(createDummyData());
     }
-
-    private List<DailyNote> createDummyData() {
-        List<DailyNote> list = new ArrayList<>();
-        for (int i = 0; i < 11; i++) {
-            DailyNote note = new DailyNote("Arabic" + i, "",
-                    "", "", new Date(),"");
-            list.add(note);
-        }
-        return list;
-    }
+//
+//    private List<DailyNote> createDummyData() {
+//        List<DailyNote> list = new ArrayList<>();
+//        for (int i = 0; i < 11; i++) {
+//            DailyNote note = new DailyNote("Arabic" + i, "",
+//                    "", "", new Date(),"");
+//            list.add(note);
+//        }
+//        return list;
+//    }
 }

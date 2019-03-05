@@ -51,4 +51,8 @@ public class ApiEndPoints {
         return "/api/thread_participants/bulk_mark_as_read";
     }
 
+    public static String getWeeklyPlanerUrl(String date){
+        return "/api/weekly_plans?search_by_date=" + date;
+    }
+
 }

@@ -320,4 +320,21 @@ public class Util {
 
         });
     }
+
+
+    public static String getDayName(String dateString){
+        String dayName = "";
+        SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = inFormat.parse(dateString);
+            SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
+           dayName = outFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dayName;
+
+    }
 }

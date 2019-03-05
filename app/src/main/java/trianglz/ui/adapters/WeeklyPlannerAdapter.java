@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.skolera.skolera_android.R;
+
 import java.util.ArrayList;
 
 import trianglz.ui.fragments.DayFragment;
@@ -38,19 +40,19 @@ public class WeeklyPlannerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0 :
-                return "Sunday";
+                return context.getResources().getString(R.string.sunday);
             case 1 :
-                return "Monday";
+                return context.getResources().getString(R.string.monday);
             case 2 :
-                return "Tuesday";
+                return context.getResources().getString(R.string.tuesday);
             case 3 :
-                return "Wednesday";
+                return context.getResources().getString(R.string.wednesday);
             case 4 :
-                return "Thursday";
+                return context.getResources().getString(R.string.thursday);
             case 5 :
-                return "Friday";
+                return context.getResources().getString(R.string.friday);
             case 6 :
-                return "Saturday";
+                return context.getResources().getString(R.string.saturday);
         }
         return null;
     }

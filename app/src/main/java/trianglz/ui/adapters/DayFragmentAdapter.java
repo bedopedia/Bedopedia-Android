@@ -45,10 +45,10 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        DailyNote dailyNote = mDataList.get(position);
-        holder.subjectNameTextView.setText(dailyNote.getSubjectName());
-        holder.gradeTextView.setVisibility(View.GONE);
-        setSubjectName(null,getSubjectNameForPlaceHolder(dailyNote.getSubjectName()),holder);
+//        DailyNote dailyNote = mDataList.get(position);
+//        holder.subjectNameTextView.setText(dailyNote.getSubjectName());
+//        holder.gradeTextView.setVisibility(View.GONE);
+//        setSubjectName(null,getSubjectNameForPlaceHolder(dailyNote.getSubjectName()),holder);
 
     }
 

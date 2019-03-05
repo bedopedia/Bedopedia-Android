@@ -10,6 +10,7 @@ import trianglz.models.CourseGroup;
 import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.models.Notification;
+import trianglz.models.RootClass;
 
 /**
  * Created by ${Aly} on 11/4/2018.
@@ -28,6 +29,8 @@ public interface StudentDetailPresenter {
     void onGetBehaviorNotesSuccess( HashMap<String,List<BehaviorNote>> behaviorNoteHashMap);
     void onGetBehaviorNotesFailure(String message,int code);
 
+    void onGetWeeklyPlannerSuccess(RootClass rootClass);
+    void onGetWeeklyPlannerFailure(String message, int code);
 
     void onGetNotificationSuccess(ArrayList<Notification> notification);
     void onGetNotificationFailure(String message, int code);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.format.DateUtils;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,7 @@ import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.models.Notification;
 import trianglz.models.Participant;
+import trianglz.models.RootClass;
 import trianglz.models.TimeTableSlot;
 import trianglz.models.User;
 import trianglz.utils.Constants;
@@ -116,6 +118,21 @@ public class StudentDetailView {
 
     }
 
+
+    public void getWeeklyPlanner(String url){
+        UserManager.getWeeklyPlanner(url, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                studentDetailPresenter.onGetWeeklyPlannerSuccess(parseWeeklyPlannerRespone(response));
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                studentDetailPresenter.onGetMessagesFailure(message, errorCode);
+            }
+        });
+
+    }
 
 
     public void getNotifications(String url, int pageNumber, int numberPerPage) {
@@ -447,6 +464,9 @@ public class StudentDetailView {
 
         return messageThreadArrayList;
     }
-
+        private RootClass parseWeeklyPlannerRespone(JSONObject jsonObject){
+            RootClass rootClass = new RootClass(jsonObject);
+            return rootClass;
+        }
 
 }

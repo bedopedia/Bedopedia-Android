@@ -51,9 +51,11 @@ import trianglz.models.Actor;
 import trianglz.models.Announcement;
 import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
+import trianglz.models.DailyNote;
 import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.models.Notification;
+import trianglz.models.RootClass;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
 import trianglz.utils.Constants;
@@ -100,6 +102,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private LinearLayout studentHeaderLayout,actorHeaderLayout;
     private SettingsDialog settingsDialog;
     private TextView notifcationCounterTextView,announcementCounterTextView,messagesCounterTextView;
+    private RootClass rootClass;
 
 
     @Override
@@ -403,8 +406,10 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         positiveCounterTextView.setText(positiveCounter);
         negativeCounterTextView.setText(negativeCounter);
         otherCounterTextView.setText(otherCounter);
-        if(progress.isShowing())
-        progress.dismiss();
+        String currentDate = "5/3/2019";
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getWeeklyPlanerUrl(currentDate);
+        studentDetailView.getWeeklyPlanner(url);
+
     }
 
     @Override
@@ -418,6 +423,26 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             showErrorDialog(this);
         }
 
+    }
+
+    @Override
+    public void onGetWeeklyPlannerSuccess(RootClass rootClass) {
+        this.rootClass = rootClass;
+        if (progress.isShowing())
+            progress.dismiss();
+       HashMap<String,ArrayList<DailyNote>> hashMap = testApi(rootClass);
+    }
+
+    @Override
+    public void onGetWeeklyPlannerFailure(String message, int errorCode) {
+        if (progress.isShowing()) {
+            progress.dismiss();
+        }
+        if (errorCode == 401 || errorCode == 500) {
+            logoutUser(this);
+        } else {
+            showErrorDialog(this);
+        }
     }
 
     @Override
@@ -766,5 +791,28 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
                     Uri.parse("http://play.google.com/store/apps/details?id="
                             + getPackageName())));
         }
+    }
+
+    private  HashMap<String,ArrayList<DailyNote>>  testApi(RootClass rootClass){
+        ArrayList<DailyNote> dailyNoteArrayList = rootClass.getWeeklyPlans().get(0).getDailyNotes();
+        HashMap<String,ArrayList<DailyNote>> dailyNoteHashMap= new HashMap<>();
+        for(int i = 0 ; i < dailyNoteArrayList.size(); i++){
+            DailyNote dailyNote = dailyNoteArrayList.get(i);
+            String dayName = Util.getDayName(dailyNote.getDate());
+            if(! dayName.isEmpty()){
+                if(dailyNoteHashMap.containsKey(dayName)){
+                    ArrayList<DailyNote> dailyNotes = dailyNoteHashMap.get(dayName);
+                    dailyNotes.add(dailyNote);
+                    dailyNoteHashMap.put(dayName,dailyNotes);
+                }else {
+                    ArrayList<DailyNote> dailyNotes = new ArrayList<>();
+                    dailyNotes.add(dailyNote);
+                    dailyNoteHashMap.put(dayName,dailyNotes);
+                }
+
+            }
+
+        }
+        return dailyNoteHashMap;
     }
 }
