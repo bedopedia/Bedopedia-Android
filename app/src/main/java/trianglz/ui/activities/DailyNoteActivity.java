@@ -18,6 +18,7 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
+import trianglz.components.BottomItemDecoration;
 import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
 import trianglz.models.DailyNote;
@@ -63,6 +64,7 @@ public class DailyNoteActivity extends SuperActivity implements View.OnClickList
         recyclerView.setAdapter(dailyNoteAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recyclerView.addItemDecoration(new TopItemDecoration((int)Util.convertDpToPixel(16,this),false));
+        recyclerView.addItemDecoration(new BottomItemDecoration((int)Util.convertDpToPixel(16,this),false));
         dailyNoteNameTextView = findViewById(R.id.tv_name);
         dailyNoteNameTextView.setText(dailyNote.getTitle());
     }
