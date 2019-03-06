@@ -11,13 +11,17 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.skolera.skolera_android.R;
 
 import trianglz.components.LocalHelper;
+import trianglz.core.presenters.SuperPresenter;
+import trianglz.core.views.SuperView;
 import trianglz.managers.SessionManager;
 
-public class SuperActivity extends AppCompatActivity {
+public class SuperActivity extends AppCompatActivity implements SuperPresenter {
     public ProgressDialog progress;
+    private SuperView superView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        superView = new SuperView(this,this);
         progress = new ProgressDialog(this);
         progress.setCancelable(false);
     }
@@ -31,6 +35,7 @@ public class SuperActivity extends AppCompatActivity {
     public void logoutUser(Context context) {
         SessionManager.getInstance().logoutUser();
         openSchoolLoginActivity(context);
+        superView.updateToken();
 
     }
 
