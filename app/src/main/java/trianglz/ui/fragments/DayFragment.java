@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import trianglz.components.CustomeLayoutManager;
 import trianglz.models.DailyNote;
 import trianglz.ui.adapters.DayFragmentAdapter;
 
@@ -37,10 +38,14 @@ public class DayFragment extends Fragment {
         adapter = new DayFragmentAdapter(getActivity());
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        recyclerView.setFocusable(false);
+        CustomeLayoutManager customeLayoutManager = new CustomeLayoutManager(getActivity());
+        customeLayoutManager.setScrollEnabled(false);
+        recyclerView.setLayoutManager(customeLayoutManager);
+        recyclerView.setNestedScrollingEnabled(true);
 //        adapter.addData(createDummyData());
     }
-//
+
 //    private List<DailyNote> createDummyData() {
 //        List<DailyNote> list = new ArrayList<>();
 //        for (int i = 0; i < 11; i++) {

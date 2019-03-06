@@ -1,11 +1,13 @@
 package trianglz.models;
 
 import org.json.*;
+
+import java.io.Serializable;
 import java.util.*;
 
 
-public class WeeklyPlan{
-
+public class WeeklyPlan implements Serializable {
+    // TODO: 3/5/19  ask beram about pending class 
     private int coursesCount;
     private ArrayList <DailyNote> dailyNotes;
     private String endDate;

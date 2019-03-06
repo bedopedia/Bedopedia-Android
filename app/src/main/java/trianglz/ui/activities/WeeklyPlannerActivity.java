@@ -12,21 +12,33 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import trianglz.models.DailyNote;
+import trianglz.models.RootClass;
 import trianglz.ui.adapters.WeeklyPlannerAdapter;
 import trianglz.ui.fragments.DayFragment;
+import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 public class WeeklyPlannerActivity extends AppCompatActivity {
     private SmartTabLayout tabLayout;
     private ViewPager viewPager;
     private WeeklyPlannerAdapter adapter;
     private DayFragment fragment;
+    private RootClass rootClass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly_planner);
+        getValueFromIntent();
         bindViews();
     }
+
+    private void getValueFromIntent() {
+        rootClass = (RootClass) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_WEEKLY_PLANER);
+    }
+
     private void bindViews () {
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.viewpager);
@@ -50,6 +62,31 @@ public class WeeklyPlannerActivity extends AppCompatActivity {
             fragmentArrayList.add(fragment);
         }
         return fragmentArrayList;
+    }
+
+
+
+    private  HashMap<String,ArrayList<DailyNote>>  getDaysOfDailyNotes(RootClass rootClass){
+        ArrayList<DailyNote> dailyNoteArrayList = rootClass.getWeeklyPlans().get(0).getDailyNotes();
+        HashMap<String,ArrayList<DailyNote>> dailyNoteHashMap= new HashMap<>();
+        for(int i = 0 ; i < dailyNoteArrayList.size(); i++){
+            DailyNote dailyNote = dailyNoteArrayList.get(i);
+            String dayName = Util.getDayName(dailyNote.getDate());
+            if(! dayName.isEmpty()){
+                if(dailyNoteHashMap.containsKey(dayName)){
+                    ArrayList<DailyNote> dailyNotes = dailyNoteHashMap.get(dayName);
+                    dailyNotes.add(dailyNote);
+                    dailyNoteHashMap.put(dayName,dailyNotes);
+                }else {
+                    ArrayList<DailyNote> dailyNotes = new ArrayList<>();
+                    dailyNotes.add(dailyNote);
+                    dailyNoteHashMap.put(dayName,dailyNotes);
+                }
+
+            }
+
+        }
+        return dailyNoteHashMap;
     }
 
 

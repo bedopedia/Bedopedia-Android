@@ -1,14 +1,16 @@
 package trianglz.models;
 
 import org.json.*;
+
+import java.io.Serializable;
 import java.util.*;
 
 
-public class WeeklyNote{
+public class WeeklyNote implements Serializable {
 
     private String description;
     private int id;
-    private Object imageUrl;
+    private String imageUrl;
     private String title;
     private int weeklyPlanId;
 
@@ -24,10 +26,10 @@ public class WeeklyNote{
     public int getId(){
         return this.id;
     }
-    public void setImageUrl(Object imageUrl){
+    public void setImageUrl(String imageUrl){
         this.imageUrl = imageUrl;
     }
-    public Object getImageUrl(){
+    public String getImageUrl(){
         return this.imageUrl;
     }
     public void setTitle(String title){
@@ -52,7 +54,7 @@ public class WeeklyNote{
         }
         description = jsonObject.optString("description");
         id = jsonObject.optInt("id");
-        imageUrl = jsonObject.opt("image_url");
+        imageUrl = jsonObject.optString("image_url");
         title = jsonObject.optString("title");
         weeklyPlanId = jsonObject.optInt("weekly_plan_id");
     }

@@ -55,7 +55,7 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
 
     @Override
     public int getItemCount() {
-        return mDataList.size();
+        return 10;
     }
 
     public void addData(List<DailyNote> dailyNoteList) {

@@ -1,10 +1,12 @@
 package trianglz.models;
 
 import org.json.*;
+
+import java.io.Serializable;
 import java.util.*;
 
 
-public class RootClass{
+public class RootClass implements Serializable {
 
     private Meta meta;
     private ArrayList<WeeklyPlan> weeklyPlans;

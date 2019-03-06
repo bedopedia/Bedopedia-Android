@@ -430,7 +430,6 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         this.rootClass = rootClass;
         if (progress.isShowing())
             progress.dismiss();
-       HashMap<String,ArrayList<DailyNote>> hashMap = testApi(rootClass);
     }
 
     @Override
@@ -606,6 +605,9 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
 
     private void openWeeklyPlannerActivity() {
         Intent myIntent = new Intent(StudentDetailActivity.this, WeeklyPlannerActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_WEEKLY_PLANER,rootClass);
+        myIntent.putExtra(Constants.KEY_BUNDLE,bundle);
         startActivity(myIntent);
     }
 
@@ -793,26 +795,5 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         }
     }
 
-    private  HashMap<String,ArrayList<DailyNote>>  testApi(RootClass rootClass){
-        ArrayList<DailyNote> dailyNoteArrayList = rootClass.getWeeklyPlans().get(0).getDailyNotes();
-        HashMap<String,ArrayList<DailyNote>> dailyNoteHashMap= new HashMap<>();
-        for(int i = 0 ; i < dailyNoteArrayList.size(); i++){
-            DailyNote dailyNote = dailyNoteArrayList.get(i);
-            String dayName = Util.getDayName(dailyNote.getDate());
-            if(! dayName.isEmpty()){
-                if(dailyNoteHashMap.containsKey(dayName)){
-                    ArrayList<DailyNote> dailyNotes = dailyNoteHashMap.get(dayName);
-                    dailyNotes.add(dailyNote);
-                    dailyNoteHashMap.put(dayName,dailyNotes);
-                }else {
-                    ArrayList<DailyNote> dailyNotes = new ArrayList<>();
-                    dailyNotes.add(dailyNote);
-                    dailyNoteHashMap.put(dayName,dailyNotes);
-                }
 
-            }
-
-        }
-        return dailyNoteHashMap;
-    }
 }

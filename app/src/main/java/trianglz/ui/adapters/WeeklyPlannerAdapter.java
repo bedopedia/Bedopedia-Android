@@ -40,19 +40,19 @@ public class WeeklyPlannerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0 :
-                return context.getResources().getString(R.string.sunday);
+                return context.getResources().getString(R.string.weekly_sunday);
             case 1 :
-                return context.getResources().getString(R.string.monday);
+                return context.getResources().getString(R.string.weekly_monday);
             case 2 :
-                return context.getResources().getString(R.string.tuesday);
+                return context.getResources().getString(R.string.weekly_tuesday);
             case 3 :
-                return context.getResources().getString(R.string.wednesday);
+                return context.getResources().getString(R.string.weekly_wednesday);
             case 4 :
-                return context.getResources().getString(R.string.thursday);
+                return context.getResources().getString(R.string.weekly_thursday);
             case 5 :
-                return context.getResources().getString(R.string.friday);
+                return context.getResources().getString(R.string.weekly_friday);
             case 6 :
-                return context.getResources().getString(R.string.saturday);
+                return context.getResources().getString(R.string.weekly_saturday);
         }
         return null;
     }

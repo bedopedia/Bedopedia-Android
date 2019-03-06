@@ -1,14 +1,16 @@
 package trianglz.models;
 
 import org.json.*;
+
+import java.io.Serializable;
 import java.util.*;
 
 
-public class Meta{
+public class Meta implements Serializable {
 
     private int currentPage;
-    private Object nextPage;
-    private Object prevPage;
+    private int nextPage;
+    private int prevPage;
     private int totalCount;
     private int totalPages;
 
@@ -18,16 +20,16 @@ public class Meta{
     public int getCurrentPage(){
         return this.currentPage;
     }
-    public void setNextPage(Object nextPage){
+    public void setNextPage(int nextPage){
         this.nextPage = nextPage;
     }
-    public Object getNextPage(){
+    public int getNextPage(){
         return this.nextPage;
     }
-    public void setPrevPage(Object prevPage){
+    public void setPrevPage(int prevPage){
         this.prevPage = prevPage;
     }
-    public Object getPrevPage(){
+    public int getPrevPage(){
         return this.prevPage;
     }
     public void setTotalCount(int totalCount){
@@ -51,8 +53,8 @@ public class Meta{
             return;
         }
         currentPage = jsonObject.optInt("current_page");
-        nextPage = jsonObject.opt("next_page");
-        prevPage = jsonObject.opt("prev_page");
+        nextPage = jsonObject.optInt("next_page");
+        prevPage = jsonObject.optInt("prev_page");
         totalCount = jsonObject.optInt("total_count");
         totalPages = jsonObject.optInt("total_pages");
     }

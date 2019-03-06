@@ -180,5 +180,6 @@ public class Constants {
     public static final String KEY_IMAGE_URL = "image_url";
     public static final String KEY_UNREAD_MESSAGE_COUNT = "unread_messages_count";
     public static final String KEY_THREADS_IDS = "thread_ids";
+    public static final String KEY_WEEKLY_PLANER = "weeklyPlaner";
 
 }

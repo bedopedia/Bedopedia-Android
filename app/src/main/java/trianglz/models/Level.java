@@ -1,10 +1,12 @@
 package trianglz.models;
 
 import org.json.*;
+
+import java.io.Serializable;
 import java.util.*;
 
 
-public class Level{
+public class Level implements Serializable {
 
     private int id;
     private String name;

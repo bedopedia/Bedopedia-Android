@@ -3,13 +3,14 @@ package trianglz.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * This file is spawned by Gemy on 1/20/2019.
  */
 
-public class DailyNote{
+public class DailyNote implements Serializable {
 
     private String activities;
     private String classWork;
