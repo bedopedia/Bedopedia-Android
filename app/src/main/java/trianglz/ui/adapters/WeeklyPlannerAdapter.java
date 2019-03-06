@@ -18,11 +18,13 @@ import trianglz.ui.fragments.DayFragment;
 public class WeeklyPlannerAdapter extends FragmentPagerAdapter {
 
     public ArrayList<Fragment> fragmentArrayList;
+    public ArrayList<String> daysNameArrayList;
     public Context context;
     public WeeklyPlannerAdapter(FragmentManager fm, Context context) {
         super(fm);
         fragmentArrayList = new ArrayList<>();
         this.context = context;
+        this.daysNameArrayList = new ArrayList<>();
     }
 
     @Override
@@ -38,28 +40,18 @@ public class WeeklyPlannerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0 :
-                return context.getResources().getString(R.string.weekly_sunday);
-            case 1 :
-                return context.getResources().getString(R.string.weekly_monday);
-            case 2 :
-                return context.getResources().getString(R.string.weekly_tuesday);
-            case 3 :
-                return context.getResources().getString(R.string.weekly_wednesday);
-            case 4 :
-                return context.getResources().getString(R.string.weekly_thursday);
-            case 5 :
-                return context.getResources().getString(R.string.weekly_friday);
-            case 6 :
-                return context.getResources().getString(R.string.weekly_saturday);
+        if(position >= 0 &&  position <  daysNameArrayList.size() ){
+            return daysNameArrayList.get(position);
+        }else {
+            return "";
         }
-        return null;
+
     }
 
-    public void addFragmentArrayList(ArrayList<Fragment> fragmentArrayList) {
+    public void addFragmentArrayList(ArrayList<Fragment> fragmentArrayList,ArrayList<String> daysNameArrayList) {
         this.fragmentArrayList.clear();
         this.fragmentArrayList.addAll(fragmentArrayList);
+        this.daysNameArrayList = daysNameArrayList;
         notifyDataSetChanged();
     }
 }

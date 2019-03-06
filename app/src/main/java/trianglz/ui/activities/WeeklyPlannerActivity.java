@@ -4,7 +4,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +37,7 @@ import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
 public class WeeklyPlannerActivity extends SuperActivity implements View.OnClickListener {
+    public Student student;
     private SmartTabLayout tabLayout;
     private CustomRtlViewPager viewPager;
     private WeeklyPlannerAdapter adapter;
@@ -48,7 +48,6 @@ public class WeeklyPlannerActivity extends SuperActivity implements View.OnClick
     private ImageView weeklyNoteImageView;
     private AvatarView studentImageView;
     private LinearLayout weeklyNoteLinearLayout;
-    public Student student;
     private IImageLoader imageLoader;
     private ImageButton backButton;
 
@@ -69,14 +68,15 @@ public class WeeklyPlannerActivity extends SuperActivity implements View.OnClick
     }
 
     private void bindViews() {
-        studentImageView  =findViewById(R.id.img_student);
-        if(student != null){
+        studentImageView = findViewById(R.id.img_student);
+        if (student != null) {
             setStudentImage();
         }
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.viewpager);
         adapter = new WeeklyPlannerAdapter(getSupportFragmentManager(), this);
-        adapter.addFragmentArrayList(getFragmentList());
+        ArrayList<String> daysNameArrayList = getDaysNameArrayList();
+        adapter.addFragmentArrayList(getFragmentList(),daysNameArrayList);
         viewPager.setAdapter(adapter);
         tabLayout.setViewPager(viewPager);
         ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
@@ -108,19 +108,19 @@ public class WeeklyPlannerActivity extends SuperActivity implements View.OnClick
                     } else {
                         weeklyNoteImageView.setVisibility(View.INVISIBLE);
                     }
-                }else {
+                } else {
                     weeklyNoteLinearLayout.setVisibility(View.GONE);
                 }
-            }else {
+            } else {
                 weeklyNoteLinearLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             weeklyNoteLinearLayout.setVisibility(View.GONE);
         }
         backButton = findViewById(R.id.btn_back);
     }
 
-    private void setListeners(){
+    private void setListeners() {
         backButton.setOnClickListener(this);
     }
 
@@ -129,45 +129,72 @@ public class WeeklyPlannerActivity extends SuperActivity implements View.OnClick
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_sunday))) {
             Day day = new Day(getResources().getString(R.string.weekly_sunday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_sunday)));
-            fragmentArrayList.add(DayFragment.newInstance(day,student));
+            fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_monday))) {
             Day day = new Day(getResources().getString(R.string.weekly_monday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_monday)));
-            fragmentArrayList.add(DayFragment.newInstance(day,student));
+            fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_tuesday))) {
             Day day = new Day(getResources().getString(R.string.weekly_tuesday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_tuesday)));
-            fragmentArrayList.add(DayFragment.newInstance(day,student));
+            fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_wednesday))) {
             Day day = new Day(getResources().getString(R.string.weekly_wednesday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_wednesday)));
-            fragmentArrayList.add(DayFragment.newInstance(day,student));
+            fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_thursday))) {
             Day day = new Day(getResources().getString(R.string.weekly_thursday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_thursday)));
-            fragmentArrayList.add(DayFragment.newInstance(day,student));
+            fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_friday))) {
             Day day = new Day(getResources().getString(R.string.weekly_friday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_friday)));
-            fragmentArrayList.add(DayFragment.newInstance(day,student));
+            fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_saturday))) {
             Day day = new Day(getResources().getString(R.string.weekly_saturday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_saturday)));
-            fragmentArrayList.add(DayFragment.newInstance(day,student));
+            fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
         return fragmentArrayList;
+    }
+
+    private ArrayList<String> getDaysNameArrayList() {
+        ArrayList<String> daysNameStringArrayList = new ArrayList<>();
+        if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_sunday))) {
+            daysNameStringArrayList.add(getResources().getString(R.string.weekly_sunday));
+        }
+        if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_monday))) {
+            daysNameStringArrayList.add(getResources().getString(R.string.weekly_monday));
+        }
+        if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_tuesday))) {
+            daysNameStringArrayList.add(getResources().getString(R.string.weekly_tuesday));
+        }
+        if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_wednesday))) {
+            daysNameStringArrayList.add(getResources().getString(R.string.weekly_wednesday));
+        }
+        if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_thursday))) {
+            daysNameStringArrayList.add(getResources().getString(R.string.weekly_thursday));
+        }
+        if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_friday))) {
+            daysNameStringArrayList.add(getResources().getString(R.string.weekly_friday));
+        }
+        if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_saturday))) {
+            daysNameStringArrayList.add(getResources().getString(R.string.weekly_saturday));
+        }
+
+        return daysNameStringArrayList;
     }
 
 
@@ -226,7 +253,7 @@ public class WeeklyPlannerActivity extends SuperActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_back:
                 onBackPressed();
                 break;

@@ -28,7 +28,7 @@ public class DayFragment extends Fragment implements DayFragmentAdapter.DayFragm
     private RecyclerView recyclerView;
     private View rootView;
     private DayFragmentAdapter adapter;
-    private  Day day;
+    public   Day day;
     private Student student;
 
 
