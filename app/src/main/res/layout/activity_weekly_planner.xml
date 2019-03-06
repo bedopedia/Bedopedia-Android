@@ -134,7 +134,7 @@
                         android:layout_gravity="bottom"
                         android:background="@drawable/gradient_weekly_planner_background"/>
 
-                    <trianglz.components.SfuiRegularTextView
+                    <trianglz.components.SfuiMediumButton
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_gravity="bottom|center"
@@ -144,6 +144,10 @@
                         android:gravity="center"
                         android:visibility="visible"
                         android:paddingTop="5dp"
+                        android:background="@color/transparent"
+                        android:textAllCaps="false"
+                        android:textColor="@color/greyish_brown"
+                        android:id="@+id/btn_see_more"
                         />
                 </FrameLayout>
             </LinearLayout>

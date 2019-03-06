@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +52,7 @@ public class WeeklyPlannerActivity extends SuperActivity implements View.OnClick
     private LinearLayout weeklyNoteLinearLayout;
     private IImageLoader imageLoader;
     private ImageButton backButton;
+    private Button seeMoreButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,10 +121,12 @@ public class WeeklyPlannerActivity extends SuperActivity implements View.OnClick
             weeklyNoteLinearLayout.setVisibility(View.GONE);
         }
         backButton = findViewById(R.id.btn_back);
+        seeMoreButton = findViewById(R.id.btn_see_more);
     }
 
     private void setListeners() {
         backButton.setOnClickListener(this);
+        seeMoreButton.setOnClickListener(this);
     }
 
     private ArrayList<Fragment> getFragmentList() {
@@ -257,6 +262,18 @@ public class WeeklyPlannerActivity extends SuperActivity implements View.OnClick
             case R.id.btn_back:
                 onBackPressed();
                 break;
+            case R.id.btn_see_more:
+                openWeeklyNoteActivity();
+                break;
         }
+    }
+
+    private void openWeeklyNoteActivity() {
+        Intent intent = new Intent(this,AnnouncementDetailActivity.class);
+        Bundle bundle = new Bundle();
+        WeeklyNote weeklyNote = rootClass.getWeeklyPlans().get(0).getWeeklyNotes().get(0);
+        bundle.putSerializable(Constants.KEY_WEEKLY_NOTE,weeklyNote);
+        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        startActivity(intent);
     }
 }

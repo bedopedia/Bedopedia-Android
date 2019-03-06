@@ -12,7 +12,8 @@
         android:layout_height="60dp"
         android:gravity="center_vertical"
         android:paddingEnd="8dp"
-        android:paddingStart="8dp">
+        android:paddingStart="8dp"
+        android:background="@color/white">
 
         <ImageButton
             android:id="@+id/btn_back"

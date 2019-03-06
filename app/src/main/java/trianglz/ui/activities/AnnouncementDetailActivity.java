@@ -10,9 +10,8 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Picasso;
 
-import org.apache.commons.lang3.StringEscapeUtils;
-
 import trianglz.models.Announcement;
+import trianglz.models.WeeklyNote;
 import trianglz.utils.Constants;
 
 public class AnnouncementDetailActivity extends SuperActivity implements View.OnClickListener {
@@ -21,6 +20,7 @@ public class AnnouncementDetailActivity extends SuperActivity implements View.On
     private Announcement announcement;
     private ImageView announcementImageView;
     private WebView webView;
+    private WeeklyNote weeklyNote;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,17 +32,29 @@ public class AnnouncementDetailActivity extends SuperActivity implements View.On
 
     private void getValueFromIntent() {
         announcement = (Announcement) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ANNOUNCEMENTS);
+        if(announcement == null){
+        weeklyNote = (WeeklyNote)getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_WEEKLY_NOTE);
+        }
     }
 
     private void bindViews() {
         backBtn = findViewById(R.id.btn_back);
         headerTextView = findViewById(R.id.tv_header);
         announcementImageView = findViewById(R.id.img_annoucement);
-        headerTextView.setText(announcement.title);
-        if(announcement.imageUrl != null && !announcement.imageUrl.isEmpty() && !announcement.imageUrl.equals("null")){
+        if(announcement != null){
+            setAnnouncement();
+        }else {
+            setWeeklyNote();
+        }
+
+    }
+
+    private void setWeeklyNote() {
+        headerTextView.setText(weeklyNote.getTitle());
+        if(weeklyNote.getImageUrl() != null && !weeklyNote.getImageUrl().isEmpty() && !weeklyNote.getImageUrl().equals("null")){
             announcementImageView.setVisibility(View.VISIBLE);
             Picasso.with(this)
-                    .load(announcement.imageUrl)
+                    .load(weeklyNote.getImageUrl())
                     .centerCrop()
                     .fit()
                     .into(announcementImageView);
@@ -50,7 +62,7 @@ public class AnnouncementDetailActivity extends SuperActivity implements View.On
             announcementImageView.setVisibility(View.GONE);
         }
         webView = findViewById(R.id.web_view);
-        webView.loadData(announcement.body, "text/html", null);
+        webView.loadData(weeklyNote.getDescription(), "text/html", null);
     }
 
     private void setListeners(){
@@ -64,5 +76,21 @@ public class AnnouncementDetailActivity extends SuperActivity implements View.On
                 onBackPressed();
                 break;
         }
+    }
+
+    private void setAnnouncement(){
+        headerTextView.setText(announcement.title);
+        if(announcement.imageUrl != null && !announcement.imageUrl.isEmpty() && !announcement.imageUrl.equals("null")){
+            announcementImageView.setVisibility(View.VISIBLE);
+            Picasso.with(this)
+                    .load(announcement.imageUrl)
+                    .centerCrop()
+                    .fit()
+                    .into(announcementImageView);
+        }else {
+            announcementImageView.setVisibility(View.GONE);
+        }
+        webView = findViewById(R.id.web_view);
+        webView.loadData(announcement.body, "text/html", null);
     }
 }
