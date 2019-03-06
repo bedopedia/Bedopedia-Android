@@ -48,7 +48,7 @@ public class WeeklyPlannerActivity extends SuperActivity implements View.OnClick
     private ImageView weeklyNoteImageView;
     private AvatarView studentImageView;
     private LinearLayout weeklyNoteLinearLayout;
-    private Student student;
+    public Student student;
     private IImageLoader imageLoader;
     private ImageButton backButton;
 
@@ -129,43 +129,43 @@ public class WeeklyPlannerActivity extends SuperActivity implements View.OnClick
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_sunday))) {
             Day day = new Day(getResources().getString(R.string.weekly_sunday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_sunday)));
-            fragmentArrayList.add(DayFragment.newInstance(day));
+            fragmentArrayList.add(DayFragment.newInstance(day,student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_monday))) {
             Day day = new Day(getResources().getString(R.string.weekly_monday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_monday)));
-            fragmentArrayList.add(DayFragment.newInstance(day));
+            fragmentArrayList.add(DayFragment.newInstance(day,student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_tuesday))) {
             Day day = new Day(getResources().getString(R.string.weekly_tuesday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_tuesday)));
-            fragmentArrayList.add(DayFragment.newInstance(day));
+            fragmentArrayList.add(DayFragment.newInstance(day,student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_wednesday))) {
             Day day = new Day(getResources().getString(R.string.weekly_wednesday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_wednesday)));
-            fragmentArrayList.add(DayFragment.newInstance(day));
+            fragmentArrayList.add(DayFragment.newInstance(day,student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_thursday))) {
             Day day = new Day(getResources().getString(R.string.weekly_thursday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_thursday)));
-            fragmentArrayList.add(DayFragment.newInstance(day));
+            fragmentArrayList.add(DayFragment.newInstance(day,student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_friday))) {
             Day day = new Day(getResources().getString(R.string.weekly_friday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_friday)));
-            fragmentArrayList.add(DayFragment.newInstance(day));
+            fragmentArrayList.add(DayFragment.newInstance(day,student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_saturday))) {
             Day day = new Day(getResources().getString(R.string.weekly_saturday)
                     , dailyNoteHashMap.get(getResources().getString(R.string.weekly_saturday)));
-            fragmentArrayList.add(DayFragment.newInstance(day));
+            fragmentArrayList.add(DayFragment.newInstance(day,student));
         }
         return fragmentArrayList;
     }

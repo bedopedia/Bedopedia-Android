@@ -406,7 +406,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         positiveCounterTextView.setText(positiveCounter);
         negativeCounterTextView.setText(negativeCounter);
         otherCounterTextView.setText(otherCounter);
-        String currentDate = "5/3/2019";
+        String currentDate = "6/3/2019";
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getWeeklyPlanerUrl(currentDate);
         studentDetailView.getWeeklyPlanner(url);
 

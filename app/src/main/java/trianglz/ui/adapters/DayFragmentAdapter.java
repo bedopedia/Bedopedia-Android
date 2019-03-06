@@ -29,11 +29,13 @@ import trianglz.models.DailyNote;
 public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.Holder> {
     public Context context;
     public List<DailyNote> mDataList;
+    public DayFragmentAdapterInterface dayFragmentAdapterInterface;
 
 
-    public DayFragmentAdapter(Context context) {
+    public DayFragmentAdapter(Context context, DayFragmentAdapterInterface dayFragmentAdapterInterface) {
         this.context = context;
         this.mDataList = new ArrayList<>();
+        this.dayFragmentAdapterInterface = dayFragmentAdapterInterface;
     }
 
     @Override
@@ -44,12 +46,17 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Holder holder, int position) {
+    public void onBindViewHolder(@NonNull final Holder holder, int position) {
         DailyNote dailyNote = mDataList.get(position);
         holder.subjectNameTextView.setText(dailyNote.getTitle());
         holder.gradeTextView.setVisibility(View.GONE);
         setSubjectName(null,getSubjectNameForPlaceHolder(dailyNote.getTitle()),holder);
-
+        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dayFragmentAdapterInterface.onItemClicked(mDataList.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
 
@@ -116,6 +123,10 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
         }
 
         return name;
+    }
+
+    public interface DayFragmentAdapterInterface{
+        void onItemClicked(DailyNote dailyNote);
     }
 
 }

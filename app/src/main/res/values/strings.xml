@@ -145,4 +145,9 @@
     <string name="weekly_thursday">Thursday</string>
     <string name="weekly_friday">Friday</string>
     <string name="weekly_saturday">Saturday</string>
+    <string name="class_work">Classwork</string>
+    <string name="homework">Homework</string>
+    <string name="activity">Activity</string>
+    <string name="there_is_no">There is no</string>
+    <string name="last_updated">Last updated</string>
 </resources>
