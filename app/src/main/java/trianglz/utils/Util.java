@@ -337,4 +337,39 @@ public class Util {
         return dayName;
 
     }
+
+    public static String getWeeklPlannerText(String startDateString, String endDateString,Context context){
+        String text = "";
+
+        SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = null;
+        Date  endDate  = null;
+        try {
+            startDate = inFormat.parse(startDateString);
+            endDate = inFormat.parse(endDateString);
+            android.text.format.DateFormat df = new android.text.format.DateFormat();
+            String startDayName = (String) df.format("EEEE", startDate); // Thursday
+            if (startDayName.length() >=3 && !Util.getLocale(context).equals("ar")){
+                startDayName = startDayName.substring(0,4);
+            }
+            String startDay          = (String) df.format("dd",   startDate); // 20
+            String startMonth  = (String) df.format("MM",   startDate); // 06
+
+            String endDayName = (String) df.format("EEEE", endDate); // Thursday
+            if (endDayName.length() >=3  && !Util.getLocale(context).equals("ar")){
+                endDayName = endDayName.substring(0,4);
+            }
+            String endDay          = (String) df.format("dd",   endDate); // 20
+            String endMonth  = (String) df.format("MM",   endDate); // 06
+            text = context.getResources().getString(R.string.start_from)+ " "+
+                    startDayName + " " + startDay+"/"+ startMonth +" "+
+                    context.getResources().getString(R.string.to) + " "+
+                    endDayName + " " + endDay+"/"+ endMonth;
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return text;
+    }
 }

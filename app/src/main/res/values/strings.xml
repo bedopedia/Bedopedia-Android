@@ -150,4 +150,6 @@
     <string name="activity">Activity</string>
     <string name="there_is_no">There is no</string>
     <string name="last_updated">Last updated</string>
+    <string name="to">to</string>
+    <string name="start_from">Start from</string>
 </resources>

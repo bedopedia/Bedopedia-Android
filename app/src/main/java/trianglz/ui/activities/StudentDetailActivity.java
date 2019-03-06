@@ -28,11 +28,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import agency.tango.android.avatarview.IImageLoader;
@@ -103,6 +106,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private SettingsDialog settingsDialog;
     private TextView notifcationCounterTextView,announcementCounterTextView,messagesCounterTextView;
     private RootClass rootClass;
+    private TextView weeklyPlannerTextView;
 
 
     @Override
@@ -176,6 +180,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         notifcationCounterTextView = findViewById(R.id.tv_notifcation_counter);
         messagesCounterTextView = findViewById(R.id.tv_messages_counter);
         announcementCounterTextView = findViewById(R.id.tv_announcement_counter);
+        weeklyPlannerTextView = findViewById(R.id.tv_weekly_planner);
     }
 
     private void setListeners() {
@@ -406,7 +411,9 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         positiveCounterTextView.setText(positiveCounter);
         negativeCounterTextView.setText(negativeCounter);
         otherCounterTextView.setText(otherCounter);
-        String currentDate = "6/3/2019";
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",new Locale("en"));
+        Date date = new Date();
+        String currentDate = (dateFormat.format(date));
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getWeeklyPlanerUrl(currentDate);
         studentDetailView.getWeeklyPlanner(url);
 
@@ -430,6 +437,11 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         this.rootClass = rootClass;
         if (progress.isShowing())
             progress.dismiss();
+        if(rootClass.getWeeklyPlans().size() > 0){
+            weeklyPlannerTextView.setText(Util.getWeeklPlannerText(rootClass.getWeeklyPlans().get(0).getStartDate(),
+                rootClass.getWeeklyPlans().get(0).getEndDate(),this));
+        }
+
     }
 
     @Override
