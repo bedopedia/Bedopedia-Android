@@ -88,16 +88,15 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
                 android:elevation="4dp"
-
-
-                >
+                android:layout_marginBottom="24dp"
+                android:id="@+id/layout_weekly_note">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="146dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/logo"
-                    android:id="@+id/img_activity"/>
+                    android:id="@+id/img_weekly_note"/>
 
                 <trianglz.components.SfuiSemiBoldTextView
                     android:layout_width="match_parent"
@@ -110,7 +109,8 @@
                     android:textSize="18sp"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:ellipsize="end"/>
+                    android:ellipsize="end"
+                    android:id="@+id/tv_header_weekly_note"/>
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -124,7 +124,8 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginEnd="12dp"
                         android:layout_marginBottom="35dp"
-                        android:text="@string/tv_placeholder_weekly_planner" />
+                        android:text="@string/tv_placeholder_weekly_planner"
+                        android:id="@+id/tv_content_weekly_note"/>
 
 
 
@@ -152,7 +153,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="24dp"
                 android:background="@color/white"
                 android:orientation="vertical">
                 <com.ogaclejapan.smarttablayout.SmartTabLayout
@@ -185,10 +185,10 @@
                     app:stl_titleOffset="24dp"
                     app:stl_drawDecorationAfterTab="false"
                     />
-            <android.support.v4.view.ViewPager
+            <trianglz.components.CustomRtlViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"/>
+                android:layout_height="wrap_content"/>
             </LinearLayout>
 
         </LinearLayout>

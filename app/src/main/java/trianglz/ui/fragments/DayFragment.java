@@ -12,19 +12,36 @@ import android.view.ViewGroup;
 
 import com.skolera.skolera_android.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import trianglz.components.CustomeLayoutManager;
+import trianglz.models.BehaviorNote;
 import trianglz.models.DailyNote;
+import trianglz.models.Day;
 import trianglz.ui.adapters.DayFragmentAdapter;
+import trianglz.utils.Constants;
 
 public class DayFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private View rootView;
     private DayFragmentAdapter adapter;
+    private  Day day;
+
+
+    public static Fragment newInstance(Day day) {
+        Fragment fragment;
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_DAY, day);
+        fragment = new DayFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -34,7 +51,9 @@ public class DayFragment extends Fragment {
         return rootView;
 
     }
+
     private void bindViews(){
+        day = (Day) Objects.requireNonNull(getArguments()).getSerializable(Constants.KEY_DAY);
         adapter = new DayFragmentAdapter(getActivity());
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
@@ -43,16 +62,6 @@ public class DayFragment extends Fragment {
         customeLayoutManager.setScrollEnabled(false);
         recyclerView.setLayoutManager(customeLayoutManager);
         recyclerView.setNestedScrollingEnabled(true);
-//        adapter.addData(createDummyData());
+        adapter.addData(day.dailyNoteArrayList);
     }
-
-//    private List<DailyNote> createDummyData() {
-//        List<DailyNote> list = new ArrayList<>();
-//        for (int i = 0; i < 11; i++) {
-//            DailyNote note = new DailyNote("Arabic" + i, "",
-//                    "", "", new Date(),"");
-//            list.add(note);
-//        }
-//        return list;
-//    }
 }

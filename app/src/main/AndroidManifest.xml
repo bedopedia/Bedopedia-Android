@@ -142,14 +142,15 @@
             android:name="trianglz.ui.activities.AnnouncementActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />
-        <activity android:name="trianglz.ui.activities.AnnouncementDetailActivity"
+        <activity
+            android:name="trianglz.ui.activities.AnnouncementDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />
-        <activity android:name="trianglz.ui.activities.WeeklyPlannerActivity"
+        <activity
+            android:name="trianglz.ui.activities.WeeklyPlannerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2">
-
-        </activity>
+            android:theme="@style/AppTheme_v2"></activity>
+        <activity android:name="trianglz.ui.activities.WeeklyPlannerDetailActivity"></activity>
     </application>
 
 </manifest>

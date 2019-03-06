@@ -607,6 +607,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         Intent myIntent = new Intent(StudentDetailActivity.this, WeeklyPlannerActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_WEEKLY_PLANER,rootClass);
+        bundle.putSerializable(Constants.STUDENT,student);
         myIntent.putExtra(Constants.KEY_BUNDLE,bundle);
         startActivity(myIntent);
     }

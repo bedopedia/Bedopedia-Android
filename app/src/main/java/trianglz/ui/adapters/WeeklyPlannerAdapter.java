@@ -32,7 +32,7 @@ public class WeeklyPlannerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 7;
+        return fragmentArrayList.size();
     }
 
     @Nullable
@@ -57,7 +57,7 @@ public class WeeklyPlannerAdapter extends FragmentPagerAdapter {
         return null;
     }
 
-    public void addFragmentArrayList(ArrayList<DayFragment> fragmentArrayList) {
+    public void addFragmentArrayList(ArrayList<Fragment> fragmentArrayList) {
         this.fragmentArrayList.clear();
         this.fragmentArrayList.addAll(fragmentArrayList);
         notifyDataSetChanged();
