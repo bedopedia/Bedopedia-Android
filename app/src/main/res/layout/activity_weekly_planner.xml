@@ -124,7 +124,6 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginEnd="12dp"
                         android:layout_marginBottom="35dp"
-                        android:text="@string/tv_placeholder_weekly_planner"
                         android:id="@+id/tv_content_weekly_note"/>
 
 

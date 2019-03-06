@@ -20,8 +20,10 @@
 
         <ImageView
             android:id="@+id/img_daily_note"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_home_work"
+            />
 
         <trianglz.components.SfproSemiBoldTextView
             android:id="@+id/tv_header"
@@ -48,7 +50,8 @@
             android:singleLine="true"
             android:text="Last Updated 23 Oct"
             android:textColor="@color/battle_ship_grey"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone"/>
 
 
     </LinearLayout>

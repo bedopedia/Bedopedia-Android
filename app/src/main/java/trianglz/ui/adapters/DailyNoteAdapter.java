@@ -35,6 +35,7 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
         if (position == 0) {
+            holder.dailyNoteImageView.setImageResource((R.drawable.ic_class_work));
             holder.headerTextView.setText(context.getResources().getString(R.string.class_work));
             if (!dailyNote.getClassWork().isEmpty() && !dailyNote.getClassWork().equals("null")) {
                 holder.contentTextView.setText(Html.fromHtml(dailyNote.getClassWork()));
@@ -43,6 +44,7 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
                         + " " + context.getResources().getString(R.string.class_work));
             }
         } else if (position == 1) {
+            holder.dailyNoteImageView.setImageResource((R.drawable.ic_home_work));
             holder.headerTextView.setText(context.getResources().getString(R.string.homework));
             if (!dailyNote.getHomework().isEmpty() && !dailyNote.getHomework().equals("null")) {
                 holder.contentTextView.setText(Html.fromHtml(dailyNote.getHomework()));
@@ -51,6 +53,7 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
                         + " " + context.getResources().getString(R.string.homework));
             }
         } else {
+            holder.dailyNoteImageView.setImageResource((R.drawable.ic_activity));
             holder.headerTextView.setText(context.getResources().getString(R.string.activity));
             if (!dailyNote.getActivities().isEmpty() && !dailyNote.getActivities().equals("null")) {
                 holder.contentTextView.setText(Html.fromHtml(dailyNote.getActivities()));
