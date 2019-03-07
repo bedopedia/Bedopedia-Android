@@ -72,7 +72,6 @@ public class Meta implements Serializable {
             jsonObject.put("total_count", totalCount);
             jsonObject.put("total_pages", totalPages);
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return jsonObject;

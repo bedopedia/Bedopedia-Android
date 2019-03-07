@@ -54,7 +54,6 @@ public class Level implements Serializable {
 //            jsonObject.put("name", name);
 //            jsonObject.put("section_name", sectionName);
 //        } catch (JSONException e) {
-//            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
 //        return jsonObject;

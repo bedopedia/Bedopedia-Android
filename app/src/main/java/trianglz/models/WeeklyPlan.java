@@ -7,7 +7,6 @@ import java.util.*;
 
 
 public class WeeklyPlan implements Serializable {
-    // TODO: 3/5/19  ask beram about pending class 
     private int coursesCount;
     private ArrayList <DailyNote> dailyNotes;
     private String endDate;
@@ -153,7 +152,6 @@ public class WeeklyPlan implements Serializable {
 //                jsonObject.put("weekly_notes", weeklyNotesJsonArray);
 //            }
 //        } catch (JSONException e) {
-//            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
 //        return jsonObject;

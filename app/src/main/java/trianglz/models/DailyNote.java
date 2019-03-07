@@ -103,7 +103,6 @@ public class DailyNote implements Serializable {
 //            jsonObject.put("title", title);
 //            jsonObject.put("weekly_plan_id", weeklyPlanId);
 //        } catch (JSONException e) {
-//            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
 //        return jsonObject;

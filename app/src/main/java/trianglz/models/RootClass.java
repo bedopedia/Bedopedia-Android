@@ -58,7 +58,6 @@ public class RootClass implements Serializable {
 //                jsonObject.put("weekly_plans", weeklyPlansJsonArray);
 //            }
 //        } catch (JSONException e) {
-//            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
 //        return jsonObject;

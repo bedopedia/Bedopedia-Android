@@ -237,7 +237,6 @@ public class NetworkManager {
     }
 
     public static void upload(String url,JSONObject jsonObject, File file,HashMap<String,String> headersValues, final HandleResponseListener handleResponseListener) {
-        // TODO: 1/17/19 check fast android networking for multipart
         AndroidNetworking.upload(url)
                 .addHeaders(headersValues)
                 .addMultipartParameter(jsonObject)
