@@ -109,7 +109,7 @@ public class WeeklyPlannerActivity extends SuperActivity implements View.OnClick
                                 .fit()
                                 .into(weeklyNoteImageView);
                     } else {
-                        weeklyNoteImageView.setVisibility(View.INVISIBLE);
+                        weeklyNoteImageView.setVisibility(View.GONE);
                     }
                 } else {
                     weeklyNoteLinearLayout.setVisibility(View.GONE);

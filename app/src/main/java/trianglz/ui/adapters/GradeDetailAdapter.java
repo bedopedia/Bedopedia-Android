@@ -71,9 +71,14 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if(assignment.averageGrade.isEmpty()){
                 assignment.averageGrade = "0";
             }
-            String averageGrade = context.getResources().getString(R.string.average_grade_is)
-                   +" "+ assignment.averageGrade+"";
-            detailViewHolder.averageGradeTextView.setText(averageGrade);
+            if(!assignment.hideGrade){
+                String averageGrade = context.getResources().getString(R.string.average_grade_is)
+                        +" "+ assignment.averageGrade+"";
+                detailViewHolder.averageGradeTextView.setText(averageGrade);
+            }else {
+                detailViewHolder.averageGradeTextView.setText("****");
+            }
+
         }else if(mDataList.get(position) instanceof Quiz){
             DetailViewHolder detailViewHolder = ((DetailViewHolder)holder);
             Quiz quiz = (Quiz) mDataList.get(position);
@@ -82,9 +87,14 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if(quiz.averageGrade.isEmpty()){
                 quiz.averageGrade = "0";
             }
-            String averageGrade = context.getResources().getString(R.string.average_grade_is)
-                    +" "+  quiz.averageGrade+"";
-            detailViewHolder.averageGradeTextView.setText(averageGrade);
+            if(!quiz.hideGrade){
+                String averageGrade = context.getResources().getString(R.string.average_grade_is)
+                        +" "+  quiz.averageGrade+"";
+                detailViewHolder.averageGradeTextView.setText(averageGrade);
+            }else {
+                detailViewHolder.averageGradeTextView.setText("****");
+            }
+
 
         }else if(mDataList.get(position) instanceof GradeItem){
             DetailViewHolder detailViewHolder = ((DetailViewHolder)holder);
@@ -94,9 +104,14 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if(gradeItem.averageGrade.isEmpty()){
                 gradeItem.averageGrade = "0";
             }
-            String averageGrade = context.getResources().getString(R.string.average_grade_is)
-                    +" "+gradeItem.averageGrade+"";
-            detailViewHolder.averageGradeTextView.setText(averageGrade);
+            if(!gradeItem.hideGrade){
+                String averageGrade = context.getResources().getString(R.string.average_grade_is)
+                        +" "+gradeItem.averageGrade+"";
+                detailViewHolder.averageGradeTextView.setText(averageGrade);
+            }else {
+                detailViewHolder.averageGradeTextView.setText("****");
+            }
+
         }else {
             HeaderViewHolder headerViewHolder = ((HeaderViewHolder)holder);
             GradeHeader gradeHeader = ((GradeHeader)mDataList.get(position));

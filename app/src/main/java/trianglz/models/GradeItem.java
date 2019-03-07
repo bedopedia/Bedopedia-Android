@@ -14,9 +14,11 @@ public class GradeItem {
     public String endDate;
     public String averageGrade = "";
     public int gradingPeriodId;
+    public boolean hideGrade = false;
 
     public GradeItem(int id, String name, int maxGrade, double total, double grade,
-                     String gradeView, String feedBack, String endDate, int gradingPeriodId) {
+                     String gradeView, String feedBack, String endDate,
+                     int gradingPeriodId,boolean hideGrade) {
         this.id = id;
         this.name = name;
         this.maxGrade = maxGrade;
@@ -26,5 +28,6 @@ public class GradeItem {
         this.feedBack = feedBack;
         this.endDate = endDate;
         this.gradingPeriodId = gradingPeriodId;
+        this.hideGrade = hideGrade;
     }
 }

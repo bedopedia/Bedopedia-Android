@@ -129,7 +129,8 @@ public class GradeDetailView {
             String gradeView = jsonObject.optString(Constants.KEY_GRADE_VIEW);
             String feedBack = jsonObject.optString(Constants.KEY_FEED_BACK);
             String endDate = jsonObject.optString(Constants.KEY_END_DATE);
-            assignmentArrayList.add(new Assignment(id,name,total,grade,gradeView,feedBack,endDate));
+            boolean hideGrade = jsonObject.optBoolean(Constants.KEY_HIDE_GRADE);
+            assignmentArrayList.add(new Assignment(id,name,total,grade,gradeView,feedBack,endDate,hideGrade));
         }
         return assignmentArrayList;
     }
@@ -148,7 +149,8 @@ public class GradeDetailView {
             String gradeView = jsonObject.optString(Constants.KEY_GRADE_VIEW);
             String feedBack = jsonObject.optString(Constants.KEY_FEED_BACK);
             String endDate = jsonObject.optString(Constants.KEY_END_DATE);
-            quizArrayList.add(new Quiz(id,name,totalScore,total,grade,gradeView,feedBack,endDate));
+            boolean hideGrade = jsonObject.optBoolean(Constants.KEY_HIDE_GRADE);
+            quizArrayList.add(new Quiz(id,name,totalScore,total,grade,gradeView,feedBack,endDate,hideGrade));
         }
         return quizArrayList;
     }
@@ -168,7 +170,8 @@ public class GradeDetailView {
             String feedBack = jsonObject.optString(Constants.KEY_FEED_BACK);
             String endDate = jsonObject.optString(Constants.KEY_END_DATE);
             int gradingPeriodId = jsonObject.optInt(Constants.KEY_GRADING_PERIOD_ID);
-            gradeItemArrayList.add(new GradeItem(id,name,maxGrade,total,grade,gradeView,feedBack,endDate,gradingPeriodId));
+            boolean hideGrade = jsonObject.optBoolean(Constants.KEY_HIDE_GRADE);
+            gradeItemArrayList.add(new GradeItem(id,name,maxGrade,total,grade,gradeView,feedBack,endDate,gradingPeriodId,hideGrade));
         }
         return gradeItemArrayList;
     }
