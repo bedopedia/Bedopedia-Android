@@ -204,24 +204,26 @@ public class WeeklyPlannerActivity extends SuperActivity implements View.OnClick
 
 
     private HashMap<String, ArrayList<DailyNote>> getDaysOfDailyNotes(RootClass rootClass) {
-        ArrayList<DailyNote> dailyNoteArrayList = rootClass.getWeeklyPlans().get(0).getDailyNotes();
         HashMap<String, ArrayList<DailyNote>> dailyNoteHashMap = new HashMap<>();
-        for (int i = 0; i < dailyNoteArrayList.size(); i++) {
-            DailyNote dailyNote = dailyNoteArrayList.get(i);
-            String dayName = Util.getDayName(dailyNote.getDate());
-            if (!dayName.isEmpty()) {
-                if (dailyNoteHashMap.containsKey(dayName)) {
-                    ArrayList<DailyNote> dailyNotes = dailyNoteHashMap.get(dayName);
-                    dailyNotes.add(dailyNote);
-                    dailyNoteHashMap.put(dayName, dailyNotes);
-                } else {
-                    ArrayList<DailyNote> dailyNotes = new ArrayList<>();
-                    dailyNotes.add(dailyNote);
-                    dailyNoteHashMap.put(dayName, dailyNotes);
+        if(rootClass.getWeeklyPlans().size() > 0 ) {
+            ArrayList<DailyNote> dailyNoteArrayList = rootClass.getWeeklyPlans().get(0).getDailyNotes();
+            for (int i = 0; i < dailyNoteArrayList.size(); i++) {
+                DailyNote dailyNote = dailyNoteArrayList.get(i);
+                String dayName = Util.getDayName(dailyNote.getDate());
+                if (!dayName.isEmpty()) {
+                    if (dailyNoteHashMap.containsKey(dayName)) {
+                        ArrayList<DailyNote> dailyNotes = dailyNoteHashMap.get(dayName);
+                        dailyNotes.add(dailyNote);
+                        dailyNoteHashMap.put(dayName, dailyNotes);
+                    } else {
+                        ArrayList<DailyNote> dailyNotes = new ArrayList<>();
+                        dailyNotes.add(dailyNote);
+                        dailyNoteHashMap.put(dayName, dailyNotes);
+                    }
+
                 }
 
             }
-
         }
         return dailyNoteHashMap;
     }

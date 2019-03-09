@@ -64,15 +64,18 @@ public class ContactTeacherView {
             String name = thread.optString(Constants.KEY_NAME);
             JSONArray participantsJsonArray = thread.optJSONArray(Constants.KEY_PARTICIPANTS);
             ArrayList<Participant> participantArrayList = new ArrayList<>();
-            if(!participantArrayList.isEmpty()){
-            for(int p = 0; p < participantsJsonArray.length(); p++){
-                JSONObject participantJsonObject = participantsJsonArray.optJSONObject(p);
-                String participantName = participantJsonObject.optString(Constants.KEY_NAME);
-                int threadId = participantJsonObject.optInt(Constants.KEY_THREAD_ID);
-                int userId = participantJsonObject.optInt(Constants.KEY_USER_ID);
-                String userAvatarUrl = participantJsonObject.optString(Constants.KEY_USER_AVATAR_URL);
-                participantArrayList.add(new Participant(participantName,threadId,userId,userAvatarUrl));
-            }}
+            if(participantsJsonArray != null) {
+                if (!participantArrayList.isEmpty()) {
+                    for (int p = 0; p < participantsJsonArray.length(); p++) {
+                        JSONObject participantJsonObject = participantsJsonArray.optJSONObject(p);
+                        String participantName = participantJsonObject.optString(Constants.KEY_NAME);
+                        int threadId = participantJsonObject.optInt(Constants.KEY_THREAD_ID);
+                        int userId = participantJsonObject.optInt(Constants.KEY_USER_ID);
+                        String userAvatarUrl = participantJsonObject.optString(Constants.KEY_USER_AVATAR_URL);
+                        participantArrayList.add(new Participant(participantName, threadId, userId, userAvatarUrl));
+                    }
+                }
+            }
             JSONArray messages = thread.optJSONArray(Constants.KEY_MESSAGES);
             ArrayList<Message> messageArrayList = new ArrayList<>();
             for (int j = 0; j < messages.length(); j++) {

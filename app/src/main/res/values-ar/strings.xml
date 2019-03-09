@@ -112,7 +112,7 @@
     <string name="there_is_no_messages">لا يوجد رسائل</string>
     <string name="yesterday">الامس</string>
 
-    <string name="weekly_planner">مخطط اسبوعي</string>
+    <string name="weekly_planner">الخطة الاسبوعية</string>
     <string name="see_more">رؤية المزيد</string>
 
     <string name="weekly_sunday">الأحد</string>
@@ -129,4 +129,6 @@
     <string name="last_updated">Last updated</string>
     <string name="to">إلى</string>
     <string name="start_from">يبدأ من</string>
+    <string name="there_is_no_weekly_planner">لا يوجد خطة اسبوعية</string>
+
 </resources>

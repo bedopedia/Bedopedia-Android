@@ -426,13 +426,15 @@ public class StudentDetailView {
             String name = messageThread.optString(Constants.KEY_NAME);
             JSONArray participantsJsonArray = messageThread.optJSONArray(Constants.KEY_PARTICIPANTS);
             ArrayList<Participant> participantArrayList = new ArrayList<>();
-            for(int p = 0; p < participantsJsonArray.length(); p++){
-                JSONObject participantJsonObject = participantsJsonArray.optJSONObject(p);
-                String participantName = participantJsonObject.optString(Constants.KEY_NAME);
-                int threadId = participantJsonObject.optInt(Constants.KEY_THREAD_ID);
-                int userId = participantJsonObject.optInt(Constants.KEY_USER_ID);
-                String userAvatarUrl = participantJsonObject.optString(Constants.KEY_USER_AVATAR_URL);
-                participantArrayList.add(new Participant(participantName,threadId,userId,userAvatarUrl));
+            if(participantsJsonArray != null) {
+                for (int p = 0; p < participantsJsonArray.length(); p++) {
+                    JSONObject participantJsonObject = participantsJsonArray.optJSONObject(p);
+                    String participantName = participantJsonObject.optString(Constants.KEY_NAME);
+                    int threadId = participantJsonObject.optInt(Constants.KEY_THREAD_ID);
+                    int userId = participantJsonObject.optInt(Constants.KEY_USER_ID);
+                    String userAvatarUrl = participantJsonObject.optString(Constants.KEY_USER_AVATAR_URL);
+                    participantArrayList.add(new Participant(participantName, threadId, userId, userAvatarUrl));
+                }
             }
             JSONArray messages = messageThread.optJSONArray(Constants.KEY_MESSAGES);
             ArrayList<Message> messageArrayList = new ArrayList<>();

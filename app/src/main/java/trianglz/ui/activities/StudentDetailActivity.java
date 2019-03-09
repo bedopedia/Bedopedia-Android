@@ -440,6 +440,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         if(rootClass.getWeeklyPlans().size() > 0){
             weeklyPlannerTextView.setText(Util.getWeeklPlannerText(rootClass.getWeeklyPlans().get(0).getStartDate(),
                 rootClass.getWeeklyPlans().get(0).getEndDate(),this));
+        }else {
+            weeklyPlannerTextView.setText(R.string.there_is_no_weekly_planner);
         }
 
     }
@@ -616,12 +618,14 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     }
 
     private void openWeeklyPlannerActivity() {
-        Intent myIntent = new Intent(StudentDetailActivity.this, WeeklyPlannerActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_WEEKLY_PLANER,rootClass);
-        bundle.putSerializable(Constants.STUDENT,student);
-        myIntent.putExtra(Constants.KEY_BUNDLE,bundle);
-        startActivity(myIntent);
+        if(rootClass.getWeeklyPlans().size() > 0 ) {
+            Intent myIntent = new Intent(StudentDetailActivity.this, WeeklyPlannerActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, rootClass);
+            bundle.putSerializable(Constants.STUDENT, student);
+            myIntent.putExtra(Constants.KEY_BUNDLE, bundle);
+            startActivity(myIntent);
+        }
     }
 
     private void openMessagesActivity() {
