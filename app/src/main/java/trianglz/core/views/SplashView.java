@@ -127,6 +127,7 @@ public class SplashView {
         UserManager.getStudentsHome(url, id, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray responseArray) {
+                refreshFireBaseToken();
                 splashPresenter.onGetStudentsHomeSuccess(parseStudentResponse(responseArray,id));
             }
 

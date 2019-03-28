@@ -121,6 +121,7 @@ public class LoginView {
         UserManager.getStudentsHome(url, id, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray responseArray) {
+                refreshFireBaseToken();
                 loginPresenter.onGetStudentsHomeSuccess(parseStudentResponse(responseArray,id));
             }
 
