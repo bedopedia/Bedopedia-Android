@@ -16,6 +16,10 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+
 import trianglz.components.HideKeyboardOnTouch;
 import trianglz.core.presenters.LoginPresenter;
 import trianglz.core.views.LoginView;
@@ -23,6 +27,7 @@ import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
 import trianglz.models.School;
+import trianglz.models.Student;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
@@ -157,6 +162,37 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         }
     }
 
+    @Override
+    public void onGetStudentsHomeSuccess(ArrayList<Object> dataObjectArrayList) {
+        String url = school.schoolUrl + "/api/auth/sign_in";
+        SessionManager.getInstance().setloginValues(url,emailEditText.getText().toString(),
+                passwordEditText.getText().toString());
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(dataObjectArrayList.size() >1){
+            ArrayList<JSONArray> attendanceJsonArray = (ArrayList<JSONArray>) dataObjectArrayList.get(0);
+            ArrayList<Student> studentArrayList = (ArrayList<Student>) dataObjectArrayList.get(1);
+            if(studentArrayList.size()> 0 && attendanceJsonArray.size() >0){
+                openStudentDetailActivity(studentArrayList.get(0),attendanceJsonArray.get(0));
+            }
+        }
+
+
+    }
+
+    @Override
+    public void onGetStudentsHomeFailure(String message, int errorCode) {
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        if(errorCode == 401 ){
+            Util.showErrorDialog(this,"Skolera",getResources().getString(R.string.wrong_username_or_password));
+        }else {
+            showErrorDialog(this);
+        }
+    }
+
 
     private void openHomeActivity(){
         Intent intent = new Intent(this,HomeActivity.class);
@@ -191,5 +227,14 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
             }
         }
         return false;
+    }
+
+    private void openStudentDetailActivity(Student student,JSONArray studentAttendance) {
+        Intent intent = new Intent(this, StudentDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT, student);
+        bundle.putSerializable(Constants.KEY_ATTENDANCE, studentAttendance.toString());
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        startActivity(intent);
     }
 }
