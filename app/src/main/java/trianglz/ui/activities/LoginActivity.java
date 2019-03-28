@@ -164,6 +164,9 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     @Override
     public void onGetStudentsHomeSuccess(ArrayList<Object> dataObjectArrayList) {
+        String url = school.schoolUrl + "/api/auth/sign_in";
+        SessionManager.getInstance().setloginValues(url,emailEditText.getText().toString(),
+                passwordEditText.getText().toString());
         if(progress.isShowing()){
             progress.dismiss();
         }

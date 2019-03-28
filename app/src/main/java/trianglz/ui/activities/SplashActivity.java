@@ -7,10 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.skolera.skolera_android.R;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+
 import trianglz.core.presenters.SplashPresenter;
 import trianglz.core.views.SplashView;
 import trianglz.managers.SessionManager;
 import trianglz.models.Actor;
+import trianglz.models.Student;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
@@ -84,5 +89,37 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     public void onLoginFailure(String message, int code) {
         openSchoolLoginActivity();
         finish();
+    }
+
+    @Override
+    public void onGetStudentsHomeSuccess(ArrayList<Object> dataObjectArrayList) {
+        if(dataObjectArrayList.size() >1){
+            ArrayList<JSONArray> attendanceJsonArray = (ArrayList<JSONArray>) dataObjectArrayList.get(0);
+            ArrayList<Student> studentArrayList = (ArrayList<Student>) dataObjectArrayList.get(1);
+            if(studentArrayList.size()> 0 && attendanceJsonArray.size() >0){
+                openStudentDetailActivity(studentArrayList.get(0),attendanceJsonArray.get(0));
+            }else {
+                openSchoolLoginActivity();
+            }
+        }else {
+            openSchoolLoginActivity();
+        }
+        finish();
+    }
+
+    @Override
+    public void onGetStudentsHomeFailure(String message, int errorCode) {
+        openSchoolLoginActivity();
+        finish();
+    }
+
+
+    private void openStudentDetailActivity(Student student,JSONArray studentAttendance) {
+        Intent intent = new Intent(this, StudentDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT, student);
+        bundle.putSerializable(Constants.KEY_ATTENDANCE, studentAttendance.toString());
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        startActivity(intent);
     }
 }
