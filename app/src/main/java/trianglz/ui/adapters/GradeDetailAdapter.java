@@ -14,7 +14,6 @@ import com.skolera.skolera_android.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import gradeBook.Course;
 import trianglz.models.Assignment;
 import trianglz.models.CourseGradingPeriods;
 import trianglz.models.GradeHeader;
@@ -59,70 +58,71 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        if(mDataList.get(position) instanceof CourseGradingPeriods){
+        if (mDataList.get(position) instanceof CourseGradingPeriods) {
             CourseGradingPeriods courseGradingPeriods = (CourseGradingPeriods) mDataList.get(position);
-            QuarterViewHolder quarterViewHolder = ((QuarterViewHolder)holder);
+            QuarterViewHolder quarterViewHolder = ((QuarterViewHolder) holder);
             quarterViewHolder.quarterTextView.setText(courseGradingPeriods.name);
-        }else if(mDataList.get(position) instanceof Assignment){
-            DetailViewHolder detailViewHolder = ((DetailViewHolder)holder);
+        } else if (mDataList.get(position) instanceof Assignment) {
+            DetailViewHolder detailViewHolder = ((DetailViewHolder) holder);
             Assignment assignment = (Assignment) mDataList.get(position);
             detailViewHolder.classWorkTextView.setText(assignment.name);
-            detailViewHolder.markTextView.setText(assignment.grade+"/"+assignment.total);
-            if(assignment.averageGrade.isEmpty()){
+            if (assignment.hideGrade) {
+                detailViewHolder.markTextView.setText("****");
+            } else {
+                String marketTextView = assignment.grade + "/" + assignment.total;
+                detailViewHolder.markTextView.setText(marketTextView);
+            }
+            if (assignment.averageGrade.isEmpty()) {
                 assignment.averageGrade = "0";
             }
-            if(!assignment.hideGrade){
-                String averageGrade = context.getResources().getString(R.string.average_grade_is)
-                        +" "+ assignment.averageGrade+"";
-                detailViewHolder.averageGradeTextView.setText(averageGrade);
-            }else {
-                detailViewHolder.averageGradeTextView.setText("****");
-            }
+            String averageGrade = context.getResources().getString(R.string.average_grade_is)
+                    + " " + assignment.averageGrade + "";
+            detailViewHolder.averageGradeTextView.setText(averageGrade);
 
-        }else if(mDataList.get(position) instanceof Quiz){
-            DetailViewHolder detailViewHolder = ((DetailViewHolder)holder);
+        } else if (mDataList.get(position) instanceof Quiz) {
+            DetailViewHolder detailViewHolder = ((DetailViewHolder) holder);
             Quiz quiz = (Quiz) mDataList.get(position);
             detailViewHolder.classWorkTextView.setText(quiz.name);
-            detailViewHolder.markTextView.setText(quiz.grade+"/"+quiz.total);
-            if(quiz.averageGrade.isEmpty()){
+            if (quiz.hideGrade) {
+                detailViewHolder.markTextView.setText("****");
+            } else {
+                detailViewHolder.markTextView.setText(quiz.grade + "/" + quiz.total);
+            }
+            if (quiz.averageGrade.isEmpty()) {
                 quiz.averageGrade = "0";
             }
-            if(!quiz.hideGrade){
-                String averageGrade = context.getResources().getString(R.string.average_grade_is)
-                        +" "+  quiz.averageGrade+"";
-                detailViewHolder.averageGradeTextView.setText(averageGrade);
-            }else {
-                detailViewHolder.averageGradeTextView.setText("****");
-            }
 
+            String averageGrade = context.getResources().getString(R.string.average_grade_is)
+                    + " " + quiz.averageGrade + "";
+            detailViewHolder.averageGradeTextView.setText(averageGrade);
 
-        }else if(mDataList.get(position) instanceof GradeItem){
-            DetailViewHolder detailViewHolder = ((DetailViewHolder)holder);
+        } else if (mDataList.get(position) instanceof GradeItem) {
+            DetailViewHolder detailViewHolder = ((DetailViewHolder) holder);
             GradeItem gradeItem = (GradeItem) mDataList.get(position);
             detailViewHolder.classWorkTextView.setText(gradeItem.name);
-            detailViewHolder.markTextView.setText(gradeItem.grade+"/"+gradeItem.total);
-            if(gradeItem.averageGrade.isEmpty()){
+
+            if (gradeItem.averageGrade.isEmpty()) {
                 gradeItem.averageGrade = "0";
             }
-            if(!gradeItem.hideGrade){
-                String averageGrade = context.getResources().getString(R.string.average_grade_is)
-                        +" "+gradeItem.averageGrade+"";
-                detailViewHolder.averageGradeTextView.setText(averageGrade);
-            }else {
-                detailViewHolder.averageGradeTextView.setText("****");
+            if (gradeItem.hideGrade) {
+                detailViewHolder.markTextView.setText("****");
+            } else {
+                detailViewHolder.markTextView.setText(gradeItem.grade + "/" + gradeItem.total);
             }
-
-        }else {
-            HeaderViewHolder headerViewHolder = ((HeaderViewHolder)holder);
-            GradeHeader gradeHeader = ((GradeHeader)mDataList.get(position));
+            String averageGrade = context.getResources().getString(R.string.average_grade_is)
+                    + " " + gradeItem.averageGrade + "";
+            detailViewHolder.averageGradeTextView.setText(averageGrade);
+        } else {
+            HeaderViewHolder headerViewHolder = ((HeaderViewHolder) holder);
+            GradeHeader gradeHeader = ((GradeHeader) mDataList.get(position));
             headerViewHolder.headerTextView.setText(gradeHeader.header);
-            if(gradeHeader.publish){
+            if (gradeHeader.publish) {
                 headerViewHolder.headerGradeTextView.setVisibility(View.VISIBLE);
-                String studentMark = getColoredSpanned(gradeHeader.sumOfStudentMarks+"", "#28bb4e");
-                String totalSum = getColoredSpanned("/" + gradeHeader.totalSummtion,"#52616b");
-                String average = studentMark +totalSum;
+                String studentMark = getColoredSpanned(gradeHeader.sumOfStudentMarks + "", "#28bb4e");
+                String totalSum = getColoredSpanned("/" + gradeHeader.totalSummtion, "#52616b");
+                String average = studentMark + totalSum;
                 headerViewHolder.headerGradeTextView.setText(Html.fromHtml(average));
-            }else {
+            } else {
                 headerViewHolder.headerGradeTextView.setVisibility(View.INVISIBLE);
             }
 
@@ -136,7 +136,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (mDataList.get(position)instanceof CourseGradingPeriods) {
+        if (mDataList.get(position) instanceof CourseGradingPeriods) {
             return TYPE_QUARTER;
         } else if (mDataList.get(position) instanceof Assignment ||
                 mDataList.get(position) instanceof Quiz ||
@@ -155,6 +155,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public class QuarterViewHolder extends RecyclerView.ViewHolder {
         public TextView quarterTextView;
+
         public QuarterViewHolder(View itemView) {
             super(itemView);
             quarterTextView = itemView.findViewById(R.id.tv_quarter);
@@ -173,15 +174,17 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     public class DetailViewHolder extends RecyclerView.ViewHolder {
-        public TextView classWorkTextView,markTextView,averageGradeTextView,stateTextView;
+        public TextView classWorkTextView, markTextView, averageGradeTextView, stateTextView;
+
         public DetailViewHolder(View itemView) {
             super(itemView);
-        classWorkTextView = itemView.findViewById(R.id.tv_class_work);
-        markTextView = itemView.findViewById(R.id.tv_mark);
-        averageGradeTextView = itemView.findViewById(R.id.tv_avg_grade);
-        stateTextView = itemView.findViewById(R.id.tv_state);
+            classWorkTextView = itemView.findViewById(R.id.tv_class_work);
+            markTextView = itemView.findViewById(R.id.tv_mark);
+            averageGradeTextView = itemView.findViewById(R.id.tv_avg_grade);
+            stateTextView = itemView.findViewById(R.id.tv_state);
         }
     }
+
     private String getColoredSpanned(String text, String color) {
         String input = "<font color=" + color + ">" + text + "</font>";
         return input;
