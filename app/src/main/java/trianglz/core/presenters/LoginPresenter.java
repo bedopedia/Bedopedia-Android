@@ -1,5 +1,7 @@
 package trianglz.core.presenters;
 
+import java.util.ArrayList;
+
 import trianglz.models.Actor;
 
 /**
@@ -9,5 +11,6 @@ public interface LoginPresenter {
     void onLoginSuccess(Actor actor);
     void onLoginSuccess();
     void onLoginFailure(String message,int code);
-
+    void onGetStudentsHomeSuccess(ArrayList<Object> objectArrayList);
+    void onGetStudentsHomeFailure(String message,int errorCode);
 }
