@@ -107,7 +107,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private TextView notifcationCounterTextView,announcementCounterTextView,messagesCounterTextView;
     private RootClass rootClass;
     private TextView weeklyPlannerTextView;
-
+    private ImageButton studentSettingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +181,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         messagesCounterTextView = findViewById(R.id.tv_messages_counter);
         announcementCounterTextView = findViewById(R.id.tv_announcement_counter);
         weeklyPlannerTextView = findViewById(R.id.tv_weekly_planner);
+        studentSettingsButton = findViewById(R.id.btn_setting_student);
     }
 
     private void setListeners() {
@@ -198,6 +199,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         messagesLayout.setOnClickListener(this);
         annoucmentLayout.setOnClickListener(this);
         settingsBtn.setOnClickListener(this);
+        studentSettingsButton.setOnClickListener(this);
     }
 
     private void setParentActorView() {
@@ -233,6 +235,13 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             messagesBtn.setVisibility(View.VISIBLE);
             actorHeaderLayout.setVisibility(View.INVISIBLE);
             studentHeaderLayout.setVisibility(View.VISIBLE);
+            if(SessionManager.getInstance().getStudentAccount()){
+                backBtn.setVisibility(View.GONE);
+                studentSettingsButton.setVisibility(View.VISIBLE);
+            }else {
+                backBtn.setVisibility(View.VISIBLE);
+                studentSettingsButton.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -614,6 +623,11 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             case R.id.layout_weekly_planner:
                 openWeeklyPlannerActivity();
                 break;
+            case R.id.btn_setting_student:
+                if(!settingsDialog.isShowing()){
+                    settingsDialog.show();
+                }
+                break;
         }
     }
 
@@ -755,7 +769,9 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     @Override
     public void onBackPressed() {
         if(SessionManager.getInstance().getUserType()){
-            super.onBackPressed();
+            if(!SessionManager.getInstance().getStudentAccount()){
+                super.onBackPressed();
+            }
         }
     }
 

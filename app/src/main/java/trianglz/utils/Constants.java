@@ -184,4 +184,6 @@ public class Constants {
     public static final String KEY_DAILY_NOTE = "dailyNote";
     public static final String KEY_WEEKLY_NOTE = "weeklyNote";
     public static final String KEY_HIDE_GRADE = "hide_grade";
+
+    public static final String KEY_IS_STUDENT_ACCOUNT = "isStudentAccount";
 }

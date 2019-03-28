@@ -151,4 +151,13 @@ public class SessionManager {
     {
         return mPreferences.getBoolean(Constants.KEY_USER_TYPE,false);
     }
+
+    public void setStudentType(boolean isStudentAccount){
+        mEditor.putBoolean(Constants.KEY_IS_STUDENT_ACCOUNT,isStudentAccount);
+        mEditor.commit();
+    }
+
+    public boolean getStudentAccount(){
+        return mPreferences.getBoolean(Constants.KEY_IS_STUDENT_ACCOUNT,false);
+    }
 }

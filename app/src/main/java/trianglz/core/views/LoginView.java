@@ -75,6 +75,7 @@ public class LoginView {
             loginPresenter.onLoginSuccess();
         } else if (userType.equals("student")) {
             SessionManager.getInstance().setUserType(true);
+            SessionManager.getInstance().setStudentType(true);
             int parentId = data.optInt(Constants.PARENT_ID);
             String url = SessionManager.getInstance().getBaseUrl() + "/api/parents/" + parentId + "/children";
             getStudents(url, id + "",id);
