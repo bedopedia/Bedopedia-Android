@@ -58,4 +58,9 @@
     <color name="greyish">#B9B9B9</color>
     <color name="battle_ship_grey">#6C7B8A</color>
     <color name="brownish_grey">#5D5D5D</color>
+    <color name="pinkish_grey">#BCBCBC</color>
+    <color name="aqua_marine">#2DC8DC</color>
+    <color name="golden_yellow">#F8D21C</color>
+    <color name="light_grey_blue">#3388A7C7</color>
+    <color name="grape_fruit">#FF5252</color>
 </resources>
