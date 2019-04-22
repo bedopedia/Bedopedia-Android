@@ -54,7 +54,6 @@ import trianglz.models.Actor;
 import trianglz.models.Announcement;
 import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
-import trianglz.models.DailyNote;
 import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.models.Notification;
@@ -200,6 +199,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         annoucmentLayout.setOnClickListener(this);
         settingsBtn.setOnClickListener(this);
         studentSettingsButton.setOnClickListener(this);
+        assignmentsTextView.setOnClickListener(this);
     }
 
     private void setParentActorView() {
@@ -628,6 +628,9 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
                     settingsDialog.show();
                 }
                 break;
+            case R.id.tv_assignment:
+                openAssignmentDetailActivity();
+                break;
         }
     }
 
@@ -828,5 +831,12 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         }
     }
 
+    private void openAssignmentDetailActivity(){
+        Intent intent = new Intent(this, AssignmentDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT, student);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        startActivity(intent);
+    }
 
 }

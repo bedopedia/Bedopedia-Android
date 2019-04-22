@@ -42,4 +42,5 @@ public interface StudentDetailPresenter {
 
     void onGetMessagesSuccess(ArrayList<MessageThread> messageArrayList,int unreadMessageCount);
     void onGetMessagesFailure(String message, int code);
+
 }

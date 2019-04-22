@@ -138,6 +138,19 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         openStudentDetailActivity(student, position);
     }
 
+    @Override
+    public void onAssignmentClicked(Student student) {
+        openAssignmentDetailActivity(student);
+    }
+
+    private void openAssignmentDetailActivity(Student student){
+        Intent intent = new Intent(this, AssignmentDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT, student);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        startActivity(intent);
+    }
+
     private void openStudentDetailActivity(Student student, int position) {
         Intent intent = new Intent(this, StudentDetailActivity.class);
         Bundle bundle = new Bundle();

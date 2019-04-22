@@ -64,6 +64,8 @@
                 android:textColor="@color/aqua_marine"
                 android:text="Pattern assigment"
                 android:layout_marginBottom="4dp"
+                android:textAlignment="viewStart"
+                android:id="@+id/tv_assignment_name"
                 />
 
             <trianglz.components.SfproRegularButton

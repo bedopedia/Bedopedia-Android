@@ -130,5 +130,6 @@
     <string name="to">إلى</string>
     <string name="start_from">يبدأ من</string>
     <string name="there_is_no_weekly_planner">لا يوجد خطة اسبوعية</string>
+    <string name="due_date">Due Date</string>
 
 </resources>

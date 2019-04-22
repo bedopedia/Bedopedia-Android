@@ -134,7 +134,8 @@
             android:text="@string/assignments"
             android:textColor="@color/jade_green"
             android:textSize="16sp"
-            android:includeFontPadding="false"/>
+            android:includeFontPadding="false"
+            android:clickable="true"/>
 
 
         <trianglz.components.SfuiSemiBoldTextView

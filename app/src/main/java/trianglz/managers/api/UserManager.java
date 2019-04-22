@@ -449,6 +449,25 @@ public class UserManager {
                 responseListener.onFailure(message, errorCode);
             }
         });
+    }
+
+
+    public static void getAssignmentsDetail(String url, int pageNumber,String numberPerPage ,final ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("page", pageNumber + "");
+        params.put("per_page", numberPerPage);
+        NetworkManager.getWithParameter(url, params, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
 
     }
 }

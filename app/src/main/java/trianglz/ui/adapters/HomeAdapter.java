@@ -52,7 +52,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
 
     @Override
     public void onBindViewHolder(final KidsViewHolder holder, final int position) {
-        Student student = mDataList.get(position);
+        final Student student = mDataList.get(position);
         if (position == mDataList.size() - 1) {
             holder.lineView.setVisibility(View.GONE);
         }
@@ -82,6 +82,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
             @Override
             public void onClick(View view) {
                 homeAdapterInterface.onOpenStudentClicked(mDataList.get(position), position);
+            }
+        });
+
+        holder.assignmentsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                homeAdapterInterface.onAssignmentClicked(student);
             }
         });
 
@@ -171,6 +178,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
 
     public interface HomeAdapterInterface {
         void onOpenStudentClicked(Student student, int position);
+        void onAssignmentClicked(Student student);
     }
 
 

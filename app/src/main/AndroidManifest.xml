@@ -17,6 +17,8 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name="trianglz.ui.activities.AssignmentDetailActivity"></activity>
+
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -149,10 +151,11 @@
         <activity
             android:name="trianglz.ui.activities.WeeklyPlannerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2"/>
-        <activity android:name="trianglz.ui.activities.DailyNoteActivity"
+            android:theme="@style/AppTheme_v2" />
+        <activity
+            android:name="trianglz.ui.activities.DailyNoteActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2"/>
+            android:theme="@style/AppTheme_v2" />
     </application>
 
 </manifest>
