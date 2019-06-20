@@ -17,10 +17,10 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
-import trianglz.components.TopItemDecoration;
-import trianglz.core.presenters.AdapterPaginationInterface;
 import trianglz.core.presenters.AssignmentsDetailPresenter;
+import trianglz.core.presenters.CourseAssignmentPresenter;
 import trianglz.core.views.AssignmentsDetailView;
+import trianglz.core.views.CourseAssignmentView;
 import trianglz.managers.SessionManager;
 import trianglz.models.CourseAssignment;
 import trianglz.models.Student;
@@ -28,27 +28,25 @@ import trianglz.ui.adapters.CourseAssignmentAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class AssignmentDetailActivity extends SuperActivity implements View.OnClickListener, AssignmentsDetailPresenter, AdapterPaginationInterface {
+public class CourseAssignmentActivity extends SuperActivity implements View.OnClickListener, CourseAssignmentPresenter {
     private ImageButton backBtn;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private Student student;
     private RecyclerView recyclerView;
     private CourseAssignmentAdapter courseAssignmentAdapter;
-    private AssignmentsDetailView assignmentsDetailView;
-    private int pageNumber;
-    private boolean newIncomingAssignmentData;
+    private CourseAssignmentView courseAssignmentView;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_assignment_detail);
+        setContentView(R.layout.activity_course_assignment);
         getValueFromIntent();
         bindViews();
         setListeners();
-        getAssignmentDetail(false);
+        getCourseAssignment();
     }
 
     private void getValueFromIntent() {
@@ -65,7 +63,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
         courseAssignmentAdapter = new CourseAssignmentAdapter(this);
         recyclerView.setAdapter(courseAssignmentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        assignmentsDetailView = new AssignmentsDetailView(this,this);
+        courseAssignmentView = new CourseAssignmentView(this,this);
     }
 
     private void setListeners() {
@@ -107,17 +105,27 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
         }
     }
 
+    private void getCourseAssignment() {
+        if (Util.isNetworkAvailable(this)) {
+            showLoadingDialog();
+            String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" +
+                    student.getId() + "/course_groups_with_assignments_number";
+            courseAssignmentView.getAssignmentDetails(url);
+        } else {
+            Util.showNoInternetConnectionDialog(this);
+        }
+    }
+
     @Override
-    public void onGetAssignmentDetailSuccess(ArrayList<CourseAssignment> courseAssignmentArrayList) {
+    public void onGetCourseAssignmentSuccess(ArrayList<CourseAssignment> courseAssignmentArrayList) {
         if (progress.isShowing()) {
             progress.dismiss();
         }
         courseAssignmentAdapter.addData(courseAssignmentArrayList);
-
     }
 
     @Override
-    public void onGetAssignmentDetailFailure(String message, int errorCode) {
+    public void onGetCourseAssignmentFailure(String message, int errorCode) {
         if(progress.isShowing()){
             progress.dismiss();
         }
@@ -126,26 +134,5 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
         }else {
             showErrorDialog(this);
         }
-    }
-
-
-    private void getAssignmentDetail(boolean pagination) {
-        if (Util.isNetworkAvailable(this)) {
-            showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" +
-                    student.getId() + "/course_groups_with_assignments_number";
-            if (!pagination) {
-                pageNumber = 1;
-            }
-            assignmentsDetailView.getAssignmentDetails(url);
-        } else {
-            Util.showNoInternetConnectionDialog(this);
-        }
-    }
-
-    @Override
-    public void onReachPosition() {
-        pageNumber++;
-        getAssignmentDetail(true);
     }
 }

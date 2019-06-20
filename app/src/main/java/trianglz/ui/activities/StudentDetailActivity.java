@@ -832,7 +832,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     }
 
     private void openAssignmentDetailActivity(){
-        Intent intent = new Intent(this, AssignmentDetailActivity.class);
+        Intent intent = new Intent(this, CourseAssignmentActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
         intent.putExtra(Constants.KEY_BUNDLE, bundle);

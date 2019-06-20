@@ -17,11 +17,15 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="trianglz.ui.activities.AssignmentDetailActivity"
+        <activity android:name="trianglz.ui.activities.CourseAssignmentActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="trianglz.ui.activities.AssignmentDetailActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>

@@ -372,4 +372,19 @@ public class Util {
         }
         return text;
     }
+
+
+    public static String getCourseDate(String courseDateString){
+        String endDateString = "";
+        SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date date;
+        try {
+            date = inFormat.parse(courseDateString);
+            SimpleDateFormat outFormat = new SimpleDateFormat("dd MMM, yyyy, HH:mm aa");
+            endDateString = outFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return endDateString;
+    }
 }
