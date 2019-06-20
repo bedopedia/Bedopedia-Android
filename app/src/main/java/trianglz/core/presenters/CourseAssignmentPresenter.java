@@ -10,4 +10,6 @@ import trianglz.models.CourseAssignment;
 public interface CourseAssignmentPresenter {
     void onGetCourseAssignmentSuccess(ArrayList<CourseAssignment> courseAssignmentArrayList);
     void onGetCourseAssignmentFailure(String message, int errorCode);
+    void onGetAssignmentDetailSuccess();
+    void onGetAssignmentDetailFailure(String message,int errorCode);
 }

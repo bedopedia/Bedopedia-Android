@@ -27,15 +27,36 @@ public class CourseAssignmentView {
         gson = new Gson();
     }
 
-    public void getAssignmentDetails(String url) {
-        UserManager.getAssignmentsDetail(url, new ArrayResponseListener() {
+    public void getCourseAssignment(String url) {
+        UserManager.getCourseAssignment(url, new ArrayResponseListener() {
             @Override
+
             public void onSuccess(JSONArray response) {
                 ArrayList<CourseAssignment> courseAssignmentArrayList = new ArrayList<>();
                 for (int i = 0; i < response.length(); i++) {
                     CourseAssignment courseAssignment = gson.fromJson(response.optJSONObject(i).toString(), CourseAssignment.class);
                     courseAssignmentArrayList.add(courseAssignment);
                 }
+                presenter.onGetCourseAssignmentSuccess(courseAssignmentArrayList);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                presenter.onGetCourseAssignmentFailure(message, errorCode);
+            }
+        });
+    }
+
+    public void getAssinmentDetail(String url) {
+        UserManager.getAssignmentDetail(url, new ArrayResponseListener() {
+            @Override
+
+            public void onSuccess(JSONArray response) {
+                ArrayList<CourseAssignment> courseAssignmentArrayList = new ArrayList<>();
+//                for (int i = 0; i < response.length(); i++) {
+//                    CourseAssignment courseAssignment = gson.fromJson(response.optJSONObject(i).toString(), CourseAssignment.class);
+//                    courseAssignmentArrayList.add(courseAssignment);
+//                }
                 presenter.onGetCourseAssignmentSuccess(courseAssignmentArrayList);
             }
 

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -20,7 +19,6 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
-import trianglz.core.presenters.AdapterPaginationInterface;
 import trianglz.models.CourseAssignment;
 import trianglz.utils.Util;
 
@@ -30,13 +28,13 @@ import trianglz.utils.Util;
 public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignmentAdapter.Holder> {
     public Context context;
     public List<CourseAssignment> mDataList;
+    private CourseAssignmentAdapterInterface anInterface;
 
 
-
-
-    public CourseAssignmentAdapter(Context context) {
+    public CourseAssignmentAdapter(Context context, CourseAssignmentAdapterInterface courseAssignmentAdapterInterface) {
         this.context = context;
         this.mDataList = new ArrayList<>();
+        this.anInterface =  courseAssignmentAdapterInterface;
     }
 
     @Override
@@ -51,14 +49,20 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         CourseAssignment courseAssignment = mDataList.get(position);
         holder.subjectNameTextView.setText(courseAssignment.getCourseName());
         holder.assignmentNameTextView.setText(courseAssignment.getAssignmentName());
-        holder.assignmentCountsTextView.setText(courseAssignment.getAssignmentsCount()+"");
-        setCourseImage("",courseAssignment.getCourseName(),holder);
-        if(courseAssignment.getAssignmentState().equals("running")){
+        holder.assignmentCountsTextView.setText(courseAssignment.getAssignmentsCount() + "");
+        setCourseImage("", courseAssignment.getCourseName(), holder);
+        if (courseAssignment.getAssignmentState().equals("running")) {
             holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
-        }else {
+        } else {
             holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
         }
         holder.dateTextView.setText(Util.getCourseDate(courseAssignment.getNextAssignmentDate()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                anInterface.onItemClicked(mDataList.get(position));
+            }
+        });
     }
 
     @Override
@@ -75,7 +79,7 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
     public static class Holder extends RecyclerView.ViewHolder {
 
         public TextView subjectNameTextView, dateTextView,
-                assignmentNameTextView,dayTextView,monthTextView,assignmentCountsTextView;
+                assignmentNameTextView, dayTextView, monthTextView, assignmentCountsTextView;
         public IImageLoader imageLoader;
         private AvatarView courseAvatarView;
 
@@ -115,5 +119,9 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         }
     }
 
+
+    public interface CourseAssignmentAdapterInterface{
+        void onItemClicked(CourseAssignment courseAssignment);
+    }
 
 }

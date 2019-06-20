@@ -28,7 +28,7 @@ import trianglz.ui.adapters.CourseAssignmentAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class CourseAssignmentActivity extends SuperActivity implements View.OnClickListener, CourseAssignmentPresenter {
+public class CourseAssignmentActivity extends SuperActivity implements View.OnClickListener, CourseAssignmentPresenter, CourseAssignmentAdapter.CourseAssignmentAdapterInterface {
     private ImageButton backBtn;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
@@ -60,7 +60,7 @@ public class CourseAssignmentActivity extends SuperActivity implements View.OnCl
         backBtn = findViewById(R.id.btn_back);
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = findViewById(R.id.recycler_view);
-        courseAssignmentAdapter = new CourseAssignmentAdapter(this);
+        courseAssignmentAdapter = new CourseAssignmentAdapter(this,this);
         recyclerView.setAdapter(courseAssignmentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         courseAssignmentView = new CourseAssignmentView(this,this);
@@ -110,7 +110,7 @@ public class CourseAssignmentActivity extends SuperActivity implements View.OnCl
             showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" +
                     student.getId() + "/course_groups_with_assignments_number";
-            courseAssignmentView.getAssignmentDetails(url);
+            courseAssignmentView.getCourseAssignment(url);
         } else {
             Util.showNoInternetConnectionDialog(this);
         }
@@ -134,5 +134,33 @@ public class CourseAssignmentActivity extends SuperActivity implements View.OnCl
         }else {
             showErrorDialog(this);
         }
+    }
+
+    @Override
+    public void onGetAssignmentDetailSuccess() {
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+    }
+
+    @Override
+    public void onGetAssignmentDetailFailure(String message, int errorCode) {
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        showErrorDialog(this);
+    }
+
+    @Override
+    public void onItemClicked(CourseAssignment courseAssignment) {
+        if(Util.isNetworkAvailable(this)){
+            showLoadingDialog();
+            String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
+                    courseAssignment.getId() + "/assignments";
+            courseAssignmentView.getAssinmentDetail(url);
+        }else {
+            Util.showNoInternetConnectionDialog(this);
+        }
+
     }
 }

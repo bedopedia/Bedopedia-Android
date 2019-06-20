@@ -31,7 +31,7 @@ public class AssignmentsDetailView {
     }
 
     public void getAssignmentDetails(String url){
-        UserManager.getAssignmentsDetail(url,new ArrayResponseListener() {
+        UserManager.getAssignmentDetail(url,new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
                 ArrayList<CourseAssignment> courseAssignmentArrayList = new ArrayList<>();

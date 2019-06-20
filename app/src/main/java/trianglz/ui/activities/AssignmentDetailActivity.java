@@ -62,7 +62,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
         backBtn = findViewById(R.id.btn_back);
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = findViewById(R.id.recycler_view);
-        courseAssignmentAdapter = new CourseAssignmentAdapter(this);
+//        courseAssignmentAdapter = new CourseAssignmentAdapter(this);
         recyclerView.setAdapter(courseAssignmentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         assignmentsDetailView = new AssignmentsDetailView(this,this);
