@@ -45,7 +45,7 @@ public class NetworkManager {
                 });
     }
 
-    public static void get(String url, HashMap<String, String> headerValue, final HandleResponseListener handleResponseListener) {
+    public static void  get(String url, HashMap<String, String> headerValue, final HandleResponseListener handleResponseListener) {
         AndroidNetworking.get(url)
                 .addHeaders(headerValue)
                 .setPriority(Priority.HIGH)

@@ -13,39 +13,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 import trianglz.core.presenters.AdapterPaginationInterface;
-import trianglz.models.PendingAssignment;
+import trianglz.models.CourseAssignment;
 
 /**
  * Created by ${Aly} on 4/22/2019.
  */
-public class PendingAssignmentAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
+public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignmentAdapter.Holder> {
     public Context context;
-    public List<PendingAssignment> mDataList;
+    public List<CourseAssignment> mDataList;
     private AdapterPaginationInterface paginationInterface;
 
-    private boolean newData;
 
 
 
-    public PendingAssignmentAdapter(Context context, AdapterPaginationInterface adapterPaginationInterface) {
+    public CourseAssignmentAdapter(Context context, AdapterPaginationInterface adapterPaginationInterface) {
         this.context = context;
         this.mDataList = new ArrayList<>();
         this.paginationInterface = adapterPaginationInterface;
     }
 
     @Override
-    public GradesAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context).inflate(R.layout.item_assigment_detail, parent, false);
-        return new GradesAdapter.Holder(view);
+        return new Holder(view);
     }
 
     @Override
-    public void onBindViewHolder(GradesAdapter.Holder holder, final int position) {
-        if (position == mDataList.size() - 2 && newData) {
-            paginationInterface.onReachPosition();
-        }
-
+    public void onBindViewHolder(Holder holder, final int position) {
+        CourseAssignment courseAssignment = mDataList.get(position);
+        holder.subjectNameTextView.setText(courseAssignment.getCourseName());
+        holder.assignmentNameTextView.setText(courseAssignment.getAssignmentName());
 
     }
 
@@ -54,12 +52,10 @@ public class PendingAssignmentAdapter extends RecyclerView.Adapter<GradesAdapter
         return mDataList.size();
     }
 
-    public void addData(ArrayList<PendingAssignment> pendingAssignmentArrayList, boolean newIncomingPendingAssigmentData) {
-        newData = newIncomingPendingAssigmentData;
-        if (newData) {
-            this.mDataList.addAll(pendingAssignmentArrayList);
-            notifyDataSetChanged();
-        }
+    public void addData(ArrayList<CourseAssignment> courseAssignments) {
+        this.mDataList.clear();
+        this.mDataList.addAll(courseAssignments);
+        notifyDataSetChanged();
     }
 
     public static class Holder extends RecyclerView.ViewHolder {
