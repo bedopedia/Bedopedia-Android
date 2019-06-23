@@ -20,54 +20,55 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.models.AssignmentsDetail;
 import trianglz.models.CourseAssignment;
 import trianglz.utils.Util;
 
 /**
- * Created by ${Aly} on 4/22/2019.
+ * Created by ${Aly} on 6/23/2019.
  */
-public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignmentAdapter.Holder> {
+public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDetailAdapter.Holder> {
     public Context context;
-    public List<CourseAssignment> mDataList;
-    private CourseAssignmentAdapterInterface anInterface;
+    public List<AssignmentsDetail> mDataList;
+    private AssignmentDetailInterface anInterface;
 
 
-    public CourseAssignmentAdapter(Context context, CourseAssignmentAdapterInterface courseAssignmentAdapterInterface) {
+    public AssignmentDetailAdapter(Context context, AssignmentDetailInterface assignmentDetailInterface) {
         this.context = context;
         this.mDataList = new ArrayList<>();
-        this.anInterface =  courseAssignmentAdapterInterface;
+        this.anInterface = assignmentDetailInterface;
     }
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.item_course_assignment, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_assigment_detail, parent, false);
         return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
-        CourseAssignment courseAssignment = mDataList.get(position);
-        holder.subjectNameTextView.setText(courseAssignment.getCourseName());
-        holder.assignmentNameTextView.setText(courseAssignment.getAssignmentName());
-        holder.assignmentCountsTextView.setText(courseAssignment.getAssignmentsCount() + "");
-        setCourseImage("", courseAssignment.getCourseName(), holder);
-        if(courseAssignment.getAssignmentState() != null){
-            if (courseAssignment.getAssignmentState().equals("running")) {
-                holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
-            } else {
-                holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
-            }
-        }else {
-            holder.dateLinearLayout.setVisibility(View.INVISIBLE);
-        }
-        holder.dateTextView.setText(Util.getCourseDate(courseAssignment.getNextAssignmentDate()));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                anInterface.onItemClicked(mDataList.get(position));
-            }
-        });
+        AssignmentsDetail assignmentsDetail = mDataList.get(position);
+        holder.subjectNameTextView.setText(assignmentsDetail.getName());
+//        holder.assignmentNameTextView.setText(assignmentsDetail.getAssignmentName());
+//        holder.assignmentCountsTextView.setText(assignmentsDetail.getAssignmentsCount() + "");
+//        setCourseImage("", assignmentsDetail.getCourseName(), holder);
+//        if (assignmentsDetail.getAssignmentState() != null) {
+//            if (assignmentsDetail.getAssignmentState().equals("running")) {
+//                holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
+//            } else {
+//                holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+//            }
+//        } else {
+//            holder.dateLinearLayout.setVisibility(View.INVISIBLE);
+//        }
+//        holder.dateTextView.setText(Util.getCourseDate(assignmentsDetail.getNextAssignmentDate()));
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                anInterface.onItemClicked(mDataList.get(position));
+//            }
+//        });
     }
 
     @Override
@@ -75,9 +76,9 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         return mDataList.size();
     }
 
-    public void addData(ArrayList<CourseAssignment> courseAssignments) {
+    public void addData(ArrayList<AssignmentsDetail> assignmentsDetailArrayList) {
         this.mDataList.clear();
-        this.mDataList.addAll(courseAssignments);
+        this.mDataList.addAll(assignmentsDetailArrayList);
         notifyDataSetChanged();
     }
 
@@ -127,8 +128,7 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
     }
 
 
-    public interface CourseAssignmentAdapterInterface{
-        void onItemClicked(CourseAssignment courseAssignment);
+    public interface AssignmentDetailInterface {
+        void onItemClicked(AssignmentsDetail assignmentsDetail);
     }
-
 }

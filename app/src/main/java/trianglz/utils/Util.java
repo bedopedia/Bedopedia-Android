@@ -375,6 +375,9 @@ public class Util {
 
 
     public static String getCourseDate(String courseDateString){
+        if(courseDateString== null){
+            return "";
+        }
         String endDateString = "";
         SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date date;

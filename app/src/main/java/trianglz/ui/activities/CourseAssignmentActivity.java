@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,11 +18,10 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
-import trianglz.core.presenters.AssignmentsDetailPresenter;
 import trianglz.core.presenters.CourseAssignmentPresenter;
-import trianglz.core.views.AssignmentsDetailView;
 import trianglz.core.views.CourseAssignmentView;
 import trianglz.managers.SessionManager;
+import trianglz.models.AssignmentsDetail;
 import trianglz.models.CourseAssignment;
 import trianglz.models.Student;
 import trianglz.ui.adapters.CourseAssignmentAdapter;
@@ -137,10 +137,20 @@ public class CourseAssignmentActivity extends SuperActivity implements View.OnCl
     }
 
     @Override
-    public void onGetAssignmentDetailSuccess() {
+    public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList) {
         if(progress.isShowing()){
             progress.dismiss();
         }
+        openAssignmentDetailActivity(assignmentsDetailArrayList);
+    }
+
+    private void openAssignmentDetailActivity(ArrayList<AssignmentsDetail> assignmentsDetailArrayList) {
+        Intent intent = new Intent(this,AssignmentDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
+        bundle.putSerializable(Constants.STUDENT,student);
+        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        startActivity(intent);
     }
 
     @Override

@@ -42,17 +42,20 @@
                     android:ellipsize="end"/>
 
 
-                <trianglz.components.SfproRegularTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Publish 2 days ago"
-                    android:textSize="13sp"
-                    android:textColor="@color/pinkish_grey"
-                    android:id="@+id/tv_date"
-                    android:maxLines="1"
-                    android:ellipsize="end"/>
+
 
             </LinearLayout>
+
+
+            <trianglz.components.SfproRegularTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Publish 2 days ago"
+                android:textSize="13sp"
+                android:textColor="@color/pinkish_grey"
+                android:id="@+id/tv_date"
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
             <trianglz.components.SfproBoldTextView
                 android:layout_width="match_parent"

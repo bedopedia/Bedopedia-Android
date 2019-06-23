@@ -56,7 +56,8 @@
                 android:paddingStart="8dp"
                 android:paddingTop="2dp"
                 android:paddingEnd="8dp"
-                android:paddingBottom="2dp">
+                android:paddingBottom="2dp"
+                android:id="@+id/ll_date">
 
                 <ImageView
                     android:layout_width="wrap_content"
