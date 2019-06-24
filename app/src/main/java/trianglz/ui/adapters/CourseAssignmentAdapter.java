@@ -49,7 +49,11 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
     public void onBindViewHolder(Holder holder, final int position) {
         CourseAssignment courseAssignment = mDataList.get(position);
         holder.subjectNameTextView.setText(courseAssignment.getCourseName());
-        holder.assignmentNameTextView.setText(courseAssignment.getAssignmentName());
+        if(courseAssignment.getAssignmentName() != null && !courseAssignment.getAssignmentName().isEmpty()){
+            holder.assignmentNameTextView.setText(courseAssignment.getAssignmentName());
+        }else {
+            holder.assignmentNameTextView.setText(context.getResources().getString(R.string.no_assignment));
+        }
         holder.assignmentCountsTextView.setText(courseAssignment.getAssignmentsCount() + "");
         setCourseImage("", courseAssignment.getCourseName(), holder);
         if(courseAssignment.getAssignmentState() != null){

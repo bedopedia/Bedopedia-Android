@@ -49,7 +49,7 @@ public class CourseAssignmentView {
         });
     }
 
-    public void getAssinmentDetail(String url) {
+    public void getAssinmentDetail(String url, final CourseAssignment courseAssignment) {
         UserManager.getAssignmentDetail(url, new ArrayResponseListener() {
             @Override
 
@@ -59,7 +59,7 @@ public class CourseAssignmentView {
                     AssignmentsDetail assignmentsDetail = gson.fromJson(response.optJSONObject(i).toString(), AssignmentsDetail.class);
                     assignmentsDetailArrayList.add(assignmentsDetail);
                 }
-                presenter.onGetAssignmentDetailSuccess(assignmentsDetailArrayList);
+                presenter.onGetAssignmentDetailSuccess(assignmentsDetailArrayList,courseAssignment);
             }
 
             @Override

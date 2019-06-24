@@ -131,5 +131,6 @@
     <string name="start_from">يبدأ من</string>
     <string name="there_is_no_weekly_planner">لا يوجد خطة اسبوعية</string>
     <string name="due_date">تاريخ الأنتهاء</string>
-
+    <string name="no_assignment">لا يوجد واجبات</string>
+    <string name="publish">نشر</string>
 </resources>

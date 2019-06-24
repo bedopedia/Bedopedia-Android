@@ -137,19 +137,26 @@ public class CourseAssignmentActivity extends SuperActivity implements View.OnCl
     }
 
     @Override
-    public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList) {
+    public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList,
+                                             CourseAssignment courseAssignment) {
         if(progress.isShowing()){
             progress.dismiss();
         }
-        openAssignmentDetailActivity(assignmentsDetailArrayList);
+        openAssignmentDetailActivity(assignmentsDetailArrayList,courseAssignment);
     }
 
-    private void openAssignmentDetailActivity(ArrayList<AssignmentsDetail> assignmentsDetailArrayList) {
+    private void openAssignmentDetailActivity(ArrayList<AssignmentsDetail> assignmentsDetailArrayList,
+                                              CourseAssignment courseAssignment) {
         Intent intent = new Intent(this,AssignmentDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
         bundle.putSerializable(Constants.STUDENT,student);
         intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        if(courseAssignment.getCourseName() != null){
+            intent.putExtra(Constants.KEY_COURSE_NAME,courseAssignment.getCourseName());
+        }else {
+            intent.putExtra(Constants.KEY_COURSE_NAME,"");
+        }
         startActivity(intent);
     }
 
@@ -167,7 +174,7 @@ public class CourseAssignmentActivity extends SuperActivity implements View.OnCl
             showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
                     courseAssignment.getId() + "/assignments";
-            courseAssignmentView.getAssinmentDetail(url);
+            courseAssignmentView.getAssinmentDetail(url,courseAssignment);
         }else {
             Util.showNoInternetConnectionDialog(this);
         }

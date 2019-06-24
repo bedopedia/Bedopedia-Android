@@ -5,12 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +15,7 @@ import java.util.List;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import trianglz.components.AvatarPlaceholderModified;
-import trianglz.components.CircleTransform;
 import trianglz.models.AssignmentsDetail;
-import trianglz.models.CourseAssignment;
 import trianglz.utils.Util;
 
 /**
@@ -31,12 +25,14 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
     public Context context;
     public List<AssignmentsDetail> mDataList;
     private AssignmentDetailInterface anInterface;
+    private String courseName = "";
 
 
-    public AssignmentDetailAdapter(Context context, AssignmentDetailInterface assignmentDetailInterface) {
+    public AssignmentDetailAdapter(Context context, AssignmentDetailInterface assignmentDetailInterface,String courseName) {
         this.context = context;
         this.mDataList = new ArrayList<>();
         this.anInterface = assignmentDetailInterface;
+        this.courseName = courseName;
     }
 
     @Override
@@ -49,26 +45,20 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
         AssignmentsDetail assignmentsDetail = mDataList.get(position);
-        holder.subjectNameTextView.setText(assignmentsDetail.getName());
-//        holder.assignmentNameTextView.setText(assignmentsDetail.getAssignmentName());
-//        holder.assignmentCountsTextView.setText(assignmentsDetail.getAssignmentsCount() + "");
-//        setCourseImage("", assignmentsDetail.getCourseName(), holder);
-//        if (assignmentsDetail.getAssignmentState() != null) {
-//            if (assignmentsDetail.getAssignmentState().equals("running")) {
-//                holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
-//            } else {
-//                holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
-//            }
-//        } else {
-//            holder.dateLinearLayout.setVisibility(View.INVISIBLE);
-//        }
-//        holder.dateTextView.setText(Util.getCourseDate(assignmentsDetail.getNextAssignmentDate()));
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                anInterface.onItemClicked(mDataList.get(position));
-//            }
-//        });
+        if (assignmentsDetail.getName() != null) {
+            holder.subjectNameTextView.setText(courseName);
+        }
+        if (assignmentsDetail.getStartAt() != null) {
+            holder.dateTextView.setText(context.getResources().getString(R.string.no_assignment) +" "+ Util.getAssigmentDetailStartDate(assignmentsDetail.getStartAt()));
+        }
+
+        if (assignmentsDetail.getEndAt() != null) {
+            holder.dayTextView.setText(Util.getAssigmentDetailEndDateDay(assignmentsDetail.getEndAt()));
+            holder.monthTextView.setText(Util.getAssigmentDetailEndDateMonth(assignmentsDetail.getEndAt()));
+        }
+        if (assignmentsDetail.getName() != null) {
+            holder.assignmentNameTextView.setText(assignmentsDetail.getName());
+        }
     }
 
     @Override
@@ -85,45 +75,20 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
     public static class Holder extends RecyclerView.ViewHolder {
 
         public TextView subjectNameTextView, dateTextView,
-                assignmentNameTextView, dayTextView, monthTextView, assignmentCountsTextView;
+                assignmentNameTextView, dayTextView, monthTextView;
         public IImageLoader imageLoader;
         private AvatarView courseAvatarView;
-        private LinearLayout dateLinearLayout;
 
 
         public Holder(View itemView) {
             super(itemView);
-            subjectNameTextView = itemView.findViewById(R.id.tv_course_name);
+            subjectNameTextView = itemView.findViewById(R.id.tv_subject_name);
             dateTextView = itemView.findViewById(R.id.tv_date);
             assignmentNameTextView = itemView.findViewById(R.id.tv_assignment_name);
             imageLoader = new PicassoLoader();
             courseAvatarView = itemView.findViewById(R.id.img_course);
-            assignmentCountsTextView = itemView.findViewById(R.id.tv_assignment_count);
-            dateLinearLayout = itemView.findViewById(R.id.ll_date);
-        }
-    }
-
-    private void setCourseImage(String imageUrl, final String name, final Holder holder) {
-        if (imageUrl == null || imageUrl.equals("")) {
-            holder.imageLoader = new PicassoLoader();
-            holder.imageLoader.loadImage(holder.courseAvatarView, new AvatarPlaceholderModified(name), "Path of Image");
-        } else {
-            Picasso.with(context)
-                    .load(imageUrl)
-                    .fit()
-                    .transform(new CircleTransform())
-                    .into(holder.courseAvatarView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onError() {
-                            holder.imageLoader = new PicassoLoader();
-                            holder.imageLoader.loadImage(holder.courseAvatarView, new AvatarPlaceholderModified(name), "Path of Image");
-                        }
-                    });
+            dayTextView = itemView.findViewById(R.id.tv_day_number);
+            monthTextView = itemView.findViewById(R.id.tv_month);
         }
     }
 
