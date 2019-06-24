@@ -49,12 +49,12 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
             holder.subjectNameTextView.setText(courseName);
         }
         if (assignmentsDetail.getStartAt() != null) {
-            holder.dateTextView.setText(context.getResources().getString(R.string.no_assignment) +" "+ Util.getAssigmentDetailStartDate(assignmentsDetail.getStartAt()));
+            holder.dateTextView.setText(context.getResources().getString(R.string.publish) +" "+ Util.getAssigmentDetailStartDate(assignmentsDetail.getStartAt()));
         }
 
         if (assignmentsDetail.getEndAt() != null) {
             holder.dayTextView.setText(Util.getAssigmentDetailEndDateDay(assignmentsDetail.getEndAt()));
-            holder.monthTextView.setText(Util.getAssigmentDetailEndDateMonth(assignmentsDetail.getEndAt()));
+            holder.monthTextView.setText(Util.getAssigmentDetailEndDateMonth(assignmentsDetail.getEndAt(),context));
         }
         if (assignmentsDetail.getName() != null) {
             holder.assignmentNameTextView.setText(assignmentsDetail.getName());

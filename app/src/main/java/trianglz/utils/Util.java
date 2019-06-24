@@ -426,7 +426,7 @@ public class Util {
     }
 
 
-    public static String getAssigmentDetailEndDateMonth(String endDate){
+    public static String getAssigmentDetailEndDateMonth(String endDate,Context context){
         if(endDate == null || endDate.isEmpty()){
             return "";
         }
@@ -435,7 +435,12 @@ public class Util {
         Date date;
         try {
             date = inFormat.parse(endDate);
-            SimpleDateFormat outFormat = new SimpleDateFormat("MMM");
+            SimpleDateFormat outFormat ;
+            if(Util.getLocale(context).equals("ar")){
+                 outFormat = new SimpleDateFormat("MMMM");
+            }else {
+                 outFormat = new SimpleDateFormat("MMM");
+            }
             formattedDay = outFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
