@@ -89,7 +89,6 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
     private ArrayList<JSONArray> attendanceList;
-    private TextView quizzesTextView, assignmentsTextView, eventsTextView;
     private ImageButton notificationBtn;
     private ImageView redCircleImageView;
 
@@ -97,7 +96,6 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
     private LinearLayout parentLayout,teacherLayout;
     private TextView notificationTextView,annoucmentTextView,messagesTextView;
     private LinearLayout notificationLayout,annoucmentLayout,messagesLayout;
-    private RelativeLayout bottomLayout;
     private Actor actor;
     private String actorName = "";
     private ImageButton settingsBtn;
@@ -157,9 +155,6 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         otherCounterTextView = findViewById(R.id.tv_other_counter);
         progressBar = findViewById(R.id.progress_bar);
         attendanceTextView = findViewById(R.id.tv_attendance);
-        quizzesTextView = findViewById(R.id.tv_quizzes);
-        assignmentsTextView = findViewById(R.id.tv_assignment);
-        eventsTextView = findViewById(R.id.tv_events);
         messagesBtn = findViewById(R.id.btn_messages);
         notificationBtn = findViewById(R.id.btn_notification);
         redCircleImageView = findViewById(R.id.img_red_circle);
@@ -171,7 +166,6 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         messagesLayout = findViewById(R.id.layout_messages);
         annoucmentLayout = findViewById(R.id.layout_annoucment);
         annoucmentTextView = findViewById(R.id.tv_annoucment);
-        bottomLayout = findViewById(R.id.layout_bottom);
         settingsBtn = findViewById(R.id.btn_setting);
         studentHeaderLayout = findViewById(R.id.layout_student_header);
         actorHeaderLayout = findViewById(R.id.layout_actor_header);
@@ -199,14 +193,12 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         annoucmentLayout.setOnClickListener(this);
         settingsBtn.setOnClickListener(this);
         studentSettingsButton.setOnClickListener(this);
-        assignmentsTextView.setOnClickListener(this);
     }
 
     private void setParentActorView() {
         if(!SessionManager.getInstance().getUserType()){
             parentLayout.setVisibility(View.GONE);
             teacherLayout.setVisibility(View.VISIBLE);
-            bottomLayout.setVisibility(View.GONE);
             messagesBtn.setVisibility(View.INVISIBLE);
             actorName = actor.firstName + " " + actor.lastName;
             setStudentImage(actor.imageUrl,actorName);
@@ -225,10 +217,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         }else {
             parentLayout.setVisibility(View.VISIBLE);
             teacherLayout.setVisibility(View.GONE);
-            bottomLayout.setVisibility(View.VISIBLE);
             studentName = student.firstName + " " + student.lastName;
             setAttendance();
-            setBottomText(student);
             setStudentImage(student.getAvatar(), studentName);
             nameTextView.setText(studentName);
             levelTextView.setText(student.level);
@@ -699,14 +689,6 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         startActivity(attendanceIntent);
     }
 
-    private void setBottomText(Student student) {
-        String quizzes = String.valueOf(student.getTodayQuizzesCount()) + " " + getResources().getString(R.string.quizzes);
-        quizzesTextView.setText(quizzes);
-        String assignments = String.valueOf(student.getTodayAssignmentsCount()) + " " + getResources().getString(R.string.assignments);
-        assignmentsTextView.setText(assignments);
-        String events = String.valueOf(student.getTodayEventsCount()) + " " + getResources().getString(R.string.events);
-        eventsTextView.setText(events);
-    }
 
 
 
