@@ -153,4 +153,6 @@
     <string name="start_from">Start from</string>
     <string name="there_is_no_weekly_planner">There is no weekly planner</string>
     <string name="due_date">Due Date</string>
+    <string name="no_assignment">No Assignment</string>
+    <string name="publish">Publish</string>
 </resources>

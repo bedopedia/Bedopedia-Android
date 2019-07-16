@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
@@ -17,12 +18,14 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.AssignmentsDetailPresenter;
 import trianglz.core.views.AssignmentsDetailView;
 import trianglz.models.AssignmentsDetail;
 import trianglz.models.Student;
 import trianglz.ui.adapters.AssignmentDetailAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 public class AssignmentDetailActivity extends SuperActivity implements View.OnClickListener, AssignmentsDetailPresenter, AssignmentDetailAdapter.AssignmentDetailInterface {
     private ImageButton backBtn;
@@ -33,6 +36,8 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
     private AssignmentDetailAdapter adapter;
     private AssignmentsDetailView assignmentsDetailView;
     private ArrayList<AssignmentsDetail> assignmentsDetailArrayList;
+    private String courseName = "";
+    private TextView headerTextView;
 
 
 
@@ -48,6 +53,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
     private void getValueFromIntent() {
         student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
         assignmentsDetailArrayList = (ArrayList<AssignmentsDetail>) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ASSIGNMENTS);
+        courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
     }
 
 
@@ -57,11 +63,14 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
         backBtn = findViewById(R.id.btn_back);
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = findViewById(R.id.recycler_view);
-        adapter = new AssignmentDetailAdapter(this,this);
+        adapter = new AssignmentDetailAdapter(this,this,courseName);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(10,this),false));
         assignmentsDetailView = new AssignmentsDetailView(this,this);
         adapter.addData(assignmentsDetailArrayList);
+        headerTextView = findViewById(R.id.tv_header);
+        headerTextView.setText(courseName);
     }
 
     private void setListeners() {

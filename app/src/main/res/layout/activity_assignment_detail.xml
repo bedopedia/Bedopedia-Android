@@ -48,7 +48,8 @@
                     android:text="@string/assignments"
                     android:textColor="@color/greyish_brown"
                     android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:id="@+id/tv_header"/>
 
                 <agency.tango.android.avatarview.views.AvatarView
                     android:id="@+id/img_student"

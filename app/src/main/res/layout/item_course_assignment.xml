@@ -63,7 +63,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/timetable" />
+                    android:src="@drawable/ic_clock"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="5dp"/>
 
                 <trianglz.components.SfproRegularTextView
                     android:id="@+id/tv_date"

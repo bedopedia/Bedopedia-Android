@@ -390,4 +390,61 @@ public class Util {
         }
         return endDateString;
     }
+
+    public static String getAssigmentDetailStartDate(String startDate){
+        if(startDate == null || startDate.isEmpty()){
+            return "";
+        }
+        String formattedStartDate = "";
+        SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date date;
+        try {
+            date = inFormat.parse(startDate);
+            SimpleDateFormat outFormat = new SimpleDateFormat("dd MMM, yyyy");
+            formattedStartDate = outFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedStartDate;
+    }
+
+    public static String getAssigmentDetailEndDateDay(String endDate){
+        if(endDate == null || endDate.isEmpty()){
+            return "";
+        }
+        String formattedDay = "";
+        SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date date;
+        try {
+            date = inFormat.parse(endDate);
+            SimpleDateFormat outFormat = new SimpleDateFormat("dd");
+            formattedDay = outFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedDay;
+    }
+
+
+    public static String getAssigmentDetailEndDateMonth(String endDate,Context context){
+        if(endDate == null || endDate.isEmpty()){
+            return "";
+        }
+        String formattedDay = "";
+        SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date date;
+        try {
+            date = inFormat.parse(endDate);
+            SimpleDateFormat outFormat ;
+            if(Util.getLocale(context).equals("ar")){
+                 outFormat = new SimpleDateFormat("MMMM");
+            }else {
+                 outFormat = new SimpleDateFormat("MMM");
+            }
+            formattedDay = outFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedDay;
+    }
 }
