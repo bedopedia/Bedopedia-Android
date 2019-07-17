@@ -327,7 +327,78 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:background="@color/black_10" />
+                    <LinearLayout
+                        android:id="@+id/layout_assignments"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:orientation="horizontal">
 
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:src="@drawable/timetable" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:paddingStart="8dp"
+                            android:gravity="center_vertical"
+                            android:paddingEnd="8dp"
+                            >
+
+                            <trianglz.components.SfuiSemiBoldTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="22dp"
+                                android:layout_alignParentTop="true"
+                                android:ellipsize="end"
+                                android:includeFontPadding="false"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/assignments"
+                                android:textColor="@color/greyish_brown"
+                                android:textSize="18sp"
+                                android:textAlignment="viewStart"
+                                />
+
+                            <trianglz.components.SfproRegularTextView
+                                android:id="@+id/tv_assignments"
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp"
+                                android:layout_alignParentBottom="true"
+                                android:ellipsize="end"
+                                android:visibility="gone"
+                                android:includeFontPadding="false"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:textColor="@color/steel"
+                                android:textSize="14sp"
+                                android:textAlignment="viewStart"
+                                />
+
+                        </RelativeLayout>
+
+                        <ImageButton
+                            android:id="@+id/btn_assignments"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="7dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/shape"
+                            android:focusable="false"
+                            android:clickable="false"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black_10" />
                     <LinearLayout
                         android:id="@+id/layout_weekly_planner"
                         android:layout_width="match_parent"
