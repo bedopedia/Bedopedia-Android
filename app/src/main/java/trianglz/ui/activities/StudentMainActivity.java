@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,13 +11,31 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import trianglz.components.CustomRtlViewPager;
+import trianglz.ui.adapters.StudentMainPagerAdapter;
+import trianglz.ui.fragments.AnnouncementsFragment;
+import trianglz.ui.fragments.MenuFragment;
+import trianglz.ui.fragments.MessagesFragment;
+import trianglz.ui.fragments.NotificationsFragment;
 
 public class StudentMainActivity extends SuperActivity implements View.OnClickListener {
 
     private LinearLayout announcementLayout, messagesLayout, notificationsLayout, menuLayout;
     private ImageView announcementImageView, messagesImageView, notificationsImageView, menuImageView;
     private TextView announcementTextView, messagesTextView, notificationsTextView, menuTextView;
+
+    private CustomRtlViewPager pager;
+    private StudentMainPagerAdapter pagerAdapter;
+
+    // fragments
+    private AnnouncementsFragment announcementsFragment;
+    private MessagesFragment messagesFragment;
+    private NotificationsFragment notificationsFragment;
+    private MenuFragment menuFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +70,22 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         messagesTextView = findViewById(R.id.tv_messages);
         notificationsTextView = findViewById(R.id.tv_notifications);
         menuTextView = findViewById (R.id.tv_menu);
+
+        // pager
+        pager = findViewById(R.id.pager);
+        pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getFragmentList());
+        pager.setAdapter(pagerAdapter);
+        pager.setOffscreenPageLimit(4);
+        pager.setCurrentItem(4);
+    }
+
+    private ArrayList<Fragment> getFragmentList() {
+        ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+        fragmentArrayList.add(announcementsFragment);
+        fragmentArrayList.add(messagesFragment);
+        fragmentArrayList.add(notificationsFragment);
+        fragmentArrayList.add(messagesFragment);
+        return fragmentArrayList;
     }
 
     @Override
