@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/NoActionBar"
+    tools:context="trianglz.ui.activities.StudentMainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/layout_student_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="8dp">
+
+                    <ImageButton
+                        android:id="@+id/btn_back"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_alignParentStart="true"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/chevron_left"
+                        android:visibility="visible" />
+
+                    <ImageButton
+                        android:id="@+id/btn_setting_student"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:background="@android:color/transparent"
+                        android:padding="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/settings_icon"
+                        android:visibility="gone" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true">
+
+                        <ImageButton
+                            android:id="@+id/btn_notification"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@android:color/transparent"
+                            android:padding="10dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/notify" />
+
+                        <ImageView
+                            android:id="@+id/img_red_circle"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/absent"
+                            android:visibility="gone" />
+                    </FrameLayout>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@color/black_10" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/layout_actor_header"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layoutDirection="ltr"
+                android:orientation="vertical"
+                android:paddingTop="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="8dp">
+
+                    <ImageView
+                        android:id="@+id/img_logo"
+                        android:layout_width="130dp"
+                        android:layout_height="45dp"
+                        android:layout_centerInParent="true"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/logo_2" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true">
+
+                        <ImageButton
+                            android:id="@+id/btn_setting"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@android:color/transparent"
+                            android:padding="10dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/settings_icon" />
+
+                    </FrameLayout>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@color/black_10" />
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <trianglz.components.CustomRtlViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:elevation="2dp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#40000000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_announcment_tab"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_announcments" />
+
+                <TextView
+                    android:id="@+id/tv_announcements"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:autoSizeMaxTextSize="12sp"
+                    android:autoSizeMinTextSize="7sp"
+                    android:autoSizeTextType="uniform"
+                    android:visibility="gone"
+                    android:gravity="center_horizontal"
+                    android:text="@string/announcements"
+                    android:textColor="@color/new_blue"
+                    tools:targetApi="o" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_messages_tab"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_messages_tab" />
+
+                <TextView
+                    android:id="@+id/tv_messages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:autoSizeMaxTextSize="12sp"
+                    android:visibility="gone"
+                    android:autoSizeMinTextSize="7sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center_horizontal"
+                    android:text="@string/messages"
+                    android:textColor="@color/new_blue"
+                    tools:targetApi="o" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_notifications_tab"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_notifications_tab" />
+
+                <TextView
+                    android:id="@+id/tv_notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:autoSizeMaxTextSize="12sp"
+                    android:visibility="gone"
+                    android:autoSizeMinTextSize="7sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center_horizontal"
+                    android:text="@string/notifications"
+                    android:textColor="@color/new_blue"
+                    tools:targetApi="o" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_menu_tab"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/menu_tab_selected" />
+
+                <TextView
+                    android:id="@+id/tv_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:autoSizeMaxTextSize="12sp"
+                    android:autoSizeMinTextSize="7sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center_horizontal"
+                    android:text="@string/menu"
+                    android:textColor="@color/new_blue"
+                    tools:targetApi="o" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
