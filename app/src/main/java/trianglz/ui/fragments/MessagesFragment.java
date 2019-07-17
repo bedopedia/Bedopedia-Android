@@ -50,7 +50,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     private ContactTeacherAdapter contactTeacherAdapter;
     private ArrayList<MessageThread> messageThreadArrayList;
     private Actor actor;
-    private TextView headerTextView;
     private boolean isOpeningThread = false;
 
     public MessagesFragment() {
@@ -83,12 +82,9 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8,getActivity()),false));
         messageThreadArrayList = new ArrayList<>();
-        headerTextView = rootView.findViewById(R.id.tv_header);
         if(SessionManager.getInstance().getUserType()){
-            headerTextView.setText(getResources().getString(R.string.contact_teacher));
             newMessageBtn.setVisibility(View.VISIBLE);
         }else {
-            headerTextView.setText(getResources().getString(R.string.messages));
             newMessageBtn.setVisibility(View.INVISIBLE);
         }
 
