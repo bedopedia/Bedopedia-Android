@@ -36,7 +36,6 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
     private StudentMainActivity activity;
     private RecyclerView recyclerView;
     private NotificationsAdapter adapter;
-    private Button closeBtn;
     private NotificationsView notificationsView;
     private int pageNumber;
     private boolean newIncomingNotificationData;
@@ -72,11 +71,9 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         notificationsView = new NotificationsView(getActivity(), this);
-        closeBtn = rootView.findViewById(R.id.btn_close);
     }
 
     private void setListeners() {
-        closeBtn.setOnClickListener(this);
     }
 
     private void getNotifications(boolean pagination) {

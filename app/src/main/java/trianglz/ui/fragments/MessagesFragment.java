@@ -42,7 +42,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     
     // parent activity 
     private StudentMainActivity activity;
-    private ImageButton backBtn;
     private ImageButton newMessageBtn;
     private Student student;
     private ContactTeacherView contactTeacherView;
@@ -73,7 +72,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         return rootView;
     }
     private void bindViews(){
-        backBtn = rootView.findViewById(R.id.btn_back);
         newMessageBtn = rootView.findViewById(R.id.btn_new_message);
         contactTeacherView = new ContactTeacherView(getActivity(),this);
         recyclerView = rootView.findViewById(R.id.recycler_view);
@@ -91,7 +89,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     }
 
     private void setListeners(){
-        backBtn.setOnClickListener(this);
         newMessageBtn.setOnClickListener(this);
     }
 
