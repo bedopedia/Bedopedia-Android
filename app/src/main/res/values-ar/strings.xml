@@ -124,12 +124,14 @@
     <string name="weekly_saturday">السبت</string>
     <string name="class_work">واجبات الفصل</string>
     <string name="homework">واجبات منزليه</string>
+    <string name="menu">القائمة</string>
     <string name="activity">انشطة</string>
     <string name="there_is_no">لا يوجد</string>
     <string name="last_updated">Last updated</string>
     <string name="to">إلى</string>
     <string name="start_from">يبدأ من</string>
     <string name="there_is_no_weekly_planner">لا يوجد خطة اسبوعية</string>
+    <string name="announcements">التنبيهات</string>
     <string name="due_date">تاريخ الأنتهاء</string>
     <string name="no_assignment">لا يوجد واجبات</string>
     <string name="publish">نشر</string>
