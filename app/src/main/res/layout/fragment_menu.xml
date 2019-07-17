@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:id="@+id/layout_parent"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:id="@+id/layout_attendance"
@@ -274,9 +274,9 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:paddingStart="8dp"
-                            android:paddingTop="16dp"
+                            android:gravity="center_vertical"
                             android:paddingEnd="8dp"
-                            android:paddingBottom="13dp">
+                            >
 
                             <trianglz.components.SfuiSemiBoldTextView
                                 android:layout_width="match_parent"
@@ -286,6 +286,7 @@
                                 android:includeFontPadding="false"
                                 android:maxLines="1"
                                 android:singleLine="true"
+                                android:layout_centerVertical="true"
                                 android:text="@string/time_table"
                                 android:textColor="@color/greyish_brown"
                                 android:textSize="18sp"
@@ -298,6 +299,7 @@
                                 android:layout_height="20dp"
                                 android:layout_alignParentBottom="true"
                                 android:ellipsize="end"
+                                android:visibility="gone"
                                 android:includeFontPadding="false"
                                 android:maxLines="1"
                                 android:singleLine="true"
@@ -345,6 +347,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:paddingStart="8dp"
+                            android:gravity="center_vertical"
                             android:paddingTop="16dp"
                             android:paddingEnd="8dp"
                             android:paddingBottom="13dp">
@@ -367,6 +370,7 @@
                                 android:layout_height="20dp"
                                 android:layout_alignParentBottom="true"
                                 android:ellipsize="end"
+                                android:visibility="gone"
                                 android:includeFontPadding="false"
                                 android:maxLines="1"
                                 android:singleLine="true"
@@ -419,6 +423,7 @@
                                 android:layout_weight="1"
                                 android:paddingStart="8dp"
                                 android:paddingTop="16dp"
+                                android:gravity="center_vertical"
                                 android:paddingEnd="8dp"
                                 android:paddingBottom="13dp">
 
@@ -444,6 +449,7 @@
                                     android:ellipsize="end"
                                     android:includeFontPadding="false"
                                     android:maxLines="1"
+                                    android:visibility="gone"
                                     android:singleLine="true"
                                     android:textColor="@color/steel"
                                     android:textSize="14sp"
@@ -604,7 +610,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/layout_teacher"
                     >
 
