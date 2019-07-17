@@ -1,6 +1,7 @@
 package trianglz.ui.activities;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
 
@@ -71,8 +73,15 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         notificationsTextView = findViewById(R.id.tv_notifications);
         menuTextView = findViewById (R.id.tv_menu);
 
+        // init fragments
+        announcementsFragment = new AnnouncementsFragment();
+        messagesFragment = new MessagesFragment();
+        notificationsFragment = new NotificationsFragment();
+        menuFragment = new MenuFragment();
+
         // pager
         pager = findViewById(R.id.pager);
+        pager.setPagingEnabled(false);
         pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getFragmentList());
         pager.setAdapter(pagerAdapter);
         pager.setOffscreenPageLimit(4);
@@ -84,7 +93,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         fragmentArrayList.add(announcementsFragment);
         fragmentArrayList.add(messagesFragment);
         fragmentArrayList.add(notificationsFragment);
-        fragmentArrayList.add(messagesFragment);
+        fragmentArrayList.add(menuFragment);
         return fragmentArrayList;
     }
 
@@ -92,15 +101,19 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_announcment_tab:
+                pager.setCurrentItem(0,true);
                 handleTabsClicking(1);
                 break;
             case R.id.ll_messages_tab:
+                pager.setCurrentItem(1,true);
                 handleTabsClicking(2);
                 break;
             case R.id.ll_notifications_tab:
+                pager.setCurrentItem(2,true);
                 handleTabsClicking(3);
                 break;
             case R.id.ll_menu_tab:
+                pager.setCurrentItem(3,true);
                 handleTabsClicking(4);
                 break;
         }
