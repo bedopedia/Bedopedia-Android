@@ -153,7 +153,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
     }
 
     private void openStudentDetailActivity(Student student, int position) {
-        Intent intent = new Intent(this, StudentDetailActivity.class);
+        Intent intent = new Intent(this, StudentMainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
         bundle.putSerializable(Constants.KEY_ATTENDANCE, kidsAttendances.get(position).toString());

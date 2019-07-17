@@ -19,11 +19,14 @@ import java.util.Objects;
 
 import trianglz.components.CustomRtlViewPager;
 import trianglz.managers.SessionManager;
+import trianglz.models.Actor;
+import trianglz.models.Student;
 import trianglz.ui.adapters.StudentMainPagerAdapter;
 import trianglz.ui.fragments.AnnouncementsFragment;
 import trianglz.ui.fragments.MenuFragment;
 import trianglz.ui.fragments.MessagesFragment;
 import trianglz.ui.fragments.NotificationsFragment;
+import trianglz.utils.Constants;
 
 public class StudentMainActivity extends SuperActivity implements View.OnClickListener {
 
@@ -39,15 +42,27 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private MessagesFragment messagesFragment;
     private NotificationsFragment notificationsFragment;
     private MenuFragment menuFragment;
+    public Student student;
+    public String attendance;
+    public Actor actor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main);
+        getValueFromIntent();
         bindViews();
         setListeners();
     }
+    private void getValueFromIntent() {
+        if(SessionManager.getInstance().getUserType()){
+            student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
+            attendance = (String) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ATTENDANCE);
+        }else {
+            actor = (Actor) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
+        }
 
+    }
     private void setListeners() {
         announcementLayout.setOnClickListener(this);
         messagesLayout.setOnClickListener(this);
@@ -177,5 +192,15 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 super.onBackPressed();
             }
         }
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+    public Actor getActor() {
+        return actor;
+    }
+    public String getAttendance() {
+        return attendance;
     }
 }

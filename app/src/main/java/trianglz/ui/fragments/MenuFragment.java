@@ -70,7 +70,6 @@ import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.CourseAssignmentActivity;
 import trianglz.ui.activities.GradesActivity;
 import trianglz.ui.activities.NotificationsActivity;
-import trianglz.ui.activities.StudentDetailActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.activities.TimetableActivity;
 import trianglz.ui.activities.WeeklyPlannerActivity;
@@ -87,7 +86,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private View rootView;
 
     // parent activity 
-    private final StudentMainActivity studentMainActivity = new StudentMainActivity();
+    private  StudentMainActivity activity;
     private List<TimeTableSlot> todaySlots;
     private List<TimeTableSlot> tomorrowSlots;
     private List<BehaviorNote> positiveBehaviorNotes;
@@ -139,6 +138,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_menu, container, false);
+        activity = (StudentMainActivity) getActivity();
         bindViews();
         setListeners();
         setParentActorView();
@@ -146,7 +146,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
             if (Util.isNetworkAvailable(getActivity())) {
                 studentDetailView.getStudentCourses(courseUrl);
-                studentMainActivity.showLoadingDialog();
+                activity.showLoadingDialog();
             } else {
                 Util.showNoInternetConnectionDialog(getActivity());
             }
@@ -159,6 +159,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     
 
     private void bindViews() {
+
         todaySlots = new ArrayList<>();
         tomorrowSlots = new ArrayList<>();
         positiveBehaviorNotes = new ArrayList<>();
@@ -204,6 +205,10 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         announcementCounterTextView = rootView.findViewById(R.id.tv_announcement_counter);
         weeklyPlannerTextView = rootView.findViewById(R.id.tv_weekly_planner);
         studentSettingsButton = rootView.findViewById(R.id.btn_setting_student);
+
+        student = activity.getStudent();
+        actor = activity.getActor();
+        attendance = activity.getAttendance();
     }
 
     private void setListeners() {
@@ -271,7 +276,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if(!SessionManager.getInstance().getUserType()){
             if(Util.isNetworkAvailable(getActivity())){
                 getNotifications(false);
-                studentMainActivity.showLoadingDialog();
+                activity.showLoadingDialog();
             }else {
                 Util.showNoInternetConnectionDialog(getActivity());
             }
@@ -358,13 +363,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetStudentCourseGroupFailure(String message, int errorCode) {
-        if(studentMainActivity.progress.isShowing()){
-            studentMainActivity.progress.dismiss();
+        if(activity.progress.isShowing()){
+            activity.progress.dismiss();
         }
         if(errorCode == 401 || errorCode == 500 ){
-            studentMainActivity.logoutUser(getActivity());
+            activity.logoutUser(getActivity());
         }else {
-            studentMainActivity.showErrorDialog(getActivity());
+            activity.showErrorDialog(getActivity());
         }
     }
 
@@ -379,13 +384,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetStudentGradesFailure(String message, int errorCode) {
-        if(studentMainActivity.progress.isShowing()){
-            studentMainActivity.progress.dismiss();
+        if(activity.progress.isShowing()){
+            activity.progress.dismiss();
         }
         if(errorCode == 401 || errorCode == 500 ){
-            studentMainActivity.logoutUser(getActivity());
+            activity.logoutUser(getActivity());
         }else {
-            studentMainActivity.showErrorDialog(getActivity());
+            activity.showErrorDialog(getActivity());
         }
     }
 
@@ -408,13 +413,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetTimeTableFailure(String message, int errorCode) {
-        if(studentMainActivity.progress.isShowing()){
-            studentMainActivity.progress.dismiss();
+        if(activity.progress.isShowing()){
+            activity.progress.dismiss();
         }
         if(errorCode == 401 || errorCode == 500 ){
-            studentMainActivity.logoutUser(getActivity());
+            activity.logoutUser(getActivity());
         }else {
-            studentMainActivity.showErrorDialog(getActivity());
+            activity.showErrorDialog(getActivity());
         }
     }
 
@@ -439,13 +444,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetBehaviorNotesFailure(String message, int errorCode) {
-        if(studentMainActivity.progress.isShowing()){
-            studentMainActivity.progress.dismiss();
+        if(activity.progress.isShowing()){
+            activity.progress.dismiss();
         }
         if(errorCode == 401 || errorCode == 500 ){
-            studentMainActivity.logoutUser(getActivity());
+            activity.logoutUser(getActivity());
         }else {
-            studentMainActivity. showErrorDialog(getActivity());
+            activity. showErrorDialog(getActivity());
         }
 
     }
@@ -453,8 +458,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     @Override
     public void onGetWeeklyPlannerSuccess(RootClass rootClass) {
         this.rootClass = rootClass;
-        if (studentMainActivity.progress.isShowing())
-            studentMainActivity.progress.dismiss();
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
         if(rootClass.getWeeklyPlans().size() > 0){
             weeklyPlannerTextView.setText(Util.getWeeklPlannerText(rootClass.getWeeklyPlans().get(0).getStartDate(),
                     rootClass.getWeeklyPlans().get(0).getEndDate(),getActivity()));
@@ -466,13 +471,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetWeeklyPlannerFailure(String message, int errorCode) {
-        if (studentMainActivity.progress.isShowing()) {
-            studentMainActivity.progress.dismiss();
+        if (activity.progress.isShowing()) {
+            activity.progress.dismiss();
         }
         if (errorCode == 401 || errorCode == 500) {
-            studentMainActivity.logoutUser(getActivity());
+            activity.logoutUser(getActivity());
         } else {
-            studentMainActivity.showErrorDialog(getActivity());
+            activity.showErrorDialog(getActivity());
         }
     }
 
@@ -489,8 +494,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
             studentDetailView.getMessages(url,SessionManager.getInstance().getId());
         }else {
-            if(studentMainActivity.progress.isShowing()){
-                studentMainActivity. progress.dismiss();
+            if(activity.progress.isShowing()){
+                activity. progress.dismiss();
             }
             Util.showNoInternetConnectionDialog(getActivity());
         }
@@ -504,16 +509,16 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
             studentDetailView.getMessages(url,SessionManager.getInstance().getId());
         }else {
-            if(studentMainActivity.progress.isShowing()){
-                studentMainActivity.progress.dismiss();
+            if(activity.progress.isShowing()){
+                activity.progress.dismiss();
             }
             Util.showNoInternetConnectionDialog(getActivity());
         }
 
         if(errorCode == 401 || errorCode == 500 ){
-            studentMainActivity.logoutUser(getActivity());
+            activity.logoutUser(getActivity());
         }else {
-            studentMainActivity.showErrorDialog(getActivity());
+            activity.showErrorDialog(getActivity());
         }
     }
 
@@ -539,8 +544,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if(Util.isNetworkAvailable(getActivity())){
             getAnnouncement();
         }else {
-            if(studentMainActivity.progress.isShowing()){
-                studentMainActivity.progress.dismiss();
+            if(activity.progress.isShowing()){
+                activity.progress.dismiss();
             }
             Util.showNoInternetConnectionDialog(getActivity());
         }
@@ -552,15 +557,15 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if(Util.isNetworkAvailable(getActivity())){
             getAnnouncement();
         }else {
-            if(studentMainActivity.progress.isShowing()){
-                studentMainActivity.progress.dismiss();
+            if(activity.progress.isShowing()){
+                activity.progress.dismiss();
             }
             Util.showNoInternetConnectionDialog(getActivity());
         }
         if(errorCode == 401 || errorCode == 500 ){
-            studentMainActivity.logoutUser(getActivity());
+            activity.logoutUser(getActivity());
         }else {
-            studentMainActivity.showErrorDialog(getActivity());
+            activity.showErrorDialog(getActivity());
         }
     }
 
@@ -575,20 +580,20 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         }else {
             annoucmentTextView.setText(getResources().getString(R.string.there_is_no_announcements));
         }
-        if(studentMainActivity.progress.isShowing()){
-            studentMainActivity. progress.dismiss();
+        if(activity.progress.isShowing()){
+            activity. progress.dismiss();
         }
     }
 
     @Override
     public void onGetAnnouncementsFailure(String message, int errorCode) {
-        if(studentMainActivity.progress.isShowing()){
-            studentMainActivity.progress.dismiss();
+        if(activity.progress.isShowing()){
+            activity.progress.dismiss();
         }
         if(errorCode == 401 || errorCode == 500 ){
-            studentMainActivity.logoutUser(getActivity());
+            activity.logoutUser(getActivity());
         }else {
-            studentMainActivity.showErrorDialog(getActivity());
+            activity.showErrorDialog(getActivity());
         }
     }
 
@@ -723,7 +728,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onSignOutClicked() {
-        studentMainActivity.logoutUser(getActivity());
+        activity.logoutUser(getActivity());
     }
 
 
@@ -772,7 +777,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
 
     private void getNotifications(boolean pagination) {
-        studentMainActivity.showLoadingDialog();
+        activity.showLoadingDialog();
         String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
                 SessionManager.getInstance().getUserId() + "/notifications";
         studentDetailView.getNotifications(url, 1, 1);
@@ -814,13 +819,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     private void openStore() {
         try {
-            Uri uri = Uri.parse("market://details?id=" + studentMainActivity.getPackageName());
+            Uri uri = Uri.parse("market://details?id=" + activity.getPackageName());
             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(goToMarket);
         } catch (ActivityNotFoundException e) {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://play.google.com/store/apps/details?id="
-                            + studentMainActivity.getPackageName())));
+                            + activity.getPackageName())));
         }
     }
 
