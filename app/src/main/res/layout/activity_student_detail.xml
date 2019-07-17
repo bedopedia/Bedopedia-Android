@@ -982,8 +982,8 @@
                 android:layout_height="56dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
-
                 <LinearLayout
+                    android:id="@+id/ll_announcment_tab"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="12dp"
@@ -997,15 +997,18 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_announcments" />
 
-                    <trianglz.components.SfuiMediumTextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/announcements"
-                        android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:textColor="@color/new_blue"
+                        android:autoSizeMinTextSize="7sp"
+                        android:autoSizeMaxTextSize="15sp"
+                        android:autoSizeTextType="uniform"
+                        tools:targetApi="o" />
                 </LinearLayout>
-
                 <LinearLayout
+                    android:id="@+id/ll_messages_tab"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="12dp"
@@ -1019,15 +1022,18 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_messages_tab" />
 
-                    <trianglz.components.SfuiMediumTextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/messages"
-                        android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:textColor="@color/new_blue"
+                        android:autoSizeMinTextSize="7sp"
+                        android:autoSizeMaxTextSize="15sp"
+                        android:autoSizeTextType="uniform"
+                        tools:targetApi="o" />
                 </LinearLayout>
-
                 <LinearLayout
+                    android:id="@+id/ll_notifications_tab"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="12dp"
@@ -1041,15 +1047,18 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_notifications_tab" />
 
-                    <trianglz.components.SfuiMediumTextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/notifications"
-                        android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:textColor="@color/new_blue"
+                        android:autoSizeMinTextSize="7sp"
+                        android:autoSizeMaxTextSize="15sp"
+                        android:autoSizeTextType="uniform"
+                        tools:targetApi="o" />
                 </LinearLayout>
-
                 <LinearLayout
+                    android:id="@+id/ll_menu_tab"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="12dp"
@@ -1061,15 +1070,19 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/menu_tab_selected" />
+                        android:src="@drawable/ic_menu_tab" />
 
-                    <trianglz.components.SfuiMediumTextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/menu"
                         android:textColor="@color/new_blue"
-                        android:textSize="10sp" />
+                        android:autoSizeMinTextSize="7sp"
+                        android:autoSizeMaxTextSize="15sp"
+                        android:autoSizeTextType="uniform"
+                        tools:targetApi="o" />
                 </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
