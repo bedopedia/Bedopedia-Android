@@ -200,7 +200,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     }
 
     private void openStudentDetailActivity(Actor actor){
-        Intent intent = new Intent(this,StudentDetailActivity.class);
+        Intent intent = new Intent(this,StudentMainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_ACTOR,actor);
         intent.putExtra(Constants.KEY_BUNDLE,bundle);
@@ -230,7 +230,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     }
 
     private void openStudentDetailActivity(Student student,JSONArray studentAttendance) {
-        Intent intent = new Intent(this, StudentDetailActivity.class);
+        Intent intent = new Intent(this, StudentMainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
         bundle.putSerializable(Constants.KEY_ATTENDANCE, studentAttendance.toString());
