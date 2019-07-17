@@ -38,7 +38,6 @@ public class AnnouncementActivity extends SuperActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_announcement);
-        getValueFromIntent();
         bindViews();
         setListeners();
         if(Util.isNetworkAvailable(this)){
@@ -50,9 +49,6 @@ public class AnnouncementActivity extends SuperActivity implements View.OnClickL
 
     }
 
-    private void getValueFromIntent() {
-        actor = (Actor) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
-    }
 
     private void bindViews(){
         backBtn = findViewById(R.id.btn_back);
@@ -96,7 +92,13 @@ public class AnnouncementActivity extends SuperActivity implements View.OnClickL
             if (!pagination) {
                 pageNumber = 1;
             }
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(pageNumber,actor.actableType, 20);
+            String type;
+        if (SessionManager.getInstance().getUserType()) {
+            type = "parent";
+        } else {
+            type = "student";
+        }
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(pageNumber, type, 20);
             announcementView.getAnnouncement(url);
 
     }
