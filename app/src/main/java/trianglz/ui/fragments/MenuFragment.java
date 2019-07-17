@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.javiersantos.appupdater.AppUpdater;
@@ -104,14 +105,10 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private String studentName = "";
     private StudentDetailView studentDetailView;
     private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout,weeklyPlannerLayout;
-    private ImageButton backBtn;
-    private Button messagesBtn;
     private String attendance;
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
     private ArrayList<JSONArray> attendanceList;
-    private ImageButton notificationBtn;
-    private ImageView redCircleImageView;
 
 
     private LinearLayout parentLayout,teacherLayout;
@@ -120,7 +117,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private Actor actor;
     private String actorName = "";
     private ImageButton settingsBtn;
-    private LinearLayout studentHeaderLayout,actorHeaderLayout;
+    private RelativeLayout studentHeaderLayout,actorHeaderLayout;
     private SettingsDialog settingsDialog;
     private TextView notifcationCounterTextView,announcementCounterTextView,messagesCounterTextView;
     private RootClass rootClass;
@@ -179,15 +176,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         gradesLayout = rootView.findViewById(R.id.layout_grades);
         behaviourNotesLayout = rootView.findViewById(R.id.layout_behavior_notes);
         studentDetailView = new StudentDetailView(getActivity(), this);
-        backBtn = rootView.findViewById(R.id.btn_back);
         positiveCounterTextView = rootView.findViewById(R.id.tv_positive_counter);
         negativeCounterTextView = rootView.findViewById(R.id.tv_negative_counter);
         otherCounterTextView = rootView.findViewById(R.id.tv_other_counter);
         progressBar = rootView.findViewById(R.id.progress_bar);
         attendanceTextView = rootView.findViewById(R.id.tv_attendance);
-        messagesBtn = rootView.findViewById(R.id.btn_messages);
-        notificationBtn = rootView.findViewById(R.id.btn_notification);
-        redCircleImageView = rootView.findViewById(R.id.img_red_circle);
         parentLayout = rootView.findViewById(R.id.layout_parent);
         teacherLayout = rootView.findViewById(R.id.layout_teacher);
         notificationTextView = rootView.findViewById(R.id.tv_notification);
@@ -217,9 +210,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         timeTableLayout.setOnClickListener(this);
         gradesLayout.setOnClickListener(this);
         behaviourNotesLayout.setOnClickListener(this);
-        backBtn.setOnClickListener(this);
-        messagesBtn.setOnClickListener(this);
-        notificationBtn.setOnClickListener(this);
 
         //actor listeners
         notificationLayout.setOnClickListener(this);
@@ -233,13 +223,12 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if(!SessionManager.getInstance().getUserType()){
             parentLayout.setVisibility(View.GONE);
             teacherLayout.setVisibility(View.VISIBLE);
-            messagesBtn.setVisibility(View.INVISIBLE);
             actorName = actor.firstName + " " + actor.lastName;
             setStudentImage(actor.imageUrl,actorName);
             nameTextView.setText(actorName);
             levelTextView.setText(actor.actableType);
             actorHeaderLayout.setVisibility(View.VISIBLE);
-            studentHeaderLayout.setVisibility(View.INVISIBLE);
+            studentHeaderLayout.setVisibility(View.GONE);
             String notificationText = SessionManager.getInstance().getNotficiationCounter() + " "+getResources().getString(R.string.unread_notifications);
             notificationTextView.setText(notificationText);
             if(SessionManager.getInstance().getNotficiationCounter() > 0){
@@ -256,14 +245,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             setStudentImage(student.getAvatar(), studentName);
             nameTextView.setText(studentName);
             levelTextView.setText(student.level);
-            messagesBtn.setVisibility(View.INVISIBLE);
-            actorHeaderLayout.setVisibility(View.INVISIBLE);
+            actorHeaderLayout.setVisibility(View.GONE);
             studentHeaderLayout.setVisibility(View.VISIBLE);
             if(SessionManager.getInstance().getStudentAccount()){
-                backBtn.setVisibility(View.GONE);
                 studentSettingsButton.setVisibility(View.VISIBLE);
             }else {
-                backBtn.setVisibility(View.GONE);
                 studentSettingsButton.setVisibility(View.GONE);
             }
         }
@@ -281,13 +267,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 Util.showNoInternetConnectionDialog(getActivity());
             }
         }
-        if (SessionManager.getInstance().getUserType()) {
-            if (SessionManager.getInstance().getNotficiationCounter() > 0) {
-                redCircleImageView.setVisibility(View.VISIBLE);
-            } else {
-                redCircleImageView.setVisibility(View.GONE);
-            }
-        } else {
+        if (!SessionManager.getInstance().getUserType()) {
             if (SessionManager.getInstance().getNotficiationCounter() > 0) {
                 notifcationCounterTextView.setVisibility(View.VISIBLE);
                 notifcationCounterTextView.setText(SessionManager.getInstance().getNotficiationCounter()+"");
