@@ -256,14 +256,14 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             setStudentImage(student.getAvatar(), studentName);
             nameTextView.setText(studentName);
             levelTextView.setText(student.level);
-            messagesBtn.setVisibility(View.VISIBLE);
+            messagesBtn.setVisibility(View.INVISIBLE);
             actorHeaderLayout.setVisibility(View.INVISIBLE);
             studentHeaderLayout.setVisibility(View.VISIBLE);
             if(SessionManager.getInstance().getStudentAccount()){
                 backBtn.setVisibility(View.GONE);
                 studentSettingsButton.setVisibility(View.VISIBLE);
             }else {
-                backBtn.setVisibility(View.VISIBLE);
+                backBtn.setVisibility(View.GONE);
                 studentSettingsButton.setVisibility(View.GONE);
             }
         }
