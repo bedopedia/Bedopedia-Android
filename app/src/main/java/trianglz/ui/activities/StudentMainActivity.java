@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 import trianglz.components.CustomRtlViewPager;
+import trianglz.managers.SessionManager;
 import trianglz.ui.adapters.StudentMainPagerAdapter;
 import trianglz.ui.fragments.AnnouncementsFragment;
 import trianglz.ui.fragments.MenuFragment;
@@ -165,6 +166,16 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 notificationsTextView.setVisibility(View.GONE);
                 menuTextView.setVisibility(View.VISIBLE);
                 break;
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if(SessionManager.getInstance().getUserType()){
+            if(!SessionManager.getInstance().getStudentAccount()){
+                super.onBackPressed();
+            }
         }
     }
 }
