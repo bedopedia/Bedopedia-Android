@@ -158,4 +158,5 @@
     <string name="announcements">Announcements</string>
     <string name="menu">Menu</string>
     <string name="posts">Posts</string>
+    <string name="posts_text_placeholder">Please solve assigment number 1 and be informed that we will have a quizz…</string>
 </resources>
