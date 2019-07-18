@@ -7,32 +7,16 @@
     android:orientation="vertical"
     tools:context="trianglz.ui.activities.PostsActivity">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
+        android:gravity="end"
         android:layout_height="wrap_content"
-        android:elevation="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        tools:targetApi="m">
-
-        <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@color/transparent"
-            android:padding="10dp"
-            android:src="@drawable/chevron_left" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:includeFontPadding="false"
-            android:text="@string/posts"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
-
+        app:title="@string/posts"
+        android:background="@color/white"
+        app:titleTextColor="@color/black"
+        app:navigationIcon="@drawable/chevron_left"
+        android:elevation="1dp">
         <agency.tango.android.avatarview.views.AvatarView
             android:id="@+id/img_student"
             android:layout_width="32dp"
@@ -40,10 +24,10 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="17dp"
             android:src="@drawable/profile_pic"
+            android:layout_gravity="end"
             app:av_border_color="@color/jade_green"
             app:av_border_width="1.5dp" />
-    </LinearLayout>
-
+    </android.support.v7.widget.Toolbar>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"

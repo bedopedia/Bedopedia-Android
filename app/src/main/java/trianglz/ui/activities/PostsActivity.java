@@ -1,10 +1,13 @@
 package trianglz.ui.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
@@ -23,6 +26,7 @@ public class PostsActivity extends SuperActivity implements PostsPresenter, Post
     private RecyclerView recyclerView;
     private PostsView postsView;
     private PostsAdapter adapter;
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,15 @@ public class PostsActivity extends SuperActivity implements PostsPresenter, Post
     }
 
     private void bindViews() {
+        toolbar = findViewById(R.id.toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+        }
         recyclerView = findViewById(R.id.recycler_view);
         postsView = new PostsView(this, this);
         adapter = new PostsAdapter(this, this);
