@@ -14,6 +14,10 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
+import agency.tango.android.avatarview.IImageLoader;
+import agency.tango.android.avatarview.loader.PicassoLoader;
+import agency.tango.android.avatarview.views.AvatarView;
+import trianglz.components.AvatarPlaceholderModified;
 import trianglz.models.PostsResponse;
 
 public class PostsAdapter extends RecyclerView.Adapter {
@@ -29,6 +33,12 @@ public class PostsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         PostsViewHolder viewHolder = (PostsViewHolder) holder;
+        final PostsResponse postsResponse = postsResponses.get(position);
+        viewHolder.subjectTextView.setText(postsResponse.getCourseName());
+        viewHolder.nameTextview.setText(postsResponse.getPosts().getOwner().getName());
+        viewHolder.counterTextView.setText(String.valueOf(postsResponse.getPostsCount()));
+        IImageLoader imageLoader = new PicassoLoader();
+            imageLoader.loadImage(viewHolder.subjectImageView, new AvatarPlaceholderModified(postsResponse.getCourseName()), "Path of Image");
 
     }
 
@@ -38,7 +48,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
     }
     @Override
     public int getItemCount() {
-        return 0;
+        return postsResponses.size();
     }
     public void addData(ArrayList<PostsResponse> donations) {
         postsResponses.clear();
@@ -49,7 +59,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
 
     public class PostsViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView subjectImageView;
+        public AvatarView subjectImageView;
         public TextView subjectTextView;
         public TextView counterTextView;
         public ImageButton openBtn;

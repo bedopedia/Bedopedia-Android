@@ -639,7 +639,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 break;
             case R.id.layout_posts:
                 Intent intent = new Intent(getActivity(), PostsActivity.class);
-                intent.putExtra("student_id", student.getId());
+                intent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
                 startActivity(intent);
                 break;
         }
