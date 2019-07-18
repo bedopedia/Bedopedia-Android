@@ -14,7 +14,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="8dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -59,17 +58,21 @@
             android:layout_height="wrap_content"
             android:paddingStart="14dp"
             android:paddingTop="8dp"
+            android:paddingBottom="2dp"
             android:paddingEnd="14dp"
-            android:paddingBottom="24dp"
             android:text="@string/post_detail_place_holder"
             android:textAlignment="textStart"
             android:textColor="#de000000"
             android:textSize="14sp" />
 
         <LinearLayout
+            android:id="@+id/ll_three_buttons"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="42dp"
+            android:visibility="visible"
+            android:paddingTop="4dp"
             android:paddingStart="13dp"
+            android:paddingBottom="8dp"
             android:paddingEnd="17dp">
 
             <trianglz.components.SfproRegularButton
@@ -81,9 +84,12 @@
                 android:background="@drawable/curved_blue_grey_background"
                 android:drawableStart="@drawable/multiple_file_ico"
                 android:ellipsize="end"
+                android:paddingEnd="8dp"
+                android:drawablePadding="4dp"
                 android:paddingStart="10dp"
                 android:text="Parachuting"
                 android:textAllCaps="false"
+                style="?android:attr/borderlessButtonStyle"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -96,10 +102,13 @@
                 android:background="@drawable/curved_blue_grey_background"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:paddingEnd="8dp"
+                android:drawablePadding="4dp"
                 android:drawableStart="@drawable/multiple_file_ico"
                 android:paddingStart="10dp"
                 android:text="Parachuting"
                 android:textAllCaps="false"
+                style="?android:attr/borderlessButtonStyle"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -112,6 +121,7 @@
                 android:drawableEnd="@drawable/multiple_file_ico"
                 android:paddingEnd="4dp"
                 android:text="+3"
+                style="?android:attr/borderlessButtonStyle"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="12sp" />

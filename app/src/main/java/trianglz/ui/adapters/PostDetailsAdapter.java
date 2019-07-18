@@ -5,10 +5,12 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -59,18 +61,22 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         viewHolder.dateTextView.setText(date);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             viewHolder.bodyTextView.setText(Html.fromHtml(postDetail.getContent(), Html.FROM_HTML_MODE_COMPACT));
+            viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
         } else {
             viewHolder.bodyTextView.setText(Html.fromHtml(postDetail.getContent()));
         }
+        viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
             // setting the attachments buttons
         switch (postDetail.getUploadedFiles().length) {
             case 0:
+                viewHolder.buttonsLayout.setVisibility(View.GONE);
                 viewHolder.firstButton.setVisibility(View.GONE);
                 viewHolder.secondButton.setVisibility(View.GONE);
                 viewHolder.thirdButton.setVisibility(View.GONE);
                 break;
             case 1:
                 viewHolder.firstButton.setText(postDetail.getUploadedFiles()[0].getName());
+                viewHolder.buttonsLayout.setVisibility(View.VISIBLE);
                 viewHolder.firstButton.setVisibility(View.VISIBLE);
                 viewHolder.secondButton.setVisibility(View.GONE);
                 viewHolder.thirdButton.setVisibility(View.GONE);
@@ -78,6 +84,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
             case 2:
                 viewHolder.firstButton.setText(postDetail.getUploadedFiles()[0].getName());
                 viewHolder.secondButton.setText(postDetail.getUploadedFiles()[1].getName());
+                viewHolder.buttonsLayout.setVisibility(View.VISIBLE);
                 viewHolder.firstButton.setVisibility(View.VISIBLE);
                 viewHolder.secondButton.setVisibility(View.VISIBLE);
                 viewHolder.thirdButton.setVisibility(View.GONE);
@@ -86,6 +93,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
                 viewHolder.firstButton.setText(postDetail.getUploadedFiles()[0].getName());
                 viewHolder.secondButton.setText(postDetail.getUploadedFiles()[1].getName());
                 viewHolder.thirdButton.setText("+" + (postDetail.getUploadedFiles().length - 2));
+                viewHolder.buttonsLayout.setVisibility(View.VISIBLE);
                 viewHolder.firstButton.setVisibility(View.VISIBLE);
                 viewHolder.secondButton.setVisibility(View.VISIBLE);
                 viewHolder.thirdButton.setVisibility(View.VISIBLE);
@@ -138,6 +146,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         public AvatarView avatarView;
         public TextView ownerTextview, dateTextView, bodyTextView;
         public Button firstButton, secondButton, thirdButton;
+        public LinearLayout buttonsLayout;
         public PostDetailsViewHolder(@NonNull View itemView) {
             super(itemView);
             avatarView = itemView.findViewById(R.id.iv_owner_image);
@@ -147,6 +156,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
             firstButton = itemView.findViewById(R.id.btn_first_attachment);
             secondButton = itemView.findViewById(R.id.btn_second_attachment);
             thirdButton = itemView.findViewById(R.id.btn_third_attachment);
+            buttonsLayout = itemView.findViewById(R.id.ll_three_buttons);
 
         }
     }
