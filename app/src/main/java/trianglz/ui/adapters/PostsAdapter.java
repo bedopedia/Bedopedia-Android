@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -23,6 +24,7 @@ import trianglz.models.PostsResponse;
 public class PostsAdapter extends RecyclerView.Adapter {
     private Context context;
     ArrayList<PostsResponse> postsResponses;
+    private PostsInterface postsInterface;
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,12 +41,19 @@ public class PostsAdapter extends RecyclerView.Adapter {
         viewHolder.counterTextView.setText(String.valueOf(postsResponse.getPostsCount()));
         IImageLoader imageLoader = new PicassoLoader();
             imageLoader.loadImage(viewHolder.subjectImageView, new AvatarPlaceholderModified(postsResponse.getCourseName()), "Path of Image");
+            viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    postsInterface.onCourseClicked(postsResponse.getCourseId());
+                }
+            });
 
     }
 
-    public PostsAdapter(Context context) {
+    public PostsAdapter(Context context, PostsInterface postsInterface) {
         postsResponses = new ArrayList<>();
         this.context = context;
+        this.postsInterface = postsInterface;
     }
     @Override
     public int getItemCount() {
@@ -58,7 +67,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
 
 
     public class PostsViewHolder extends RecyclerView.ViewHolder {
-
+        public LinearLayout rootView;
         public AvatarView subjectImageView;
         public TextView subjectTextView;
         public TextView counterTextView;
@@ -74,6 +83,11 @@ public class PostsAdapter extends RecyclerView.Adapter {
             openBtn = itemView.findViewById(R.id.btn_open);
             nameTextview = itemView.findViewById(R.id.tv_name);
             descriptionTextView = itemView.findViewById(R.id.tv_description);
+            rootView = itemView.findViewById(R.id.ll_root);
         }
+    }
+
+    public interface PostsInterface {
+        void onCourseClicked(int courseId);
     }
 }

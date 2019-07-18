@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,11 +13,12 @@ import java.util.ArrayList;
 
 import trianglz.core.presenters.PostsPresenter;
 import trianglz.core.views.PostsView;
+import trianglz.models.PostDetails;
 import trianglz.models.PostsResponse;
 import trianglz.ui.adapters.PostsAdapter;
 import trianglz.utils.Constants;
 
-public class PostsActivity extends SuperActivity implements PostsPresenter {
+public class PostsActivity extends SuperActivity implements PostsPresenter, PostsAdapter.PostsInterface {
 
     private RecyclerView recyclerView;
     private PostsView postsView;
@@ -33,7 +35,7 @@ public class PostsActivity extends SuperActivity implements PostsPresenter {
     private void bindViews() {
         recyclerView = findViewById(R.id.recycler_view);
         postsView = new PostsView(this, this);
-        adapter = new PostsAdapter(this);
+        adapter = new PostsAdapter(this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
@@ -49,5 +51,12 @@ public class PostsActivity extends SuperActivity implements PostsPresenter {
     public void onGetPostsFailure(String message, int errorCode) {
         if (progress.isShowing()) progress.dismiss();
         showErrorDialog(this);
+    }
+
+    @Override
+    public void onCourseClicked(int courseId) {
+        Intent intent = new Intent(this, PostDetailActivity.class);
+        intent.putExtra(Constants.KEY_COURSE_ID, courseId);
+        startActivity(intent);
     }
 }
