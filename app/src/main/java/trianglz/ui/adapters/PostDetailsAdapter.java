@@ -3,6 +3,7 @@ package trianglz.ui.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,22 +23,26 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
     private Context context;
     public PostDetailsAdapter(Context context) {
         this.context = context;
-        postDetails = new ArrayList<>(postDetails);
+        postDetails = new ArrayList<>();
 
     }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(context).inflate(R.layout.item_post_detail, parent, false);
+        return new PostDetailsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        PostDetailsViewHolder viewHolder = (PostDetailsViewHolder) holder;
+        final PostDetails postDetail = postDetails.get(position);
+
 
     }
-    public void addData(ArrayList<PostDetails> postDetails) {
+    public void addData(ArrayList<PostDetails> mPostDetails) {
         postDetails.clear();
-        postDetails.addAll(postDetails);
+        postDetails.addAll(mPostDetails);
         notifyDataSetChanged();
     }
 

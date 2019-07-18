@@ -59,9 +59,9 @@ public class PostsAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return postsResponses.size();
     }
-    public void addData(ArrayList<PostsResponse> postsResponses) {
+    public void addData(ArrayList<PostsResponse> mpostsResponses) {
         postsResponses.clear();
-        postsResponses.addAll(postsResponses);
+        postsResponses.addAll(mpostsResponses);
         notifyDataSetChanged();
     }
 

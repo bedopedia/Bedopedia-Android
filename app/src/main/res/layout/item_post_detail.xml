@@ -4,12 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
+    android:layout_marginBottom="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
     android:elevation="4dp"
     app:cardCornerRadius="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="8dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -65,11 +70,12 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:paddingStart="13dp"
-            android:paddingEnd="50dp">
+            android:paddingEnd="17dp">
 
             <trianglz.components.SfproRegularButton
                 android:id="@+id/btn_first_attachment"
-                android:layout_width="111dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:background="@drawable/curved_blue_grey_background"
                 android:drawableStart="@drawable/multiple_file_ico"
@@ -81,7 +87,8 @@
 
             <trianglz.components.SfproRegularButton
                 android:id="@+id/btn_second_attachment"
-                android:layout_width="111dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/curved_blue_grey_background"
