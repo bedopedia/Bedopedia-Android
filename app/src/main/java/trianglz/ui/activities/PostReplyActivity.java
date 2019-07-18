@@ -12,10 +12,12 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
+import trianglz.components.TopItemDecoration;
 import trianglz.models.PostDetails;
 import trianglz.models.UploadedObject;
 import trianglz.ui.adapters.PostReplyAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 public class PostReplyActivity extends AppCompatActivity implements PostReplyAdapter.PostReplyInterface {
     PostDetails postDetails;
@@ -52,6 +54,7 @@ public class PostReplyActivity extends AppCompatActivity implements PostReplyAda
         recyclerView.setAdapter(adapter);
         adapter.addData(postDetails);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16,this),false));
     }
 
     @Override

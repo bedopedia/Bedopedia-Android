@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="14dp"
             android:paddingTop="8dp"
-            android:paddingBottom="2dp"
+            android:paddingBottom="12dp"
             android:paddingEnd="14dp"
             android:text="@string/post_detail_place_holder"
             android:textAlignment="textStart"
