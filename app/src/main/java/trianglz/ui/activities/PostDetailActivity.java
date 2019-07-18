@@ -63,6 +63,5 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     @Override
     public void ongetPostDetailsFailure() {
         if (progress.isShowing()) progress.dismiss();
-        Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
     }
 }
