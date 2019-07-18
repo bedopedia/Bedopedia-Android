@@ -3,6 +3,7 @@ package trianglz.ui.adapters;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -121,6 +122,12 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
                 if (!uploadedObjects.isEmpty()) postDetailsInterface.onAttachmentClicked(uploadedObjects);
             }
         });
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postDetailsInterface.onCardClicked(postDetail);
+            }
+        });
     }
 
     private void setAvatarView(final AvatarView avatarView,final String name, String imageUrl) {
@@ -167,6 +174,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         public TextView ownerTextview, dateTextView, bodyTextView;
         public Button firstButton, secondButton, thirdButton;
         public LinearLayout buttonsLayout;
+        public CardView cardView;
         public PostDetailsViewHolder(@NonNull View itemView) {
             super(itemView);
             avatarView = itemView.findViewById(R.id.iv_owner_image);
@@ -177,11 +185,14 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
             secondButton = itemView.findViewById(R.id.btn_second_attachment);
             thirdButton = itemView.findViewById(R.id.btn_third_attachment);
             buttonsLayout = itemView.findViewById(R.id.ll_three_buttons);
+            cardView = itemView.findViewById(R.id.root);
 
         }
     }
 
     public interface PostDetailsInterface {
         void onAttachmentClicked(ArrayList<UploadedObject> uploadedObjects);
+
+        void onCardClicked(PostDetails postDetails);
     }
 }

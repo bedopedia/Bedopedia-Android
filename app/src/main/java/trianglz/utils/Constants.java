@@ -187,4 +187,5 @@ public class Constants {
 
     public static final String KEY_IS_STUDENT_ACCOUNT = "isStudentAccount";
     public static final String KEY_UPLOADED_OBJECTS = "uploaded_objects";
+    public static final String POST_DETAILS = "post_details";
 }
