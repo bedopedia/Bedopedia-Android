@@ -1,5 +1,7 @@
 package trianglz.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,7 +63,8 @@ public class AttachmentsActivity extends AppCompatActivity implements Attachment
     }
 
     @Override
-    public void onAttachmentClicked() {
-
+    public void onAttachmentClicked(String fileUrl) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(fileUrl));
+        startActivity(browserIntent);
     }
 }
