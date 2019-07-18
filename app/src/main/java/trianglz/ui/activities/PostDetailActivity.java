@@ -14,6 +14,7 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.PostDetailsPresenter;
 import trianglz.core.views.PostDetailsView;
 import trianglz.models.PostDetails;
@@ -21,6 +22,7 @@ import trianglz.models.UploadedObject;
 import trianglz.ui.AttachmentsActivity;
 import trianglz.ui.adapters.PostDetailsAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 public class PostDetailActivity extends SuperActivity implements PostDetailsPresenter, PostDetailsAdapter.PostDetailsInterface {
 
@@ -57,6 +59,7 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
         adapter = new PostDetailsAdapter(this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16,this),false));
     }
 
     @Override
