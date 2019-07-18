@@ -145,7 +145,7 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             replyViewHolder.replyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    postReplyInterface.onReplyClicked();
                 }
             });
         } else {
@@ -249,6 +249,8 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
 
     public interface PostReplyInterface {
         void onAttachmentClicked(ArrayList<UploadedObject> uploadedObjects);
+
+        void onReplyClicked();
     }
 
 }

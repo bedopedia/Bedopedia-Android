@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fafafa"
+    android:id="@+id/root_view"
     android:orientation="vertical"
     tools:context="trianglz.ui.activities.PostReplyActivity">
     <android.support.v7.widget.Toolbar
@@ -32,8 +33,48 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1
+"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="16dp" />
+    <LinearLayout
+        android:id="@+id/ll_input"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:visibility="visible"
+        android:orientation="horizontal"
+        android:background="@color/white_70"
+        android:padding="7dp">
 
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:singleLine="false"
+            android:inputType="textMultiLine"
+            android:textSize="17sp"
+            android:textColorHint="#c4c0bd"
+            android:background="@drawable/curved_white_background"
+            android:hint="@string/write_a_message"
+            android:maxLines="1"
+            android:imeActionLabel="@string/send"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:imeOptions="actionDone"
+            android:id="@+id/et_message"/>
+        <Button
+            android:id="@+id/enter_chat1"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:text="@string/send"
+            android:background="@color/transparent"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            />
+
+    </LinearLayout>
 </LinearLayout>
