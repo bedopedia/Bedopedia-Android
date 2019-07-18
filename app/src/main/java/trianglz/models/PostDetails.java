@@ -33,7 +33,7 @@ public class PostDetails {
     @SerializedName("video_preview")
     private Object videoPreview;
     @SerializedName("comments")
-    private Object[] comments;
+    private Reply[] comments;
     @SerializedName("owner")
     private Owner owner;
     @SerializedName("uploaded_files")
@@ -103,11 +103,11 @@ public class PostDetails {
         return this.videoPreview;
     }
 
-    public void setComments(Object[] comments) {
+    public void setComments(Reply[] comments) {
         this.comments = comments;
     }
 
-    public Object[] getComments() {
+    public Reply[] getComments() {
         return this.comments;
     }
 
