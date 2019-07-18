@@ -8,8 +8,11 @@ import android.view.View;
 
 import com.skolera.skolera_android.R;
 
+import java.util.ArrayList;
+
 import trianglz.core.presenters.PostDetailsPresenter;
 import trianglz.core.views.PostDetailsView;
+import trianglz.models.PostDetails;
 import trianglz.utils.Constants;
 
 public class PostDetailActivity extends AppCompatActivity implements PostDetailsPresenter {
@@ -39,7 +42,7 @@ public class PostDetailActivity extends AppCompatActivity implements PostDetails
     }
 
     @Override
-    public void ongetPostDetailsSuccess() {
+    public void ongetPostDetailsSuccess(ArrayList<PostDetails> postDetails) {
 
     }
 

@@ -4,11 +4,16 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import trianglz.core.presenters.PostDetailsPresenter;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.PostDetails;
 
 public class PostDetailsView {
     private Gson gson;
@@ -25,7 +30,12 @@ public class PostDetailsView {
         UserManager.getPostDetails(courseId, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                postDetailsPresenter.ongetPostDetailsSuccess();
+                JSONArray jsonArray = response.optJSONArray("posts");
+                ArrayList<PostDetails> postDetails = new ArrayList<>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                        postDetails.add(PostDetails.create(jsonArray.opt(i).toString()));
+                }
+                postDetailsPresenter.ongetPostDetailsSuccess(postDetails);
             }
 
             @Override

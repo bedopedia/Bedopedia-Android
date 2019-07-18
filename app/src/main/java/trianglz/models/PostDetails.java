@@ -128,9 +128,9 @@ public class PostDetails {
     }
 
 
-    public static Posts create(String json) {
+    public static PostDetails create(String json) {
         Gson gson = new GsonBuilder().create();
-        return gson.fromJson(json, Posts.class);
+        return gson.fromJson(json, PostDetails.class);
     }
 
     public String toString() {
