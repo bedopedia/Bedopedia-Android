@@ -67,6 +67,9 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
         imageLoader = new PicassoLoader();
         if (position == 0) {
             final PostReplyViewHolder viewHolder = (PostReplyViewHolder) holder;
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams)viewHolder.cardView.getLayoutParams();
+            params.setMargins(0, 0, 0, 0); //substitute parameters for left, top, right, bottom
+            viewHolder.cardView.setLayoutParams(params);
             setAvatarView(viewHolder.avatarView, postDetail.getOwner().getName(), imageUrl);
             viewHolder.ownerTextview.setText(postDetail.getOwner().getName());
             DateTime dateTime = new DateTime(postDetail.getCreatedAt());
