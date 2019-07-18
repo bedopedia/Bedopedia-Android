@@ -66,6 +66,22 @@ public class UserManager {
             }
         });
     }
+    public static void getRecentPosts(int id, final ArrayResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postsApi(id);
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String,String> paramsHashMap = new HashMap<>();
+        NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
 
     public static void updateToken(String url, String token,String locale, final ResponseListener responseListener) {
         HashMap<String, String> hashMap = SessionManager.getInstance().getHeaderHashMap();

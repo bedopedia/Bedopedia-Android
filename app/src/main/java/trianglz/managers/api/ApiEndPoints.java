@@ -17,6 +17,9 @@ public class ApiEndPoints {
        return  "/api/courses/"+ courseId +"/course_groups/"+ courseGroupId +"/student_grade_book";
     }
 
+    public static String postsApi(int id) {
+        return  "/api/students/"+ id +"/course_groups_recent_posts";
+    }
     public static String getSemesters (){
         return  "/api/grading_periods/course_grading_periods";
     }
