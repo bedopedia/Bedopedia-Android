@@ -54,7 +54,8 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         setAvatarView(viewHolder.avatarView, postDetail.getOwner().getName(), imageUrl);
         viewHolder.ownerTextview.setText(postDetail.getOwner().getName());
         DateTime dateTime = new DateTime(postDetail.getCreatedAt());
-        viewHolder.dateTextView.setText(dateTime.dayOfMonth() + "/" + dateTime.monthOfYear()+"/"+dateTime.getYear());
+        String date = dateTime.toLocalDate().toString();
+        viewHolder.dateTextView.setText(date);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             viewHolder.bodyTextView.setText(Html.fromHtml(postDetail.getContent(), Html.FROM_HTML_MODE_COMPACT));
         } else {
