@@ -37,7 +37,7 @@ public class PostDetails {
     @SerializedName("owner")
     private Owner owner;
     @SerializedName("uploaded_files")
-    private Object[] uploadedFiles;
+    private UploadedObject[] uploadedFiles;
 
     public void setId(int id) {
         this.id = id;
@@ -119,11 +119,11 @@ public class PostDetails {
         return this.owner;
     }
 
-    public void setUploadedFiles(Object[] uploadedFiles) {
+    public void setUploadedFiles(UploadedObject[] uploadedFiles) {
         this.uploadedFiles = uploadedFiles;
     }
 
-    public Object[] getUploadedFiles() {
+    public UploadedObject[] getUploadedFiles() {
         return this.uploadedFiles;
     }
 

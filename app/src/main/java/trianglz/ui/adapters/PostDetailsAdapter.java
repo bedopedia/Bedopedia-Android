@@ -27,6 +27,7 @@ import trianglz.components.CircleTransform;
 import trianglz.core.views.PostDetailsView;
 import trianglz.models.PostDetails;
 import trianglz.models.PostsResponse;
+import trianglz.models.UploadedObject;
 
 public class PostDetailsAdapter extends RecyclerView.Adapter {
     ArrayList<PostDetails> postDetails;
@@ -60,6 +61,34 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
             viewHolder.bodyTextView.setText(Html.fromHtml(postDetail.getContent(), Html.FROM_HTML_MODE_COMPACT));
         } else {
             viewHolder.bodyTextView.setText(Html.fromHtml(postDetail.getContent()));
+        }
+            // setting the attachments buttons
+        switch (postDetail.getUploadedFiles().length) {
+            case 0:
+                viewHolder.firstButton.setVisibility(View.GONE);
+                viewHolder.secondButton.setVisibility(View.GONE);
+                viewHolder.thirdButton.setVisibility(View.GONE);
+                break;
+            case 1:
+                viewHolder.firstButton.setText(postDetail.getUploadedFiles()[0].getName());
+                viewHolder.firstButton.setVisibility(View.VISIBLE);
+                viewHolder.secondButton.setVisibility(View.GONE);
+                viewHolder.thirdButton.setVisibility(View.GONE);
+                break;
+            case 2:
+                viewHolder.firstButton.setText(postDetail.getUploadedFiles()[0].getName());
+                viewHolder.secondButton.setText(postDetail.getUploadedFiles()[1].getName());
+                viewHolder.firstButton.setVisibility(View.VISIBLE);
+                viewHolder.secondButton.setVisibility(View.VISIBLE);
+                viewHolder.thirdButton.setVisibility(View.GONE);
+                break;
+            default:
+                viewHolder.firstButton.setText(postDetail.getUploadedFiles()[0].getName());
+                viewHolder.secondButton.setText(postDetail.getUploadedFiles()[1].getName());
+                viewHolder.thirdButton.setText("+" + (postDetail.getUploadedFiles().length - 2));
+                viewHolder.firstButton.setVisibility(View.VISIBLE);
+                viewHolder.secondButton.setVisibility(View.VISIBLE);
+                viewHolder.thirdButton.setVisibility(View.VISIBLE);
         }
 
 
