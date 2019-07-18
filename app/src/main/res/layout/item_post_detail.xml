@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:elevation="4dp"
+    app:cardCornerRadius="6dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:paddingStart="6dp"
+            android:paddingEnd="17dp">
+
+            <agency.tango.android.avatarview.views.AvatarView
+                android:id="@+id/iv_owner_image"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:id="@+id/tv_owner_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="asdjfklsdjfkldsf"
+                android:textColor="#de000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="asldkjfklsdfjdasdlfjsdklfj"
+                android:textColor="#7a8993"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eaedf3" />
+
+        <TextView
+            android:id="@+id/tv_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="14dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="24dp"
+            android:text="@string/post_detail_place_holder"
+            android:textAlignment="textStart"
+            android:textColor="#de000000"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:paddingStart="13dp"
+            android:paddingEnd="50dp">
+
+            <trianglz.components.SfproRegularButton
+                android:id="@+id/btn_first_attachment"
+                android:layout_width="111dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/curved_blue_grey_background"
+                android:drawableStart="@drawable/multiple_file_ico"
+                android:paddingStart="10dp"
+                android:text="Parachuting"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <trianglz.components.SfproRegularButton
+                android:id="@+id/btn_second_attachment"
+                android:layout_width="111dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/curved_blue_grey_background"
+                android:drawableStart="@drawable/multiple_file_ico"
+                android:paddingStart="10dp"
+                android:text="Parachuting"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <trianglz.components.SfproRegularButton
+                android:id="@+id/btn_third_attachment"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/curved_blue_grey_background"
+                android:drawableEnd="@drawable/multiple_file_ico"
+                android:paddingEnd="4dp"
+                android:text="+3"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
