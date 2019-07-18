@@ -3,6 +3,8 @@ package trianglz.ui.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.skolera.skolera_android.R;
 
@@ -14,6 +16,7 @@ public class PostDetailActivity extends AppCompatActivity implements PostDetails
 
     private RecyclerView recyclerView;
     private PostDetailsView postDetailsView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,13 @@ public class PostDetailActivity extends AppCompatActivity implements PostDetails
     private void bindViews() {
         recyclerView = findViewById(R.id.recycler_view);
         postDetailsView = new PostDetailsView(this, this);
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override

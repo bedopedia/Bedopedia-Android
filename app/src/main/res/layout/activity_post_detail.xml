@@ -9,28 +9,15 @@
     tools:context="trianglz.ui.activities.PostDetailActivity">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        app:navigationIcon="@drawable/chevron_left"
         android:background="@color/white"
-        android:elevation="4dp">
+        android:elevation="1dp"
+        >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:paddingStart="26dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="22dp"
-                android:paddingBottom="8dp"
-                android:src="@drawable/chevron_left" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -40,7 +27,6 @@
                 android:text="Arabic"
                 android:textColor="#de000000"
                 android:textSize="24sp" />
-        </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
