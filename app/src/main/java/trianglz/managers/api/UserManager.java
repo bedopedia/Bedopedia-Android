@@ -82,7 +82,22 @@ public class UserManager {
             }
         });
     }
+    public static void getPostDetails (int courseId, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postsDetailsApi(courseId);
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String,String> paramsHashMap = new HashMap<>();
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
 
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
     public static void updateToken(String url, String token,String locale, final ResponseListener responseListener) {
         HashMap<String, String> hashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject params = new JSONObject();
