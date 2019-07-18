@@ -16,16 +16,18 @@ import java.util.ArrayList;
 import trianglz.core.presenters.PostDetailsPresenter;
 import trianglz.core.views.PostDetailsView;
 import trianglz.models.PostDetails;
+import trianglz.models.UploadedObject;
 import trianglz.ui.adapters.PostDetailsAdapter;
 import trianglz.utils.Constants;
 
-public class PostDetailActivity extends SuperActivity implements PostDetailsPresenter {
+public class PostDetailActivity extends SuperActivity implements PostDetailsPresenter, PostDetailsAdapter.PostDetailsInterface {
 
     private RecyclerView recyclerView;
     private PostDetailsView postDetailsView;
     private Toolbar toolbar;
     private TextView courseNameTextView;
     private PostDetailsAdapter adapter;
+    private String subjectName;
 
 
     @Override
@@ -48,8 +50,9 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
             }
         });
         courseNameTextView = findViewById(R.id.tv_course_name);
-        courseNameTextView.setText(getIntent().getStringExtra(Constants.KEY_COURSE_NAME));
-        adapter = new PostDetailsAdapter(this);
+        subjectName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
+        courseNameTextView.setText(subjectName);
+        adapter = new PostDetailsAdapter(this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
@@ -63,5 +66,10 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     @Override
     public void ongetPostDetailsFailure() {
         if (progress.isShowing()) progress.dismiss();
+    }
+
+    @Override
+    public void onAttachmentClicked(ArrayList<UploadedObject> uploadedObjects) {
+
     }
 }

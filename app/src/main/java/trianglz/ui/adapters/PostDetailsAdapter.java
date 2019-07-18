@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -35,10 +36,12 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
     ArrayList<PostDetails> postDetails;
     private Context context;
     IImageLoader imageLoader;
+    private PostDetailsInterface postDetailsInterface;
 
-    public PostDetailsAdapter(Context context) {
+    public PostDetailsAdapter(Context context, PostDetailsInterface postDetailsInterface) {
         this.context = context;
         postDetails = new ArrayList<>();
+        this.postDetailsInterface = postDetailsInterface;
 
     }
     @NonNull
@@ -98,9 +101,26 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
                 viewHolder.secondButton.setVisibility(View.VISIBLE);
                 viewHolder.thirdButton.setVisibility(View.VISIBLE);
         }
-
-
-
+        final ArrayList<UploadedObject> uploadedObjects = new ArrayList<>();
+        uploadedObjects.addAll(Arrays.asList(postDetail.getUploadedFiles()));
+        if (viewHolder.firstButton.getVisibility() != View.GONE)  viewHolder.firstButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!uploadedObjects.isEmpty()) postDetailsInterface.onAttachmentClicked(uploadedObjects);
+            }
+        });
+        if (viewHolder.secondButton.getVisibility() != View.GONE)  viewHolder.secondButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!uploadedObjects.isEmpty()) postDetailsInterface.onAttachmentClicked(uploadedObjects);
+            }
+        });
+        if (viewHolder.thirdButton.getVisibility() != View.GONE) viewHolder.thirdButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!uploadedObjects.isEmpty()) postDetailsInterface.onAttachmentClicked(uploadedObjects);
+            }
+        });
     }
 
     private void setAvatarView(final AvatarView avatarView,final String name, String imageUrl) {
@@ -161,4 +181,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public interface PostDetailsInterface {
+        void onAttachmentClicked(ArrayList<UploadedObject> uploadedObjects);
+    }
 }
