@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import trianglz.core.presenters.PostDetailsPresenter;
 import trianglz.core.views.PostDetailsView;
 import trianglz.models.PostDetails;
 import trianglz.models.UploadedObject;
+import trianglz.ui.AttachmentsActivity;
 import trianglz.ui.adapters.PostDetailsAdapter;
 import trianglz.utils.Constants;
 
@@ -70,6 +72,15 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
 
     @Override
     public void onAttachmentClicked(ArrayList<UploadedObject> uploadedObjects) {
-
+        Intent intent = new Intent(this, AttachmentsActivity.class);
+        Bundle bundle = new Bundle();
+        ArrayList<String> uploadedObjectStrings = new ArrayList<>();
+        for (UploadedObject uploadedObject : uploadedObjects) {
+            uploadedObjectStrings.add(uploadedObject.toString());
+        }
+        if (!uploadedObjectStrings.isEmpty()) bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        intent.putExtra(Constants.KEY_COURSE_NAME, subjectName);
+        startActivity(intent);
     }
 }

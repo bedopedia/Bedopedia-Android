@@ -21,7 +21,7 @@ public class UploadedObject {
     @SerializedName("name")
     private String name;
     @SerializedName("description")
-    private Object description;
+    private String description;
     @SerializedName("file_size")
     private int fileSize;
     @SerializedName("downloads_number")
@@ -41,7 +41,7 @@ public class UploadedObject {
     @SerializedName("upload_type")
     private String uploadType;
     @SerializedName("creator_name")
-    private Object creatorName;
+    private String creatorName;
 
     public void setId(int id) {
         this.id = id;
@@ -75,11 +75,11 @@ public class UploadedObject {
         return this.name;
     }
 
-    public void setDescription(Object description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public Object getDescription() {
+    public String getDescription() {
         return this.description;
     }
 
@@ -155,11 +155,11 @@ public class UploadedObject {
         return this.uploadType;
     }
 
-    public void setCreatorName(Object creatorName) {
+    public void setCreatorName(String creatorName) {
         this.creatorName = creatorName;
     }
 
-    public Object getCreatorName() {
+    public String getCreatorName() {
         return this.creatorName;
     }
 

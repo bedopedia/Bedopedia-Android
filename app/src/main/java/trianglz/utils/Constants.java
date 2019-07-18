@@ -186,4 +186,5 @@ public class Constants {
     public static final String KEY_HIDE_GRADE = "hide_grade";
 
     public static final String KEY_IS_STUDENT_ACCOUNT = "isStudentAccount";
+    public static final String KEY_UPLOADED_OBJECTS = "uploaded_objects";
 }
