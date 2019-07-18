@@ -17,17 +17,17 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="trianglz.ui.activities.PostsActivity"
+        <activity android:name="trianglz.ui.activities.PostDetailActivity"></activity>
+        <activity
+            android:name="trianglz.ui.activities.PostsActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name="trianglz.ui.activities.StudentMainActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="trianglz.ui.activities.CourseAssignmentActivity"
             android:hardwareAccelerated="true"
