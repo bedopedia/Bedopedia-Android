@@ -54,9 +54,10 @@ public class PostsActivity extends SuperActivity implements PostsPresenter, Post
     }
 
     @Override
-    public void onCourseClicked(int courseId) {
+    public void onCourseClicked(int courseId, String courseName) {
         Intent intent = new Intent(this, PostDetailActivity.class);
         intent.putExtra(Constants.KEY_COURSE_ID, courseId);
+        intent.putExtra(Constants.KEY_COURSE_NAME, courseName);
         startActivity(intent);
     }
 }

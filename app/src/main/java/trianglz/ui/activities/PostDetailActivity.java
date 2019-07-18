@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
@@ -20,6 +21,8 @@ public class PostDetailActivity extends AppCompatActivity implements PostDetails
     private RecyclerView recyclerView;
     private PostDetailsView postDetailsView;
     private Toolbar toolbar;
+    private TextView courseNameTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,8 @@ public class PostDetailActivity extends AppCompatActivity implements PostDetails
                 onBackPressed();
             }
         });
+        courseNameTextView = findViewById(R.id.tv_course_name);
+        courseNameTextView.setText(getIntent().getStringExtra(Constants.KEY_COURSE_NAME));
     }
 
     @Override

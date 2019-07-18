@@ -44,7 +44,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
             viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    postsInterface.onCourseClicked(postsResponse.getCourseId());
+                    postsInterface.onCourseClicked(postsResponse.getCourseId(), postsResponse.getCourseName());
                 }
             });
 
@@ -88,6 +88,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
     }
 
     public interface PostsInterface {
-        void onCourseClicked(int courseId);
+        void onCourseClicked(int courseId, String courseName);
     }
 }
