@@ -16,15 +16,17 @@ import java.util.Objects;
 
 import trianglz.core.views.PostDetailsView;
 import trianglz.models.UploadedObject;
+import trianglz.ui.adapters.AttachmentAdapter;
 import trianglz.ui.adapters.PostDetailsAdapter;
 import trianglz.utils.Constants;
 
-public class AttachmentsActivity extends AppCompatActivity {
+public class AttachmentsActivity extends AppCompatActivity implements AttachmentAdapter.AttachmentAdapterInterface {
     private String subjectName;
     ArrayList<UploadedObject> uploadedObjects;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     private TextView courseNameTextView;
+    private AttachmentAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,10 @@ public class AttachmentsActivity extends AppCompatActivity {
             });
             courseNameTextView = findViewById(R.id.tv_course_name);
             courseNameTextView.setText(subjectName);
+            adapter = new AttachmentAdapter(this, this);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            adapter.addData(uploadedObjects);
     }
 
     private void getDataFromIntent() {
@@ -52,5 +58,10 @@ public class AttachmentsActivity extends AppCompatActivity {
             uploadedObjects.add(UploadedObject.create(string));
         }
         subjectName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
+    }
+
+    @Override
+    public void onAttachmentClicked() {
+
     }
 }
