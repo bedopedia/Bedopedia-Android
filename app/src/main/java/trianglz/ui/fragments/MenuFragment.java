@@ -71,6 +71,7 @@ import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.CourseAssignmentActivity;
 import trianglz.ui.activities.GradesActivity;
 import trianglz.ui.activities.NotificationsActivity;
+import trianglz.ui.activities.PostsActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.activities.TimetableActivity;
 import trianglz.ui.activities.WeeklyPlannerActivity;
@@ -637,7 +638,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 openAssignmentDetailActivity();
                 break;
             case R.id.layout_posts:
-                // open new posts activity
+                Intent intent = new Intent(getActivity(), PostsActivity.class);
+                intent.putExtra("student_id", student.getId());
+                startActivity(intent);
                 break;
         }
     }

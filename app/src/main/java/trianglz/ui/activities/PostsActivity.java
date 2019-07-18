@@ -27,7 +27,7 @@ public class PostsActivity extends SuperActivity implements PostsPresenter {
         recyclerView = findViewById(R.id.recycler_view);
         postsView = new PostsView(this, this);
         showLoadingDialog();
-        postsView.getRecentPosts();
+        postsView.getRecentPosts(getIntent().getIntExtra("student_id",150));
     }
 
     @Override

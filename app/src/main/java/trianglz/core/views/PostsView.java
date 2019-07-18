@@ -29,15 +29,8 @@ public class PostsView {
         this.postsPresenter = postsPresenter;
         gson = new Gson();
     }
-    public void getRecentPosts () {
-        String id = SessionManager.getInstance().getId();
-        int idNumber = 1;
-        try {
-            idNumber = Integer.valueOf(id);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-        UserManager.getRecentPosts(idNumber, new ArrayResponseListener() {
+    public void getRecentPosts(int id) {
+        UserManager.getRecentPosts(id, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
                 postsPresenter.onGetPostsSuccess(parsePostsResponse(response));
