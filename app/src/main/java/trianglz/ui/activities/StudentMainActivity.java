@@ -1,21 +1,15 @@
 package trianglz.ui.activities;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import trianglz.components.CustomRtlViewPager;
 import trianglz.managers.SessionManager;
@@ -138,7 +132,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private void handleTabsClicking(int tabNumber) {
         switch (tabNumber) {
             case 1:
-                announcementImageView.setImageResource(R.drawable.ic_announcment_selected);
+                announcementImageView.setImageResource(R.drawable.ic_announcment_selected_teacher);
                 messagesImageView.setImageResource(R.drawable.ic_messages_tab);
                 notificationsImageView.setImageResource(R.drawable.ic_notifications_tab);
                 menuImageView.setImageResource(R.drawable.ic_menu_tab);
@@ -150,7 +144,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 break;
             case 2:
                 announcementImageView.setImageResource(R.drawable.ic_announcments);
-                messagesImageView.setImageResource(R.drawable.ic_messages_selected);
+                messagesImageView.setImageResource(R.drawable.ic_messages_selected_teacher);
                 notificationsImageView.setImageResource(R.drawable.ic_notifications_tab);
                 menuImageView.setImageResource(R.drawable.ic_menu_tab);
 
@@ -162,7 +156,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
             case 3:
                 announcementImageView.setImageResource(R.drawable.ic_announcments);
                 messagesImageView.setImageResource(R.drawable.ic_messages_tab);
-                notificationsImageView.setImageResource(R.drawable.ic_notification_selected);
+                notificationsImageView.setImageResource(R.drawable.ic_notification_selected_teacher);
                 menuImageView.setImageResource(R.drawable.ic_menu_tab);
 
                 announcementTextView.setVisibility(View.GONE);
