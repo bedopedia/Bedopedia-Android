@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
@@ -24,9 +25,9 @@ import trianglz.utils.Constants;
 
 public class StudentMainActivity extends SuperActivity implements View.OnClickListener {
 
-    private LinearLayout announcementLayout, messagesLayout, notificationsLayout, menuLayout;
-    private ImageView announcementImageView, messagesImageView, notificationsImageView, menuImageView;
-    private TextView announcementTextView, messagesTextView, notificationsTextView, menuTextView;
+    private LinearLayout firstLayout, secondLayout, thirdLayout, fourthLayout;
+    private ImageView firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView;
+    private TextView firstTextView, secondTextView, thirdTextView, fourthTextView;
 
     private CustomRtlViewPager pager;
     private StudentMainPagerAdapter pagerAdapter;
@@ -50,9 +51,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         getValueFromIntent();
         bindViews();
         setListeners();
-        isStudent = SessionManager.getInstance().getStudentAccount();
     }
     private void getValueFromIntent() {
+        isStudent = SessionManager.getInstance().getStudentAccount();
         if(SessionManager.getInstance().getUserType()){
             student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
             attendance = (String) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ATTENDANCE);
@@ -62,30 +63,30 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     }
     private void setListeners() {
-        announcementLayout.setOnClickListener(this);
-        messagesLayout.setOnClickListener(this);
-        notificationsLayout.setOnClickListener(this);
-        menuLayout.setOnClickListener(this);
+        firstLayout.setOnClickListener(this);
+        secondLayout.setOnClickListener(this);
+        thirdLayout.setOnClickListener(this);
+        fourthLayout.setOnClickListener(this);
     }
 
     private void bindViews() {
         // tabs
-        announcementLayout = findViewById(R.id.ll_announcment_tab);
-        messagesLayout = findViewById(R.id.ll_messages_tab);
-        notificationsLayout = findViewById(R.id.ll_notifications_tab);
-        menuLayout = findViewById(R.id.ll_menu_tab);
+        firstLayout = findViewById(R.id.ll_announcment_tab);
+        secondLayout = findViewById(R.id.ll_messages_tab);
+        thirdLayout = findViewById(R.id.ll_notifications_tab);
+        fourthLayout = findViewById(R.id.ll_menu_tab);
 
         // image views
-        announcementImageView = findViewById(R.id.iv_announcements);
-        messagesImageView = findViewById(R.id.iv_messages);
-        notificationsImageView = findViewById (R.id.iv_notifcations);
-        menuImageView = findViewById(R.id.iv_menu);
+        firstTabImageView = findViewById(R.id.iv_announcements);
+        secondTabImageView = findViewById(R.id.iv_messages);
+        thirdTabImageView = findViewById (R.id.iv_notifcations);
+        fourthTabImageView = findViewById(R.id.iv_menu);
 
         // text views
-        announcementTextView = findViewById(R.id.tv_announcements);
-        messagesTextView = findViewById(R.id.tv_messages);
-        notificationsTextView = findViewById(R.id.tv_notifications);
-        menuTextView = findViewById (R.id.tv_menu);
+        firstTextView = findViewById(R.id.tv_announcements);
+        secondTextView = findViewById(R.id.tv_messages);
+        thirdTextView = findViewById(R.id.tv_notifications);
+        fourthTextView = findViewById (R.id.tv_menu);
 
         // init fragments
         announcementsFragment = new AnnouncementsFragment();
@@ -99,11 +100,19 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         setUpAdapterAccordingToUserType();
         pager.setAdapter(pagerAdapter);
         pager.setOffscreenPageLimit(4);
-        pager.setCurrentItem(4);
+
+        // set default tab if student
+        if (isStudent) {
+            pager.setCurrentItem(0);
+            handleStudentTabs(1);
+        } else {
+            pager.setCurrentItem(4);
+        }
+
     }
 
     private void setUpAdapterAccordingToUserType() {
-        if (SessionManager.getInstance().getStudentAccount()) {
+        if (isStudent) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getStudentFragmentList());
         } else {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getParentFragmentList());
@@ -159,96 +168,107 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private void handleParentTabs(int tabNumber) {
         switch (tabNumber) {
             case 1:
-                announcementImageView.setImageResource(R.drawable.ic_announcment_selected_teacher);
-                messagesImageView.setImageResource(R.drawable.ic_messages_tab);
-                notificationsImageView.setImageResource(R.drawable.ic_notifications_tab);
-                menuImageView.setImageResource(R.drawable.ic_menu_tab);
+                firstTabImageView.setImageResource(R.drawable.ic_announcment_selected_teacher);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+                fourthTabImageView.setImageResource(R.drawable.ic_menu_tab);
 
-                announcementTextView.setVisibility(View.VISIBLE);
-                messagesTextView.setVisibility(View.GONE);
-                notificationsTextView.setVisibility(View.GONE);
-                menuTextView.setVisibility(View.GONE);
+                firstTextView.setVisibility(View.VISIBLE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.GONE);
+                fourthTextView.setVisibility(View.GONE);
                 break;
             case 2:
-                announcementImageView.setImageResource(R.drawable.ic_announcments);
-                messagesImageView.setImageResource(R.drawable.ic_messages_selected_teacher);
-                notificationsImageView.setImageResource(R.drawable.ic_notifications_tab);
-                menuImageView.setImageResource(R.drawable.ic_menu_tab);
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_selected_teacher);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+                fourthTabImageView.setImageResource(R.drawable.ic_menu_tab);
 
-                announcementTextView.setVisibility(View.GONE);
-                messagesTextView.setVisibility(View.VISIBLE);
-                notificationsTextView.setVisibility(View.GONE);
-                menuTextView.setVisibility(View.GONE);
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.VISIBLE);
+                thirdTextView.setVisibility(View.GONE);
+                fourthTextView.setVisibility(View.GONE);
                 break;
             case 3:
-                announcementImageView.setImageResource(R.drawable.ic_announcments);
-                messagesImageView.setImageResource(R.drawable.ic_messages_tab);
-                notificationsImageView.setImageResource(R.drawable.ic_notification_selected_teacher);
-                menuImageView.setImageResource(R.drawable.ic_menu_tab);
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notification_selected_teacher);
+                fourthTabImageView.setImageResource(R.drawable.ic_menu_tab);
 
-                announcementTextView.setVisibility(View.GONE);
-                messagesTextView.setVisibility(View.GONE);
-                notificationsTextView.setVisibility(View.VISIBLE);
-                menuTextView.setVisibility(View.GONE);
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.VISIBLE);
+                fourthTextView.setVisibility(View.GONE);
                 break;
             case 4:
-                announcementImageView.setImageResource(R.drawable.ic_announcments);
-                messagesImageView.setImageResource(R.drawable.ic_messages_tab);
-                notificationsImageView.setImageResource(R.drawable.ic_notifications_tab);
-                menuImageView.setImageResource(R.drawable.ic_menu_parent_selected);
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+                fourthTabImageView.setImageResource(R.drawable.ic_menu_parent_selected);
 
-                announcementTextView.setVisibility(View.GONE);
-                messagesTextView.setVisibility(View.GONE);
-                notificationsTextView.setVisibility(View.GONE);
-                menuTextView.setVisibility(View.VISIBLE);
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.GONE);
+                fourthTextView.setVisibility(View.VISIBLE);
                 break;
         }
     }
     private void handleStudentTabs(int tabNumber) {
+        // text view content
+        firstTextView.setText(getResources().getString(R.string.home));
+        secondTextView.setText(getResources().getString(R.string.messages));
+        thirdTextView.setText(getResources().getString(R.string.notifications));
+        fourthTextView.setText(getResources().getString(R.string.announcements));
+        // text view text color
+        int color = Color.parseColor("#fd8268");
+        firstTextView.setTextColor(color);
+        secondTextView.setTextColor(color);
+        thirdTextView.setTextColor(color);
+        fourthTextView.setTextColor(color);
         switch (tabNumber) {
             case 1:
-                announcementImageView.setImageResource(R.drawable.ic_announcements_selected_student);
-                messagesImageView.setImageResource(R.drawable.ic_messages_tab);
-                notificationsImageView.setImageResource(R.drawable.ic_notifications_tab);
-                menuImageView.setImageResource(R.drawable.ic_home_student_tab);
+                firstTabImageView.setImageResource(R.drawable.ic_home_selected_student);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+                fourthTabImageView.setImageResource(R.drawable.ic_announcments_tab);
 
-                announcementTextView.setVisibility(View.VISIBLE);
-                messagesTextView.setVisibility(View.GONE);
-                notificationsTextView.setVisibility(View.GONE);
-                menuTextView.setVisibility(View.GONE);
+                firstTextView.setVisibility(View.VISIBLE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.GONE);
+                fourthTextView.setVisibility(View.GONE);
                 break;
             case 2:
-                announcementImageView.setImageResource(R.drawable.ic_announcments);
-                messagesImageView.setImageResource(R.drawable.ic_messages_selected_student);
-                notificationsImageView.setImageResource(R.drawable.ic_notifications_tab);
-                menuImageView.setImageResource(R.drawable.ic_home_student_tab);
+                firstTabImageView.setImageResource(R.drawable.ic_home_student_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_selected_student);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+                fourthTabImageView.setImageResource(R.drawable.ic_announcments_tab);
 
-                announcementTextView.setVisibility(View.GONE);
-                messagesTextView.setVisibility(View.VISIBLE);
-                notificationsTextView.setVisibility(View.GONE);
-                menuTextView.setVisibility(View.GONE);
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.VISIBLE);
+                thirdTextView.setVisibility(View.GONE);
+                fourthTextView.setVisibility(View.GONE);
                 break;
             case 3:
-                announcementImageView.setImageResource(R.drawable.ic_announcments);
-                messagesImageView.setImageResource(R.drawable.ic_messages_tab);
-                notificationsImageView.setImageResource(R.drawable.ic_notifications_selected_student);
-                menuImageView.setImageResource(R.drawable.ic_home_student_tab);
+                firstTabImageView.setImageResource(R.drawable.ic_home_student_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_selected_student);
+                fourthTabImageView.setImageResource(R.drawable.ic_announcments_tab);
 
-                announcementTextView.setVisibility(View.GONE);
-                messagesTextView.setVisibility(View.GONE);
-                notificationsTextView.setVisibility(View.VISIBLE);
-                menuTextView.setVisibility(View.GONE);
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.VISIBLE);
+                fourthTextView.setVisibility(View.GONE);
                 break;
             case 4:
-                announcementImageView.setImageResource(R.drawable.ic_announcments);
-                messagesImageView.setImageResource(R.drawable.ic_messages_tab);
-                notificationsImageView.setImageResource(R.drawable.ic_notifications_tab);
-                menuImageView.setImageResource(R.drawable.ic_home_selected_student);
+                firstTabImageView.setImageResource(R.drawable.ic_home_student_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+                fourthTabImageView.setImageResource(R.drawable.ic_announcements_selected_student);
 
-                announcementTextView.setVisibility(View.GONE);
-                messagesTextView.setVisibility(View.GONE);
-                notificationsTextView.setVisibility(View.GONE);
-                menuTextView.setVisibility(View.VISIBLE);
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.GONE);
+                fourthTextView.setVisibility(View.VISIBLE);
                 break;
         }
     }
