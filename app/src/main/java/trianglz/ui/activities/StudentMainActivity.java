@@ -40,6 +40,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     public String attendance;
     public Actor actor;
 
+    // student profile case variables
+    boolean isStudent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         getValueFromIntent();
         bindViews();
         setListeners();
+        isStudent = SessionManager.getInstance().getStudentAccount();
     }
     private void getValueFromIntent() {
         if(SessionManager.getInstance().getUserType()){
@@ -92,18 +96,34 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         // pager
         pager = findViewById(R.id.pager);
         pager.setPagingEnabled(false);
-        pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getFragmentList());
+        setUpAdapterAccordingToUserType();
         pager.setAdapter(pagerAdapter);
         pager.setOffscreenPageLimit(4);
         pager.setCurrentItem(4);
     }
 
-    private ArrayList<Fragment> getFragmentList() {
+    private void setUpAdapterAccordingToUserType() {
+        if (SessionManager.getInstance().getStudentAccount()) {
+            pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getStudentFragmentList());
+        } else {
+            pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getParentFragmentList());
+        }
+    }
+
+    private ArrayList<Fragment> getParentFragmentList() {
         ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
         fragmentArrayList.add(announcementsFragment);
         fragmentArrayList.add(messagesFragment);
         fragmentArrayList.add(notificationsFragment);
         fragmentArrayList.add(menuFragment);
+        return fragmentArrayList;
+    }
+    private ArrayList<Fragment> getStudentFragmentList() {
+        ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+        fragmentArrayList.add(menuFragment);
+        fragmentArrayList.add(messagesFragment);
+        fragmentArrayList.add(notificationsFragment);
+        fragmentArrayList.add(announcementsFragment);
         return fragmentArrayList;
     }
 
@@ -130,6 +150,13 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void handleTabsClicking(int tabNumber) {
+        if (SessionManager.getInstance().getStudentAccount()) {
+            handleStudentTabs(tabNumber);
+        } else
+            handleParentTabs(tabNumber);
+    }
+
+    private void handleParentTabs(int tabNumber) {
         switch (tabNumber) {
             case 1:
                 announcementImageView.setImageResource(R.drawable.ic_announcment_selected_teacher);
@@ -168,7 +195,55 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 announcementImageView.setImageResource(R.drawable.ic_announcments);
                 messagesImageView.setImageResource(R.drawable.ic_messages_tab);
                 notificationsImageView.setImageResource(R.drawable.ic_notifications_tab);
-                menuImageView.setImageResource(R.drawable.menu_tab_selected);
+                menuImageView.setImageResource(R.drawable.ic_menu_parent_selected);
+
+                announcementTextView.setVisibility(View.GONE);
+                messagesTextView.setVisibility(View.GONE);
+                notificationsTextView.setVisibility(View.GONE);
+                menuTextView.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+    private void handleStudentTabs(int tabNumber) {
+        switch (tabNumber) {
+            case 1:
+                announcementImageView.setImageResource(R.drawable.ic_announcements_selected_student);
+                messagesImageView.setImageResource(R.drawable.ic_messages_tab);
+                notificationsImageView.setImageResource(R.drawable.ic_notifications_tab);
+                menuImageView.setImageResource(R.drawable.ic_home_student_tab);
+
+                announcementTextView.setVisibility(View.VISIBLE);
+                messagesTextView.setVisibility(View.GONE);
+                notificationsTextView.setVisibility(View.GONE);
+                menuTextView.setVisibility(View.GONE);
+                break;
+            case 2:
+                announcementImageView.setImageResource(R.drawable.ic_announcments);
+                messagesImageView.setImageResource(R.drawable.ic_messages_selected_student);
+                notificationsImageView.setImageResource(R.drawable.ic_notifications_tab);
+                menuImageView.setImageResource(R.drawable.ic_home_student_tab);
+
+                announcementTextView.setVisibility(View.GONE);
+                messagesTextView.setVisibility(View.VISIBLE);
+                notificationsTextView.setVisibility(View.GONE);
+                menuTextView.setVisibility(View.GONE);
+                break;
+            case 3:
+                announcementImageView.setImageResource(R.drawable.ic_announcments);
+                messagesImageView.setImageResource(R.drawable.ic_messages_tab);
+                notificationsImageView.setImageResource(R.drawable.ic_notifications_selected_student);
+                menuImageView.setImageResource(R.drawable.ic_home_student_tab);
+
+                announcementTextView.setVisibility(View.GONE);
+                messagesTextView.setVisibility(View.GONE);
+                notificationsTextView.setVisibility(View.VISIBLE);
+                menuTextView.setVisibility(View.GONE);
+                break;
+            case 4:
+                announcementImageView.setImageResource(R.drawable.ic_announcments);
+                messagesImageView.setImageResource(R.drawable.ic_messages_tab);
+                notificationsImageView.setImageResource(R.drawable.ic_notifications_tab);
+                menuImageView.setImageResource(R.drawable.ic_home_selected_student);
 
                 announcementTextView.setVisibility(View.GONE);
                 messagesTextView.setVisibility(View.GONE);
