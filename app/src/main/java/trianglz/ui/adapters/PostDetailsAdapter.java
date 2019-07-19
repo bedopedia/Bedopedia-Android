@@ -137,30 +137,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
     }
 
     private void setAvatarView(final AvatarView avatarView,final String name, String imageUrl) {
-        if (imageUrl == null || imageUrl.equals("")) {
-            imageLoader = new PicassoLoader();
-            imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), "Path of Image");
-        } else {
-            imageLoader = new PicassoLoader();
-            imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), "Path of Image");
-            Picasso.with(context)
-                    .load(imageUrl)
-                    .fit()
-                    .noPlaceholder()
-                    .transform(new CircleTransform())
-                    .into(avatarView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onError() {
-                            imageLoader = new PicassoLoader();
-                            imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), "Path of Image");
-                        }
-                    });
-        }
+        imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), "Path of Image");
     }
 
     public void addData(ArrayList<PostDetails> mPostDetails) {
