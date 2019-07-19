@@ -128,6 +128,12 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
                 postDetailsInterface.onCardClicked(postDetail);
             }
         });
+        viewHolder.bodyTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postDetailsInterface.onCardClicked(postDetail);
+            }
+        });
     }
 
     private void setAvatarView(final AvatarView avatarView,final String name, String imageUrl) {
