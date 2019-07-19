@@ -19,16 +19,18 @@ public class StudentMainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position == 0)
-            return fragment_list.get(0);
-        else if (position == 1)
-            return fragment_list.get(1);
-        else if (position == 2)
-            return fragment_list.get(2);
-        else if (position == 3)
-            return fragment_list.get(3);
-        else
-            return fragment_list.get(4);
+        switch (position) {
+            case 0:
+                return fragment_list.get(0);
+            case 1:
+                return fragment_list.get(1);
+            case 2:
+                return fragment_list.get(2);
+            case 3:
+                return fragment_list.get(3);
+            default:
+                return fragment_list.get(4);
+        }
 
     }
 
