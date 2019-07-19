@@ -238,7 +238,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             levelTextView.setText(actor.actableType);
             actorHeaderLayout.setVisibility(View.VISIBLE);
             studentHeaderLayout.setVisibility(View.GONE);
-            String notificationText = SessionManager.getInstance().getNotficiationCounter() + " "+getResources().getString(R.string.unread_notifications);
+            String notificationText = SessionManager.getInstance().getNotficiationCounter() + " "+getActivity().getResources().getString(R.string.unread_notifications);
             notificationTextView.setText(notificationText);
             if(SessionManager.getInstance().getNotficiationCounter() > 0){
                 notifcationCounterTextView.setVisibility(View.VISIBLE);
@@ -332,10 +332,10 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             }
             if (attendanceDates.size() != 0)
                 progressBar.setProgress(((attendanceDates.size()-absentDays) * 100) / attendanceDates.size());
-            String attendance = getResources().getString(R.string.attend) + " " + (
+            String attendance = getActivity().getResources().getString(R.string.attend) + " " + (
                     attendanceDates.size()-absentDays)  +
-                    " " + getResources().getString(R.string.out) + " " + attendanceDates.size() + " " +
-                    getResources().getString(R.string.days);
+                    " " + getActivity().getResources().getString(R.string.out) + " " + attendanceDates.size() + " " +
+                    getActivity().getResources().getString(R.string.days);
             attendanceTextView.setText(attendance);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -365,7 +365,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     @Override
     public void onGetStudentGradesSuccess(ArrayList<trianglz.models.CourseGroup> courseGroups, String totalGrade) {
         this.courseGroups = courseGroups;
-        totalGrade = getResources().getString(R.string.average_grade) + " " + totalGrade;
+        totalGrade = getActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
         studentGradeTextView.setText(totalGrade);
         String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
         studentDetailView.getStudentTimeTable(timeTableUrl);
@@ -389,7 +389,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         todaySlots = (List<TimeTableSlot>) timeTableData.get(0);
         tomorrowSlots = (List<TimeTableSlot>) timeTableData.get(1);
         if(nextSlot.isEmpty()){
-            nextSlotTextView.setText(getResources().getString(R.string.there_is_no_time_table));
+            nextSlotTextView.setText(getActivity().getResources().getString(R.string.there_is_no_time_table));
             timeTableLayout.setClickable(false);
         }else {
             timeTableLayout.setClickable(true);
@@ -476,7 +476,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             Notification notification = notificationArrayList.get(0);
             notificationTextView.setText(notification.getMessage());
         }else {
-            notificationTextView.setText(getResources().getString(R.string.there_is_no_notifications));
+            notificationTextView.setText(getActivity().getResources().getString(R.string.there_is_no_notifications));
         }
 
         if(Util.isNetworkAvailable(getActivity())){
@@ -522,7 +522,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 messagesTextView.setText(body);
             }
         }else {
-            messagesTextView.setText(getResources().getString(R.string.there_is_no_messages));
+            messagesTextView.setText(getActivity().getResources().getString(R.string.there_is_no_messages));
         }
         if (unreadMessageCount> 0) {
             messagesCounterTextView.setVisibility(View.VISIBLE);
@@ -567,7 +567,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             body = StringEscapeUtils.unescapeJava(body);
             annoucmentTextView.setText(body);
         }else {
-            annoucmentTextView.setText(getResources().getString(R.string.there_is_no_announcements));
+            annoucmentTextView.setText(getActivity().getResources().getString(R.string.there_is_no_announcements));
         }
         if(activity.progress.isShowing()){
             activity. progress.dismiss();
@@ -793,9 +793,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 .setDisplay(Display.DIALOG)
                 .showEvery(1)
                 .setUpdateFrom(UpdateFrom.GOOGLE_PLAY)
-                .setTitleOnUpdateAvailable(getResources().getString(R.string.update_is_available))
-                .setContentOnUpdateAvailable(getResources().getString(R.string.check_latest_version))
-                .setButtonUpdate(getResources().getString(R.string.cancel))
+                .setTitleOnUpdateAvailable(getActivity().getResources().getString(R.string.update_is_available))
+                .setContentOnUpdateAvailable(getActivity().getResources().getString(R.string.check_latest_version))
+                .setButtonUpdate(getActivity().getResources().getString(R.string.cancel))
                 .setButtonUpdateClickListener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -803,7 +803,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                     }
                 })
                 .setButtonDismiss("")
-                .setButtonDoNotShowAgain(getResources().getString(R.string.update_now))
+                .setButtonDoNotShowAgain(getActivity().getResources().getString(R.string.update_now))
                 .setButtonDoNotShowAgainClickListener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
