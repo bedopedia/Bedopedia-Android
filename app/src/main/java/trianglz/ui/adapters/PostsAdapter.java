@@ -3,6 +3,7 @@ package trianglz.ui.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
         viewHolder.subjectTextView.setText(postsResponse.getCourseName());
         viewHolder.nameTextview.setText(postsResponse.getPosts().getOwner().getName());
         viewHolder.counterTextView.setText(String.valueOf(postsResponse.getPostsCount()));
+        viewHolder.descriptionTextView.setText(String.valueOf(Html.fromHtml(postsResponse.getPosts().getContent())));
         IImageLoader imageLoader = new PicassoLoader();
             imageLoader.loadImage(viewHolder.subjectImageView, new AvatarPlaceholderModified(postsResponse.getCourseName()), "Path of Image");
             viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
