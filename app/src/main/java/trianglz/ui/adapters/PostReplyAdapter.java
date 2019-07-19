@@ -31,6 +31,7 @@ import trianglz.components.CircleTransform;
 import trianglz.models.PostDetails;
 import trianglz.models.Reply;
 import trianglz.models.UploadedObject;
+import trianglz.utils.Util;
 
 public class PostReplyAdapter extends RecyclerView.Adapter {
 
@@ -73,7 +74,7 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             setAvatarView(viewHolder.avatarView, postDetail.getOwner().getName(), imageUrl);
             viewHolder.ownerTextview.setText(postDetail.getOwner().getName());
             DateTime dateTime = new DateTime(postDetail.getCreatedAt());
-            String date = dateTime.toLocalDate().toString();
+            String date = Util.getPostDate(postDetail.getCreatedAt(), context);
             viewHolder.dateTextView.setText(date);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 viewHolder.bodyTextView.setText(Html.fromHtml(postDetail.getContent(), Html.FROM_HTML_MODE_COMPACT));

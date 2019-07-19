@@ -32,6 +32,7 @@ import trianglz.core.views.PostDetailsView;
 import trianglz.models.PostDetails;
 import trianglz.models.PostsResponse;
 import trianglz.models.UploadedObject;
+import trianglz.utils.Util;
 
 public class PostDetailsAdapter extends RecyclerView.Adapter {
     ArrayList<PostDetails> postDetails;
@@ -60,8 +61,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         imageLoader = new PicassoLoader();
         setAvatarView(viewHolder.avatarView, postDetail.getOwner().getName(), imageUrl);
         viewHolder.ownerTextview.setText(postDetail.getOwner().getName());
-        DateTime dateTime = new DateTime(postDetail.getCreatedAt());
-        String date = dateTime.toLocalDate().toString();
+        String date = Util.getPostDate(postDetail.getCreatedAt(), context);
         viewHolder.dateTextView.setText(date);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             viewHolder.bodyTextView.setText(Html.fromHtml(postDetail.getContent(), Html.FROM_HTML_MODE_COMPACT));
