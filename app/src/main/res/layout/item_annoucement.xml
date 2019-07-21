@@ -33,6 +33,8 @@
             android:textColor="@color/greyish_brown"
             android:text="test"
             android:ellipsize="end"
+            android:gravity="start"
+            android:textAlignment="viewStart"
             android:singleLine="true"
             android:maxLines="1"
             android:id="@+id/tv_header"
