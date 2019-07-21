@@ -18,11 +18,12 @@ import java.util.Objects;
 
 import trianglz.core.views.PostDetailsView;
 import trianglz.models.UploadedObject;
+import trianglz.ui.activities.SuperActivity;
 import trianglz.ui.adapters.AttachmentAdapter;
 import trianglz.ui.adapters.PostDetailsAdapter;
 import trianglz.utils.Constants;
 
-public class AttachmentsActivity extends AppCompatActivity implements AttachmentAdapter.AttachmentAdapterInterface {
+public class AttachmentsActivity extends SuperActivity implements AttachmentAdapter.AttachmentAdapterInterface {
     private String subjectName;
     ArrayList<UploadedObject> uploadedObjects;
     private RecyclerView recyclerView;

@@ -27,7 +27,7 @@ import trianglz.ui.adapters.PostReplyAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class PostReplyActivity extends AppCompatActivity implements PostReplyAdapter.PostReplyInterface {
+public class PostReplyActivity extends SuperActivity implements PostReplyAdapter.PostReplyInterface {
     PostDetails postDetails;
     private RecyclerView recyclerView;
     private Toolbar toolbar;

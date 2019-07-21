@@ -33,6 +33,8 @@
                 android:id="@+id/tv_owner_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textAlignment="viewStart"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:text="asdjfklsdjfkldsf"
@@ -43,6 +45,8 @@
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textAlignment="viewStart"
                 android:text="asldkjfklsdfjdasdlfjsdklfj"
                 android:textColor="#7a8993"
                 android:textSize="12sp" />
@@ -60,9 +64,10 @@
             android:paddingStart="14dp"
             android:paddingTop="8dp"
             android:paddingBottom="12dp"
+            android:gravity="start"
+            android:textAlignment="viewStart"
             android:paddingEnd="14dp"
             android:text="@string/post_detail_place_holder"
-            android:textAlignment="textStart"
             android:textColor="#de000000"
             android:textSize="14sp" />
 

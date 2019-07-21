@@ -161,5 +161,6 @@
     <string name="posts_text_placeholder" translatable="false">Please solve assigment number 1 and be informed that we will have a quizz…</string>
     <string name="post_detail_place_holder" translatable="false">Dear Parents, MIS believes that Food, to a large extent, defines our life. It determines our mood, behaviors, and directs us towards specific actions. students will learn about \"Healthy Food\" on Thursday October 11, 2018. We encourage you to pack some healthy food to share with their friends. And they will also participate in activity consists of information centered on hygiene and prevention of spreading common illnesses. Students</string>
     <string name="reply">Reply</string>
+
     <string name="home">Home</string>
 </resources>
