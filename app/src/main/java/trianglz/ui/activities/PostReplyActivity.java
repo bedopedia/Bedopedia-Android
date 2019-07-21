@@ -43,7 +43,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
     private PostReplyAdapter adapter;
     private String ownerName;
     private LinearLayout rootView, inputLayout;
-    private Button sendReplyButton;
+    private ImageButton sendReplyButton;
     private EditText replyEditText;
     private String courseName = "Course";
 

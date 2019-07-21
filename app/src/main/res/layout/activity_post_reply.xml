@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fafafa"
+    android:focusable="true"
     android:id="@+id/root_view"
     android:orientation="vertical"
     tools:context="trianglz.ui.activities.PostReplyActivity">
@@ -44,7 +45,8 @@
         android:layout_height="50dp"
         android:visibility="visible"
         android:orientation="horizontal"
-        android:background="@color/white_70"
+        android:gravity="center_vertical"
+        android:background="#eceff0"
         android:padding="7dp">
 
         <EditText
@@ -55,8 +57,8 @@
             android:inputType="textMultiLine"
             android:textSize="17sp"
             android:textColorHint="#c4c0bd"
-            android:background="@drawable/curved_white_background"
-            android:hint="@string/write_a_message"
+            android:background="@drawable/curved_reply_background"
+            android:hint="@string/send_a_reply"
             android:maxLines="1"
             android:imeActionLabel="@string/send"
             android:paddingStart="8dp"
@@ -65,13 +67,13 @@
             android:layout_marginEnd="5dp"
             android:imeOptions="actionDone"
             android:id="@+id/et_reply"/>
-        <Button
+        <ImageButton
             android:id="@+id/send"
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:text="@string/send"
-            android:background="@color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_up"
+            android:background="@drawable/circle_blue_background"
             android:textAllCaps="false"
             android:textSize="14sp"
             />
