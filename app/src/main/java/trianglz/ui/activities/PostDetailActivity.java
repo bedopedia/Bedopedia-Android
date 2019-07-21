@@ -40,6 +40,11 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
         bindViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         showLoadingDialog();
         postDetailsView.getPostDetails(getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0));
     }

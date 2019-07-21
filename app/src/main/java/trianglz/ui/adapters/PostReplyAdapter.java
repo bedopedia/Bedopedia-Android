@@ -151,6 +151,8 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             });
         } else {
             PostReplyViewHolder viewHolder = (PostReplyViewHolder) holder;
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams)viewHolder.cardView.getLayoutParams();
+            params.setMargins(0, 0, 0, (int) Util.convertDpToPixel(16,context)); //substitute parameters for left, top, right, bottom
             Reply reply = postDetail.getComments()[position - 2];
             imageUrl = reply.getOwner().getAvatarUrl();
             setAvatarView(viewHolder.avatarView, reply.getOwner().getName(), imageUrl);

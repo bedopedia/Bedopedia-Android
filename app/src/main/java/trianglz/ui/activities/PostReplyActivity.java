@@ -28,6 +28,7 @@ import trianglz.core.presenters.PostReplyPresenter;
 import trianglz.core.views.PostReplyView;
 import trianglz.managers.SessionManager;
 import trianglz.models.PostDetails;
+import trianglz.models.Reply;
 import trianglz.models.UploadedObject;
 import trianglz.ui.AttachmentsActivity;
 import trianglz.ui.adapters.PostReplyAdapter;
@@ -128,9 +129,16 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
     }
 
     @Override
-    public void onPostReplySuccess() {
-        Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+    public void onPostReplySuccess(Reply reply) {
+        Reply[] newComments = new Reply[postDetails.getComments().length + 1];
+        for (int i = 0; i < postDetails.getComments().length; i++) {
+            newComments[i] = postDetails.getComments()[i];
+        }
+        newComments[postDetails.getComments().length] = reply;
         progress.dismiss();
+        postDetails.setComments(newComments);
+        adapter.addData(postDetails);
+        recyclerView.refreshDrawableState();
     }
 
     @Override

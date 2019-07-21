@@ -10,6 +10,7 @@ import trianglz.core.presenters.PostDetailsPresenter;
 import trianglz.core.presenters.PostReplyPresenter;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.Reply;
 import trianglz.ui.adapters.PostReplyAdapter;
 
 public class PostReplyView {
@@ -28,7 +29,8 @@ public class PostReplyView {
         UserManager.postReply(message, userId, postId, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                postReplyPresenter.onPostReplySuccess();
+                Reply reply = Reply.create(response.toString());
+                postReplyPresenter.onPostReplySuccess(reply);
             }
 
             @Override
