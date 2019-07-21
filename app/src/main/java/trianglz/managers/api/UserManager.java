@@ -82,6 +82,34 @@ public class UserManager {
             }
         });
     }
+
+    public static void postReply(String message, int ownerId, int postId, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postReply();
+        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String,String> paramsHashMap = new HashMap<>();
+        JSONObject jsonObject = new JSONObject();
+        JSONObject comment = new JSONObject();
+        try {
+            comment.put(Constants.CONTENT, message);
+            comment.put(Constants.KEY_OWNER_ID, ownerId);
+            comment.put(Constants.POST_ID, postId);
+            jsonObject.put(Constants.KEY_COMMENT, comment);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, jsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+
+    }
     public static void getPostDetails (int courseId, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postsDetailsApi(courseId);
         HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();

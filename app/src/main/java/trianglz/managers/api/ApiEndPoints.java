@@ -23,6 +23,10 @@ public class ApiEndPoints {
     public static String postsDetailsApi(int courseId) {
         return "/api/posts?access_by_entity=Course+Group+Posts&course_group_id=" + courseId;
     }
+
+    public static String postReply() {
+        return "/api/comments";
+    }
     public static String getSemesters (){
         return  "/api/grading_periods/course_grading_periods";
     }

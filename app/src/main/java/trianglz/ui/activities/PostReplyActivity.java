@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import trianglz.components.BottomItemDecoration;
 import trianglz.components.HideKeyboardOnTouch;
 import trianglz.components.TopItemDecoration;
+import trianglz.core.presenters.PostReplyPresenter;
+import trianglz.core.views.PostReplyView;
 import trianglz.models.PostDetails;
 import trianglz.models.UploadedObject;
 import trianglz.ui.AttachmentsActivity;
@@ -29,7 +31,7 @@ import trianglz.ui.adapters.PostReplyAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class PostReplyActivity extends SuperActivity implements PostReplyAdapter.PostReplyInterface {
+public class PostReplyActivity extends SuperActivity implements PostReplyAdapter.PostReplyInterface, PostReplyPresenter {
     PostDetails postDetails;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
@@ -39,6 +41,8 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
     private EditText replyEditText;
     private LinearLayout rootView, inputLayout;
     private String courseName = "Course";
+
+    private PostReplyView postReplyView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +90,8 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
         replyEditText = findViewById (R.id.et_message);
         rootView = findViewById(R.id.root_view);
         inputLayout = findViewById(R.id.ll_input);
+
+        postReplyView = new PostReplyView(this,this);
     }
 
     @Override
@@ -113,5 +119,15 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
     public void onBackPressed() {
         inputLayout.setVisibility(View.GONE);
         super.onBackPressed();
+    }
+
+    @Override
+    public void onPostReplySuccess() {
+
+    }
+
+    @Override
+    public void onPostReplyFailure(String message, int errorCode) {
+
     }
 }
