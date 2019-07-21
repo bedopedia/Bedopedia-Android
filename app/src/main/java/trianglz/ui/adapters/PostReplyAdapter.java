@@ -28,6 +28,7 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.managers.SessionManager;
 import trianglz.models.PostDetails;
 import trianglz.models.Reply;
 import trianglz.models.UploadedObject;
@@ -142,6 +143,7 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
                 });
         } else if (position == 1) {
             ReplyViewHolder replyViewHolder = (ReplyViewHolder) holder;
+            if (!SessionManager.getInstance().getStudentAccount()) replyViewHolder.itemView.setVisibility(View.GONE);
             replyViewHolder.replyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
