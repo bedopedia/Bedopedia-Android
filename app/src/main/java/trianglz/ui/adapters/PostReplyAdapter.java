@@ -73,7 +73,6 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             viewHolder.cardView.setLayoutParams(params);
             setAvatarView(viewHolder.avatarView, postDetail.getOwner().getName(), imageUrl);
             viewHolder.ownerTextview.setText(postDetail.getOwner().getName());
-            DateTime dateTime = new DateTime(postDetail.getCreatedAt());
             String date = Util.getPostDate(postDetail.getCreatedAt(), context);
             viewHolder.dateTextView.setText(date);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -157,8 +156,7 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             imageUrl = reply.getOwner().getAvatarUrl();
             setAvatarView(viewHolder.avatarView, reply.getOwner().getName(), imageUrl);
             viewHolder.ownerTextview.setText(reply.getOwner().getName());
-            DateTime dateTime = new DateTime(reply.getCreatedAt());
-            String date = dateTime.toLocalDate().toString();
+            String date = Util.getPostDate(reply.getCreatedAt(),context);
             viewHolder.dateTextView.setText(date);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 viewHolder.bodyTextView.setText(Html.fromHtml(reply.getContent(), Html.FROM_HTML_MODE_COMPACT));
