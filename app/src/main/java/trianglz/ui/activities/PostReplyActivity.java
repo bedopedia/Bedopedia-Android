@@ -1,6 +1,7 @@
 package trianglz.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import trianglz.components.HideKeyboardOnTouch;
 import trianglz.components.TopItemDecoration;
 import trianglz.models.PostDetails;
 import trianglz.models.UploadedObject;
+import trianglz.ui.AttachmentsActivity;
 import trianglz.ui.adapters.PostReplyAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -36,6 +38,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
     private String ownerName;
     private EditText replyEditText;
     private LinearLayout rootView, inputLayout;
+    private String courseName = "Course";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
 
     private void checkIntent() {
         postDetails = PostDetails.create(getIntent().getStringExtra(Constants.POST_DETAILS));
+        courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
         ownerName = postDetails.getOwner().getName();
     }
 
@@ -86,7 +90,16 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
 
     @Override
     public void onAttachmentClicked(ArrayList<UploadedObject> uploadedObjects) {
-
+        Intent intent = new Intent(this, AttachmentsActivity.class);
+        Bundle bundle = new Bundle();
+        ArrayList<String> uploadedObjectStrings = new ArrayList<>();
+        for (UploadedObject uploadedObject : uploadedObjects) {
+            uploadedObjectStrings.add(uploadedObject.toString());
+        }
+        if (!uploadedObjectStrings.isEmpty()) bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        intent.putExtra(Constants.KEY_COURSE_NAME, courseName);
+        startActivity(intent);
     }
 
     @Override

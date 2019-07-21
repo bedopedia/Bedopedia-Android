@@ -90,6 +90,7 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     @Override
     public void onCardClicked(PostDetails postDetails) {
         Intent intent = new Intent(this, PostReplyActivity.class);
+        intent.putExtra(Constants.KEY_COURSE_NAME, subjectName);
         intent.putExtra(Constants.POST_DETAILS, postDetails.toString());
         startActivity(intent);
     }
