@@ -24,8 +24,8 @@ public class PostReplyView {
         gson = new Gson();
     }
 
-    public void postReply (String message, int ownerId, int postId) {
-        UserManager.postReply(message, ownerId, postId, new ResponseListener() {
+    public void postReply (String message, String userId, int postId) {
+        UserManager.postReply(message, userId, postId, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 postReplyPresenter.onPostReplySuccess();
