@@ -179,17 +179,9 @@ public class Util {
         Date date = null;
         try {
             date = fmt.parse(messageTime);
-            SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy",new Locale("en"));
-            String[] dates = fmtOut.format(date).split(" ");
-            Calendar cal = CalendarUtils.getCalendar(Calendar.getInstance().getTime());
-            Integer day = cal.get(Calendar.DAY_OF_MONTH);
-            String notificationDate = fmtOut.format(date);
-            if (dates[0].equals(String.valueOf(day))) {
-                notificationDate = context.getResources().getString(R.string.today) + notificationDate.substring(dates[0].length() + dates[1].length() + 1);
-            } else if (dates[0].equals(String.valueOf(day - 1))) {
-                notificationDate = context.getResources().getString(R.string.yesterday) + notificationDate.substring(dates[0].length() + dates[1].length() + 1);
-            }
-            finalData = notificationDate;
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy",new Locale(getLocale(context)));
+            finalData = fmtOut.format(date);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }

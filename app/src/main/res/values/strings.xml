@@ -123,7 +123,7 @@
     <string name="update_is_available">Update available</string>
     <string name="check_latest_version">A new version of app is available. Please update to version now.</string>
     <string name="update_now">Update now</string>
-    <string name="enter_email">Enter email</string>
+    <string name="enter_email">Enter user name</string>
     <string name="enter_password">Enter password</string>
     <string name="enter_school_code">Enter school code</string>
     <string name="wrong_school_code">Wrong school code</string>
