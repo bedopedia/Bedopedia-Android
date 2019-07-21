@@ -135,4 +135,7 @@
     <string name="due_date">تاريخ الأنتهاء</string>
     <string name="no_assignment">لا يوجد واجبات</string>
     <string name="publish">نشر</string>
+    <string name="home">الرئيسية</string>
+    <string name="posts">المنشورات</string>
+    <string name="reply">رد</string>
 </resources>
