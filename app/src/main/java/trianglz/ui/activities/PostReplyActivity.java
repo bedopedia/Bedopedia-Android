@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -121,7 +123,16 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
         ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         replyEditText.requestFocus();
     }
-
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
     @Override
     public void onBackPressed() {
         inputLayout.setVisibility(View.GONE);
@@ -143,8 +154,8 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
 
     @Override
     public void onPostReplyFailure(String message, int errorCode) {
-        Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
         progress.dismiss();
+        showErrorDialog(this);
     }
 
     @Override
@@ -154,6 +165,9 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
                 if (!replyEditText.getText().toString().isEmpty()) {
                     showLoadingDialog();
                     postReplyView.postReply(replyEditText.getText().toString(), SessionManager.getInstance().getUserId(), postDetails.getId());
+                    replyEditText.setText("");
+                    hideKeyboard(this);
+                    rootView.requestFocus();
                 }
                 break;
         }
