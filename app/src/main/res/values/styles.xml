@@ -47,6 +47,13 @@
         <item name="android:textColor">@android:color/black</item>
 
     </style>
+    <style name="segmented_group_text_style" parent="RadioButton">
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+
+    </style>
 
     <style name="chat_timings">
 

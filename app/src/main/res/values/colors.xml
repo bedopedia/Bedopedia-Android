@@ -69,4 +69,5 @@
     <color name="posts_black">#de000000</color>
     <color name="posts_red">#e50000</color>
     <color name="posts_background">#FAFAFA</color>
+    <color name="student_red">#fd8268</color>
 </resources>

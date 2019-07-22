@@ -12,7 +12,7 @@
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="84dp"
             android:background="@color/white"
             android:elevation="2dp"
             app:contentInsetLeft="0dp"
@@ -39,16 +39,16 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <trianglz.components.SfproSemiBoldTextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
                         android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal"
+                        android:gravity="center"
                         android:text="@string/behaviour_notes"
                         android:textSize="17sp" />
 
@@ -58,6 +58,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:orientation="horizontal"
                         >
 
@@ -97,6 +98,41 @@
                             android:textAlignment="center"
                             android:textColor="@color/jade_green" />
                     </LinearLayout>
+                    <info.hoang8f.android.segmented.SegmentedGroup
+                        xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/segmented"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal"
+                        segmentedgroup:sc_tint_color="@color/student_red"
+                        segmentedgroup:sc_border_width="1dp"
+                        segmentedgroup:sc_corner_radius="4dp">
+
+                        <RadioButton
+                            android:id="@+id/button21"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/positiveBehaviorNotes"
+                            style="@style/segmented_group_text_style" />
+
+                        <RadioButton
+                            android:id="@+id/button22"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/negativeBehaviorNotes"
+                            style="@style/segmented_group_text_style" />
+                        <RadioButton
+                            android:id="@+id/button33"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/other"
+                            style="@style/segmented_group_text_style" />
+                    </info.hoang8f.android.segmented.SegmentedGroup>
                 </LinearLayout>
 
                 <agency.tango.android.avatarview.views.AvatarView
@@ -106,6 +142,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="4dp"/>
             </LinearLayout>
+
         </android.support.v7.widget.Toolbar>
 
         <View

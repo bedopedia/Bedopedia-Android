@@ -24,6 +24,7 @@ import java.util.Objects;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
+import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.CustomRtlViewPager;
@@ -61,6 +62,8 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
     private Student student;
     private AvatarView studentImage;
     private IImageLoader imageLoader;
+
+    private SegmentedGroup segmentedGroup;
 
     public BehaviorNotesFragment() {
         // Required empty public constructor
@@ -124,6 +127,8 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         String name = student.firstName + " " + student.lastName;
         setStudentImage(student.getAvatar(),name);
         setHeader();
+
+        segmentedGroup = rootView.findViewById (R.id.segmented);
     }
 
     private void setListeners() {
