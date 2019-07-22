@@ -105,7 +105,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private IImageLoader imageLoader;
     private String studentName = "";
     private StudentDetailView studentDetailView;
-    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout,weeklyPlannerLayout, assignmentsLayout, postsLayout;
+    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout,weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout;
     private String attendance;
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
@@ -209,6 +209,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
         // new posts layout
         postsLayout = rootView.findViewById(R.id.layout_posts);
+
+        // new quizzes layout
+        quizzesLayout = rootView.findViewById(R.id.layout_quizzes);
     }
 
     private void setListeners() {
@@ -219,6 +222,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         behaviourNotesLayout.setOnClickListener(this);
         assignmentsLayout.setOnClickListener(this);
         postsLayout.setOnClickListener(this);
+        quizzesLayout.setOnClickListener(this);
 
         //actor listeners
         notificationLayout.setOnClickListener(this);
@@ -641,6 +645,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 Intent intent = new Intent(getActivity(), PostsActivity.class);
                 intent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
                 startActivity(intent);
+                break;
+                case R.id.layout_quizzes:
+//                Intent intent = new Intent(getActivity(), Qui);
                 break;
         }
     }
