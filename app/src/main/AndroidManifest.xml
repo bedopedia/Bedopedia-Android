@@ -17,11 +17,17 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="trianglz.ui.activities.PostReplyActivity"
-            android:windowSoftInputMode="adjustResize"
+        <activity android:name="trianglz.ui.activities.CreatePersonalEventActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name="trianglz.ui.activities.PostReplyActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="trianglz.ui.AttachmentsActivity"
             android:hardwareAccelerated="true"
@@ -29,6 +35,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="trianglz.ui.activities.PostDetailActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="trianglz.ui.activities.CalendarActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

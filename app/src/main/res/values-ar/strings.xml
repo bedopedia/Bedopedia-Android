@@ -138,4 +138,11 @@
     <string name="home">الرئيسية</string>
     <string name="posts">المنشورات</string>
     <string name="reply">رد</string>
+
+    <string name="calendar">التقويم</string>
+    <string name="academic">أكاديمي</string>
+    <string name="vacations">أجازات</string>
+    <string name="personal">شخصي</string>
+    <string name="create_personal_event">إنشاء حدث شخصي</string>
+
 </resources>
