@@ -2,6 +2,7 @@ package trianglz.ui.fragments;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,6 +30,7 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.CustomRtlViewPager;
+import trianglz.managers.SessionManager;
 import trianglz.models.Student;
 import trianglz.ui.adapters.BehaviorNotesFragmentAdapter;
 import trianglz.models.BehaviorNote;
@@ -133,6 +135,13 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         setHeader();
 
         segmentedGroup = rootView.findViewById (R.id.segmented);
+        if (SessionManager.getInstance().getStudentAccount()) {
+            segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
+        } else if (SessionManager.getInstance().getUserType()) {
+            segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
+        } else {
+            segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
+        }
 
         // radio buttons
         positiveButton = rootView.findViewById(R.id.btn_positive);
