@@ -57,8 +57,8 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
         if (assignmentsDetail.getName() != null) {
             holder.subjectNameTextView.setText(courseName);
         }
-        if (assignmentsDetail.getStartAt() != null) {
-            holder.dateTextView.setText(Util.getPostDateAmPm(assignmentsDetail.getStartAt(),context));
+        if (assignmentsDetail.getEndAt() != null) {
+            holder.dateTextView.setText(Util.getPostDateAmPm(assignmentsDetail.getEndAt(),context));
         }
 
         if (assignmentsDetail.getEndAt() != null) {
@@ -78,7 +78,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
             holder.dateTextView.setVisibility(View.INVISIBLE);
         }
 
-        String published = Util.getPostDate(dateTime.toString(), context);
+        String published = "Publish "+ Util.getPostDate(dateTime.toString(), context);
         holder.publishedTextView.setText(published);
     }
 
