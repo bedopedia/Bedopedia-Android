@@ -164,4 +164,6 @@
 
     <string name="home">Home</string>
     <string name="send_a_reply">Send a reply</string>
+    <string name="open">Open</string>
+    <string name="closed">Closed</string>
 </resources>
