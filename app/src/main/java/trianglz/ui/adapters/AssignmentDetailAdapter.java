@@ -5,11 +5,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import agency.tango.android.avatarview.IImageLoader;
@@ -45,11 +53,12 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
         AssignmentsDetail assignmentsDetail = mDataList.get(position);
+        DateTime dateTime = new DateTime(assignmentsDetail.getStartAt());
         if (assignmentsDetail.getName() != null) {
             holder.subjectNameTextView.setText(courseName);
         }
         if (assignmentsDetail.getStartAt() != null) {
-            holder.dateTextView.setText(context.getResources().getString(R.string.publish) +" "+ Util.getAssigmentDetailStartDate(assignmentsDetail.getStartAt()));
+            holder.dateTextView.setText(Util.getPostDateAmPm(assignmentsDetail.getStartAt(),context));
         }
 
         if (assignmentsDetail.getEndAt() != null) {
@@ -59,6 +68,18 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
         if (assignmentsDetail.getName() != null) {
             holder.assignmentNameTextView.setText(assignmentsDetail.getName());
         }
+        if(assignmentsDetail.getState() != null){
+            if (assignmentsDetail.getState().equals("running")) {
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
+            } else {
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+            }
+        }else {
+            holder.dateTextView.setVisibility(View.INVISIBLE);
+        }
+
+        String published = Util.getPostDate(dateTime.toString(), context);
+        holder.publishedTextView.setText(published);
     }
 
     @Override
@@ -75,9 +96,10 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
     public static class Holder extends RecyclerView.ViewHolder {
 
         public TextView subjectNameTextView, dateTextView,
-                assignmentNameTextView, dayTextView, monthTextView;
+                assignmentNameTextView, dayTextView, monthTextView, publishedTextView;
         public IImageLoader imageLoader;
         private AvatarView courseAvatarView;
+        private LinearLayout dateLinearLayout;
 
 
         public Holder(View itemView) {
@@ -89,6 +111,8 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
             courseAvatarView = itemView.findViewById(R.id.img_course);
             dayTextView = itemView.findViewById(R.id.tv_day_number);
             monthTextView = itemView.findViewById(R.id.tv_month);
+            dateLinearLayout = itemView.findViewById(R.id.ll_date);
+            publishedTextView = itemView.findViewById(R.id.tv_published);
         }
     }
 

@@ -10,10 +10,11 @@
     android:layout_marginBottom="8dp">
     <LinearLayout
         android:layout_width="match_parent"
+        android:gravity="center_vertical"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="12dp"
-        android:layout_marginEnd="24dp">
+        >
 
         <LinearLayout
             android:layout_width="0dp"
@@ -21,71 +22,89 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginStart="24dp"
-            android:gravity="center_vertical"
+            android:gravity="start"
             >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center_vertical">
+                <trianglz.components.SfuiMediumTextView
+                    android:id="@+id/tv_subject_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:text="English"
+                    />
 
-                <trianglz.components.SfproBoldTextView
+                <TextView
+                    android:id="@+id/tv_published"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/greyish_brown"
+                    android:layout_marginTop="8dp"
                     android:textSize="14sp"
+                    android:text="testtestestsetsetsetsetsetsetsetsetsetsetsetsetsetsetsetestsetset"
                     android:layout_marginEnd="5dp"
-                    android:id="@+id/tv_subject_name"
                     android:maxLines="1"
                     android:ellipsize="end"/>
+                <TextView
+                    android:id="@+id/tv_assignment_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#de000000"
+                    android:textStyle="bold"
+                    android:layout_marginTop="4dp"
+                    android:textSize="16sp"
+                    android:text="Pattern assignment"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:background="@drawable/curved_light_sage"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:paddingBottom="2dp"
+                android:id="@+id/ll_date">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_clock"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="5dp"/>
 
-
-
+                <trianglz.components.SfproRegularTextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:background="@color/transparent"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:layout_gravity="start"
+                    android:singleLine="true"
+                    android:text="sjkldajkljsadlkjsdaklsjda"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    />
             </LinearLayout>
 
-
-            <trianglz.components.SfproRegularTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textColor="@color/pinkish_grey"
-                android:id="@+id/tv_date"
-                android:maxLines="1"
-                android:ellipsize="end"/>
-
-            <trianglz.components.SfproBoldTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textSize="18sp"
-                android:textColor="@color/aqua_marine"
-                android:layout_marginBottom="4dp"
-                android:textAlignment="viewStart"
-                android:id="@+id/tv_assignment_name"
-                />
-
-            <trianglz.components.SfproRegularButton
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="25dp"
-                android:background="@drawable/curved_golden_yellow"
-                android:textColor="@color/white"
-                android:text="2 days left"
-                android:paddingEnd="7dp"
-                android:paddingStart="7dp"
-                android:textAllCaps="false"
-                android:visibility="gone"/>
-
         </LinearLayout>
-        <LinearLayout
+        <FrameLayout
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="12dp"
-            android:orientation="vertical"
+            android:layout_marginEnd="16dp"
             >
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -97,7 +116,7 @@
                 <View
                     android:layout_width="4dp"
                     android:layout_height="match_parent"
-                    android:background="@color/light_grey_blue"/>
+                    android:background="#F3F3F3"/>
                 <View
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -105,7 +124,7 @@
                 <View
                     android:layout_width="4dp"
                     android:layout_height="match_parent"
-                    android:background="@color/light_grey_blue"/>
+                    android:background="#F3F3F3"/>
                 <View
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -113,11 +132,9 @@
             </LinearLayout>
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:minWidth="60dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/light_grey_blue"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/curved_light_grey_background"
                 android:padding="5dp">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -130,7 +147,7 @@
                     <trianglz.components.SfproBoldTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textColor="@color/grape_fruit"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="3dp"
@@ -141,6 +158,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
+                        android:textSize="12sp"
                         android:layout_marginBottom="3dp"
                         android:maxLines="1"
                         android:gravity="center_horizontal"
@@ -157,10 +175,9 @@
                 android:textSize="12sp"
                 android:layout_marginTop="3dp"
                 android:text="@string/due_date"
-                android:layout_marginBottom="2dp"
                 android:layout_gravity="center_horizontal"/>
-
+        </LinearLayout>
+        </FrameLayout>
         </LinearLayout>
 
-    </LinearLayout>
 </android.support.v7.widget.CardView>
