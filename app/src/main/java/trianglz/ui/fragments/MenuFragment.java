@@ -71,6 +71,7 @@ import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.CourseAssignmentActivity;
 import trianglz.ui.activities.GradesActivity;
 import trianglz.ui.activities.NotificationsActivity;
+import trianglz.ui.activities.OnlineQuizzesActivity;
 import trianglz.ui.activities.PostsActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.activities.TimetableActivity;
@@ -647,7 +648,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 startActivity(intent);
                 break;
                 case R.id.layout_quizzes:
-//                Intent intent = new Intent(getActivity(), Qui);
+                Intent intent1 = new Intent(getActivity(), OnlineQuizzesActivity.class);
+                startActivity(intent1);
                 break;
         }
     }
