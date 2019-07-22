@@ -111,22 +111,23 @@
                         segmentedgroup:sc_corner_radius="4dp">
 
                         <RadioButton
-                            android:id="@+id/button21"
+                            android:id="@+id/btn_positive"
                             android:layout_width="0dp"
                             android:layout_weight="1"
+                            android:defaultFocusHighlightEnabled="true"
                             android:layout_height="wrap_content"
                             android:text="@string/positiveBehaviorNotes"
                             style="@style/segmented_group_text_style" />
 
                         <RadioButton
-                            android:id="@+id/button22"
+                            android:id="@+id/btn_negative"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:text="@string/negativeBehaviorNotes"
                             style="@style/segmented_group_text_style" />
                         <RadioButton
-                            android:id="@+id/button33"
+                            android:id="@+id/btn_other"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"

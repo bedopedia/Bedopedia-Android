@@ -12,6 +12,7 @@ import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -64,6 +65,8 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
     private IImageLoader imageLoader;
 
     private SegmentedGroup segmentedGroup;
+
+    private RadioButton positiveButton, negativeButton, otherButton;
 
     public BehaviorNotesFragment() {
         // Required empty public constructor
@@ -118,6 +121,7 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         mViewPager = rootView.findViewById(R.id.behavior_notes_container);
         mViewPager.setPagingEnabled(true);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(0);
         positiveTv = rootView.findViewById(R.id.tv_positive);
         negativeTv = rootView.findViewById(R.id.tv_negative);
         otherTv = rootView.findViewById(R.id.tv_other);
@@ -129,6 +133,12 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         setHeader();
 
         segmentedGroup = rootView.findViewById (R.id.segmented);
+
+        // radio buttons
+        positiveButton = rootView.findViewById(R.id.btn_positive);
+        negativeButton = rootView.findViewById(R.id.btn_negative);
+        otherButton = rootView.findViewById(R.id.btn_other);
+        segmentedGroup.check(positiveButton.getId());
     }
 
     private void setListeners() {
@@ -136,6 +146,9 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         negativeTv.setOnClickListener(this);
         otherTv.setOnClickListener(this);
         backBtn.setOnClickListener(this);
+        positiveButton.setOnClickListener(this);
+        negativeButton.setOnClickListener(this);
+        otherButton.setOnClickListener(this);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -258,7 +271,15 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
             case R.id.back_btn:
                 Objects.requireNonNull(getActivity()).onBackPressed();
                 break;
-
+            case R.id.btn_positive:
+                mViewPager.setCurrentItem(0);
+                break;
+            case R.id.btn_negative:
+                mViewPager.setCurrentItem(1);
+                break;
+            case R.id.btn_other:
+                mViewPager.setCurrentItem(2);
+                break;
         }
     }
 
