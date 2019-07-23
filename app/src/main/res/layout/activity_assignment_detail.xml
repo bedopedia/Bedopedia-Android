@@ -9,7 +9,7 @@
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="84dp"
+        android:layout_height="100dp"
         android:background="@color/white"
         android:elevation="2dp"
         app:contentInsetLeft="0dp"
@@ -25,7 +25,7 @@
             >
 
             <ImageButton
-                android:id="@+id/btn_back"
+                android:id="@+id/back_btn"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:background="@color/white"
@@ -41,14 +41,15 @@
                 android:orientation="vertical">
 
                 <trianglz.components.SfproSemiBoldTextView
-                    android:id="@+id/tv_header"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="9dp"
                     android:gravity="center"
+                    android:layout_marginTop="2.5dp"
                     android:text="@string/assignments"
-                    android:textSize="17sp" />
+                    android:textSize="24sp" />
 
                 <LinearLayout
                     android:id="@+id/layout_texts"
@@ -112,6 +113,7 @@
                         android:id="@+id/btn_open"
                         android:layout_width="0dp"
                         android:layout_weight="1"
+                        android:defaultFocusHighlightEnabled="true"
                         android:layout_height="wrap_content"
                         android:text="@string/open"
                         style="@style/segmented_group_text_style" />
