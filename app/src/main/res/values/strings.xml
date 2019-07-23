@@ -166,4 +166,5 @@
     <string name="send_a_reply">Send a reply</string>
     <string name="open">Open</string>
     <string name="closed">Closed</string>
+    <string name="online_quizzes">Online Quizzes</string>
 </resources>

@@ -649,6 +649,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 break;
                 case R.id.layout_quizzes:
                 Intent intent1 = new Intent(getActivity(), OnlineQuizzesActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.STUDENT, student);
+                intent1.putExtra(Constants.KEY_BUNDLE, bundle);
                 startActivity(intent1);
                 break;
         }
