@@ -23,7 +23,6 @@ import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.core.presenters.AssignmentsDetailPresenter;
 import trianglz.core.presenters.CourseAssignmentPresenter;
-import trianglz.core.views.AssignmentsDetailView;
 import trianglz.core.views.CourseAssignmentView;
 import trianglz.managers.SessionManager;
 import trianglz.models.AssignmentsDetail;
@@ -145,12 +144,12 @@ public class OnlineQuizzesActivity extends SuperActivity implements View.OnClick
         if(progress.isShowing()){
             progress.dismiss();
         }
-        openAssignmentDetailActivity(assignmentsDetailArrayList,courseAssignment);
+        OpenQuizzesDetailsActivity(assignmentsDetailArrayList,courseAssignment);
     }
 
-    private void openAssignmentDetailActivity(ArrayList<AssignmentsDetail> assignmentsDetailArrayList,
-                                              CourseAssignment courseAssignment) {
-        Intent intent = new Intent(this,AssignmentDetailActivity.class);
+    private void OpenQuizzesDetailsActivity(ArrayList<AssignmentsDetail> assignmentsDetailArrayList,
+                                            CourseAssignment courseAssignment) {
+        Intent intent = new Intent(this,QuizzesDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
         bundle.putSerializable(Constants.STUDENT,student);

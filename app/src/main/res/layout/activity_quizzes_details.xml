@@ -1,9 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="trianglz.ui.activities.QuizzesDetailsActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@color/white"
+                android:src="@drawable/chevron_left"
+                android:layout_marginEnd="2dp"
+                android:layout_marginTop="5dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <trianglz.components.SfproSemiBoldTextView
+                    android:id="@+id/tv_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="9dp"
+                    android:gravity="center"
+                    android:layout_marginTop="2.5dp"
+                    android:text="@string/online_quizzes"
+                    android:textSize="24sp" />
+
+                <LinearLayout
+                    android:id="@+id/layout_texts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    >
+
+                    <trianglz.components.SfuiRegularTextView
+                        android:id="@+id/tv_positive"
+                        android:layout_width="0dp"
+                        android:layout_height="28dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/curved_solid_left_green"
+                        android:gravity="center"
+                        android:text="@string/positiveBehaviorNotes"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+
+
+
+                    <trianglz.components.SfuiRegularTextView
+                        android:id="@+id/tv_negative"
+                        android:layout_width="0dp"
+                        android:layout_height="28dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/negativeBehaviorNotes"
+                        android:textAlignment="center"
+                        android:textColor="@color/jade_green" />
+
+
+
+                    <trianglz.components.SfuiRegularTextView
+                        android:id="@+id/tv_other"
+                        android:layout_width="0dp"
+                        android:layout_height="28dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/curved_stroke_right_green"
+                        android:gravity="center"
+                        android:text="@string/other"
+                        android:textAlignment="center"
+                        android:textColor="@color/jade_green" />
+                </LinearLayout>
+                <info.hoang8f.android.segmented.SegmentedGroup
+                    xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/segmented"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal"
+                    segmentedgroup:sc_tint_color="@color/student_red"
+                    segmentedgroup:sc_border_width="1dp"
+                    segmentedgroup:sc_corner_radius="4dp">
+
+                    <RadioButton
+                        android:id="@+id/btn_open"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:defaultFocusHighlightEnabled="true"
+                        android:layout_height="wrap_content"
+                        android:text="@string/open"
+                        style="@style/segmented_group_text_style" />
+
+                    <RadioButton
+                        android:id="@+id/btn_closed"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/closed"
+                        style="@style/segmented_group_text_style" />
+                </info.hoang8f.android.segmented.SegmentedGroup>
+            </LinearLayout>
+
+            <agency.tango.android.avatarview.views.AvatarView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:id="@+id/img_student"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="4dp"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+</LinearLayout>
+
