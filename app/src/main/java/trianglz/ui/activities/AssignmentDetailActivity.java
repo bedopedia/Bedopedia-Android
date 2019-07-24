@@ -45,7 +45,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
     private TextView headerTextView;
     private RadioButton openButton, closedButton;
     private SegmentedGroup segmentedGroup;
-
+    private int courseId;
 
 
     @Override
@@ -61,6 +61,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
         student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
         assignmentsDetailArrayList = (ArrayList<AssignmentsDetail>) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ASSIGNMENTS);
         courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
+        courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0);
     }
 
 
@@ -157,6 +158,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
     @Override
     public void onItemClicked(AssignmentsDetail assignmentsDetail) {
         Intent intent = new Intent(this, AssignmentActivity.class);
+        if (courseId != 0) intent.putExtra(Constants.KEY_COURSE_ID, courseId);
         intent.putExtra(Constants.KEY_ASSIGNMENT_DETAIL, assignmentsDetail.toString());
         startActivity(intent);
     }

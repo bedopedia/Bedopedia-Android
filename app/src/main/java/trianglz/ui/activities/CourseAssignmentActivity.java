@@ -157,6 +157,7 @@ public class CourseAssignmentActivity extends SuperActivity implements View.OnCl
         }else {
             intent.putExtra(Constants.KEY_COURSE_NAME,"");
         }
+        intent.putExtra(Constants.KEY_COURSE_ID, courseAssignment.getId());
         startActivity(intent);
     }
 
