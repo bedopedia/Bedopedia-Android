@@ -142,7 +142,9 @@ public class  AvatarPlaceholderModified extends AvatarPlaceholder {
                     return nameArray[0].substring(0,2).toUpperCase();
                 }
             }else{
-                return name.substring(0,2).toUpperCase();
+                if (name.length()>1)
+                    return name.substring(0, 2).toUpperCase();
+                else return name.toUpperCase();
             }
         }
 
