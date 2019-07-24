@@ -411,6 +411,22 @@ public class UserManager {
         });
     }
 
+    public static void getQuizzesCourses(String url, final ArrayResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String, String> params = new HashMap<>();
+        NetworkManager.getJsonArray(url, params, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message,errorCode);
+            }
+        });
+    }
+
     public static void sendImage(String url, String fileName, URI uri, final ResponseListener responseListener ) {
         HashMap<String, String> headersValues = SessionManager.getInstance().getHeaderHashMap();
         File image = new File(uri);

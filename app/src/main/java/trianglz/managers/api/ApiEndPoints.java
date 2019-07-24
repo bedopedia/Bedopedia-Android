@@ -21,6 +21,10 @@ public class ApiEndPoints {
         return "/api/courses/" + courseId + "/assignments/" + assignmentId;
     }
 
+    public static String getquizzesCourses(int studentId) {
+        return "/api/students/" + studentId + "/course_groups_with_quizzes_number";
+    }
+
     public static String postsApi(int id) {
         return  "/api/students/"+ id +"/course_groups_recent_posts";
     }
