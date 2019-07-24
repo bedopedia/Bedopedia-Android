@@ -81,12 +81,14 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
 
         String published = "Publish "+ Util.getPostDate(dateTime.toString(), context);
         holder.publishedTextView.setText(published);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                anInterface.onItemClicked(assignmentsDetail);
-            }
-        });
+        if (assignmentsDetail.getDescription() != null || assignmentsDetail.getUploadedFilesCount() != 0) {
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    anInterface.onItemClicked(assignmentsDetail);
+                }
+            });
+        }
     }
 
     @Override

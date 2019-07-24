@@ -1,12 +1,15 @@
 package trianglz.ui.activities;
 
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.SingleAssignmentPresenter;
 import trianglz.core.views.SingleAssignmentView;
 import trianglz.models.AssignmentsDetail;
@@ -28,6 +32,7 @@ import trianglz.models.SingleAssignment;
 import trianglz.models.UploadedObject;
 import trianglz.ui.adapters.AttachmentAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 public class AssignmentActivity extends SuperActivity implements AttachmentAdapter.AttachmentAdapterInterface, SingleAssignmentPresenter {
     private AssignmentsDetail assignmentsDetail;
@@ -38,6 +43,7 @@ public class AssignmentActivity extends SuperActivity implements AttachmentAdapt
     private int courseId;
     private AvatarView avatarView;
     private String studentName;
+    private CardView cardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +66,23 @@ public class AssignmentActivity extends SuperActivity implements AttachmentAdapt
     private void bindViews() {
         courseNameTextView = findViewById(R.id.tv_course_name);
         courseDescriptionTextView = findViewById (R.id.tv_course_description);
-        courseNameTextView.setText(assignmentsDetail.getName());
-        courseDescriptionTextView.setText(assignmentsDetail.getDescription());
+        cardView = findViewById (R.id.card_view);
+        if (assignmentsDetail.getName() == null || assignmentsDetail.getName().isEmpty()) {
+            courseNameTextView.setText(getResources().getString(R.string.assignments));
+        } else {
+            courseNameTextView.setText(assignmentsDetail.getName());
+        }
+        if (assignmentsDetail.getDescription() == null || assignmentsDetail.getDescription().isEmpty()) {
+            cardView.setVisibility(View.GONE);
+        } else {
+            cardView.setVisibility(View.VISIBLE);
+            courseDescriptionTextView.setText(assignmentsDetail.getDescription());
+        }
         recyclerView = findViewById(R.id.recycler_view);
         adapter = new AttachmentAdapter(this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16,this),false));
         singleAssignmentView = new SingleAssignmentView(this, this);
         avatarView = findViewById(R.id.img_student);
         IImageLoader imageLoader = new PicassoLoader();
