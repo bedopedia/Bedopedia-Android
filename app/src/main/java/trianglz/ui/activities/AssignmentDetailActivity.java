@@ -155,6 +155,6 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
 
     @Override
     public void onItemClicked(AssignmentsDetail assignmentsDetail) {
-
+        
     }
 }

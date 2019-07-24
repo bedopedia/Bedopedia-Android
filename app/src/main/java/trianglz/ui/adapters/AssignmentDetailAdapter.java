@@ -1,6 +1,7 @@
 package trianglz.ui.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ import trianglz.utils.Util;
 /**
  * Created by ${Aly} on 6/23/2019.
  */
-public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDetailAdapter.Holder> {
+public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDetailAdapter.Holder>{
     public Context context;
     public List<AssignmentsDetail> mDataList;
     private AssignmentDetailInterface anInterface;
@@ -52,7 +53,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
 
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
-        AssignmentsDetail assignmentsDetail = mDataList.get(position);
+        final AssignmentsDetail assignmentsDetail = mDataList.get(position);
         DateTime dateTime = new DateTime(assignmentsDetail.getStartAt());
         if (assignmentsDetail.getName() != null) {
             holder.subjectNameTextView.setText(courseName);
@@ -80,6 +81,12 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
 
         String published = "Publish "+ Util.getPostDate(dateTime.toString(), context);
         holder.publishedTextView.setText(published);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                anInterface.onItemClicked(assignmentsDetail);
+            }
+        });
     }
 
     @Override
@@ -99,8 +106,8 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
                 assignmentNameTextView, dayTextView, monthTextView, publishedTextView;
         public IImageLoader imageLoader;
         private AvatarView courseAvatarView;
-        private LinearLayout dateLinearLayout;
-
+        public LinearLayout dateLinearLayout;
+        public CardView cardView;
 
         public Holder(View itemView) {
             super(itemView);
@@ -113,6 +120,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
             monthTextView = itemView.findViewById(R.id.tv_month);
             dateLinearLayout = itemView.findViewById(R.id.ll_date);
             publishedTextView = itemView.findViewById(R.id.tv_published);
+            cardView = itemView.findViewById(R.id.card_view);
         }
     }
 
