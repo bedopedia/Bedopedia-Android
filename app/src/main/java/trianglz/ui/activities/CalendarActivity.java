@@ -40,7 +40,6 @@ import trianglz.utils.Constants;
 public class CalendarActivity extends AppCompatActivity implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener {
     private CompactCalendarView compactCalendarView;
 //  private ArrayList<Attendance> absentDates, lateDates, excusedDates, presentDates;
-
     private Student student;
     private TextView monthYearTextView, allCounterTextView, academicCounterTextView, eventsCounterTextView, vacationsCounterTextView, personalCounterTextView;
     private ImageButton backBtn;
@@ -56,11 +55,12 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+        Log.i("Deb", "onCreate: "+"farah");
         getValueFromIntent();
-        //String studentName = student.firstName + " " + student.lastName;
-       // setStudentImage(student.getAvatar(), studentName);
         bindViews();
         setListeners();
+        String studentName = student.firstName + " " + student.lastName;
+        setStudentImage(student.getAvatar(), studentName);
     }
 
     @Override
@@ -70,9 +70,7 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
                 onBackPressed();
                 break;
             case R.id.create_personal_event:
-                Intent intent = new Intent(this, CreatePersonalEventActivity.class);
-                //intent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
-                startActivity(intent);
+                openAddEventActivity();
                 break;
             case R.id.layout_all:
                 deselectAll();
@@ -206,5 +204,12 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
         vacationsView.setVisibility(View.INVISIBLE);
         personalView.setVisibility(View.INVISIBLE);
 
+    }
+    private void openAddEventActivity(){
+        Intent intent = new Intent(this, CreatePersonalEventActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT,student);
+        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        startActivity(intent);
     }
 }

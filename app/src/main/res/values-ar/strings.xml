@@ -144,5 +144,14 @@
     <string name="vacations">أجازات</string>
     <string name="personal">شخصي</string>
     <string name="create_personal_event">إنشاء حدث شخصي</string>
+    <string name="when">من</string>
+    <string name="to_caps">إلى</string>
+    <string name="subject">مادة</string>
+    <string name="notes">ملاحظات</string>
+    <string name="create">إنشاء</string>
+    <string name="subject_name">إسم المادة</string>
+    <string name="add_notes">اضف ملاحظات</string>
+    <string name="hint_date">٠٣:٤٠ م ٢٠١٩/٠٣/٢٤</string>
+
 
 </resources>
