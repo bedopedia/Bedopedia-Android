@@ -23,28 +23,32 @@ import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.core.presenters.AssignmentsDetailPresenter;
 import trianglz.core.presenters.CourseAssignmentPresenter;
+import trianglz.core.presenters.OnlineQuizzesPresenter;
 import trianglz.core.views.CourseAssignmentView;
+import trianglz.core.views.OnlineQuizzesView;
 import trianglz.managers.SessionManager;
 import trianglz.models.AssignmentsDetail;
 import trianglz.models.CourseAssignment;
+import trianglz.models.QuizzCourse;
 import trianglz.models.Student;
 import trianglz.ui.adapters.OnlineQuizzesAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class OnlineQuizzesActivity extends SuperActivity implements View.OnClickListener, OnlineQuizzesAdapter.OnlineQuizzesInterface, AssignmentsDetailPresenter, CourseAssignmentPresenter {
+public class OnlineQuizzesActivity extends SuperActivity implements View.OnClickListener, OnlineQuizzesAdapter.OnlineQuizzesInterface, OnlineQuizzesPresenter {
     private ImageButton backBtn;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private Student student;
     private RecyclerView recyclerView;
     private OnlineQuizzesAdapter adapter;
-    private CourseAssignmentView courseAssignmentView;
     private ArrayList<AssignmentsDetail> assignmentsDetailArrayList;
     private String courseName = "";
     private TextView headerTextView;
     private RadioButton openButton, closedButton;
     private SegmentedGroup segmentedGroup;
+    // networking view
+    private OnlineQuizzesView onlineQuizzesView;
 
 
     @Override
@@ -54,21 +58,12 @@ public class OnlineQuizzesActivity extends SuperActivity implements View.OnClick
         getValueFromIntent();
         bindViews();
         setListeners();
-        getCourseAssignment();
+        showLoadingDialog();
+        onlineQuizzesView.getQuizzesCourses(student.getId());
     }
 
-    private void getCourseAssignment() {
-        if (Util.isNetworkAvailable(this)) {
-            showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" +
-                    student.getId() + "/course_groups_with_assignments_number";
-            courseAssignmentView.getCourseAssignment(url);
-        } else {
-            Util.showNoInternetConnectionDialog(this);
-        }
-    }
     private void getValueFromIntent() {
-        student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
+        student = Student.create(getIntent().getStringExtra(Constants.STUDENT));
     }
     private void bindViews() {
         imageLoader = new PicassoLoader();
@@ -79,7 +74,7 @@ public class OnlineQuizzesActivity extends SuperActivity implements View.OnClick
         adapter = new OnlineQuizzesAdapter(this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        courseAssignmentView = new CourseAssignmentView(this, this);
+        onlineQuizzesView = new OnlineQuizzesView(this, this);
     }
 
     private void setStudentImage(String imageUrl, final String name) {
@@ -117,36 +112,6 @@ public class OnlineQuizzesActivity extends SuperActivity implements View.OnClick
     public void onClick(View view) {
 
     }
-
-    @Override
-    public void onGetCourseAssignmentSuccess(ArrayList<CourseAssignment> courseAssignmentArrayList) {
-        if (progress.isShowing()) {
-            progress.dismiss();
-        }
-        adapter.addData(courseAssignmentArrayList);
-    }
-
-    @Override
-    public void onGetCourseAssignmentFailure(String message, int errorCode) {
-        if(progress.isShowing()){
-            progress.dismiss();
-        }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
-    }
-
-    @Override
-    public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList,
-                                             CourseAssignment courseAssignment) {
-        if(progress.isShowing()){
-            progress.dismiss();
-        }
-        OpenQuizzesDetailsActivity(assignmentsDetailArrayList,courseAssignment);
-    }
-
     private void OpenQuizzesDetailsActivity(ArrayList<AssignmentsDetail> assignmentsDetailArrayList,
                                             CourseAssignment courseAssignment) {
         Intent intent = new Intent(this,QuizzesDetailsActivity.class);
@@ -162,24 +127,31 @@ public class OnlineQuizzesActivity extends SuperActivity implements View.OnClick
         startActivity(intent);
     }
 
-    @Override
-    public void onGetAssignmentDetailFailure(String message, int errorCode) {
-        if(progress.isShowing()){
-            progress.dismiss();
-        }
-        showErrorDialog(this);
-    }
 
     @Override
     public void onItemClicked(CourseAssignment courseAssignment) {
-        if(Util.isNetworkAvailable(this)){
-            showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
-                    courseAssignment.getId() + "/assignments";
-            courseAssignmentView.getAssinmentDetail(url,courseAssignment);
-        }else {
-            Util.showNoInternetConnectionDialog(this);
-        }
+//        if(Util.isNetworkAvailable(this)){
+//            showLoadingDialog();
+//            String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
+//                    courseAssignment.getId() + "/assignments";
+//            courseAssignmentView.getAssinmentDetail(url,courseAssignment);
+//        }else {
+//            Util.showNoInternetConnectionDialog(this);
+//        }
 
+    }
+
+    @Override
+    public void onGetQuizzesCoursesSuccess(ArrayList<QuizzCourse> quizzCourses) {
+        if (progress.isShowing()) {
+            progress.dismiss();
+        }
+    }
+
+    @Override
+    public void onGetQuizzesCoursesFailure() {
+        if (progress.isShowing()) {
+            progress.dismiss();
+        }
     }
 }
