@@ -1,6 +1,9 @@
 package trianglz.models;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
 
@@ -14,16 +17,25 @@ import gradeBook.Course;
  * Created by ${Aly} on 10/31/2018.
  */
 public class Student extends trianglz.models.User{
-
+        @SerializedName("level")
         public String level;
+        @SerializedName("section")
         public String section;
+        @SerializedName("stage")
         public String stage;
+        @SerializedName("today_attendance")
         public String todayAttendance;
+        @SerializedName("today_assignments_count")
         public int todayAssignmentsCount;
+        @SerializedName("today_quizzes_count")
         public int todayQuizzesCount;
+        @SerializedName("today_events_count")
         public int todayEventsCount;
+        @SerializedName("bedo_points")
         public int bedoPoints;
+        @SerializedName("parent")
         public Parent parent;
+        @SerializedName("courses")
         public ArrayList<Course> courses;
 
         public Student() {
@@ -120,6 +132,15 @@ public class Student extends trianglz.models.User{
             this.todayEventsCount = todayWorkLoad.optInt("events_count");
         }
 
+    public static Student create(String json) {
+        Gson gson = new GsonBuilder().create();
+        return gson.fromJson(json, Student.class);
+    }
+
+    public String toString() {
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(this);
+    }
 
     }
 
