@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -155,6 +156,8 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
 
     @Override
     public void onItemClicked(AssignmentsDetail assignmentsDetail) {
-        
+        Intent intent = new Intent(this, AssignmentActivity.class);
+        intent.putExtra(Constants.KEY_ASSIGNMENT_DETAIL, assignmentsDetail.toString());
+        startActivity(intent);
     }
 }
