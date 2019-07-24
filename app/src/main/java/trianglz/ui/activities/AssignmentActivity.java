@@ -17,6 +17,10 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import agency.tango.android.avatarview.IImageLoader;
+import agency.tango.android.avatarview.loader.PicassoLoader;
+import agency.tango.android.avatarview.views.AvatarView;
+import trianglz.components.AvatarPlaceholderModified;
 import trianglz.core.presenters.SingleAssignmentPresenter;
 import trianglz.core.views.SingleAssignmentView;
 import trianglz.models.AssignmentsDetail;
@@ -32,6 +36,9 @@ public class AssignmentActivity extends SuperActivity implements AttachmentAdapt
     private AttachmentAdapter adapter;
     private SingleAssignmentView singleAssignmentView;
     private int courseId;
+    private AvatarView avatarView;
+    private String studentName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +53,9 @@ public class AssignmentActivity extends SuperActivity implements AttachmentAdapt
     private void ReadIntent() {
         assignmentsDetail = AssignmentsDetail.create(getIntent().getStringExtra(Constants.KEY_ASSIGNMENT_DETAIL));
         courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0);
+        studentName = getIntent().getStringExtra(Constants.KEY_STUDENT_NAME);
     }
+
 
     private void bindViews() {
         courseNameTextView = findViewById(R.id.tv_course_name);
@@ -58,6 +67,9 @@ public class AssignmentActivity extends SuperActivity implements AttachmentAdapt
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         singleAssignmentView = new SingleAssignmentView(this, this);
+        avatarView = findViewById(R.id.img_student);
+        IImageLoader imageLoader = new PicassoLoader();
+        imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(studentName), "Path of Image");
     }
     private void setListeners() {
 

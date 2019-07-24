@@ -149,6 +149,7 @@ public class CourseAssignmentActivity extends SuperActivity implements View.OnCl
                                               CourseAssignment courseAssignment) {
         Intent intent = new Intent(this,AssignmentDetailActivity.class);
         Bundle bundle = new Bundle();
+        intent.putExtra(Constants.KEY_STUDENT_NAME, student.getFirstName() + " " + student.getLastName());
         bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
         bundle.putSerializable(Constants.STUDENT,student);
         intent.putExtra(Constants.KEY_BUNDLE,bundle);

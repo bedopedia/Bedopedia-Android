@@ -191,4 +191,5 @@ public class Constants {
     public static final String CONTENT = "content";
     public static final String POST_ID = "post_id";
     public static final String KEY_ASSIGNMENT_DETAIL = "assignment_detail";
+    public static final String KEY_STUDENT_NAME = "student_name";
 }

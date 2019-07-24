@@ -46,6 +46,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
     private RadioButton openButton, closedButton;
     private SegmentedGroup segmentedGroup;
     private int courseId;
+    private String studentName;
 
 
     @Override
@@ -62,6 +63,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
         assignmentsDetailArrayList = (ArrayList<AssignmentsDetail>) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ASSIGNMENTS);
         courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
         courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0);
+        studentName = getIntent().getStringExtra(Constants.KEY_STUDENT_NAME);
     }
 
 
@@ -69,7 +71,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
         imageLoader = new PicassoLoader();
         studentImageView = findViewById(R.id.img_student);
         backBtn = findViewById(R.id.btn_back);
-        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+        setStudentImage(studentName);
         recyclerView = findViewById(R.id.recycler_view);
         adapter = new AssignmentDetailAdapter(this,this,courseName);
         recyclerView.setAdapter(adapter);
@@ -128,30 +130,9 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
         }
     }
 
-    private void setStudentImage(String imageUrl, final String name) {
-        if (imageUrl == null || imageUrl.equals("")) {
-            imageLoader = new PicassoLoader();
-            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
-        } else {
-            imageLoader = new PicassoLoader();
-            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
-            Picasso.with(this)
-                    .load(imageUrl)
-                    .fit()
-                    .noPlaceholder()
-                    .transform(new CircleTransform())
-                    .into(studentImageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
+    private void setStudentImage(String name) {
+        imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
 
-                        }
-                        @Override
-                        public void onError() {
-                            imageLoader = new PicassoLoader();
-                            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
-                        }
-                    });
-        }
     }
 
 
@@ -159,6 +140,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
     public void onItemClicked(AssignmentsDetail assignmentsDetail) {
         Intent intent = new Intent(this, AssignmentActivity.class);
         if (courseId != 0) intent.putExtra(Constants.KEY_COURSE_ID, courseId);
+        intent.putExtra(Constants.KEY_STUDENT_NAME, studentName);
         intent.putExtra(Constants.KEY_ASSIGNMENT_DETAIL, assignmentsDetail.toString());
         startActivity(intent);
     }
