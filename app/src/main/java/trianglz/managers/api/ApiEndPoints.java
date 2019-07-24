@@ -17,6 +17,10 @@ public class ApiEndPoints {
        return  "/api/courses/"+ courseId +"/course_groups/"+ courseGroupId +"/student_grade_book";
     }
 
+    public static String showAssignment(int courseId, int assignmentId) {
+        return "/api/courses/" + courseId + "/assignments/" + assignmentId;
+    }
+
     public static String postsApi(int id) {
         return  "/api/students/"+ id +"/course_groups_recent_posts";
     }

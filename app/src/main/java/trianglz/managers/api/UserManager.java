@@ -363,7 +363,6 @@ public class UserManager {
         });
     }
 
-
     public static void sendMessage(String url, String body, String messageThreadId, String userId,
                                    String id, String title, final ResponseListener responseListener){
         HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
@@ -395,6 +394,21 @@ public class UserManager {
             }
         });
 
+    }
+
+    public static void showAssignment (String url, final ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
     }
 
     public static void sendImage(String url, String fileName, URI uri, final ResponseListener responseListener ) {
