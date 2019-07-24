@@ -127,25 +127,12 @@ public class OnlineQuizzesActivity extends SuperActivity implements View.OnClick
         startActivity(intent);
     }
 
-
-    @Override
-    public void onItemClicked(CourseAssignment courseAssignment) {
-//        if(Util.isNetworkAvailable(this)){
-//            showLoadingDialog();
-//            String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
-//                    courseAssignment.getId() + "/assignments";
-//            courseAssignmentView.getAssinmentDetail(url,courseAssignment);
-//        }else {
-//            Util.showNoInternetConnectionDialog(this);
-//        }
-
-    }
-
     @Override
     public void onGetQuizzesCoursesSuccess(ArrayList<QuizzCourse> quizzCourses) {
         if (progress.isShowing()) {
             progress.dismiss();
         }
+        adapter.addData(quizzCourses);
     }
 
     @Override
@@ -153,5 +140,10 @@ public class OnlineQuizzesActivity extends SuperActivity implements View.OnClick
         if (progress.isShowing()) {
             progress.dismiss();
         }
+    }
+
+    @Override
+    public void onItemClicked(QuizzCourse quizzCourse) {
+
     }
 }

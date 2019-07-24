@@ -18,6 +18,7 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import agency.tango.android.avatarview.AvatarPlaceholder;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
@@ -25,11 +26,12 @@ import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.models.AssignmentsDetail;
 import trianglz.models.CourseAssignment;
+import trianglz.models.QuizzCourse;
 import trianglz.utils.Util;
 
 public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdapter.Holder> {
     public Context context;
-    public List<CourseAssignment> mDataList;
+    public List<QuizzCourse> mDataList;
     private OnlineQuizzesInterface anInterface;
 
 
@@ -48,17 +50,18 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
 
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
-        CourseAssignment courseAssignment = mDataList.get(position);
-        holder.subjectNameTextView.setText(courseAssignment.getCourseName());
-        if(courseAssignment.getAssignmentName() != null && !courseAssignment.getAssignmentName().isEmpty()){
-            holder.assignmentNameTextView.setText(courseAssignment.getAssignmentName());
+        QuizzCourse quizzCourse = mDataList.get(position);
+        holder.subjectNameTextView.setText(quizzCourse.getCourseName());
+        if(quizzCourse.getQuizName() != null && !quizzCourse.getQuizName().isEmpty()){
+            holder.assignmentNameTextView.setText(quizzCourse.getQuizName());
         }else {
-            holder.assignmentNameTextView.setText(context.getResources().getString(R.string.no_assignment));
+            holder.assignmentNameTextView.setText(context.getResources().getString(R.string.no_quiz));
         }
-        holder.assignmentCountsTextView.setText(courseAssignment.getAssignmentsCount() + "");
-        setCourseImage("", courseAssignment.getCourseName(), holder);
-        if(courseAssignment.getAssignmentState() != null){
-            if (courseAssignment.getAssignmentState().equals("running")) {
+        holder.assignmentCountsTextView.setText(quizzCourse.getQuizzesCount() + "");
+        IImageLoader imageLoader = new PicassoLoader();
+        imageLoader.loadImage(holder.courseAvatarView,new AvatarPlaceholderModified(quizzCourse.getCourseName()),"path of image");
+        if(quizzCourse.getQuizState()!= null){
+            if (quizzCourse.getQuizState().equals("running")) {
                 holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
             } else {
                 holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
@@ -66,7 +69,7 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
         }else {
             holder.dateLinearLayout.setVisibility(View.INVISIBLE);
         }
-        holder.dateTextView.setText(Util.getCourseDate(courseAssignment.getNextAssignmentDate()));
+        holder.dateTextView.setText(Util.getCourseDate(quizzCourse.getNextQuizDate()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,9 +83,9 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
         return mDataList.size();
     }
 
-    public void addData(ArrayList<CourseAssignment> courseAssignments) {
+    public void addData(ArrayList<QuizzCourse> quizzCourses) {
         this.mDataList.clear();
-        this.mDataList.addAll(courseAssignments);
+        this.mDataList.addAll(quizzCourses);
         notifyDataSetChanged();
     }
 
@@ -107,33 +110,8 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
         }
     }
 
-    private void setCourseImage(String imageUrl, final String name, final Holder holder) {
-        if (imageUrl == null || imageUrl.equals("")) {
-            holder.imageLoader = new PicassoLoader();
-            holder.imageLoader.loadImage(holder.courseAvatarView, new AvatarPlaceholderModified(name), "Path of Image");
-        } else {
-            Picasso.with(context)
-                    .load(imageUrl)
-                    .fit()
-                    .transform(new CircleTransform())
-                    .into(holder.courseAvatarView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onError() {
-                            holder.imageLoader = new PicassoLoader();
-                            holder.imageLoader.loadImage(holder.courseAvatarView, new AvatarPlaceholderModified(name), "Path of Image");
-                        }
-                    });
-        }
-    }
-
-
     public interface OnlineQuizzesInterface{
-        void onItemClicked(CourseAssignment courseAssignment);
+        void onItemClicked(QuizzCourse quizzCourse);
     }
 
 }
