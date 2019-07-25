@@ -1,9 +1,6 @@
 package trianglz.models;
 
-/**
- * Created by ${Aly} on 4/22/2019.
- */
-import java.io.File;
+import java.util.*;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,30 +9,24 @@ public class StudentSubmissions {
 
     @SerializedName("id")
     private int id;
-    @SerializedName("grade")
-    private int grade;
-    @SerializedName("graded")
-    private boolean graded;
-    @SerializedName("assignment_id")
-    private int assignmentId;
+    @SerializedName("score")
+    private double score;
     @SerializedName("student_id")
     private int studentId;
     @SerializedName("created_at")
     private String createdAt;
     @SerializedName("updated_at")
     private String updatedAt;
-    @SerializedName("answers")
-    private Object answers;
-    @SerializedName("file")
-    private File file;
-    @SerializedName("feedback")
-    private Object feedback;
+    @SerializedName("quiz_id")
+    private int quizId;
     @SerializedName("course_group_id")
     private int courseGroupId;
-    @SerializedName("downloads_number")
-    private int downloadsNumber;
+    @SerializedName("feedback")
+    private String feedback;
+    @SerializedName("is_submitted")
+    private boolean isSubmitted;
     @SerializedName("deleted_at")
-    private Object deletedAt;
+    private String deletedAt;
     @SerializedName("student_status")
     private String studentStatus;
 
@@ -47,28 +38,12 @@ public class StudentSubmissions {
         return this.id;
     }
 
-    public void setGrade(int grade) {
-        this.grade = grade;
+    public void setScore(double score) {
+        this.score = score;
     }
 
-    public int getGrade() {
-        return this.grade;
-    }
-
-    public void setGraded(boolean graded) {
-        this.graded = graded;
-    }
-
-    public boolean getGraded() {
-        return this.graded;
-    }
-
-    public void setAssignmentId(int assignmentId) {
-        this.assignmentId = assignmentId;
-    }
-
-    public int getAssignmentId() {
-        return this.assignmentId;
+    public double getScore() {
+        return this.score;
     }
 
     public void setStudentId(int studentId) {
@@ -95,28 +70,12 @@ public class StudentSubmissions {
         return this.updatedAt;
     }
 
-    public void setAnswers(Object answers) {
-        this.answers = answers;
+    public void setQuizId(int quizId) {
+        this.quizId = quizId;
     }
 
-    public Object getAnswers() {
-        return this.answers;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public File getFile() {
-        return this.file;
-    }
-
-    public void setFeedback(Object feedback) {
-        this.feedback = feedback;
-    }
-
-    public Object getFeedback() {
-        return this.feedback;
+    public int getQuizId() {
+        return this.quizId;
     }
 
     public void setCourseGroupId(int courseGroupId) {
@@ -127,19 +86,27 @@ public class StudentSubmissions {
         return this.courseGroupId;
     }
 
-    public void setDownloadsNumber(int downloadsNumber) {
-        this.downloadsNumber = downloadsNumber;
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 
-    public int getDownloadsNumber() {
-        return this.downloadsNumber;
+    public String getFeedback() {
+        return this.feedback;
     }
 
-    public void setDeletedAt(Object deletedAt) {
+    public void setIsSubmitted(boolean isSubmitted) {
+        this.isSubmitted = isSubmitted;
+    }
+
+    public boolean getIsSubmitted() {
+        return this.isSubmitted;
+    }
+
+    public void setDeletedAt(String deletedAt) {
         this.deletedAt = deletedAt;
     }
 
-    public Object getDeletedAt() {
+    public String getDeletedAt() {
         return this.deletedAt;
     }
 

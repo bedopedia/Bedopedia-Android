@@ -31,13 +31,13 @@ public class Quizzes {
 	@SerializedName("state")
 	private String state;
 	@SerializedName("total_score")
-	private int totalScore;
+	private double totalScore;
 	@SerializedName("lesson_id")
 	private int lessonId;
 	@SerializedName("grading_period_lock")
 	private boolean gradingPeriodLock;
 	@SerializedName("student_submissions")
-	private Object studentSubmissions;
+	private StudentSubmissions studentSubmissions;
 
 	public void setId(int id) {
 		this.id = id;
@@ -111,11 +111,11 @@ public class Quizzes {
 		return this.state;
 	}
 
-	public void setTotalScore(int totalScore) {
+	public void setTotalScore(double totalScore) {
 		this.totalScore = totalScore;
 	}
 
-	public int getTotalScore() {
+	public double getTotalScore() {
 		return this.totalScore;
 	}
 
@@ -135,11 +135,11 @@ public class Quizzes {
 		return this.gradingPeriodLock;
 	}
 
-	public void setStudentSubmissions(Object studentSubmissions) {
+	public void setStudentSubmissions(StudentSubmissions studentSubmissions) {
 		this.studentSubmissions = studentSubmissions;
 	}
 
-	public Object getStudentSubmissions() {
+	public StudentSubmissions getStudentSubmissions() {
 		return this.studentSubmissions;
 	}
 
