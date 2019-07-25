@@ -112,18 +112,10 @@ public class OnlineQuizzesActivity extends SuperActivity implements View.OnClick
     public void onClick(View view) {
 
     }
-    private void OpenQuizzesDetailsActivity(ArrayList<AssignmentsDetail> assignmentsDetailArrayList,
-                                            CourseAssignment courseAssignment) {
+    private void openQuizzesDetailsActivity(QuizzCourse quizzCourse) {
         Intent intent = new Intent(this,QuizzesDetailsActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
-        bundle.putSerializable(Constants.STUDENT,student);
-        intent.putExtra(Constants.KEY_BUNDLE,bundle);
-        if(courseAssignment.getCourseName() != null){
-            intent.putExtra(Constants.KEY_COURSE_NAME,courseAssignment.getCourseName());
-        }else {
-            intent.putExtra(Constants.KEY_COURSE_NAME,"");
-        }
+        intent.putExtra(Constants.STUDENT, student.toString());
+        intent.putExtra(Constants.COURSE_QUIZZES, quizzCourse.toString());
         startActivity(intent);
     }
 
@@ -144,6 +136,7 @@ public class OnlineQuizzesActivity extends SuperActivity implements View.OnClick
 
     @Override
     public void onItemClicked(QuizzCourse quizzCourse) {
+        openQuizzesDetailsActivity(quizzCourse);
 
     }
 }
