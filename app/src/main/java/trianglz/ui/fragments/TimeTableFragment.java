@@ -5,6 +5,7 @@ package trianglz.ui.fragments;
  */
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -28,9 +30,11 @@ import java.util.Objects;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
+import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.CustomRtlViewPager;
+import trianglz.managers.SessionManager;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
 import trianglz.ui.adapters.TimetableAdapter;
@@ -48,12 +52,12 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     private CustomRtlViewPager mViewPager;
     List<TimeTableSlot> tomorrowSlots;
     List<TimeTableSlot> todaySlots;
-    private TextView todayTv;
-    private TextView tomorrowTv;
     private View rootView;
     private ImageButton backBtn;
     private AvatarView studentImage;
     private Student student;
+    private RadioButton todayButton, tomorrowButton;
+    private SegmentedGroup segmentedGroup;
 
     public TimeTableFragment() {
         // Required empty public constructor
@@ -82,30 +86,9 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     }
 
     private void setListeners() {
-        todayTv.setOnClickListener(this);
-        tomorrowTv.setOnClickListener(this);
+        todayButton.setOnClickListener(this);
+        tomorrowButton.setOnClickListener(this);
         backBtn.setOnClickListener(this);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0) {
-                    setTextBackgrounds(0);
-                } else {
-                    setTextBackgrounds(1);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     @Override
@@ -135,22 +118,30 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     }
 
     private void bindViews() {
-        todayTv = rootView.findViewById(R.id.tv_today);
-        tomorrowTv = rootView.findViewById(R.id.tv_tomorrow);
+        todayButton = rootView.findViewById(R.id.btn_today);
+        tomorrowButton = rootView.findViewById(R.id.btn_tomorrow);
         backBtn = rootView.findViewById(R.id.back_btn);
         studentImage = rootView.findViewById(R.id.img_student);
+        // radio button for segment control
+        segmentedGroup = rootView.findViewById(R.id.segmented);
+        segmentedGroup.check(todayButton.getId());
+        if (SessionManager.getInstance().getStudentAccount()) {
+            segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
+        } else if (SessionManager.getInstance().getUserType()) {
+            segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
+        } else {
+            segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
+        }
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_today:
+            case R.id.btn_today:
                 mViewPager.setCurrentItem(0);
-                setTextBackgrounds(0);
                 break;
-            case R.id.tv_tomorrow:
+            case R.id.btn_tomorrow:
                 mViewPager.setCurrentItem(1);
-                setTextBackgrounds(1);
                 break;
             case R.id.back_btn:
                 Objects.requireNonNull(getActivity()).onBackPressed();
@@ -159,19 +150,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    private void setTextBackgrounds(int pageNumber) {
-        if (pageNumber == 0) {
-            todayTv.setBackground(getResources().getDrawable(R.drawable.text_solid_background));
-            todayTv.setTextColor(getResources().getColor(R.color.white));
-            tomorrowTv.setBackground(rootView.getBackground());
-            tomorrowTv.setTextColor(getResources().getColor(R.color.jade_green));
-        } else {
-            todayTv.setBackground(rootView.getBackground());
-            tomorrowTv.setBackground(getResources().getDrawable(R.drawable.text_solid_background));
-            tomorrowTv.setTextColor(getResources().getColor(R.color.white));
-            todayTv.setTextColor(getResources().getColor(R.color.jade_green));
-        }
-    }
+
 
     private void increaseButtonsHitArea() {
         final View parent = (View) backBtn.getParent();
