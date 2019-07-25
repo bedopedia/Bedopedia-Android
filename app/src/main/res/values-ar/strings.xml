@@ -151,7 +151,7 @@
     <string name="create">إنشاء</string>
     <string name="subject_name">إسم المادة</string>
     <string name="add_notes">اضف ملاحظات</string>
-    <string name="hint_date">٠٣:٤٠ م ٢٠١٩/٠٣/٢٤</string>
+    <string name="hint_date"> ٢٤\\٣\\٢٠١٩ ٠٣:٤٠ م</string>
 
 
 </resources>

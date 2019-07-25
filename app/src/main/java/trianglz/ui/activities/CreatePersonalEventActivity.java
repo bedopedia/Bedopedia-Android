@@ -22,24 +22,30 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.HideKeyboardOnTouch;
 import trianglz.models.Student;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
-public class CreatePersonalEventActivity extends AppCompatActivity implements View.OnClickListener {
+public class CreatePersonalEventActivity extends SuperActivity implements View.OnClickListener {
     private Student student;
+    private View parentView;
+    int daySelected, monthSelected, yearSelected;
     private IImageLoader imageLoader;
     private AvatarView studentImageView;
-    String firstDate, secondDate;
-    private boolean isTimeSet = false, isDateSet = false;
+    private Date firstDate, secondDate;
+    private boolean isTimeSet = false;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
     private ImageButton backBtn;
+    private String studentName = "";
     private EditText subjectEditText, notesEditText;
     private Button startDateBtn, endDateBtn, createEventBtn, cancelEventBtn;
     private View whenView, toView, subjectView, notesView;
@@ -52,7 +58,7 @@ public class CreatePersonalEventActivity extends AppCompatActivity implements Vi
         getValueFromIntent();
         bindViews();
         setListeners();
-        String studentName = student.firstName + " " + student.lastName;
+        studentName = student.firstName + " " + student.lastName;
         setStudentImage(student.getAvatar(), studentName);
     }
 
@@ -61,11 +67,9 @@ public class CreatePersonalEventActivity extends AppCompatActivity implements Vi
         switch (v.getId()) {
             case R.id.event_start_date_btn:
                 showDatePicker(startDateBtn);
-                firstDate = startDateBtn.getText().toString();
                 break;
             case R.id.event_end_date_btn:
                 showDatePicker(endDateBtn);
-                secondDate = endDateBtn.getText().toString();
                 break;
             case R.id.event_create_btn:
                 Boolean valid = validate(startDateBtn.getText().toString(),
@@ -73,6 +77,7 @@ public class CreatePersonalEventActivity extends AppCompatActivity implements Vi
                         subjectEditText.getText().toString(),
                         notesEditText.getText().toString());
                 if (valid) {
+                    Log.i("TAG", "onClick: " + firstDate + secondDate);
                     if (!(checkDateAndTime(firstDate, secondDate))) {
                         whenView.setBackgroundResource(R.color.tomato);
                         toView.setBackgroundResource(R.color.tomato);
@@ -91,6 +96,7 @@ public class CreatePersonalEventActivity extends AppCompatActivity implements Vi
     }
 
     private void bindViews() {
+        parentView = findViewById(R.id.root_view);
         backBtn = findViewById(R.id.btn_back);
         subjectEditText = findViewById(R.id.event_subject_edit_text);
         studentImageView = findViewById(R.id.img_student);
@@ -109,6 +115,7 @@ public class CreatePersonalEventActivity extends AppCompatActivity implements Vi
         startDateBtn.setOnClickListener(this);
         endDateBtn.setOnClickListener(this);
         subjectEditText.setOnClickListener(this);
+        parentView.setOnTouchListener(new HideKeyboardOnTouch(this));
         notesEditText.setOnClickListener(this);
         createEventBtn.setOnClickListener(this);
         cancelEventBtn.setOnClickListener(this);
@@ -117,20 +124,26 @@ public class CreatePersonalEventActivity extends AppCompatActivity implements Vi
 
     private void showDatePicker(final Button button) {
         final Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        final int month = calendar.get(Calendar.MONTH);
+        final int year = calendar.get(Calendar.YEAR);
         final String buttonText = button.getText().toString();
         datePickerDialog = new DatePickerDialog(CreatePersonalEventActivity.this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        button.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        daySelected = dayOfMonth;
+                        monthSelected = monthOfYear + 1;
+                        yearSelected = year;
+                        if (Util.getLocale(CreatePersonalEventActivity.this).equals("ar")) {
+                            Log.i("tag", "onDateSet: year:" + year + "month" + monthOfYear + "day:" + dayOfMonth);
+                            button.setText(String.format(new Locale("ar"), "%d\\%d\\%d", dayOfMonth, (monthOfYear + 1), year));
+                        } else
+                            button.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                         showTimePicker(button, buttonText);
                     }
                 }, year, month, day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        datePickerDialog.setTitle("Select Date");
         datePickerDialog.show();
     }
 
@@ -147,24 +160,38 @@ public class CreatePersonalEventActivity extends AppCompatActivity implements Vi
                 calendar.set(Calendar.MINUTE, selectedMinute);
                 calendar.set(Calendar.SECOND, 0);
                 if (selectedHours >= 12) {
-                    status = "PM";
+                    if (Util.getLocale(CreatePersonalEventActivity.this).equals("ar"))
+                        status = "م";
+                    else
+                        status = "PM";
                     twelveHourFormat = selectedHours - 12;
                     if (twelveHourFormat == 0)
                         twelveHourFormat = 12;
                 } else {
-                    status = "AM";
+                    if (Util.getLocale(CreatePersonalEventActivity.this).equals("ar"))
+                        status = "ص";
+                    else
+                        status = "AM";
                     twelveHourFormat = selectedHours;
                 }
                 isTimeSet = true;
-                button.append(" " + String.format("%02d:%02d", twelveHourFormat, selectedMinute) + " " + status);
+                if (Util.getLocale(CreatePersonalEventActivity.this).equals("ar"))
+                    button.append(" " + String.format(new Locale("ar"), "%02d:%02d", twelveHourFormat, selectedMinute) + " " + status);
+                else
+                    button.append(" " + String.format("%02d:%02d", twelveHourFormat, selectedMinute) + " " + status);
+                if (button.getId() == R.id.event_start_date_btn)
+                    firstDate = new Date(yearSelected, monthSelected, daySelected, selectedHours, selectedMinute);
+                else
+                    secondDate = new Date(yearSelected, monthSelected, daySelected, selectedHours, selectedMinute);
             }
         }, hour, minute, false);
         timePickerDialog.show();
         timePickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                if (!isTimeSet)
+                if (!isTimeSet) {
                     button.setText(buttonText);
+                }
             }
         });
         isTimeSet = false;
@@ -198,38 +225,12 @@ public class CreatePersonalEventActivity extends AppCompatActivity implements Vi
         notesView.setBackgroundResource(R.color.silver_75);
     }
 
-    private boolean timeValidator(int h1, int m1, int h2, int m2) {
-        if (h1 > h1)
-            return false;
-        if (h1 >= h1 && h1 > h2)
-            return false;
-        return true;
-    }
-
-    private boolean checkDateAndTime(String first, String second) {
-        SimpleDateFormat dfDate = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
-
-        String firstArray[] = second.split(" ");
-        String secondArray[] = second.split(" ");
-        String d1 = firstArray[0], d2 = secondArray[0];
-        Log.i("", "checkDateAndTime: "+firstArray);
+    private boolean checkDateAndTime(Date first, Date second) {
         boolean valid = false;
-        try {
-//            Date start = sdf.parse(firstArray[1]);
-//            Date end = sdf.parse(secondArray[1]);
-            if (dfDate.parse(d1).before(dfDate.parse(d2))) {
-                valid = true;
-            } else if (dfDate.parse(d1).equals(dfDate.parse(d2))) {
-               // if (end.before(start)) {
-               //     valid = false;
-                // else
-                    valid = true;
-            } else {
-                valid = false;
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (first.before(second)) {
+            valid = true;
+        } else if (first.after(second)) {
+            valid = false;
         }
         return valid;
     }
@@ -264,5 +265,6 @@ public class CreatePersonalEventActivity extends AppCompatActivity implements Vi
                     });
         }
     }
+
 }
 
