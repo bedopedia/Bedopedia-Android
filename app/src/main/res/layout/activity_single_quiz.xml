@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/posts_background"
+    android:orientation="vertical"
+    tools:context="trianglz.ui.activities.SingleQuizActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:src="@drawable/chevron_left" />
+
+                <trianglz.components.SfproBoldTextView
+                    android:id="@+id/tv_quiz_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:text="@string/quizzes"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <agency.tango.android.avatarview.views.AvatarView
+                    android:id="@+id/img_student"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/notify" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/silver" />
+        </LinearLayout>
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="13dp"
+        android:id="@+id/card_view"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="3dp"
+        android:layout_marginBottom="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp"
+            >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="24dp"
+                android:gravity="start"
+                >
+
+                <trianglz.components.SfuiMediumTextView
+                    android:id="@+id/tv_subject_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:text="English"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_published"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/greyish_brown"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:text="testtestestsetsetsetsetsetsetsetsetsetsetsetsetsetsetsetestsetset"
+                    android:layout_marginEnd="5dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+                <TextView
+                    android:id="@+id/tv_assignment_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#de000000"
+                    android:textStyle="bold"
+                    android:layout_marginTop="4dp"
+                    android:textSize="16sp"
+                    android:text="Pattern assignment"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:background="@drawable/curved_light_sage"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingBottom="2dp"
+                    android:id="@+id/ll_date">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_clock"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="5dp"/>
+
+                    <trianglz.components.SfproRegularTextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:background="@color/transparent"
+                        android:includeFontPadding="false"
+                        android:maxLines="1"
+                        android:layout_gravity="start"
+                        android:singleLine="true"
+                        android:text="sjkldajkljsadlkjsdaklsjda"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                >
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="10dp">
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"/>
+                        <View
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="#F3F3F3"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"/>
+                        <View
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="#F3F3F3"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"/>
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/curved_light_grey_background"
+                        android:padding="5dp">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:minWidth="60dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/curved_white_4"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            >
+                            <trianglz.components.SfproBoldTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:textColor="@color/grape_fruit"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="3dp"
+                                android:id="@+id/tv_day_number"
+                                />
+
+                            <trianglz.components.SfproRegularTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:layout_marginBottom="3dp"
+                                android:maxLines="1"
+                                android:gravity="center_horizontal"
+                                android:id="@+id/tv_month"
+                                />
+
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <trianglz.components.SfuiMediumTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="15dp"
+                        android:includeFontPadding="false"
+                        android:textSize="12sp"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/due_date"
+                        android:layout_gravity="center_horizontal"/>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <include layout="@layout/quiz_grade_layout" />
+    <include layout="@layout/quiz_not_started_yet_layout" />
+
+
+</LinearLayout>
+
