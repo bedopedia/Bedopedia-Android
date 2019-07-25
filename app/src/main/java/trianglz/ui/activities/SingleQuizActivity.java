@@ -10,10 +10,12 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 
 import org.joda.time.DateTime;
+import org.w3c.dom.Text;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
+import trianglz.components.AvatarPlaceholderModified;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Quizzes;
 import trianglz.utils.Constants;
@@ -24,10 +26,15 @@ public class SingleQuizActivity extends AppCompatActivity {
             assignmentNameTextView, dayTextView, monthTextView, publishedTextView;
     private IImageLoader imageLoader;
     private LinearLayout dateLinearLayout;
-    private CardView cardView;
+    private LinearLayout cardView;
     private TextView headTextView;
     private QuizzCourse course;
     private Quizzes quizzes;
+    private AvatarView avatarView;
+
+    // grades variables
+    private View quizGradeView, quizNotStartedView;
+    private TextView gradeTextView, outOfTextView, noteTextview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,16 @@ public class SingleQuizActivity extends AppCompatActivity {
         dateLinearLayout = findViewById(R.id.ll_date);
         publishedTextView = findViewById(R.id.tv_published);
         cardView = findViewById(R.id.card_view);
+        avatarView = findViewById(R.id.img_student);
+        IImageLoader imageLoader = new PicassoLoader();
+        imageLoader.loadImage(avatarView,new AvatarPlaceholderModified(course.getCourseName()),"Path url");
+        // views
+        quizGradeView = findViewById(R.id.v_quiz_grade);
+        quizNotStartedView = findViewById(R.id.v_not_started_quiz);
+
+        gradeTextView = findViewById(R.id.tv_score);
+        outOfTextView = findViewById(R.id.tv_out_of);
+        noteTextview = findViewById(R.id.tv_note);
 
         DateTime dateTime = new DateTime(quizzes.getStartDate());
         if (quizzes.getName() != null) {
@@ -83,5 +100,27 @@ public class SingleQuizActivity extends AppCompatActivity {
 
         String published = this.getString(R.string.published) + " " + Util.getPostDate(dateTime.toString(), this);
         publishedTextView.setText(published);
+
+        if (quizzes.getState().equals("running")) {
+            quizNotStartedView.setVisibility(View.VISIBLE);
+            quizGradeView.setVisibility(View.GONE);
+        } else {
+            quizNotStartedView.setVisibility(View.GONE);
+            quizGradeView.setVisibility(View.VISIBLE);
+            if (quizzes.getStudentSubmissions() != null) {
+                gradeTextView.setText(quizzes.getStudentSubmissions().getScore() + "");
+                outOfTextView.setText(getResources().getString(R.string.out_of) + " " + quizzes.getTotalScore() + "");
+                String feedBack = quizzes.getStudentSubmissions().getFeedback();
+                if (feedBack != null) {
+                    noteTextview.setText(quizzes.getStudentSubmissions().getFeedback());
+                } else {
+                    noteTextview.setVisibility(View.INVISIBLE);
+                }
+            } else {
+                gradeTextView.setText("--");
+                outOfTextView.setText(getResources().getString(R.string.out_of) + " " + quizzes.getTotalScore() + "");
+                noteTextview.setText(getResources().getString(R.string.no_submission));
+            }
+        }
     }
 }

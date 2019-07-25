@@ -172,4 +172,6 @@
     <string name="keep_up_the_good_work">Keep up the good work</string>
     <string name="no_quiz">No Quiz</string>
     <string name="published">Published</string>
+    <string name="no_submission">No Submission</string>
+    <string name="out_of">Out of</string>
 </resources>

@@ -71,8 +71,6 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        showLoadingDialog();
-        quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId());
     }
 
     private void bindViews() {
