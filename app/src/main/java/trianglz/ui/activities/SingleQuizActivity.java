@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,7 +22,7 @@ import trianglz.models.Quizzes;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class SingleQuizActivity extends AppCompatActivity {
+public class SingleQuizActivity extends SuperActivity implements View.OnClickListener {
     private TextView subjectNameTextView, dateTextView,
             assignmentNameTextView, dayTextView, monthTextView, publishedTextView;
     private IImageLoader imageLoader;
@@ -31,6 +32,7 @@ public class SingleQuizActivity extends AppCompatActivity {
     private QuizzCourse course;
     private Quizzes quizzes;
     private AvatarView avatarView;
+    private ImageButton backButton;
 
     // grades variables
     private View quizGradeView, quizNotStartedView;
@@ -72,7 +74,8 @@ public class SingleQuizActivity extends AppCompatActivity {
         gradeTextView = findViewById(R.id.tv_score);
         outOfTextView = findViewById(R.id.tv_out_of);
         noteTextview = findViewById(R.id.tv_note);
-
+        backButton = findViewById(R.id.btn_back);
+        backButton.setOnClickListener(this);
         DateTime dateTime = new DateTime(quizzes.getStartDate());
         if (quizzes.getName() != null) {
             subjectNameTextView.setText(course.getCourseName());
@@ -121,6 +124,13 @@ public class SingleQuizActivity extends AppCompatActivity {
                 outOfTextView.setText(getResources().getString(R.string.out_of) + " " + quizzes.getTotalScore() + "");
                 noteTextview.setText(getResources().getString(R.string.no_submission));
             }
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.btn_back) {
+            onBackPressed();
         }
     }
 }
