@@ -168,7 +168,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private void handleParentTabs(int tabNumber) {
         switch (tabNumber) {
             case 1:
-                firstTabImageView.setImageResource(R.drawable.ic_announcment_selected_teacher);
+                firstTabImageView.setImageResource(R.drawable.ic_announcements_selected_parent);
                 secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
                 fourthTabImageView.setImageResource(R.drawable.ic_menu_tab);
@@ -180,7 +180,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 break;
             case 2:
                 firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
-                secondTabImageView.setImageResource(R.drawable.ic_messages_selected_teacher);
+                secondTabImageView.setImageResource(R.drawable.ic_message_selected_parent);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
                 fourthTabImageView.setImageResource(R.drawable.ic_menu_tab);
 
@@ -192,7 +192,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
             case 3:
                 firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
                 secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
-                thirdTabImageView.setImageResource(R.drawable.ic_notification_selected_teacher);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_selected_parent);
                 fourthTabImageView.setImageResource(R.drawable.ic_menu_tab);
 
                 firstTextView.setVisibility(View.GONE);
@@ -204,7 +204,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
                 secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
-                fourthTabImageView.setImageResource(R.drawable.ic_menu_parent_selected);
+                fourthTabImageView.setImageResource(R.drawable.ic_menu_selected_parent);
 
                 firstTextView.setVisibility(View.GONE);
                 secondTextView.setVisibility(View.GONE);
