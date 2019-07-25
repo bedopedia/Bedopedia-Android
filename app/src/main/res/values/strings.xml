@@ -154,7 +154,7 @@
     <string name="there_is_no_weekly_planner">There is no weekly planner</string>
     <string name="due_date">Due Date</string>
     <string name="no_assignment">No Assignment</string>
-    <string name="publish">Published</string>
+    <string name="publish">Publish</string>
     <string name="announcements">Announcements</string>
     <string name="menu">Menu</string>
     <string name="posts">Posts</string>
@@ -171,4 +171,5 @@
     <string name="grade_is">Grade is</string>
     <string name="keep_up_the_good_work">Keep up the good work</string>
     <string name="no_quiz">No Quiz</string>
+    <string name="published">Published</string>
 </resources>

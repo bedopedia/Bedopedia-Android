@@ -79,7 +79,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
             holder.dateTextView.setVisibility(View.INVISIBLE);
         }
 
-        String published = "Publish "+ Util.getPostDate(dateTime.toString(), context);
+        String published = context.getString(R.string.published) + " " + Util.getPostDate(dateTime.toString(), context);
         holder.publishedTextView.setText(published);
         if (assignmentsDetail.getDescription() != null || assignmentsDetail.getUploadedFilesCount() != 0) {
             holder.cardView.setOnClickListener(new View.OnClickListener() {

@@ -20,12 +20,12 @@ import java.util.List;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import trianglz.models.AssignmentsDetail;
+import trianglz.models.Quizzes;
 import trianglz.utils.Util;
 
 public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAdapter.Holder>{
     public Context context;
-    public List<AssignmentsDetail> mDataList;
+    public List<Quizzes> mDataList;
     private QuizzesDetailsInterface anInterface;
     private String courseName = "";
 
@@ -46,24 +46,24 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
 
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
-        final AssignmentsDetail assignmentsDetail = mDataList.get(position);
-        DateTime dateTime = new DateTime(assignmentsDetail.getStartAt());
-        if (assignmentsDetail.getName() != null) {
+        final Quizzes quizzes = mDataList.get(position);
+        DateTime dateTime = new DateTime(quizzes.getStartDate());
+        if (quizzes.getName() != null) {
             holder.subjectNameTextView.setText(courseName);
         }
-        if (assignmentsDetail.getEndAt() != null) {
-            holder.dateTextView.setText(Util.getPostDateAmPm(assignmentsDetail.getEndAt(),context));
+        if (quizzes.getEndDate() != null) {
+            holder.dateTextView.setText(Util.getPostDateAmPm(quizzes.getEndDate(),context));
         }
 
-        if (assignmentsDetail.getEndAt() != null) {
-            holder.dayTextView.setText(Util.getAssigmentDetailEndDateDay(assignmentsDetail.getEndAt()));
-            holder.monthTextView.setText(Util.getAssigmentDetailEndDateMonth(assignmentsDetail.getEndAt(),context));
+        if (quizzes.getEndDate() != null) {
+            holder.dayTextView.setText(Util.getAssigmentDetailEndDateDay(quizzes.getEndDate()));
+            holder.monthTextView.setText(Util.getAssigmentDetailEndDateMonth(quizzes.getEndDate(),context));
         }
-        if (assignmentsDetail.getName() != null) {
-            holder.assignmentNameTextView.setText(assignmentsDetail.getName());
+        if (quizzes.getName() != null) {
+            holder.assignmentNameTextView.setText(quizzes.getName());
         }
-        if(assignmentsDetail.getState() != null){
-            if (assignmentsDetail.getState().equals("running")) {
+        if(quizzes.getState() != null){
+            if (quizzes.getState().equals("running")) {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
             } else {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
@@ -72,16 +72,8 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
             holder.dateTextView.setVisibility(View.INVISIBLE);
         }
 
-        String published = "Publish "+ Util.getPostDate(dateTime.toString(), context);
+        String published = context.getString(R.string.published) + " " + Util.getPostDate(dateTime.toString(), context);
         holder.publishedTextView.setText(published);
-        if (assignmentsDetail.getDescription() != null || assignmentsDetail.getUploadedFilesCount() != 0) {
-            holder.cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    anInterface.onItemClicked(assignmentsDetail);
-                }
-            });
-        }
     }
 
     @Override
@@ -89,9 +81,9 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
         return mDataList.size();
     }
 
-    public void addData(ArrayList<AssignmentsDetail> assignmentsDetailArrayList) {
+    public void addData(ArrayList<Quizzes> quizzes) {
         this.mDataList.clear();
-        this.mDataList.addAll(assignmentsDetailArrayList);
+        this.mDataList.addAll(quizzes);
         notifyDataSetChanged();
     }
 
@@ -121,6 +113,6 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
 
 
     public interface QuizzesDetailsInterface {
-        void onItemClicked(AssignmentsDetail assignmentsDetail);
+        void onItemClicked(Quizzes quizzes);
     }
 }

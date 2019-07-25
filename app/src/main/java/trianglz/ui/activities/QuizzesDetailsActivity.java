@@ -24,28 +24,35 @@ import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.AssignmentsDetailPresenter;
+import trianglz.core.presenters.QuizzesDetailsPresenter;
 import trianglz.core.views.AssignmentsDetailView;
+import trianglz.core.views.QuizzesDetailsView;
 import trianglz.managers.SessionManager;
 import trianglz.models.AssignmentsDetail;
+import trianglz.models.Quiz;
+import trianglz.models.QuizzCourse;
+import trianglz.models.Quizzes;
 import trianglz.models.Student;
 import trianglz.ui.adapters.AssignmentDetailAdapter;
+import trianglz.ui.adapters.QuizzesDetailsAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class QuizzesDetailsActivity extends SuperActivity implements View.OnClickListener, AssignmentsDetailPresenter, AssignmentDetailAdapter.AssignmentDetailInterface{
+public class QuizzesDetailsActivity extends SuperActivity implements View.OnClickListener, QuizzesDetailsPresenter, QuizzesDetailsAdapter.QuizzesDetailsInterface {
 
     private ImageButton backBtn;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private Student student;
     private RecyclerView recyclerView;
-    private AssignmentDetailAdapter adapter;
-    private AssignmentsDetailView assignmentsDetailView;
-    private ArrayList<AssignmentsDetail> assignmentsDetailArrayList;
+    private QuizzesDetailsAdapter adapter;
     private String courseName = "";
     private TextView headerTextView;
     private RadioButton openButton, closedButton;
     private SegmentedGroup segmentedGroup;
+    private QuizzCourse quizzCourse;
+    private ArrayList<Quizzes> quizzes;
+    private QuizzesDetailsView quizzesDetailsView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +61,24 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
         getValueFromIntent();
         bindViews();
         setListeners();
+        showLoadingDialog();
+        quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId());
     }
 
     private void getValueFromIntent() {
-        student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
-        assignmentsDetailArrayList = (ArrayList<AssignmentsDetail>) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ASSIGNMENTS);
-        courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
+        student = Student.create(getIntent().getStringExtra(Constants.STUDENT));
+        quizzCourse = QuizzCourse.create(getIntent().getStringExtra(Constants.COURSE_QUIZZES));
+//        assignmentsDetailArrayList = (ArrayList<AssignmentsDetail>) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ASSIGNMENTS);
+        courseName = quizzCourse.getCourseName();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showLoadingDialog();
+        quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId());
+    }
 
     private void bindViews() {
         imageLoader = new PicassoLoader();
@@ -69,12 +86,10 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
         backBtn = findViewById(R.id.btn_back);
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = findViewById(R.id.recycler_view);
-        adapter = new AssignmentDetailAdapter(this,this,courseName);
+        adapter = new QuizzesDetailsAdapter(this,this,courseName);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(10,this),false));
-        assignmentsDetailView = new AssignmentsDetailView(this,this);
-        adapter.addData(getArrayList(true));
         headerTextView = findViewById(R.id.tv_header);
         headerTextView.setText(courseName);
 
@@ -90,20 +105,11 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
         } else {
             segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
         }
+
+        quizzesDetailsView = new QuizzesDetailsView(this, this);
+        quizzes = new ArrayList<>();
     }
 
-    private ArrayList<AssignmentsDetail> getArrayList(boolean isOpen) {
-        if (assignmentsDetailArrayList.isEmpty()) return null ;
-        ArrayList<AssignmentsDetail> filteredDetails = new ArrayList<>();
-        for (AssignmentsDetail assignmentsDetail : assignmentsDetailArrayList) {
-            if (assignmentsDetail.getState().equals("running")) {
-                if (isOpen) filteredDetails.add(assignmentsDetail);
-            } else {
-                if (!isOpen) filteredDetails.add(assignmentsDetail);
-            }
-        }
-        return filteredDetails;
-    }
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
@@ -125,7 +131,18 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
                 break;
         }
     }
-
+    private ArrayList<Quizzes> getArrayList(boolean isOpen) {
+        if (quizzes.isEmpty()) return null ;
+        ArrayList<Quizzes> filteredQuizzes = new ArrayList<>();
+        for (Quizzes quiz : quizzes) {
+            if (quiz.getState().equals("running")) {
+                if (isOpen) filteredQuizzes.add(quiz);
+            } else {
+                if (!isOpen) filteredQuizzes.add(quiz);
+            }
+        }
+        return filteredQuizzes;
+    }
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();
@@ -151,10 +168,29 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
                     });
         }
     }
-
+    @Override
+    public void onGetQuizzesDetailsSuccess(ArrayList<Quizzes> quizzes) {
+        if (progress.isShowing()) {
+            progress.dismiss();
+        }
+        this.quizzes = quizzes;
+        adapter.addData(getArrayList(true));
+    }
 
     @Override
-    public void onItemClicked(AssignmentsDetail assignmentsDetail) {
+    public void onGetQuizzesDetailsFailure() {
+        if (progress.isShowing()) {
+            progress.dismiss();
+        }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    public void onItemClicked(Quizzes quizzes) {
 
     }
 }
