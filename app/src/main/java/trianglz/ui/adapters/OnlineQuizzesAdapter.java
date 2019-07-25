@@ -62,11 +62,14 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
         imageLoader.loadImage(holder.courseAvatarView,new AvatarPlaceholderModified(quizzCourse.getCourseName()),"path of image");
         if(quizzCourse.getQuizState()!= null){
             if (quizzCourse.getQuizState().equals("running")) {
-                holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
             } else {
-                holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
             }
         }else {
+            holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+        }
+        if (quizzCourse.getNextQuizDate() == null || quizzCourse.getNextQuizDate().equals("")) {
             holder.dateLinearLayout.setVisibility(View.INVISIBLE);
         }
         holder.dateTextView.setText(Util.getCourseDate(quizzCourse.getNextQuizDate()));
