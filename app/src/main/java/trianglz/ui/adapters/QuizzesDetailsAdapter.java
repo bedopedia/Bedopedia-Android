@@ -74,6 +74,13 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
 
         String published = context.getString(R.string.published) + " " + Util.getPostDate(dateTime.toString(), context);
         holder.publishedTextView.setText(published);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                anInterface.onItemClicked(quizzes);
+            }
+        });
     }
 
     @Override

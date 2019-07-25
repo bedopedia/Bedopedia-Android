@@ -21,19 +21,13 @@ import agency.tango.android.avatarview.views.AvatarView;
 import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
-import trianglz.core.presenters.AssignmentsDetailPresenter;
-import trianglz.core.presenters.CourseAssignmentPresenter;
 import trianglz.core.presenters.OnlineQuizzesPresenter;
-import trianglz.core.views.CourseAssignmentView;
 import trianglz.core.views.OnlineQuizzesView;
-import trianglz.managers.SessionManager;
 import trianglz.models.AssignmentsDetail;
-import trianglz.models.CourseAssignment;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Student;
 import trianglz.ui.adapters.OnlineQuizzesAdapter;
 import trianglz.utils.Constants;
-import trianglz.utils.Util;
 
 public class OnlineQuizzesActivity extends SuperActivity implements View.OnClickListener, OnlineQuizzesAdapter.OnlineQuizzesInterface, OnlineQuizzesPresenter {
     private ImageButton backBtn;
@@ -115,7 +109,7 @@ public class OnlineQuizzesActivity extends SuperActivity implements View.OnClick
     private void openQuizzesDetailsActivity(QuizzCourse quizzCourse) {
         Intent intent = new Intent(this,QuizzesDetailsActivity.class);
         intent.putExtra(Constants.STUDENT, student.toString());
-        intent.putExtra(Constants.COURSE_QUIZZES, quizzCourse.toString());
+        intent.putExtra(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
         startActivity(intent);
     }
 

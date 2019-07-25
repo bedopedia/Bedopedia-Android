@@ -1,7 +1,7 @@
 package trianglz.ui.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,17 +23,12 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
-import trianglz.core.presenters.AssignmentsDetailPresenter;
 import trianglz.core.presenters.QuizzesDetailsPresenter;
-import trianglz.core.views.AssignmentsDetailView;
 import trianglz.core.views.QuizzesDetailsView;
 import trianglz.managers.SessionManager;
-import trianglz.models.AssignmentsDetail;
-import trianglz.models.Quiz;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Quizzes;
 import trianglz.models.Student;
-import trianglz.ui.adapters.AssignmentDetailAdapter;
 import trianglz.ui.adapters.QuizzesDetailsAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -67,7 +62,7 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
 
     private void getValueFromIntent() {
         student = Student.create(getIntent().getStringExtra(Constants.STUDENT));
-        quizzCourse = QuizzCourse.create(getIntent().getStringExtra(Constants.COURSE_QUIZZES));
+        quizzCourse = QuizzCourse.create(getIntent().getStringExtra(Constants.KEY_COURSE_QUIZZES));
 //        assignmentsDetailArrayList = (ArrayList<AssignmentsDetail>) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ASSIGNMENTS);
         courseName = quizzCourse.getCourseName();
     }
@@ -191,6 +186,9 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
 
     @Override
     public void onItemClicked(Quizzes quizzes) {
-
+        Intent intent = new Intent(this, SingleQuizActivity.class);
+        intent.putExtra(Constants.KEY_QUIZZES, quizzes.toString());
+        intent.putExtra(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
+        startActivity(intent);
     }
 }

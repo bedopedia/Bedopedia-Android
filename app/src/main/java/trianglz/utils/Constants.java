@@ -192,5 +192,5 @@ public class Constants {
     public static final String POST_ID = "post_id";
     public static final String KEY_ASSIGNMENT_DETAIL = "assignment_detail";
     public static final String KEY_STUDENT_NAME = "student_name";
-    public static final String COURSE_QUIZZES = "course_quizzes";
+    public static final String KEY_COURSE_QUIZZES = "course_quizzes";
 }
