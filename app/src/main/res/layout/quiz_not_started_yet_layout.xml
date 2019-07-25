@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="You will be able to solve the quiz when it starts"
+        android:text="@string/you_will_be_able_to_solve_the_quiz_when_it_starts"
         android:textColor="#7a8993"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
