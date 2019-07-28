@@ -36,6 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:background="@android:color/transparent"
                     android:padding="10dp"
                     android:src="@drawable/chevron_left" />
