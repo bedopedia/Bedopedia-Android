@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +35,7 @@ import trianglz.ui.adapters.AttachmentAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class AssignmentActivity extends SuperActivity implements AttachmentAdapter.AttachmentAdapterInterface, SingleAssignmentPresenter {
+public class AssignmentActivity extends SuperActivity implements AttachmentAdapter.AttachmentAdapterInterface, SingleAssignmentPresenter, View.OnClickListener {
     private AssignmentsDetail assignmentsDetail;
     private TextView courseNameTextView, courseDescriptionTextView;
     private RecyclerView recyclerView;
@@ -44,6 +45,7 @@ public class AssignmentActivity extends SuperActivity implements AttachmentAdapt
     private AvatarView avatarView;
     private String studentName;
     private CardView cardView;
+    private ImageButton backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class AssignmentActivity extends SuperActivity implements AttachmentAdapt
 
 
     private void bindViews() {
+        backBtn = findViewById(R.id.btn_back);
         courseNameTextView = findViewById(R.id.tv_course_name);
         courseDescriptionTextView = findViewById (R.id.tv_course_description);
         cardView = findViewById (R.id.card_view);
@@ -89,7 +92,7 @@ public class AssignmentActivity extends SuperActivity implements AttachmentAdapt
         imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(studentName), "Path of Image");
     }
     private void setListeners() {
-
+        backBtn.setOnClickListener(this);
     }
 
     @Override
@@ -111,6 +114,15 @@ public class AssignmentActivity extends SuperActivity implements AttachmentAdapt
     public void onShowAssignmentFailure(String message, int errorCode) {
         if (progress.isShowing()) {
             progress.dismiss();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_back:
+                onBackPressed();
+                break;
         }
     }
 }
