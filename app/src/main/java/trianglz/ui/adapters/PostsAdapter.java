@@ -38,9 +38,19 @@ public class PostsAdapter extends RecyclerView.Adapter {
         PostsViewHolder viewHolder = (PostsViewHolder) holder;
         final PostsResponse postsResponse = postsResponses.get(position);
         viewHolder.subjectTextView.setText(postsResponse.getCourseName());
-        viewHolder.nameTextview.setText(postsResponse.getPosts().getOwner().getName());
-        viewHolder.counterTextView.setText(String.valueOf(postsResponse.getPostsCount()));
-        viewHolder.descriptionTextView.setText(String.valueOf(Html.fromHtml(postsResponse.getPosts().getContent())));
+        if (postsResponse.getPosts() != null) {
+            if (postsResponse.getPosts().getOwner() != null) {
+                viewHolder.nameTextview.setText(postsResponse.getPosts().getOwner().getNameWithTitle());
+            } else {
+                viewHolder.nameTextview.setText("");
+            }
+            viewHolder.counterTextView.setText(String.valueOf(postsResponse.getPostsCount()));
+            viewHolder.descriptionTextView.setText(String.valueOf(Html.fromHtml(postsResponse.getPosts().getContent())));
+        } else {
+            viewHolder.nameTextview.setText("");
+            viewHolder.counterTextView.setText("");
+            viewHolder.descriptionTextView.setText("");
+        }
         IImageLoader imageLoader = new PicassoLoader();
             imageLoader.loadImage(viewHolder.subjectImageView, new AvatarPlaceholderModified(postsResponse.getCourseName()), "Path of Image");
             viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +73,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
     }
     public void addData(ArrayList<PostsResponse> mpostsResponses) {
         postsResponses.clear();
-        postsResponses.addAll(mpostsResponses);
+        if (mpostsResponses != null)postsResponses.addAll(mpostsResponses);
         notifyDataSetChanged();
     }
 
