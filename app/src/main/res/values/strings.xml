@@ -20,7 +20,7 @@
     <string name="GradesTitle" translatable="false">Grades</string>
     <string name="MyKidsTitle" translatable="false">My Kids</string>
     <string name="fragmentStudentAttendance_tv">Attendance</string>
-    <string name="fragmentStudentTimetable_tv">Time Table</string>
+    <string name="fragmentStudentTimetable_tv">Timetable</string>
     <string name="fragmentStudentGrades_tv">Grades</string>
     <string name="fragmentStudentBehaviorNotes_tv">Behavior Notes</string>
     <string name="positiveBehaviorNotes">Positive</string>
@@ -39,7 +39,7 @@
     <string name="ConnectionErrorTitle">Connection Failed</string>
     <string name="ConnectionErrorBody">Check your Netwotk connection and Try again</string>
     <string name="Badges" translatable="false">Badges</string>
-    <string name="TimeTableTitle">Time Table</string>
+    <string name="TimeTableTitle">Timetable</string>
     <string name="InvalidMail">invalid email</string>
     <string name="SuccessMessage">success</string>
     <string name="NotValidMail">not Valid email</string>
@@ -65,7 +65,7 @@
     <string name="wrong_username_or_password">Wrong username or password</string>
     <string name="not_correct_school_code">Not correct School Code"</string>
     <string name="messages">Messages</string>
-    <string name="time_table">Time table</string>
+    <string name="time_table">Timetable</string>
     <string name="grades">Grades</string>
     <string name="behavior_notes">Behavior notes</string>
     <string name="attendance">Attendance</string>
@@ -105,7 +105,7 @@
     <string name="write_a_message">write a message …</string>
     <string name="send">Send</string>
     <string name="grade_items">Grade items</string>
-    <string name="there_is_no_time_table">There is no time table</string>
+    <string name="there_is_no_time_table">There is no timetable</string>
     <string name="current">Current</string>
     <string name="ok">ok</string>
     <string name="change_language">Change language to arabic</string>
