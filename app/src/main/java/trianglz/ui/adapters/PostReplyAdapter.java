@@ -72,8 +72,8 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams)viewHolder.cardView.getLayoutParams();
             params.setMargins(0, 0, 0, 0); //substitute parameters for left, top, right, bottom
             viewHolder.cardView.setLayoutParams(params);
-            setAvatarView(viewHolder.avatarView, postDetail.getOwner().getName(), imageUrl);
-            viewHolder.ownerTextview.setText(postDetail.getOwner().getName());
+            setAvatarView(viewHolder.avatarView, postDetail.getOwner().getNameWithTitle(), imageUrl);
+            viewHolder.ownerTextview.setText(postDetail.getOwner().getNameWithTitle());
             String date = Util.getPostDate(postDetail.getCreatedAt(), context);
             viewHolder.dateTextView.setText(date);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -156,8 +156,8 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             params.setMargins(0, 0, 0, (int) Util.convertDpToPixel(16,context)); //substitute parameters for left, top, right, bottom
             Reply reply = postDetail.getComments()[position - 2];
             imageUrl = reply.getOwner().getAvatarUrl();
-            setAvatarView(viewHolder.avatarView, reply.getOwner().getName(), imageUrl);
-            viewHolder.ownerTextview.setText(reply.getOwner().getName());
+            setAvatarView(viewHolder.avatarView, reply.getOwner().getNameWithTitle(), imageUrl);
+            viewHolder.ownerTextview.setText(reply.getOwner().getNameWithTitle());
             String date = Util.getPostDate(reply.getCreatedAt(),context);
             viewHolder.dateTextView.setText(date);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

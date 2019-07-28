@@ -59,8 +59,8 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         final PostDetails postDetail = postDetails.get(position);
         String imageUrl = postDetail.getOwner().getAvatarUrl();
         imageLoader = new PicassoLoader();
-        setAvatarView(viewHolder.avatarView, postDetail.getOwner().getName(), imageUrl);
-        viewHolder.ownerTextview.setText(postDetail.getOwner().getName());
+        setAvatarView(viewHolder.avatarView, postDetail.getOwner().getNameWithTitle(), imageUrl);
+        viewHolder.ownerTextview.setText(postDetail.getOwner().getNameWithTitle());
         String date = Util.getPostDate(postDetail.getCreatedAt(), context);
         viewHolder.dateTextView.setText(date);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

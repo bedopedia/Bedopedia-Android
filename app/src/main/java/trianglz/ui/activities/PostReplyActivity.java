@@ -68,7 +68,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
     private void checkIntent() {
         postDetails = PostDetails.create(getIntent().getStringExtra(Constants.POST_DETAILS));
         courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
-        ownerName = postDetails.getOwner().getName();
+        ownerName = postDetails.getOwner().getNameWithTitle();
     }
 
     @Override
