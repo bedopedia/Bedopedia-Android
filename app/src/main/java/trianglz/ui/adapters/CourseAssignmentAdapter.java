@@ -81,7 +81,7 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
 
     public void addData(ArrayList<CourseAssignment> courseAssignments) {
         this.mDataList.clear();
-        this.mDataList.addAll(courseAssignments);
+        if(courseAssignments != null) this.mDataList.addAll(courseAssignments);
         notifyDataSetChanged();
     }
 

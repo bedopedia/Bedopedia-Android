@@ -88,7 +88,7 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
 
     public void addData(ArrayList<QuizzCourse> quizzCourses) {
         this.mDataList.clear();
-        this.mDataList.addAll(quizzCourses);
+        if (quizzCourses != null) this.mDataList.addAll(quizzCourses);
         notifyDataSetChanged();
     }
 

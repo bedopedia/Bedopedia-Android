@@ -90,7 +90,7 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
 
     public void addData(ArrayList<Quizzes> quizzes) {
         this.mDataList.clear();
-        this.mDataList.addAll(quizzes);
+        if(quizzes != null) this.mDataList.addAll(quizzes);
         notifyDataSetChanged();
     }
 

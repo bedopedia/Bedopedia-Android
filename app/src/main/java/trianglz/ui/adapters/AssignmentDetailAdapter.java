@@ -98,7 +98,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
 
     public void addData(ArrayList<AssignmentsDetail> assignmentsDetailArrayList) {
         this.mDataList.clear();
-        this.mDataList.addAll(assignmentsDetailArrayList);
+        if (assignmentsDetailArrayList != null) this.mDataList.addAll(assignmentsDetailArrayList);
         notifyDataSetChanged();
     }
 
