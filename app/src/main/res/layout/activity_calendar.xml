@@ -83,6 +83,7 @@
             android:textSize="17sp" />
 
         <trianglz.components.SfuiBoldTextView
+            android:id="@+id/today_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -103,16 +104,15 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             app:compactCalendarBackgroundColor="@android:color/transparent"
-            app:compactCalendarCurrentDayBackgroundColor="@color/turquoise_blue_two"
+            app:compactCalendarCurrentDayBackgroundColor="@color/transparent"
             app:compactCalendarCurrentDayTextColor="@color/black"
-            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/turquoise_blue_two"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/transparent"
             app:compactCalendarCurrentSelectedDayTextColor="@color/black"
             app:compactCalendarMultiEventIndicatorColor="@color/cerulean_blue"
             app:compactCalendarOtherMonthDaysTextColor="@color/black"
             app:compactCalendarTargetHeight="230dp"
             app:compactCalendarTextColor="@color/black"
-            app:compactCalendarTextSize="12sp"
-            />
+            app:compactCalendarTextSize="12sp" />
 
     </FrameLayout>
 
@@ -129,9 +129,9 @@
             android:background="@color/black" />
 
         <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:id="@+id/horizontalScrollView"
             android:scrollbars="none">
 
             <LinearLayout
@@ -174,40 +174,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_academic"
-                    android:layout_width="94dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <trianglz.components.CircularMediumTextView
-                        android:id="@+id/tv_academic_counter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="24dp"
-                        android:text="12"
-                        android:textColor="@color/butterscotch"
-                        android:textSize="14sp" />
-
-                    <trianglz.components.CircularBookTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_marginBottom="9dp"
-                        android:text="@string/academic"
-                        android:textColor="@color/butterscotch"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:id="@+id/view_academic"
-                        android:layout_width="match_parent"
-                        android:layout_height="3dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginStart="10dp"
-                        android:background="@drawable/curved_butterscotch"
-                        android:visibility="invisible" />
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/layout_events"
                     android:layout_width="94dp"
                     android:layout_height="match_parent"
@@ -234,12 +200,116 @@
                         android:id="@+id/view_events"
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
-                        android:layout_marginEnd="10dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/curved_turquoise_blue"
                         android:visibility="invisible" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_assignments"
+                    android:layout_width="94dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.CircularMediumTextView
+                        android:id="@+id/tv_assignments_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:text="12"
+                        android:textColor="@color/red"
+                        android:textSize="14sp" />
+
+                    <trianglz.components.CircularBookTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="9dp"
+                        android:text="@string/assignments"
+                        android:textColor="@color/red"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view_assignments"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/curved_red"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_quizzes"
+                    android:layout_width="94dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.CircularMediumTextView
+                        android:id="@+id/tv_quizzes_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:text="12"
+                        android:textColor="@color/light_sage"
+                        android:textSize="14sp" />
+
+                    <trianglz.components.CircularBookTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="9dp"
+                        android:text="@string/quizzes"
+                        android:textColor="@color/light_sage"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view_quizzes"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/curved_light_sage"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/layout_academic"
+                    android:layout_width="94dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.CircularMediumTextView
+                        android:id="@+id/tv_academic_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:text="12"
+                        android:textColor="@color/butterscotch"
+                        android:textSize="14sp" />
+
+                    <trianglz.components.CircularBookTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="9dp"
+                        android:text="@string/academic"
+                        android:textColor="@color/butterscotch"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view_academic"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/curved_butterscotch"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/layout_vacations"
@@ -268,8 +338,8 @@
                         android:id="@+id/view_vacations"
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
-                        android:layout_marginEnd="10dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/curved_soft_green"
                         android:visibility="invisible" />
 
@@ -302,8 +372,8 @@
                         android:id="@+id/view_personal"
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
-                        android:layout_marginEnd="10dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/curved_iris"
                         android:visibility="invisible" />
 
@@ -318,6 +388,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="66dp">
@@ -325,18 +396,17 @@
         <trianglz.components.RobotoMediumButton
             android:id="@+id/create_personal_event"
             android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
             android:layout_marginStart="74dp"
             android:layout_marginEnd="74dp"
-            android:layout_height="40dp"
-            android:paddingStart="12dp"
-            android:textAllCaps="false"
-            android:paddingEnd="12dp"
             android:background="@drawable/curved_turquoise_blue_two_background"
             android:drawableStart="@drawable/addnew_ico"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:text="@string/create_personal_event"
-            android:layout_gravity="center"
-            android:textColor="@color/turquoise_blue_two"
-         />
+            android:textAllCaps="false"
+            android:textColor="@color/turquoise_blue_two" />
     </FrameLayout>
 
 

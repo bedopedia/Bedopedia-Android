@@ -9,17 +9,18 @@ public class ApiEndPoints {
     //SCHOOL_CODE_URL
     public static final String SCHOOL_CODE_BASE_URL = BASE_URL + "schools/get_by_code";
 
-    public static String averageGradeEndPoint(int courseId, int courseGroupId){
-        return "/api/courses/"+ courseId +"/course_groups/"+ courseGroupId+"/student_grade";
+    public static String averageGradeEndPoint(int courseId, int courseGroupId) {
+        return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/student_grade";
     }
 
-    public static String studentGradeBook (int courseId, int courseGroupId){
-       return  "/api/courses/"+ courseId +"/course_groups/"+ courseGroupId +"/student_grade_book";
+    public static String studentGradeBook(int courseId, int courseGroupId) {
+        return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/student_grade_book";
     }
 
     public static String postsApi(int id) {
-        return  "/api/students/"+ id +"/course_groups_recent_posts";
+        return "/api/students/" + id + "/course_groups_recent_posts";
     }
+
     public static String postsDetailsApi(int courseId) {
         return "/api/posts?access_by_entity=Course+Group+Posts&course_group_id=" + courseId;
     }
@@ -27,42 +28,47 @@ public class ApiEndPoints {
     public static String postReply() {
         return "/api/comments";
     }
-    public static String getSemesters (){
-        return  "/api/grading_periods/course_grading_periods";
+
+    public static String getSemesters() {
+        return "/api/grading_periods/course_grading_periods";
     }
 
-    public static String getThreads(){
+    public static String getThreads() {
         return "/api/threads";
     }
 
-    public static String getCourseGroups(int studentId){
+    public static String getCourseGroups(int studentId) {
         return "/api/students/" + studentId + "/course_groups";
     }
 
-    public static String getSendMessageUrl(int threadId){
+    public static String getSendMessageUrl(int threadId) {
         return "/api/threads/" + threadId;
     }
-    public static String getSendImageId (int threadId){
+
+    public static String getSendImageId(int threadId) {
         return "/api/threads/" + threadId + "/messages";
     }
 
-    public static String setAsSeen(String userId){
-        return "/api/users/"+ userId +"/notifications/mark_as_seen";
+    public static String setAsSeen(String userId) {
+        return "/api/users/" + userId + "/notifications/mark_as_seen";
     }
 
-    public static String getAnnouncementUrl(int pageNumber, String user_type, int numberPerPage){
+    public static String getAnnouncementUrl(int pageNumber, String user_type, int numberPerPage) {
 
-    return "/api/announcements?order_by_end_at=asc&page="+pageNumber+"&per_page="+numberPerPage+"&running_announcement=true&user_type="+user_type;
+        return "/api/announcements?order_by_end_at=asc&page=" + pageNumber + "&per_page=" + numberPerPage + "&running_announcement=true&user_type=" + user_type;
 
     }
 
 
-    public static String getSetReadThreadUrl(){
+    public static String getSetReadThreadUrl() {
         return "/api/thread_participants/bulk_mark_as_read";
     }
 
-    public static String getWeeklyPlanerUrl(String date){
+    public static String getWeeklyPlanerUrl(String date) {
         return "/api/weekly_plans?search_by_date=" + date;
     }
 
+    public static String getEvents(int userId, String type, String endDate, String startDate) {
+        return "/api/events?by_listener%5Blistener_id%5D=" + userId + "&by_listener%5Blistener_type%5D=" + type + "&start_date_between%5Bend_date%5D=" + endDate + "&start_date_between%5Bstart_date%5D=" + startDate;
+    }
 }

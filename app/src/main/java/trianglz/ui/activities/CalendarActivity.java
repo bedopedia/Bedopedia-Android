@@ -1,9 +1,12 @@
 package trianglz.ui.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -15,6 +18,8 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import org.joda.time.Days;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -30,15 +35,23 @@ import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.BottomItemDecoration;
 import trianglz.components.CircleTransform;
+import trianglz.core.presenters.CalendarEventsPresenter;
+import trianglz.core.views.CalendarEventsView;
+import trianglz.managers.SessionManager;
+import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Student;
 import trianglz.ui.adapters.EventAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
-public class CalendarActivity extends SuperActivity implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener {
+public class CalendarActivity extends SuperActivity implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener, CalendarEventsPresenter {
     private CompactCalendarView compactCalendarView;
-    private ArrayList<EventAdapter.DemoEvent> allEvents, academicEvents, events, personalEvents, vacations;
+    private CalendarEventsView calendarEventsView;
+    private String start = "2010-03-04T00:00:00.000Z";
+    private String end = "2030-03-04T00:00:00.000Z";
+    private ArrayList<trianglz.models.Event> allEvents, academicEvents, events, personalEvents, vacations, assignments, quizzes;
     private Student student;
-    private TextView monthYearTextView, allCounterTextView, academicCounterTextView, eventsCounterTextView, vacationsCounterTextView, personalCounterTextView;
+    private TextView monthYearTextView, allCounterTextView, academicCounterTextView, eventsCounterTextView, assignmentsCounterTextView, quizzesCounterTextView, vacationsCounterTextView, personalCounterTextView, todayTextView;
     private ImageButton backBtn;
     private Button createPersonalEventBtn;
     private RecyclerView recyclerView;
@@ -46,8 +59,8 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
     private Calendar calendar;
     private IImageLoader imageLoader;
     private AvatarView studentImageView;
-    private LinearLayout allLayout, academicLayout, eventsLayout, vacationsLayout, personalLayout;
-    private View allView, academicView, eventsView, vacationsView, personalView;
+    private LinearLayout allLayout, academicLayout, eventsLayout, vacationsLayout, personalLayout, assignmentsLayout, quizzesLayout;
+    private View allView, academicView, eventsView, vacationsView, personalView, assignmentsView, quizzesView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +68,13 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
         setContentView(R.layout.activity_calendar);
         getValueFromIntent();
         bindViews();
+        checkUserType();
         setListeners();
-        String studentName = student.firstName + " " + student.lastName;
-        setStudentImage(student.getAvatar(), studentName);
+        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         setRecyclerView();
-        setEvents();
+        getEvents();
     }
+
 
     @Override
     public void onClick(View v) {
@@ -96,12 +110,28 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
                 personalView.setVisibility(View.VISIBLE);
                 eventAdapter.addData(personalEvents, EventAdapter.EVENTSTATE.PERSONAL);
                 break;
+            case R.id.layout_assignments:
+                deselectAll();
+                assignmentsView.setVisibility(View.VISIBLE);
+                eventAdapter.addData(assignments, EventAdapter.EVENTSTATE.ASSIGNMENTS);
+                break;
+            case R.id.layout_quizzes:
+                deselectAll();
+                quizzesView.setVisibility(View.VISIBLE);
+                eventAdapter.addData(quizzes, EventAdapter.EVENTSTATE.QUIZZES);
+                break;
         }
     }
 
     @Override
     public void onDayClick(Date dateClicked) {
-
+        if (dateClicked.getYear() == calendar.getTime().getYear()
+                && dateClicked.getMonth() == calendar.getTime().getMonth()
+                && dateClicked.getDate() == calendar.getTime().getDate()) {
+            checkUserType();
+        } else {
+            compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.transparent));
+        }
     }
 
     @Override
@@ -109,19 +139,29 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
         monthYearTextView.setText(setHeaderDate(firstDayOfNewMonth));
         if (firstDayOfNewMonth.getYear() == calendar.getTime().getYear()
                 && firstDayOfNewMonth.getMonth() == calendar.getTime().getMonth()
-                && firstDayOfNewMonth.getDay() == calendar.getTime().getDay()) {
-            compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.turquoise_blue_two));
+                && firstDayOfNewMonth.getDate() == calendar.getTime().getDate()) {
+            checkUserType();
         } else {
             compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.transparent));
         }
     }
 
     private void bindViews() {
+
+        allEvents = new ArrayList<>();
+        academicEvents = new ArrayList<>();
+        events = new ArrayList<>();
+        personalEvents = new ArrayList<>();
+        vacations = new ArrayList<>();
+        assignments = new ArrayList<>();
+        quizzes = new ArrayList<>();
         compactCalendarView = findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), new Locale("en"));
         compactCalendarView.setUseThreeLetterAbbreviation(true);
         compactCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
         compactCalendarView.removeAllEvents();
+        calendarEventsView = new CalendarEventsView(CalendarActivity.this, this);
+
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new BottomItemDecoration(66, false));
@@ -134,25 +174,29 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
         eventsCounterTextView = findViewById(R.id.tv_events_counter);
         vacationsCounterTextView = findViewById(R.id.tv_vacations_counter);
         personalCounterTextView = findViewById(R.id.tv_personal_counter);
+        assignmentsCounterTextView = findViewById(R.id.tv_assignments_counter);
+        quizzesCounterTextView = findViewById(R.id.tv_quizzes_counter);
+        todayTextView = findViewById(R.id.today_tv);
         backBtn = findViewById(R.id.btn_back);
         createPersonalEventBtn = findViewById(R.id.create_personal_event);
 
         calendar = Calendar.getInstance();
-//        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
-        compactCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
-        compactCalendarView.removeAllEvents();
 
         allLayout = findViewById(R.id.layout_all);
         academicLayout = findViewById(R.id.layout_academic);
         eventsLayout = findViewById(R.id.layout_events);
         vacationsLayout = findViewById(R.id.layout_vacations);
         personalLayout = findViewById(R.id.layout_personal);
+        assignmentsLayout = findViewById(R.id.layout_assignments);
+        quizzesLayout = findViewById(R.id.layout_quizzes);
 
         allView = findViewById(R.id.view_all);
         academicView = findViewById(R.id.view_academic);
         eventsView = findViewById(R.id.view_events);
         vacationsView = findViewById(R.id.view_vacations);
         personalView = findViewById(R.id.view_personal);
+        assignmentsView = findViewById(R.id.view_assignments);
+        quizzesView = findViewById(R.id.view_quizzes);
         monthYearTextView.setText(setHeaderDate(Calendar.getInstance().getTime()));
     }
 
@@ -167,6 +211,8 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
         eventsLayout.setOnClickListener(this);
         vacationsLayout.setOnClickListener(this);
         personalLayout.setOnClickListener(this);
+        assignmentsLayout.setOnClickListener(this);
+        quizzesLayout.setOnClickListener(this);
         compactCalendarView.setListener(this);
         createPersonalEventBtn.setOnClickListener(this);
     }
@@ -213,7 +259,8 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
         eventsView.setVisibility(View.INVISIBLE);
         vacationsView.setVisibility(View.INVISIBLE);
         personalView.setVisibility(View.INVISIBLE);
-
+        assignmentsView.setVisibility(View.INVISIBLE);
+        quizzesView.setVisibility(View.INVISIBLE);
     }
 
     private void openAddEventActivity() {
@@ -225,77 +272,109 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
     }
 
     private void setEvents() {
-        createEvents(allEvents, R.color.black);
         createEvents(academicEvents, R.color.butterscotch);
         createEvents(events, R.color.turquoise_blue);
         createEvents(vacations, R.color.soft_green);
         createEvents(personalEvents, R.color.iris);
+        createEvents(assignments, R.color.red);
+        createEvents(quizzes, R.color.light_sage);
         allCounterTextView.setText(allEvents.size() + "");
         academicCounterTextView.setText(academicEvents.size() + "");
         eventsCounterTextView.setText(events.size() + "");
         vacationsCounterTextView.setText(vacations.size() + "");
         personalCounterTextView.setText(personalEvents.size() + "");
+        quizzesCounterTextView.setText(quizzes.size() + "");
+        assignmentsCounterTextView.setText(assignments.size() + "");
     }
 
-    private void createEvents(ArrayList<EventAdapter.DemoEvent> attendanceArrayList, int color) {
-        for (int i = 0; i < attendanceArrayList.size(); i++) {
-            compactCalendarView.addEvent(new Event(getResources().getColor(color), attendanceArrayList.get(i).getDate().getTime()));
+    private void createEvents(ArrayList<trianglz.models.Event> eventsArrayList, int color) {
+        for (int i = 0; i < eventsArrayList.size(); i++) {
+            Calendar c = Calendar.getInstance();
+            c.setTime(eventsArrayList.get(i).getStartDate());
+            Date newDate = c.getTime();
+            while (newDate.getDate() != eventsArrayList.get(i).getEndDate().getDate()) {
+                c.add(Calendar.DATE, 1);
+                newDate = c.getTime();
+                compactCalendarView.addEvent(new Event(getResources().getColor(color), newDate.getTime()));
+            }
         }
     }
 
     private void setRecyclerView() {
         recyclerView.setAdapter(eventAdapter);
-        eventAdapter.addData(allEvents, EventAdapter.EVENTSTATE.ALL);
     }
 
-//    private void populateArrays() {
-//        String input_date="01/08/2019";
-//        Date dt1=new Date();
-//        SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
-//        try {
-//             dt1=format1.parse(input_date);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        Date d1 = new Date(2019, 7, 24);
-//        Date d2 = new Date();  // Current date
-//        Date d3 = new Date(2019, 7, 23);
-//        Date d4 = new Date(2019, 7, 26);
-//        Date d6 = new Date(2019, 7, 27);
-//        Date d7 = new Date(2019, 7, 28);
-//        Date d9 = new Date(2019, 7, 29);
-//        Date d10 = new Date(2019, 7, 30);
-//        Date d5 = new Date(2019, 7, 31);
-//        Date d8 = new Date(2019, 7, 22);
-//
-//        EventAdapter.DemoEvent demoEvent= new EventAdapter.DemoEvent(d1,"All 1","All Details 1");
-//        EventAdapter.DemoEvent demoEvent1= new EventAdapter.DemoEvent(d2,"All 2","All Details 2");
-//        EventAdapter.DemoEvent demoEvent2= new EventAdapter.DemoEvent(d3,"Academic 1","Academic Details 1");
-//        EventAdapter.DemoEvent demoEvent3= new EventAdapter.DemoEvent(d4,"Academic 2","Academic Details 2");
-//        EventAdapter.DemoEvent demoEvent4= new EventAdapter.DemoEvent(d5,"Events 1","Events Details 1");
-//        EventAdapter.DemoEvent demoEvent5= new EventAdapter.DemoEvent(d6,"Events 2","Events Details 2");
-//        EventAdapter.DemoEvent demoEvent6= new EventAdapter.DemoEvent(dt1,"Vacations 1","Vacations Details 1");
-//        EventAdapter.DemoEvent demoEvent7= new EventAdapter.DemoEvent(d8,"Vacations 2","Vacations Details 2");
-//        EventAdapter.DemoEvent demoEvent8= new EventAdapter.DemoEvent(d9,"Personal 1","Personal Details 1");
-//        EventAdapter.DemoEvent demoEvent9= new EventAdapter.DemoEvent(d10,"Personal 2","Personal Details 2");
-//
-//
-//        allEvents = new ArrayList<>();
-//        events = new ArrayList<>();
-//        academicEvents = new ArrayList<>();
-//        vacations = new ArrayList<>();
-//        personalEvents = new ArrayList<>();
-//        allEvents.add(demoEvent);
-//        allEvents.add(demoEvent1);
-//        academicEvents.add(demoEvent2);
-//        academicEvents.add(demoEvent3);
-//        events.add(demoEvent4);
-//        events.add(demoEvent5);
-//        vacations.add(demoEvent6);
-//        vacations.add(demoEvent7);
-//        personalEvents.add(demoEvent8);
-//        personalEvents.add(demoEvent9);
-//
-//
-//    }
+    @Override
+    public void onGetEventsSuccess(ArrayList<trianglz.models.Event> events) {
+        if (progress.isShowing()) {
+            progress.dismiss();
+        }
+        allEvents.clear();
+        allEvents.addAll(events);
+        eventAdapter.addData(allEvents, EventAdapter.EVENTSTATE.ALL);
+        fillCalendarEventLists(events);
+        setEvents();
+
+    }
+
+    @Override
+    public void onGetEventsFailure(String message, int code) {
+        if (progress.isShowing()) {
+            progress.dismiss();
+        }
+        if (code == 401 || code == 500) {
+            logoutUser(this);
+        } else {
+            showErrorDialog(this);
+        }
+    }
+
+    private void getEvents() {
+        if (Util.isNetworkAvailable(this)) {
+            showLoadingDialog();
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getEvents(341, "user", end, start);
+            calendarEventsView.getEvents(url);
+            Log.i("TAG", "getEvents: " + url);
+        } else {
+            Util.showNoInternetConnectionDialog(this);
+        }
+    }
+
+    private void checkUserType() {
+        if (SessionManager.getInstance().getStudentAccount()) {
+            todayTextView.setTextColor((getResources().getColor(R.color.salmon)));
+            compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.salmon));
+            createPersonalEventBtn.setTextColor((getResources().getColor(R.color.salmon)));
+            createPersonalEventBtn.setBackground(ContextCompat.getDrawable(CalendarActivity.this, R.drawable.curved_salmon_background));
+        } else if (SessionManager.getInstance().getUserType()) {
+            todayTextView.setTextColor((getResources().getColor(R.color.turquoise_blue_two)));
+            compactCalendarView.setCurrentDayBackgroundColor((getResources().getColor(R.color.turquoise_blue_two)));
+            createPersonalEventBtn.setTextColor((getResources().getColorStateList(R.color.turquoise_blue_two)));
+            createPersonalEventBtn.setBackground(ContextCompat.getDrawable(CalendarActivity.this, R.drawable.curved_turquoise_blue_two_background));
+        }
+    }
+
+    private void fillCalendarEventLists(ArrayList<trianglz.models.Event> eventList) {
+        events.clear();
+        assignments.clear();
+        quizzes.clear();
+        academicEvents.clear();
+        vacations.clear();
+        personalEvents.clear();
+        for (int i = 0; i < eventList.size(); i++) {
+            if (eventList.get(i).getType().equals(Constants.TYPE_EVENT)) {
+                events.add(eventList.get(i));
+            } else if (eventList.get(i).getType().equals(Constants.TYPE_ASSIGNMENTS)) {
+                assignments.add(eventList.get(i));
+            } else if (eventList.get(i).getType().equals(Constants.TYPE_QUIZZES)) {
+                quizzes.add(eventList.get(i));
+            } else if (eventList.get(i).getType().equals(Constants.TYPE_ACADEMIC)) {
+                academicEvents.add(eventList.get(i));
+            } else if (eventList.get(i).getType().equals(Constants.TYPE_VACATIONS)) {
+                vacations.add(eventList.get(i));
+            } else if (eventList.get(i).getType().equals(Constants.TYPE_PERSONAL)) {
+                personalEvents.add(eventList.get(i));
+            }
+        }
+    }
 }

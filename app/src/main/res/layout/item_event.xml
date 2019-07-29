@@ -21,9 +21,9 @@
                 android:id="@+id/tv_day_number"
                 android:layout_width="wrap_content"
                 android:layout_height="23dp"
-                android:textColor="@color/gunmetal"
+                android:textColor="@color/steel"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                 />
 
             <trianglz.components.SfuiRegularTextView
                 android:id="@+id/tv_month_number"
@@ -50,7 +50,6 @@
             android:gravity="center"
             android:orientation="vertical"
             android:paddingStart="24dp"
-            android:paddingTop="6dp"
             android:paddingEnd="8dp"
             android:paddingBottom="6dp">
 

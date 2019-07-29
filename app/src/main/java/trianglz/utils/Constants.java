@@ -190,4 +190,10 @@ public class Constants {
     public static final String POST_DETAILS = "post_details";
     public static final String CONTENT = "content";
     public static final String POST_ID = "post_id";
+    public static final String TYPE_EVENT="event";
+    public static final String TYPE_VACATIONS="vacations";
+    public static final String TYPE_PERSONAL="personal";
+    public static final String TYPE_QUIZZES="quizzes";
+    public static final String TYPE_ACADEMIC="academic";
+    public static final String TYPE_ASSIGNMENTS="assignments";
 }
