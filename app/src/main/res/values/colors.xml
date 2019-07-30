@@ -70,4 +70,5 @@
     <color name="posts_red">#e50000</color>
     <color name="posts_background">#FAFAFA</color>
     <color name="student_red">#fd8268</color>
+    <color name="cerulean_blue">#007ee5</color>
 </resources>

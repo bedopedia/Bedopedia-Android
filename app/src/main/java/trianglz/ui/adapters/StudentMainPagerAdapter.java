@@ -28,8 +28,10 @@ public class StudentMainPagerAdapter extends FragmentPagerAdapter {
                 return fragment_list.get(2);
             case 3:
                 return fragment_list.get(3);
-            default:
+            case 4:
                 return fragment_list.get(4);
+            default:
+                return fragment_list.get(5);
         }
 
     }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import trianglz.components.CustomRtlViewPager;
 import trianglz.managers.SessionManager;
@@ -25,9 +26,9 @@ import trianglz.utils.Constants;
 
 public class StudentMainActivity extends SuperActivity implements View.OnClickListener {
 
-    private LinearLayout firstLayout, secondLayout, thirdLayout, fourthLayout;
-    private ImageView firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView;
-    private TextView firstTextView, secondTextView, thirdTextView, fourthTextView;
+    private LinearLayout coursesLayout, firstLayout, secondLayout, thirdLayout, fourthLayout;
+    private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView;
+    private TextView coursesTextView, firstTextView, secondTextView, thirdTextView, fourthTextView;
 
     private CustomRtlViewPager pager;
     private StudentMainPagerAdapter pagerAdapter;
@@ -41,8 +42,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     public String attendance;
     public Actor actor;
 
-    // student profile case variables
-    boolean isStudent;
+    // booleans
+    boolean isStudent, isParent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     }
     private void getValueFromIntent() {
         isStudent = SessionManager.getInstance().getStudentAccount();
-        if(SessionManager.getInstance().getUserType()){
+        isParent = SessionManager.getInstance().getUserType();
+        if(isParent){
             student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
             attendance = (String) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ATTENDANCE);
         }else {
@@ -67,9 +69,17 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         secondLayout.setOnClickListener(this);
         thirdLayout.setOnClickListener(this);
         fourthLayout.setOnClickListener(this);
+        if (coursesLayout != null) coursesLayout.setOnClickListener(this);
     }
 
     private void bindViews() {
+
+        if (!isStudent && !isParent) {
+            coursesLayout = findViewById (R.id.ll_courses_tab);
+            coursesImageView = findViewById (R.id.iv_courses);
+            coursesTextView = findViewById (R.id.tv_courses);
+            coursesLayout.setVisibility(View.VISIBLE);
+        }
         // tabs
         firstLayout = findViewById(R.id.ll_announcment_tab);
         secondLayout = findViewById(R.id.ll_messages_tab);
@@ -99,14 +109,19 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         pager.setPagingEnabled(false);
         setUpAdapterAccordingToUserType();
         pager.setAdapter(pagerAdapter);
-        pager.setOffscreenPageLimit(4);
 
-        // set default tab if student
+        // set default tab according to user type
         if (isStudent) {
+            pager.setOffscreenPageLimit(4);
             pager.setCurrentItem(0);
-            handleStudentTabs(1);
-        } else {
+            handleStudentTabs(pagerAdapter.getCount() - 4);
+        } else if (isParent) {
+            pager.setOffscreenPageLimit(4);
             pager.setCurrentItem(4);
+        } else {
+            pager.setOffscreenPageLimit(5);
+            pager.setCurrentItem(4);
+            handleTeacherTabs(4);
         }
 
     }
@@ -114,9 +129,21 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private void setUpAdapterAccordingToUserType() {
         if (isStudent) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getStudentFragmentList());
-        } else {
+        } else if (isParent) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getParentFragmentList());
+        } else {
+            pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getTeacherFragmentList());
         }
+    }
+
+    private ArrayList<Fragment> getTeacherFragmentList() {
+        ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+        fragmentArrayList.add(new AnnouncementsFragment());
+        fragmentArrayList.add(announcementsFragment);
+        fragmentArrayList.add(messagesFragment);
+        fragmentArrayList.add(notificationsFragment);
+        fragmentArrayList.add(menuFragment);
+        return fragmentArrayList;
     }
 
     private ArrayList<Fragment> getParentFragmentList() {
@@ -139,35 +166,39 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ll_courses_tab:
+                handleTabsClicking(pagerAdapter.getCount() - 5);
+                break;
             case R.id.ll_announcment_tab:
-                pager.setCurrentItem(0,true);
-                handleTabsClicking(1);
+                handleTabsClicking(pagerAdapter.getCount() - 4);
                 break;
             case R.id.ll_messages_tab:
-                pager.setCurrentItem(1,true);
-                handleTabsClicking(2);
+                handleTabsClicking(pagerAdapter.getCount() - 3);
                 break;
             case R.id.ll_notifications_tab:
-                pager.setCurrentItem(2,true);
-                handleTabsClicking(3);
+                handleTabsClicking(pagerAdapter.getCount() - 2);
                 break;
             case R.id.ll_menu_tab:
-                pager.setCurrentItem(3,true);
-                handleTabsClicking(4);
+                handleTabsClicking(pagerAdapter.getCount() - 1);
                 break;
         }
     }
 
     private void handleTabsClicking(int tabNumber) {
-        if (SessionManager.getInstance().getStudentAccount()) {
+        if (isStudent) {
             handleStudentTabs(tabNumber);
-        } else
+        } else if (isParent) {
             handleParentTabs(tabNumber);
+        } else {
+            handleTeacherTabs(tabNumber);
+        }
+
     }
 
     private void handleParentTabs(int tabNumber) {
+        pager.setCurrentItem(tabNumber);
         switch (tabNumber) {
-            case 1:
+            case 0:
                 firstTabImageView.setImageResource(R.drawable.ic_announcements_selected_parent);
                 secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
@@ -178,7 +209,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 thirdTextView.setVisibility(View.GONE);
                 fourthTextView.setVisibility(View.GONE);
                 break;
-            case 2:
+            case 1:
                 firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
                 secondTabImageView.setImageResource(R.drawable.ic_message_selected_parent);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
@@ -189,7 +220,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 thirdTextView.setVisibility(View.GONE);
                 fourthTextView.setVisibility(View.GONE);
                 break;
-            case 3:
+            case 2:
                 firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
                 secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_selected_parent);
@@ -200,7 +231,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 thirdTextView.setVisibility(View.VISIBLE);
                 fourthTextView.setVisibility(View.GONE);
                 break;
-            case 4:
+            case 3:
                 firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
                 secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
@@ -214,6 +245,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         }
     }
     private void handleStudentTabs(int tabNumber) {
+        pager.setCurrentItem(tabNumber);
         // text view content
         firstTextView.setText(getResources().getString(R.string.home));
         secondTextView.setText(getResources().getString(R.string.messages));
@@ -226,7 +258,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         thirdTextView.setTextColor(color);
         fourthTextView.setTextColor(color);
         switch (tabNumber) {
-            case 1:
+            case 0:
                 firstTabImageView.setImageResource(R.drawable.ic_home_selected_student);
                 secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
@@ -237,7 +269,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 thirdTextView.setVisibility(View.GONE);
                 fourthTextView.setVisibility(View.GONE);
                 break;
-            case 2:
+            case 1:
                 firstTabImageView.setImageResource(R.drawable.ic_home_student_tab);
                 secondTabImageView.setImageResource(R.drawable.ic_messages_selected_student);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
@@ -248,7 +280,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 thirdTextView.setVisibility(View.GONE);
                 fourthTextView.setVisibility(View.GONE);
                 break;
-            case 3:
+            case 2:
                 firstTabImageView.setImageResource(R.drawable.ic_home_student_tab);
                 secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_selected_student);
@@ -259,7 +291,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 thirdTextView.setVisibility(View.VISIBLE);
                 fourthTextView.setVisibility(View.GONE);
                 break;
-            case 4:
+            case 3:
                 firstTabImageView.setImageResource(R.drawable.ic_home_student_tab);
                 secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
@@ -272,12 +304,94 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 break;
         }
     }
+    private void handleTeacherTabs(int tabNumber) {
+        pager.setCurrentItem(tabNumber);
+        // text view content
+        coursesTextView.setText(getResources().getString(R.string.courses));
+        firstTextView.setText(getResources().getString(R.string.announcements));
+        secondTextView.setText(getResources().getString(R.string.messages));
+        thirdTextView.setText(getResources().getString(R.string.notifications));
+        fourthTextView.setText(getResources().getString(R.string.menu));
+        // text view text color
+        int color = Color.parseColor("#007ee5");
+        firstTextView.setTextColor(color);
+        secondTextView.setTextColor(color);
+        thirdTextView.setTextColor(color);
+        fourthTextView.setTextColor(color);
+        switch (tabNumber) {
+            case 0:
+                coursesImageView.setImageResource(R.drawable.ic_courses_selected_teacher);
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+                fourthTabImageView.setImageResource(R.drawable.ic_menu_tab);
+
+                coursesTextView.setVisibility(View.VISIBLE);
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.GONE);
+                fourthTextView.setVisibility(View.GONE);
+                break;
+            case 1:
+                coursesImageView.setImageResource(R.drawable.ic_home_student_tab);
+                firstTabImageView.setImageResource(R.drawable.ic_announcment_selected_teacher);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+                fourthTabImageView.setImageResource(R.drawable.ic_menu_tab);
+
+                coursesTextView.setVisibility(View.GONE);
+                firstTextView.setVisibility(View.VISIBLE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.GONE);
+                fourthTextView.setVisibility(View.GONE);
+                break;
+            case 2:
+                coursesImageView.setImageResource(R.drawable.ic_home_student_tab);
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_selected_teacher);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+                fourthTabImageView.setImageResource(R.drawable.ic_menu_tab);
+
+                coursesTextView.setVisibility(View.GONE);
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.VISIBLE);
+                thirdTextView.setVisibility(View.GONE);
+                fourthTextView.setVisibility(View.GONE);
+                break;
+            case 3:
+                coursesImageView.setImageResource(R.drawable.ic_home_student_tab);
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notification_selected_teacher);
+                fourthTabImageView.setImageResource(R.drawable.ic_menu_tab);
+
+                coursesTextView.setVisibility(View.GONE);
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.VISIBLE);
+                fourthTextView.setVisibility(View.GONE);
+                break;
+            case 4:
+                coursesImageView.setImageResource(R.drawable.ic_home_student_tab);
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+                fourthTabImageView.setImageResource(R.drawable.ic_menu_selected_teacher);
+
+                coursesTextView.setVisibility(View.GONE);
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.GONE);
+                fourthTextView.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
 
 
     @Override
     public void onBackPressed() {
-        if(SessionManager.getInstance().getUserType()){
-            if(!SessionManager.getInstance().getStudentAccount()){
+        if(isParent){
+            if(!isStudent){
                 super.onBackPressed();
             }
         }
