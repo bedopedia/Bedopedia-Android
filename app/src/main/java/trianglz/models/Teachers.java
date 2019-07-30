@@ -1,4 +1,4 @@
-//
+package trianglz.models;//
 //  Teachers.java
 //
 //  Generated using https://jsonmaster.github.io

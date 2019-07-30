@@ -1,18 +1,21 @@
 package trianglz.ui.fragments;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
+
+import java.util.ArrayList;
 
 import trianglz.core.presenters.TeacherCoursesPresenter;
 import trianglz.core.views.TeacherCoursesView;
 import trianglz.managers.SessionManager;
+import trianglz.models.TeacherCourse;
 import trianglz.ui.activities.StudentMainActivity;
 
 /**
@@ -57,12 +60,13 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
     }
 
     @Override
-    public void onGetTeacherCoursesSuccess() {
-
+    public void onGetTeacherCoursesSuccess(ArrayList<TeacherCourse> teacherCourses) {
+        Toast.makeText(getParentActivity(), "success", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getParentActivity(), "success", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onGetTeacherCoursesFailure() {
+    public void onGetTeacherCoursesFailure(String message, int errorCode) {
 
     }
 }
