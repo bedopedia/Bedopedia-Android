@@ -24,6 +24,7 @@ public class TeacherCoursesAdapter extends RecyclerView.Adapter<TeacherCoursesAd
     public List<TeacherCourse> mDataList;
     public List<CourseGroups> courseGroupList;
     TeacherCoursesInterface teacherCoursesInterface;
+    private TeacherCourse teacherCourse;
 
 
     public TeacherCoursesAdapter(Context context, TeacherCoursesInterface teacherCoursesInterface) {
@@ -59,6 +60,12 @@ public class TeacherCoursesAdapter extends RecyclerView.Adapter<TeacherCoursesAd
             holder.subjectNameTextView.setText(courseGroups.getName());
             IImageLoader imageLoader = new PicassoLoader();
             imageLoader.loadImage(holder.subjectImageView, new AvatarPlaceholderModified(courseGroups.getName()), "Path");
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    teacherCoursesInterface.onCourseSelected(teacherCoursesInterface);
+                }
+            });
         }
     }
 
@@ -93,6 +100,7 @@ public class TeacherCoursesAdapter extends RecyclerView.Adapter<TeacherCoursesAd
 
     public interface TeacherCoursesInterface{
         void onCourseSelected(TeacherCourse teacherCourse);
+        void onCourseGroupSelected(CourseGroups courseGroups);
     }
 
 }

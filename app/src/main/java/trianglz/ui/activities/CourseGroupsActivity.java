@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import com.skolera.skolera_android.R;
 import java.util.Arrays;
 
 import trianglz.components.BottomItemDecoration;
+import trianglz.models.CourseGroups;
 import trianglz.models.TeacherCourse;
 import trianglz.ui.adapters.TeacherCoursesAdapter;
 import trianglz.utils.Constants;
@@ -57,6 +59,14 @@ public class CourseGroupsActivity extends SuperActivity implements TeacherCourse
     @Override
     public void onCourseSelected(TeacherCourse teacherCourse) {
 
+    }
+
+    @Override
+    public void onCourseGroupSelected(CourseGroups courseGroups) {
+        Intent intent = new Intent(this, SingleCourseGroupActivity.class);
+        intent.putExtra(Constants.KEY_COURSE_GROUPS, courseGroups.toString());
+        intent.putExtra(Constants.TEACHER_COURSE, teacherCourse.toString());
+        startActivity(intent);
     }
 
     @Override

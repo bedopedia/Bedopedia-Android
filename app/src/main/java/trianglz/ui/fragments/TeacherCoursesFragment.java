@@ -100,4 +100,9 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
             startActivity(intent);
         }
     }
+
+    @Override
+    public void onCourseGroupSelected(CourseGroups courseGroups) {
+
+    }
 }
