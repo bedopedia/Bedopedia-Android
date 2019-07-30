@@ -51,6 +51,10 @@ public class ApiEndPoints {
         return "/api/students/" + studentId + "/course_groups";
     }
 
+    public static String getTeacherCourses(String teacherActableId) {
+        return "/api/teachers/" + teacherActableId + "/courses";
+    }
+
     public static String getSendMessageUrl(int threadId){
         return "/api/threads/" + threadId;
     }
