@@ -63,7 +63,7 @@ public class TeacherCoursesAdapter extends RecyclerView.Adapter<TeacherCoursesAd
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    teacherCoursesInterface.onCourseSelected(teacherCoursesInterface);
+                    teacherCoursesInterface.onCourseGroupSelected(courseGroups);
                 }
             });
         }

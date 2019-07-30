@@ -9,18 +9,27 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import java.util.ArrayList;
+
+import trianglz.core.presenters.CourseAssignmentPresenter;
+import trianglz.core.views.CourseAssignmentView;
+import trianglz.managers.SessionManager;
 import trianglz.models.Assignment;
+import trianglz.models.AssignmentsDetail;
+import trianglz.models.CourseAssignment;
 import trianglz.models.CourseGroups;
 import trianglz.models.TeacherCourse;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
-public class SingleCourseGroupActivity extends SuperActivity implements View.OnClickListener {
+public class SingleCourseGroupActivity extends SuperActivity implements View.OnClickListener, CourseAssignmentPresenter {
 
     private TeacherCourse teacherCourse;
     private CourseGroups courseGroup;
     private ImageButton backBtn;
     private TextView courseGroupName;
     private LinearLayout attendanceLayout, quizzesLayout, assignmentsLayout, postsLayout;
+    private CourseAssignmentView courseAssignmentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +66,18 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
 
         // assigning values
         courseGroupName.setText(courseGroup.getName());
+        courseAssignmentView = new CourseAssignmentView(this, this);
     }
 
     private void openAssignmentDetailActivity(){
-//        Intent intent = new Intent(this, AssignmentDetailActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.STUDENT, teacherCourse.stud);
-//        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-//        startActivity(intent);
+        if(Util.isNetworkAvailable(this)){
+            showLoadingDialog();
+            String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
+                    courseGroup.getCourseId()+ "/assignments";
+            courseAssignmentView.getAssinmentDetail(url, null);
+        }else {
+            Util.showNoInternetConnectionDialog(this);
+        }
     }
 
     @Override
@@ -78,9 +91,43 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
             case R.id.layout_quizzes:
                 break;
             case R.id.layout_assignments:
+                showLoadingDialog();
+                openAssignmentDetailActivity();
                 break;
             case R.id.layout_posts:
                 break;
+        }
+    }
+        /* Empty overridden methods because we used an already made View to call the get assignments
+         details method */
+    @Override
+    public void onGetCourseAssignmentSuccess(ArrayList<CourseAssignment> courseAssignmentArrayList) {
+    }
+
+    @Override
+    public void onGetCourseAssignmentFailure(String message, int errorCode) {
+
+    }
+
+    @Override
+    public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList, CourseAssignment courseAssignment) {
+        if(progress.isShowing()){
+            progress.dismiss();
+        }
+        Intent intent = new Intent(this,AssignmentDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
+        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+            intent.putExtra(Constants.KEY_COURSE_NAME,courseGroup.getName());
+        intent.putExtra(Constants.AVATAR, false);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onGetAssignmentDetailFailure(String message, int errorCode) {
+        if(progress.isShowing()){
+            progress.dismiss();
         }
     }
 }

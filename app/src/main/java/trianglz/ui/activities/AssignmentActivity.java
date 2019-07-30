@@ -90,6 +90,9 @@ public class AssignmentActivity extends SuperActivity implements AttachmentAdapt
         avatarView = findViewById(R.id.img_student);
         IImageLoader imageLoader = new PicassoLoader();
         imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(studentName), "Path of Image");
+        if (studentName == null || studentName.equals("") || studentName.isEmpty()) {
+            avatarView.setVisibility(View.INVISIBLE);
+        }
     }
     private void setListeners() {
         backBtn.setOnClickListener(this);

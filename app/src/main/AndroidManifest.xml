@@ -24,7 +24,10 @@
             />
         <activity
             android:name="trianglz.ui.activities.CourseGroupsActivity"
-            /> />
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name="trianglz.ui.activities.SingleQuizActivity"
             android:hardwareAccelerated="true"

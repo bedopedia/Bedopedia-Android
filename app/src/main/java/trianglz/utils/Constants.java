@@ -194,4 +194,5 @@ public class Constants {
     public static final String KEY_STUDENT_NAME = "student_name";
     public static final String KEY_COURSE_QUIZZES = "course_quizzes";
     public static final String TEACHER_COURSE = "teacher_course";
+    public static final String AVATAR = "avatar";
 }

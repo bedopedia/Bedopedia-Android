@@ -112,7 +112,7 @@ public class  AvatarPlaceholderModified extends AvatarPlaceholder {
     }
 
     private String convertNameToAvatarText(String name) {
-
+        if (name == null) return "";
         name = name.trim();
 
         if(Util.isNotNullOrEmpty(name)){

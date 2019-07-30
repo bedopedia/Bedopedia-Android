@@ -131,7 +131,11 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
     }
 
     private void setStudentImage(String name) {
-        imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+        if (getIntent().getBooleanExtra(Constants.AVATAR, true)) {
+            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+        } else {
+            studentImageView.setVisibility(View.INVISIBLE);
+        }
 
     }
 
