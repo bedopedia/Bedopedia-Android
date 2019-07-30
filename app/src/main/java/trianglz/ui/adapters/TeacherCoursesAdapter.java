@@ -5,12 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +16,6 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
-import trianglz.components.CircleTransform;
-import trianglz.models.CourseGroup;
 import trianglz.models.TeacherCourse;
 
 public class TeacherCoursesAdapter extends RecyclerView.Adapter<TeacherCoursesAdapter.Holder> {
@@ -44,10 +39,16 @@ public class TeacherCoursesAdapter extends RecyclerView.Adapter<TeacherCoursesAd
 
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
-        TeacherCourse teacherCourse = mDataList.get(position);
+        final TeacherCourse teacherCourse = mDataList.get(position);
         holder.subjectNameTextView.setText(teacherCourse.getName());
         IImageLoader imageLoader = new PicassoLoader();
         imageLoader.loadImage(holder.subjectImageView, new AvatarPlaceholderModified(teacherCourse.getName()), "Path");
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                teacherCoursesInterface.onCourseSelected(teacherCourse);
+            }
+        });
     }
 
     @Override
@@ -74,7 +75,7 @@ public class TeacherCoursesAdapter extends RecyclerView.Adapter<TeacherCoursesAd
     }
 
     public interface TeacherCoursesInterface{
-        void onSubjectSelected(int position);
+        void onCourseSelected(TeacherCourse teacherCourse);
     }
 
 }
