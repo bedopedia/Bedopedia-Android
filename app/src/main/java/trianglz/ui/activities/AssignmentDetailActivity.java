@@ -142,6 +142,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
 
     @Override
     public void onItemClicked(AssignmentsDetail assignmentsDetail) {
+        if (getIntent().getBooleanExtra(Constants.DISABLE_CLICK, false)) return;
         Intent intent = new Intent(this, AssignmentActivity.class);
         if (courseId != 0) intent.putExtra(Constants.KEY_COURSE_ID, courseId);
         intent.putExtra(Constants.KEY_STUDENT_NAME, studentName);
