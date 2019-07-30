@@ -114,14 +114,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
 
     private LinearLayout parentLayout,teacherLayout;
-    private TextView notificationTextView,annoucmentTextView,messagesTextView;
-    private LinearLayout notificationLayout,annoucmentLayout,messagesLayout;
     private Actor actor;
     private String actorName = "";
     private ImageButton settingsBtn;
     private RelativeLayout studentHeaderLayout,actorHeaderLayout;
     private SettingsDialog settingsDialog;
-    private TextView notifcationCounterTextView,announcementCounterTextView,messagesCounterTextView;
     private RootClass rootClass;
     private TextView weeklyPlannerTextView;
     private ImageButton studentSettingsButton;
@@ -185,19 +182,10 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         attendanceTextView = rootView.findViewById(R.id.tv_attendance);
         parentLayout = rootView.findViewById(R.id.layout_parent);
         teacherLayout = rootView.findViewById(R.id.layout_teacher);
-        notificationTextView = rootView.findViewById(R.id.tv_notification);
-        notificationLayout = rootView.findViewById(R.id.layout_notification);
-        messagesTextView = rootView.findViewById(R.id.tv_message);
-        messagesLayout = rootView.findViewById(R.id.layout_messages);
-        annoucmentLayout = rootView.findViewById(R.id.layout_annoucment);
-        annoucmentTextView = rootView.findViewById(R.id.tv_annoucment);
         settingsBtn = rootView.findViewById(R.id.btn_setting);
         studentHeaderLayout = rootView.findViewById(R.id.layout_student_header);
         actorHeaderLayout = rootView.findViewById(R.id.layout_actor_header);
         settingsDialog = new SettingsDialog(getActivity(), R.style.SettingsDialog, this);
-        notifcationCounterTextView = rootView.findViewById(R.id.tv_notifcation_counter);
-        messagesCounterTextView = rootView.findViewById(R.id.tv_messages_counter);
-        announcementCounterTextView = rootView.findViewById(R.id.tv_announcement_counter);
         weeklyPlannerTextView = rootView.findViewById(R.id.tv_weekly_planner);
         studentSettingsButton = rootView.findViewById(R.id.btn_setting_student);
 
@@ -226,9 +214,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         quizzesLayout.setOnClickListener(this);
 
         //actor listeners
-        notificationLayout.setOnClickListener(this);
-        messagesLayout.setOnClickListener(this);
-        annoucmentLayout.setOnClickListener(this);
         settingsBtn.setOnClickListener(this);
         studentSettingsButton.setOnClickListener(this);
     }
@@ -244,13 +229,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             actorHeaderLayout.setVisibility(View.VISIBLE);
             studentHeaderLayout.setVisibility(View.GONE);
             String notificationText = SessionManager.getInstance().getNotficiationCounter() + " "+getActivity().getResources().getString(R.string.unread_notifications);
-            notificationTextView.setText(notificationText);
-            if(SessionManager.getInstance().getNotficiationCounter() > 0){
-                notifcationCounterTextView.setVisibility(View.VISIBLE);
-                notifcationCounterTextView.setText(SessionManager.getInstance().getNotficiationCounter()+"");
-            }else {
-                notifcationCounterTextView.setVisibility(View.INVISIBLE);
-            }
         }else {
             parentLayout.setVisibility(View.VISIBLE);
             teacherLayout.setVisibility(View.GONE);
@@ -282,12 +260,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             }
         }
         if (!SessionManager.getInstance().getUserType()) {
-            if (SessionManager.getInstance().getNotficiationCounter() > 0) {
-                notifcationCounterTextView.setVisibility(View.VISIBLE);
-                notifcationCounterTextView.setText(SessionManager.getInstance().getNotficiationCounter()+"");
-            }else {
-                notifcationCounterTextView.setVisibility(View.INVISIBLE);
-            }
 
         }
     }
@@ -479,9 +451,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     public void onGetNotificationSuccess(ArrayList<Notification> notificationArrayList) {
         if(notificationArrayList.size()>0){
             Notification notification = notificationArrayList.get(0);
-            notificationTextView.setText(notification.getMessage());
         }else {
-            notificationTextView.setText(getActivity().getResources().getString(R.string.there_is_no_notifications));
         }
 
         if(Util.isNetworkAvailable(getActivity())){
@@ -524,16 +494,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 Message latestMessage = messageThread.messageArrayList.get(0);
                 String body = android.text.Html.fromHtml(latestMessage.body).toString();
                 body = StringEscapeUtils.unescapeJava(body);
-                messagesTextView.setText(body);
             }
         }else {
-            messagesTextView.setText(getActivity().getResources().getString(R.string.there_is_no_messages));
-        }
-        if (unreadMessageCount> 0) {
-            messagesCounterTextView.setVisibility(View.VISIBLE);
-            messagesCounterTextView.setText(unreadMessageCount+"");
-        }else {
-            messagesCounterTextView.setVisibility(View.INVISIBLE);
         }
         if(Util.isNetworkAvailable(getActivity())){
             getAnnouncement();
@@ -570,9 +532,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             Announcement announcement = announcementArrayList.get(0);
             String body = android.text.Html.fromHtml(announcement.body).toString();
             body = StringEscapeUtils.unescapeJava(body);
-            annoucmentTextView.setText(body);
         }else {
-            annoucmentTextView.setText(getActivity().getResources().getString(R.string.there_is_no_announcements));
         }
         if(activity.progress.isShowing()){
             activity. progress.dismiss();

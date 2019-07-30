@@ -822,52 +822,28 @@
                     android:visibility="gone"
                     android:id="@+id/layout_teacher"
                     >
-
                     <LinearLayout
+                        android:id="@+id/layout_timetable_teacher"
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
-                        android:orientation="horizontal"
-                        android:id="@+id/layout_notification">
-                        <RelativeLayout
-                            android:layout_width="71dp"
-                            android:layout_height="71dp">
-                            <ImageView
-                                android:layout_width="55dp"
-                                android:layout_height="55dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_notification"
-                                android:layout_centerInParent="true"/>
+                        android:orientation="horizontal">
 
-
-
-                            <TextView
-                                android:layout_width="17dp"
-                                android:layout_height="17dp"
-                                android:background="@drawable/actor_red_circle"
-                                android:textColor="@color/white"
-                                android:gravity="center"
-                                android:textSize="8sp"
-                                android:layout_marginEnd="4dp"
-                                android:layout_alignParentEnd="true"
-                                android:id="@+id/tv_notifcation_counter"
-                                android:visibility="gone"
-                                />
-
-
-
-
-
-                        </RelativeLayout>
-
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:src="@drawable/timetable" />
 
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:paddingStart="8dp"
-                            android:paddingTop="16dp"
+                            android:gravity="center_vertical"
                             android:paddingEnd="8dp"
-                            android:paddingBottom="13dp">
+                            >
 
                             <trianglz.components.SfuiSemiBoldTextView
                                 android:layout_width="match_parent"
@@ -877,29 +853,32 @@
                                 android:includeFontPadding="false"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                android:text="@string/notifications"
+                                android:layout_centerVertical="true"
+                                android:text="@string/time_table"
                                 android:textColor="@color/greyish_brown"
                                 android:textSize="18sp"
                                 android:textAlignment="viewStart"
                                 />
 
                             <trianglz.components.SfproRegularTextView
+                                android:id="@+id/tv_time_table_teacher"
                                 android:layout_width="match_parent"
                                 android:layout_height="20dp"
                                 android:layout_alignParentBottom="true"
                                 android:ellipsize="end"
+                                android:visibility="gone"
                                 android:includeFontPadding="false"
                                 android:maxLines="1"
                                 android:singleLine="true"
                                 android:textColor="@color/steel"
                                 android:textSize="14sp"
-                                android:id="@+id/tv_notification"
                                 android:textAlignment="viewStart"
                                 />
 
                         </RelativeLayout>
 
                         <ImageButton
+                            android:id="@+id/btn_time_table_teacher"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center_vertical"
@@ -910,196 +889,6 @@
                             android:clickable="false"/>
 
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/black_10" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/layout_messages">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:orientation="horizontal">
-
-                            <RelativeLayout
-                                android:layout_width="71dp"
-                                android:layout_height="71dp">
-
-                                <ImageView
-                                    android:layout_width="55dp"
-                                    android:layout_height="55dp"
-
-                                    android:src="@drawable/ic_messages"
-                                    android:layout_centerInParent="true"/>
-
-                                <TextView
-                                    android:layout_width="17dp"
-                                    android:layout_height="17dp"
-                                    android:background="@drawable/actor_red_circle"
-                                    android:textColor="@color/white"
-                                    android:gravity="center"
-                                    android:textSize="8sp"
-                                    android:layout_marginEnd="4dp"
-                                    android:layout_alignParentEnd="true"
-                                    android:id="@+id/tv_messages_counter"
-                                    android:visibility="gone"
-                                    />
-
-
-
-                            </RelativeLayout>
-
-                            <RelativeLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:paddingStart="8dp"
-                                android:paddingTop="16dp"
-                                android:paddingEnd="8dp"
-                                android:paddingBottom="13dp">
-
-                                <trianglz.components.SfuiSemiBoldTextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="22dp"
-                                    android:layout_alignParentTop="true"
-                                    android:ellipsize="end"
-                                    android:includeFontPadding="false"
-                                    android:maxLines="1"
-                                    android:singleLine="true"
-                                    android:text="@string/messages"
-                                    android:textColor="@color/greyish_brown"
-                                    android:textSize="18sp"
-                                    android:textAlignment="viewStart"
-                                    />
-
-                                <trianglz.components.SfproRegularTextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="20dp"
-                                    android:layout_alignParentBottom="true"
-                                    android:ellipsize="end"
-                                    android:includeFontPadding="false"
-                                    android:maxLines="1"
-                                    android:singleLine="true"
-                                    android:textColor="@color/steel"
-                                    android:textSize="14sp"
-                                    android:id="@+id/tv_message"
-                                    android:textAlignment="viewStart"
-                                    />
-
-                            </RelativeLayout>
-
-                            <ImageButton
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginEnd="7dp"
-                                android:background="@android:color/transparent"
-                                android:src="@drawable/shape"
-                                android:focusable="false"
-                                android:clickable="false"/>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/black_10" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:orientation="horizontal"
-                        android:id="@+id/layout_annoucment">
-                        <RelativeLayout
-                            android:layout_width="71dp"
-                            android:layout_height="71dp">
-
-                            <ImageView
-                                android:layout_width="55dp"
-                                android:layout_height="55dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/ic_annoucement" />
-
-                            <TextView
-                                android:layout_width="17dp"
-                                android:layout_height="17dp"
-                                android:background="@drawable/actor_red_circle"
-                                android:textColor="@color/white"
-                                android:gravity="center"
-                                android:textSize="8sp"
-                                android:layout_marginEnd="4dp"
-                                android:layout_alignParentEnd="true"
-                                android:id="@+id/tv_announcement_counter"
-                                android:visibility="gone"
-                                />
-
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:paddingStart="8dp"
-                            android:paddingTop="16dp"
-                            android:paddingEnd="8dp"
-                            android:paddingBottom="13dp">
-
-                            <trianglz.components.SfuiSemiBoldTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="22dp"
-                                android:layout_alignParentTop="true"
-                                android:ellipsize="end"
-                                android:includeFontPadding="false"
-                                android:maxLines="1"
-                                android:singleLine="true"
-                                android:text="@string/announcement"
-                                android:textColor="@color/greyish_brown"
-                                android:textSize="18sp"
-                                android:textAlignment="viewStart"
-                                />
-
-                            <trianglz.components.SfproRegularTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="20dp"
-                                android:layout_alignParentBottom="true"
-                                android:ellipsize="end"
-                                android:includeFontPadding="false"
-                                android:maxLines="1"
-                                android:singleLine="true"
-                                android:textColor="@color/steel"
-                                android:textSize="14sp"
-                                android:id="@+id/tv_annoucment"
-                                android:textAlignment="viewStart"
-                                />
-
-                        </RelativeLayout>
-
-                        <ImageButton
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="7dp"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/shape"
-                            android:focusable="false"
-                            android:clickable="false"/>
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/black_10" />
-
 
                 </LinearLayout>
             </FrameLayout>
