@@ -21,45 +21,33 @@ import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.models.CourseGroup;
+import trianglz.models.TeacherCourse;
 
 public class TeacherCoursesAdapter extends RecyclerView.Adapter<TeacherCoursesAdapter.Holder> {
     public Context context;
-    public List<CourseGroup> mDataList;
-    GradesAdapterInterface gradesAdapterInterface;
+    public List<TeacherCourse> mDataList;
+    TeacherCoursesInterface teacherCoursesInterface;
 
 
-    public TeacherCoursesAdapter(Context context, GradesAdapterInterface gradesAdapterInterface) {
+    public TeacherCoursesAdapter(Context context, TeacherCoursesInterface teacherCoursesInterface) {
         this.context = context;
         this.mDataList = new ArrayList<>();
-        this.gradesAdapterInterface = gradesAdapterInterface;
+        this.teacherCoursesInterface = teacherCoursesInterface;
     }
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.item_grade, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_teacher_course, parent, false);
         return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
-        CourseGroup courseGroup = mDataList.get(position);
-        if(courseGroup.getLetter().isEmpty() || courseGroup.getLetter().equals("--") || !courseGroup.publish){
-            holder.gradeTextView.setVisibility(View.GONE);
-        }else {
-            holder.gradeTextView.setVisibility(View.VISIBLE);
-            holder.gradeTextView.setText(courseGroup.getLetter());
-        }
-
-        holder.subjectNameTextView.setText(courseGroup.getCourseName());
-        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gradesAdapterInterface.onSubjectSelected(position);
-            }
-        });
-
-        setSubjectName(courseGroup.getIcon(),getSubjectNameForPlaceHolder(courseGroup.getCourseName()),holder);
+        TeacherCourse teacherCourse = mDataList.get(position);
+        holder.subjectNameTextView.setText(teacherCourse.getName());
+        IImageLoader imageLoader = new PicassoLoader();
+        imageLoader.loadImage(holder.subjectImageView, new AvatarPlaceholderModified(teacherCourse.getName()), "Path");
     }
 
     @Override
@@ -67,67 +55,26 @@ public class TeacherCoursesAdapter extends RecyclerView.Adapter<TeacherCoursesAd
         return mDataList.size();
     }
 
-    public void addData(List<CourseGroup> courseGroupList) {
+    public void addData(List<TeacherCourse> teacherCourses) {
         this.mDataList.clear();
-        this.mDataList.addAll(courseGroupList);
+        if (teacherCourses != null) this.mDataList.addAll(teacherCourses);
         notifyDataSetChanged();
     }
 
     public static class Holder extends RecyclerView.ViewHolder {
 
-        public TextView subjectNameTextView, gradeTextView;
         public AvatarView subjectImageView;
-        public LinearLayout itemLayout;
-        public IImageLoader imageLoader;
+        public TextView subjectNameTextView;
 
         public Holder(View itemView) {
             super(itemView);
-            subjectNameTextView = itemView.findViewById(R.id.tv_subject_name);
-            gradeTextView = itemView.findViewById(R.id.tv_grade);
-            subjectImageView = itemView.findViewById(R.id.img_subject);
-            itemLayout = itemView.findViewById(R.id.item_layout);
-            imageLoader = new PicassoLoader();
+            subjectNameTextView = itemView.findViewById(R.id.tv_course_name);
+            subjectImageView = itemView.findViewById(R.id.img_course);
         }
     }
 
-    public interface GradesAdapterInterface{
+    public interface TeacherCoursesInterface{
         void onSubjectSelected(int position);
-    }
-
-
-    private void setSubjectName(String imageUrl, final String name, final Holder holder) {
-        if (imageUrl == null || imageUrl.equals("")) {
-            holder.imageLoader = new PicassoLoader();
-            holder.imageLoader.loadImage(holder.subjectImageView, new AvatarPlaceholderModified(name), "Path of Image");
-        } else {
-            Picasso.with(context)
-                    .load(imageUrl)
-                    .fit()
-                    .transform(new CircleTransform())
-                    .into(holder.subjectImageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onError() {
-                            holder.imageLoader = new PicassoLoader();
-                            holder.imageLoader.loadImage(holder.subjectImageView, new AvatarPlaceholderModified(name), "Path of Image");
-                        }
-                    });
-        }
-    }
-
-
-    private String getSubjectNameForPlaceHolder(String name){
-
-        if(name.indexOf('&') != -1){
-            int indexOfAnd = name.indexOf('&');
-            name = name.substring(0, indexOfAnd-1) + name.substring(indexOfAnd+1);
-        }
-
-        return name;
     }
 
 }
