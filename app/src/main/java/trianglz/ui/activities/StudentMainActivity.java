@@ -22,6 +22,7 @@ import trianglz.ui.fragments.AnnouncementsFragment;
 import trianglz.ui.fragments.MenuFragment;
 import trianglz.ui.fragments.MessagesFragment;
 import trianglz.ui.fragments.NotificationsFragment;
+import trianglz.ui.fragments.TeacherCoursesFragment;
 import trianglz.utils.Constants;
 
 public class StudentMainActivity extends SuperActivity implements View.OnClickListener {
@@ -38,6 +39,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private MessagesFragment messagesFragment;
     private NotificationsFragment notificationsFragment;
     private MenuFragment menuFragment;
+    private TeacherCoursesFragment teacherCoursesFragment;
     public Student student;
     public String attendance;
     public Actor actor;
@@ -75,6 +77,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private void bindViews() {
 
         if (!isStudent && !isParent) {
+            teacherCoursesFragment = new TeacherCoursesFragment();
             coursesLayout = findViewById (R.id.ll_courses_tab);
             coursesImageView = findViewById (R.id.iv_courses);
             coursesTextView = findViewById (R.id.tv_courses);
@@ -138,7 +141,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     private ArrayList<Fragment> getTeacherFragmentList() {
         ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
-        fragmentArrayList.add(new AnnouncementsFragment());
+        fragmentArrayList.add(teacherCoursesFragment);
         fragmentArrayList.add(announcementsFragment);
         fragmentArrayList.add(messagesFragment);
         fragmentArrayList.add(notificationsFragment);
