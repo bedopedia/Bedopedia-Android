@@ -17,10 +17,14 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="trianglz.ui.activities.CourseGroupsActivity"
+        <activity android:name="trianglz.ui.activities.SingleCourseGroupActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity
+            android:name="trianglz.ui.activities.CourseGroupsActivity"
+            /> />
         <activity
             android:name="trianglz.ui.activities.SingleQuizActivity"
             android:hardwareAccelerated="true"

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="trianglz.ui.activities.SingleCourseGroupActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:src="@drawable/chevron_left" />
+
+                <trianglz.components.SfproBoldTextView
+                    android:id="@+id/tv_course_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/btn_back"
+                    android:background="@android:color/transparent"
+                    android:text="English"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/silver" />
+        </LinearLayout>
+
+
+    </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:id="@+id/layout_attendance"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/attendance_ico" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingStart="8dp"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingEnd="1dp"
+            android:paddingBottom="13dp">
+
+            <trianglz.components.SfuiSemiBoldTextView
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_alignParentTop="true"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@string/attendance"
+                android:textColor="@color/greyish_brown"
+                android:textSize="18sp"
+                android:textAlignment="viewStart"
+                />
+
+
+
+
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/btn_attendance"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="7dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/shape"
+            android:focusable="false"
+            android:clickable="false"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/black_10" />
+    <LinearLayout
+        android:id="@+id/layout_quizzes"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_quizzes_layout" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingStart="8dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="8dp"
+            >
+
+            <trianglz.components.SfuiSemiBoldTextView
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_alignParentTop="true"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:text="@string/quizzes"
+                android:textColor="@color/greyish_brown"
+                android:textSize="18sp"
+                android:textAlignment="viewStart"
+                />
+
+            <trianglz.components.SfproRegularTextView
+                android:id="@+id/tv_quizzes"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:ellipsize="end"
+                android:visibility="gone"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/steel"
+                android:textSize="14sp"
+                android:textAlignment="viewStart"
+                />
+
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/btn_quizzes"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="7dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/shape"
+            android:focusable="false"
+            android:clickable="false"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/black_10" />
+    <LinearLayout
+        android:id="@+id/layout_assignments"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_assignment_layout" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingStart="8dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="8dp"
+            >
+
+            <trianglz.components.SfuiSemiBoldTextView
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_alignParentTop="true"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:text="@string/assignments"
+                android:textColor="@color/greyish_brown"
+                android:textSize="18sp"
+                android:textAlignment="viewStart"
+                />
+
+            <trianglz.components.SfproRegularTextView
+                android:id="@+id/tv_assignments"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:ellipsize="end"
+                android:visibility="gone"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/steel"
+                android:textSize="14sp"
+                android:textAlignment="viewStart"
+                />
+
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/btn_assignments"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="7dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/shape"
+            android:focusable="false"
+            android:clickable="false"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/black_10" />
+    <LinearLayout
+        android:id="@+id/layout_posts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_posts_layout" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingStart="8dp"
+                android:paddingTop="16dp"
+                android:gravity="center_vertical"
+                android:paddingEnd="8dp"
+                android:paddingBottom="13dp">
+
+                <trianglz.components.SfuiSemiBoldTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:layout_alignParentTop="true"
+                    android:ellipsize="end"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@string/posts"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="18sp"
+                    android:textAlignment="viewStart"
+                    />
+
+
+            </RelativeLayout>
+
+            <ImageButton
+                android:id="@+id/btn_posts"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="7dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/shape"
+                android:focusable="false"
+                android:clickable="false"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/black_10" />
+</LinearLayout>
