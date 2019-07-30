@@ -3,6 +3,7 @@ package trianglz.ui.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,11 @@ import com.skolera.skolera_android.R;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import trianglz.models.Event;
+import trianglz.ui.activities.CreatePersonalEventActivity;
+import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 25/07/2019.
@@ -51,8 +55,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             holder.lineView.setBackgroundResource(R.color.iris);
         }
         Event event = items.get(position);
-        holder.eventDay.setText(event.getStartDate().getDate() + "");
-        holder.eventMonth.setText(getMonthName(event.getStartDate().getMonth()) + "");
+
+        if (Util.getLocale(context).equals("ar")) {
+            holder.eventDay.setText(String.format(new Locale("ar"),event.getStartDate().getDate() + ""));
+            holder.eventMonth.setText(String.format(new Locale("ar"),getMonthName(event.getStartDate().getMonth()) + ""));
+        }
+        else{
+            holder.eventDay.setText(event.getStartDate().getDate() + "");
+            holder.eventMonth.setText(getMonthName(event.getStartDate().getMonth()) + "");
+        }
+
         holder.eventTitle.setText(event.getTitle());
         if (event.getDescription() != null)
             holder.eventDetails.setText(event.getDescription());
@@ -92,10 +104,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
 
     String getMonthName(int m) {
-        String month = "invalid";
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
-        return months[m - 1];
+        return months[m];
     }
 }
 

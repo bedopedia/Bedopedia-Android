@@ -1,13 +1,18 @@
 package trianglz.managers.api;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 import trianglz.managers.SessionManager;
 import trianglz.managers.network.HandleArrayResponseListener;
@@ -554,6 +559,50 @@ public class UserManager {
         NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
+    public static void createEvent(String url, Date startDate, Date endDate, String type, String allDay, String title, String listenerType, int listenerId, String description, String cancel, final ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject eventJsonObject = new JSONObject();
+        JSONObject eventAttributesJsonObject = new JSONObject();
+        JSONObject listenersJsonObject = new JSONObject();
+        JSONArray listenerJsonArray = new JSONArray();
+        SimpleDateFormat sdf;
+        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("CET"));
+        String d1 = sdf.format(startDate);
+        String d2 = sdf.format(endDate);
+        try {
+            eventAttributesJsonObject.put(Constants.KEY_START_DATE, d1);
+            eventAttributesJsonObject.put(Constants.KEY_END_DATE, d2);
+            eventAttributesJsonObject.put(Constants.KEY_TYPE, type);
+            eventAttributesJsonObject.put(Constants.KEY_ALL_DAY, allDay);
+            eventAttributesJsonObject.put(Constants.KEY_TITLE, title);
+            //listeners
+            listenersJsonObject.put(Constants.KEY_LISTENER_TYPE, listenerType);
+            listenersJsonObject.put(Constants.KEY_LISTENER_ID, listenerId);
+            listenerJsonArray.put(listenersJsonObject);
+
+            eventAttributesJsonObject.put(Constants.KEY_LISTENERS_ATTRIBUTES, listenerJsonArray);
+            eventAttributesJsonObject.put(Constants.KEY_DESCRIPTION, description);
+            eventAttributesJsonObject.put(Constants.KEY_CANCEL, cancel);
+
+            eventJsonObject.put(Constants.KEY_EVENT,eventAttributesJsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        NetworkManager.post(url, eventJsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
                 responseListener.onSuccess(response);
             }
 

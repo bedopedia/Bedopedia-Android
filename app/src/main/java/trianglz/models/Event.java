@@ -1,4 +1,5 @@
 package trianglz.models;
+import android.support.annotation.NonNull;
 import android.text.format.DateFormat;
 
 import com.google.gson.annotations.SerializedName;
@@ -8,6 +9,7 @@ import com.google.gson.GsonBuilder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -15,7 +17,7 @@ import java.util.Locale;
  * Created by Farah A. Moniem on 28/07/2019.
  */
 
-public class Event {
+public class Event  {
 
     @SerializedName("id")
     private int id;
@@ -126,6 +128,15 @@ public class Event {
     public String toString() {
         Gson gson = new GsonBuilder().create();
         return gson.toJson(this);
+    }
+
+
+
+    public static class SortByDate implements Comparator<Event> {
+        @Override
+        public int compare(Event a, Event b) {
+            return a.getStartDate().compareTo(b.getStartDate());
+        }
     }
 
 }

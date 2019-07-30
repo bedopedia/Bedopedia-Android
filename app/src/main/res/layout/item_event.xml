@@ -21,7 +21,7 @@
                 android:id="@+id/tv_day_number"
                 android:layout_width="wrap_content"
                 android:layout_height="23dp"
-                android:textColor="@color/steel"
+                android:textColor="@color/gunmetal"
                 android:textSize="18sp"
                  />
 
