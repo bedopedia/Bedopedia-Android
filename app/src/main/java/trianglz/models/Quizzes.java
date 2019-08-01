@@ -38,108 +38,198 @@ public class Quizzes {
 	private boolean gradingPeriodLock;
 	@SerializedName("student_submissions")
 	private StudentSubmissions studentSubmissions;
+	@SerializedName("course_groups")
+	private CourseGroups[] courseGroups;
+	@SerializedName("category")
+	private Category category;
+	@SerializedName("lesson")
+	private Lesson lesson;
+	@SerializedName("unit")
+	private Unit unit;
+	@SerializedName("chapter")
+	private Chapter chapter;
+	@SerializedName("student_solved")
+	private Object studentSolved;
+	@SerializedName("blooms")
+	private String[] blooms;
+	@SerializedName("questions")
+	private Questions[] questions;
+	@SerializedName("objectives")
+	private Object[] objectives;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public int getId() {
-		return this.id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
+    public String getStartDate() {
+        return startDate;
+    }
 
-	public String getStartDate() {
-		return this.startDate;
-	}
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
 
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
+    public String getEndDate() {
+        return endDate;
+    }
 
-	public String getEndDate() {
-		return this.endDate;
-	}
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
 
-	public void setDescription(Object description) {
-		this.description = description;
-	}
+    public Object getDescription() {
+        return description;
+    }
 
-	public Object getDescription() {
-		return this.description;
-	}
+    public void setDescription(Object description) {
+        this.description = description;
+    }
 
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
+    public int getDuration() {
+        return duration;
+    }
 
-	public int getDuration() {
-		return this.duration;
-	}
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 
-	public void setIsQuestionsRandomized(boolean isQuestionsRandomized) {
-		this.isQuestionsRandomized = isQuestionsRandomized;
-	}
+    public boolean isQuestionsRandomized() {
+        return isQuestionsRandomized;
+    }
 
-	public boolean getIsQuestionsRandomized() {
-		return this.isQuestionsRandomized;
-	}
+    public void setQuestionsRandomized(boolean questionsRandomized) {
+        isQuestionsRandomized = questionsRandomized;
+    }
 
-	public void setNumOfQuestionsPerPage(int numOfQuestionsPerPage) {
-		this.numOfQuestionsPerPage = numOfQuestionsPerPage;
-	}
+    public int getNumOfQuestionsPerPage() {
+        return numOfQuestionsPerPage;
+    }
 
-	public int getNumOfQuestionsPerPage() {
-		return this.numOfQuestionsPerPage;
-	}
+    public void setNumOfQuestionsPerPage(int numOfQuestionsPerPage) {
+        this.numOfQuestionsPerPage = numOfQuestionsPerPage;
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public String getState() {
+        return state;
+    }
 
-	public String getState() {
-		return this.state;
-	}
+    public void setState(String state) {
+        this.state = state;
+    }
 
-	public void setTotalScore(double totalScore) {
-		this.totalScore = totalScore;
-	}
+    public double getTotalScore() {
+        return totalScore;
+    }
 
-	public double getTotalScore() {
-		return this.totalScore;
-	}
+    public void setTotalScore(double totalScore) {
+        this.totalScore = totalScore;
+    }
 
-	public void setLessonId(int lessonId) {
-		this.lessonId = lessonId;
-	}
+    public int getLessonId() {
+        return lessonId;
+    }
 
-	public int getLessonId() {
-		return this.lessonId;
-	}
+    public void setLessonId(int lessonId) {
+        this.lessonId = lessonId;
+    }
 
-	public void setGradingPeriodLock(boolean gradingPeriodLock) {
-		this.gradingPeriodLock = gradingPeriodLock;
-	}
+    public boolean isGradingPeriodLock() {
+        return gradingPeriodLock;
+    }
 
-	public boolean getGradingPeriodLock() {
-		return this.gradingPeriodLock;
-	}
+    public void setGradingPeriodLock(boolean gradingPeriodLock) {
+        this.gradingPeriodLock = gradingPeriodLock;
+    }
 
-	public void setStudentSubmissions(StudentSubmissions studentSubmissions) {
-		this.studentSubmissions = studentSubmissions;
-	}
+    public void setStudentSubmissions(StudentSubmissions studentSubmissions) {
+        this.studentSubmissions = studentSubmissions;
+    }
 
-	public StudentSubmissions getStudentSubmissions() {
+    public CourseGroups[] getCourseGroups() {
+        return courseGroups;
+    }
+
+    public void setCourseGroups(CourseGroups[] courseGroups) {
+        this.courseGroups = courseGroups;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Lesson getLesson() {
+        return lesson;
+    }
+
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public Chapter getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(Chapter chapter) {
+        this.chapter = chapter;
+    }
+
+    public Object getStudentSolved() {
+        return studentSolved;
+    }
+
+    public void setStudentSolved(Object studentSolved) {
+        this.studentSolved = studentSolved;
+    }
+
+    public String[] getBlooms() {
+        return blooms;
+    }
+
+    public void setBlooms(String[] blooms) {
+        this.blooms = blooms;
+    }
+
+    public Questions[] getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Questions[] questions) {
+        this.questions = questions;
+    }
+
+    public Object[] getObjectives() {
+        return objectives;
+    }
+
+    public void setObjectives(Object[] objectives) {
+        this.objectives = objectives;
+    }
+
+    public StudentSubmissions getStudentSubmissions() {
 		return this.studentSubmissions;
 	}
 
