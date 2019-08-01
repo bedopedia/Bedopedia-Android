@@ -12,7 +12,9 @@ import com.skolera.skolera_android.R;
 import java.util.ArrayList;
 
 import trianglz.core.presenters.CourseAssignmentPresenter;
+import trianglz.core.presenters.SingleCourseGroupPresenter;
 import trianglz.core.views.CourseAssignmentView;
+import trianglz.core.views.SingleCourseGroupView;
 import trianglz.managers.SessionManager;
 import trianglz.models.Assignment;
 import trianglz.models.AssignmentsDetail;
@@ -22,7 +24,7 @@ import trianglz.models.TeacherCourse;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class SingleCourseGroupActivity extends SuperActivity implements View.OnClickListener, CourseAssignmentPresenter {
+public class SingleCourseGroupActivity extends SuperActivity implements View.OnClickListener, CourseAssignmentPresenter, SingleCourseGroupPresenter {
 
     private TeacherCourse teacherCourse;
     private CourseGroups courseGroup;
@@ -30,6 +32,7 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
     private TextView courseGroupName;
     private LinearLayout attendanceLayout, quizzesLayout, assignmentsLayout, postsLayout;
     private CourseAssignmentView courseAssignmentView;
+    private SingleCourseGroupView singleCourseGroupView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,7 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
         // assigning values
         courseGroupName.setText(courseGroup.getName());
         courseAssignmentView = new CourseAssignmentView(this, this);
+        singleCourseGroupView = new SingleCourseGroupView(this, this);
     }
 
     private void openAssignmentDetailActivity(){
@@ -79,6 +83,9 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
             Util.showNoInternetConnectionDialog(this);
         }
     }
+    private void openQuizzesDetailsActivity () {
+        singleCourseGroupView.getTeacherQuizzes(courseGroup.getId() + "");
+    }
 
     @Override
     public void onClick(View view) {
@@ -89,6 +96,8 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
             case R.id.layout_attendance:
                 break;
             case R.id.layout_quizzes:
+                showLoadingDialog();
+                openQuizzesDetailsActivity();
                 break;
             case R.id.layout_assignments:
                 showLoadingDialog();
@@ -130,5 +139,16 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
         if(progress.isShowing()){
             progress.dismiss();
         }
+    }
+
+    @Override
+    public void onGetTeacherQuizzesSuccess() {
+        if (progress.isShowing()) progress.hide();
+
+    }
+
+    @Override
+    public void onGetTeacherQuizzesFailure(String message, int errorCode) {
+        if (progress.isShowing()) progress.hide();
     }
 }
