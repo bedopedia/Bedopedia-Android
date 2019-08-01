@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -46,6 +47,7 @@ import trianglz.utils.Util;
 public class CalendarActivity extends SuperActivity implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener, CalendarEventsPresenter {
     private CompactCalendarView compactCalendarView;
     private CalendarEventsView calendarEventsView;
+    //todo change dates with the correct values
     private String start = "2010-03-04T00:00:00.000Z";
     private String end = "2030-03-04T00:00:00.000Z";
     private boolean isParent = false;
@@ -61,6 +63,7 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
     private AvatarView studentImageView;
     private LinearLayout allLayout, academicLayout, eventsLayout, vacationsLayout, personalLayout, assignmentsLayout, quizzesLayout;
     private View allView, academicView, eventsView, vacationsView, personalView, assignmentsView, quizzesView;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,18 +71,18 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
         setContentView(R.layout.activity_calendar);
         getValueFromIntent();
         bindViews();
-        checkUserType();
+        //checkUserType();
         setListeners();
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         setRecyclerView();
         getEvents();
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
+                v.startAnimation(buttonClick);
                 onBackPressed();
                 break;
             case R.id.create_personal_event:
@@ -125,9 +128,8 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_CANCELED) {
+            if (resultCode == Activity.RESULT_OK) {
                 getEvents();
             }
         }
@@ -138,11 +140,7 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
         if (dateClicked.getYear() == calendar.getTime().getYear()
                 && dateClicked.getMonth() == calendar.getTime().getMonth()
                 && dateClicked.getDate() == calendar.getTime().getDate()) {
-            if (isParent) {
-                compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.turquoise_blue_two));
-            } else {
-                compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.salmon));
-            }
+            compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.jade_green));
         } else {
             compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.transparent));
         }
@@ -151,22 +149,45 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
     @Override
     public void onMonthScroll(Date firstDayOfNewMonth) {
         monthYearTextView.setText(setHeaderDate(firstDayOfNewMonth));
-        if (isParent) {
-            compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.turquoise_blue_two));
-        } else {
-            compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.salmon));
-        }
+        compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.jade_green));
         if (firstDayOfNewMonth
                 .getYear() == calendar.getTime().getYear()
                 && firstDayOfNewMonth.getMonth() == calendar.getTime().getMonth() &&
                 firstDayOfNewMonth.getDate() == calendar.getTime().getDate()) {
-            if (isParent) {
-                compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.turquoise_blue_two));
-            } else {
-                compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.salmon));
-            }
+            compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.jade_green));
+
         } else {
             compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.transparent));
+        }
+    }
+
+
+    @Override
+    public void onGetEventsSuccess(ArrayList<trianglz.models.Event> events) {
+        if (progress.isShowing()) {
+            progress.dismiss();
+        }
+        allEvents.clear();
+        Log.d("size after clear", "onGetEventsSuccess: " + allEvents.size());
+        allEvents.addAll(events);
+        Log.d("size aftrer add", "onGetEventsSuccess: " + allEvents.size());
+
+        Collections.sort(allEvents, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
+
+        eventAdapter.addData(allEvents, EventAdapter.EVENTSTATE.ALL);
+        fillCalendarEventLists(events);
+        setEvents();
+    }
+
+    @Override
+    public void onGetEventsFailure(String message, int code) {
+        if (progress.isShowing()) {
+            progress.dismiss();
+        }
+        if (code == 401 || code == 500) {
+            logoutUser(this);
+        } else {
+            showErrorDialog(this);
         }
     }
 
@@ -317,9 +338,9 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
             c.setTime(eventsArrayList.get(i).getStartDate());
             Date newDate = c.getTime();
             while (newDate.getDate() != eventsArrayList.get(i).getEndDate().getDate()) {
+                compactCalendarView.addEvent(new Event(getResources().getColor(color), newDate.getTime()));
                 c.add(Calendar.DATE, 1);
                 newDate = c.getTime();
-                compactCalendarView.addEvent(new Event(getResources().getColor(color), newDate.getTime()));
             }
         }
     }
@@ -328,38 +349,10 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
         recyclerView.setAdapter(eventAdapter);
     }
 
-    @Override
-    public void onGetEventsSuccess(ArrayList<trianglz.models.Event> events) {
-        if (progress.isShowing()) {
-            progress.dismiss();
-        }
-        allEvents.clear();
-        allEvents.addAll(events);
-
-        Collections.sort(allEvents, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
-
-        eventAdapter.addData(allEvents, EventAdapter.EVENTSTATE.ALL);
-        fillCalendarEventLists(events);
-        setEvents();
-
-    }
-
-    @Override
-    public void onGetEventsFailure(String message, int code) {
-        if (progress.isShowing()) {
-            progress.dismiss();
-        }
-        if (code == 401 || code == 500) {
-            logoutUser(this);
-        } else {
-            showErrorDialog(this);
-        }
-    }
-
     private void getEvents() {
         if (Util.isNetworkAvailable(this)) {
             showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getEvents(341, "user", end, start);
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getEvents(student.userId, "user", end, start);
             calendarEventsView.getEvents(url);
             Log.i("TAG", "getEvents: " + url);
         } else {
@@ -376,7 +369,7 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
         } else if (SessionManager.getInstance().getUserType()) {
             isParent = true;
             todayTextView.setTextColor((getResources().getColor(R.color.turquoise_blue_two)));
-            compactCalendarView.setCurrentDayBackgroundColor((getResources().getColor(R.color.turquoise_blue_two)));
+            compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.turquoise_blue_two));
             createPersonalEventBtn.setTextColor((getResources().getColorStateList(R.color.turquoise_blue_two)));
             createPersonalEventBtn.setBackground(ContextCompat.getDrawable(CalendarActivity.this, R.drawable.curved_turquoise_blue_two_background));
         }
@@ -410,7 +403,5 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
         Collections.sort(personalEvents, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
         Collections.sort(events, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
         Collections.sort(vacations, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
-
-
     }
 }

@@ -29,10 +29,13 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp">
 
+
                 <ImageButton
                     android:id="@+id/btn_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
@@ -88,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text="@string/today"
-            android:textColor="@color/turquoise_blue_two"
+            android:textColor="@color/jade_green"
             android:textSize="17sp" />
 
     </RelativeLayout>
@@ -104,11 +107,11 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             app:compactCalendarBackgroundColor="@android:color/transparent"
-            app:compactCalendarCurrentDayBackgroundColor="@color/transparent"
+            app:compactCalendarCurrentDayBackgroundColor="@color/jade_green"
             app:compactCalendarCurrentDayTextColor="@color/black"
-            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/transparent"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/jade_green"
             app:compactCalendarCurrentSelectedDayTextColor="@color/black"
-            app:compactCalendarMultiEventIndicatorColor="@color/cerulean_blue"
+            app:compactCalendarMultiEventIndicatorColor="@color/jade_green"
             app:compactCalendarOtherMonthDaysTextColor="@color/black"
             app:compactCalendarTargetHeight="230dp"
             app:compactCalendarTextColor="@color/black"
@@ -395,18 +398,20 @@
 
         <trianglz.components.RobotoMediumButton
             android:id="@+id/create_personal_event"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginStart="74dp"
             android:layout_marginEnd="74dp"
-            android:background="@drawable/curved_turquoise_blue_two_background"
+            android:background="@drawable/curved_jade_green_background"
             android:drawableStart="@drawable/addnew_ico"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:text="@string/create_personal_event"
             android:textAllCaps="false"
-            android:textColor="@color/turquoise_blue_two" />
+            android:textColor="@color/jade_green" />
     </FrameLayout>
 
 

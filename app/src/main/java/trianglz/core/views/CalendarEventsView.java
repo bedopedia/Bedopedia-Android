@@ -18,7 +18,6 @@ import trianglz.models.Event;
  */
 public class CalendarEventsView {
     Context context;
-    ArrayList<Event> events = new ArrayList<>();
     CalendarEventsPresenter calendarEventsPresenter;
 
     public CalendarEventsView(Context context, CalendarEventsPresenter calendarEventsPresenter) {
@@ -31,6 +30,7 @@ public class CalendarEventsView {
             @Override
             public void onSuccess(JSONArray responseArray) {
                 Gson gson = new Gson();
+                ArrayList<Event> events = new ArrayList<>();
                 for (int i = 0; i < responseArray.length(); i++) {
                     Event event = gson.fromJson(responseArray.optJSONObject(i).toString(), Event.class);
                     events.add(event);

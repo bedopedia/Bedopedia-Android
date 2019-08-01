@@ -3,10 +3,13 @@ package trianglz.ui.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -57,19 +60,20 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         Event event = items.get(position);
 
         if (Util.getLocale(context).equals("ar")) {
-            holder.eventDay.setText(String.format(new Locale("ar"),event.getStartDate().getDate() + ""));
-            holder.eventMonth.setText(String.format(new Locale("ar"),getMonthName(event.getStartDate().getMonth()) + ""));
-        }
-        else{
+            holder.eventDay.setText(String.format(new Locale("ar"), event.getStartDate().getDate() + ""));
+            holder.eventMonth.setText(String.format(new Locale("ar"), getMonthName(event.getStartDate().getMonth()) + ""));
+        } else {
             holder.eventDay.setText(event.getStartDate().getDate() + "");
             holder.eventMonth.setText(getMonthName(event.getStartDate().getMonth()) + "");
         }
 
         holder.eventTitle.setText(event.getTitle());
-        if (event.getDescription() != null)
+        if (event.getDescription() != null && !(TextUtils.isEmpty(event.getDescription()))) {
+            holder.eventDetails.setVisibility(View.VISIBLE);
             holder.eventDetails.setText(event.getDescription());
-        else
-            holder.eventDetails.setText("");
+        } else {
+            holder.eventDetails.setVisibility(View.GONE);
+        }
     }
 
     @Override

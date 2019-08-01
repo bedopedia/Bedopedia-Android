@@ -6,17 +6,19 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
-import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -27,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -49,8 +52,8 @@ public class CreatePersonalEventActivity extends SuperActivity implements View.O
     private int daySelected, monthSelected, yearSelected;
     private IImageLoader imageLoader;
     private AvatarView studentImageView;
-    private Date firstDate=new Date(), secondDate=new Date();
-    private boolean isTimeSet = false;
+    private Date firstDate = new Date(), secondDate = new Date();
+    private boolean isTimeSet = false, isDateDialogShowing = false;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
     private ImageButton backBtn;
@@ -66,7 +69,7 @@ public class CreatePersonalEventActivity extends SuperActivity implements View.O
         setContentView(R.layout.activity_create_personal_event);
         getValueFromIntent();
         bindViews();
-        checkUserType();
+        // checkUserType();
         setListeners();
         studentName = student.firstName + " " + student.lastName;
         setStudentImage(student.getAvatar(), studentName);
@@ -76,10 +79,14 @@ public class CreatePersonalEventActivity extends SuperActivity implements View.O
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.event_start_date_btn:
-                showDatePicker(startDateBtn);
+                if (!isDateDialogShowing) {
+                    showDatePicker(startDateBtn);
+                }
                 break;
             case R.id.event_end_date_btn:
-                showDatePicker(endDateBtn);
+                if (!isDateDialogShowing) {
+                    showDatePicker(endDateBtn);
+                }
                 break;
             case R.id.event_create_btn:
                 Boolean valid = validate(startDateBtn.getText().toString(),
@@ -121,9 +128,45 @@ public class CreatePersonalEventActivity extends SuperActivity implements View.O
         subjectView = findViewById(R.id.subject_view);
         notesView = findViewById(R.id.notes_view);
         createPersonalEventView = new CreatePersonalEventView(CreatePersonalEventActivity.this, this);
+        startDateBtn.setHint(getCurrentDate());
+        endDateBtn.setHint(getCurrentDate());
+        if (Util.getLocale(CreatePersonalEventActivity.this).equals("ar")) {
+            startDateBtn.setHint(String.format(new Locale("ar"), getCurrentDate()));
+            endDateBtn.setHint(String.format(new Locale("ar"), getCurrentDate())
+            );
+        } else {
+            startDateBtn.setHint(getCurrentDate());
+            endDateBtn.setHint(getCurrentDate());
+        }
     }
 
+
     private void setListeners() {
+
+        EditText.OnEditorActionListener notesEditTextListener = new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    Boolean valid = validate(startDateBtn.getText().toString(),
+                            endDateBtn.getText().toString(),
+                            subjectEditText.getText().toString(),
+                            notesEditText.getText().toString());
+                    if (valid) {
+                        if (!(checkDateAndTime(firstDate, secondDate))) {
+                            whenView.setBackgroundResource(R.color.tomato);
+                            toView.setBackgroundResource(R.color.tomato);
+                        } else {
+                            changeViewsToValid();
+                            createEvent();
+                        }
+                    }
+                }
+                return true;
+            }
+        };
+        notesEditText.setOnEditorActionListener(notesEditTextListener);
+
+
         startDateBtn.setOnClickListener(this);
         endDateBtn.setOnClickListener(this);
         subjectEditText.setOnClickListener(this);
@@ -152,11 +195,19 @@ public class CreatePersonalEventActivity extends SuperActivity implements View.O
                             button.setText(String.format(new Locale("ar"), "%d\\%d\\%d", dayOfMonth, (monthOfYear + 1), year));
                         } else
                             button.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + yearofYear);
+                        isDateDialogShowing = datePickerDialog.isShowing();
                         showTimePicker(button, buttonText);
                     }
                 }, year, month, day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
+        isDateDialogShowing = datePickerDialog.isShowing();
+        datePickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                isDateDialogShowing = datePickerDialog.isShowing();
+            }
+        });
     }
 
     private void showTimePicker(final Button button, final String buttonText) {
@@ -188,17 +239,16 @@ public class CreatePersonalEventActivity extends SuperActivity implements View.O
                 }
                 isTimeSet = true;
                 final Calendar c = Calendar.getInstance();
-                c.set(yearSelected,monthSelected,daySelected,selectedHours,selectedMinute);
+                c.set(yearSelected, monthSelected, daySelected, selectedHours, selectedMinute);
 
                 if (Util.getLocale(CreatePersonalEventActivity.this).equals("ar"))
                     button.append(" " + String.format(new Locale("ar"), "%02d:%02d", twelveHourFormat, selectedMinute) + " " + status);
                 else
                     button.append(" " + String.format("%02d:%02d", twelveHourFormat, selectedMinute) + " " + status);
                 if (button.getId() == R.id.event_start_date_btn) {
-                    firstDate=c.getTime();
-                }
-                else
-                    secondDate =c.getTime();
+                    firstDate = c.getTime();
+                } else
+                    secondDate = c.getTime();
             }
         }, hour, minute, false);
         timePickerDialog.show();
@@ -283,11 +333,10 @@ public class CreatePersonalEventActivity extends SuperActivity implements View.O
     }
 
     private void createEvent() {
-        //hardcodedID
         if (Util.isNetworkAvailable(this)) {
             showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createEvent();
-            createPersonalEventView.createEvent(url, firstDate, secondDate, "personal", "false", subjectEditText.getText().toString(), "User", 341, notesEditText.getText().toString(), "false");
+            createPersonalEventView.createEvent(url, firstDate, secondDate, "personal", "false", subjectEditText.getText().toString(), "User", student.userId, notesEditText.getText().toString(), "false");
         }
     }
 
@@ -297,8 +346,9 @@ public class CreatePersonalEventActivity extends SuperActivity implements View.O
             progress.dismiss();
         }
         Intent returnIntent = new Intent();
-        setResult(Activity.RESULT_CANCELED, returnIntent);
-        finish();    }
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
 
     @Override
     public void onCreateEventFailure(String message, int errorCode) {
@@ -311,6 +361,16 @@ public class CreatePersonalEventActivity extends SuperActivity implements View.O
             showErrorDialog(this);
         }
     }
+
+    public static String getCurrentDate() {
+
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm a");
+        df.setTimeZone(TimeZone.getDefault());
+        Date dateObject = Calendar.getInstance().getTime();
+        String date = df.format(dateObject);
+        return date;
+    }
+
     private void checkUserType() {
         if (SessionManager.getInstance().getStudentAccount()) {
 
@@ -320,5 +380,7 @@ public class CreatePersonalEventActivity extends SuperActivity implements View.O
             createEventBtn.setBackground(ContextCompat.getDrawable(CreatePersonalEventActivity.this, R.drawable.curved_turquoise_blue_two_background_radius_8));
         }
     }
+
+
 }
 
