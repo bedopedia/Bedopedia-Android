@@ -1,5 +1,7 @@
 package trianglz.managers.api;
 
+import android.net.Uri;
+
 /**
  * Created by ${Aly} on 10/24/2018.
  */
@@ -27,6 +29,23 @@ public class ApiEndPoints {
 
     public static String getQuizzesDetails(int studentId, int courseId) {
         return "/api/students/" + studentId + "/quizzes?course_group_ids=["+courseId+"]";
+    }
+
+    public static String getGetTeacherQuizzes(String courseGroupId) {
+        String url;
+        Uri.Builder builder = new Uri.Builder();
+        builder.appendPath("api")
+                .appendPath("quizzes")
+                .appendQueryParameter("fields%5Bgrading_period_lock%5D", "true")
+                .appendQueryParameter("fields%5Bid%5D", "true")
+                .appendQueryParameter("fields%5Blesson_id%5D", "true")
+                .appendQueryParameter("fields%5Bname%5D", "true")
+                .appendQueryParameter("fields%5Bstart_date%5D", "true")
+                .appendQueryParameter("fields%5Bstate%5D", "true")
+                .appendQueryParameter("fields%5Bstudent_solve%5D", "true")
+                .appendQueryParameter("course_group_ids[]", courseGroupId);
+        url = builder.toString();
+        return url;
     }
 
     public static String postsApi(int id) {

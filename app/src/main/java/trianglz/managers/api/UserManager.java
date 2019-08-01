@@ -460,6 +460,23 @@ public class UserManager {
         });
     }
 
+    public static void getTeacherQuizzes(String courseGroupId, final ArrayResponseListener arrayResponseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getGetTeacherQuizzes(courseGroupId);
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String, String> params = new HashMap<>();
+        NetworkManager.getJsonArray(url, params, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                arrayResponseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                arrayResponseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
     public static void sendImage(String url, String fileName, URI uri, final ResponseListener responseListener ) {
         HashMap<String, String> headersValues = SessionManager.getInstance().getHeaderHashMap();
         File image = new File(uri);
