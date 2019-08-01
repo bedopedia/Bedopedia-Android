@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
 
@@ -16,10 +17,10 @@ import trianglz.core.presenters.SingleCourseGroupPresenter;
 import trianglz.core.views.CourseAssignmentView;
 import trianglz.core.views.SingleCourseGroupView;
 import trianglz.managers.SessionManager;
-import trianglz.models.Assignment;
 import trianglz.models.AssignmentsDetail;
 import trianglz.models.CourseAssignment;
 import trianglz.models.CourseGroups;
+import trianglz.models.Quizzes;
 import trianglz.models.TeacherCourse;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -142,7 +143,7 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
     }
 
     @Override
-    public void onGetTeacherQuizzesSuccess() {
+    public void onGetTeacherQuizzesSuccess(ArrayList<Quizzes> quizzes) {
         if (progress.isShowing()) progress.hide();
 
     }
