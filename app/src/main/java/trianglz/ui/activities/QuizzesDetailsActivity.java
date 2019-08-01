@@ -26,6 +26,7 @@ import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.QuizzesDetailsPresenter;
 import trianglz.core.views.QuizzesDetailsView;
 import trianglz.managers.SessionManager;
+import trianglz.models.AssignmentsDetail;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Quizzes;
 import trianglz.models.Student;
@@ -48,6 +49,7 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
     private QuizzCourse quizzCourse;
     private ArrayList<Quizzes> quizzes;
     private QuizzesDetailsView quizzesDetailsView;
+    private boolean teacherMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +58,19 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
         getValueFromIntent();
         bindViews();
         setListeners();
-        showLoadingDialog();
-        quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId());
+        if (!teacherMode) {
+            showLoadingDialog();
+            quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId());
+        }
     }
 
     private void getValueFromIntent() {
+        if (getIntent().getBooleanExtra(Constants.KEY_TEACHERS, false)) {
+            quizzes = getIntent().getParcelableArrayListExtra(Constants.KEY_QUIZZES);
+            teacherMode = true;
+            courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
+            return;
+        }
         student = Student.create(getIntent().getStringExtra(Constants.STUDENT));
         quizzCourse = QuizzCourse.create(getIntent().getStringExtra(Constants.KEY_COURSE_QUIZZES));
 //        assignmentsDetailArrayList = (ArrayList<AssignmentsDetail>) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ASSIGNMENTS);
@@ -77,7 +87,7 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
         imageLoader = new PicassoLoader();
         studentImageView = findViewById(R.id.img_student);
         backBtn = findViewById(R.id.btn_back);
-        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+        if (!teacherMode) setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = findViewById(R.id.recycler_view);
         adapter = new QuizzesDetailsAdapter(this,this,courseName);
         recyclerView.setAdapter(adapter);
@@ -85,6 +95,7 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(10,this),false));
         headerTextView = findViewById(R.id.tv_header);
         headerTextView.setText(courseName);
+        if (quizzes != null) adapter.addData(getArrayList(true));
 
         // radio button for segment control
         segmentedGroup = findViewById(R.id.segmented);
@@ -99,8 +110,11 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
             segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
         }
 
-        quizzesDetailsView = new QuizzesDetailsView(this, this);
-        quizzes = new ArrayList<>();
+        if (!teacherMode) {
+            quizzesDetailsView = new QuizzesDetailsView(this, this);
+            quizzes = new ArrayList<>();
+        }
+
     }
 
 
@@ -184,9 +198,11 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
 
     @Override
     public void onItemClicked(Quizzes quizzes) {
-        Intent intent = new Intent(this, SingleQuizActivity.class);
-        intent.putExtra(Constants.KEY_QUIZZES, quizzes.toString());
-        intent.putExtra(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
-        startActivity(intent);
+        if (!teacherMode) {
+            Intent intent = new Intent(this, SingleQuizActivity.class);
+            intent.putExtra(Constants.KEY_QUIZZES, quizzes.toString());
+            intent.putExtra(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
+            startActivity(intent);
+        }
     }
 }

@@ -5,12 +5,14 @@ package trianglz.models;//
 //  Created on July 25, 2019
 //
 
-import java.util.*;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class Quizzes {
+public class Quizzes implements Parcelable {
 
 	@SerializedName("id")
 	private int id;
@@ -21,7 +23,7 @@ public class Quizzes {
 	@SerializedName("end_date")
 	private String endDate;
 	@SerializedName("description")
-	private Object description;
+	private String description;
 	@SerializedName("duration")
 	private int duration;
 	@SerializedName("is_questions_randomized")
@@ -56,6 +58,33 @@ public class Quizzes {
 	private Questions[] questions;
 	@SerializedName("objectives")
 	private Object[] objectives;
+
+    protected Quizzes(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        startDate = in.readString();
+        endDate = in.readString();
+        duration = in.readInt();
+        isQuestionsRandomized = in.readByte() != 0;
+        numOfQuestionsPerPage = in.readInt();
+        state = in.readString();
+        totalScore = in.readDouble();
+        lessonId = in.readInt();
+        gradingPeriodLock = in.readByte() != 0;
+        blooms = in.createStringArray();
+    }
+
+    public static final Creator<Quizzes> CREATOR = new Creator<Quizzes>() {
+        @Override
+        public Quizzes createFromParcel(Parcel in) {
+            return new Quizzes(in);
+        }
+
+        @Override
+        public Quizzes[] newArray(int size) {
+            return new Quizzes[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -93,7 +122,7 @@ public class Quizzes {
         return description;
     }
 
-    public void setDescription(Object description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -244,4 +273,24 @@ public class Quizzes {
 		return gson.toJson(this);
 	}
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeString(startDate);
+        parcel.writeString(endDate);
+        parcel.writeInt(duration);
+        parcel.writeByte((byte) (isQuestionsRandomized ? 1 : 0));
+        parcel.writeInt(numOfQuestionsPerPage);
+        parcel.writeString(state);
+        parcel.writeDouble(totalScore);
+        parcel.writeInt(lessonId);
+        parcel.writeByte((byte) (gradingPeriodLock ? 1 : 0));
+        parcel.writeStringArray(blooms);
+    }
 }

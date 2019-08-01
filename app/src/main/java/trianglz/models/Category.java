@@ -5,7 +5,6 @@ package trianglz.models;//
 //  Created on July 24, 2019
 //
 
-import java.util.*;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,32 +16,31 @@ public class Category {
 	@SerializedName("name")
 	private String name;
 	@SerializedName("parent_id")
-	private Object parentId;
+	private int parentId;
+
+	public int getId() {
+		return id;
+	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public int getId() {
-		return this.id;
+	public String getName() {
+		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getName() {
-		return this.name;
+	public int getParentId() {
+		return parentId;
 	}
 
-	public void setParentId(Object parentId) {
+	public void setParentId(int parentId) {
 		this.parentId = parentId;
 	}
-
-	public Object getParentId() {
-		return this.parentId;
-	}
-
 
 	public static Category create(String json) {
 		Gson gson = new GsonBuilder().create();

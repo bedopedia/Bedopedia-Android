@@ -17,52 +17,51 @@ public class CourseGroups {
 	@SerializedName("name")
 	private String name;
 	@SerializedName("icon_name")
-	private Object iconName;
+	private String iconName;
 	@SerializedName("course_name")
 	private String courseName;
 	@SerializedName("course_id")
 	private int courseId;
 
+	public int getId() {
+		return id;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public int getId() {
-		return this.id;
+	public String getName() {
+		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getName() {
-		return this.name;
+	public String getIconName() {
+		return iconName;
 	}
 
-	public void setIconName(Object iconName) {
+	public void setIconName(String iconName) {
 		this.iconName = iconName;
 	}
 
-	public Object getIconName() {
-		return this.iconName;
+	public String getCourseName() {
+		return courseName;
 	}
 
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
 
-	public String getCourseName() {
-		return this.courseName;
+	public int getCourseId() {
+		return courseId;
 	}
 
 	public void setCourseId(int courseId) {
 		this.courseId = courseId;
 	}
-
-	public int getCourseId() {
-		return this.courseId;
-	}
-
 
 	public static CourseGroups create(String json) {
 		Gson gson = new GsonBuilder().create();

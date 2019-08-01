@@ -145,7 +145,11 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
     @Override
     public void onGetTeacherQuizzesSuccess(ArrayList<Quizzes> quizzes) {
         if (progress.isShowing()) progress.hide();
-
+        Intent intent = new Intent(this,QuizzesDetailsActivity.class);
+        intent.putExtra(Constants.KEY_TEACHERS, true);
+        intent.putExtra(Constants.KEY_COURSE_NAME, courseGroup.getName());
+        intent.putExtra(Constants.KEY_QUIZZES,quizzes);
+        startActivity(intent);
     }
 
     @Override

@@ -5,7 +5,6 @@ package trianglz.models;//
 //  Created on August 01, 2019
 //
 
-import java.util.*;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,7 +30,7 @@ public class Questions {
 	@SerializedName("files")
 	private Object files;
 	@SerializedName("uploaded_file")
-	private Object uploadedFile;
+	private UploadedObject uploadedFile;
 	@SerializedName("correct_answers_count")
 	private int correctAnswersCount;
 
@@ -107,7 +106,7 @@ public class Questions {
 		return this.files;
 	}
 
-	public void setUploadedFile(Object uploadedFile) {
+	public void setUploadedFile(UploadedObject uploadedFile) {
 		this.uploadedFile = uploadedFile;
 	}
 
