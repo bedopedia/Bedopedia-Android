@@ -196,4 +196,5 @@ public class Constants {
     public static final String TEACHER_COURSE = "teacher_course";
     public static final String AVATAR = "avatar";
     public static final String DISABLE_CLICK = "disable_click";
+    public static final String KEY_COURSE_GROUP_NAME = "course_group_name";
 }

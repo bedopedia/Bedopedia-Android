@@ -43,6 +43,7 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
     private RecyclerView recyclerView;
     private QuizzesDetailsAdapter adapter;
     private String courseName = "";
+    private String courseGroupName = "";
     private TextView headerTextView;
     private RadioButton openButton, closedButton;
     private SegmentedGroup segmentedGroup;
@@ -69,6 +70,7 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
             quizzes = getIntent().getParcelableArrayListExtra(Constants.KEY_QUIZZES);
             teacherMode = true;
             courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
+            courseGroupName = getIntent().getStringExtra(Constants.KEY_COURSE_GROUP_NAME);
             return;
         }
         student = Student.create(getIntent().getStringExtra(Constants.STUDENT));
@@ -89,7 +91,11 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
         backBtn = findViewById(R.id.btn_back);
         if (!teacherMode) setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = findViewById(R.id.recycler_view);
-        adapter = new QuizzesDetailsAdapter(this,this,courseName);
+        if (teacherMode) {
+            adapter = new QuizzesDetailsAdapter(this, this, courseGroupName);
+        } else {
+            adapter = new QuizzesDetailsAdapter(this, this, courseName);
+        }
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(10,this),false));
