@@ -116,12 +116,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private LinearLayout parentLayout,teacherLayout;
     private Actor actor;
     private String actorName = "";
-    private ImageButton settingsBtn;
-    private RelativeLayout studentHeaderLayout,actorHeaderLayout;
     private SettingsDialog settingsDialog;
     private RootClass rootClass;
     private TextView weeklyPlannerTextView;
-    private ImageButton studentSettingsButton;
 
 
     public MenuFragment() {
@@ -182,12 +179,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         attendanceTextView = rootView.findViewById(R.id.tv_attendance);
         parentLayout = rootView.findViewById(R.id.layout_parent);
         teacherLayout = rootView.findViewById(R.id.layout_teacher);
-        settingsBtn = rootView.findViewById(R.id.btn_setting);
-        studentHeaderLayout = rootView.findViewById(R.id.layout_student_header);
-        actorHeaderLayout = rootView.findViewById(R.id.layout_actor_header);
         settingsDialog = new SettingsDialog(getActivity(), R.style.SettingsDialog, this);
         weeklyPlannerTextView = rootView.findViewById(R.id.tv_weekly_planner);
-        studentSettingsButton = rootView.findViewById(R.id.btn_setting_student);
 
         student = activity.getStudent();
         actor = activity.getActor();
@@ -213,9 +206,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         postsLayout.setOnClickListener(this);
         quizzesLayout.setOnClickListener(this);
 
-        //actor listeners
-        settingsBtn.setOnClickListener(this);
-        studentSettingsButton.setOnClickListener(this);
     }
 
     private void setParentActorView() {
@@ -226,8 +216,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             setStudentImage(actor.imageUrl,actorName);
             nameTextView.setText(actorName);
             levelTextView.setText(actor.actableType);
-            actorHeaderLayout.setVisibility(View.VISIBLE);
-            studentHeaderLayout.setVisibility(View.GONE);
             String notificationText = SessionManager.getInstance().getNotficiationCounter() + " "+getActivity().getResources().getString(R.string.unread_notifications);
         }else {
             parentLayout.setVisibility(View.VISIBLE);
@@ -237,13 +225,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             setStudentImage(student.getAvatar(), studentName);
             nameTextView.setText(studentName);
             levelTextView.setText(student.level);
-            actorHeaderLayout.setVisibility(View.GONE);
-            studentHeaderLayout.setVisibility(View.VISIBLE);
-            if(SessionManager.getInstance().getStudentAccount()){
-                studentSettingsButton.setVisibility(View.VISIBLE);
-            }else {
-                studentSettingsButton.setVisibility(View.GONE);
-            }
         }
     }
 

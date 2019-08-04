@@ -42,7 +42,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     
     // parent activity 
     private StudentMainActivity activity;
-    private ImageButton newMessageBtn;
     private Student student;
     private ContactTeacherView contactTeacherView;
     private RecyclerView recyclerView;
@@ -72,7 +71,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         return rootView;
     }
     private void bindViews(){
-        newMessageBtn = rootView.findViewById(R.id.btn_new_message);
         contactTeacherView = new ContactTeacherView(getActivity(),this);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         contactTeacherAdapter = new ContactTeacherAdapter(getActivity(),this);
@@ -80,16 +78,10 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8,getActivity()),false));
         messageThreadArrayList = new ArrayList<>();
-        if(SessionManager.getInstance().getUserType()){
-            newMessageBtn.setVisibility(View.VISIBLE);
-        }else {
-            newMessageBtn.setVisibility(View.INVISIBLE);
-        }
 
     }
 
     private void setListeners(){
-        newMessageBtn.setOnClickListener(this);
     }
 
 
@@ -111,13 +103,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         switch (view.getId()){
             case R.id.btn_back:
                 activity.onBackPressed();
-                break;
-            case R.id.btn_new_message:
-                if(Util.isNetworkAvailable(getActivity())){
-                    openNewMessageActivity();
-                }else {
-                    Util.showNoInternetConnectionDialog(getActivity());
-                }
                 break;
         }
     }

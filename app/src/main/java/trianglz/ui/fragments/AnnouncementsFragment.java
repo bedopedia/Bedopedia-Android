@@ -40,7 +40,6 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
 
     // parent activity
     StudentMainActivity activity;
-    private ImageButton backBtn;
     private AnnouncementAdapter adapter;
     private RecyclerView recyclerView;
     private AnnouncementView announcementView;
@@ -60,7 +59,6 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         rootView = inflater.inflate(R.layout.fragment_announcements, container, false);
         activity = (StudentMainActivity) getActivity();
         bindViews();
-        setListeners();
         if(Util.isNetworkAvailable(getActivity())){
             getAnnouncement(false);
             activity.showLoadingDialog();
@@ -71,7 +69,6 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     }
 
     private void bindViews(){
-        backBtn = rootView.findViewById(R.id.btn_back);
         adapter = new AnnouncementAdapter(getActivity(),this);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
@@ -82,9 +79,6 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
 
     }
 
-    private void setListeners(){
-        backBtn.setOnClickListener(this);
-    }
 
     @Override
     public void onClick(View view) {
