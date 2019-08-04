@@ -165,7 +165,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         startActivity(intent);
     }
 
-    private void openNewMessageActivity(){
+    public void openNewMessageActivity(){
         Intent intent = new Intent(getActivity(), NewMessageActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT,student);
