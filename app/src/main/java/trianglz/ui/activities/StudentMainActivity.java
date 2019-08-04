@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -42,8 +43,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private StudentMainPagerAdapter pagerAdapter;
 
     // header
-    private ImageButton settingsBtn, addNewMessageButton;
+    private ImageButton settingsBtn, addNewMessageButton, backBtn;
     private SettingsDialog settingsDialog;
+    private RelativeLayout headerLayout;
 
     // fragments
     private AnnouncementsFragment announcementsFragment;
@@ -80,6 +82,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private void setListeners() {
         settingsBtn.setOnClickListener(this);
         addNewMessageButton.setOnClickListener(this);
+        backBtn.setOnClickListener(this);
 
         firstLayout.setOnClickListener(this);
         secondLayout.setOnClickListener(this);
@@ -142,14 +145,22 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         fourthTextView = findViewById (R.id.tv_menu);
 
         // header
+        headerLayout = findViewById(R.id.rl_header);
         settingsBtn = findViewById(R.id.btn_setting_student);
         addNewMessageButton = findViewById(R.id.btn_new_message);
         settingsDialog = new SettingsDialog(this, R.style.SettingsDialog, this);
         addNewMessageButton.setVisibility(View.GONE);
+        backBtn = findViewById(R.id.back_btn);
+        backBtn.setVisibility(View.GONE);
         if (isStudent) {
             settingsBtn.setVisibility(View.VISIBLE);
         } else if (isParent) {
             settingsBtn.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) addNewMessageButton.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_START, 0);
+            params.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
+            addNewMessageButton.setLayoutParams(params);
+            backBtn.setVisibility(View.VISIBLE);
         } else {
             settingsBtn.setVisibility(View.VISIBLE);
         }
@@ -285,6 +296,10 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 }else {
                     Util.showNoInternetConnectionDialog(this);
                 }
+                break;
+            case R.id.back_btn:
+                onBackPressed();
+                break;
         }
     }
 
