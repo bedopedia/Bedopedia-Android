@@ -41,9 +41,9 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_message2);
+        getValueFromIntent();
         bindViews();
         setListeners();
-        getValueFromIntent();
         if(Util.isNetworkAvailable(this)){
             showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getCourseGroups(student.getId());
@@ -72,7 +72,7 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
     }
 
     private void getValueFromIntent() {
-        student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
+        student = Student.create(getIntent().getStringExtra(Constants.STUDENT));
     }
 
     @Override
