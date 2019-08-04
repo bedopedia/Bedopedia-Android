@@ -146,7 +146,13 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         addNewMessageButton = findViewById(R.id.btn_new_message);
         settingsDialog = new SettingsDialog(this, R.style.SettingsDialog, this);
         addNewMessageButton.setVisibility(View.GONE);
-        if (isParent) settingsBtn.setVisibility(View.GONE);
+        if (isStudent) {
+            settingsBtn.setVisibility(View.VISIBLE);
+        } else if (isParent) {
+            settingsBtn.setVisibility(View.GONE);
+        } else {
+            settingsBtn.setVisibility(View.VISIBLE);
+        }
 
         // init fragments
         announcementsFragment = new AnnouncementsFragment();
