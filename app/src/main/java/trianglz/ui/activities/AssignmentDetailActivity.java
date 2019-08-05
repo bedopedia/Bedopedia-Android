@@ -47,6 +47,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
     private SegmentedGroup segmentedGroup;
     private int courseId;
     private String studentName;
+    boolean isStudent, isParent;
 
 
     @Override
@@ -59,6 +60,8 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
     }
 
     private void getValueFromIntent() {
+        isStudent = SessionManager.getInstance().getStudentAccount();
+        isParent = SessionManager.getInstance().getUserType();
         student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
         assignmentsDetailArrayList = (ArrayList<AssignmentsDetail>) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ASSIGNMENTS);
         courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
@@ -87,9 +90,9 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
         openButton = findViewById(R.id.btn_open);
         closedButton = findViewById(R.id.btn_closed);
         segmentedGroup.check(openButton.getId());
-        if (SessionManager.getInstance().getStudentAccount()) {
+        if (isStudent) {
             segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-        } else if (SessionManager.getInstance().getUserType()) {
+        } else if (isParent) {
             segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
         } else {
             segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
@@ -142,11 +145,15 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
 
     @Override
     public void onItemClicked(AssignmentsDetail assignmentsDetail) {
-        if (getIntent().getBooleanExtra(Constants.DISABLE_CLICK, false)) return;
-        Intent intent = new Intent(this, AssignmentActivity.class);
-        if (courseId != 0) intent.putExtra(Constants.KEY_COURSE_ID, courseId);
-        intent.putExtra(Constants.KEY_STUDENT_NAME, studentName);
-        intent.putExtra(Constants.KEY_ASSIGNMENT_DETAIL, assignmentsDetail.toString());
-        startActivity(intent);
+        if (isStudent || isParent) {
+            Intent intent = new Intent(this, AssignmentActivity.class);
+            if (courseId != 0) intent.putExtra(Constants.KEY_COURSE_ID, courseId);
+            intent.putExtra(Constants.KEY_STUDENT_NAME, studentName);
+            intent.putExtra(Constants.KEY_ASSIGNMENT_DETAIL, assignmentsDetail.toString());
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, AssignmentGradingActivity.class);
+            startActivity(intent);
+        }
     }
 }
