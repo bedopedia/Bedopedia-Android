@@ -19,6 +19,7 @@ import trianglz.core.views.AssignmentGradingView;
 import trianglz.models.StudentAssignmentSubmission;
 import trianglz.models.StudentSubmissions;
 import trianglz.ui.adapters.StudentAssignmentGradeAdapter;
+import trianglz.ui.adapters.TeacherCoursesAdapter;
 import trianglz.utils.Constants;
 
 public class AssignmentGradingActivity extends SuperActivity implements View.OnClickListener, StudentAssignmentGradeAdapter.StudentGradeInterface, GradeFeedbackDialog.GradeDialogInterface, AssignmentGradingPresenter {
@@ -51,7 +52,8 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
     void onBindView() {
         backBtn = findViewById(R.id.btn_back);
         recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL,false));
         adapter = new StudentAssignmentGradeAdapter(this, this);
         recyclerView.setAdapter(adapter);
         assignmentGradingView = new AssignmentGradingView(this,this);
@@ -93,7 +95,7 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
     @Override
     public void onGetAssignmentSubmissionsSuccess(ArrayList<StudentAssignmentSubmission> submissions) {
         if (progress.isShowing()) progress.dismiss();
-        Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+        adapter.addData(submissions);
     }
 
     @Override

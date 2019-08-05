@@ -1,5 +1,6 @@
 package trianglz.ui.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +13,13 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import java.util.ArrayList;
+
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
+import trianglz.models.StudentAssignmentSubmission;
 
 /**
  * Created by Farah A. Moniem on 04/08/2019.
@@ -24,10 +28,12 @@ public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentA
 
     Context context;
     StudentGradeInterface studentGradeInterface;
+    ArrayList<StudentAssignmentSubmission> mDataList;
 
     public StudentAssignmentGradeAdapter(Context context, StudentGradeInterface studentGradeInterface) {
         this.context = context;
         this.studentGradeInterface = studentGradeInterface;
+        mDataList = new ArrayList<>();
     }
 
     @NonNull
@@ -37,14 +43,21 @@ public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentA
         return new StudentAssignmentGradeAdapter.ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        final StudentAssignmentSubmission submission = mDataList.get(position);
         IImageLoader imageLoader = new PicassoLoader();
-        imageLoader.loadImage(holder.studentAvatar, new AvatarPlaceholderModified("Farah Ahmed"), "Path of Image");
+        imageLoader.loadImage(holder.studentAvatar, new AvatarPlaceholderModified(submission.getStudentName()), "Path of Image");
 //        if (studentName == null || studentName.equals("") || studentName.isEmpty()) {
 //            studentAvatar.setVisibility(View.INVISIBLE);
 //        }
-        holder.studentName.setText("Courtney fisher");
+
+        if (submission.getFeedback() != null) {
+            holder.studentGrade.setText(Double.toString(submission.getGrade()));
+            holder.studentFeedback.setText(submission.getFeedback().getContent());
+        }
+        holder.studentName.setText(submission.getStudentName());
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +74,12 @@ public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentA
 
     @Override
     public int getItemCount() {
-        return 10;
+        return mDataList.size();
+    }
+    public void addData(ArrayList<StudentAssignmentSubmission> studentAssignmentSubmissions) {
+        this.mDataList.clear();
+        if(studentAssignmentSubmissions != null) this.mDataList.addAll(studentAssignmentSubmissions);
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
