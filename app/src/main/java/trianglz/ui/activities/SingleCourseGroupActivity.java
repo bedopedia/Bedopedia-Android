@@ -33,7 +33,6 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
     private LinearLayout attendanceLayout, quizzesLayout, assignmentsLayout, postsLayout;
     private CourseAssignmentView courseAssignmentView;
     private SingleCourseGroupView singleCourseGroupView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,11 +103,21 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
                 openAssignmentDetailActivity();
                 break;
             case R.id.layout_posts:
+                openPostDetailsActivity();
                 break;
         }
     }
-        /* Empty overridden methods because we used an already made View to call the get assignments
-         details method */
+
+    private void openPostDetailsActivity() {
+        Intent intent = new Intent(this, PostDetailActivity.class);
+        //todo remove hardcoded id and course name
+        intent.putExtra(Constants.KEY_COURSE_ID, 68);
+        intent.putExtra(Constants.KEY_COURSE_NAME, "English(KY06)");
+        startActivity(intent);
+    }
+
+    /* Empty overridden methods because we used an already made View to call the get assignments
+     details method */
     @Override
     public void onGetCourseAssignmentSuccess(ArrayList<CourseAssignment> courseAssignmentArrayList) {
     }

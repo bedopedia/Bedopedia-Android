@@ -1,14 +1,13 @@
 package trianglz.ui.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
 
@@ -18,6 +17,7 @@ import trianglz.components.BottomItemDecoration;
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.PostDetailsPresenter;
 import trianglz.core.views.PostDetailsView;
+import trianglz.managers.SessionManager;
 import trianglz.models.PostDetails;
 import trianglz.models.UploadedObject;
 import trianglz.ui.AttachmentsActivity;
@@ -33,7 +33,8 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     private TextView courseNameTextView;
     private PostDetailsAdapter adapter;
     private String subjectName;
-
+    private FloatingActionButton addPostFab;
+    private boolean isStudent,isParent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,9 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     }
 
     private void bindViews() {
+        isStudent = SessionManager.getInstance().getStudentAccount();
+        isParent = SessionManager.getInstance().getUserType();
+        addPostFab=findViewById(R.id.add_post_btn);
         recyclerView = findViewById(R.id.recycler_view);
         postDetailsView = new PostDetailsView(this, this);
         toolbar = findViewById(R.id.toolbar);
@@ -59,6 +63,9 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
                 onBackPressed();
             }
         });
+        if (!isStudent &&!isParent){
+            addPostFab.setVisibility(View.VISIBLE);
+        }
         courseNameTextView = findViewById(R.id.tv_course_name);
         subjectName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
         courseNameTextView.setText(subjectName);
