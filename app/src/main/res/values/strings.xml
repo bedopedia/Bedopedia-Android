@@ -176,4 +176,11 @@
     <string name="out_of">Out of</string>
     <string name="you_will_be_able_to_solve_the_quiz_when_it_starts">You will be able to solve the quiz when it starts</string>
     <string name="courses">Courses</string>
+    <string name="grade">Grade</string>
+    <string name="feedback">Feedback</string>
+    <string name="submit">Submit</string>
+    <string name="enter_grade">Enter grade</string>
+    <string name="write_a_feedback">Write a feedback</string>
+    <string name="not_set">Not set</string>
+    <string name="no_feedback">No feedback</string>
 </resources>

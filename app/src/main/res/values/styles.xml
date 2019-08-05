@@ -47,6 +47,7 @@
         <item name="android:textColor">@android:color/black</item>
 
     </style>
+
     <style name="segmented_group_text_style" parent="RadioButton">
 
         <item name="android:layout_width">wrap_content</item>
@@ -79,4 +80,16 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="GradeDialog" parent="AlertDialog.AppCompat">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+
+    </style>
 </resources>

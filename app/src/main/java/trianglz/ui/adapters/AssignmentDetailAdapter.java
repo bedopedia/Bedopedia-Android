@@ -1,6 +1,7 @@
 package trianglz.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.models.AssignmentsDetail;
+import trianglz.ui.activities.AssignmentGradingActivity;
 import trianglz.utils.Util;
 
 /**
@@ -35,7 +37,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
     public List<AssignmentsDetail> mDataList;
     private AssignmentDetailInterface anInterface;
     private String courseName = "";
-
+    private AssignmentGradeInterface assignmentGradeInterface;
 
     public AssignmentDetailAdapter(Context context, AssignmentDetailInterface assignmentDetailInterface,String courseName) {
         this.context = context;
@@ -89,6 +91,14 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
                 }
             });
         }
+        holder.assignmentLinearLayout.setOnClickListener(new View.OnClickListener() {
+            //todo remove intent and put interface
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, AssignmentGradingActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -108,11 +118,12 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
                 assignmentNameTextView, dayTextView, monthTextView, publishedTextView;
         public IImageLoader imageLoader;
         private AvatarView courseAvatarView;
-        public LinearLayout dateLinearLayout;
+        public LinearLayout dateLinearLayout,assignmentLinearLayout;
         public CardView cardView;
 
         public Holder(View itemView) {
             super(itemView);
+            assignmentLinearLayout=itemView.findViewById(R.id.layout_assignemnt);
             subjectNameTextView = itemView.findViewById(R.id.tv_subject_name);
             dateTextView = itemView.findViewById(R.id.tv_date);
             assignmentNameTextView = itemView.findViewById(R.id.tv_assignment_name);
@@ -129,5 +140,8 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
 
     public interface AssignmentDetailInterface {
         void onItemClicked(AssignmentsDetail assignmentsDetail);
+    }
+    interface AssignmentGradeInterface {
+        void onAssignmentClicked();
     }
 }
