@@ -44,7 +44,7 @@ public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentA
 //        if (studentName == null || studentName.equals("") || studentName.isEmpty()) {
 //            studentAvatar.setVisibility(View.INVISIBLE);
 //        }
-
+        holder.studentName.setText("Courtney fisher");
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
