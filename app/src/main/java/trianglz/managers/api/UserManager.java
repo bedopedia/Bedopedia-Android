@@ -13,6 +13,7 @@ import trianglz.managers.SessionManager;
 import trianglz.managers.network.HandleArrayResponseListener;
 import trianglz.managers.network.HandleResponseListener;
 import trianglz.managers.network.NetworkManager;
+import trianglz.models.PostAssignmentGradeModel;
 import trianglz.utils.Constants;
 
 /**
@@ -633,6 +634,29 @@ public class UserManager {
         NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+    public static void postAssignmentGrade(PostAssignmentGradeModel gradeModel, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() +
+                ApiEndPoints.postAssignmentGrade(gradeModel.getCourseId(),
+                        gradeModel.getCourseGroupId(), gradeModel.getAssignmentId());
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject = new JSONObject(gradeModel.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, jsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
                 responseListener.onSuccess(response);
             }
 

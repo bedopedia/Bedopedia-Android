@@ -3,12 +3,15 @@ package trianglz.core.views;
 import android.content.Context;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import trianglz.core.presenters.AssignmentGradingPresenter;
 import trianglz.managers.api.ArrayResponseListener;
+import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.PostAssignmentGradeModel;
 import trianglz.models.StudentAssignmentSubmission;
 import trianglz.models.StudentSubmissions;
 
@@ -35,6 +38,22 @@ public class AssignmentGradingView {
             @Override
             public void onFailure(String message, int errorCode) {
                 assignmentGradingPresenter.onGetAssignmentSubmissionsFailure(message, errorCode);
+            }
+        });
+    }
+
+    public void postAssignmentGrade(PostAssignmentGradeModel gradeModel) {
+        UserManager.postAssignmentGrade(gradeModel, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                System.out.println("success");
+                System.out.println("success");
+                System.out.println("success");
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+
             }
         });
     }

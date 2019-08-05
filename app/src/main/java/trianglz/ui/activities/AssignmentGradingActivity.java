@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import trianglz.components.GradeFeedbackDialog;
 import trianglz.core.presenters.AssignmentGradingPresenter;
 import trianglz.core.views.AssignmentGradingView;
+import trianglz.models.PostAssignmentGradeModel;
 import trianglz.models.StudentAssignmentSubmission;
 import trianglz.ui.adapters.StudentAssignmentGradeAdapter;
 import trianglz.utils.Constants;
@@ -79,6 +80,12 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
     @Override
     public void onSubmitClicked(String grade, String feedBack) {
         gradeFeedbackDialog.dismiss();
+        PostAssignmentGradeModel gradeModel = new PostAssignmentGradeModel();
+        gradeModel.setAssignmentId(assignmentId);
+        gradeModel.setCourseGroupId(courseGroupId);
+        gradeModel.setCourseId(courseId);
+        gradeModel.setGrade(Double.valueOf(grade));
+//        assignmentGradingView.postAssignmentGrade();
     }
 
     @Override
@@ -100,5 +107,15 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
     public void onGetAssignmentSubmissionsFailure(String message, int errorCode) {
         if (progress.isShowing()) progress.dismiss();
         Toast.makeText(this, "failure", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPostAssignmentGradeSuccess() {
+
+    }
+
+    @Override
+    public void onPostAssignmentGradeFailure(String message, int errorCode) {
+
     }
 }
