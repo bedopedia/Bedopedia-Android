@@ -49,20 +49,15 @@ public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentA
         final StudentAssignmentSubmission submission = mDataList.get(position);
         IImageLoader imageLoader = new PicassoLoader();
         imageLoader.loadImage(holder.studentAvatar, new AvatarPlaceholderModified(submission.getStudentName()), "Path of Image");
-//        if (studentName == null || studentName.equals("") || studentName.isEmpty()) {
-//            studentAvatar.setVisibility(View.INVISIBLE);
-//        }
 
         if (submission.getFeedback() != null) {
             holder.studentGrade.setText(Double.toString(submission.getGrade()));
             holder.studentFeedback.setText(submission.getFeedback().getContent());
         }
         holder.studentName.setText(submission.getStudentName());
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                studentGradeInterface.onGradeButtonClick(holder.studentGrade.getText().toString(), holder.studentFeedback.getText().toString());
-            }
+        holder.parentLayout.setOnClickListener(view -> {
+            studentGradeInterface.onGradeButtonClick(Double.toString(submission.getGrade()), holder.studentFeedback.getText().toString());
+
         });
         holder.downloadAssignmnentBtn.setOnClickListener(new View.OnClickListener() {
             @Override

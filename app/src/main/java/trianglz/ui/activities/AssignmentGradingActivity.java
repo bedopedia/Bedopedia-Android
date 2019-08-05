@@ -17,9 +17,7 @@ import trianglz.components.GradeFeedbackDialog;
 import trianglz.core.presenters.AssignmentGradingPresenter;
 import trianglz.core.views.AssignmentGradingView;
 import trianglz.models.StudentAssignmentSubmission;
-import trianglz.models.StudentSubmissions;
 import trianglz.ui.adapters.StudentAssignmentGradeAdapter;
-import trianglz.ui.adapters.TeacherCoursesAdapter;
 import trianglz.utils.Constants;
 
 public class AssignmentGradingActivity extends SuperActivity implements View.OnClickListener, StudentAssignmentGradeAdapter.StudentGradeInterface, GradeFeedbackDialog.GradeDialogInterface, AssignmentGradingPresenter {
@@ -65,7 +63,7 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
 
     @Override
     public void onGradeButtonClick(String grade, String feedback) {
-        gradeFeedbackDialog = new GradeFeedbackDialog(this, R.style.GradeDialog, this, grade, feedback, this);
+        gradeFeedbackDialog = new GradeFeedbackDialog(this, R.style.GradeDialog, this, grade, feedback);
         gradeFeedbackDialog.show();
 
     }
@@ -79,7 +77,7 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
 
 
     @Override
-    public void onSubmitClicked() {
+    public void onSubmitClicked(String grade, String feedBack) {
         gradeFeedbackDialog.dismiss();
     }
 
