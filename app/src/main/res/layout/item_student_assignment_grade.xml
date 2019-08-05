@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical"
     android:paddingTop="16dp"
     android:id="@+id/parent_layout">
@@ -75,7 +76,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
+            android:maxLines="1"
             android:gravity="start"
+            android:layout_marginEnd="4dp"
+            android:ellipsize="end"
             android:hint="@string/not_set"
             android:textColor="@color/black_87"
             android:textSize="14sp" />
@@ -99,6 +103,9 @@
             android:id="@+id/student_feedback_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:layout_marginEnd="4dp"
+            android:ellipsize="end"
             android:background="@color/transparent"
             android:hint="@string/no_feedback"
             android:textColor="@color/black_87"
