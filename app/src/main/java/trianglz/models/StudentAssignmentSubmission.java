@@ -5,7 +5,6 @@ package trianglz.models;//
 //  Created on August 05, 2019
 //
 
-import java.util.*;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,7 +24,7 @@ public class StudentAssignmentSubmission {
 	@SerializedName("graded")
 	private boolean graded;
 	@SerializedName("grade")
-	private int grade;
+	private double grade;
 	@SerializedName("assignment_id")
 	private int assignmentId;
 	@SerializedName("course_group_id")
@@ -95,11 +94,11 @@ public class StudentAssignmentSubmission {
 		return this.graded;
 	}
 
-	public void setGrade(int grade) {
+	public void setGrade(double grade) {
 		this.grade = grade;
 	}
 
-	public int getGrade() {
+	public double getGrade() {
 		return this.grade;
 	}
 
