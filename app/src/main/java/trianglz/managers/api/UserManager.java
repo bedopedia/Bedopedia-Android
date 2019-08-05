@@ -624,4 +624,22 @@ public class UserManager {
         });
 
     }
+
+    public static void getAssignmentSubmissions(int courseId, int courseGroupId, int assignmentId, final ArrayResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() +
+                ApiEndPoints.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String,String> paramsHashMap = new HashMap<>();
+        NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
 }
