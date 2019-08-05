@@ -11,9 +11,13 @@ import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
 
+import java.util.ArrayList;
+
 import trianglz.components.GradeFeedbackDialog;
 import trianglz.core.presenters.AssignmentGradingPresenter;
 import trianglz.core.views.AssignmentGradingView;
+import trianglz.models.StudentAssignmentSubmission;
+import trianglz.models.StudentSubmissions;
 import trianglz.ui.adapters.StudentAssignmentGradeAdapter;
 import trianglz.utils.Constants;
 
@@ -87,7 +91,7 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
     }
 
     @Override
-    public void onGetAssignmentSubmissionsSuccess() {
+    public void onGetAssignmentSubmissionsSuccess(ArrayList<StudentAssignmentSubmission> submissions) {
         if (progress.isShowing()) progress.dismiss();
         Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
     }
