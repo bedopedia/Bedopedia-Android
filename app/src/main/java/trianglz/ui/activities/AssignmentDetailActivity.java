@@ -27,6 +27,7 @@ import trianglz.core.presenters.AssignmentsDetailPresenter;
 import trianglz.core.views.AssignmentsDetailView;
 import trianglz.managers.SessionManager;
 import trianglz.models.AssignmentsDetail;
+import trianglz.models.CourseGroups;
 import trianglz.models.Student;
 import trianglz.ui.adapters.AssignmentDetailAdapter;
 import trianglz.utils.Constants;
@@ -48,6 +49,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
     private int courseId;
     private String studentName;
     boolean isStudent, isParent;
+    private CourseGroups courseGroups;
 
 
     @Override
@@ -64,7 +66,12 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
         isParent = SessionManager.getInstance().getUserType();
         student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
         assignmentsDetailArrayList = (ArrayList<AssignmentsDetail>) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ASSIGNMENTS);
-        courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
+        courseGroups = CourseGroups.create(getIntent().getStringExtra(Constants.KEY_COURSE_GROUPS));
+        if (courseGroups != null) {
+            courseName = courseGroups.getCourseName();
+        } else {
+            courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
+        }
         courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0);
         studentName = getIntent().getStringExtra(Constants.KEY_STUDENT_NAME);
     }
@@ -153,6 +160,9 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, AssignmentGradingActivity.class);
+            intent.putExtra(Constants.KEY_COURSE_ID, courseId);
+            intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroups.getId());
+            intent.putExtra(Constants.KEY_ASSIGNMENT_ID, assignmentsDetail.getId());
             startActivity(intent);
         }
     }
