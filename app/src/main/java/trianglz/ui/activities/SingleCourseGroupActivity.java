@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
 
@@ -152,7 +151,6 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
         intent.putExtra(Constants.KEY_QUIZZES,quizzes);
         startActivity(intent);
     }
-
     @Override
     public void onGetTeacherQuizzesFailure(String message, int errorCode) {
         if (progress.isShowing()) progress.hide();

@@ -149,6 +149,13 @@
     <string name="you_will_be_able_to_solve_the_quiz_when_it_starts">سوف تستطيع حل الإختبار عندما يبدأ موعده</string>
     <string name="closed">منتهية</string>
     <string name="grade_is">الدرجة</string>
+    <string name="grade">الدرجة</string>
+    <string name="feedback">التعليقات</string>
+    <string name="submit">إرسال</string>
+    <string name="enter_grade">إدخل النتيجة</string>
+    <string name="write_a_feedback">إدخل التعليقات</string>
+    <string name="not_set">Not set</string>
+    <string name="no_feedback">No feedback</string>
     <string name="courses">المواد</string>
 
 </resources>

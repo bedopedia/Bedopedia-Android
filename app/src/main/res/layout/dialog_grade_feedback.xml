@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:background="@color/transparent"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingStart="22dp"
+    android:paddingEnd="22dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/curved_solid_white"
+        android:orientation="vertical"
+        android:paddingStart="22dp"
+        android:paddingTop="80dp"
+        android:paddingEnd="22dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/grade"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/student_grade_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/curved_cool_grey"
+            android:hint="@string/enter_grade"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:maxLines="1"
+            android:paddingStart="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/feedback"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/student_feedback_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="104dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/curved_cool_grey"
+            android:gravity="start"
+            android:hint="@string/write_a_feedback"
+            android:imeOptions="actionDone"
+            android:inputType="textMultiLine"
+            android:maxHeight="104dp"
+            android:paddingStart="12dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="8dp" />
+
+        <Button
+            android:id="@+id/submit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="86dp"
+            android:layout_marginEnd="86dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/curved_solid_cerulean_blue"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerInside"
+        android:src="@drawable/path" />
+</FrameLayout>
