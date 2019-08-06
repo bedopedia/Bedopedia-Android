@@ -126,8 +126,8 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     }
 
     @Override
-    public void onPostAssignmentGradeSuccess() {
-        if (progress.isShowing()) progress.dismiss();
+    public void onPostAssignmentGradeSuccess(StudentSubmission studentSubmission) {
+        gradingView.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
     }
 
     @Override

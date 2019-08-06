@@ -8,7 +8,7 @@ public interface GradingPresenter {
     void onGetAssignmentSubmissionsSuccess(ArrayList<StudentSubmission> submissions);
     void onGetAssignmentSubmissionsFailure(String message, int errorCode);
 
-    void onPostAssignmentGradeSuccess();
+    void onPostAssignmentGradeSuccess(StudentSubmission studentSubmission);
     void onPostAssignmentGradeFailure(String message, int errorCode);
 
     void onGetQuizzesSubmissionsSuccess(ArrayList<StudentSubmission> studentSubmissions);

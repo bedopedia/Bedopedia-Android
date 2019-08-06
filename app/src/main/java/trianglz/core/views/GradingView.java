@@ -45,7 +45,7 @@ public class GradingView {
         UserManager.postAssignmentGrade(gradeModel, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                gradingPresenter.onPostAssignmentGradeSuccess();
+                gradingPresenter.onPostAssignmentGradeSuccess(StudentSubmission.create(response.toString()));
             }
 
             @Override
