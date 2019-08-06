@@ -1,5 +1,5 @@
 package trianglz.models;//
-//  StudentAssignmentSubmission.java
+//  StudentSubmission.java
 //
 //  Generated using https://jsonmaster.github.io
 //  Created on August 05, 2019
@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class StudentAssignmentSubmission {
+public class StudentSubmission {
 
 	@SerializedName("student_name")
 	private String studentName;
@@ -45,6 +45,14 @@ public class StudentAssignmentSubmission {
 	private int gradeView;
 	@SerializedName("is_hidden")
 	private boolean isHidden;
+
+	// quizzes submissions new fields
+	@SerializedName("score")
+	private int score;
+	@SerializedName("student_avatar_url")
+	private String studentAvatarUrl;
+	@SerializedName("is_submitted")
+	private boolean isSubmitted;
 
 	public void setStudentName(String studentName) {
 		this.studentName = studentName;
@@ -182,10 +190,45 @@ public class StudentAssignmentSubmission {
 		return this.isHidden;
 	}
 
+	public boolean isGraded() {
+		return graded;
+	}
 
-	public static StudentAssignmentSubmission create(String json) {
+	public boolean isHidden() {
+		return isHidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		isHidden = hidden;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public String getStudentAvatarUrl() {
+		return studentAvatarUrl;
+	}
+
+	public void setStudentAvatarUrl(String studentAvatarUrl) {
+		this.studentAvatarUrl = studentAvatarUrl;
+	}
+
+	public boolean isSubmitted() {
+		return isSubmitted;
+	}
+
+	public void setSubmitted(boolean submitted) {
+		isSubmitted = submitted;
+	}
+
+	public static StudentSubmission create(String json) {
 		Gson gson = new GsonBuilder().create();
-		return gson.fromJson(json, StudentAssignmentSubmission.class);
+		return gson.fromJson(json, StudentSubmission.class);
 	}
 
 	public String toString() {

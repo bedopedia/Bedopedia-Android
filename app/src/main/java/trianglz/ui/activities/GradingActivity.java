@@ -17,7 +17,7 @@ import trianglz.components.GradeFeedbackDialog;
 import trianglz.core.presenters.GradingPresenter;
 import trianglz.core.views.GradingView;
 import trianglz.models.PostAssignmentGradeModel;
-import trianglz.models.StudentAssignmentSubmission;
+import trianglz.models.StudentSubmission;
 import trianglz.ui.adapters.StudentAssignmentGradeAdapter;
 import trianglz.utils.Constants;
 
@@ -115,7 +115,7 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     }
 
     @Override
-    public void onGetAssignmentSubmissionsSuccess(ArrayList<StudentAssignmentSubmission> submissions) {
+    public void onGetAssignmentSubmissionsSuccess(ArrayList<StudentSubmission> submissions) {
         if (progress.isShowing()) progress.dismiss();
         adapter.addData(submissions);
     }

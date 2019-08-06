@@ -19,7 +19,7 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
-import trianglz.models.StudentAssignmentSubmission;
+import trianglz.models.StudentSubmission;
 
 /**
  * Created by Farah A. Moniem on 04/08/2019.
@@ -28,7 +28,7 @@ public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentA
 
     Context context;
     StudentGradeInterface studentGradeInterface;
-    ArrayList<StudentAssignmentSubmission> mDataList;
+    ArrayList<StudentSubmission> mDataList;
 
     public StudentAssignmentGradeAdapter(Context context, StudentGradeInterface studentGradeInterface) {
         this.context = context;
@@ -46,7 +46,7 @@ public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentA
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        final StudentAssignmentSubmission submission = mDataList.get(position);
+        final StudentSubmission submission = mDataList.get(position);
         IImageLoader imageLoader = new PicassoLoader();
         imageLoader.loadImage(holder.studentAvatar, new AvatarPlaceholderModified(submission.getStudentName()), "Path of Image");
 
@@ -72,9 +72,9 @@ public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentA
     public int getItemCount() {
         return mDataList.size();
     }
-    public void addData(ArrayList<StudentAssignmentSubmission> studentAssignmentSubmissions) {
+    public void addData(ArrayList<StudentSubmission> studentSubmissions) {
         this.mDataList.clear();
-        if(studentAssignmentSubmissions != null) this.mDataList.addAll(studentAssignmentSubmissions);
+        if(studentSubmissions != null) this.mDataList.addAll(studentSubmissions);
         notifyDataSetChanged();
     }
 
