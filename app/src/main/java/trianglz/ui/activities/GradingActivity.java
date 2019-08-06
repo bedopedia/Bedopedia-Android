@@ -99,7 +99,6 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
         gradeModel.setCourseGroupId(courseGroupId);
         gradeModel.setCourseId(courseId);
         gradeModel.setStudentId(studentId);
-        gradeModel.setStudentStatus("Presenting");
         gradeModel.setGrade(Double.valueOf(grade));
         showLoadingDialog();
         gradingView.postAssignmentGrade(gradeModel);

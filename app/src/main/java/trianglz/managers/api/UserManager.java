@@ -667,6 +667,7 @@ public class UserManager {
                 ApiEndPoints.postAssignmentGrade(gradeModel.getCourseId(),
                         gradeModel.getCourseGroupId(), gradeModel.getAssignmentId());
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        headerHashMap.put("Accept", "application/vnd.skolera.v1");
         String header = Util.convertHeaderMapToBulk(headerHashMap);
         JSONObject jsonObject = new JSONObject();
         try {
