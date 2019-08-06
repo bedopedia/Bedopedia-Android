@@ -479,6 +479,24 @@ public class UserManager {
         });
     }
 
+    public static void getQuizzesSubmissions(int quizId, final ArrayResponseListener arrayResponseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizzesSubmissions(quizId);
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String, String> params = new HashMap<>();
+        String headers = Util.convertHeaderMapToBulk(headerHashMap);
+        NetworkManager.getJsonArray(url, params, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                arrayResponseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                arrayResponseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
     public static void sendImage(String url, String fileName, URI uri, final ResponseListener responseListener ) {
         HashMap<String, String> headersValues = SessionManager.getInstance().getHeaderHashMap();
         File image = new File(uri);

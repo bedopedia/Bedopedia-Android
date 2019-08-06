@@ -54,4 +54,18 @@ public class GradingView {
             }
         });
     }
+
+    public void getQuizzesSubmissions(int quizId) {
+        UserManager.getQuizzesSubmissions(quizId, new ArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray responseArray) {
+
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+
+            }
+        });
+    }
 }

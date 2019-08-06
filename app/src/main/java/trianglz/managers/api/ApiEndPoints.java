@@ -55,6 +55,10 @@ public class ApiEndPoints {
         return url;
     }
 
+    public static String getQuizzesSubmissions(int quizId) {
+        return "/api/quizzes/" + quizId + "/quiz_submissions";
+    }
+
     public static String postsApi(int id) {
         return  "/api/students/"+ id +"/course_groups_recent_posts";
     }

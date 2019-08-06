@@ -121,4 +121,14 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     public void onPostAssignmentGradeFailure(String message, int errorCode) {
         if (progress.isShowing()) progress.dismiss();
     }
+
+    @Override
+    public void onGetQuizzesSubmissionsSuccess() {
+
+    }
+
+    @Override
+    public void onGetQuizzesSubmissionsFailure(String message, int errorCode) {
+
+    }
 }
