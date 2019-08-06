@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -455,6 +456,28 @@ public class Util {
         return formattedDay;
     }
 
+    /**
+     * Used instead of copying header hashMap's keys and values manually
+     * @param hashMap user headers hash map
+     * @return the headers but as bulk string
+     */
+    public static String convertHeaderMapToBulk(HashMap<String, String> hashMap) {
+        return  "uid:" +
+                " " +
+                hashMap.get("uid") +
+                "\n" +
+                "token-type:" +
+                " " +
+                hashMap.get("token-type") +
+                "\n" +
+                "client:" +
+                " " +
+                hashMap.get("client") +
+                "\n" +
+                "access-token:" +
+                " " +
+                hashMap.get("access-token");
+    }
 
     public static String getAssigmentDetailEndDateMonth(String endDate,Context context){
         if(endDate == null || endDate.isEmpty()){
