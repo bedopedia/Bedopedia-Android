@@ -1,6 +1,7 @@
 package trianglz.ui.activities;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -9,11 +10,17 @@ import android.widget.LinearLayout;
 
 import com.skolera.skolera_android.R;
 
-public class CreateTeacherPostActivity extends SuperActivity implements View.OnClickListener {
+import trianglz.components.TopItemDecoration;
+import trianglz.ui.adapters.AttachmentAdapter;
+import trianglz.utils.Util;
+
+public class CreateTeacherPostActivity extends SuperActivity implements View.OnClickListener, AttachmentAdapter.AttachmentAdapterInterface {
     private Button uploadBtn, postBtn;
-    ImageButton closeBtn;
+    private ImageButton closeBtn;
     RecyclerView recyclerView;
     private LinearLayout attachmentLayout;
+    private AttachmentAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +35,11 @@ public class CreateTeacherPostActivity extends SuperActivity implements View.OnC
         postBtn = findViewById(R.id.post_btn);
         closeBtn = findViewById(R.id.close_btn);
         attachmentLayout = findViewById(R.id.attachment_layout);
+        recyclerView = findViewById(R.id.recycler_view);
+        adapter = new AttachmentAdapter(this, this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16,this),false));
     }
 
     private void setListeners() {
@@ -44,5 +56,10 @@ public class CreateTeacherPostActivity extends SuperActivity implements View.OnC
                 onBackPressed();
                 break;
         }
+    }
+
+    @Override
+    public void onAttachmentClicked(String fileUrl) {
+
     }
 }
