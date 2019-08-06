@@ -197,4 +197,10 @@ public class Constants {
     public static final String AVATAR = "avatar";
     public static final String DISABLE_CLICK = "disable_click";
     public static final String KEY_COURSE_GROUP_NAME = "course_group_name";
+    public static final String KEY_POSTABLE_TYPE = "postable_type";
+    public static final String KEY_POSTABLE_ID = "postable_id";
+    public static final String KEY_VIDEO_PREVIEW = "video_preview";
+    public static final String KEY_VIDEO_URL = "videoURL";
+    public static final String KEY_POST = "post";
+
 }

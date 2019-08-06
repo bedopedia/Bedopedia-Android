@@ -104,7 +104,7 @@ public class ApiEndPoints {
     }
 
     public static String createPostCourseGroup() {
-        return "api/posts/create_for_course_groups";
+        return "/api/posts";
     }
 
 }

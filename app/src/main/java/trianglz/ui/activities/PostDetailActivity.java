@@ -27,6 +27,8 @@ import trianglz.utils.Util;
 
 public class PostDetailActivity extends SuperActivity implements PostDetailsPresenter, View.OnClickListener, PostDetailsAdapter.PostDetailsInterface {
 
+    private int courseId, courseGroupId;
+    private String courseName;
     private RecyclerView recyclerView;
     private PostDetailsView postDetailsView;
     private Toolbar toolbar;
@@ -34,12 +36,13 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     private PostDetailsAdapter adapter;
     private String subjectName;
     private FloatingActionButton addPostFab;
-    private boolean isStudent,isParent;
+    private boolean isStudent, isParent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
+        getValuesFromIntent();
         bindViews();
         setListeners();
     }
@@ -53,13 +56,13 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
         super.onResume();
         showLoadingDialog();
         //todo gets only the student post not course group posts for teacher
-        postDetailsView.getPostDetails(getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0));
+        postDetailsView.getPostDetails(courseId);
     }
 
     private void bindViews() {
         isStudent = SessionManager.getInstance().getStudentAccount();
         isParent = SessionManager.getInstance().getUserType();
-        addPostFab=findViewById(R.id.add_post_btn);
+        addPostFab = findViewById(R.id.add_post_btn);
         recyclerView = findViewById(R.id.recycler_view);
         postDetailsView = new PostDetailsView(this, this);
         toolbar = findViewById(R.id.toolbar);
@@ -69,17 +72,16 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
                 onBackPressed();
             }
         });
-        if (!isStudent &&!isParent){
+        if (!isStudent && !isParent) {
             addPostFab.setVisibility(View.VISIBLE);
         }
         courseNameTextView = findViewById(R.id.tv_course_name);
-        subjectName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
-        courseNameTextView.setText(subjectName);
+        courseNameTextView.setText(courseName);
         adapter = new PostDetailsAdapter(this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16,this),false));
-        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(16,this),false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16, this), false));
+        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(16, this), false));
     }
 
     @Override
@@ -101,7 +103,8 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
         for (UploadedObject uploadedObject : uploadedObjects) {
             uploadedObjectStrings.add(uploadedObject.toString());
         }
-        if (!uploadedObjectStrings.isEmpty()) bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
+        if (!uploadedObjectStrings.isEmpty())
+            bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
         intent.putExtra(Constants.KEY_COURSE_NAME, subjectName);
         startActivity(intent);
@@ -117,15 +120,23 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.add_post_btn:
                 openCreatePostActivity();
                 break;
         }
     }
 
+    private void getValuesFromIntent() {
+        subjectName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
+        courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0);
+        courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
+        courseGroupId = getIntent().getIntExtra(Constants.KEY_COURSE_GROUP_ID,0);
+    }
+
     private void openCreatePostActivity() {
         Intent intent = new Intent(this, CreateTeacherPostActivity.class);
+        intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroupId);
         startActivity(intent);
     }
 }
