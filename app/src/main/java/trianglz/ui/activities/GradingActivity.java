@@ -27,25 +27,39 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     private ImageButton backBtn;
     private GradeFeedbackDialog gradeFeedbackDialog;
     private GradingView gradingView;
-    private int courseId, courseGroupId, assignmentId;
+    private int courseId, courseGroupId, assignmentId, quizId;
+    private boolean isAssignmentsGrading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assignment_grading);
-        onBindView();
         getValueFromIntent();
+        onBindView();
         setListeners();
-        if (courseId != -1 && courseGroupId != -1 && assignmentId != -1) {
-            showLoadingDialog();
-            gradingView.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
+        if (isAssignmentsGrading) {
+            if (courseId != -1 && courseGroupId != -1 && assignmentId != -1) {
+                showLoadingDialog();
+                gradingView.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
+            }
+        } else {
+            if (quizId != -1) {
+                showLoadingDialog();
+                gradingView.getQuizzesSubmissions(quizId);
+            }
+
         }
     }
 
     private void getValueFromIntent() {
-        courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, -1);
-        courseGroupId = getIntent().getIntExtra(Constants.KEY_COURSE_GROUP_ID, -1);
-        assignmentId = getIntent().getIntExtra(Constants.KEY_ASSIGNMENT_ID, -1);
+        isAssignmentsGrading = getIntent().getBooleanExtra(Constants.KEY_ASSIGNMENTS_GRADING, true);
+        if (isAssignmentsGrading) {
+            courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, -1);
+            courseGroupId = getIntent().getIntExtra(Constants.KEY_COURSE_GROUP_ID, -1);
+            assignmentId = getIntent().getIntExtra(Constants.KEY_ASSIGNMENT_ID, -1);
+        } else {
+            quizId = getIntent().getIntExtra(Constants.KEY_QUIZ_ID, -1);
+        }
     }
 
     void onBindView() {
@@ -124,11 +138,12 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
 
     @Override
     public void onGetQuizzesSubmissionsSuccess() {
-
+        if (progress.isShowing()) progress.dismiss();
     }
 
     @Override
     public void onGetQuizzesSubmissionsFailure(String message, int errorCode) {
+        if (progress.isShowing()) progress.dismiss();
 
     }
 }

@@ -209,6 +209,11 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
             intent.putExtra(Constants.KEY_QUIZZES, quizzes.toString());
             intent.putExtra(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
             startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, GradingActivity.class);
+            intent.putExtra(Constants.KEY_QUIZ_ID, quizzes.getId());
+            intent.putExtra(Constants.KEY_ASSIGNMENTS_GRADING, false);
+            startActivity(intent);
         }
     }
 }

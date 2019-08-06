@@ -59,12 +59,12 @@ public class GradingView {
         UserManager.getQuizzesSubmissions(quizId, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray responseArray) {
-
+                gradingPresenter.onGetQuizzesSubmissionsSuccess();
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-
+                gradingPresenter.onGetQuizzesSubmissionsFailure(message, errorCode);
             }
         });
     }
