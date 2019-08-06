@@ -25,7 +25,7 @@ import trianglz.ui.adapters.PostDetailsAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class PostDetailActivity extends SuperActivity implements PostDetailsPresenter, PostDetailsAdapter.PostDetailsInterface {
+public class PostDetailActivity extends SuperActivity implements PostDetailsPresenter, View.OnClickListener, PostDetailsAdapter.PostDetailsInterface {
 
     private RecyclerView recyclerView;
     private PostDetailsView postDetailsView;
@@ -41,6 +41,11 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
         bindViews();
+        setListeners();
+    }
+
+    private void setListeners() {
+        addPostFab.setOnClickListener(this);
     }
 
     @Override
@@ -107,6 +112,20 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
         Intent intent = new Intent(this, PostReplyActivity.class);
         intent.putExtra(Constants.KEY_COURSE_NAME, subjectName);
         intent.putExtra(Constants.POST_DETAILS, postDetails.toString());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.add_post_btn:
+                openCreatePostActivity();
+                break;
+        }
+    }
+
+    private void openCreatePostActivity() {
+        Intent intent = new Intent(this, CreateTeacherPostActivity.class);
         startActivity(intent);
     }
 }

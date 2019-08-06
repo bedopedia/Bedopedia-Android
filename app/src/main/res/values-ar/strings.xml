@@ -157,5 +157,12 @@
     <string name="not_set">Not set</string>
     <string name="no_feedback">No feedback</string>
     <string name="courses">المواد</string>
-
+    <string name="create_post">Create post</string>
+    <string name="create_a_post_and_share">Create a post and share it with classes</string>
+    <string name="content">Content</string>
+    <string name="text_editor_hint">This is a text editor. Add and edit as you wish.</string>
+    <string name="attachments">Attachments</string>
+    <string name="add_attachment">Start adding your attachment</string>
+    <string name="clicking_button">By clicking the add button you will add a new attachment.</string>
+    <string name="post">Post</string>
 </resources>
