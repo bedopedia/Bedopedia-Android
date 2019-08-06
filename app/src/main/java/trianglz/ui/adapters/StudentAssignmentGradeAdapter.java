@@ -29,6 +29,7 @@ public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentA
     Context context;
     StudentGradeInterface studentGradeInterface;
     ArrayList<StudentSubmission> mDataList;
+    private boolean isQuizzes = false;
 
     public StudentAssignmentGradeAdapter(Context context, StudentGradeInterface studentGradeInterface) {
         this.context = context;
@@ -48,24 +49,47 @@ public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentA
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final StudentSubmission submission = mDataList.get(position);
         IImageLoader imageLoader = new PicassoLoader();
-        imageLoader.loadImage(holder.studentAvatar, new AvatarPlaceholderModified(submission.getStudentName()), "Path of Image");
+        if (!isQuizzes) {
+            imageLoader.loadImage(holder.studentAvatar, new AvatarPlaceholderModified(submission.getStudentName()), "Path of Image");
 
-        if (submission.getFeedback() != null) {
-            holder.studentGrade.setText(Double.toString(submission.getGrade()));
-            holder.studentFeedback.setText(submission.getFeedback().getContent());
-        }
-        holder.studentName.setText(submission.getStudentName());
-        holder.itemView.setOnClickListener(view -> {
-            studentGradeInterface.onGradeButtonClick(Double.toString(submission.getGrade())
-                    , holder.studentFeedback.getText().toString(),submission.getStudentId());
 
-        });
-        holder.downloadAssignmnentBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                studentGradeInterface.onDownloadButtonClick();
+            if (submission.getFeedback() != null) {
+                holder.studentFeedback.setText(submission.getFeedback().getContent());
             }
-        });
+            holder.studentGrade.setText(Double.toString(submission.getGrade()));
+            holder.studentName.setText(submission.getStudentName());
+            holder.itemView.setOnClickListener(view -> {
+                studentGradeInterface.onGradeButtonClick(Double.toString(submission.getGrade())
+                        , holder.studentFeedback.getText().toString(), submission.getStudentId());
+
+            });
+            holder.downloadAssignmnentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    studentGradeInterface.onDownloadButtonClick();
+                }
+            });
+        } else {
+            imageLoader.loadImage(holder.studentAvatar, new AvatarPlaceholderModified(submission.getStudentName()), "Path of Image");
+
+
+            if (submission.getFeedback() != null) {
+                holder.studentFeedback.setText(submission.getFeedback().getContent());
+            }
+            holder.studentGrade.setText(Double.toString(submission.getScore()));
+            holder.studentName.setText(submission.getStudentName());
+            holder.itemView.setOnClickListener(view -> {
+                studentGradeInterface.onGradeButtonClick(Double.toString(submission.getGrade())
+                        , holder.studentFeedback.getText().toString(), submission.getStudentId());
+
+            });
+            holder.downloadAssignmnentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    studentGradeInterface.onDownloadButtonClick();
+                }
+            });
+        }
     }
 
     @Override
@@ -76,6 +100,10 @@ public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentA
         this.mDataList.clear();
         if(studentSubmissions != null) this.mDataList.addAll(studentSubmissions);
         notifyDataSetChanged();
+    }
+
+    public void setIsQuizzes() {
+        this.isQuizzes = true;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

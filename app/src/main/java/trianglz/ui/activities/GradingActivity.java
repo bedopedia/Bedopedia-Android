@@ -137,8 +137,10 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     }
 
     @Override
-    public void onGetQuizzesSubmissionsSuccess() {
+    public void onGetQuizzesSubmissionsSuccess(ArrayList<StudentSubmission> studentSubmissions) {
         if (progress.isShowing()) progress.dismiss();
+        adapter.setIsQuizzes();
+        adapter.addData(studentSubmissions);
     }
 
     @Override

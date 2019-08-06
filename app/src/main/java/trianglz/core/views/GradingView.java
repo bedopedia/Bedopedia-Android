@@ -59,7 +59,11 @@ public class GradingView {
         UserManager.getQuizzesSubmissions(quizId, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray responseArray) {
-                gradingPresenter.onGetQuizzesSubmissionsSuccess();
+                ArrayList<StudentSubmission> studentSubmissions = new ArrayList<>();
+                for (int i = 0; i < responseArray.length(); i++) {
+                    studentSubmissions.add(StudentSubmission.create(responseArray.opt(i).toString()));
+                }
+                gradingPresenter.onGetQuizzesSubmissionsSuccess(studentSubmissions);
             }
 
             @Override

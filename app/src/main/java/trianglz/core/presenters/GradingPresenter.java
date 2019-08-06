@@ -11,6 +11,6 @@ public interface GradingPresenter {
     void onPostAssignmentGradeSuccess();
     void onPostAssignmentGradeFailure(String message, int errorCode);
 
-    void onGetQuizzesSubmissionsSuccess();
+    void onGetQuizzesSubmissionsSuccess(ArrayList<StudentSubmission> studentSubmissions);
     void onGetQuizzesSubmissionsFailure(String message, int errorCode);
 }

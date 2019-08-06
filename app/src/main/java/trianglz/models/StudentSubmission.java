@@ -48,7 +48,7 @@ public class StudentSubmission {
 
 	// quizzes submissions new fields
 	@SerializedName("score")
-	private int score;
+	private double score;
 	@SerializedName("student_avatar_url")
 	private String studentAvatarUrl;
 	@SerializedName("is_submitted")
@@ -202,11 +202,11 @@ public class StudentSubmission {
 		isHidden = hidden;
 	}
 
-	public int getScore() {
+	public double getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(double score) {
 		this.score = score;
 	}
 
