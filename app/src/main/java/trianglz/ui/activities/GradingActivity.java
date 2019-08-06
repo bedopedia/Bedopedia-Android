@@ -18,11 +18,11 @@ import trianglz.core.presenters.GradingPresenter;
 import trianglz.core.views.GradingView;
 import trianglz.models.PostAssignmentGradeModel;
 import trianglz.models.StudentSubmission;
-import trianglz.ui.adapters.StudentAssignmentGradeAdapter;
+import trianglz.ui.adapters.StudentGradeAdapter;
 import trianglz.utils.Constants;
 
-public class GradingActivity extends SuperActivity implements View.OnClickListener, StudentAssignmentGradeAdapter.StudentGradeInterface, GradeFeedbackDialog.GradeDialogInterface, GradingPresenter {
-    private StudentAssignmentGradeAdapter adapter;
+public class GradingActivity extends SuperActivity implements View.OnClickListener, StudentGradeAdapter.StudentGradeInterface, GradeFeedbackDialog.GradeDialogInterface, GradingPresenter {
+    private StudentGradeAdapter adapter;
     private RecyclerView recyclerView;
     private ImageButton backBtn;
     private GradeFeedbackDialog gradeFeedbackDialog;
@@ -67,7 +67,7 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL,false));
-        adapter = new StudentAssignmentGradeAdapter(this, this);
+        adapter = new StudentGradeAdapter(this, this);
         recyclerView.setAdapter(adapter);
         gradingView = new GradingView(this,this);
     }

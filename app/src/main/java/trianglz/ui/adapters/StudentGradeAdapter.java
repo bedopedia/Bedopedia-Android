@@ -24,14 +24,14 @@ import trianglz.models.StudentSubmission;
 /**
  * Created by Farah A. Moniem on 04/08/2019.
  */
-public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentAssignmentGradeAdapter.ViewHolder> {
+public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapter.ViewHolder> {
 
     Context context;
     StudentGradeInterface studentGradeInterface;
     ArrayList<StudentSubmission> mDataList;
     private boolean isQuizzes = false;
 
-    public StudentAssignmentGradeAdapter(Context context, StudentGradeInterface studentGradeInterface) {
+    public StudentGradeAdapter(Context context, StudentGradeInterface studentGradeInterface) {
         this.context = context;
         this.studentGradeInterface = studentGradeInterface;
         mDataList = new ArrayList<>();
@@ -41,7 +41,7 @@ public class StudentAssignmentGradeAdapter extends RecyclerView.Adapter<StudentA
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_student_assignment_grade, parent, false);
-        return new StudentAssignmentGradeAdapter.ViewHolder(view);
+        return new StudentGradeAdapter.ViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
