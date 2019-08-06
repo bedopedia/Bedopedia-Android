@@ -36,6 +36,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import Tools.CalendarUtils;
@@ -462,21 +463,11 @@ public class Util {
      * @return the headers but as bulk string
      */
     public static String convertHeaderMapToBulk(HashMap<String, String> hashMap) {
-        return  "uid:" +
-                " " +
-                hashMap.get("uid") +
-                "\n" +
-                "token-type:" +
-                " " +
-                hashMap.get("token-type") +
-                "\n" +
-                "client:" +
-                " " +
-                hashMap.get("client") +
-                "\n" +
-                "access-token:" +
-                " " +
-                hashMap.get("access-token");
+        StringBuilder headers = new StringBuilder();
+        for (Map.Entry<String, String> entry : hashMap.entrySet()) {
+            headers.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+        }
+        return headers.toString();
     }
 
     public static String getAssigmentDetailEndDateMonth(String endDate,Context context){
