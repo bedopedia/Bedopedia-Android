@@ -36,13 +36,13 @@ public class StudentSubmission {
 	@SerializedName("file_name")
 	private Object fileName;
 	@SerializedName("max_grade")
-	private int maxGrade;
+	private double maxGrade;
 	@SerializedName("answers")
 	private Object answers;
 	@SerializedName("old_grade")
-	private int oldGrade;
+	private double oldGrade;
 	@SerializedName("grade_view")
-	private int gradeView;
+	private double gradeView;
 	@SerializedName("is_hidden")
 	private boolean isHidden;
 
@@ -150,11 +150,11 @@ public class StudentSubmission {
 		return this.fileName;
 	}
 
-	public void setMaxGrade(int maxGrade) {
+	public void setMaxGrade(double maxGrade) {
 		this.maxGrade = maxGrade;
 	}
 
-	public int getMaxGrade() {
+	public double getMaxGrade() {
 		return this.maxGrade;
 	}
 
@@ -166,19 +166,19 @@ public class StudentSubmission {
 		return this.answers;
 	}
 
-	public void setOldGrade(int oldGrade) {
+	public void setOldGrade(double oldGrade) {
 		this.oldGrade = oldGrade;
 	}
 
-	public int getOldGrade() {
+	public double getOldGrade() {
 		return this.oldGrade;
 	}
 
-	public void setGradeView(int gradeView) {
+	public void setGradeView(double gradeView) {
 		this.gradeView = gradeView;
 	}
 
-	public int getGradeView() {
+	public double getGradeView() {
 		return this.gradeView;
 	}
 

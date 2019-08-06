@@ -38,9 +38,10 @@
             android:background="@drawable/curved_cool_grey"
             android:hint="@string/enter_grade"
             android:imeOptions="actionNext"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:maxLines="1"
-            android:paddingStart="12dp" />
+            android:paddingStart="12dp"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:layout_width="match_parent"
