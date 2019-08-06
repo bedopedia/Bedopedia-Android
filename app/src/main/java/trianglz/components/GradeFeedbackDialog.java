@@ -24,9 +24,10 @@ public class GradeFeedbackDialog extends Dialog implements DialogInterface.OnSho
     private Context context;
     private String grade, feedback;
     private GradeDialogInterface gradeDialogInterface;
+    private int studentId;
 
     public GradeFeedbackDialog(@NonNull Context context, @StyleRes
-            int theme, GradeDialogInterface gradeDialogInterface, String grade, String feedback) {
+            int theme, GradeDialogInterface gradeDialogInterface, String grade, String feedback, int studentId) {
         super(context, theme);
         View view = getLayoutInflater().inflate(R.layout.dialog_grade_feedback, null);
         setContentView(view);
@@ -34,6 +35,7 @@ public class GradeFeedbackDialog extends Dialog implements DialogInterface.OnSho
         this.feedback = feedback;
         this.gradeDialogInterface = gradeDialogInterface;
         this.context = context;
+        this.studentId = studentId;
     }
 
     @Override
@@ -81,7 +83,7 @@ public class GradeFeedbackDialog extends Dialog implements DialogInterface.OnSho
         if (v.getId() == R.id.submit_btn) {
             if (validate(studentGradeEditText.getText().toString())) {
                 gradeDialogInterface.onSubmitClicked(studentGradeEditText.getText().toString(),
-                        studentFeedbackEditText.getText().toString());
+                        studentFeedbackEditText.getText().toString(), studentId);
             } else {
                 studentGradeEditText.setBackgroundResource(R.drawable.curved_tomato);
             }
@@ -99,7 +101,7 @@ public class GradeFeedbackDialog extends Dialog implements DialogInterface.OnSho
     }
 
     public interface GradeDialogInterface {
-        void onSubmitClicked(String grade, String feedBack);
+        void onSubmitClicked(String grade, String feedBack, int studentId);
     }
 
     public boolean validate(String grade) {

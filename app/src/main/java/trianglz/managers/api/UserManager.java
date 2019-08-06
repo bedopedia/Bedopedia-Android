@@ -15,6 +15,7 @@ import trianglz.managers.network.HandleResponseListener;
 import trianglz.managers.network.NetworkManager;
 import trianglz.models.PostAssignmentGradeModel;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * Created by ${Aly} on 10/24/2018.
@@ -648,6 +649,7 @@ public class UserManager {
                 ApiEndPoints.postAssignmentGrade(gradeModel.getCourseId(),
                         gradeModel.getCourseGroupId(), gradeModel.getAssignmentId());
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        String header = Util.convertHeaderMapToBulk(headerHashMap);
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject = new JSONObject(gradeModel.toString());

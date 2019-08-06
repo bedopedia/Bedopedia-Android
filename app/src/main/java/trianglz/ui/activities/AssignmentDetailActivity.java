@@ -69,10 +69,12 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
         courseGroups = CourseGroups.create(getIntent().getStringExtra(Constants.KEY_COURSE_GROUPS));
         if (courseGroups != null) {
             courseName = courseGroups.getCourseName();
+            courseId = courseGroups.getCourseId();
         } else {
             courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
+            courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0);
         }
-        courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0);
+
         studentName = getIntent().getStringExtra(Constants.KEY_STUDENT_NAME);
     }
 

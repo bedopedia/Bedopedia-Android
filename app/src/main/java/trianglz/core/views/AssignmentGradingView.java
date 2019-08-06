@@ -46,14 +46,12 @@ public class AssignmentGradingView {
         UserManager.postAssignmentGrade(gradeModel, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                System.out.println("success");
-                System.out.println("success");
-                System.out.println("success");
+                assignmentGradingPresenter.onPostAssignmentGradeSuccess();
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-
+                assignmentGradingPresenter.onPostAssignmentGradeFailure(message, errorCode);
             }
         });
     }

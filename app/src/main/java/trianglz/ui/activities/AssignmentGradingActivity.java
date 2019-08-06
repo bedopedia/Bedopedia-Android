@@ -63,8 +63,8 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
     }
 
     @Override
-    public void onGradeButtonClick(String grade, String feedback) {
-        gradeFeedbackDialog = new GradeFeedbackDialog(this, R.style.GradeDialog, this, grade, feedback);
+    public void onGradeButtonClick(String grade, String feedback, int studentId) {
+        gradeFeedbackDialog = new GradeFeedbackDialog(this, R.style.GradeDialog, this, grade, feedback, studentId);
         gradeFeedbackDialog.show();
 
     }
@@ -78,14 +78,17 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
 
 
     @Override
-    public void onSubmitClicked(String grade, String feedBack) {
+    public void onSubmitClicked(String grade, String feedBack, int studentId) {
         gradeFeedbackDialog.dismiss();
         PostAssignmentGradeModel gradeModel = new PostAssignmentGradeModel();
         gradeModel.setAssignmentId(assignmentId);
         gradeModel.setCourseGroupId(courseGroupId);
         gradeModel.setCourseId(courseId);
+        gradeModel.setStudentId(studentId);
+        gradeModel.setStudentStatus("Presenting");
         gradeModel.setGrade(Double.valueOf(grade));
-//        assignmentGradingView.postAssignmentGrade();
+        showLoadingDialog();
+        assignmentGradingView.postAssignmentGrade(gradeModel);
     }
 
     @Override
@@ -111,11 +114,11 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
 
     @Override
     public void onPostAssignmentGradeSuccess() {
-
+        if (progress.isShowing()) progress.dismiss();
     }
 
     @Override
     public void onPostAssignmentGradeFailure(String message, int errorCode) {
-
+        if (progress.isShowing()) progress.dismiss();
     }
 }
