@@ -7,21 +7,20 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import trianglz.core.presenters.AssignmentGradingPresenter;
+import trianglz.core.presenters.GradingPresenter;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.PostAssignmentGradeModel;
 import trianglz.models.StudentAssignmentSubmission;
-import trianglz.models.StudentSubmissions;
 
-public class AssignmentGradingView {
+public class GradingView {
     Context context;
-    AssignmentGradingPresenter assignmentGradingPresenter;
+    GradingPresenter gradingPresenter;
 
-    public AssignmentGradingView(Context context, AssignmentGradingPresenter assignmentGradingPresenter) {
+    public GradingView(Context context, GradingPresenter gradingPresenter) {
         this.context = context;
-        this.assignmentGradingPresenter = assignmentGradingPresenter;
+        this.gradingPresenter = gradingPresenter;
     }
 
     public void getAssignmentSubmissions(int courseId, int courseGroupId, int assignmentId) {
@@ -32,12 +31,12 @@ public class AssignmentGradingView {
                 for (int i = 0; i < responseArray.length(); i++) {
                     submissions.add(StudentAssignmentSubmission.create(responseArray.opt(i).toString()));
                 }
-                assignmentGradingPresenter.onGetAssignmentSubmissionsSuccess(submissions);
+                gradingPresenter.onGetAssignmentSubmissionsSuccess(submissions);
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                assignmentGradingPresenter.onGetAssignmentSubmissionsFailure(message, errorCode);
+                gradingPresenter.onGetAssignmentSubmissionsFailure(message, errorCode);
             }
         });
     }
@@ -46,12 +45,12 @@ public class AssignmentGradingView {
         UserManager.postAssignmentGrade(gradeModel, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                assignmentGradingPresenter.onPostAssignmentGradeSuccess();
+                gradingPresenter.onPostAssignmentGradeSuccess();
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                assignmentGradingPresenter.onPostAssignmentGradeFailure(message, errorCode);
+                gradingPresenter.onPostAssignmentGradeFailure(message, errorCode);
             }
         });
     }

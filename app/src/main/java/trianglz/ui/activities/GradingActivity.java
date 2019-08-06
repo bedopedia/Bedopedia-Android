@@ -14,19 +14,19 @@ import com.skolera.skolera_android.R;
 import java.util.ArrayList;
 
 import trianglz.components.GradeFeedbackDialog;
-import trianglz.core.presenters.AssignmentGradingPresenter;
-import trianglz.core.views.AssignmentGradingView;
+import trianglz.core.presenters.GradingPresenter;
+import trianglz.core.views.GradingView;
 import trianglz.models.PostAssignmentGradeModel;
 import trianglz.models.StudentAssignmentSubmission;
 import trianglz.ui.adapters.StudentAssignmentGradeAdapter;
 import trianglz.utils.Constants;
 
-public class AssignmentGradingActivity extends SuperActivity implements View.OnClickListener, StudentAssignmentGradeAdapter.StudentGradeInterface, GradeFeedbackDialog.GradeDialogInterface, AssignmentGradingPresenter {
+public class GradingActivity extends SuperActivity implements View.OnClickListener, StudentAssignmentGradeAdapter.StudentGradeInterface, GradeFeedbackDialog.GradeDialogInterface, GradingPresenter {
     private StudentAssignmentGradeAdapter adapter;
     private RecyclerView recyclerView;
     private ImageButton backBtn;
     private GradeFeedbackDialog gradeFeedbackDialog;
-    private AssignmentGradingView assignmentGradingView;
+    private GradingView gradingView;
     private int courseId, courseGroupId, assignmentId;
 
     @Override
@@ -38,7 +38,7 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
         setListeners();
         if (courseId != -1 && courseGroupId != -1 && assignmentId != -1) {
             showLoadingDialog();
-            assignmentGradingView.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
+            gradingView.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
         }
     }
 
@@ -55,7 +55,7 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
                 LinearLayoutManager.VERTICAL,false));
         adapter = new StudentAssignmentGradeAdapter(this, this);
         recyclerView.setAdapter(adapter);
-        assignmentGradingView = new AssignmentGradingView(this,this);
+        gradingView = new GradingView(this,this);
     }
 
     void setListeners() {
@@ -88,7 +88,7 @@ public class AssignmentGradingActivity extends SuperActivity implements View.OnC
         gradeModel.setStudentStatus("Presenting");
         gradeModel.setGrade(Double.valueOf(grade));
         showLoadingDialog();
-        assignmentGradingView.postAssignmentGrade(gradeModel);
+        gradingView.postAssignmentGrade(gradeModel);
     }
 
     @Override

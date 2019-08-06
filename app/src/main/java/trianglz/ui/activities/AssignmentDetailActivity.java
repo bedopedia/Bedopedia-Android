@@ -11,8 +11,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -21,7 +19,6 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
-import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.AssignmentsDetailPresenter;
 import trianglz.core.views.AssignmentsDetailView;
@@ -161,7 +158,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
             intent.putExtra(Constants.KEY_ASSIGNMENT_DETAIL, assignmentsDetail.toString());
             startActivity(intent);
         } else {
-            Intent intent = new Intent(this, AssignmentGradingActivity.class);
+            Intent intent = new Intent(this, GradingActivity.class);
             intent.putExtra(Constants.KEY_COURSE_ID, courseId);
             intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroups.getId());
             intent.putExtra(Constants.KEY_ASSIGNMENT_ID, assignmentsDetail.getId());
