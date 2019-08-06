@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import trianglz.components.GradeFeedbackDialog;
 import trianglz.core.presenters.GradingPresenter;
 import trianglz.core.views.GradingView;
+import trianglz.managers.SessionManager;
+import trianglz.models.Feedback;
 import trianglz.models.PostAssignmentGradeModel;
 import trianglz.models.StudentSubmission;
 import trianglz.ui.adapters.StudentGradeAdapter;
@@ -29,6 +31,7 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     private GradingView gradingView;
     private int courseId, courseGroupId, assignmentId, quizId;
     private boolean isAssignmentsGrading;
+    private String feedBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +105,7 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
         gradeModel.setGrade(Double.valueOf(grade));
         showLoadingDialog();
         gradingView.postAssignmentGrade(gradeModel);
+        this.feedBack = feedBack;
     }
 
     @Override
@@ -127,7 +131,19 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
 
     @Override
     public void onPostAssignmentGradeSuccess(StudentSubmission studentSubmission) {
-        gradingView.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
+        if (feedBack != null) {
+            if (!feedBack.isEmpty()) {
+                String id = SessionManager.getInstance().getId();
+                Feedback feedback = new Feedback();
+                feedback.setContent(feedBack);
+                feedback.setOwnerId(Integer.valueOf(SessionManager.getInstance().getId()));
+                feedback.setOnId(studentSubmission.getId());
+                feedback.setToId(studentSubmission.getStudentId());
+                feedback.setToType("Student");
+                showLoadingDialog();
+                gradingView.postSubmissionFeedback(feedback);
+            }
+        }
     }
 
     @Override
@@ -144,6 +160,26 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
 
     @Override
     public void onGetQuizzesSubmissionsFailure(String message, int errorCode) {
+        if (progress.isShowing()) progress.dismiss();
+
+    }
+
+    @Override
+    public void onPostFeedbackSuccess(Feedback feedback) {
+        if (isAssignmentsGrading) {
+            if (courseId != -1 && courseGroupId != -1 && assignmentId != -1) {
+                gradingView.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
+            }
+        } else {
+            if (quizId != -1) {
+                gradingView.getQuizzesSubmissions(quizId);
+            }
+
+        }
+    }
+
+    @Override
+    public void onPostFeedbackFailure(String message, int errorCode) {
         if (progress.isShowing()) progress.dismiss();
 
     }

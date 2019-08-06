@@ -2,6 +2,7 @@ package trianglz.core.presenters;
 
 import java.util.ArrayList;
 
+import trianglz.models.Feedback;
 import trianglz.models.StudentSubmission;
 
 public interface GradingPresenter {
@@ -13,4 +14,7 @@ public interface GradingPresenter {
 
     void onGetQuizzesSubmissionsSuccess(ArrayList<StudentSubmission> studentSubmissions);
     void onGetQuizzesSubmissionsFailure(String message, int errorCode);
+
+    void onPostFeedbackSuccess(Feedback feedback);
+    void onPostFeedbackFailure(String message, int errorCode);
 }

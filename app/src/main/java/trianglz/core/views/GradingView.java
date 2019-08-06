@@ -11,6 +11,7 @@ import trianglz.core.presenters.GradingPresenter;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.Feedback;
 import trianglz.models.PostAssignmentGradeModel;
 import trianglz.models.StudentSubmission;
 
@@ -69,6 +70,20 @@ public class GradingView {
             @Override
             public void onFailure(String message, int errorCode) {
                 gradingPresenter.onGetQuizzesSubmissionsFailure(message, errorCode);
+            }
+        });
+    }
+
+    public void postSubmissionFeedback(Feedback feedback) {
+        UserManager.postSubmissionFeedback(feedback, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                gradingPresenter.onPostFeedbackSuccess(Feedback.create(response.toString()));
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                gradingPresenter.onPostFeedbackFailure(message, errorCode);
             }
         });
     }
