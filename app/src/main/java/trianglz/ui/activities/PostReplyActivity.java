@@ -3,21 +3,16 @@ package trianglz.ui.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
 
@@ -104,7 +99,10 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
         if (SessionManager.getInstance().getStudentAccount()) {
             inputLayout.setVisibility(View.VISIBLE);
             sendReplyButton.setBackground(getResources().getDrawable(R.drawable.circle_student_background));
-        } else {
+        } else if(!SessionManager.getInstance().getUserType()&&!SessionManager.getInstance().getStudentAccount()){
+            inputLayout.setVisibility(View.VISIBLE);
+            sendReplyButton.setBackground(getResources().getDrawable(R.drawable.circle_blue_background));
+        }else{
             sendReplyButton.setBackground(getResources().getDrawable(R.drawable.circle_blue_background));
             inputLayout.setVisibility(View.GONE);
         }

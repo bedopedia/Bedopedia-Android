@@ -110,9 +110,8 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
 
     private void openPostDetailsActivity() {
         Intent intent = new Intent(this, PostDetailActivity.class);
-        //todo remove hardcoded id and course name
-        intent.putExtra(Constants.KEY_COURSE_ID, 68);
-        intent.putExtra(Constants.KEY_COURSE_NAME, "English(KY06)");
+        intent.putExtra(Constants.KEY_COURSE_ID, courseGroup.getCourseId());
+        intent.putExtra(Constants.KEY_COURSE_NAME, courseGroup.getCourseName());
         startActivity(intent);
     }
 

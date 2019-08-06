@@ -47,6 +47,7 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     protected void onResume() {
         super.onResume();
         showLoadingDialog();
+        //todo gets only the student post not course group posts for teacher
         postDetailsView.getPostDetails(getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0));
     }
 

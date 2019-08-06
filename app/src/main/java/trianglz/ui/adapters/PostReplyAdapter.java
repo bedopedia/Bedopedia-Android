@@ -15,10 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +23,6 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
-import trianglz.components.CircleTransform;
 import trianglz.managers.SessionManager;
 import trianglz.models.PostDetails;
 import trianglz.models.Reply;
@@ -143,7 +138,8 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
                 });
         } else if (position == 1) {
             ReplyViewHolder replyViewHolder = (ReplyViewHolder) holder;
-            if (!SessionManager.getInstance().getStudentAccount()) replyViewHolder.itemView.setVisibility(View.GONE);
+            if (SessionManager.getInstance().getUserType()) {replyViewHolder.itemView.setVisibility(View.GONE);}
+            if (SessionManager.getInstance().getStudentAccount()) {replyViewHolder.itemView.setVisibility(View.VISIBLE);}
             replyViewHolder.replyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
