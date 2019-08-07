@@ -9,20 +9,26 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class PostAssignmentGradeModel {
+public class GradeModel {
 
     @SerializedName("grade")
     private double grade;
     @SerializedName("student_id")
-    private int studentId;
+    private Integer studentId;
     @SerializedName("assignment_id")
-    private int assignmentId;
+    private Integer assignmentId;
     @SerializedName("course_group_id")
-    private int courseGroupId;
+    private Integer courseGroupId;
     @SerializedName("student_status")
     private String studentStatus;
     @SerializedName("course_id")
-    private int courseId;
+    private Integer courseId;
+
+    // quizzes fields
+    @SerializedName("score")
+    private Integer score;
+    @SerializedName("quiz_id")
+    private Integer quizId;
 
     public void setGrade(double grade) {
         this.grade = grade;
@@ -32,27 +38,27 @@ public class PostAssignmentGradeModel {
         return this.grade;
     }
 
-    public void setStudentId(int studentId) {
+    public void setStudentId(Integer studentId) {
         this.studentId = studentId;
     }
 
-    public int getStudentId() {
+    public Integer getStudentId() {
         return this.studentId;
     }
 
-    public void setAssignmentId(int assignmentId) {
+    public void setAssignmentId(Integer assignmentId) {
         this.assignmentId = assignmentId;
     }
 
-    public int getAssignmentId() {
+    public Integer getAssignmentId() {
         return this.assignmentId;
     }
 
-    public void setCourseGroupId(int courseGroupId) {
+    public void setCourseGroupId(Integer courseGroupId) {
         this.courseGroupId = courseGroupId;
     }
 
-    public int getCourseGroupId() {
+    public Integer getCourseGroupId() {
         return this.courseGroupId;
     }
 
@@ -64,18 +70,33 @@ public class PostAssignmentGradeModel {
         return this.studentStatus;
     }
 
-    public void setCourseId(int courseId) {
+    public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
 
-    public int getCourseId() {
+    public Integer getCourseId() {
         return this.courseId;
     }
 
+    public Integer getScore() {
+        return score;
+    }
 
-    public static PostAssignmentGradeModel create(String json) {
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public Integer getQuizId() {
+        return quizId;
+    }
+
+    public void setQuizId(Integer quizId) {
+        this.quizId = quizId;
+    }
+
+    public static GradeModel create(String json) {
         Gson gson = new GsonBuilder().create();
-        return gson.fromJson(json, PostAssignmentGradeModel.class);
+        return gson.fromJson(json, GradeModel.class);
     }
 
     public String toString() {

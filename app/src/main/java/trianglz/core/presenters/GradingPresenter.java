@@ -17,4 +17,7 @@ public interface GradingPresenter {
 
     void onPostFeedbackSuccess(Feedback feedback);
     void onPostFeedbackFailure(String message, int errorCode);
+
+    void onPostQuizGradeSuccess(StudentSubmission studentSubmission);
+    void onPostQuizGradeFailure(String message, int errorCode);
 }

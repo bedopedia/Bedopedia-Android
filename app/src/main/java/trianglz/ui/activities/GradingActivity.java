@@ -18,7 +18,7 @@ import trianglz.core.presenters.GradingPresenter;
 import trianglz.core.views.GradingView;
 import trianglz.managers.SessionManager;
 import trianglz.models.Feedback;
-import trianglz.models.PostAssignmentGradeModel;
+import trianglz.models.GradeModel;
 import trianglz.models.StudentSubmission;
 import trianglz.ui.adapters.StudentGradeAdapter;
 import trianglz.utils.Constants;
@@ -86,7 +86,7 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     @Override
     public void onSubmitClicked(String grade, String feedBack, int studentId) {
         gradeFeedbackDialog.dismiss();
-        PostAssignmentGradeModel gradeModel = new PostAssignmentGradeModel();
+        GradeModel gradeModel = new GradeModel();
         gradeModel.setAssignmentId(assignmentId);
         gradeModel.setCourseGroupId(courseGroupId);
         gradeModel.setCourseId(courseId);
@@ -181,5 +181,15 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     public void onPostFeedbackFailure(String message, int errorCode) {
         Toast.makeText(this, "Feedback already exist", Toast.LENGTH_LONG).show();
         fetchData();
+    }
+
+    @Override
+    public void onPostQuizGradeSuccess(StudentSubmission studentSubmission) {
+
+    }
+
+    @Override
+    public void onPostQuizGradeFailure(String message, int errorCode) {
+
     }
 }

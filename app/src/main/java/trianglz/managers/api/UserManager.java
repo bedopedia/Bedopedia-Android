@@ -14,7 +14,7 @@ import trianglz.managers.network.HandleArrayResponseListener;
 import trianglz.managers.network.HandleResponseListener;
 import trianglz.managers.network.NetworkManager;
 import trianglz.models.Feedback;
-import trianglz.models.PostAssignmentGradeModel;
+import trianglz.models.GradeModel;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
@@ -663,10 +663,35 @@ public class UserManager {
             }
         });
     }
-    public static void postAssignmentGrade(PostAssignmentGradeModel gradeModel, final ResponseListener responseListener) {
+    public static void postAssignmentGrade(GradeModel gradeModel, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() +
                 ApiEndPoints.postAssignmentGrade(gradeModel.getCourseId(),
                         gradeModel.getCourseGroupId(), gradeModel.getAssignmentId());
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        headerHashMap.put("Accept", "application/vnd.skolera.v1");
+        String header = Util.convertHeaderMapToBulk(headerHashMap);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject = new JSONObject(gradeModel.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, jsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+    public static void postQuizGrade(GradeModel gradeModel, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() +
+                ApiEndPoints.postQuizGrade(gradeModel.getCourseId(),
+                        gradeModel.getCourseGroupId(), gradeModel.getQuizId());
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         headerHashMap.put("Accept", "application/vnd.skolera.v1");
         String header = Util.convertHeaderMapToBulk(headerHashMap);

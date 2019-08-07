@@ -12,7 +12,7 @@ import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Feedback;
-import trianglz.models.PostAssignmentGradeModel;
+import trianglz.models.GradeModel;
 import trianglz.models.StudentSubmission;
 
 public class GradingView {
@@ -42,7 +42,7 @@ public class GradingView {
         });
     }
 
-    public void postAssignmentGrade(PostAssignmentGradeModel gradeModel) {
+    public void postAssignmentGrade(GradeModel gradeModel) {
         UserManager.postAssignmentGrade(gradeModel, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -52,6 +52,19 @@ public class GradingView {
             @Override
             public void onFailure(String message, int errorCode) {
                 gradingPresenter.onPostAssignmentGradeFailure(message, errorCode);
+            }
+        });
+    }
+    public void postQuizGrade(GradeModel gradeModel) {
+        UserManager.postAssignmentGrade(gradeModel, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                gradingPresenter.onPostQuizGradeSuccess(StudentSubmission.create(response.toString()));
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                gradingPresenter.onPostQuizGradeFailure(message, errorCode);
             }
         });
     }
