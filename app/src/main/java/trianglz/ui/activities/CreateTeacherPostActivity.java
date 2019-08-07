@@ -116,7 +116,6 @@ public class CreateTeacherPostActivity extends SuperActivity implements CreateTe
         String post = postEditText.getText().toString();
         Boolean valid = true;
         if (post.isEmpty()) {
-            showErrorDialog(this);
             if (Util.getLocale(this).equals("ar")) {
                 Util.showErrorDialog(this, "Skolera","المنشور فارغ");
             } else {

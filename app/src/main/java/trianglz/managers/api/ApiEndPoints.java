@@ -106,5 +106,7 @@ public class ApiEndPoints {
     public static String createPostCourseGroup() {
         return "/api/posts";
     }
-
+    public static String attachFiletoPost(){
+        return "/api/posts/create_uploaded_file_for_posts";
+    }
 }
