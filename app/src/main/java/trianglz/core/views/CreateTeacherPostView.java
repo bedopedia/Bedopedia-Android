@@ -2,6 +2,9 @@ package trianglz.core.views;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.json.JSONObject;
 
 import trianglz.core.presenters.CreateTeacherPostPresenter;
@@ -25,8 +28,8 @@ public class CreateTeacherPostView {
         UserManager.createTeacherPost(url, post, ownerId, courseGroupId, postableType, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                PostDetails postDetails=new PostDetails();
-                //todo parse response
+                Gson gson = new GsonBuilder().create();
+                PostDetails postDetails=gson.fromJson(response.toString(), PostDetails.class);
                 createTeacherPostPresenter.onPostCreatedSuccess(postDetails);
             }
 

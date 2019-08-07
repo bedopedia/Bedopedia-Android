@@ -154,15 +154,16 @@
     <string name="submit">إرسال</string>
     <string name="enter_grade">إدخل النتيجة</string>
     <string name="write_a_feedback">إدخل التعليقات</string>
-    <string name="not_set">Not set</string>
-    <string name="no_feedback">No feedback</string>
+    <string name="not_set">لم يضع بعد</string>
+    <string name="no_feedback">لا يوجد تعليق</string>
     <string name="courses">المواد</string>
-    <string name="create_post">Create post</string>
-    <string name="create_a_post_and_share">Create a post and share it with classes</string>
-    <string name="content">Content</string>
-    <string name="text_editor_hint">This is a text editor. Add and edit as you wish.</string>
-    <string name="attachments">Attachments</string>
-    <string name="add_attachment">Start adding your attachment</string>
+    <string name="create_post">إنشاء منشور</string>
+    <string name="create_a_post_and_share">إنشئ منشور و شارك مع الفصل</string>
+    <string name="content">المحتوى</string>
+    <string name="text_editor_hint">This is a text editor. Add and edit as you wish</string>
+    <string name="attachments">المرفقات</string>
+    <string name="upload_file">+ إرفع ملف</string>
+    <string name="add_attachment">اضف المرفقات</string>
     <string name="clicking_button">By clicking the add button you will add a new attachment.</string>
-    <string name="post">Post</string>
+    <string name="post">نشر</string>
 </resources>

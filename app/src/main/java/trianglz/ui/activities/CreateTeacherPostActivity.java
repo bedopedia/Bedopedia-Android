@@ -3,7 +3,6 @@ package trianglz.ui.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +26,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements CreateTe
     private EditText postEditText;
     private ImageButton closeBtn;
     private RecyclerView recyclerView;
+    private PostDetails postDetails;
     private LinearLayout attachmentLayout;
     private int courseGroupId;
     private AttachmentAdapter adapter;
@@ -70,7 +70,9 @@ public class CreateTeacherPostActivity extends SuperActivity implements CreateTe
                 onBackPressed();
                 break;
             case R.id.post_btn:
-                createPost();
+                if(validate()){
+                    createPost();
+                }
                 break;
         }
     }
@@ -85,6 +87,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements CreateTe
         if (progress.isShowing()) {
             progress.dismiss();
         }
+        postDetails = post;
     }
 
     @Override
@@ -100,13 +103,27 @@ public class CreateTeacherPostActivity extends SuperActivity implements CreateTe
     }
 
     void createPost() {
-      //  showLoadingDialog();
+        showLoadingDialog();
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createPostCourseGroup();
-        Log.d("URL", "createPost: "+url);
         createTeacherPostView.createPost(url, postEditText.getText().toString(), Integer.parseInt(SessionManager.getInstance().getUserId()), courseGroupId, "CourseGroup");
     }
 
     private void getValuesFromIntent() {
         courseGroupId = getIntent().getIntExtra(Constants.KEY_COURSE_GROUP_ID, 0);
+    }
+
+    private Boolean validate() {
+        String post = postEditText.getText().toString();
+        Boolean valid = true;
+        if (post.isEmpty()) {
+            showErrorDialog(this);
+            if (Util.getLocale(this).equals("ar")) {
+                Util.showErrorDialog(this, "Skolera","المنشور فارغ");
+            } else {
+                Util.showErrorDialog(this, "Skolera", "Post is empty");
+            }
+            valid = false;
+        }
+        return valid;
     }
 }

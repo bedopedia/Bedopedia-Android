@@ -24,8 +24,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="6dp"
         android:text="@string/create_post"
         android:textColor="@color/cerulean_blue"
         android:textSize="24sp" />
@@ -33,7 +32,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="6dp"
         android:text="@string/create_a_post_and_share"
         android:textColor="@color/steel"
         android:textSize="16sp" />
@@ -41,7 +40,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="6dp"
         android:text="@string/content"
         android:textColor="@color/black_87"
         android:textSize="16sp" />
@@ -61,8 +60,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp">
 
         <TextView
             android:layout_width="0dp"
@@ -129,7 +128,8 @@
         android:layout_width="168dp"
         android:layout_height="48dp"
         android:layout_gravity="end"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/curved_solid_cerulean_blue"
         android:text="@string/post"
         android:textAllCaps="false"
