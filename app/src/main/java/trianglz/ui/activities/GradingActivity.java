@@ -40,18 +40,7 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
         getValueFromIntent();
         onBindView();
         setListeners();
-        if (isAssignmentsGrading) {
-            if (courseId != -1 && courseGroupId != -1 && assignmentId != -1) {
-                showLoadingDialog();
-                gradingView.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
-            }
-        } else {
-            if (quizId != -1) {
-                showLoadingDialog();
-                gradingView.getQuizzesSubmissions(quizId);
-            }
-
-        }
+        fetchData();
     }
 
     private void getValueFromIntent() {
@@ -133,16 +122,35 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     public void onPostAssignmentGradeSuccess(StudentSubmission studentSubmission) {
         if (feedBack != null) {
             if (!feedBack.isEmpty()) {
-                String id = SessionManager.getInstance().getId();
+                String userId = SessionManager.getInstance().getUserId();
                 Feedback feedback = new Feedback();
                 feedback.setContent(feedBack);
-                feedback.setOwnerId(Integer.valueOf(SessionManager.getInstance().getId()));
-                feedback.setOnId(studentSubmission.getId());
+                feedback.setOwnerId(Integer.valueOf(userId));
+                feedback.setOnId(studentSubmission.getAssignmentId());
+                feedback.setOnType("Assignment");
                 feedback.setToId(studentSubmission.getStudentId());
                 feedback.setToType("Student");
                 showLoadingDialog();
                 gradingView.postSubmissionFeedback(feedback);
+            } else {
+                fetchData();
             }
+        } else {
+            fetchData();
+        }
+    }
+
+    private void fetchData() {
+        if (!progress.isShowing()) showLoadingDialog();
+        if (isAssignmentsGrading) {
+            if (courseId != -1 && courseGroupId != -1 && assignmentId != -1) {
+                gradingView.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
+            }
+        } else {
+            if (quizId != -1) {
+                gradingView.getQuizzesSubmissions(quizId);
+            }
+
         }
     }
 
@@ -166,21 +174,12 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
 
     @Override
     public void onPostFeedbackSuccess(Feedback feedback) {
-        if (isAssignmentsGrading) {
-            if (courseId != -1 && courseGroupId != -1 && assignmentId != -1) {
-                gradingView.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
-            }
-        } else {
-            if (quizId != -1) {
-                gradingView.getQuizzesSubmissions(quizId);
-            }
-
-        }
+        fetchData();
     }
 
     @Override
     public void onPostFeedbackFailure(String message, int errorCode) {
-        if (progress.isShowing()) progress.dismiss();
-
+        Toast.makeText(this, "Feedback already exist", Toast.LENGTH_LONG).show();
+        fetchData();
     }
 }

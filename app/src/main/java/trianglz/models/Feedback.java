@@ -12,11 +12,11 @@ import com.google.gson.GsonBuilder;
 public class Feedback {
 
 	@SerializedName("id")
-	private int id;
+	private Integer id;
 	@SerializedName("content")
 	private String content;
 	@SerializedName("owner_id")
-	private int ownerId;
+	private Integer ownerId;
 	@SerializedName("on_id")
 	private int onId;
 	@SerializedName("on_type")
@@ -32,11 +32,11 @@ public class Feedback {
 	@SerializedName("deleted_at")
 	private String deletedAt;
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
@@ -48,11 +48,11 @@ public class Feedback {
 		return this.content;
 	}
 
-	public void setOwnerId(int ownerId) {
+	public void setOwnerId(Integer ownerId) {
 		this.ownerId = ownerId;
 	}
 
-	public int getOwnerId() {
+	public Integer getOwnerId() {
 		return this.ownerId;
 	}
 
