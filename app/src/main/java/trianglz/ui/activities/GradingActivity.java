@@ -41,7 +41,7 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assignment_grading);
         getValueFromIntent();
-        onBindView();
+        bindViews();
         setListeners();
         fetchData();
     }
@@ -61,7 +61,7 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
         }
     }
 
-    void onBindView() {
+    private void bindViews() {
         backBtn = findViewById(R.id.btn_back);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
@@ -86,9 +86,11 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     }
 
     @Override
-    public void onGradeButtonClick(String grade, String feedback, int studentId) {
-        gradeFeedbackDialog = new GradeFeedbackDialog(this, R.style.GradeDialog, this, grade, feedback, studentId);
-        gradeFeedbackDialog.show();
+    public void onItemCLicked(Double grade, String feedback, int studentId) {
+        if (grade == null) {
+            gradeFeedbackDialog = new GradeFeedbackDialog(this, R.style.GradeDialog, this, grade+"", feedback, studentId);
+            gradeFeedbackDialog.show();
+        }
 
     }
 

@@ -24,7 +24,7 @@ public class StudentSubmission {
 	@SerializedName("graded")
 	private boolean graded;
 	@SerializedName("grade")
-	private double grade;
+	private Double grade;
 	@SerializedName("assignment_id")
 	private int assignmentId;
 	@SerializedName("course_group_id")
@@ -48,7 +48,7 @@ public class StudentSubmission {
 
 	// quizzes submissions new fields
 	@SerializedName("score")
-	private double score;
+	private Double score;
 	@SerializedName("student_avatar_url")
 	private String studentAvatarUrl;
 	@SerializedName("is_submitted")
@@ -102,11 +102,11 @@ public class StudentSubmission {
 		return this.graded;
 	}
 
-	public void setGrade(double grade) {
+	public void setGrade(Double grade) {
 		this.grade = grade;
 	}
 
-	public double getGrade() {
+	public Double getGrade() {
 		return this.grade;
 	}
 
@@ -202,11 +202,11 @@ public class StudentSubmission {
 		isHidden = hidden;
 	}
 
-	public double getScore() {
+	public Double getScore() {
 		return score;
 	}
 
-	public void setScore(double score) {
+	public void setScore(Double score) {
 		this.score = score;
 	}
 

@@ -56,13 +56,17 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
             if (submission.getFeedback() != null) {
                 holder.studentFeedback.setText(submission.getFeedback().getContent());
             }
-            holder.studentGrade.setText(Double.toString(submission.getGrade()));
+            if (submission.getGrade() == null) {
+                holder.studentGrade.setText(context.getResources().getString(R.string.not_set));
+            } else {
+                holder.studentGrade.setText(Double.toString(submission.getGrade()));
+            }
             holder.studentName.setText(submission.getStudentName());
-            holder.itemView.setOnClickListener(view -> {
-                studentGradeInterface.onGradeButtonClick(Double.toString(submission.getGrade())
-                        , holder.studentFeedback.getText().toString(), submission.getStudentId());
+                holder.itemView.setOnClickListener(view -> {
+                    studentGradeInterface.onItemCLicked(submission.getGrade()
+                            , holder.studentFeedback.getText().toString(), submission.getStudentId());
 
-            });
+                });
             holder.downloadAssignmnentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -76,10 +80,14 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
             if (submission.getFeedback() != null) {
                 holder.studentFeedback.setText(submission.getFeedback().getContent());
             }
-            holder.studentGrade.setText(Double.toString(submission.getScore()));
+            if (submission.getScore() == null) {
+                holder.studentGrade.setText(context.getResources().getString(R.string.not_set));
+            } else {
+                holder.studentGrade.setText(Double.toString(submission.getScore()));
+            }
             holder.studentName.setText(submission.getStudentName());
             holder.itemView.setOnClickListener(view -> {
-                studentGradeInterface.onGradeButtonClick(Double.toString(submission.getGrade())
+                studentGradeInterface.onItemCLicked(submission.getScore()
                         , holder.studentFeedback.getText().toString(), submission.getStudentId());
 
             });
@@ -124,7 +132,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
     }
 
     public interface StudentGradeInterface {
-        void onGradeButtonClick(String grade, String feedback, int studentId);
+        void onItemCLicked(Double grade, String feedback, int studentId);
 
         void onDownloadButtonClick();
     }
