@@ -206,8 +206,8 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
                 Feedback feedback = new Feedback();
                 feedback.setContent(feedBack);
                 feedback.setOwnerId(Integer.valueOf(userId));
-                feedback.setOnId(studentSubmission.getAssignmentId());
-                feedback.setOnType("Assignment");
+                feedback.setOnId(quizId);
+                feedback.setOnType("Quiz");
                 feedback.setToId(studentSubmission.getStudentId());
                 feedback.setToType("Student");
                 showLoadingDialog();
