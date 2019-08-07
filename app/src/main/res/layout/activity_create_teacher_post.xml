@@ -120,7 +120,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_weight="1"
+        android:layout_height="0dp"
         android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
     <Button
