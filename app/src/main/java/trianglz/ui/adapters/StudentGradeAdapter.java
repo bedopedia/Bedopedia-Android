@@ -2,6 +2,7 @@ package trianglz.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -55,18 +56,24 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
 
             if (submission.getFeedback() != null) {
                 holder.studentFeedback.setText(submission.getFeedback().getContent());
+            }else {
+                holder.studentFeedback.setText("");
             }
-            if (submission.getGrade() == null) {
-                holder.studentGrade.setText(context.getResources().getString(R.string.not_set));
-            } else {
+            if (submission.getGrade() != null) {
                 holder.studentGrade.setText(Double.toString(submission.getGrade()));
+            } else {
+                holder.studentGrade.setText("");
             }
             holder.studentName.setText(submission.getStudentName());
+            if (submission.getGrade() == null) {
                 holder.itemView.setOnClickListener(view -> {
-                    studentGradeInterface.onItemCLicked(submission.getGrade()
+                    studentGradeInterface.onItemCLicked(null
                             , holder.studentFeedback.getText().toString(), submission.getStudentId());
 
                 });
+            } else {
+                holder.itemView.setOnClickListener(null);
+            }
             holder.downloadAssignmnentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -79,18 +86,27 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
 
             if (submission.getFeedback() != null) {
                 holder.studentFeedback.setText(submission.getFeedback().getContent());
+            }else {
+                holder.studentFeedback.setText("");
             }
-            if (submission.getScore() == null) {
-                holder.studentGrade.setText(context.getResources().getString(R.string.not_set));
-            } else {
+
+            if (submission.getScore() != null) {
                 holder.studentGrade.setText(Double.toString(submission.getScore()));
+            }else {
+                holder.studentGrade.setText("");
             }
             holder.studentName.setText(submission.getStudentName());
-            holder.itemView.setOnClickListener(view -> {
-                studentGradeInterface.onItemCLicked(submission.getScore()
-                        , holder.studentFeedback.getText().toString(), submission.getStudentId());
+            if (submission.getScore() == null) {
+                holder.itemView.setOnClickListener(view -> {
 
-            });
+                    studentGradeInterface.onItemCLicked(null
+                            , holder.studentFeedback.getText().toString(), submission.getStudentId());
+
+                });
+            } else {
+                holder.itemView.setOnClickListener(null);
+            }
+
             holder.downloadAssignmnentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

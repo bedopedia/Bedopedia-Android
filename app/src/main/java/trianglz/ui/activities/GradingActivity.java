@@ -87,10 +87,8 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
 
     @Override
     public void onItemCLicked(Double grade, String feedback, int studentId) {
-        if (grade == null) {
             gradeFeedbackDialog = new GradeFeedbackDialog(this, R.style.GradeDialog, this, grade+"", feedback, studentId);
             gradeFeedbackDialog.show();
-        }
 
     }
 
