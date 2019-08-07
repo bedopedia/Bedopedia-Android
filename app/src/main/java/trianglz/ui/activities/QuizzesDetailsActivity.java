@@ -27,6 +27,7 @@ import trianglz.core.presenters.QuizzesDetailsPresenter;
 import trianglz.core.views.QuizzesDetailsView;
 import trianglz.managers.SessionManager;
 import trianglz.models.AssignmentsDetail;
+import trianglz.models.CourseGroups;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Quizzes;
 import trianglz.models.Student;
@@ -50,6 +51,7 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
     private QuizzCourse quizzCourse;
     private ArrayList<Quizzes> quizzes;
     private QuizzesDetailsView quizzesDetailsView;
+    private CourseGroups courseGroup;
     private boolean teacherMode = false;
 
     @Override
@@ -71,6 +73,7 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
             teacherMode = true;
             courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
             courseGroupName = getIntent().getStringExtra(Constants.KEY_COURSE_GROUP_NAME);
+            courseGroup = CourseGroups.create(getIntent().getStringExtra(Constants.KEY_COURSE_GROUPS));
             return;
         }
         student = Student.create(getIntent().getStringExtra(Constants.STUDENT));
@@ -212,6 +215,10 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
         } else {
             Intent intent = new Intent(this, GradingActivity.class);
             intent.putExtra(Constants.KEY_QUIZ_ID, quizzes.getId());
+            if (courseGroup != null) {
+                intent.putExtra(Constants.KEY_COURSE_ID, courseGroup.getCourseId());
+                intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroup.getId());
+            }
             intent.putExtra(Constants.KEY_ASSIGNMENTS_GRADING, false);
             startActivity(intent);
         }

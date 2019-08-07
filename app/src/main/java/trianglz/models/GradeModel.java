@@ -12,7 +12,7 @@ import com.google.gson.GsonBuilder;
 public class GradeModel {
 
     @SerializedName("grade")
-    private double grade;
+    private Double grade;
     @SerializedName("student_id")
     private Integer studentId;
     @SerializedName("assignment_id")
@@ -26,15 +26,15 @@ public class GradeModel {
 
     // quizzes fields
     @SerializedName("score")
-    private Integer score;
+    private Double score;
     @SerializedName("quiz_id")
     private Integer quizId;
 
-    public void setGrade(double grade) {
+    public void setGrade(Double grade) {
         this.grade = grade;
     }
 
-    public double getGrade() {
+    public Double getGrade() {
         return this.grade;
     }
 
@@ -78,11 +78,11 @@ public class GradeModel {
         return this.courseId;
     }
 
-    public Integer getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(Integer score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 

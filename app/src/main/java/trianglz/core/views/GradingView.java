@@ -56,7 +56,7 @@ public class GradingView {
         });
     }
     public void postQuizGrade(GradeModel gradeModel) {
-        UserManager.postAssignmentGrade(gradeModel, new ResponseListener() {
+        UserManager.postQuizGrade(gradeModel, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 gradingPresenter.onPostQuizGradeSuccess(StudentSubmission.create(response.toString()));

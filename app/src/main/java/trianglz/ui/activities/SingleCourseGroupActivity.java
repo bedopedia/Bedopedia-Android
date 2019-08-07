@@ -147,6 +147,7 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
         intent.putExtra(Constants.KEY_TEACHERS, true);
         intent.putExtra(Constants.KEY_COURSE_NAME,teacherCourse.getName());
         intent.putExtra(Constants.KEY_COURSE_GROUP_NAME,courseGroup.getName());
+        intent.putExtra(Constants.KEY_COURSE_GROUPS,courseGroup.toString());
         intent.putExtra(Constants.KEY_QUIZZES,quizzes);
         startActivity(intent);
     }

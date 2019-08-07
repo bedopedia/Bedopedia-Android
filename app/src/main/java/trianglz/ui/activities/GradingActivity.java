@@ -50,6 +50,8 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
             courseGroupId = getIntent().getIntExtra(Constants.KEY_COURSE_GROUP_ID, -1);
             assignmentId = getIntent().getIntExtra(Constants.KEY_ASSIGNMENT_ID, -1);
         } else {
+            courseGroupId = getIntent().getIntExtra(Constants.KEY_COURSE_GROUP_ID, -1);
+            assignmentId = getIntent().getIntExtra(Constants.KEY_ASSIGNMENT_ID, -1);
             quizId = getIntent().getIntExtra(Constants.KEY_QUIZ_ID, -1);
         }
     }
@@ -85,15 +87,28 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
 
     @Override
     public void onSubmitClicked(String grade, String feedBack, int studentId) {
-        gradeFeedbackDialog.dismiss();
-        GradeModel gradeModel = new GradeModel();
-        gradeModel.setAssignmentId(assignmentId);
-        gradeModel.setCourseGroupId(courseGroupId);
-        gradeModel.setCourseId(courseId);
-        gradeModel.setStudentId(studentId);
-        gradeModel.setGrade(Double.valueOf(grade));
-        showLoadingDialog();
-        gradingView.postAssignmentGrade(gradeModel);
+        if (isAssignmentsGrading) {
+            gradeFeedbackDialog.dismiss();
+            GradeModel gradeModel = new GradeModel();
+            gradeModel.setAssignmentId(assignmentId);
+            gradeModel.setCourseGroupId(courseGroupId);
+            gradeModel.setCourseId(courseId);
+            gradeModel.setStudentId(studentId);
+            gradeModel.setGrade(Double.valueOf(grade));
+            showLoadingDialog();
+            gradingView.postAssignmentGrade(gradeModel);
+        }else {
+            gradeFeedbackDialog.dismiss();
+            GradeModel gradeModel = new GradeModel();
+            gradeModel.setQuizId(quizId);
+            gradeModel.setCourseGroupId(courseGroupId);
+            gradeModel.setCourseId(courseId);
+            gradeModel.setStudentId(studentId);
+            gradeModel.setScore(Double.valueOf(grade));
+            showLoadingDialog();
+            gradingView.postQuizGrade(gradeModel);
+        }
+
         this.feedBack = feedBack;
     }
 
@@ -185,11 +200,28 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
 
     @Override
     public void onPostQuizGradeSuccess(StudentSubmission studentSubmission) {
-
+        if (feedBack != null) {
+            if (!feedBack.isEmpty()) {
+                String userId = SessionManager.getInstance().getUserId();
+                Feedback feedback = new Feedback();
+                feedback.setContent(feedBack);
+                feedback.setOwnerId(Integer.valueOf(userId));
+                feedback.setOnId(studentSubmission.getAssignmentId());
+                feedback.setOnType("Assignment");
+                feedback.setToId(studentSubmission.getStudentId());
+                feedback.setToType("Student");
+                showLoadingDialog();
+                gradingView.postSubmissionFeedback(feedback);
+            } else {
+                fetchData();
+            }
+        } else {
+            fetchData();
+        }
     }
 
     @Override
     public void onPostQuizGradeFailure(String message, int errorCode) {
-
+        if (progress.isShowing()) progress.dismiss();
     }
 }
