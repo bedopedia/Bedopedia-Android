@@ -127,6 +127,7 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
         intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        courseGroup.setCourseName(teacherCourse.getName());
         intent.putExtra(Constants.KEY_COURSE_GROUPS,courseGroup.toString());
         intent.putExtra(Constants.AVATAR, false);
         startActivity(intent);
