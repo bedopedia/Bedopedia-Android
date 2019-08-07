@@ -220,6 +220,7 @@ public class QuizzesDetailsActivity extends SuperActivity implements View.OnClic
                 intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroup.getId());
             }
             intent.putExtra(Constants.KEY_ASSIGNMENTS_GRADING, false);
+            intent.putExtra(Constants.KEY_QUIZ_NAME, quizzes.getName());
             startActivity(intent);
         }
     }

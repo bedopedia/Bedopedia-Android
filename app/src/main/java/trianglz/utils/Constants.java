@@ -200,4 +200,6 @@ public class Constants {
     public static final String KEY_ASSIGNMENT_ID = "assignment_id";
     public static final String KEY_ASSIGNMENTS_GRADING= "is_assignments_grading";
     public static final String KEY_QUIZ_ID= "quiz_id";
+    public static final String KEY_ASSIGNMENT_NAME = "assignment_name";
+    public static final String KEY_QUIZ_NAME = "quiz_name";
 }

@@ -161,6 +161,7 @@ public class AssignmentDetailActivity extends SuperActivity implements View.OnCl
             Intent intent = new Intent(this, GradingActivity.class);
             intent.putExtra(Constants.KEY_COURSE_ID, courseId);
             intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroups.getId());
+            intent.putExtra(Constants.KEY_ASSIGNMENT_NAME, assignmentsDetail.getName());
             intent.putExtra(Constants.KEY_ASSIGNMENT_ID, assignmentsDetail.getId());
             startActivity(intent);
         }

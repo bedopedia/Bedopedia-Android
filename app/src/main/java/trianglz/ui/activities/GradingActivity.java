@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
@@ -31,7 +32,9 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     private GradingView gradingView;
     private int courseId, courseGroupId, assignmentId, quizId;
     private boolean isAssignmentsGrading;
+    private String headerString;
     private String feedBack;
+    private TextView headerTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +52,12 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
             courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, -1);
             courseGroupId = getIntent().getIntExtra(Constants.KEY_COURSE_GROUP_ID, -1);
             assignmentId = getIntent().getIntExtra(Constants.KEY_ASSIGNMENT_ID, -1);
+            headerString = getIntent().getStringExtra(Constants.KEY_ASSIGNMENT_NAME);
         } else {
             courseGroupId = getIntent().getIntExtra(Constants.KEY_COURSE_GROUP_ID, -1);
             assignmentId = getIntent().getIntExtra(Constants.KEY_ASSIGNMENT_ID, -1);
             quizId = getIntent().getIntExtra(Constants.KEY_QUIZ_ID, -1);
+            headerString = getIntent().getStringExtra(Constants.KEY_QUIZ_NAME);
         }
     }
 
@@ -64,6 +69,16 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
         adapter = new StudentGradeAdapter(this, this);
         recyclerView.setAdapter(adapter);
         gradingView = new GradingView(this,this);
+        headerTextView = findViewById(R.id.tv_header);
+        if (!headerString.isEmpty()) {
+            headerTextView.setText(headerString);
+        } else {
+            if (isAssignmentsGrading) {
+                headerTextView.setText(getResources().getString(R.string.assignment));
+            } else {
+                headerTextView.setText(getResources().getString(R.string.quiz));
+            }
+        }
     }
 
     void setListeners() {
