@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
@@ -25,6 +26,7 @@ public class GradeFeedbackDialog extends Dialog implements DialogInterface.OnSho
     private String grade, feedback;
     private GradeDialogInterface gradeDialogInterface;
     private int studentId;
+    private TextView feedbackTextView;
 
     public GradeFeedbackDialog(@NonNull Context context, @StyleRes
             int theme, GradeDialogInterface gradeDialogInterface, String grade, String feedback, int studentId) {
@@ -41,11 +43,11 @@ public class GradeFeedbackDialog extends Dialog implements DialogInterface.OnSho
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onBindView();
+        bindViews();
         setListeners();
     }
 
-    void setListeners() {
+    private void setListeners() {
         this.setOnShowListener(this);
         submitButton.setOnClickListener(this);
         studentGradeEditText.addTextChangedListener(new TextWatcher() {
@@ -70,12 +72,20 @@ public class GradeFeedbackDialog extends Dialog implements DialogInterface.OnSho
         });
     }
 
-    void onBindView() {
+    private void bindViews() {
         studentGradeEditText = findViewById(R.id.student_grade_edittext);
         studentFeedbackEditText = findViewById(R.id.student_feedback_edittext);
+        feedbackTextView = findViewById(R.id.tv_feedback);
         submitButton = findViewById(R.id.submit_btn);
-        studentGradeEditText.setText(grade);
-        studentFeedbackEditText.setText(feedback);
+        studentGradeEditText.setText("");
+        if (!feedback.isEmpty()) {
+            feedbackTextView.setVisibility(View.GONE);
+            studentFeedbackEditText.setVisibility(View.GONE);
+        } else {
+
+            studentFeedbackEditText.setText("");
+        }
+
     }
 
     @Override
