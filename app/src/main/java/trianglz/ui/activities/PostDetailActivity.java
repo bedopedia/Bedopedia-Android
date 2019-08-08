@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,7 +28,7 @@ import trianglz.utils.Util;
 
 public class PostDetailActivity extends SuperActivity implements PostDetailsPresenter, View.OnClickListener, PostDetailsAdapter.PostDetailsInterface {
 
-    private int  courseGroupId;
+    private int courseGroupId;
     private String courseName;
     private RecyclerView recyclerView;
     private PostDetailsView postDetailsView;
@@ -54,7 +55,6 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     protected void onResume() {
         super.onResume();
         showLoadingDialog();
-        //todo gets only the student post not course group posts for teacher
         postDetailsView.getPostDetails(courseGroupId);
     }
 
@@ -128,12 +128,20 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
 
     private void getValuesFromIntent() {
         courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
-        courseGroupId = getIntent().getIntExtra(Constants.KEY_COURSE_GROUP_ID,0);
+        courseGroupId = getIntent().getIntExtra(Constants.KEY_COURSE_GROUP_ID, 0);
     }
 
     private void openCreatePostActivity() {
         Intent intent = new Intent(this, CreateTeacherPostActivity.class);
         intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroupId);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+            }
+        }
     }
 }

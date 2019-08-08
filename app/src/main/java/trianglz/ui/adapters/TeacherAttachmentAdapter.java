@@ -43,9 +43,9 @@ public class TeacherAttachmentAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final AttachmentViewHolder viewHolder = (AttachmentViewHolder) holder;
         final File file = new File(filesList.get(position).toString());
-        viewHolder.fileNameTextView.setText(filesList.get(position).getName());
+        viewHolder.fileNameTextView.setText(file.getName());
         viewHolder.dateAddedTextView.setVisibility(View.GONE);
-        viewHolder.fileType.setImageResource(R.drawable.file_icon);
+        setAttachmentImage(viewHolder.fileType, getFileExtension(file.getName()));
         viewHolder.deleteAttachmentBtn.setVisibility(View.VISIBLE);
         viewHolder.deleteAttachmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +83,33 @@ public class TeacherAttachmentAdapter extends RecyclerView.Adapter {
             rootView = itemView.findViewById(R.id.ll_root);
             deleteAttachmentBtn = itemView.findViewById(R.id.delet_attachement_btn);
         }
+    }
+
+
+    private void setAttachmentImage(ImageView attachmentImageView, String ext) {
+        if (ext.contains("pdf")) {
+            attachmentImageView.setImageResource((R.drawable.pdf_icon));
+        } else if (ext.contains("doc")) {
+            attachmentImageView.setImageResource((R.drawable.doc_icon));
+        } else if (ext.contains("pp")) {
+            attachmentImageView.setImageResource((R.drawable.ppt_icon));
+        } else if (ext.contains("xl")) {
+            attachmentImageView.setImageResource((R.drawable.xlsx_icon));
+        } else if (ext.contains("rar") || ext.contains("zip")) {
+            attachmentImageView.setImageResource((R.drawable.zip_icon));
+        } else if (ext.contains("mp3") || ext.contains("wav")) {
+            attachmentImageView.setImageResource((R.drawable.audio_icon));
+        } else if (ext.contains("mp4") || ext.contains("3gp")) {
+            attachmentImageView.setImageResource((R.drawable.video_icon));
+        } else {
+            attachmentImageView.setImageResource((R.drawable.file_icon));
+        }
+
+    }
+
+    private String getFileExtension(String path) {
+        String extension = path.substring(path.lastIndexOf("."));
+        return extension;
     }
 
     public interface TeacherAttachmentInterface {

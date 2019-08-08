@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,7 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import trianglz.components.TopItemDecoration;
+import trianglz.components.HideKeyboardOnTouch;
 import trianglz.core.presenters.AttachFileToTeacherPostPresenter;
 import trianglz.core.presenters.CreateTeacherPostPresenter;
 import trianglz.core.views.AttachFileToTeacherPostView;
@@ -46,7 +47,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
     private RecyclerView recyclerView;
     private PostDetails postDetails;
     private AttachFileToTeacherPostView attachFileToTeacherPostView;
-    private LinearLayout attachmentLayout;
+    private LinearLayout attachmentLayout, rootView;
     private int courseGroupId, attachmentIndex = 0;
     private TeacherAttachmentAdapter adapter;
     private CreateTeacherPostView createTeacherPostView;
@@ -64,6 +65,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
     private void bindViews() {
         attachFileToTeacherPostView = new AttachFileToTeacherPostView(this, this);
         createTeacherPostView = new CreateTeacherPostView(this, this);
+        rootView = findViewById(R.id.root_view);
         uploadBtn = findViewById(R.id.upload_file_btn);
         postBtn = findViewById(R.id.post_btn);
         closeBtn = findViewById(R.id.close_btn);
@@ -73,13 +75,13 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
         adapter = new TeacherAttachmentAdapter(this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16, this), false));
     }
 
     private void setListeners() {
         uploadBtn.setOnClickListener(this);
         postBtn.setOnClickListener(this);
         closeBtn.setOnClickListener(this);
+        rootView.setOnTouchListener(new HideKeyboardOnTouch(this));
     }
 
 
@@ -103,13 +105,18 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
 
     @Override
     public void onPostCreatedSuccess(PostDetails post) {
-        if (progress.isShowing()) {
-            progress.dismiss();
-        }
+
         postDetails = post;
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.attachFiletoPost();
         if (!(adapter.filesList.isEmpty())) {
             attachFileToTeacherPostView.attachFileToTeacherPost(url, postDetails.getId(), adapter.filesList.get(attachmentIndex));
+        } else {
+            if (progress.isShowing()) {
+                progress.dismiss();
+            }
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
         }
     }
 
@@ -167,11 +174,11 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
                             for (int i = 0; i < data.getClipData().getItemCount(); i++) {
                                 Uri uri = data.getClipData().getItemAt(i).getUri();
                                 File file = createFile(uri);
-                                if (checkFileSize(file)) {
+                                if (checkFileSize(file) && !(adapter.filesList.contains(file))) {
                                     adapter.filesList.add(file);
-
-                                } else {
+                                } else if(!checkFileSize(file)){
                                     if (Util.getLocale(this).equals("ar")) {
+                                        //todo add in strings file
                                         Util.showErrorDialog(this, "Skolera", "حجم الملف كبير");
                                     } else {
                                         Util.showErrorDialog(this, "Skolera", "File is too big");
@@ -181,10 +188,9 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
                         } else {
                             Uri uri = data.getData();
                             File file = createFile(uri);
-                            if (checkFileSize(file)) {
+                            if (checkFileSize(file) && !(adapter.filesList.contains(file))) {
                                 adapter.filesList.add(file);
-                                //todo filesUri.add(uri);
-                            } else {
+                            } else if(!checkFileSize(file)){
                                 if (Util.getLocale(this).equals("ar")) {
                                     Util.showErrorDialog(this, "Skolera", "حجم الملف كبير");
                                 } else {
@@ -193,7 +199,6 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
                             }
                         }
                     }
-                    Log.d("boolean", "onActivityResult: " + !(adapter.filesList.isEmpty()) + " " + attachmentIndex + (attachmentIndex != adapter.filesList.size() - 1));
                     adapter.notifyDataSetChanged();
                     attachmentLayout.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
@@ -208,10 +213,8 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
         new AlertDialog.Builder(this)
                 .setTitle("Delete entry")
                 .setMessage("Are you sure you want to delete this attachment?")
-
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
                         adapter.filesList.remove(position);
                         adapter.notifyItemRemoved(position);
                         adapter.notifyItemRangeChanged(position, adapter.filesList.size());
@@ -222,7 +225,6 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
 
@@ -277,9 +279,16 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
     @Override
     public void onAttachmentUploadedSuccess(JSONObject response) {
         attachmentIndex++;
-        if(attachmentIndex < adapter.filesList.size()) {
+        if (attachmentIndex < adapter.filesList.size()) {
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.attachFiletoPost();
             attachFileToTeacherPostView.attachFileToTeacherPost(url, postDetails.getId(), adapter.filesList.get(attachmentIndex));
+        } else {
+            if (progress.isShowing()) {
+                progress.dismiss();
+            }
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
         }
 
     }

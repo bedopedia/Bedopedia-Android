@@ -1,7 +1,5 @@
 package trianglz.managers.api;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -131,7 +129,6 @@ public class UserManager {
     }
     public static void getPostDetails (int courseId, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postsDetailsApi(courseId);
-        Log.d("farah", "getPostDetails: "+url);
         HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String,String> paramsHashMap = new HashMap<>();
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
+    android:id="@+id/root_view"
     android:background="@color/snow"
     android:orientation="vertical"
     tools:context="trianglz.ui.activities.CreateTeacherPostActivity">
@@ -15,7 +14,9 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/transparent"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:scaleType="center"
@@ -24,6 +25,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="6dp"
         android:text="@string/create_post"
         android:textColor="@color/cerulean_blue"
@@ -32,6 +35,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="6dp"
         android:text="@string/create_a_post_and_share"
         android:textColor="@color/steel"
@@ -40,6 +45,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="6dp"
         android:text="@string/content"
         android:textColor="@color/black_87"
@@ -49,6 +56,8 @@
         android:id="@+id/post_edit_text"
         android:layout_width="match_parent"
         android:layout_height="104dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/curved_solid_white_radius_6"
         android:gravity="start"
         android:hint="@string/text_editor_hint"
@@ -60,7 +69,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="6dp">
 
         <TextView
@@ -89,6 +100,8 @@
         android:id="@+id/attachment_layout"
         android:layout_width="match_parent"
         android:layout_height="170dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/curved_solid_white_radius_6"
         android:gravity="center_horizontal|bottom"
         android:orientation="vertical">
@@ -120,8 +133,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_weight="1"
         android:layout_height="0dp"
+        android:layout_weight="1"
         android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
     <Button
@@ -129,7 +142,9 @@
         android:layout_width="168dp"
         android:layout_height="48dp"
         android:layout_gravity="end"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/curved_solid_cerulean_blue"
         android:text="@string/post"

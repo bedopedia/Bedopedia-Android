@@ -14,14 +14,15 @@ import trianglz.managers.api.UserManager;
  * Created by Farah A. Moniem on 08/08/2019.
  */
 public class AttachFileToTeacherPostView {
-    private  Context context;
-    private  AttachFileToTeacherPostPresenter attachFileToTeacherPostPresenter;
+    private Context context;
+    private AttachFileToTeacherPostPresenter attachFileToTeacherPostPresenter;
 
     public AttachFileToTeacherPostView(Context context, AttachFileToTeacherPostPresenter attachFileToTeacherPostPresenter) {
         this.context = context;
         this.attachFileToTeacherPostPresenter = attachFileToTeacherPostPresenter;
     }
-    public  void attachFileToTeacherPost(String url, int postId, File file){
+
+    public void attachFileToTeacherPost(String url, int postId, File file) {
         UserManager.attachFileToTeacherPost(url, postId, file, new MultiPartResponseListener() {
             @Override
             public void onProgress(long uploaded, long total) {
@@ -35,9 +36,10 @@ public class AttachFileToTeacherPostView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                attachFileToTeacherPostPresenter.onAttachmentUploadedFailure(message,errorCode);
+                attachFileToTeacherPostPresenter.onAttachmentUploadedFailure(message, errorCode);
 
             }
         });
     }
+
 }
