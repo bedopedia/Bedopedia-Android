@@ -464,7 +464,7 @@ public class UserManager {
     }
 
     public static void getTeacherQuizzes(String courseGroupId, final ArrayResponseListener arrayResponseListener) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getGetTeacherQuizzes(courseGroupId);
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getTeacherQuizzes(courseGroupId);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> params = new HashMap<>();
         NetworkManager.getJsonArray(url, params, headerHashMap, new HandleArrayResponseListener() {

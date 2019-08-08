@@ -38,7 +38,7 @@ public class ApiEndPoints {
         return "/api/feedbacks";
     }
 
-    public static String getquizzesCourses(int studentId) {
+    public static String getQuizzesCourses(int studentId) {
         return "/api/students/" + studentId + "/course_groups_with_quizzes_number";
     }
 
@@ -46,7 +46,7 @@ public class ApiEndPoints {
         return "/api/students/" + studentId + "/quizzes?course_group_ids=["+courseId+"]";
     }
 
-    public static String getGetTeacherQuizzes(String courseGroupId) {
+    public static String getTeacherQuizzes(String courseGroupId) {
         String url;
         Uri.Builder builder = new Uri.Builder();
         builder.appendPath("api")

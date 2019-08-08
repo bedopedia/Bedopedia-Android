@@ -5,7 +5,6 @@ import android.content.Context;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -13,9 +12,7 @@ import trianglz.core.presenters.OnlineQuizzesPresenter;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.managers.api.ArrayResponseListener;
-import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
-import trianglz.models.CourseAssignment;
 import trianglz.models.QuizzCourse;
 
 /**
@@ -33,7 +30,7 @@ public class OnlineQuizzesView {
     }
 
     public void getQuizzesCourses(int studentId) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getquizzesCourses(studentId);
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizzesCourses(studentId);
         UserManager.getQuizzesCourses(url, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
