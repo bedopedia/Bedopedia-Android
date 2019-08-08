@@ -23,6 +23,7 @@ import trianglz.models.GradeModel;
 import trianglz.models.StudentSubmission;
 import trianglz.ui.adapters.StudentGradeAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 public class GradingActivity extends SuperActivity implements View.OnClickListener, StudentGradeAdapter.StudentGradeInterface, GradeFeedbackDialog.GradeDialogInterface, GradingPresenter {
     private StudentGradeAdapter adapter;
@@ -145,7 +146,7 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     @Override
     public void onGetAssignmentSubmissionsFailure(String message, int errorCode) {
         if (progress.isShowing()) progress.dismiss();
-        Toast.makeText(this, "failure", Toast.LENGTH_SHORT).show();
+        Util.showErrorDialog(this,"Skolera",message);
     }
 
     @Override
@@ -187,6 +188,8 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     @Override
     public void onPostAssignmentGradeFailure(String message, int errorCode) {
         if (progress.isShowing()) progress.dismiss();
+        Util.showErrorDialog(this,"Skolera",message);
+
     }
 
     @Override
@@ -199,6 +202,7 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     @Override
     public void onGetQuizzesSubmissionsFailure(String message, int errorCode) {
         if (progress.isShowing()) progress.dismiss();
+        Util.showErrorDialog(this,"Skolera",message);
 
     }
 
@@ -238,5 +242,6 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     @Override
     public void onPostQuizGradeFailure(String message, int errorCode) {
         if (progress.isShowing()) progress.dismiss();
+        Util.showErrorDialog(this,"Skolera",message);
     }
 }
