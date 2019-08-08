@@ -2,8 +2,10 @@ package trianglz.ui.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +23,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.CreateTeacherPostPresenter;
@@ -37,8 +38,6 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
     private Button uploadBtn, postBtn;
     private EditText postEditText;
     private ImageButton closeBtn;
-    private ArrayList<Uri> filesUri;
-    private ArrayList<File> files;
     public static final int PICKFILE_RESULT_CODE = 1;
     private RecyclerView recyclerView;
     private PostDetails postDetails;
@@ -58,8 +57,6 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
     }
 
     private void bindViews() {
-        filesUri = new ArrayList<>();
-        files = new ArrayList<>();
         createTeacherPostView = new CreateTeacherPostView(this, this);
         uploadBtn = findViewById(R.id.upload_file_btn);
         postBtn = findViewById(R.id.post_btn);
@@ -161,8 +158,8 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
                                 Uri uri = data.getClipData().getItemAt(i).getUri();
                                 File file = createFile(uri);
                                 if (checkFileSize(file)) {
-                                    files.add(file);
-                                    filesUri.add(uri);
+                                    adapter.filesList.add(file);
+
                                 } else {
                                     if (Util.getLocale(this).equals("ar")) {
                                         Util.showErrorDialog(this, "Skolera", "حجم الملف كبير");
@@ -175,8 +172,8 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
                             Uri uri = data.getData();
                             File file = createFile(uri);
                             if (checkFileSize(file)) {
-                                files.add(file);
-                                filesUri.add(uri);
+                                adapter.filesList.add(file);
+                                //todo filesUri.add(uri);
                             } else {
                                 if (Util.getLocale(this).equals("ar")) {
                                     Util.showErrorDialog(this, "Skolera", "حجم الملف كبير");
@@ -186,7 +183,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
                             }
                         }
                     }
-                    adapter.addData(filesUri);
+                    adapter.notifyDataSetChanged();
                     attachmentLayout.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                 }
@@ -196,15 +193,21 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
 
     @Override
     public void onDeleteClicked(int position) {
+        //todo put in string file
         new AlertDialog.Builder(this)
                 .setTitle("Delete entry")
                 .setMessage("Are you sure you want to delete this attachment?")
 
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        filesUri.remove(position);
-                        files.remove(position);
-                        adapter.addData(filesUri);
+
+                        adapter.filesList.remove(position);
+                        adapter.notifyItemRemoved(position);
+                        adapter.notifyItemRangeChanged(position, adapter.filesList.size());
+                        if (adapter.filesList.isEmpty()) {
+                            attachmentLayout.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                        }
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
@@ -225,7 +228,22 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
 
     private File createFile(Uri uri) {
         InputStream in = null;
-        File file = new File(getCacheDir(), "cacheFileAppeal.srl");
+        File myFile = new File(uri.toString());
+        String displayName = null;
+        if (uri.toString().startsWith("content://")) {
+            Cursor cursor = null;
+            try {
+                cursor = getContentResolver().query(uri, null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        } else if (uri.toString().startsWith("file://")) {
+            displayName = myFile.getName();
+        }
+        File file = new File(getCacheDir(), displayName);
         try {
             in = getContentResolver().openInputStream(uri);
             try (OutputStream output = new FileOutputStream(file)) {

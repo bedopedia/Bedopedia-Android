@@ -5,12 +5,7 @@ package trianglz.ui.adapters;
  */
 
 import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,13 +22,13 @@ import java.util.ArrayList;
 
 public class TeacherAttachmentAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<Uri> filesUri;
+    public ArrayList<File> filesList;
     private Context context;
     private TeacherAttachmentInterface teacherAttachmentInterface;
 
     public TeacherAttachmentAdapter(Context context, TeacherAttachmentInterface teacherAttachmentInterface) {
         this.context = context;
-        filesUri = new ArrayList<>();
+        filesList = new ArrayList<>();
         this.teacherAttachmentInterface = teacherAttachmentInterface;
     }
 
@@ -44,12 +39,11 @@ public class TeacherAttachmentAdapter extends RecyclerView.Adapter {
         return new AttachmentViewHolder(view);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final AttachmentViewHolder viewHolder = (AttachmentViewHolder) holder;
-        final File file = new File(filesUri.get(position).toString());
-        viewHolder.fileNameTextView.setText(getAttachmentName(filesUri.get(position)));
+        final File file = new File(filesList.get(position).toString());
+        viewHolder.fileNameTextView.setText(filesList.get(position).getName());
         viewHolder.dateAddedTextView.setVisibility(View.GONE);
         viewHolder.fileType.setImageResource(R.drawable.file_icon);
         viewHolder.deleteAttachmentBtn.setVisibility(View.VISIBLE);
@@ -63,15 +57,15 @@ public class TeacherAttachmentAdapter extends RecyclerView.Adapter {
 
     }
 
-    public void addData(ArrayList<Uri> filesUri) {
-        this.filesUri.clear();
-        this.filesUri.addAll(filesUri);
+    public void addData(ArrayList<File> filesList) {
+        this.filesList.clear();
+        this.filesList.addAll(filesList);
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return filesUri.size();
+        return filesList.size();
     }
 
     public class AttachmentViewHolder extends RecyclerView.ViewHolder {
@@ -89,25 +83,6 @@ public class TeacherAttachmentAdapter extends RecyclerView.Adapter {
             rootView = itemView.findViewById(R.id.ll_root);
             deleteAttachmentBtn = itemView.findViewById(R.id.delet_attachement_btn);
         }
-    }
-
-    private String getAttachmentName(Uri uri) {
-        File myFile = new File(uri.toString());
-        String displayName = null;
-        if (uri.toString().startsWith("content://")) {
-            Cursor cursor = null;
-            try {
-                cursor = context.getContentResolver().query(uri, null, null, null, null);
-                if (cursor != null && cursor.moveToFirst()) {
-                    displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                }
-            } finally {
-                cursor.close();
-            }
-        } else if (uri.toString().startsWith("file://")) {
-            displayName = myFile.getName();
-        }
-        return displayName;
     }
 
     public interface TeacherAttachmentInterface {
