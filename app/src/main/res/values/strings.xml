@@ -181,7 +181,7 @@
     <string name="submit">Submit</string>
     <string name="enter_grade">Enter grade</string>
     <string name="write_a_feedback">Write a feedback</string>
-    <string name="not_set">Not set</string>
+    <string name="not_set">Not set yet</string>
     <string name="no_feedback">No feedback</string>
     <string name="assignment">Assignment</string>
     <string name="quiz">Quiz</string>
