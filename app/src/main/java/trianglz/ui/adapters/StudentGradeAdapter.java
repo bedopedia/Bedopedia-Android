@@ -114,6 +114,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
                 }
             });
         }
+        holder.downloadAssignmnentBtn.setVisibility(View.GONE);
     }
 
     @Override
