@@ -34,7 +34,7 @@ public class TeacherAttachmentAdapter extends RecyclerView.Adapter {
     public TeacherAttachmentAdapter(Context context, TeacherAttachmentInterface teacherAttachmentInterface) {
         this.context = context;
         filesUri = new ArrayList<>();
-        this.teacherAttachmentInterface=teacherAttachmentInterface;
+        this.teacherAttachmentInterface = teacherAttachmentInterface;
     }
 
     @NonNull
@@ -90,9 +90,9 @@ public class TeacherAttachmentAdapter extends RecyclerView.Adapter {
             deleteAttachmentBtn = itemView.findViewById(R.id.delet_attachement_btn);
         }
     }
+
     private String getAttachmentName(Uri uri) {
         File myFile = new File(uri.toString());
-        String path = myFile.getAbsolutePath();
         String displayName = null;
         if (uri.toString().startsWith("content://")) {
             Cursor cursor = null;
@@ -100,18 +100,17 @@ public class TeacherAttachmentAdapter extends RecyclerView.Adapter {
                 cursor = context.getContentResolver().query(uri, null, null, null, null);
                 if (cursor != null && cursor.moveToFirst()) {
                     displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-//                    postEditText.setText(displayName);
                 }
             } finally {
                 cursor.close();
             }
         } else if (uri.toString().startsWith("file://")) {
             displayName = myFile.getName();
-            //       postEditText.setText(displayName);
         }
         return displayName;
     }
-    public interface TeacherAttachmentInterface{
+
+    public interface TeacherAttachmentInterface {
         void onDeleteClicked(int position);
     }
 }

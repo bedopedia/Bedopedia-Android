@@ -2,14 +2,11 @@ package trianglz.ui.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +16,11 @@ import android.widget.LinearLayout;
 import com.skolera.skolera_android.R;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import trianglz.components.TopItemDecoration;
@@ -157,23 +159,31 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
                         if (null != data.getClipData()) { // checking multiple selection or not
                             for (int i = 0; i < data.getClipData().getItemCount(); i++) {
                                 Uri uri = data.getClipData().getItemAt(i).getUri();
-                                File file = new File(uri.toString());
-//                                if (checkFileSize(uri)) {
-//                                    files.add(file);
-//                                    filesUri.add(uri);
-//                                } else {
-//                                    if (Util.getLocale(this).equals("ar")) {
-//                                        Util.showErrorDialog(this, "Skolera", "حجم الملف كبير");
-//                                    } else {
-//                                        Util.showErrorDialog(this, "Skolera", "File is too big");
-//                                    }
-//                                }
+                                File file = createFile(uri);
+                                if (checkFileSize(file)) {
+                                    files.add(file);
+                                    filesUri.add(uri);
+                                } else {
+                                    if (Util.getLocale(this).equals("ar")) {
+                                        Util.showErrorDialog(this, "Skolera", "حجم الملف كبير");
+                                    } else {
+                                        Util.showErrorDialog(this, "Skolera", "File is too big");
+                                    }
+                                }
                             }
                         } else {
                             Uri uri = data.getData();
-                            File file = new File(uri.toString());
-                            files.add(file);
-                            filesUri.add(uri);
+                            File file = createFile(uri);
+                            if (checkFileSize(file)) {
+                                files.add(file);
+                                filesUri.add(uri);
+                            } else {
+                                if (Util.getLocale(this).equals("ar")) {
+                                    Util.showErrorDialog(this, "Skolera", "حجم الملف كبير");
+                                } else {
+                                    Util.showErrorDialog(this, "Skolera", "File is too big");
+                                }
+                            }
                         }
                     }
                     adapter.addData(filesUri);
@@ -202,15 +212,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
                 .show();
     }
 
-    private Boolean checkFileSize(Uri uri) {
-        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-        Cursor cursor = this.getContentResolver().query(uri, filePathColumn, null, null, null);
-        cursor.moveToFirst();
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        String filePath = cursor.getString(columnIndex);
-        cursor.close();
-        File file = new File(filePath);
-        Log.d("farah", "checkFileSize: " + file.length());
+    private Boolean checkFileSize(File file) {
         Boolean valid = true;
         double bytes = file.length();
         double kilobytes = (bytes / 1024);
@@ -219,5 +221,27 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
             return false;
         }
         return valid;
+    }
+
+    private File createFile(Uri uri) {
+        InputStream in = null;
+        File file = new File(getCacheDir(), "cacheFileAppeal.srl");
+        try {
+            in = getContentResolver().openInputStream(uri);
+            try (OutputStream output = new FileOutputStream(file)) {
+                byte[] buffer = new byte[4 * 1024]; // or other buffer size
+                int read;
+                while ((read = in.read(buffer)) != -1) {
+                    output.write(buffer, 0, read);
+                }
+                output.flush();
+                in.close();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 }
