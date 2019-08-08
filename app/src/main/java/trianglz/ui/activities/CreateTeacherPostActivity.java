@@ -38,7 +38,6 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
     private Button uploadBtn, postBtn;
     private EditText postEditText;
     private ImageButton closeBtn;
-    public static final int PICKFILE_RESULT_CODE = 1;
     private RecyclerView recyclerView;
     private PostDetails postDetails;
     private LinearLayout attachmentLayout;
@@ -144,13 +143,13 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
         chooseFile.setType("*/*");
         chooseFile.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         chooseFile = Intent.createChooser(chooseFile, "Choose a file");
-        startActivityForResult(chooseFile, PICKFILE_RESULT_CODE);
+        startActivityForResult(chooseFile, Constants.PICKFILE_RESULT_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case PICKFILE_RESULT_CODE:
+            case Constants.PICKFILE_RESULT_CODE:
                 if (resultCode == -1) {
                     if (null != data) {
                         if (null != data.getClipData()) { // checking multiple selection or not

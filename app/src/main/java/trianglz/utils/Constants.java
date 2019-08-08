@@ -202,5 +202,6 @@ public class Constants {
     public static final String KEY_VIDEO_PREVIEW = "video_preview";
     public static final String KEY_VIDEO_URL = "videoURL";
     public static final String KEY_POST = "post";
+    public static final int PICKFILE_RESULT_CODE = 1;
 
 }

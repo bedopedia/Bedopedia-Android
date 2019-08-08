@@ -625,7 +625,7 @@ public class UserManager {
 
     }
 
-    public  static void createTeacherPost(String url,String post,int ownerId,int courseGroupId,String postableType, final ResponseListener responseListener ){
+    public static void createTeacherPost(String url,String post,int ownerId,int courseGroupId,String postableType, final ResponseListener responseListener ){
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject jsonObject= new JSONObject();
         JSONObject postJsonObject= new JSONObject();
@@ -652,4 +652,9 @@ public class UserManager {
             }
         });
     }
+    HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+    public static void attachFileToTeacherPost(String url, int postId, File file){
+      //  NetworkManager.
+    }
+
 }
