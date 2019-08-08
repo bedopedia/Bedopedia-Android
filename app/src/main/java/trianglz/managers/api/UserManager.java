@@ -480,8 +480,8 @@ public class UserManager {
         });
     }
 
-    public static void getQuizzesSubmissions(int quizId, final ArrayResponseListener arrayResponseListener) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizzesSubmissions(quizId);
+    public static void getQuizzesSubmissions(int quizId, int courseGroupId, final ArrayResponseListener arrayResponseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizzesSubmissions(quizId, courseGroupId);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> params = new HashMap<>();
         String headers = Util.convertHeaderMapToBulk(headerHashMap);

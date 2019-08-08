@@ -178,7 +178,7 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
             }
         } else {
             if (quizId != -1) {
-                gradingView.getQuizzesSubmissions(quizId);
+                gradingView.getQuizzesSubmissions(quizId, courseGroupId);
             }
 
         }

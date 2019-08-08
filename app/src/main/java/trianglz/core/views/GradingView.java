@@ -69,8 +69,8 @@ public class GradingView {
         });
     }
 
-    public void getQuizzesSubmissions(int quizId) {
-        UserManager.getQuizzesSubmissions(quizId, new ArrayResponseListener() {
+    public void getQuizzesSubmissions(int quizId, int courseGroupId) {
+        UserManager.getQuizzesSubmissions(quizId, courseGroupId, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray responseArray) {
                 ArrayList<StudentSubmission> studentSubmissions = new ArrayList<>();

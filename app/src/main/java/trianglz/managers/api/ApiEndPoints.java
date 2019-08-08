@@ -63,8 +63,15 @@ public class ApiEndPoints {
         return url;
     }
 
-    public static String getQuizzesSubmissions(int quizId) {
-        return "/api/quizzes/" + quizId + "/quiz_submissions";
+    public static String getQuizzesSubmissions(int quizId, int courseGroupId) {
+        Uri.Builder builder = new Uri.Builder();
+        builder.appendPath("api")
+                .appendPath("quizzes")
+                .appendPath(quizId+"")
+                .appendPath("submissions")
+                .appendQueryParameter("course_group_id", courseGroupId+"");
+        return builder.toString();
+
     }
 
     public static String postsApi(int id) {
