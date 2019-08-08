@@ -27,14 +27,13 @@ import trianglz.utils.Util;
 
 public class PostDetailActivity extends SuperActivity implements PostDetailsPresenter, View.OnClickListener, PostDetailsAdapter.PostDetailsInterface {
 
-    private int courseId, courseGroupId;
+    private int  courseGroupId;
     private String courseName;
     private RecyclerView recyclerView;
     private PostDetailsView postDetailsView;
     private Toolbar toolbar;
     private TextView courseNameTextView;
     private PostDetailsAdapter adapter;
-    private String subjectName;
     private FloatingActionButton addPostFab;
     private boolean isStudent, isParent;
 
@@ -56,7 +55,7 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
         super.onResume();
         showLoadingDialog();
         //todo gets only the student post not course group posts for teacher
-        postDetailsView.getPostDetails(courseId);
+        postDetailsView.getPostDetails(courseGroupId);
     }
 
     private void bindViews() {
@@ -106,14 +105,14 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
         if (!uploadedObjectStrings.isEmpty())
             bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        intent.putExtra(Constants.KEY_COURSE_NAME, subjectName);
+        intent.putExtra(Constants.KEY_COURSE_NAME, courseName);
         startActivity(intent);
     }
 
     @Override
     public void onCardClicked(PostDetails postDetails) {
         Intent intent = new Intent(this, PostReplyActivity.class);
-        intent.putExtra(Constants.KEY_COURSE_NAME, subjectName);
+        intent.putExtra(Constants.KEY_COURSE_NAME, courseName);
         intent.putExtra(Constants.POST_DETAILS, postDetails.toString());
         startActivity(intent);
     }
@@ -128,8 +127,6 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     }
 
     private void getValuesFromIntent() {
-        subjectName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
-        courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0);
         courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
         courseGroupId = getIntent().getIntExtra(Constants.KEY_COURSE_GROUP_ID,0);
     }

@@ -9,6 +9,7 @@ import android.provider.OpenableColumns;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.skolera.skolera_android.R;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +28,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import trianglz.components.TopItemDecoration;
+import trianglz.core.presenters.AttachFileToTeacherPostPresenter;
 import trianglz.core.presenters.CreateTeacherPostPresenter;
+import trianglz.core.views.AttachFileToTeacherPostView;
 import trianglz.core.views.CreateTeacherPostView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
@@ -34,14 +39,15 @@ import trianglz.ui.adapters.TeacherAttachmentAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class CreateTeacherPostActivity extends SuperActivity implements TeacherAttachmentAdapter.TeacherAttachmentInterface, CreateTeacherPostPresenter, View.OnClickListener {
+public class CreateTeacherPostActivity extends SuperActivity implements AttachFileToTeacherPostPresenter, TeacherAttachmentAdapter.TeacherAttachmentInterface, CreateTeacherPostPresenter, View.OnClickListener {
     private Button uploadBtn, postBtn;
     private EditText postEditText;
     private ImageButton closeBtn;
     private RecyclerView recyclerView;
     private PostDetails postDetails;
+    private AttachFileToTeacherPostView attachFileToTeacherPostView;
     private LinearLayout attachmentLayout;
-    private int courseGroupId;
+    private int courseGroupId, attachmentIndex = 0;
     private TeacherAttachmentAdapter adapter;
     private CreateTeacherPostView createTeacherPostView;
 
@@ -56,6 +62,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
     }
 
     private void bindViews() {
+        attachFileToTeacherPostView = new AttachFileToTeacherPostView(this, this);
         createTeacherPostView = new CreateTeacherPostView(this, this);
         uploadBtn = findViewById(R.id.upload_file_btn);
         postBtn = findViewById(R.id.post_btn);
@@ -100,6 +107,10 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
             progress.dismiss();
         }
         postDetails = post;
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.attachFiletoPost();
+        if (!(adapter.filesList.isEmpty())) {
+            attachFileToTeacherPostView.attachFileToTeacherPost(url, postDetails.getId(), adapter.filesList.get(attachmentIndex));
+        }
     }
 
     @Override
@@ -182,6 +193,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
                             }
                         }
                     }
+                    Log.d("boolean", "onActivityResult: " + !(adapter.filesList.isEmpty()) + " " + attachmentIndex + (attachmentIndex != adapter.filesList.size() - 1));
                     adapter.notifyDataSetChanged();
                     attachmentLayout.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
@@ -260,5 +272,20 @@ public class CreateTeacherPostActivity extends SuperActivity implements TeacherA
             e.printStackTrace();
         }
         return file;
+    }
+
+    @Override
+    public void onAttachmentUploadedSuccess(JSONObject response) {
+        attachmentIndex++;
+        if(attachmentIndex < adapter.filesList.size()) {
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.attachFiletoPost();
+            attachFileToTeacherPostView.attachFileToTeacherPost(url, postDetails.getId(), adapter.filesList.get(attachmentIndex));
+        }
+
+    }
+
+    @Override
+    public void onAttachmentUploadedFailure(String message, int errorCode) {
+        Log.d("failing", "onAttachmentUploadedFailure: " + message + errorCode);
     }
 }

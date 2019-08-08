@@ -112,9 +112,8 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
     private void openPostDetailsActivity() {
         Intent intent = new Intent(this, PostDetailActivity.class);
         intent.putExtra(Constants.KEY_COURSE_GROUP_ID,courseGroup.getId());
-        intent.putExtra(Constants.KEY_COURSE_ID, courseGroup.getCourseId());
         intent.putExtra(Constants.KEY_COURSE_NAME,teacherCourse.getName());
-        Log.d("tag", "openPostDetailsActivity: " +courseGroup.getId()+courseGroup.getCourseName());
+        Log.d("tag", "openPostDetailsActivity: " +courseGroup.getId());
         startActivity(intent);
     }
 

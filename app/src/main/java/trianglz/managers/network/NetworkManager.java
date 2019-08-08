@@ -399,7 +399,7 @@ public class NetworkManager {
     public static void upload(String url, HashMap<String, String> multiPartParamterHashMap, File file, HashMap<String, String> headerValue, final HandleMultiPartResponseListener handleResponseListener) {
         AndroidNetworking.upload(url)
                 .addHeaders(headerValue)
-                .addMultipartFile("file", file)
+                .addMultipartFile("file[file]", file)
                 .addMultipartParameter(multiPartParamterHashMap)
                 .setPriority(Priority.HIGH)
                 .build()

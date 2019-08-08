@@ -1,5 +1,7 @@
 package trianglz.managers.api;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +13,7 @@ import java.util.HashMap;
 
 import trianglz.managers.SessionManager;
 import trianglz.managers.network.HandleArrayResponseListener;
+import trianglz.managers.network.HandleMultiPartResponseListener;
 import trianglz.managers.network.HandleResponseListener;
 import trianglz.managers.network.NetworkManager;
 import trianglz.utils.Constants;
@@ -128,6 +131,7 @@ public class UserManager {
     }
     public static void getPostDetails (int courseId, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postsDetailsApi(courseId);
+        Log.d("farah", "getPostDetails: "+url);
         HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String,String> paramsHashMap = new HashMap<>();
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
@@ -652,9 +656,29 @@ public class UserManager {
             }
         });
     }
-    HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
-    public static void attachFileToTeacherPost(String url, int postId, File file){
-      //  NetworkManager.
+
+
+    public static void attachFileToTeacherPost(String url, int postId, File file,MultiPartResponseListener multiPartResponseListener){
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String, String> multiPartHashmap = new HashMap<>();
+        multiPartHashmap.put(Constants.KEY_NAME,file.getName());
+        multiPartHashmap.put(Constants.KEY_POST_IDS,Integer.toString(postId));
+        NetworkManager.upload(url, multiPartHashmap, file, headerHashMap, new HandleMultiPartResponseListener() {
+            @Override
+            public void onProgress(long uploaded, long total) {
+
+            }
+
+            @Override
+            public void onSuccess(JSONObject response) {
+                multiPartResponseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String s, int errorCode) {
+                multiPartResponseListener.onFailure(s,errorCode);
+            }
+        });
     }
 
 }
