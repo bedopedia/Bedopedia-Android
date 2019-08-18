@@ -43,7 +43,7 @@ public class ApiEndPoints {
     }
 
     public static String getQuizzesDetails(int studentId, int courseId) {
-        return "/api/students/" + studentId + "/quizzes?course_group_ids=["+courseId+"]";
+        return "/api/students/" + studentId + "/quizzes?course_group_ids=[" + courseId + "]";
     }
 
     public static String getTeacherQuizzes(String courseGroupId) {
@@ -135,5 +135,11 @@ public class ApiEndPoints {
     public  static String createEvent(){
         return "/api/events";
 
+    }
+    public static String createPostCourseGroup() {
+        return "/api/posts";
+    }
+    public static String attachFiletoPost(){
+        return "/api/posts/create_uploaded_file_for_posts";
     }
 }

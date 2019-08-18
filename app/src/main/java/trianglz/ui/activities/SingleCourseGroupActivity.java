@@ -2,6 +2,7 @@ package trianglz.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -33,7 +34,6 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
     private LinearLayout attendanceLayout, quizzesLayout, assignmentsLayout, postsLayout;
     private CourseAssignmentView courseAssignmentView;
     private SingleCourseGroupView singleCourseGroupView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,11 +104,22 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
                 openAssignmentDetailActivity();
                 break;
             case R.id.layout_posts:
+                openPostDetailsActivity();
                 break;
         }
     }
-        /* Empty overridden methods because we used an already made View to call the get assignments
-         details method */
+
+    private void openPostDetailsActivity() {
+        Intent intent = new Intent(this, PostDetailActivity.class);
+        intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroup.getId());
+        intent.putExtra(Constants.KEY_COURSE_ID, courseGroup.getCourseId());
+        intent.putExtra(Constants.KEY_COURSE_NAME, teacherCourse.getName());
+        Log.d("tag", "openPostDetailsActivity: " + courseGroup.getId());
+        startActivity(intent);
+    }
+
+    /* Empty overridden methods because we used an already made View to call the get assignments
+     details method */
     @Override
     public void onGetCourseAssignmentSuccess(ArrayList<CourseAssignment> courseAssignmentArrayList) {
     }

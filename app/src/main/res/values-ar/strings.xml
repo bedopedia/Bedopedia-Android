@@ -177,4 +177,13 @@
     <string name="hint_date"> ٢٤\\٣\\٢٠١٩ ٠٣:٤٠ م</string>
 
 
+    <string name="create_post">إنشاء منشور</string>
+    <string name="create_a_post_and_share">إنشئ منشور و شارك مع الفصل</string>
+    <string name="content">المحتوى</string>
+    <string name="text_editor_hint">This is a text editor. Add and edit as you wish</string>
+    <string name="attachments">المرفقات</string>
+    <string name="upload_file">+ إرفع ملف</string>
+    <string name="add_attachment">اضف المرفقات</string>
+    <string name="clicking_button">By clicking the add button you will add a new attachment.</string>
+    <string name="post">نشر</string>
 </resources>

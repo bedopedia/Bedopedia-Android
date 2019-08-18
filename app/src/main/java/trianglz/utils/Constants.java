@@ -21,7 +21,7 @@ public class Constants {
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_MOBILE = "mobile";
 
-    public static final String  MOBILE_DEVICE_TOKEN ="mobile_device_token";
+    public static final String MOBILE_DEVICE_TOKEN = "mobile_device_token";
     public static final String USER = "user";
     public static final String PARENT_ID = "parent_id";
     public static final String KEY_BASE_URL = "base_url";
@@ -36,12 +36,12 @@ public class Constants {
     public static final String KEY_COURSE_NAME = "course_name";
     public static final String KEY_IS_LOGGED_IN = "isLoggedIn";
     public static final String THURSDAY = "thursday";
-    public static final String KEY_FROM  = "from";
+    public static final String KEY_FROM = "from";
     public static final String KEY_TO = "to";
     public static final String KEY_DAY = "day";
     public static final String KEY_SCHOOL_UNIT = "school_unit";
     public static final String KEY_BUNDLE = "bundle";
-    public static final String KEY_TODAY ="today";
+    public static final String KEY_TODAY = "today";
     public static final String KEY_TOMORROW = "tomorrow";
     public static final String KEY_COURSES_GRADES = "courses_grades";
     public static final String KEY_COURSE_ID = "course_id";
@@ -68,9 +68,9 @@ public class Constants {
     public static final String KEY_STATUS = "status";
     public static final String KEY_ABSENT = "absent";
     public static final String KEY_LATE = "late";
-    public static final String  KEY_COMMENT = "comment";
-    public static final String  KEY_NO_COMMENT = "No Comment";
-    public static final String  KEY_EXCUSED = "excused";
+    public static final String KEY_COMMENT = "comment";
+    public static final String KEY_NO_COMMENT = "No Comment";
+    public static final String KEY_EXCUSED = "excused";
     public static final String KEY_NULL = "null";
     // behaviour notes constants
     public static final String KEY_POSITIVE_NOTES_LIST = "positiveNotesList";
@@ -169,7 +169,6 @@ public class Constants {
     public static final String KEY_MESSAGE_THREADS = "message_threads";
 
 
-
     public static final String KEY_ACTABLE_TYPE = "actable_type";
     public static final String KEY_ACTOR = "actor";
     public static final String KEY_ANNOUNCEMENTS = "announcements";
@@ -214,6 +213,14 @@ public class Constants {
     public static final String KEY_LISTENER_TYPE = "listener_type";
     public static final String KEY_LISTENER_ID = "listener_id";
     public static final String KEY_CANCEL = "cancel";
+
+    public static final String KEY_POSTABLE_TYPE = "postable_type";
+    public static final String KEY_POSTABLE_ID = "postable_id";
+    public static final String KEY_VIDEO_PREVIEW = "video_preview";
+    public static final String KEY_VIDEO_URL = "videoURL";
+    public static final String KEY_POST = "post";
+    public static final int PICKFILE_RESULT_CODE = 1;
+    public static final String KEY_POST_IDS = "post_ids[]";
 
 }
 

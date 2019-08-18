@@ -1,14 +1,14 @@
 package trianglz.ui.activities;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
 
@@ -18,6 +18,7 @@ import trianglz.components.BottomItemDecoration;
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.PostDetailsPresenter;
 import trianglz.core.views.PostDetailsView;
+import trianglz.managers.SessionManager;
 import trianglz.models.PostDetails;
 import trianglz.models.UploadedObject;
 import trianglz.ui.AttachmentsActivity;
@@ -25,8 +26,10 @@ import trianglz.ui.adapters.PostDetailsAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class PostDetailActivity extends SuperActivity implements PostDetailsPresenter, PostDetailsAdapter.PostDetailsInterface {
+public class PostDetailActivity extends SuperActivity implements PostDetailsPresenter, View.OnClickListener, PostDetailsAdapter.PostDetailsInterface {
 
+    private int courseGroupId;
+    private String courseName;
     private RecyclerView recyclerView;
     private PostDetailsView postDetailsView;
     private Toolbar toolbar;
@@ -36,18 +39,22 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     private int courseId;
     private int lastPage = 0;
 
+    private FloatingActionButton addPostFab;
+    private boolean isStudent, isParent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
+        getValuesFromIntent();
         bindViews();
         setListeners();
         courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0);
     }
 
-    private void setListeners() {
 
+    private void setListeners() {
+        addPostFab.setOnClickListener(this);
     }
 
     @Override
@@ -58,6 +65,9 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     }
 
     private void bindViews() {
+        isStudent = SessionManager.getInstance().getStudentAccount();
+        isParent = SessionManager.getInstance().getUserType();
+        addPostFab = findViewById(R.id.add_post_btn);
         recyclerView = findViewById(R.id.recycler_view);
         postDetailsView = new PostDetailsView(this, this);
         toolbar = findViewById(R.id.toolbar);
@@ -67,14 +77,16 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
                 onBackPressed();
             }
         });
+        if (!isStudent && !isParent) {
+            addPostFab.setVisibility(View.VISIBLE);
+        }
         courseNameTextView = findViewById(R.id.tv_course_name);
-        subjectName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
-        courseNameTextView.setText(subjectName);
+        courseNameTextView.setText(courseName);
         adapter = new PostDetailsAdapter(this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16,this),false));
-        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(16,this),false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16, this), false));
+        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(16, this), false));
     }
 
     @Override
@@ -96,9 +108,10 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
         for (UploadedObject uploadedObject : uploadedObjects) {
             uploadedObjectStrings.add(uploadedObject.toString());
         }
-        if (!uploadedObjectStrings.isEmpty()) bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
+        if (!uploadedObjectStrings.isEmpty())
+            bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        intent.putExtra(Constants.KEY_COURSE_NAME, subjectName);
+        intent.putExtra(Constants.KEY_COURSE_NAME, courseName);
         startActivity(intent);
     }
 
@@ -114,8 +127,36 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     @Override
     public void onCardClicked(PostDetails postDetails) {
         Intent intent = new Intent(this, PostReplyActivity.class);
-        intent.putExtra(Constants.KEY_COURSE_NAME, subjectName);
+        intent.putExtra(Constants.KEY_COURSE_NAME, courseName);
         intent.putExtra(Constants.POST_DETAILS, postDetails.toString());
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.add_post_btn:
+                openCreatePostActivity();
+                break;
+        }
+    }
+
+    private void getValuesFromIntent() {
+        courseName = getIntent().getStringExtra(Constants.KEY_COURSE_NAME);
+        courseGroupId = getIntent().getIntExtra(Constants.KEY_COURSE_GROUP_ID, 0);
+    }
+
+    private void openCreatePostActivity() {
+        Intent intent = new Intent(this, CreateTeacherPostActivity.class);
+        intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroupId);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+            }
+        }
     }
 }

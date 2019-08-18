@@ -16,6 +16,7 @@ import java.util.TimeZone;
 
 import trianglz.managers.SessionManager;
 import trianglz.managers.network.HandleArrayResponseListener;
+import trianglz.managers.network.HandleMultiPartResponseListener;
 import trianglz.managers.network.HandleResponseListener;
 import trianglz.managers.network.NetworkManager;
 import trianglz.models.Feedback;
@@ -810,4 +811,57 @@ public class UserManager {
             }
         });
     }
+
+    public static void createTeacherPost(String url,String post,int ownerId,int courseGroupId,String postableType, final ResponseListener responseListener ){
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject jsonObject= new JSONObject();
+        JSONObject postJsonObject= new JSONObject();
+        try {
+            postJsonObject.put(Constants.CONTENT,post);
+            postJsonObject.put(Constants.KEY_OWNER_ID,ownerId);
+            postJsonObject.put(Constants.KEY_POSTABLE_ID,courseGroupId);
+            postJsonObject.put(Constants.KEY_POSTABLE_TYPE,postableType);
+            postJsonObject.put(Constants.KEY_VIDEO_PREVIEW,"");
+            postJsonObject.put(Constants.KEY_VIDEO_URL,"");
+            jsonObject.put(Constants.KEY_POST,postJsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, jsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+
+            }
+        });
+    }
+
+
+    public static void attachFileToTeacherPost(String url, int postId, File file,MultiPartResponseListener multiPartResponseListener){
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String, String> multiPartHashmap = new HashMap<>();
+        multiPartHashmap.put(Constants.KEY_NAME,file.getName());
+        multiPartHashmap.put(Constants.KEY_POST_IDS,Integer.toString(postId));
+        NetworkManager.upload(url, multiPartHashmap, file, headerHashMap, new HandleMultiPartResponseListener() {
+            @Override
+            public void onProgress(long uploaded, long total) {
+
+            }
+
+            @Override
+            public void onSuccess(JSONObject response) {
+                multiPartResponseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String s, int errorCode) {
+                multiPartResponseListener.onFailure(s,errorCode);
+            }
+        });
+    }
+
 }
