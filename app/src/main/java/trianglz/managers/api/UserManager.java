@@ -129,8 +129,8 @@ public class UserManager {
         });
 
     }
-    public static void getPostDetails (int courseId, final ResponseListener responseListener) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postsDetailsApi(courseId);
+    public static void getPostDetails (int courseId,int page, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postsDetailsApi(courseId, page);
         HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String,String> paramsHashMap = new HashMap<>();
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {

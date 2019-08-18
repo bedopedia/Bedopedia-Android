@@ -3,7 +3,6 @@ package trianglz.ui.adapters;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -15,10 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,10 +22,7 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
-import trianglz.components.CircleTransform;
-import trianglz.core.views.PostDetailsView;
 import trianglz.models.PostDetails;
-import trianglz.models.PostsResponse;
 import trianglz.models.UploadedObject;
 import trianglz.utils.Util;
 
@@ -39,6 +31,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
     private Context context;
     IImageLoader imageLoader;
     private PostDetailsInterface postDetailsInterface;
+    private int currentLimit = 0;
 
     public PostDetailsAdapter(Context context, PostDetailsInterface postDetailsInterface) {
         this.context = context;
@@ -134,15 +127,22 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
                 postDetailsInterface.onCardClicked(postDetail);
             }
         });
+        if (currentLimit != position) {
+            if (position == postDetails.size() - 4) {
+                currentLimit = position;
+                float size = postDetails.size();
+                postDetailsInterface.loadNextPage(Math.round(size / 10) + 1);
+            }
+        }
     }
 
     private void setAvatarView(final AvatarView avatarView,final String name, String imageUrl) {
         imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), "Path of Image");
-    }
+     }
 
     public void addData(ArrayList<PostDetails> mPostDetails) {
-        postDetails.clear();
-        postDetails.addAll(mPostDetails);
+//        if (postDetails.size() <= 10) postDetails.clear();
+        if (mPostDetails != null) postDetails.addAll(mPostDetails);
         notifyDataSetChanged();
     }
 
@@ -172,7 +172,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
 
     public interface PostDetailsInterface {
         void onAttachmentClicked(ArrayList<UploadedObject> uploadedObjects);
-
+        void loadNextPage(int page);
         void onCardClicked(PostDetails postDetails);
     }
 }

@@ -26,14 +26,14 @@ public class PostDetailsView {
         gson = new Gson();
     }
 
-    public void getPostDetails(int courseId) {
-        UserManager.getPostDetails(courseId, new ResponseListener() {
+    public void getPostDetails(int courseId, int page) {
+        UserManager.getPostDetails(courseId, page, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 JSONArray jsonArray = response.optJSONArray("posts");
                 ArrayList<PostDetails> postDetails = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
-                        postDetails.add(PostDetails.create(jsonArray.opt(i).toString()));
+                    postDetails.add(PostDetails.create(jsonArray.opt(i).toString()));
                 }
                 postDetailsPresenter.ongetPostDetailsSuccess(postDetails);
             }

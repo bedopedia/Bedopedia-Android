@@ -77,8 +77,8 @@ public class ApiEndPoints {
     public static String postsApi(int id) {
         return  "/api/students/"+ id +"/course_groups_recent_posts";
     }
-    public static String postsDetailsApi(int courseId) {
-        return "/api/posts?access_by_entity=Course+Group+Posts&course_group_id=" + courseId;
+    public static String postsDetailsApi(int courseId, int page) {
+        return "/api/posts?access_by_entity=Course+Group+Posts&course_group_id=" + courseId + "&page=" + page + "&per_page=10";
     }
 
     public static String postReply() {

@@ -33,6 +33,8 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     private TextView courseNameTextView;
     private PostDetailsAdapter adapter;
     private String subjectName;
+    private int courseId;
+    private int lastPage = 0;
 
 
     @Override
@@ -40,13 +42,19 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
         bindViews();
+        setListeners();
+        courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0);
+    }
+
+    private void setListeners() {
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         showLoadingDialog();
-        postDetailsView.getPostDetails(getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0));
+        postDetailsView.getPostDetails(courseId,1);
     }
 
     private void bindViews() {
@@ -92,6 +100,15 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
         intent.putExtra(Constants.KEY_COURSE_NAME, subjectName);
         startActivity(intent);
+    }
+
+    @Override
+    public void loadNextPage(int page) {
+        if (lastPage != page) {
+            postDetailsView.getPostDetails(courseId,page);
+            lastPage = page;
+        }
+
     }
 
     @Override
