@@ -74,6 +74,7 @@ import trianglz.ui.activities.NotificationsActivity;
 import trianglz.ui.activities.OnlineQuizzesActivity;
 import trianglz.ui.activities.PostsActivity;
 import trianglz.ui.activities.StudentMainActivity;
+import trianglz.ui.activities.SuperActivity;
 import trianglz.ui.activities.TimetableActivity;
 import trianglz.ui.activities.WeeklyPlannerActivity;
 import trianglz.utils.Constants;
@@ -324,7 +325,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if(errorCode == 401 || errorCode == 500 ){
             getParentActivity().logoutUser(getParentActivity());
         }else {
-            getParentActivity().showErrorDialog(getParentActivity());
+            SuperActivity.showErrorDialog(getParentActivity());
         }
     }
 
@@ -345,7 +346,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if(errorCode == 401 || errorCode == 500 ){
             getParentActivity().logoutUser(getParentActivity());
         }else {
-            getParentActivity().showErrorDialog(getParentActivity());
+            SuperActivity.showErrorDialog(getParentActivity());
         }
     }
 
@@ -374,7 +375,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if(errorCode == 401 || errorCode == 500 ){
             getParentActivity().logoutUser(getParentActivity());
         }else {
-            getParentActivity().showErrorDialog(getParentActivity());
+            SuperActivity.showErrorDialog(getParentActivity());
         }
     }
 
@@ -432,7 +433,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (errorCode == 401 || errorCode == 500) {
             getParentActivity().logoutUser(getParentActivity());
         } else {
-            getParentActivity().showErrorDialog(getParentActivity());
+            SuperActivity.showErrorDialog(getParentActivity());
         }
     }
 
@@ -471,7 +472,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if(errorCode == 401 || errorCode == 500 ){
             getParentActivity().logoutUser(getParentActivity());
         }else {
-            getParentActivity().showErrorDialog(getParentActivity());
+            SuperActivity.showErrorDialog(getParentActivity());
         }
     }
 
@@ -510,7 +511,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if(errorCode == 401 || errorCode == 500 ){
             getParentActivity().logoutUser(getParentActivity());
         }else {
-            getParentActivity().showErrorDialog(getParentActivity());
+            SuperActivity.showErrorDialog(getParentActivity());
         }
     }
 
@@ -536,7 +537,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if(errorCode == 401 || errorCode == 500 ){
             getParentActivity().logoutUser(getParentActivity());
         }else {
-            getParentActivity().showErrorDialog(getParentActivity());
+            SuperActivity.showErrorDialog(getParentActivity());
         }
     }
 
@@ -707,9 +708,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     public void restartApp() {
         Intent intent = getParentActivity().getBaseContext().getPackageManager()
                 .getLaunchIntentForPackage(getParentActivity().getBaseContext().getPackageName());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (intent != null) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(intent);
-        if (getParentActivity() instanceof Activity) {
+        if (getParentActivity() != null) {
             (this).getParentActivity().finish();
         }
         new Handler().postDelayed(new Runnable() {
