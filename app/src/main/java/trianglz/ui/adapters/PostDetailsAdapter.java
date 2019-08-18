@@ -153,11 +153,11 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
 
     public class PostDetailsViewHolder extends RecyclerView.ViewHolder {
 
-        public AvatarView avatarView;
-        public TextView ownerTextview, dateTextView, bodyTextView;
-        public Button firstButton, secondButton, thirdButton;
-        public LinearLayout buttonsLayout;
-        public PostDetailsViewHolder(@NonNull View itemView) {
+        AvatarView avatarView;
+         TextView ownerTextview, dateTextView, bodyTextView;
+         Button firstButton, secondButton, thirdButton;
+         LinearLayout buttonsLayout;
+         PostDetailsViewHolder(@NonNull View itemView) {
             super(itemView);
             avatarView = itemView.findViewById(R.id.iv_owner_image);
             ownerTextview = itemView.findViewById(R.id.tv_owner_name);

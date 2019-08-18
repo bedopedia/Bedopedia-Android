@@ -5,6 +5,6 @@ import java.util.ArrayList;
 import trianglz.models.PostDetails;
 
 public interface PostDetailsPresenter {
-    void ongetPostDetailsSuccess(ArrayList<PostDetails> postDetails);
-    void ongetPostDetailsFailure();
+    void onGetPostDetailsSuccess(ArrayList<PostDetails> postDetails);
+    void onGetPostDetailsFailure();
 }

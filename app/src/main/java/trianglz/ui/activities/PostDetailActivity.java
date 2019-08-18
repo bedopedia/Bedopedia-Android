@@ -90,13 +90,13 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     }
 
     @Override
-    public void ongetPostDetailsSuccess(ArrayList<PostDetails> postDetails) {
+    public void onGetPostDetailsSuccess(ArrayList<PostDetails> postDetails) {
         adapter.addData(postDetails);
         if (progress.isShowing()) progress.dismiss();
     }
 
     @Override
-    public void ongetPostDetailsFailure() {
+    public void onGetPostDetailsFailure() {
         if (progress.isShowing()) progress.dismiss();
     }
 

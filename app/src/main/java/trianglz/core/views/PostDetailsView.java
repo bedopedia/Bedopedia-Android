@@ -5,7 +5,6 @@ import android.content.Context;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -35,12 +34,12 @@ public class PostDetailsView {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     postDetails.add(PostDetails.create(jsonArray.opt(i).toString()));
                 }
-                postDetailsPresenter.ongetPostDetailsSuccess(postDetails);
+                postDetailsPresenter.onGetPostDetailsSuccess(postDetails);
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                postDetailsPresenter.ongetPostDetailsFailure();
+                postDetailsPresenter.onGetPostDetailsFailure();
             }
         });
     }
