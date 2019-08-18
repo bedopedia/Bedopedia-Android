@@ -21,6 +21,7 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.models.PostsResponse;
+import trianglz.utils.Util;
 
 public class PostsAdapter extends RecyclerView.Adapter {
     private Context context;
@@ -45,7 +46,16 @@ public class PostsAdapter extends RecyclerView.Adapter {
                 viewHolder.nameTextview.setText("");
             }
             viewHolder.counterTextView.setText(String.valueOf(postsResponse.getPostsCount()));
-            viewHolder.descriptionTextView.setText(String.valueOf(Html.fromHtml(postsResponse.getPosts().getContent())));
+
+            // sets the text view is both cases whether the back end response contains html or not
+            if (Util.hasHTMLTags(postsResponse.getPosts().getContent())) {
+                viewHolder.descriptionTextView.setText(String.valueOf(Html.fromHtml(postsResponse.getPosts().getContent())));
+            } else {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)viewHolder.descriptionTextView.getLayoutParams();
+                params.setMargins(0, 0, 0, Math.round(Util.convertDpToPixel(24, context))); //substitute parameters for left, top, right, bottom
+                viewHolder.descriptionTextView.setLayoutParams(params);
+                viewHolder.descriptionTextView.setText(String.valueOf(Html.fromHtml(postsResponse.getPosts().getContent())));
+            }
         } else {
             viewHolder.nameTextview.setText("");
             viewHolder.counterTextView.setText("");

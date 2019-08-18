@@ -38,6 +38,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import Tools.CalendarUtils;
 import gun0912.tedbottompicker.TedBottomPicker;
@@ -332,7 +334,12 @@ public class Util {
 
     }
 
-
+    public static boolean hasHTMLTags(String text){
+        final String HTML_PATTERN = "<(\"[^\"]*\"|'[^']*'|[^'\">])*>";
+        Pattern pattern = Pattern.compile(HTML_PATTERN);
+        Matcher matcher = pattern.matcher(text);
+        return matcher.find();
+    }
     public static void isImageUrl(final Message message, final int position , final MimeTypeInterface mimeTypeInterface) {
         final ArrayList<Object> filteredArrayList = new ArrayList<>();
         AsyncTask.execute(new Runnable() {
