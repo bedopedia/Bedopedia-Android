@@ -1,7 +1,6 @@
 package trianglz.ui.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +9,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import agency.tango.android.avatarview.AvatarPlaceholder;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
-import trianglz.components.CircleTransform;
-import trianglz.models.AssignmentsDetail;
-import trianglz.models.CourseAssignment;
 import trianglz.models.QuizzCourse;
 import trianglz.utils.Util;
 
@@ -60,16 +53,14 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
         holder.assignmentCountsTextView.setText(quizzCourse.getQuizzesCount() + "");
         IImageLoader imageLoader = new PicassoLoader();
         imageLoader.loadImage(holder.courseAvatarView,new AvatarPlaceholderModified(quizzCourse.getCourseName()),"path of image");
-        if(quizzCourse.getQuizState()!= null){
-            if (quizzCourse.getQuizState().equals("running")) {
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
-            } else {
+        if (quizzCourse.getNextQuizDate() != null && !quizzCourse.getNextQuizDate().isEmpty()) {
+            DateTime dateTime = new DateTime(quizzCourse.getNextQuizDate());
+            if (dateTime.isBefore(DateTime.now())) {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+            } else {
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
             }
-        }else {
-            holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
-        }
-        if (quizzCourse.getNextQuizDate() == null || quizzCourse.getNextQuizDate().equals("")) {
+        } else {
             holder.dateLinearLayout.setVisibility(View.INVISIBLE);
         }
         holder.dateTextView.setText(Util.getCourseDate(quizzCourse.getNextQuizDate()));
