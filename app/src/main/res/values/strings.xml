@@ -185,4 +185,20 @@
     <string name="no_feedback">No feedback</string>
     <string name="assignment">Assignment</string>
     <string name="quiz">Quiz</string>
+    <string name="calendar">Calendar</string>
+    <string name="academic">Academic</string>
+    <string name="vacations">Vacations</string>
+    <string name="personal">Personal</string>
+    <string name="create_personal_event">Create personal event</string>
+    <string name="when">When</string>
+    <string name="to_caps">To</string>
+    <string name="subject">Subject</string>
+    <string name="notes">Notes</string>
+    <string name="create">Create</string>
+    <string name="subject_name">Subject name</string>
+    <string name="add_notes">Add notes</string>
+    <string name="hint_date">24/3/2019 03:40 PM</string>
+
+
+
 </resources>

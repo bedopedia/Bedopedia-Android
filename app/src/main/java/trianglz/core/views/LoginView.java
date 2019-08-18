@@ -154,7 +154,7 @@ public class LoginView {
                         studentData.optString("section_name"),
                         studentData.optString("stage_name"),
                         studentData.optJSONObject("today_workload_status"),
-                        0, null, null));
+                        0, studentData.optInt("user_id"),null, null));
                 objectArrayList.add(kidsAttendances);
                 objectArrayList.add(myKids);
             }

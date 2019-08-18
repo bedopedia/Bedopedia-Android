@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="trianglz.ui.activities.CalendarActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:src="@drawable/chevron_left" />
+
+                <trianglz.components.SfproBoldTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@android:color/transparent"
+                    android:text="@string/calendar"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <agency.tango.android.avatarview.views.AvatarView
+                    android:id="@+id/img_student"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/notify" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/silver" />
+        </LinearLayout>
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <trianglz.components.SfuiBoldTextView
+            android:id="@+id/tv_month_year_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="March 2016"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <trianglz.components.SfuiBoldTextView
+            android:id="@+id/today_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@string/today"
+            android:textColor="@color/jade_green"
+            android:textSize="17sp" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/compactcalendar_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            app:compactCalendarBackgroundColor="@android:color/transparent"
+            app:compactCalendarCurrentDayBackgroundColor="@color/jade_green"
+            app:compactCalendarCurrentDayTextColor="@color/black"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/jade_green"
+            app:compactCalendarCurrentSelectedDayTextColor="@color/black"
+            app:compactCalendarMultiEventIndicatorColor="@color/jade_green"
+            app:compactCalendarOtherMonthDaysTextColor="@color/black"
+            app:compactCalendarTargetHeight="230dp"
+            app:compactCalendarTextColor="@color/black"
+            app:compactCalendarTextSize="12sp" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/view_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_gravity="bottom"
+            android:alpha="0.2"
+            android:background="@color/black" />
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/layout_all"
+                    android:layout_width="94dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.CircularMediumTextView
+                        android:id="@+id/tv_all_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:text="12"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <trianglz.components.CircularBookTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="9dp"
+                        android:text="@string/all"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view_all"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/curved_black"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_events"
+                    android:layout_width="94dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.CircularMediumTextView
+                        android:id="@+id/tv_events_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:text="12"
+                        android:textColor="@color/turquoise_blue"
+                        android:textSize="14sp" />
+
+                    <trianglz.components.CircularBookTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="9dp"
+                        android:text="@string/events"
+                        android:textColor="@color/turquoise_blue"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view_events"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/curved_turquoise_blue"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_assignments"
+                    android:layout_width="94dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.CircularMediumTextView
+                        android:id="@+id/tv_assignments_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:text="12"
+                        android:textColor="@color/red"
+                        android:textSize="14sp" />
+
+                    <trianglz.components.CircularBookTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="9dp"
+                        android:text="@string/assignments"
+                        android:textColor="@color/red"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view_assignments"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/curved_red"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_quizzes"
+                    android:layout_width="94dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.CircularMediumTextView
+                        android:id="@+id/tv_quizzes_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:text="12"
+                        android:textColor="@color/light_sage"
+                        android:textSize="14sp" />
+
+                    <trianglz.components.CircularBookTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="9dp"
+                        android:text="@string/quizzes"
+                        android:textColor="@color/light_sage"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view_quizzes"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/curved_light_sage"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/layout_academic"
+                    android:layout_width="94dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.CircularMediumTextView
+                        android:id="@+id/tv_academic_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:text="12"
+                        android:textColor="@color/butterscotch"
+                        android:textSize="14sp" />
+
+                    <trianglz.components.CircularBookTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="9dp"
+                        android:text="@string/academic"
+                        android:textColor="@color/butterscotch"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view_academic"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/curved_butterscotch"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/layout_vacations"
+                    android:layout_width="94dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.CircularMediumTextView
+                        android:id="@+id/tv_vacations_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:text="12"
+                        android:textColor="@color/soft_green"
+                        android:textSize="14sp" />
+
+                    <trianglz.components.CircularBookTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="9dp"
+                        android:text="@string/vacations"
+                        android:textColor="@color/soft_green"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view_vacations"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/curved_soft_green"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_personal"
+                    android:layout_width="94dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <trianglz.components.CircularMediumTextView
+                        android:id="@+id/tv_personal_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:text="12"
+                        android:textColor="@color/iris"
+                        android:textSize="14sp" />
+
+                    <trianglz.components.CircularBookTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="9dp"
+                        android:text="@string/personal"
+                        android:textColor="@color/iris"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view_personal"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/curved_iris"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="66dp">
+
+        <trianglz.components.RobotoMediumButton
+            android:id="@+id/create_personal_event"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="74dp"
+            android:layout_marginEnd="74dp"
+            android:background="@drawable/curved_jade_green_background"
+            android:drawableStart="@drawable/addnew_ico"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="@string/create_personal_event"
+            android:textAllCaps="false"
+            android:textColor="@color/jade_green" />
+    </FrameLayout>
+
+
+</LinearLayout>

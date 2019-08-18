@@ -67,6 +67,7 @@ import trianglz.models.TimeTableSlot;
 import trianglz.ui.activities.AnnouncementActivity;
 import trianglz.ui.activities.AttendanceActivity;
 import trianglz.ui.activities.BehaviorNotesActivity;
+import trianglz.ui.activities.CalendarActivity;
 import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.CourseAssignmentActivity;
 import trianglz.ui.activities.GradesActivity;
@@ -107,7 +108,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private IImageLoader imageLoader;
     private String studentName = "";
     private StudentDetailView studentDetailView;
-    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout,weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout;
+    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout,weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout;
     private String attendance;
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
@@ -151,6 +152,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         
     }
 
+
     // this method is to reduce the amount of calling getParentActivity()
     private StudentMainActivity getParentActivity() {
         if (activity == null) {
@@ -179,6 +181,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         weeklyPlannerLayout = rootView.findViewById(R.id.layout_weekly_planner);
         timeTableLayout = rootView.findViewById(R.id.layout_timetable);
         gradesLayout = rootView.findViewById(R.id.layout_grades);
+        calendarLayout = rootView.findViewById(R.id.layout_calendar);
         behaviourNotesLayout = rootView.findViewById(R.id.layout_behavior_notes);
         studentDetailView = new StudentDetailView(getParentActivity(), this);
         positiveCounterTextView = rootView.findViewById(R.id.tv_positive_counter);
@@ -213,6 +216,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         behaviourNotesLayout.setOnClickListener(this);
         assignmentsLayout.setOnClickListener(this);
         postsLayout.setOnClickListener(this);
+        calendarLayout.setOnClickListener(this);
         quizzesLayout.setOnClickListener(this);
 
     }
@@ -560,6 +564,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             case R.id.layout_grades:
                 openGradesActivity();
                 break;
+            case R.id.layout_calendar:
+                openCalendarActivity();
+                break;
             case R.id.btn_messages:
                 openMessagesActivity();
                 break;
@@ -597,7 +604,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 intent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
                 startActivity(intent);
                 break;
-                case R.id.layout_quizzes:
+            case R.id.layout_quizzes:
                 Intent intent1 = new Intent(getActivity(), OnlineQuizzesActivity.class);
                 intent1.putExtra(Constants.STUDENT, student.toString());
                 startActivity(intent1);
@@ -637,6 +644,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         startActivity(gradesIntent);
     }
 
+    private void openCalendarActivity(){
+        Intent calendarIntent = new Intent(getActivity(), CalendarActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT,student);
+        calendarIntent.putExtra(Constants.KEY_BUNDLE,bundle);
+        startActivity(calendarIntent);
+    }
     private void openTimeTableActivity() {
         Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
         Bundle bundle = new Bundle();

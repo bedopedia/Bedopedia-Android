@@ -202,4 +202,18 @@ public class Constants {
     public static final String KEY_QUIZ_ID= "quiz_id";
     public static final String KEY_ASSIGNMENT_NAME = "assignment_name";
     public static final String KEY_QUIZ_NAME = "quiz_name";
+    public static final String TYPE_EVENT="event";
+    public static final String TYPE_VACATIONS="vacations";
+    public static final String TYPE_PERSONAL="personal";
+    public static final String TYPE_QUIZZES="quizzes";
+    public static final String TYPE_ACADEMIC="academic";
+    public static final String TYPE_ASSIGNMENTS="assignments";
+    public static final String KEY_EVENT = "event";
+    public static final String KEY_ALL_DAY = "all_day";
+    public static final String KEY_LISTENERS_ATTRIBUTES = "listeners_attributes";
+    public static final String KEY_LISTENER_TYPE = "listener_type";
+    public static final String KEY_LISTENER_ID = "listener_id";
+    public static final String KEY_CANCEL = "cancel";
+
 }
+
