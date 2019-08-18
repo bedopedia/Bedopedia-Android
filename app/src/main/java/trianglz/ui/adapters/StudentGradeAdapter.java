@@ -2,7 +2,6 @@ package trianglz.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -74,7 +73,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
             } else {
                 holder.itemView.setOnClickListener(null);
             }
-            holder.downloadAssignmnentBtn.setOnClickListener(new View.OnClickListener() {
+            holder.downloadAssignmentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     studentGradeInterface.onDownloadButtonClick();
@@ -107,14 +106,14 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
                 holder.itemView.setOnClickListener(null);
             }
 
-            holder.downloadAssignmnentBtn.setOnClickListener(new View.OnClickListener() {
+            holder.downloadAssignmentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     studentGradeInterface.onDownloadButtonClick();
                 }
             });
         }
-        holder.downloadAssignmnentBtn.setVisibility(View.GONE);
+        holder.downloadAssignmentBtn.setVisibility(View.GONE);
     }
 
     @Override
@@ -133,7 +132,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
         AvatarView studentAvatar;
-        ImageButton downloadAssignmnentBtn;
+        ImageButton downloadAssignmentBtn;
         TextView studentName, studentGrade, studentFeedback;
         LinearLayout parentLayout;
 
@@ -141,7 +140,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
             super(itemView);
             studentAvatar = itemView.findViewById(R.id.student_avatar);
             studentName = itemView.findViewById(R.id.tv_student_name);
-            downloadAssignmnentBtn = itemView.findViewById(R.id.download_btn);
+            downloadAssignmentBtn = itemView.findViewById(R.id.download_btn);
             studentGrade = itemView.findViewById(R.id.student_grade_btn);
             studentFeedback = itemView.findViewById(R.id.student_feedback_btn);
             parentLayout = itemView.findViewById(R.id.parent_layout);
