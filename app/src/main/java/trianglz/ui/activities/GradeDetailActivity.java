@@ -1,18 +1,17 @@
 package trianglz.ui.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -24,6 +23,7 @@ import java.util.List;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
+import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.core.presenters.GradeDetailPresenter;
@@ -55,7 +55,9 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
     private ArrayList<Assignment> assignmentArrayList;
     private ArrayList<GradeItem> gradeItemArrayList;
     private HashMap<CourseGradingPeriods, ArrayList<Object>> semesterHashMap;
-    private TextView allTextView, currentTextView;
+    // add segmented group
+    private SegmentedGroup segmentedGroup;
+    private RadioButton allBtn, currentBtn;
     private ArrayList<Object> allSemestersList;
     private ArrayList<Object> currentSemester;
     private HashMap<String, Double> quizzesHashMap;
@@ -69,9 +71,6 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         getValueFromIntent();
         bindViews();
         setListeners();
-        if (Util.getLocale(this).equals("ar")) {
-            setTextBackgrounds(0);
-        }
         if (Util.isNetworkAvailable(this)) {
             showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(), courseGroup.getId());
@@ -104,19 +103,31 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         assignmentArrayList = new ArrayList<>();
         gradeItemArrayList = new ArrayList<>();
         semesterHashMap = new HashMap<>();
-        allTextView = findViewById(R.id.tv_all);
-        currentTextView = findViewById(R.id.tv_current);
         allSemestersList = new ArrayList<>();
         currentSemester = new ArrayList<>();
         quizzesHashMap = new HashMap<>();
         assignmentsHashMap = new HashMap<>();
         gradeItemHashMap = new HashMap<>();
+
+        segmentedGroup = findViewById (R.id.segmented);
+        if (SessionManager.getInstance().getStudentAccount()) {
+            segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
+        } else if (SessionManager.getInstance().getUserType()) {
+            segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
+        } else {
+            segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
+        }
+
+        // radio buttons
+        allBtn = findViewById(R.id.btn_all);
+        currentBtn = findViewById(R.id.btn_current);
+        segmentedGroup.check(allBtn.getId());
     }
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
-        allTextView.setOnClickListener(this);
-        currentTextView.setOnClickListener(this);
+        allBtn.setOnClickListener(this);
+        currentBtn.setOnClickListener(this);
     }
 
 
@@ -126,12 +137,10 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
             case R.id.btn_back:
                 onBackPressed();
                 break;
-            case R.id.tv_all:
-                setTextBackgrounds(0);
+            case R.id.btn_all:
                 gradeDetailAdapter.addData(allSemestersList);
                 break;
-            case R.id.tv_current:
-                setTextBackgrounds(1);
+            case R.id.btn_current:
                 gradeDetailAdapter.addData(currentSemester);
                 break;
         }
@@ -449,34 +458,6 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
 
 
 
-    private void setTextBackgrounds(int pageNumber) {
-        if (Util.getLocale(this).equals("ar")) {
-            if (pageNumber == 0) {
-                allTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
-                allTextView.setTextColor(getResources().getColor(R.color.white));
-                currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
-                currentTextView.setTextColor(getResources().getColor(R.color.jade_green));
-            } else {
-                allTextView.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
-                allTextView.setTextColor(getResources().getColor(R.color.jade_green));
-                currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
-                currentTextView.setTextColor(getResources().getColor(R.color.white));
-            }
-        } else {
-            if (pageNumber == 0) {
-                allTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
-                allTextView.setTextColor(getResources().getColor(R.color.white));
-                currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
-                currentTextView.setTextColor(getResources().getColor(R.color.jade_green));
-            } else {
-                allTextView.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
-                allTextView.setTextColor(getResources().getColor(R.color.jade_green));
-                currentTextView.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
-                currentTextView.setTextColor(getResources().getColor(R.color.white));
-            }
-        }
-
-    }
 
 
     private void setAverageValues() {
