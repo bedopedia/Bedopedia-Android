@@ -53,7 +53,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         String imageUrl = postDetail.getOwner().getAvatarUrl();
         imageLoader = new PicassoLoader();
         setAvatarView(viewHolder.avatarView, postDetail.getOwner().getNameWithTitle(), imageUrl);
-        viewHolder.ownerTextview.setText(postDetail.getOwner().getNameWithTitle());
+        viewHolder.ownerTextView.setText(postDetail.getOwner().getNameWithTitle());
         String date = Util.getPostDate(postDetail.getCreatedAt(), context);
         viewHolder.dateTextView.setText(date);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -140,8 +140,8 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), "Path of Image");
      }
 
-    public void addData(ArrayList<PostDetails> mPostDetails) {
-//        if (postDetails.size() <= 10) postDetails.clear();
+    public void addData(ArrayList<PostDetails> mPostDetails, int page) {
+        if (page == 1) postDetails.clear();
         if (mPostDetails != null) postDetails.addAll(mPostDetails);
         notifyDataSetChanged();
     }
@@ -153,14 +153,14 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
 
     public class PostDetailsViewHolder extends RecyclerView.ViewHolder {
 
-        AvatarView avatarView;
-         TextView ownerTextview, dateTextView, bodyTextView;
+         AvatarView avatarView;
+         TextView ownerTextView, dateTextView, bodyTextView;
          Button firstButton, secondButton, thirdButton;
          LinearLayout buttonsLayout;
          PostDetailsViewHolder(@NonNull View itemView) {
             super(itemView);
             avatarView = itemView.findViewById(R.id.iv_owner_image);
-            ownerTextview = itemView.findViewById(R.id.tv_owner_name);
+            ownerTextView = itemView.findViewById(R.id.tv_owner_name);
             dateTextView = itemView.findViewById(R.id.tv_date);
             bodyTextView = itemView.findViewById(R.id.tv_body);
             firstButton = itemView.findViewById(R.id.btn_first_attachment);

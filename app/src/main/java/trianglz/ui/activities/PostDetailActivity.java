@@ -90,8 +90,8 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     }
 
     @Override
-    public void onGetPostDetailsSuccess(ArrayList<PostDetails> postDetails) {
-        adapter.addData(postDetails);
+    public void onGetPostDetailsSuccess(ArrayList<PostDetails> postDetails, int page) {
+        adapter.addData(postDetails, page);
         if (progress.isShowing()) progress.dismiss();
     }
 
@@ -118,7 +118,7 @@ public class PostDetailActivity extends SuperActivity implements PostDetailsPres
     @Override
     public void loadNextPage(int page) {
         if (lastPage != page) {
-            postDetailsView.getPostDetails(courseId,page);
+            postDetailsView.getPostDetails(courseId, page);
             lastPage = page;
         }
 

@@ -34,7 +34,7 @@ public class PostDetailsView {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     postDetails.add(PostDetails.create(jsonArray.opt(i).toString()));
                 }
-                postDetailsPresenter.onGetPostDetailsSuccess(postDetails);
+                postDetailsPresenter.onGetPostDetailsSuccess(postDetails, page);
             }
 
             @Override
