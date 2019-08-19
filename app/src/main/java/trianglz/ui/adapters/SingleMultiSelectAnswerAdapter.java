@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.skolera.skolera_android.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +25,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
     private TYPE type;
 
     private int selectedPosition = -1;
-    private HashMap<Integer,String> multiSelectHashMap;
+    private HashMap<Integer, String> multiSelectHashMap;
     private boolean onBind;
 
 
@@ -46,29 +48,22 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
     public void onBindViewHolder(@NonNull SingleMultiSelectionViewHolder holder, int position) {
         onBind = true;
         holder.answerTextView.setText(mDataList.get(position));
-        if(type.equals(TYPE.SINGLE_SELECTION)){
-            if(holder.getAdapterPosition() == selectedPosition){
+        if (type.equals(TYPE.SINGLE_SELECTION)) {
+            if (holder.getAdapterPosition() == selectedPosition) {
                 holder.radioButton.setChecked(true);
-            }else {
+            } else {
                 holder.radioButton.setChecked(false);
             }
-        }
-        holder.multiSelectionImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(multiSelectHashMap.containsKey(holder.getAdapterPosition())){
-                    multiSelectHashMap.remove(holder.getAdapterPosition());
-                    holder.multiSelectionImageButton.setImageResource(R.drawable.met_ic_clear);
-                }else {
-                    multiSelectHashMap.put(holder.getAdapterPosition(),mDataList.get(position));
-                    holder.multiSelectionImageButton.setImageResource(R.drawable.absent_2);
-                }
+        }else {
+            if(multiSelectHashMap.containsKey(holder.getAdapterPosition())){
+                holder.multiSelectionImageButton.setImageResource(R.drawable.met_ic_clear);
+            }else {
+                holder.multiSelectionImageButton.setImageResource(R.drawable.absent_2);
             }
-        });
+        }
 
         onBind = false;
     }
-
 
 
     @Override
@@ -88,36 +83,54 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
         MULTI_SELECTION
     }
 
-     class SingleMultiSelectionViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
+    class SingleMultiSelectionViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
         TextView answerTextView;
         AppCompatRadioButton radioButton;
-        ImageButton multiSelectionImageButton;
+        ImageView multiSelectionImageButton;
 
         SingleMultiSelectionViewHolder(View itemView) {
             super(itemView);
             answerTextView = itemView.findViewById(R.id.tv_answer);
             radioButton = itemView.findViewById(R.id.radio_button);
             radioButton.setOnCheckedChangeListener(this);
+            itemView.setOnClickListener(this::onClick);
 
             multiSelectionImageButton = itemView.findViewById(R.id.btn_multi_select);
-            if(type == TYPE.MULTI_SELECTION){
+            if (type == TYPE.MULTI_SELECTION) {
                 radioButton.setVisibility(View.GONE);
                 multiSelectionImageButton.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 radioButton.setVisibility(View.VISIBLE);
                 multiSelectionImageButton.setVisibility(View.GONE);
             }
         }
 
-         @Override
-         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-             if(!onBind){
-                 selectedPosition = getAdapterPosition();
-                 notifyDataSetChanged();
-             }
-         }
-     }
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            if (!onBind) {
+                selectedPosition = getAdapterPosition();
+                notifyDataSetChanged();
+            }
+        }
 
+        @Override
+        public void onClick(View view) {
+            if (!onBind) {
+                if (type.equals(TYPE.MULTI_SELECTION)) {
+                    if (multiSelectHashMap.containsKey(getAdapterPosition())) {
+                        multiSelectHashMap.remove(getAdapterPosition());
+                    } else {
+                        multiSelectHashMap.put(getAdapterPosition(), mDataList.get(getAdapterPosition()));
+                    }
+                    notifyDataSetChanged();
+                } else {
+                    selectedPosition = getAdapterPosition();
+                    notifyDataSetChanged();
+
+                }
+            }
+        }
+    }
 
 
 }
