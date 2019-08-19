@@ -18,7 +18,16 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="trianglz.ui.activities.SolveQuizActivity"></activity>
+        <activity android:name="trianglz.ui.activities.SolveQuizActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="trianglz.ui.activities.CreateTeacherPostActivity"
             android:hardwareAccelerated="true"
@@ -196,12 +205,7 @@
             android:name="trianglz.ui.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="trianglz.ui.activities.AttendanceActivity"

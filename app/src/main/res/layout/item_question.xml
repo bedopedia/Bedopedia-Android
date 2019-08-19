@@ -15,6 +15,7 @@
         android:layout_marginBottom="16dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:id="@+id/tv_question"
         android:text="How to prounce 6?"
         android:textColor="@color/posts_black"/>
 

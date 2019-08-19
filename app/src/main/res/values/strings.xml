@@ -209,4 +209,5 @@
     <string name="add_attachment">Start adding your attachment</string>
     <string name="clicking_button">By clicking the add button you will add a new attachment.</string>
     <string name="post">Post</string>
+    <string name="answer">Answer</string>
 </resources>
