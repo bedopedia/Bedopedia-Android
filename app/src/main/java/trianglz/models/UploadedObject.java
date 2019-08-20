@@ -5,7 +5,6 @@ package trianglz.models;//
 //  Created on July 18, 2019
 //
 
-import java.util.*;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,7 +26,7 @@ public class UploadedObject {
     @SerializedName("downloads_number")
     private int downloadsNumber;
     @SerializedName("created_at")
-    private int createdAt;
+    private String createdAt;
     @SerializedName("updated_at")
     private String updatedAt;
     @SerializedName("original_filename")
@@ -99,11 +98,11 @@ public class UploadedObject {
         return this.downloadsNumber;
     }
 
-    public void setCreatedAt(int createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public int getCreatedAt() {
+    public String getCreatedAt() {
         return this.createdAt;
     }
 
