@@ -10,14 +10,12 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
@@ -66,6 +64,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
      * @return A new instance of fragment TimeTableFragment.
      */
     public static Fragment newInstance() {
@@ -82,7 +81,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         Bundle bundle = intent.getBundleExtra(Constants.KEY_BUNDLE);
         tomorrowSlots = (ArrayList<TimeTableSlot>) bundle.getSerializable(Constants.KEY_TOMORROW);
         todaySlots = (ArrayList<TimeTableSlot>) bundle.getSerializable(Constants.KEY_TODAY);
-        student = (Student)bundle.getSerializable(Constants.STUDENT);
+        student = (Student) bundle.getSerializable(Constants.STUDENT);
     }
 
     private void setListeners() {
@@ -99,7 +98,9 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         mViewPager.setPagingEnabled(true);
         bindViews();
         setListeners();
-        setStudentImage();
+        if (SessionManager.getInstance().getUserType()) {
+            setStudentImage();
+        }
         increaseButtonsHitArea();
         return rootView;
     }
@@ -130,6 +131,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         } else if (SessionManager.getInstance().getUserType()) {
             segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
         } else {
+            studentImage.setVisibility(View.GONE);
             segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
         }
     }
@@ -151,7 +153,6 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     }
 
 
-
     private void increaseButtonsHitArea() {
         final View parent = (View) backBtn.getParent();
         parent.post(new Runnable() {
@@ -169,12 +170,12 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
 
     private void setStudentImage() {
         String imageUrl = student.getAvatar();
-        final String name = student.firstName +" " + student.lastName;
+        final String name = student.firstName + " " + student.lastName;
         final IImageLoader[] imageLoader = {new PicassoLoader()};
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader[0] = new PicassoLoader();
             imageLoader[0].loadImage(studentImage, new AvatarPlaceholderModified(name), "Path of Image");
-        }else{
+        } else {
             imageLoader[0] = new PicassoLoader();
             imageLoader[0].loadImage(studentImage, new AvatarPlaceholderModified(name), "Path of Image");
             Picasso.with(getActivity())

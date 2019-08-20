@@ -1,7 +1,6 @@
 package trianglz.ui.fragments;
 
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,11 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.javiersantos.appupdater.AppUpdater;
@@ -85,13 +80,13 @@ import trianglz.utils.Util;
  * A simple {@link Fragment} subclass.
  */
 public class MenuFragment extends Fragment implements StudentDetailPresenter,
-        View.OnClickListener,SettingsDialog.SettingsDialogInterface {
-    
+        View.OnClickListener, SettingsDialog.SettingsDialogInterface {
+
     //fragment root view
     private View rootView;
 
     // parent activity 
-    private  StudentMainActivity activity;
+    private StudentMainActivity activity;
     private List<TimeTableSlot> todaySlots;
     private List<TimeTableSlot> tomorrowSlots;
     private List<BehaviorNote> positiveBehaviorNotes;
@@ -103,19 +98,19 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private ArrayList<Student> studentArrayList;
     private ArrayList<Attendance> attendanceArrayList;
     private TextView nameTextView, levelTextView, nextSlotTextView, studentGradeTextView,
-            positiveCounterTextView, negativeCounterTextView,otherCounterTextView, attendanceTextView;
+            positiveCounterTextView, negativeCounterTextView, otherCounterTextView, attendanceTextView;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private String studentName = "";
     private StudentDetailView studentDetailView;
-    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout,weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout;
+    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout, weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout, teacherTimeTableLayout;
     private String attendance;
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
     private ArrayList<JSONArray> attendanceList;
 
 
-    private LinearLayout parentLayout,teacherLayout;
+    private LinearLayout parentLayout, teacherLayout;
     private Actor actor;
     private String actorName = "";
     private SettingsDialog settingsDialog;
@@ -137,7 +132,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         bindViews();
         setListeners();
         setParentActorView();
-        if(SessionManager.getInstance().getUserType()){
+        if (SessionManager.getInstance().getUserType()) {
             String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
             if (Util.isNetworkAvailable(getParentActivity())) {
                 studentDetailView.getStudentCourses(courseUrl);
@@ -145,11 +140,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             } else {
                 Util.showNoInternetConnectionDialog(getParentActivity());
             }
-        }else{
+        } else {
             checkVersionOnStore();
         }
         return rootView;
-        
+
     }
 
 
@@ -162,6 +157,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             return activity;
         }
     }
+
     private void bindViews() {
 
         todaySlots = new ArrayList<>();
@@ -191,6 +187,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         attendanceTextView = rootView.findViewById(R.id.tv_attendance);
         parentLayout = rootView.findViewById(R.id.layout_parent);
         teacherLayout = rootView.findViewById(R.id.layout_teacher);
+        teacherTimeTableLayout = rootView.findViewById(R.id.layout_timetable_teacher);
         settingsDialog = new SettingsDialog(getParentActivity(), R.style.SettingsDialog, this);
         weeklyPlannerTextView = rootView.findViewById(R.id.tv_weekly_planner);
 
@@ -199,7 +196,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         attendance = getParentActivity().getAttendance();
 
         // new assignments layout
-        assignmentsLayout = rootView.findViewById (R.id.layout_assignments);
+        assignmentsLayout = rootView.findViewById(R.id.layout_assignments);
 
         // new posts layout
         postsLayout = rootView.findViewById(R.id.layout_posts);
@@ -218,19 +215,19 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         postsLayout.setOnClickListener(this);
         calendarLayout.setOnClickListener(this);
         quizzesLayout.setOnClickListener(this);
-
+        teacherTimeTableLayout.setOnClickListener(this);
     }
 
     private void setParentActorView() {
-        if(!SessionManager.getInstance().getUserType()){
+        if (!SessionManager.getInstance().getUserType()) {
             parentLayout.setVisibility(View.GONE);
             teacherLayout.setVisibility(View.VISIBLE);
             actorName = actor.firstName + " " + actor.lastName;
-            setStudentImage(actor.imageUrl,actorName);
+            setStudentImage(actor.imageUrl, actorName);
             nameTextView.setText(actorName);
             levelTextView.setText(actor.actableType);
-            String notificationText = SessionManager.getInstance().getNotficiationCounter() + " "+getParentActivity().getResources().getString(R.string.unread_notifications);
-        }else {
+            String notificationText = SessionManager.getInstance().getNotficiationCounter() + " " + getParentActivity().getResources().getString(R.string.unread_notifications);
+        } else {
             parentLayout.setVisibility(View.VISIBLE);
             teacherLayout.setVisibility(View.GONE);
             studentName = student.firstName + " " + student.lastName;
@@ -245,11 +242,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     @Override
     public void onResume() {
         super.onResume();
-        if(!SessionManager.getInstance().getUserType()){
-            if(Util.isNetworkAvailable(getParentActivity())){
+        if (!SessionManager.getInstance().getUserType()) {
+            if (Util.isNetworkAvailable(getParentActivity())) {
                 getNotifications(false);
                 getParentActivity().showLoadingDialog();
-            }else {
+            } else {
                 Util.showNoInternetConnectionDialog(getParentActivity());
             }
         }
@@ -257,7 +254,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
         }
     }
-    
+
 
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
@@ -302,9 +299,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 attendanceDates.add(date);
             }
             if (attendanceDates.size() != 0)
-                progressBar.setProgress(((attendanceDates.size()-absentDays) * 100) / attendanceDates.size());
+                progressBar.setProgress(((attendanceDates.size() - absentDays) * 100) / attendanceDates.size());
             String attendance = getParentActivity().getResources().getString(R.string.attend) + " " + (
-                    attendanceDates.size()-absentDays)  +
+                    attendanceDates.size() - absentDays) +
                     " " + getParentActivity().getResources().getString(R.string.out) + " " + attendanceDates.size() + " " +
                     getParentActivity().getResources().getString(R.string.days);
             attendanceTextView.setText(attendance);
@@ -323,12 +320,12 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetStudentCourseGroupFailure(String message, int errorCode) {
-        if(getParentActivity().progress.isShowing()){
+        if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             getParentActivity().logoutUser(getParentActivity());
-        }else {
+        } else {
             SuperActivity.showErrorDialog(getParentActivity());
         }
     }
@@ -344,12 +341,12 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetStudentGradesFailure(String message, int errorCode) {
-        if(getParentActivity().progress.isShowing()){
+        if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             getParentActivity().logoutUser(getParentActivity());
-        }else {
+        } else {
             SuperActivity.showErrorDialog(getParentActivity());
         }
     }
@@ -359,10 +356,10 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         String nextSlot = (String) timeTableData.get(2);
         todaySlots = (List<TimeTableSlot>) timeTableData.get(0);
         tomorrowSlots = (List<TimeTableSlot>) timeTableData.get(1);
-        if(nextSlot.isEmpty()){
+        if (nextSlot.isEmpty()) {
             nextSlotTextView.setText(getParentActivity().getResources().getString(R.string.there_is_no_time_table));
             timeTableLayout.setClickable(false);
-        }else {
+        } else {
             timeTableLayout.setClickable(true);
             nextSlotTextView.setText(nextSlot);
         }
@@ -373,12 +370,12 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetTimeTableFailure(String message, int errorCode) {
-        if(getParentActivity().progress.isShowing()){
+        if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             getParentActivity().logoutUser(getParentActivity());
-        }else {
+        } else {
             SuperActivity.showErrorDialog(getParentActivity());
         }
     }
@@ -390,11 +387,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         otherBehaviorNotes = behaviorNoteHashMap.get(Constants.OTHER);
         String positiveCounter = positiveBehaviorNotes.size() + "";
         String negativeCounter = negativeBehaviorNotes.size() + "";
-        String otherCounter = otherBehaviorNotes.size() +"";
+        String otherCounter = otherBehaviorNotes.size() + "";
         positiveCounterTextView.setText(positiveCounter);
         negativeCounterTextView.setText(negativeCounter);
         otherCounterTextView.setText(otherCounter);
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",new Locale("en"));
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
         Date date = new Date();
         String currentDate = (dateFormat.format(date));
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getWeeklyPlanerUrl(currentDate);
@@ -404,13 +401,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetBehaviorNotesFailure(String message, int errorCode) {
-        if(getParentActivity().progress.isShowing()){
+        if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             getParentActivity().logoutUser(getParentActivity());
-        }else {
-            getParentActivity(). showErrorDialog(getParentActivity());
+        } else {
+            getParentActivity().showErrorDialog(getParentActivity());
         }
 
     }
@@ -420,10 +417,10 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         this.rootClass = rootClass;
         if (getParentActivity().progress.isShowing())
             getParentActivity().progress.dismiss();
-        if(rootClass.getWeeklyPlans().size() > 0){
+        if (rootClass.getWeeklyPlans().size() > 0) {
             weeklyPlannerTextView.setText(Util.getWeeklPlannerText(rootClass.getWeeklyPlans().get(0).getStartDate(),
-                    rootClass.getWeeklyPlans().get(0).getEndDate(),getParentActivity()));
-        }else {
+                    rootClass.getWeeklyPlans().get(0).getEndDate(), getParentActivity()));
+        } else {
             weeklyPlannerTextView.setText(R.string.there_is_no_weekly_planner);
         }
 
@@ -443,17 +440,17 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetNotificationSuccess(ArrayList<Notification> notificationArrayList) {
-        if(notificationArrayList.size()>0){
+        if (notificationArrayList.size() > 0) {
             Notification notification = notificationArrayList.get(0);
-        }else {
+        } else {
         }
 
-        if(Util.isNetworkAvailable(getParentActivity())){
+        if (Util.isNetworkAvailable(getParentActivity())) {
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-            studentDetailView.getMessages(url,SessionManager.getInstance().getId());
-        }else {
-            if(getParentActivity().progress.isShowing()){
-                getParentActivity(). progress.dismiss();
+            studentDetailView.getMessages(url, SessionManager.getInstance().getId());
+        } else {
+            if (getParentActivity().progress.isShowing()) {
+                getParentActivity().progress.dismiss();
             }
             Util.showNoInternetConnectionDialog(getParentActivity());
         }
@@ -463,38 +460,38 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetNotificationFailure(String message, int errorCode) {
-        if(Util.isNetworkAvailable(getParentActivity())){
+        if (Util.isNetworkAvailable(getParentActivity())) {
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-            studentDetailView.getMessages(url,SessionManager.getInstance().getId());
-        }else {
-            if(getParentActivity().progress.isShowing()){
+            studentDetailView.getMessages(url, SessionManager.getInstance().getId());
+        } else {
+            if (getParentActivity().progress.isShowing()) {
                 getParentActivity().progress.dismiss();
             }
             Util.showNoInternetConnectionDialog(getParentActivity());
         }
 
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             getParentActivity().logoutUser(getParentActivity());
-        }else {
+        } else {
             SuperActivity.showErrorDialog(getParentActivity());
         }
     }
 
     @Override
     public void onGetMessagesSuccess(ArrayList<MessageThread> messageArrayList, int unreadMessageCount) {
-        if(messageArrayList.size() > 0){
+        if (messageArrayList.size() > 0) {
             MessageThread messageThread = messageArrayList.get(0);
-            if(messageThread.messageArrayList.size()>0){
+            if (messageThread.messageArrayList.size() > 0) {
                 Message latestMessage = messageThread.messageArrayList.get(0);
                 String body = android.text.Html.fromHtml(latestMessage.body).toString();
                 body = StringEscapeUtils.unescapeJava(body);
             }
-        }else {
+        } else {
         }
-        if(Util.isNetworkAvailable(getParentActivity())){
+        if (Util.isNetworkAvailable(getParentActivity())) {
             getAnnouncement();
-        }else {
-            if(getParentActivity().progress.isShowing()){
+        } else {
+            if (getParentActivity().progress.isShowing()) {
                 getParentActivity().progress.dismiss();
             }
             Util.showNoInternetConnectionDialog(getParentActivity());
@@ -504,17 +501,17 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetMessagesFailure(String message, int errorCode) {
-        if(Util.isNetworkAvailable(getParentActivity())){
+        if (Util.isNetworkAvailable(getParentActivity())) {
             getAnnouncement();
-        }else {
-            if(getParentActivity().progress.isShowing()){
+        } else {
+            if (getParentActivity().progress.isShowing()) {
                 getParentActivity().progress.dismiss();
             }
             Util.showNoInternetConnectionDialog(getParentActivity());
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             getParentActivity().logoutUser(getParentActivity());
-        }else {
+        } else {
             SuperActivity.showErrorDialog(getParentActivity());
         }
     }
@@ -522,25 +519,25 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetAnnouncementsSuccess(ArrayList<Announcement> announcementArrayList) {
-        if(announcementArrayList.size()>0){
+        if (announcementArrayList.size() > 0) {
             Announcement announcement = announcementArrayList.get(0);
             String body = android.text.Html.fromHtml(announcement.body).toString();
             body = StringEscapeUtils.unescapeJava(body);
-        }else {
+        } else {
         }
-        if(getParentActivity().progress.isShowing()){
-            getParentActivity(). progress.dismiss();
+        if (getParentActivity().progress.isShowing()) {
+            getParentActivity().progress.dismiss();
         }
     }
 
     @Override
     public void onGetAnnouncementsFailure(String message, int errorCode) {
-        if(getParentActivity().progress.isShowing()){
+        if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             getParentActivity().logoutUser(getParentActivity());
-        }else {
+        } else {
             SuperActivity.showErrorDialog(getParentActivity());
         }
     }
@@ -589,7 +586,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 openWeeklyPlannerActivity();
                 break;
             case R.id.btn_setting_student:
-                if(!settingsDialog.isShowing()){
+                if (!settingsDialog.isShowing()) {
                     settingsDialog.show();
                 }
                 break;
@@ -609,11 +606,14 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 intent1.putExtra(Constants.STUDENT, student.toString());
                 startActivity(intent1);
                 break;
+            case R.id.layout_timetable_teacher:
+                openTeacherTimeTableActivity();
+                break;
         }
     }
 
     private void openWeeklyPlannerActivity() {
-        if(rootClass.getWeeklyPlans().size() > 0 ) {
+        if (rootClass.getWeeklyPlans().size() > 0) {
             Intent myIntent = new Intent(getActivity(), WeeklyPlannerActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, rootClass);
@@ -626,31 +626,32 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private void openMessagesActivity() {
         Intent intent = new Intent(getActivity(), ContactTeacherActivity.class);
         Bundle bundle = new Bundle();
-        if(SessionManager.getInstance().getUserType()){
-            bundle.putSerializable(Constants.STUDENT,student);
-        }else {
-            bundle.putSerializable(Constants.KEY_ACTOR,actor);
+        if (SessionManager.getInstance().getUserType()) {
+            bundle.putSerializable(Constants.STUDENT, student);
+        } else {
+            bundle.putSerializable(Constants.KEY_ACTOR, actor);
         }
-        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
     }
 
     private void openGradesActivity() {
         Intent gradesIntent = new Intent(getActivity(), GradesActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT,student);
+        bundle.putSerializable(Constants.STUDENT, student);
         bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroups);
-        gradesIntent.putExtra(Constants.KEY_BUNDLE,bundle);
+        gradesIntent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(gradesIntent);
     }
 
-    private void openCalendarActivity(){
+    private void openCalendarActivity() {
         Intent calendarIntent = new Intent(getActivity(), CalendarActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT,student);
-        calendarIntent.putExtra(Constants.KEY_BUNDLE,bundle);
+        bundle.putSerializable(Constants.STUDENT, student);
+        calendarIntent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(calendarIntent);
     }
+
     private void openTimeTableActivity() {
         Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
         Bundle bundle = new Bundle();
@@ -670,21 +671,19 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeBehaviorNotes);
         bundle.putSerializable(Constants.KEY_OTHER_NOTES_LIST, (Serializable) otherBehaviorNotes);
         bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
-        bundle.putSerializable(Constants.STUDENT,student);
-        behaviorNotesIntent.putExtra(Constants.KEY_BUNDLE,bundle);
+        bundle.putSerializable(Constants.STUDENT, student);
+        behaviorNotesIntent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(behaviorNotesIntent);
     }
 
     private void openAttendanceActivity() {
         Intent attendanceIntent = new Intent(getActivity(), AttendanceActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT,student);
+        bundle.putSerializable(Constants.STUDENT, student);
         bundle.putString(Constants.KEY_ATTENDANCE, attendance);
-        attendanceIntent.putExtra(Constants.KEY_BUNDLE,bundle);
+        attendanceIntent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(attendanceIntent);
     }
-
-
 
 
     private void openNotificationsActivity() {
@@ -722,7 +721,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     public void restartApp() {
         Intent intent = getParentActivity().getBaseContext().getPackageManager()
                 .getLaunchIntentForPackage(getParentActivity().getBaseContext().getPackageName());
-        if (intent != null) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (intent != null)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(intent);
         if (getParentActivity() != null) {
             (this).getParentActivity().finish();
@@ -737,12 +737,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
 
-
     private void openAnnouncement() {
         Intent intent = new Intent(getActivity(), AnnouncementActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_ACTOR,actor);
-        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        bundle.putSerializable(Constants.KEY_ACTOR, actor);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
     }
 
@@ -755,10 +754,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void getAnnouncement() {
-
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(1,actor.actableType,1);
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(1, actor.actableType, 1);
         studentDetailView.getAnnouncement(url);
-
     }
 
 
@@ -800,11 +797,20 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         }
     }
 
-    private void openAssignmentDetailActivity(){
+    private void openAssignmentDetailActivity() {
         Intent intent = new Intent(getActivity(), CourseAssignmentActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
+    }
+    private void openTeacherTimeTableActivity(){
+        Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
+        bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
+        bundle.putSerializable(Constants.STUDENT, student);
+        timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
+        startActivity(timeTableIntent);
     }
 }
