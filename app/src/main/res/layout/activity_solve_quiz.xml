@@ -109,6 +109,41 @@
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize=""/>
+
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="@color/posts_black"
+            android:background="@color/transparent"
+            android:textAllCaps="false"
+            android:id="@+id/btn_previous"
+            android:text="@string/previous"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:background="@drawable/curved_salmon_background_radius_8"
+            android:textAllCaps="false"
+            android:id="@+id/btn_next"
+            android:text="@string/previous"/>
+    </LinearLayout>
 
 
 
