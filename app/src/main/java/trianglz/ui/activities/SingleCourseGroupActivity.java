@@ -94,6 +94,7 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
                 onBackPressed();
                 break;
             case R.id.layout_attendance:
+                openTeacherAttendanceActivity();
                 break;
             case R.id.layout_quizzes:
                 showLoadingDialog();
@@ -117,7 +118,10 @@ public class SingleCourseGroupActivity extends SuperActivity implements View.OnC
         Log.d("tag", "openPostDetailsActivity: " + courseGroup.getId());
         startActivity(intent);
     }
-
+    private void openTeacherAttendanceActivity(){
+        Intent intent = new Intent(this,TeacherAttendanceActivity.class);
+        startActivity(intent);
+    }
     /* Empty overridden methods because we used an already made View to call the get assignments
      details method */
     @Override

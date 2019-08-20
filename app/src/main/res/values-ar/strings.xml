@@ -186,4 +186,5 @@
     <string name="add_attachment">اضف المرفقات</string>
     <string name="clicking_button">By clicking the add button you will add a new attachment.</string>
     <string name="post">نشر</string>
+    <string name="per_slot">Per slot</string>
 </resources>
