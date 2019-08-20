@@ -200,7 +200,6 @@
     <string name="hint_date">24/3/2019 03:40 PM</string>
 
 
-
     <string name="create_post">Create post</string>
     <string name="create_a_post_and_share">Create a post and share it with classes</string>
     <string name="content">Content</string>
@@ -210,4 +209,5 @@
     <string name="add_attachment">Start adding your attachment</string>
     <string name="clicking_button">By clicking the add button you will add a new attachment.</string>
     <string name="post">Post</string>
+    <string name="answer">Answer</string>
 </resources>
