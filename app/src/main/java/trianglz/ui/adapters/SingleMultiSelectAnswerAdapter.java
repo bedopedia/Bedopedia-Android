@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -56,9 +58,11 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
             }
         }else {
             if(multiSelectHashMap.containsKey(holder.getAdapterPosition())){
-                holder.multiSelectionImageButton.setImageResource(R.drawable.met_ic_clear);
+                holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
+                holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
             }else {
-                holder.multiSelectionImageButton.setImageResource(R.drawable.absent_2);
+                holder.multiSelectionImageButton.setImageDrawable(null);
+                holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
             }
         }
 
@@ -85,15 +89,15 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
 
     class SingleMultiSelectionViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
         TextView answerTextView;
-        AppCompatRadioButton radioButton;
-        ImageView multiSelectionImageButton;
+        RadioButton radioButton;
+        ImageButton multiSelectionImageButton;
 
         SingleMultiSelectionViewHolder(View itemView) {
             super(itemView);
             answerTextView = itemView.findViewById(R.id.tv_answer);
             radioButton = itemView.findViewById(R.id.radio_button);
-            radioButton.setOnCheckedChangeListener(this);
-            itemView.setOnClickListener(this::onClick);
+            radioButton.setOnClickListener(this);
+            itemView.setOnClickListener(this);
 
             multiSelectionImageButton = itemView.findViewById(R.id.btn_multi_select);
             if (type == TYPE.MULTI_SELECTION) {

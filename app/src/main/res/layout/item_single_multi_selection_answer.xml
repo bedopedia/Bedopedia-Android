@@ -18,22 +18,21 @@
         android:layout_marginEnd="4dp"
         >
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:buttonTint="@color/student_red"
             android:id="@+id/radio_button"
-            app:buttonTint="@color/salmon"
            />
-        
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:padding="8dp"
-            android:background="@color/transparent"
+            android:layout_gravity="center"
+            android:background="@drawable/curved_check_box_background_student"
             android:id="@+id/btn_multi_select"
-            android:src="@drawable/absent_2" />
-
+            android:src="@drawable/ic_white_check" />
     </FrameLayout>
 
 
