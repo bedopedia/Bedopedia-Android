@@ -1,7 +1,5 @@
 package trianglz.managers.api;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -689,11 +687,11 @@ public class UserManager {
             eventAttributesJsonObject.put(Constants.KEY_ALL_DAY, allDay);
             eventAttributesJsonObject.put(Constants.KEY_TITLE, title);
             //listeners
-            listenersJsonObject.put(Constants.KEY_LISTENER_TYPE, listenerType);
-            listenersJsonObject.put(Constants.KEY_LISTENER_ID, listenerId);
+            listenersJsonObject.put(Constants.KEY_SUBSCRIBER_TYPE, listenerType);
+            listenersJsonObject.put(Constants.KEY_SUBSCRIBER_ID, listenerId);
             listenerJsonArray.put(listenersJsonObject);
 
-            eventAttributesJsonObject.put(Constants.KEY_LISTENERS_ATTRIBUTES, listenerJsonArray);
+            eventAttributesJsonObject.put(Constants.KEY_SUBSCRIPTIONS_ATTRIBUTES, listenerJsonArray);
             eventAttributesJsonObject.put(Constants.KEY_DESCRIPTION, description);
             eventAttributesJsonObject.put(Constants.KEY_CANCEL, cancel);
 

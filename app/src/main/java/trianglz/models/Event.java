@@ -24,9 +24,9 @@ public class Event  {
     @SerializedName("type")
     private String type;
     @SerializedName("end_date")
-    private Long endDate;
+    public Long endDate;
     @SerializedName("start_date")
-    private Long startDate;
+    public Long startDate;
     @SerializedName("description")
     private String description;
     @SerializedName("title")

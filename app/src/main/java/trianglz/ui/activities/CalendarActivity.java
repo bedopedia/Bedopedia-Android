@@ -332,12 +332,10 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
     private void createEvents(ArrayList<trianglz.models.Event> eventsArrayList, int color) {
         for (int i = 0; i < eventsArrayList.size(); i++) {
             Calendar c = Calendar.getInstance();
-            c.setTime(eventsArrayList.get(i).getStartDate());
-            Date newDate = c.getTime();
-            while (newDate.getDate() != eventsArrayList.get(i).getEndDate().getDate()) {
-                compactCalendarView.addEvent(new Event(getResources().getColor(color), newDate.getTime()));
-                c.add(Calendar.DATE, 1);
-                newDate = c.getTime();
+            c.setTimeInMillis(eventsArrayList.get(i).startDate);
+            while (c.getTimeInMillis() <= eventsArrayList.get(i).endDate) {
+                compactCalendarView.addEvent(new Event(getResources().getColor(color, null),c.getTimeInMillis()*1000));
+                c.add(Calendar.MILLISECOND, 86400);
             }
         }
     }
