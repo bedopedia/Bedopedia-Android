@@ -209,9 +209,9 @@ public class Constants {
     public static final String TYPE_ASSIGNMENTS="assignments";
     public static final String KEY_EVENT = "event";
     public static final String KEY_ALL_DAY = "all_day";
-    public static final String KEY_LISTENERS_ATTRIBUTES = "listeners_attributes";
-    public static final String KEY_LISTENER_TYPE = "listener_type";
-    public static final String KEY_LISTENER_ID = "listener_id";
+    public static final String KEY_SUBSCRIPTIONS_ATTRIBUTES = "subscriptions_attributes";
+    public static final String KEY_SUBSCRIBER_TYPE = "subscriber_type";
+    public static final String KEY_SUBSCRIBER_ID = "subscriber_id";
     public static final String KEY_CANCEL = "cancel";
 
     public static final String KEY_POSTABLE_TYPE = "postable_type";

@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -63,7 +62,6 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
     private AvatarView studentImageView;
     private LinearLayout allLayout, academicLayout, eventsLayout, vacationsLayout, personalLayout, assignmentsLayout, quizzesLayout;
     private View allView, academicView, eventsView, vacationsView, personalView, assignmentsView, quizzesView;
-    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +80,6 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
-                v.startAnimation(buttonClick);
                 onBackPressed();
                 break;
             case R.id.create_personal_event:
@@ -335,12 +332,10 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
     private void createEvents(ArrayList<trianglz.models.Event> eventsArrayList, int color) {
         for (int i = 0; i < eventsArrayList.size(); i++) {
             Calendar c = Calendar.getInstance();
-            c.setTime(eventsArrayList.get(i).getStartDate());
-            Date newDate = c.getTime();
-            while (newDate.getDate() != eventsArrayList.get(i).getEndDate().getDate()) {
-                compactCalendarView.addEvent(new Event(getResources().getColor(color), newDate.getTime()));
-                c.add(Calendar.DATE, 1);
-                newDate = c.getTime();
+            c.setTimeInMillis(eventsArrayList.get(i).startDate);
+            while (c.getTimeInMillis() <= eventsArrayList.get(i).endDate) {
+                compactCalendarView.addEvent(new Event(getResources().getColor(color, null),c.getTimeInMillis()*1000));
+                c.add(Calendar.MILLISECOND, 86400);
             }
         }
     }
