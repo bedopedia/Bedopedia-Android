@@ -5,7 +5,6 @@ import android.content.Context;
 import android.text.format.DateUtils;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -251,9 +250,9 @@ public class StudentDetailView {
         String tomorrow = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
         today = today.toLowerCase();
         tomorrow = tomorrow.toLowerCase();
-        if (today.equals(Constants.THURSDAY)) {
-            tomorrow = "sunday";
-        }
+//        if (today.equals(Constants.THURSDAY)) {
+//            tomorrow = "sunday";
+//        }
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         formatter.setTimeZone(TimeZone.getTimeZone("Egypt"));
