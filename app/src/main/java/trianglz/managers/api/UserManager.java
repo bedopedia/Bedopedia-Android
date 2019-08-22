@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import trianglz.managers.SessionManager;
@@ -676,7 +677,7 @@ public class UserManager {
         JSONObject listenersJsonObject = new JSONObject();
         JSONArray listenerJsonArray = new JSONArray();
         SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("CET"));
         String d1 = sdf.format(startDate);
         String d2 = sdf.format(endDate);

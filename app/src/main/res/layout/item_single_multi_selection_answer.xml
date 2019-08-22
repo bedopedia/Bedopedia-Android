@@ -1,50 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="60dp"
-    android:background="@color/white"
-    android:paddingTop="16dp"
-    android:layout_marginBottom="8dp"
     android:layout_marginStart="12dp"
+    android:layout_marginBottom="8dp"
+    android:background="@color/white"
+    android:minHeight="60dp"
+    android:orientation="horizontal"
+    android:paddingTop="16dp"
     android:paddingBottom="16dp">
 
     <FrameLayout
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="4dp"
-        >
+        android:layout_marginEnd="4dp">
+
+        <ImageButton
+            android:id="@+id/btn_multi_select"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:background="@drawable/curved_check_box_background_student"
+            android:padding="8dp"
+            android:src="@drawable/ic_white_check" />
+
+        <ImageView
+            android:id="@+id/image_sort"
+            android:layout_width="22dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center"
+            android:src="@drawable/assignments" />
 
         <RadioButton
+            android:id="@+id/radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:buttonTint="@color/student_red"
-            android:id="@+id/radio_button"
-           />
-        <ImageButton
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:padding="8dp"
-            android:layout_gravity="center"
-            android:background="@drawable/curved_check_box_background_student"
-            android:id="@+id/btn_multi_select"
-            android:src="@drawable/ic_white_check" />
+            android:buttonTint="@color/student_red" />
+
     </FrameLayout>
 
 
-
     <TextView
+        android:id="@+id/tv_answer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginEnd="16dp"
-        android:textSize="16sp"
-        android:id="@+id/tv_answer"
         android:layout_gravity="center_vertical"
-        android:textColor="@color/posts_black"/>
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:textColor="@color/posts_black"
+        android:textSize="16sp" />
 
 </LinearLayout>

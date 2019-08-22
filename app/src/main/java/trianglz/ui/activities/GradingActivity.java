@@ -202,7 +202,7 @@ public class GradingActivity extends SuperActivity implements View.OnClickListen
     @Override
     public void onGetQuizzesSubmissionsFailure(String message, int errorCode) {
         if (progress.isShowing()) progress.dismiss();
-        Util.showErrorDialog(this,"Skolera",message);
+        Util.showErrorDialog(this,"Skolera","Something went wrong, please try again");
 
     }
 

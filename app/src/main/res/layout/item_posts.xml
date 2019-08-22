@@ -30,16 +30,37 @@
 
             <TextView
                 android:id="@+id/tv_subject"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:textAlignment="viewStart"
                 android:maxLines="1"
                 android:text="English"
-                android:textColor="@color/posts_black"
-                android:textSize="24sp" />
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:textColor="@color/greyish_brown"
+                android:gravity="center_vertical|start"
+                android:textAlignment="textStart"
+                android:ellipsize="end"
+                android:layout_marginEnd="5dp"
+                android:includeFontPadding="false"/>
+           <trianglz.components.LatoBoldTextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="@color/red"
+            android:layout_gravity="center_vertical"
+            android:textAlignment="textStart"
+            android:text="+100"
+            android:id="@+id/tv_number"
+            android:gravity="start|center_vertical"
+            android:includeFontPadding="false"/>
+
+            <ImageButton
+                android:id="@+id/btn_open"
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/shape"
+                android:background="@color/transparent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="11dp" />
 
         </LinearLayout>
 
@@ -84,28 +105,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
-        <trianglz.components.SfuiBoldTextView
-            android:id="@+id/tv_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp"
-            android:background="@color/transparent"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="9"
-            android:textColor="@color/posts_red"
-            android:textSize="16sp" />
 
-        <ImageButton
-            android:id="@+id/btn_open"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="12dp"
-            android:background="@color/transparent"
-            android:padding="12dp"
-            android:src="@drawable/chevron_right" />
     </RelativeLayout>
 </LinearLayout>

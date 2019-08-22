@@ -65,7 +65,7 @@
         android:id="@+id/layout_attendance"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <ImageView
@@ -267,6 +267,7 @@
         android:id="@+id/layout_posts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <LinearLayout

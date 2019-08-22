@@ -5,8 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,14 +17,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -247,6 +245,7 @@ public class CreatePersonalEventActivity extends SuperActivity implements View.O
                     button.append(" " + String.format("%02d:%02d", twelveHourFormat, selectedMinute) + " " + status);
                 if (button.getId() == R.id.event_start_date_btn) {
                     firstDate = c.getTime();
+                    Log.d("dates", "onTimeSet: "+firstDate);
                 } else
                     secondDate = c.getTime();
             }

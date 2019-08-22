@@ -1,9 +1,9 @@
 package trianglz.ui.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 
 import org.joda.time.DateTime;
-import org.w3c.dom.Text;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -26,6 +25,7 @@ public class SingleQuizActivity extends SuperActivity implements View.OnClickLis
     private TextView subjectNameTextView, dateTextView,
             assignmentNameTextView, dayTextView, monthTextView, publishedTextView;
     private IImageLoader imageLoader;
+    private Button solveQuizBtn;
     private LinearLayout dateLinearLayout;
     private LinearLayout cardView;
     private TextView headTextView;
@@ -44,6 +44,11 @@ public class SingleQuizActivity extends SuperActivity implements View.OnClickLis
         setContentView(R.layout.activity_single_quiz);
         getValueFromIntent();
         bindViews();
+        setListeners();
+    }
+
+    private void setListeners() {
+        solveQuizBtn.setOnClickListener(this);
     }
 
     private void getValueFromIntent() {
@@ -65,6 +70,7 @@ public class SingleQuizActivity extends SuperActivity implements View.OnClickLis
         publishedTextView = findViewById(R.id.tv_published);
         cardView = findViewById(R.id.card_view);
         avatarView = findViewById(R.id.img_student);
+        solveQuizBtn = findViewById(R.id.solve_quiz_btn);
         IImageLoader imageLoader = new PicassoLoader();
         imageLoader.loadImage(avatarView,new AvatarPlaceholderModified(course.getCourseName()),"Path url");
         // views
@@ -131,6 +137,13 @@ public class SingleQuizActivity extends SuperActivity implements View.OnClickLis
     public void onClick(View view) {
         if (view.getId() == R.id.btn_back) {
             onBackPressed();
+        }else if(view.getId()== R.id.solve_quiz_btn){
+          // openSolveQuizActivity();
         }
+    }
+
+    private void openSolveQuizActivity() {
+        Intent intent =new Intent(this,SolveQuizActivity.class);
+        startActivity(intent);
     }
 }

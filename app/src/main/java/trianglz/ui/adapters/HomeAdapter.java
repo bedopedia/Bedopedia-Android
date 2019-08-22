@@ -88,7 +88,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
         holder.assignmentsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                homeAdapterInterface.onAssignmentClicked(student);
+                homeAdapterInterface.onOpenStudentClicked(mDataList.get(position), position);
             }
         });
 

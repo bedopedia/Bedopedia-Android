@@ -187,4 +187,7 @@
     <string name="clicking_button">By clicking the add button you will add a new attachment.</string>
     <string name="post">نشر</string>
     <string name="per_slot">Per slot</string>
+    <string name="answer">Answer</string>
+    <string name="full_day">Full Day</string>
+    <string name="solve_quiz_now">Solve Quiz now</string>
 </resources>

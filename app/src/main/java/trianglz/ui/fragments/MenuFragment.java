@@ -607,7 +607,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 startActivity(intent1);
                 break;
             case R.id.layout_timetable_teacher:
-                openTeacherTimeTableActivity();
+                //openTeacherTimeTableActivity();
                 break;
         }
     }
