@@ -21,6 +21,8 @@
             android:id="@+id/btn_multi_select"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:clickable="false"
+            android:focusable="false"
             android:layout_gravity="center"
             android:background="@drawable/curved_check_box_background_student"
             android:padding="8dp"
@@ -31,7 +33,7 @@
             android:layout_width="22dp"
             android:layout_height="18dp"
             android:layout_gravity="center"
-            android:src="@drawable/assignments" />
+            android:src="@drawable/ic_send_image" />
 
         <RadioButton
             android:id="@+id/radio_button"

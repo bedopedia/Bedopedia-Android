@@ -3,7 +3,6 @@ package trianglz.ui.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -107,9 +105,11 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
             if (type == TYPE.MULTI_SELECTION) {
                 radioButton.setVisibility(View.GONE);
                 multiSelectionImageButton.setVisibility(View.VISIBLE);
+                sortImageView.setVisibility(View.GONE);
             } else if (type == TYPE.SINGLE_SELECTION) {
                 radioButton.setVisibility(View.VISIBLE);
                 multiSelectionImageButton.setVisibility(View.GONE);
+                sortImageView.setVisibility(View.GONE);
             } else {
                 radioButton.setVisibility(View.GONE);
                 multiSelectionImageButton.setVisibility(View.GONE);
@@ -144,20 +144,4 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
         }
     }
 
-    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP, ItemTouchHelper.DOWN) {
-        @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder dragged, RecyclerView.ViewHolder target) {
-
-            int draggedPosition = dragged.getAdapterPosition();
-            int targetPosition = target.getAdapterPosition();
-            Collections.swap(mDataList,draggedPosition,targetPosition);
-            notifyDataSetChanged();
-            return false;
-        }
-
-        @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
-        }
-    });
 }

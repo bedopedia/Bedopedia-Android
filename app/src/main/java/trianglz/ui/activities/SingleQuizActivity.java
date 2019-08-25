@@ -72,7 +72,7 @@ public class SingleQuizActivity extends SuperActivity implements View.OnClickLis
         avatarView = findViewById(R.id.img_student);
         solveQuizBtn = findViewById(R.id.solve_quiz_btn);
         IImageLoader imageLoader = new PicassoLoader();
-        imageLoader.loadImage(avatarView,new AvatarPlaceholderModified(course.getCourseName()),"Path url");
+        imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(course.getCourseName()), "Path url");
         // views
         quizGradeView = findViewById(R.id.v_quiz_grade);
         quizNotStartedView = findViewById(R.id.v_not_started_quiz);
@@ -137,13 +137,13 @@ public class SingleQuizActivity extends SuperActivity implements View.OnClickLis
     public void onClick(View view) {
         if (view.getId() == R.id.btn_back) {
             onBackPressed();
-        }else if(view.getId()== R.id.solve_quiz_btn){
-          // openSolveQuizActivity();
+        } else if (view.getId() == R.id.solve_quiz_btn) {
+            openSolveQuizActivity();
         }
     }
 
     private void openSolveQuizActivity() {
-        Intent intent =new Intent(this,SolveQuizActivity.class);
+        Intent intent = new Intent(this, SolveQuizActivity.class);
         startActivity(intent);
     }
 }
