@@ -28,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import Tools.CalendarUtils;
+import trianglz.managers.SessionManager;
 import trianglz.models.TimeTableSlot;
 import trianglz.utils.Constants;
 
@@ -204,8 +205,12 @@ public class TodayFragment extends Fragment {
             Date eventDate = eObject.getFrom();
             Date endDate = eObject.getTo();
             String courseName = eObject.getCourseName();
-            String classRoom = eObject.getClassRoom();
-            int eventBlockHeight = getEventTimeFrame(eventDate, endDate);
+            String classRoom ="";
+            if (!SessionManager.getInstance().getUserType() && !SessionManager.getInstance().getStudentAccount()) {
+                classRoom = eObject.getCoureGroupName();
+            } else {
+                classRoom = eObject.getClassRoom();
+            }            int eventBlockHeight = getEventTimeFrame(eventDate, endDate);
             displayEventSection(eventDate, eventBlockHeight, courseName, classRoom, eventDate);
         }
     }

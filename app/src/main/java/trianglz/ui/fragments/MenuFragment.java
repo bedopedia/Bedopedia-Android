@@ -98,7 +98,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private ArrayList<Student> studentArrayList;
     private ArrayList<Attendance> attendanceArrayList;
     private TextView nameTextView, levelTextView, nextSlotTextView, studentGradeTextView,
-            positiveCounterTextView, negativeCounterTextView, otherCounterTextView, attendanceTextView;
+            positiveCounterTextView, negativeCounterTextView, otherCounterTextView, attendanceTextView, teacherNextSlotTextView;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private String studentName = "";
@@ -172,6 +172,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         studentImageView = rootView.findViewById(R.id.img_student);
         imageLoader = new PicassoLoader();
         nextSlotTextView = rootView.findViewById(R.id.tv_time_table);
+        teacherNextSlotTextView = rootView.findViewById(R.id.tv_time_table_teacher);
         studentGradeTextView = rootView.findViewById(R.id.tv_grade);
         attendanceLayout = rootView.findViewById(R.id.layout_attendance);
         weeklyPlannerLayout = rootView.findViewById(R.id.layout_weekly_planner);
@@ -226,6 +227,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             setStudentImage(actor.imageUrl, actorName);
             nameTextView.setText(actorName);
             levelTextView.setText(actor.actableType);
+            String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/teachers/" + SessionManager.getInstance().getId() + "/timetable";
+            studentDetailView.getStudentTimeTable(timeTableUrl);
             String notificationText = SessionManager.getInstance().getNotficiationCounter() + " " + getParentActivity().getResources().getString(R.string.unread_notifications);
         } else {
             parentLayout.setVisibility(View.VISIBLE);
@@ -354,18 +357,25 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     @Override
     public void oneGetTimeTableSuccess(ArrayList<Object> timeTableData) {
         String nextSlot = (String) timeTableData.get(2);
+        //nextSlotTextView.setVisibility(View.VISIBLE);
+       // teacherNextSlotTextView.setVisibility(View.VISIBLE);
         todaySlots = (List<TimeTableSlot>) timeTableData.get(0);
         tomorrowSlots = (List<TimeTableSlot>) timeTableData.get(1);
         if (nextSlot.isEmpty()) {
             nextSlotTextView.setText(getParentActivity().getResources().getString(R.string.there_is_no_time_table));
+            teacherNextSlotTextView.setText(getParentActivity().getResources().getString(R.string.there_is_no_time_table));
             timeTableLayout.setClickable(false);
+            teacherTimeTableLayout.setClickable(false);
         } else {
             timeTableLayout.setClickable(true);
+            teacherTimeTableLayout.setClickable(true);
             nextSlotTextView.setText(nextSlot);
+            teacherNextSlotTextView.setText(nextSlot);
         }
-
-        String url = SessionManager.getInstance().getBaseUrl() + "/api/behavior_notes";
-        studentDetailView.getStudentBehavioursNotes(url, student.getId() + "");
+        if (SessionManager.getInstance().getStudentAccount()) {
+            String url = SessionManager.getInstance().getBaseUrl() + "/api/behavior_notes";
+            studentDetailView.getStudentBehavioursNotes(url, student.getId() + "");
+        }
     }
 
     @Override
@@ -607,7 +617,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 startActivity(intent1);
                 break;
             case R.id.layout_timetable_teacher:
-                //openTeacherTimeTableActivity();
+                openTeacherTimeTableActivity();
                 break;
         }
     }
@@ -804,7 +814,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
     }
-    private void openTeacherTimeTableActivity(){
+
+    private void openTeacherTimeTableActivity() {
         Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);

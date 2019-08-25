@@ -264,6 +264,8 @@ public class StudentDetailView {
             String day = slot.optString(Constants.KEY_DAY);
             String courseName = slot.optString(Constants.KEY_COURSE_NAME);
             String classRoom = slot.optString(Constants.KEY_SCHOOL_UNIT);
+            String sectionName = slot.optString("section_name");
+            String courseGroupName = slot.optString("course_group_name");
 
             Date fromDate = null;
             Date toDate = null;
@@ -276,9 +278,9 @@ public class StudentDetailView {
             }
 
             if (day.equals(today)) {
-                todaySlots.add(new TimeTableSlot(fromDate, toDate, day, courseName, classRoom));
+                todaySlots.add(new TimeTableSlot(fromDate, toDate, day, courseName, classRoom,courseGroupName,sectionName));
             } else if (day.equals(tomorrow)) {
-                tomorrowSlots.add(new TimeTableSlot(fromDate, toDate, day, courseName, classRoom));
+                tomorrowSlots.add(new TimeTableSlot(fromDate, toDate, day, courseName, classRoom,courseGroupName,sectionName));
             }
 
         }
