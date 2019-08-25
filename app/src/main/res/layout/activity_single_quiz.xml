@@ -283,7 +283,8 @@
             android:text="@string/solve_quiz_now"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <include
             android:id="@+id/v_not_started_quiz"
