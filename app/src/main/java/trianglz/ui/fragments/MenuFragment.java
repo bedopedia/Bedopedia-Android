@@ -59,7 +59,6 @@ import trianglz.models.Notification;
 import trianglz.models.RootClass;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
-import trianglz.ui.activities.AnnouncementActivity;
 import trianglz.ui.activities.AttendanceActivity;
 import trianglz.ui.activities.BehaviorNotesActivity;
 import trianglz.ui.activities.CalendarActivity;
@@ -85,7 +84,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     //fragment root view
     private View rootView;
 
-    // parent activity 
+    // parent activity
     private StudentMainActivity activity;
     private List<TimeTableSlot> todaySlots;
     private List<TimeTableSlot> tomorrowSlots;
@@ -136,6 +135,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
             if (Util.isNetworkAvailable(getParentActivity())) {
                 studentDetailView.getStudentCourses(courseUrl);
+                activity.isCalling = true;
                 getParentActivity().showLoadingDialog();
             } else {
                 Util.showNoInternetConnectionDialog(getParentActivity());
@@ -229,6 +229,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             levelTextView.setText(actor.actableType);
             String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/teachers/" + SessionManager.getInstance().getId() + "/timetable";
             studentDetailView.getStudentTimeTable(timeTableUrl);
+            getParentActivity().showLoadingDialog();
             String notificationText = SessionManager.getInstance().getNotficiationCounter() + " " + getParentActivity().getResources().getString(R.string.unread_notifications);
         } else {
             parentLayout.setVisibility(View.VISIBLE);
@@ -245,17 +246,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     @Override
     public void onResume() {
         super.onResume();
-        if (!SessionManager.getInstance().getUserType()) {
-            if (Util.isNetworkAvailable(getParentActivity())) {
-                getNotifications(false);
-                getParentActivity().showLoadingDialog();
-            } else {
-                Util.showNoInternetConnectionDialog(getParentActivity());
-            }
-        }
-        if (!SessionManager.getInstance().getUserType()) {
-
-        }
+//        if (!SessionManager.getInstance().getUserType()) {
+//            if (Util.isNetworkAvailable(getParentActivity())) {
+//                getNotifications(false);
+//            } else {
+//                Util.showNoInternetConnectionDialog(getParentActivity());
+//            }
+//        }
     }
 
 
@@ -323,6 +320,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetStudentCourseGroupFailure(String message, int errorCode) {
+        activity.isCalling = false;
         if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
@@ -335,8 +333,10 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetStudentGradesSuccess(ArrayList<trianglz.models.CourseGroup> courseGroups, String totalGrade) {
+        activity.isCalling = true;
         this.courseGroups = courseGroups;
         totalGrade = getParentActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
+        studentGradeTextView.setVisibility(View.VISIBLE);
         studentGradeTextView.setText(totalGrade);
         String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
         studentDetailView.getStudentTimeTable(timeTableUrl);
@@ -344,6 +344,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetStudentGradesFailure(String message, int errorCode) {
+        activity.isCalling = false;
         if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
@@ -356,9 +357,10 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void oneGetTimeTableSuccess(ArrayList<Object> timeTableData) {
+        activity.isCalling = true;
         String nextSlot = (String) timeTableData.get(2);
-        //nextSlotTextView.setVisibility(View.VISIBLE);
-       // teacherNextSlotTextView.setVisibility(View.VISIBLE);
+        nextSlotTextView.setVisibility(View.VISIBLE);
+        teacherNextSlotTextView.setVisibility(View.VISIBLE);
         todaySlots = (List<TimeTableSlot>) timeTableData.get(0);
         tomorrowSlots = (List<TimeTableSlot>) timeTableData.get(1);
         if (nextSlot.isEmpty()) {
@@ -372,14 +374,17 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             nextSlotTextView.setText(nextSlot);
             teacherNextSlotTextView.setText(nextSlot);
         }
-        if (SessionManager.getInstance().getStudentAccount()) {
+        if (SessionManager.getInstance().getStudentAccount() || SessionManager.getInstance().getUserType()) {
             String url = SessionManager.getInstance().getBaseUrl() + "/api/behavior_notes";
             studentDetailView.getStudentBehavioursNotes(url, student.getId() + "");
+        } else {
+            getParentActivity().progress.dismiss();
         }
     }
 
     @Override
     public void onGetTimeTableFailure(String message, int errorCode) {
+        activity.isCalling = false;
         if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
@@ -392,6 +397,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetBehaviorNotesSuccess(HashMap<String, List<BehaviorNote>> behaviorNoteHashMap) {
+        activity.isCalling = true;
         positiveBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_POSITIVE);
         negativeBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_NEGATIVE);
         otherBehaviorNotes = behaviorNoteHashMap.get(Constants.OTHER);
@@ -411,6 +417,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetBehaviorNotesFailure(String message, int errorCode) {
+        activity.isCalling = false;
         if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
@@ -424,20 +431,23 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetWeeklyPlannerSuccess(RootClass rootClass) {
+        activity.isCalling = false;
         this.rootClass = rootClass;
-        if (getParentActivity().progress.isShowing())
-            getParentActivity().progress.dismiss();
+        weeklyPlannerTextView.setVisibility(View.VISIBLE);
         if (rootClass.getWeeklyPlans().size() > 0) {
             weeklyPlannerTextView.setText(Util.getWeeklPlannerText(rootClass.getWeeklyPlans().get(0).getStartDate(),
                     rootClass.getWeeklyPlans().get(0).getEndDate(), getParentActivity()));
         } else {
             weeklyPlannerTextView.setText(R.string.there_is_no_weekly_planner);
         }
+        if (getParentActivity().progress.isShowing())
+            getParentActivity().progress.dismiss();
 
     }
 
     @Override
     public void onGetWeeklyPlannerFailure(String message, int errorCode) {
+        activity.isCalling = false;
         if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
@@ -454,32 +464,34 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             Notification notification = notificationArrayList.get(0);
         } else {
         }
-
-        if (Util.isNetworkAvailable(getParentActivity())) {
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-            studentDetailView.getMessages(url, SessionManager.getInstance().getId());
-        } else {
-            if (getParentActivity().progress.isShowing()) {
-                getParentActivity().progress.dismiss();
-            }
-            Util.showNoInternetConnectionDialog(getParentActivity());
-        }
-
+        //   if (Util.isNetworkAvailable(getParentActivity())) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
+        studentDetailView.getMessages(url, SessionManager.getInstance().getId());
+//        } else {
+//            if (getParentActivity().progress.isShowing()) {
+//                getParentActivity().progress.dismiss();
+//            }
+//            Util.showNoInternetConnectionDialog(getParentActivity());
+        //       }
 
     }
 
     @Override
     public void onGetNotificationFailure(String message, int errorCode) {
-        if (Util.isNetworkAvailable(getParentActivity())) {
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-            studentDetailView.getMessages(url, SessionManager.getInstance().getId());
-        } else {
+        // if (Util.isNetworkAvailable(getParentActivity())) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
+        studentDetailView.getMessages(url, SessionManager.getInstance().getId());
+//        } else {
+//            if (getParentActivity().progress.isShowing()) {
+//                getParentActivity().progress.dismiss();
+//            }
+//            Util.showNoInternetConnectionDialog(getParentActivity());
+        //      }
+        if (!activity.isCalling) {
             if (getParentActivity().progress.isShowing()) {
                 getParentActivity().progress.dismiss();
             }
-            Util.showNoInternetConnectionDialog(getParentActivity());
         }
-
         if (errorCode == 401 || errorCode == 500) {
             getParentActivity().logoutUser(getParentActivity());
         } else {
@@ -498,27 +510,27 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             }
         } else {
         }
-        if (Util.isNetworkAvailable(getParentActivity())) {
-            getAnnouncement();
-        } else {
-            if (getParentActivity().progress.isShowing()) {
-                getParentActivity().progress.dismiss();
-            }
-            Util.showNoInternetConnectionDialog(getParentActivity());
-        }
+        //      if (Util.isNetworkAvailable(getParentActivity())) {
+        //      getAnnouncement();
+//        } else {
+//            if (getParentActivity().progress.isShowing()) {
+//                getParentActivity().progress.dismiss();
+//            }
+//            Util.showNoInternetConnectionDialog(getParentActivity());
+//        }
 
     }
 
     @Override
     public void onGetMessagesFailure(String message, int errorCode) {
-        if (Util.isNetworkAvailable(getParentActivity())) {
-            getAnnouncement();
-        } else {
-            if (getParentActivity().progress.isShowing()) {
-                getParentActivity().progress.dismiss();
-            }
-            Util.showNoInternetConnectionDialog(getParentActivity());
-        }
+        //    if (Util.isNetworkAvailable(getParentActivity())) {
+        //  getAnnouncement();
+        //  } else {
+//            if (getParentActivity().progress.isShowing()) {
+//                getParentActivity().progress.dismiss();
+//            }
+//            Util.showNoInternetConnectionDialog(getParentActivity());
+//        }
         if (errorCode == 401 || errorCode == 500) {
             getParentActivity().logoutUser(getParentActivity());
         } else {
@@ -535,15 +547,19 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             body = StringEscapeUtils.unescapeJava(body);
         } else {
         }
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
+        if (!activity.isCalling) {
+            if (getParentActivity().progress.isShowing()) {
+                getParentActivity().progress.dismiss();
+            }
         }
     }
 
     @Override
     public void onGetAnnouncementsFailure(String message, int errorCode) {
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
+        if (!activity.isCalling) {
+            if (getParentActivity().progress.isShowing()) {
+                getParentActivity().progress.dismiss();
+            }
         }
         if (errorCode == 401 || errorCode == 500) {
             getParentActivity().logoutUser(getParentActivity());
@@ -587,7 +603,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 openMessagesActivity();
                 break;
             case R.id.layout_annoucment:
-                openAnnouncement();
+                //   openAnnouncement();
                 break;
             case R.id.btn_setting:
                 settingsDialog.show();
@@ -745,29 +761,29 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         }, 0);
 
     }
-
-
-    private void openAnnouncement() {
-        Intent intent = new Intent(getActivity(), AnnouncementActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_ACTOR, actor);
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(intent);
-    }
-
-
-    private void getNotifications(boolean pagination) {
-        getParentActivity().showLoadingDialog();
-        String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
-                SessionManager.getInstance().getUserId() + "/notifications";
-        studentDetailView.getNotifications(url, 1, 1);
-    }
-
-    private void getAnnouncement() {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(1, actor.actableType, 1);
-        studentDetailView.getAnnouncement(url);
-    }
-
+    
+//    private void openAnnouncement() {
+//        Intent intent = new Intent(getActivity(), AnnouncementActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(Constants.KEY_ACTOR, actor);
+//        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+//        startActivity(intent);
+//    }
+//
+//
+//    private void getNotifications(boolean pagination) {
+//        if (!activity.isCalling) {
+//            getParentActivity().showLoadingDialog();
+//        }
+//        String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
+//                SessionManager.getInstance().getUserId() + "/notifications";
+//        studentDetailView.getNotifications(url, 1, 1);
+//    }
+//
+//    private void getAnnouncement() {
+//        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(1, actor.actableType, 1);
+//        studentDetailView.getAnnouncement(url);
+//    }
 
     private void checkVersionOnStore() {
         AppUpdater appUpdater = new AppUpdater(getParentActivity())
@@ -820,7 +836,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
         bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
-        bundle.putSerializable(Constants.STUDENT, student);
         timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(timeTableIntent);
     }

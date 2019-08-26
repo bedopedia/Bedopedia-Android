@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import com.skolera.skolera_android.R;
 
@@ -59,30 +58,31 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         rootView = inflater.inflate(R.layout.fragment_announcements, container, false);
         activity = (StudentMainActivity) getActivity();
         bindViews();
-        if(Util.isNetworkAvailable(getActivity())){
+        if (Util.isNetworkAvailable(getActivity())) {
             getAnnouncement(false);
-            activity.showLoadingDialog();
-        }else {
+            if (!activity.isCalling)
+                activity.showLoadingDialog();
+        } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }
         return rootView;
     }
 
-    private void bindViews(){
-        adapter = new AnnouncementAdapter(getActivity(),this);
+    private void bindViews() {
+        adapter = new AnnouncementAdapter(getActivity(), this);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
-                LinearLayoutManager.VERTICAL,false));
-        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(6,getActivity()),false));
-        announcementView = new AnnouncementView(getActivity(),this);
+                LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(6, getActivity()), false));
+        announcementView = new AnnouncementView(getActivity(), this);
 
     }
 
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_back:
                 activity.onBackPressed();
                 break;
@@ -101,8 +101,8 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     }
 
     private void getAnnouncement(boolean pagination) {
-
-        activity.showLoadingDialog();
+        if (!activity.isCalling)
+            activity.showLoadingDialog();
         if (!pagination) {
             pageNumber = 1;
         }
@@ -120,7 +120,8 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     @Override
     public void onGetAnnouncementSuccess(ArrayList<Announcement> announcementArrayList) {
         if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
+            if (!activity.isCalling)
+                activity.progress.dismiss();
         }
         newIncomingNotificationData = announcementArrayList.size() != 0;
         adapter.addData(announcementArrayList, newIncomingNotificationData);
@@ -129,12 +130,13 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     @Override
     public void onGetAnnouncementFailure(String message, int errorCode) {
         if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
+            if (!activity.isCalling)
+                activity.progress.dismiss();
         }
     }
 
 
-    private void  openAnnouncementDetailActivity(Announcement announcement){
+    private void openAnnouncementDetailActivity(Announcement announcement) {
         Intent intent = new Intent(getActivity(), AnnouncementDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_ANNOUNCEMENTS, announcement);
@@ -147,8 +149,9 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     @Override
     public void onStop() {
         super.onStop();
-        if(activity.progress.isShowing()){
-            activity.progress.dismiss();
+        if (activity.progress.isShowing()) {
+            if (!activity.isCalling)
+                activity.progress.dismiss();
         }
     }
 }

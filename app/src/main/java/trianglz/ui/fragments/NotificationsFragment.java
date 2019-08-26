@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.skolera.skolera_android.R;
 
@@ -29,7 +28,7 @@ import trianglz.utils.Util;
  * A simple {@link Fragment} subclass.
  */
 public class NotificationsFragment extends Fragment implements NotificationsPresenter, View.OnClickListener, AdapterPaginationInterface {
-    
+
     // fragment root view 
     private View rootView;
 
@@ -51,20 +50,21 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
                              Bundle savedInstanceState) {
         // Inflate the layout for getActivity() fragment
         rootView = inflater.inflate(R.layout.fragment_notifications, container, false);
-        activity = (StudentMainActivity) getActivity(); 
+        activity = (StudentMainActivity) getActivity();
         bindViews();
         setListeners();
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.setAsSeen(SessionManager.getInstance().getUserId());
         notificationsView.setAsSeen(url);
         SessionManager.getInstance().setNotificationCounterToZero();
-        if(Util.isNetworkAvailable(getActivity())){
+        if (Util.isNetworkAvailable(getActivity())) {
             getNotifications(false);
             activity.showLoadingDialog();
-        }else {
+        } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }
         return rootView;
     }
+
     private void bindViews() {
         pageNumber = 1;
         recyclerView = rootView.findViewById(R.id.recycler_view);
@@ -85,7 +85,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
             if (!pagination) {
                 pageNumber = 1;
             }
-            notificationsView.getNotifications(url, pageNumber,20);
+            notificationsView.getNotifications(url, pageNumber, 20);
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }
@@ -94,7 +94,8 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
     @Override
     public void onGetNotificationSuccess(ArrayList<Notification> notifications) {
         if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
+            if (!activity.isCalling)
+                activity.progress.dismiss();
         }
         newIncomingNotificationData = notifications.size() != 0;
         adapter.addData(notifications, newIncomingNotificationData);
@@ -102,12 +103,13 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
 
     @Override
     public void onGetNotificationFailure(String message, int errorCode) {
-        if(activity.progress.isShowing()){
-            activity.progress.dismiss();
+        if (activity.progress.isShowing()) {
+            if (!activity.isCalling)
+                activity.progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             activity.logoutUser(getActivity());
-        }else {
+        } else {
             SuperActivity.showErrorDialog(getActivity());
         }
     }
@@ -130,8 +132,9 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
     @Override
     public void onStop() {
         super.onStop();
-        if(activity.progress.isShowing()){
-            activity.progress.dismiss();
+        if (activity.progress.isShowing()) {
+            if (!activity.isCalling)
+                activity.progress.dismiss();
         }
     }
 }

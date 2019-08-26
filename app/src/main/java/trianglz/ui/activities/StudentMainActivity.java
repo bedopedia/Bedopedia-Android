@@ -2,9 +2,9 @@ package trianglz.ui.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageButton;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import trianglz.components.CustomRtlViewPager;
 import trianglz.components.LocalHelper;
@@ -38,7 +37,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private LinearLayout coursesLayout, firstLayout, secondLayout, thirdLayout, fourthLayout;
     private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView;
     private TextView coursesTextView, firstTextView, secondTextView, thirdTextView, fourthTextView;
-
+    public Boolean isCalling = false;
     private CustomRtlViewPager pager;
     private StudentMainPagerAdapter pagerAdapter;
 
@@ -68,17 +67,19 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         bindViews();
         setListeners();
     }
+
     private void getValueFromIntent() {
         isStudent = SessionManager.getInstance().getStudentAccount();
         isParent = SessionManager.getInstance().getUserType();
-        if(isParent){
+        if (isParent) {
             student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
             attendance = (String) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ATTENDANCE);
-        }else {
+        } else {
             actor = (Actor) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
         }
 
     }
+
     private void setListeners() {
         settingsBtn.setOnClickListener(this);
         addNewMessageButton.setOnClickListener(this);
@@ -121,9 +122,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
         if (!isStudent && !isParent) {
             teacherCoursesFragment = new TeacherCoursesFragment();
-            coursesLayout = findViewById (R.id.ll_courses_tab);
-            coursesImageView = findViewById (R.id.iv_courses);
-            coursesTextView = findViewById (R.id.tv_courses);
+            coursesLayout = findViewById(R.id.ll_courses_tab);
+            coursesImageView = findViewById(R.id.iv_courses);
+            coursesTextView = findViewById(R.id.tv_courses);
             coursesLayout.setVisibility(View.VISIBLE);
         }
         // tabs
@@ -135,14 +136,14 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         // image views
         firstTabImageView = findViewById(R.id.iv_announcements);
         secondTabImageView = findViewById(R.id.iv_messages);
-        thirdTabImageView = findViewById (R.id.iv_notifcations);
+        thirdTabImageView = findViewById(R.id.iv_notifcations);
         fourthTabImageView = findViewById(R.id.iv_menu);
 
         // text views
         firstTextView = findViewById(R.id.tv_announcements);
         secondTextView = findViewById(R.id.tv_messages);
         thirdTextView = findViewById(R.id.tv_notifications);
-        fourthTextView = findViewById (R.id.tv_menu);
+        fourthTextView = findViewById(R.id.tv_menu);
 
         // header
         headerLayout = findViewById(R.id.rl_header);
@@ -166,10 +167,10 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         }
 
         // init fragments
+        menuFragment = new MenuFragment();
         announcementsFragment = new AnnouncementsFragment();
         messagesFragment = new MessagesFragment();
         notificationsFragment = new NotificationsFragment();
-        menuFragment = new MenuFragment();
 
         // pager
         pager = findViewById(R.id.pager);
@@ -220,6 +221,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         fragmentArrayList.add(menuFragment);
         return fragmentArrayList;
     }
+
     private ArrayList<Fragment> getStudentFragmentList() {
         ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
         fragmentArrayList.add(menuFragment);
@@ -255,6 +257,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         LocalHelper.getLanguage(this);
         restartApp();
     }
+
     public void restartApp() {
         Intent intent = this.getBaseContext().getPackageManager()
                 .getLaunchIntentForPackage(this.getBaseContext().getPackageName());
@@ -269,6 +272,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         }, 0);
 
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -291,9 +295,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 settingsDialog.show();
                 break;
             case R.id.btn_new_message:
-                if(Util.isNetworkAvailable(this)){
+                if (Util.isNetworkAvailable(this)) {
                     messagesFragment.openNewMessageActivity();
-                }else {
+                } else {
                     Util.showNoInternetConnectionDialog(this);
                 }
                 break;
@@ -363,6 +367,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 break;
         }
     }
+
     private void handleStudentTabs(int tabNumber) {
         pager.setCurrentItem(tabNumber);
         // text view content
@@ -423,6 +428,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 break;
         }
     }
+
     private void handleTeacherTabs(int tabNumber) {
         pager.setCurrentItem(tabNumber);
         // text view content
@@ -509,8 +515,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        if(isParent){
-            if(!isStudent){
+        if (isParent) {
+            if (!isStudent) {
                 super.onBackPressed();
             }
         }
@@ -519,9 +525,11 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     public Student getStudent() {
         return student;
     }
+
     public Actor getActor() {
         return actor;
     }
+
     public String getAttendance() {
         return attendance;
     }
