@@ -133,7 +133,7 @@
     <string name="there_is_no_weekly_planner">لا يوجد خطة اسبوعية</string>
     <string name="announcements">الاعلانات</string>
     <string name="due_date">تاريخ الأنتهاء</string>
-    <string name="no_assignment">لا يوجد واجبات</string>
+    <string name="no_assignment">لا يوجد واجبات حالياََ</string>
     <string name="publish">نشر</string>
     <string name="home">الرئيسية</string>
     <string name="posts">المنشورات</string>
@@ -142,7 +142,7 @@
     <string name="no_submission">لم يتم حل الإختبار</string>
     <string name="published">نشر</string>
     <string name="online_quizzes">الإختبارات القصيرة</string>
-    <string name="no_quiz">لا يوجد إختبارات</string>
+    <string name="no_quiz">لا يوجد إختبارات حالياََ</string>
     <string name="open">جارية</string>
     <string name="out_of">من</string>
     <string name="quiz_not_started_yet">الإختبار لم يبدأ بعد</string>

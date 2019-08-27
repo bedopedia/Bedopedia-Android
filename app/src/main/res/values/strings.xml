@@ -153,7 +153,7 @@
     <string name="start_from">Start from</string>
     <string name="there_is_no_weekly_planner">There is no weekly planner</string>
     <string name="due_date">Due Date</string>
-    <string name="no_assignment">No Assignment</string>
+    <string name="no_assignment">No assignments currently</string>
     <string name="publish">Publish</string>
     <string name="announcements">Announcements</string>
     <string name="menu">Menu</string>
@@ -170,7 +170,7 @@
     <string name="quiz_not_started_yet">Quiz not started yet</string>
     <string name="grade_is">Grade is</string>
     <string name="keep_up_the_good_work">Keep up the good work</string>
-    <string name="no_quiz">No Quiz</string>
+    <string name="no_quiz">No active quizzes currently</string>
     <string name="published">Published</string>
     <string name="no_submission">No Submission</string>
     <string name="out_of">Out of</string>

@@ -624,6 +624,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 break;
             case R.id.layout_posts:
                 Intent intent = new Intent(getActivity(), PostsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.STUDENT, student);
+                intent.putExtra(Constants.KEY_BUNDLE, bundle);
                 intent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
                 startActivity(intent);
                 break;
@@ -761,7 +764,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         }, 0);
 
     }
-    
+
 //    private void openAnnouncement() {
 //        Intent intent = new Intent(getActivity(), AnnouncementActivity.class);
 //        Bundle bundle = new Bundle();
