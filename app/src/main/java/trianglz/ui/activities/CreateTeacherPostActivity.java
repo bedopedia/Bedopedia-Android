@@ -146,11 +146,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
         String post = postEditText.getText().toString();
         Boolean valid = true;
         if (post.isEmpty()) {
-            if (Util.getLocale(this).equals("ar")) {
-                Util.showErrorDialog(this, "Skolera", "المنشور فارغ");
-            } else {
-                Util.showErrorDialog(this, "Skolera", "Post is empty");
-            }
+            Util.showErrorDialog(this, "Skolera", getResources().getString(R.string.post_is_empty));
             valid = false;
         }
         return valid;
@@ -176,13 +172,16 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
                                 File file = createFile(uri);
                                 if (checkFileSize(file) && !(adapter.filesList.contains(file))) {
                                     adapter.filesList.add(file);
-                                } else if(!checkFileSize(file)){
-                                    if (Util.getLocale(this).equals("ar")) {
-                                        //todo add in strings file
-                                        Util.showErrorDialog(this, "Skolera", "حجم الملف كبير");
-                                    } else {
-                                        Util.showErrorDialog(this, "Skolera", "File is too big");
+                                    adapter.notifyDataSetChanged();
+                                    attachmentLayout.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                } else if (!checkFileSize(file)) {
+                                    if (adapter.filesList.isEmpty()) {
+                                        attachmentLayout.setVisibility(View.VISIBLE);
+                                        recyclerView.setVisibility(View.GONE);
                                     }
+                                    Util.showErrorDialog(this, getResources().getString(R.string.cannot_select_file), getResources().getString(R.string.file_is_big));
+
                                 }
                             }
                         } else {
@@ -190,18 +189,19 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
                             File file = createFile(uri);
                             if (checkFileSize(file) && !(adapter.filesList.contains(file))) {
                                 adapter.filesList.add(file);
-                            } else if(!checkFileSize(file)){
-                                if (Util.getLocale(this).equals("ar")) {
-                                    Util.showErrorDialog(this, "Skolera", "حجم الملف كبير");
-                                } else {
-                                    Util.showErrorDialog(this, "Skolera", "File is too big");
+                                adapter.notifyDataSetChanged();
+                                attachmentLayout.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                            } else if (!checkFileSize(file)) {
+                                if (adapter.filesList.isEmpty()) {
+                                    attachmentLayout.setVisibility(View.VISIBLE);
+                                    recyclerView.setVisibility(View.GONE);
                                 }
+                                Util.showErrorDialog(this, "Skolera", getResources().getString(R.string.file_is_big));
                             }
                         }
                     }
-                    adapter.notifyDataSetChanged();
-                    attachmentLayout.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
+
                 }
                 break;
         }
@@ -211,8 +211,8 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
     public void onDeleteClicked(int position) {
         //todo put in string file
         new AlertDialog.Builder(this)
-                .setTitle("Delete entry")
-                .setMessage("Are you sure you want to delete this attachment?")
+                .setTitle(getResources().getString(R.string.delete_entry))
+                .setMessage(getResources().getString(R.string.delete_attachment))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         adapter.filesList.remove(position);

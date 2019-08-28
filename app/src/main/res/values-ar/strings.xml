@@ -60,7 +60,7 @@
     <string name="select_teacher">إختار المعلم</string>
     <string name="write_a_message">إرسال رسالة .....</string>
     <string name="grade_items">درجات</string>
-    <string name="there_is_no_time_table">لا يوجد جدول حضور</string>
+    <string name="there_is_no_time_table">لا يوجد جدول زمنى</string>
     <string name="current">الحالى</string>
     <string name="change_language">تغيير اللغة الى الانجليزية</string>
     <string name="sign_out">تسجيل خروج</string>
@@ -178,13 +178,18 @@
 
 
     <string name="create_post">إنشاء منشور</string>
-    <string name="create_a_post_and_share">إنشئ منشور و شارك مع الفصل</string>
+    <string name="create_a_post_and_share">اكتب منشور و شارك مع الفصل</string>
     <string name="content">المحتوى</string>
-    <string name="text_editor_hint">This is a text editor. Add and edit as you wish</string>
+    <string name="post_is_empty">المحتوى فارغ</string>
+    <string name="text_editor_hint">تفاصيل المنشور</string>
     <string name="attachments">المرفقات</string>
-    <string name="upload_file">+ إرفع ملف</string>
+    <string name="upload_file">+ إضافة ملف</string>
     <string name="add_attachment">اضف المرفقات</string>
-    <string name="clicking_button">By clicking the add button you will add a new attachment.</string>
+    <string name="file_is_big">حجم الملف لا يمكن ان يتخطى ١٠ ميجا بايت.</string>
+    <string name="delete_entry">مسح المرفق</string>
+    <string name="delete_attachment">متأكد من مسح المرفق؟</string>
+    <string name="cannot_select_file">لا يمكن اختيار الملف</string>
+    <string name="clicking_button">بضغتك على زر "+ إضافة ملف" سيضاف ملف جديد</string>
     <string name="post">نشر</string>
     <string name="per_slot">Per slot</string>
     <string name="answer">Answer</string>

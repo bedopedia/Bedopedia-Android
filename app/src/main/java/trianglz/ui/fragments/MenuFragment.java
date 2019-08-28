@@ -105,7 +105,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private String studentName = "";
     private StudentDetailView studentDetailView;
     private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout, weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout, teacherTimeTableLayout;
-    private String attendance;
+    private String attendance, nextSlot;
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
     private ArrayList<JSONArray> attendanceList;
@@ -170,7 +170,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         otherBehaviorNotes = new ArrayList<>();
         courseGroups = new ArrayList<>();
         studentArrayList = new ArrayList<>();
-        appBarView =rootView.findViewById(R.id.appbar_view);
+        appBarView = rootView.findViewById(R.id.appbar_view);
         appBarLayout = rootView.findViewById(R.id.app_bar_layout);
         nameTextView = rootView.findViewById(R.id.tv_name);
         levelTextView = rootView.findViewById(R.id.tv_level);
@@ -228,13 +228,12 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (verticalOffset == 0) {
                     appBarView.setVisibility(View.GONE);
-                  //  appBarView.animate().alpha(0.0f);
+                    //  appBarView.animate().alpha(0.0f);
                     //    activity.toolbarView.setVisibility(View.VISIBLE);
-                }
-                else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
 //                    appBarView.animate().alpha(1.0f);
-                     appBarView.setVisibility(View.VISIBLE);
-                  //  activity.toolbarView.setVisibility(View.GONE);
+                    appBarView.setVisibility(View.VISIBLE);
+                    //  activity.toolbarView.setVisibility(View.GONE);
                 }
             }
         });
@@ -379,19 +378,20 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     @Override
     public void oneGetTimeTableSuccess(ArrayList<Object> timeTableData) {
         activity.isCalling = true;
-        String nextSlot = (String) timeTableData.get(2);
-        nextSlotTextView.setVisibility(View.VISIBLE);
-        teacherNextSlotTextView.setVisibility(View.VISIBLE);
+        nextSlot = (String) timeTableData.get(2);
+
         todaySlots = (List<TimeTableSlot>) timeTableData.get(0);
         tomorrowSlots = (List<TimeTableSlot>) timeTableData.get(1);
         if (nextSlot.isEmpty()) {
-            nextSlotTextView.setText(getParentActivity().getResources().getString(R.string.there_is_no_time_table));
-            teacherNextSlotTextView.setText(getParentActivity().getResources().getString(R.string.there_is_no_time_table));
-            timeTableLayout.setClickable(false);
-            teacherTimeTableLayout.setClickable(false);
+            //  nextSlotTextView.setText(getParentActivity().getResources().getString(R.string.there_is_no_time_table));
+            //teacherNextSlotTextView.setText(getParentActivity().getResources().getString(R.string.there_is_no_time_table));
+            //timeTableLayout.setClickable(false);
+            // teacherTimeTableLayout.setClickable(false);
         } else {
-            timeTableLayout.setClickable(true);
-            teacherTimeTableLayout.setClickable(true);
+            nextSlotTextView.setVisibility(View.VISIBLE);
+            teacherNextSlotTextView.setVisibility(View.VISIBLE);
+            //    timeTableLayout.setClickable(true);
+            //  teacherTimeTableLayout.setClickable(true);
             nextSlotTextView.setText(nextSlot);
             teacherNextSlotTextView.setText(nextSlot);
         }
@@ -454,12 +454,12 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     public void onGetWeeklyPlannerSuccess(RootClass rootClass) {
         activity.isCalling = false;
         this.rootClass = rootClass;
-        weeklyPlannerTextView.setVisibility(View.VISIBLE);
         if (rootClass.getWeeklyPlans().size() > 0) {
+            weeklyPlannerTextView.setVisibility(View.VISIBLE);
             weeklyPlannerTextView.setText(Util.getWeeklPlannerText(rootClass.getWeeklyPlans().get(0).getStartDate(),
                     rootClass.getWeeklyPlans().get(0).getEndDate(), getParentActivity()));
         } else {
-            weeklyPlannerTextView.setText(R.string.there_is_no_weekly_planner);
+            //  weeklyPlannerTextView.setText(R.string.there_is_no_weekly_planner);
         }
         if (getParentActivity().progress.isShowing())
             getParentActivity().progress.dismiss();
@@ -670,6 +670,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             bundle.putSerializable(Constants.STUDENT, student);
             myIntent.putExtra(Constants.KEY_BUNDLE, bundle);
             startActivity(myIntent);
+        } else {
+            Util.showErrorDialog(getActivity(), "Skolera", getParentActivity().getResources().getString(R.string.there_is_no_weekly_planner));
         }
     }
 
@@ -703,14 +705,17 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openTimeTableActivity() {
-        Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
-        bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
-        bundle.putSerializable(Constants.STUDENT, student);
-        timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(timeTableIntent);
-
+        if (nextSlot.isEmpty()) {
+            Util.showErrorDialog(getActivity(), "Skolera", getParentActivity().getResources().getString(R.string.there_is_no_time_table));
+        } else {
+            Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
+            bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
+            bundle.putSerializable(Constants.STUDENT, student);
+            timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
+            startActivity(timeTableIntent);
+        }
     }
 
     private void openBehaviourNotesActivity() {
@@ -856,11 +861,15 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openTeacherTimeTableActivity() {
-        Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
-        bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
-        timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(timeTableIntent);
+        if (nextSlot.isEmpty()) {
+            Util.showErrorDialog(getActivity(), "Skolera", getParentActivity().getResources().getString(R.string.there_is_no_time_table));
+        } else {
+            Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
+            bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
+            timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
+            startActivity(timeTableIntent);
+        }
     }
 }
