@@ -37,6 +37,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private LinearLayout coursesLayout, firstLayout, secondLayout, thirdLayout, fourthLayout;
     private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView;
     private TextView coursesTextView, firstTextView, secondTextView, thirdTextView, fourthTextView;
+    public View toolbarView;
     public Boolean isCalling = false;
     private CustomRtlViewPager pager;
     private StudentMainPagerAdapter pagerAdapter;
@@ -144,6 +145,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         secondTextView = findViewById(R.id.tv_messages);
         thirdTextView = findViewById(R.id.tv_notifications);
         fourthTextView = findViewById(R.id.tv_menu);
+
+        //views
+        toolbarView = findViewById(R.id.toolbar_view);
 
         // header
         headerLayout = findViewById(R.id.rl_header);

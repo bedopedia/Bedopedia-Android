@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,6 +87,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     // parent activity
     private StudentMainActivity activity;
+    private View appBarView;
     private List<TimeTableSlot> todaySlots;
     private List<TimeTableSlot> tomorrowSlots;
     private List<BehaviorNote> positiveBehaviorNotes;
@@ -107,6 +109,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
     private ArrayList<JSONArray> attendanceList;
+    private AppBarLayout appBarLayout;
 
 
     private LinearLayout parentLayout, teacherLayout;
@@ -167,6 +170,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         otherBehaviorNotes = new ArrayList<>();
         courseGroups = new ArrayList<>();
         studentArrayList = new ArrayList<>();
+        appBarView =rootView.findViewById(R.id.appbar_view);
+        appBarLayout = rootView.findViewById(R.id.app_bar_layout);
         nameTextView = rootView.findViewById(R.id.tv_name);
         levelTextView = rootView.findViewById(R.id.tv_level);
         studentImageView = rootView.findViewById(R.id.img_student);
@@ -204,6 +209,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
         // new quizzes layout
         quizzesLayout = rootView.findViewById(R.id.layout_quizzes);
+
     }
 
     private void setListeners() {
@@ -217,6 +223,21 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         calendarLayout.setOnClickListener(this);
         quizzesLayout.setOnClickListener(this);
         teacherTimeTableLayout.setOnClickListener(this);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == 0) {
+                    appBarView.setVisibility(View.GONE);
+                  //  appBarView.animate().alpha(0.0f);
+                    //    activity.toolbarView.setVisibility(View.VISIBLE);
+                }
+                else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+//                    appBarView.animate().alpha(1.0f);
+                     appBarView.setVisibility(View.VISIBLE);
+                  //  activity.toolbarView.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void setParentActorView() {
