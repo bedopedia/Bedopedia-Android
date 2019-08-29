@@ -11,6 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:elevation="2dp"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="0dp"
@@ -43,7 +44,7 @@
                 <trianglz.components.SfproBoldTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="32dp"
                     android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
                     android:text="@string/assignments"
@@ -71,7 +72,7 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:background="@color/white"
+        android:background="@color/snow"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"

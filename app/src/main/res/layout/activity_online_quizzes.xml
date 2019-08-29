@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/snow"
     tools:context="trianglz.ui.activities.OnlineQuizzesActivity">
 
     <android.support.v7.widget.Toolbar
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="2dp"
+        android:background="@color/white"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="0dp"
         app:contentInsetRight="0dp"
@@ -72,7 +74,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:background="@color/white"
+        android:background="@color/snow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
