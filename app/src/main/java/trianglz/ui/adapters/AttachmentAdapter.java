@@ -1,11 +1,8 @@
 package trianglz.ui.adapters;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import agency.tango.android.avatarview.loader.PicassoLoader;
-import agency.tango.android.avatarview.views.AvatarView;
-import trianglz.components.AvatarPlaceholderModified;
-import trianglz.components.CircleTransform;
 import trianglz.models.UploadedObject;
 
 public class AttachmentAdapter extends RecyclerView.Adapter {
@@ -71,7 +61,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter {
     private void setAttachmentImage(ImageView attachmentImageView, String ext){
         if(ext.contains("pdf")){
             attachmentImageView.setImageResource((R.drawable.pdf_icon));
-        }else if(ext.contains("doc")){
+        }else if(ext.contains("doc")||ext.contains("rtf")){
             attachmentImageView.setImageResource((R.drawable.doc_icon));
         }else if(ext.contains("pp")){
             attachmentImageView.setImageResource((R.drawable.ppt_icon));
