@@ -248,6 +248,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             nameTextView.setText(actorName);
             levelTextView.setText(actor.actableType);
             String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/teachers/" + SessionManager.getInstance().getId() + "/timetable";
+            activity.isCalling = true;
             studentDetailView.getStudentTimeTable(timeTableUrl);
             getParentActivity().showLoadingDialog();
             String notificationText = SessionManager.getInstance().getNotficiationCounter() + " " + getParentActivity().getResources().getString(R.string.unread_notifications);
@@ -377,7 +378,12 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void oneGetTimeTableSuccess(ArrayList<Object> timeTableData) {
-        activity.isCalling = true;
+
+        if (!SessionManager.getInstance().getUserType()) {
+            activity.isCalling = false;
+        } else {
+            activity.isCalling = true;
+        }
         nextSlot = (String) timeTableData.get(2);
 
         todaySlots = (List<TimeTableSlot>) timeTableData.get(0);

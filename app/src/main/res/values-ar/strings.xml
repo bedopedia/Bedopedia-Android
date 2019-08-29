@@ -189,7 +189,7 @@
     <string name="delete_entry">مسح المرفق</string>
     <string name="delete_attachment">متأكد من مسح المرفق؟</string>
     <string name="cannot_select_file">لا يمكن اختيار الملف</string>
-    <string name="clicking_button">بضغتك على زر "+ إضافة ملف" سيضاف ملف جديد</string>
+    <string name="clicking_button">بضغتك على زر + إضافة ملف سيضاف ملف جديد</string>
     <string name="post">نشر</string>
     <string name="per_slot">Per slot</string>
     <string name="answer">Answer</string>
