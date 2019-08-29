@@ -107,7 +107,9 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/attachment_icon"/>
 
         <TextView
             android:layout_width="wrap_content"
