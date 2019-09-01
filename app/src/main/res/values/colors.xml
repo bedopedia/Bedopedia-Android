@@ -81,4 +81,6 @@
     <color name="silver_75">#c0c3c7cf</color>
     <color name="salmon">#fd8268</color>
     <color name="navy">#00172a</color>
-</resources>
+    <color name="warm_grey2">#959595</color>
+    <color name="white_four">#e3e3e3</color>
+    </resources>
