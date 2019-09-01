@@ -83,4 +83,8 @@
     <color name="navy">#00172a</color>
     <color name="warm_grey2">#959595</color>
     <color name="white_four">#e3e3e3</color>
+    <color name="very_light_pink">#ffe0df</color>
+    <color name="light_tan_two">#fae8bc</color>
+    <color name="powder_blue">#bbdefa</color>
+    <color name="boring_green">#66bb6a</color>
     </resources>

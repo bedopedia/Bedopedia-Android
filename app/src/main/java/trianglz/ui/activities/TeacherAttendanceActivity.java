@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import trianglz.ui.adapters.TeacherAttendanceAdapter;
 
-public class TeacherAttendanceActivity extends SuperActivity implements View.OnClickListener {
+public class TeacherAttendanceActivity extends SuperActivity implements View.OnClickListener, TeacherAttendanceAdapter.TeacherAttendanceAdapterInterface {
     private Button fullDayButton, perSlotButton;
     private View fullDayView, perSlotView;
     private ImageButton backButton;
@@ -36,11 +36,10 @@ public class TeacherAttendanceActivity extends SuperActivity implements View.OnC
         recyclerView = findViewById(R.id.recycler_view);
         backButton = findViewById(R.id.btn_back);
         recyclerView = findViewById(R.id.recycler_view);
-        teacherAttendanceAdapter = new TeacherAttendanceAdapter(this);
+        teacherAttendanceAdapter = new TeacherAttendanceAdapter(this,this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         teacherAttendanceAdapter.addData(getFakeData());
-   //     recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16,this),false));
         recyclerView.setAdapter(teacherAttendanceAdapter);
     }
 
@@ -88,4 +87,28 @@ public class TeacherAttendanceActivity extends SuperActivity implements View.OnC
         return stringArrayList;
     }
 
+    @Override
+    public void onAbsentClicked() {
+
+    }
+
+    @Override
+    public void onPresentClicked() {
+
+    }
+
+    @Override
+    public void onExcusedClicked() {
+
+    }
+
+    @Override
+    public void onLateClicked() {
+
+    }
+
+    @Override
+    public void onCheckClicked() {
+
+    }
 }

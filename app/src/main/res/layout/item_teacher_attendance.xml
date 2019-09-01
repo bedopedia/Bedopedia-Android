@@ -13,7 +13,8 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/check_attendance_btn"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@color/transparent"
@@ -39,17 +40,17 @@
 
     </LinearLayout>
 
-    <RadioGroup
-        android:id="@+id/segmented"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="24dp"
+        android:layout_height="28dp"
         android:layout_marginStart="42dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
-        <RadioButton
+        <Button
+            android:textAllCaps="false"
             android:id="@+id/present_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -62,10 +63,12 @@
             android:drawableStart="@drawable/not_present"
             android:textColor="@color/warm_grey2"
             android:text="@string/present"
-            android:background="@drawable/curved_white_four"
-            style="@style/RadioButton" />
+            android:paddingLeft="4dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/curved_white_four" />
 
-        <RadioButton
+        <Button
+            android:textAllCaps="false"
             android:id="@+id/late_btn"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -79,9 +82,12 @@
             android:background="@drawable/curved_white_four"
             android:drawableStart="@drawable/not_late"
             android:text="@string/late"
-            style="@style/RadioButton" />
+            style="?android:attr/borderlessButtonStyle"
+            android:paddingLeft="4dp" />
 
-        <RadioButton
+
+        <Button
+            android:textAllCaps="false"
             android:id="@+id/absent_btn"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -95,9 +101,11 @@
             android:textColor="@color/warm_grey2"
             android:layout_height="match_parent"
             android:text="@string/absent"
-            style="@style/RadioButton" />
+            style="?android:attr/borderlessButtonStyle"
+            android:paddingLeft="4dp" />
 
-        <RadioButton
+        <Button
+            android:textAllCaps="false"
             android:id="@+id/excused_btn"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -108,12 +116,14 @@
             android:textSize="12sp"
             android:paddingRight="6dp"
             android:maxLines="1"
+            style="?android:attr/borderlessButtonStyle"
             android:background="@drawable/curved_white_four"
             android:textColor="@color/warm_grey2"
             android:drawableStart="@drawable/not_excused"
             android:text="@string/excused"
-            style="@style/RadioButton" />
-    </RadioGroup>
+            android:paddingLeft="4dp" />
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
