@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
@@ -14,7 +15,8 @@ import java.util.ArrayList;
 import trianglz.ui.adapters.TeacherAttendanceAdapter;
 
 public class TeacherAttendanceActivity extends SuperActivity implements View.OnClickListener, TeacherAttendanceAdapter.TeacherAttendanceAdapterInterface {
-    private Button fullDayButton, perSlotButton;
+    private Button fullDayButton, perSlotButton, assignAllButton, assignSelectedButton;
+    private TextView todaysDate;
     private View fullDayView, perSlotView;
     private ImageButton backButton;
     private RecyclerView recyclerView;
@@ -35,8 +37,10 @@ public class TeacherAttendanceActivity extends SuperActivity implements View.OnC
         perSlotView = findViewById(R.id.per_slot_view);
         recyclerView = findViewById(R.id.recycler_view);
         backButton = findViewById(R.id.btn_back);
+        assignAllButton = findViewById(R.id.assign_all_btn);
+        assignSelectedButton = findViewById(R.id.assign_selected_btn);
         recyclerView = findViewById(R.id.recycler_view);
-        teacherAttendanceAdapter = new TeacherAttendanceAdapter(this,this);
+        teacherAttendanceAdapter = new TeacherAttendanceAdapter(this, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         teacherAttendanceAdapter.addData(getFakeData());
@@ -47,21 +51,23 @@ public class TeacherAttendanceActivity extends SuperActivity implements View.OnC
         fullDayButton.setOnClickListener(this);
         perSlotButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
+        assignAllButton.setOnClickListener(this);
+        assignSelectedButton.setOnClickListener(this);
     }
 
     private void showFullDayAttendance() {
         fullDayView.setVisibility(View.VISIBLE);
         perSlotView.setVisibility(View.INVISIBLE);
-        fullDayButton.setTextColor(getResources().getColor(R.color.cerulean_blue,null));
-        perSlotButton.setTextColor(getResources().getColor(R.color.greyish,null));
+        fullDayButton.setTextColor(getResources().getColor(R.color.cerulean_blue, null));
+        perSlotButton.setTextColor(getResources().getColor(R.color.greyish, null));
 
     }
 
     private void showPerSlotAttendance() {
         perSlotView.setVisibility(View.VISIBLE);
         fullDayView.setVisibility(View.INVISIBLE);
-        perSlotButton.setTextColor(getResources().getColor(R.color.cerulean_blue,null));
-        fullDayButton.setTextColor(getResources().getColor(R.color.greyish,null));
+        perSlotButton.setTextColor(getResources().getColor(R.color.cerulean_blue, null));
+        fullDayButton.setTextColor(getResources().getColor(R.color.greyish, null));
     }
 
     @Override
@@ -108,7 +114,13 @@ public class TeacherAttendanceActivity extends SuperActivity implements View.OnC
     }
 
     @Override
-    public void onCheckClicked() {
-
+    public void onCheckClicked(Boolean isSelected) {
+        if (isSelected) {
+            assignAllButton.setVisibility(View.GONE);
+            assignSelectedButton.setVisibility(View.VISIBLE);
+        } else {
+            assignAllButton.setVisibility(View.VISIBLE);
+            assignSelectedButton.setVisibility(View.GONE);
+        }
     }
 }

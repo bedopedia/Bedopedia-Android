@@ -91,7 +91,6 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
         if (checkStatus == true) {
             holder.checkAttendanceImageButton.setBackground(context.getResources().getDrawable(R.drawable.curved_solid_cerulean_blue, null));
             holder.checkAttendanceImageButton.setImageResource(R.drawable.attendance_check);
-            teacherAttendanceAdapterInterface.onCheckClicked();
         } else {
             holder.checkAttendanceImageButton.setBackground(context.getResources().getDrawable(R.drawable.curved_cool_grey, null));
             holder.checkAttendanceImageButton.setImageResource(R.color.transparent);
@@ -166,6 +165,11 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
                         positionCheckStatusHashMap.put(getAdapterPosition(), true);
                     } else {
                         positionCheckStatusHashMap.put(getAdapterPosition(), false);
+                    }
+                    if(positionCheckStatusHashMap.containsValue(true)){
+                        teacherAttendanceAdapterInterface.onCheckClicked(true);
+                    }else{
+                        teacherAttendanceAdapterInterface.onCheckClicked(false);
                     }
 
                     notifyDataSetChanged();
@@ -252,6 +256,6 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
 
         void onLateClicked();
 
-        void onCheckClicked();
+        void onCheckClicked(Boolean isSelected);
     }
 }

@@ -220,4 +220,6 @@
     <string name="per_slot">Per slot</string>
     <string name="solve_quiz_now">Solve Quiz now</string>
     <string name="present">Present</string>
+    <string name="assign_for_all">Assign for all</string>
+    <string name="assign_for_selected">Assign for selected</string>
 </resources>
