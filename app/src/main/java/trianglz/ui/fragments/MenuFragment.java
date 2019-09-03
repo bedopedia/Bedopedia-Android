@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,6 @@ import trianglz.ui.activities.BehaviorNotesActivity;
 import trianglz.ui.activities.CalendarActivity;
 import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.CourseAssignmentActivity;
-import trianglz.ui.activities.GradesActivity;
 import trianglz.ui.activities.NotificationsActivity;
 import trianglz.ui.activities.OnlineQuizzesActivity;
 import trianglz.ui.activities.PostsActivity;
@@ -84,7 +84,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     //fragment root view
     private View rootView;
-
     // parent activity
     private StudentMainActivity activity;
     private View appBarView;
@@ -694,12 +693,24 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openGradesActivity() {
-        Intent gradesIntent = new Intent(getActivity(), GradesActivity.class);
+
+        GradesFragment gradesFragment = new GradesFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
         bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroups);
-        gradesIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(gradesIntent);
+        gradesFragment.setArguments(bundle);
+
+                getActivity().getSupportFragmentManager().
+                beginTransaction().replace(R.id.menu_fragment_root, gradesFragment).
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+//
+//        Intent gradesIntent = new Intent(getActivity(), GradesActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(Constants.STUDENT, student);
+//        bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroups);
+//        gradesIntent.putExtra(Constants.KEY_BUNDLE, bundle);
+//        startActivity(gradesIntent);
     }
 
     private void openCalendarActivity() {

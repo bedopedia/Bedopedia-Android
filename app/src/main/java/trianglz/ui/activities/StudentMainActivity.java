@@ -45,7 +45,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     // header
     private ImageButton settingsBtn, addNewMessageButton, backBtn;
     private SettingsDialog settingsDialog;
-    private RelativeLayout headerLayout;
+    public RelativeLayout headerLayout;
 
     // fragments
     private AnnouncementsFragment announcementsFragment;
