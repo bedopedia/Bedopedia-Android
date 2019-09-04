@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="trianglz.ui.activities.GradeDetailActivity"
     android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -14,8 +16,7 @@
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         app:contentInsetRight="0dp"
-        app:contentInsetEnd="0dp"
-       >
+        app:contentInsetEnd="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -46,10 +47,9 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/behaviour_notes"
                     android:textSize="17sp"
-                    android:id="@+id/tv_subject_header"/>
+                    android:id="@+id/tv_subject_header" />
 
-                <info.hoang8f.android.segmented.SegmentedGroup
-                    xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/segmented"
                     android:layout_width="250dp"
                     android:layout_height="0dp"
@@ -76,7 +76,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:text="@string/current"
-                        style="@style/segmented_group_text_style"/>
+                        style="@style/segmented_group_text_style" />
                 </info.hoang8f.android.segmented.SegmentedGroup>
             </LinearLayout>
 
@@ -87,13 +87,14 @@
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="14dp"
                 android:src="@drawable/profile_pic"
-                android:id="@+id/img_student"/>
+                android:id="@+id/img_student" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:id="@+id/recycler_view"/>
+        android:id="@+id/recycler_view" />
 
 </LinearLayout>

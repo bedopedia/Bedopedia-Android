@@ -139,7 +139,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         bundle.putSerializable(Constants.STUDENT,student);
         gradeDetailFragment.setArguments(bundle);
         activity.getSupportFragmentManager().
-                beginTransaction().add(R.id.activity_grades, gradeDetailFragment).
+                beginTransaction().add(R.id.menu_fragment_root, gradeDetailFragment).
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
     }
