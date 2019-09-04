@@ -191,12 +191,18 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
         } else {
-//            Intent intent = new Intent(this, GradingActivity.class);
-//            intent.putExtra(Constants.KEY_COURSE_ID, courseId);
-//            intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroups.getId());
-//            intent.putExtra(Constants.KEY_ASSIGNMENT_NAME, assignmentsDetail.getName());
-//            intent.putExtra(Constants.KEY_ASSIGNMENT_ID, assignmentsDetail.getId());
-//            startActivity(intent);
+            GradingFragment gradingFragment = new GradingFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.KEY_COURSE_ID, courseId);
+            bundle.putInt(Constants.KEY_COURSE_GROUP_ID, courseGroups.getId());
+            bundle.putString(Constants.KEY_ASSIGNMENT_NAME, assignmentsDetail.getName());
+            bundle.putInt(Constants.KEY_ASSIGNMENT_ID, assignmentsDetail.getId());
+            gradingFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, gradingFragment).
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+
         }
     }
 

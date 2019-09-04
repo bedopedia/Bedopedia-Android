@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/NoActionBar"
+    android:id="@+id/main_activity"
     tools:context="trianglz.ui.activities.StudentMainActivity">
 
 
