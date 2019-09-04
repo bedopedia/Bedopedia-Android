@@ -701,7 +701,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         gradesFragment.setArguments(bundle);
 
                 getActivity().getSupportFragmentManager().
-                beginTransaction().replace(R.id.menu_fragment_root, gradesFragment).
+                beginTransaction().add(R.id.menu_fragment_root, gradesFragment).
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
 //

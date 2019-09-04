@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -145,16 +146,20 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
 
     @Override
     public void onSubjectSelected(int position) {
-//        openGradeDetailActivity(courseGroups.get(position));
+        openGradeDetailFragment(courseGroups.get(position));
 
     }
-    private void openGradeDetailActivity(CourseGroup courseGroup){
-//        Intent intent = new Intent(this, GradeDetailActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.KEY_COURSE_GROUPS,courseGroup);
-//        bundle.putSerializable(Constants.STUDENT,student);
-//        intent.putExtra(Constants.KEY_BUNDLE,bundle);
-//        startActivity(intent);
+    private void openGradeDetailFragment(CourseGroup courseGroup){
+
+        GradeDetailFragment gradeDetailFragment= new GradeDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_COURSE_GROUPS,courseGroup);
+        bundle.putSerializable(Constants.STUDENT,student);
+        gradeDetailFragment.setArguments(bundle);
+        activity.getSupportFragmentManager().
+                beginTransaction().add(R.id.activity_grades, gradeDetailFragment).
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
 }
