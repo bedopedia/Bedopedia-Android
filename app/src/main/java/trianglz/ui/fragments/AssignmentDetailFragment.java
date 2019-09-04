@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,22 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         getValueFromIntent();
         bindViews();
         setListeners();
+        onBackPress();
+    }
+
+    private void onBackPress() {
+        rootView.setFocusableInTouchMode(true);
+        rootView.requestFocus();
+        rootView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    getFragmentManager().popBackStack();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void getValueFromIntent() {

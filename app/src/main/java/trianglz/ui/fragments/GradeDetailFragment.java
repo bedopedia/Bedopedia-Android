@@ -51,7 +51,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 03/09/2019.
  */
-public class GradeDetailFragment extends Fragment  implements View.OnClickListener, GradeDetailPresenter {
+public class GradeDetailFragment extends Fragment implements View.OnClickListener, GradeDetailPresenter {
 
     private View rootView;
     private StudentMainActivity activity;
@@ -76,6 +76,7 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
     private HashMap<String, Double> quizzesHashMap;
     private HashMap<String, Double> assignmentsHashMap;
     private HashMap<String, Double> gradeItemHashMap;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
         getValueFromIntent();
         bindViews();
         setListeners();
+        onBackPress();
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(), courseGroup.getId());
@@ -100,6 +102,22 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
             Util.showNoInternetConnectionDialog(activity);
         }
     }
+
+    private void onBackPress() {
+        rootView.setFocusableInTouchMode(true);
+        rootView.requestFocus();
+        rootView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    getFragmentManager().popBackStack();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -107,6 +125,7 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
             student = (Student) bundle.getSerializable(Constants.STUDENT);
         }
     }
+
     private void bindViews() {
         recyclerView = rootView.findViewById(R.id.recycler_view);
         gradeDetailAdapter = new GradeDetailAdapter(activity);
@@ -130,7 +149,7 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
         assignmentsHashMap = new HashMap<>();
         gradeItemHashMap = new HashMap<>();
 
-        segmentedGroup = rootView.findViewById (R.id.segmented);
+        segmentedGroup = rootView.findViewById(R.id.segmented);
         if (SessionManager.getInstance().getStudentAccount()) {
             segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
         } else if (SessionManager.getInstance().getUserType()) {
@@ -144,11 +163,13 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
         currentBtn = rootView.findViewById(R.id.btn_current);
         segmentedGroup.check(allBtn.getId());
     }
+
     private void setListeners() {
         backBtn.setOnClickListener(this);
         allBtn.setOnClickListener(this);
         currentBtn.setOnClickListener(this);
     }
+
     private void setStudentImage() {
         final String imageUrl = student.getAvatar();
         final String name = student.firstName + " " + student.lastName;
@@ -255,6 +276,7 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
             activity.showErrorDialog(activity);
         }
     }
+
     private void setAdapterData(ArrayList<CourseGradingPeriods> courseGradingPeriodsArrayList) {
         ArrayList<CourseGradingPeriods> allSemesterArrayList = handleSemesters(courseGradingPeriodsArrayList);
         for (int i = 0; i < allSemesterArrayList.size(); i++) {
@@ -267,13 +289,14 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
         setData();
 
     }
+
     private ArrayList<CourseGradingPeriods> handleSemesters(ArrayList<CourseGradingPeriods> courseGradingPeriodsArrayList) {
         ArrayList<CourseGradingPeriods> expandedSemesters = new ArrayList<>();
         for (int i = 0; i < courseGradingPeriodsArrayList.size(); i++) {
             CourseGradingPeriods courseGradingPeriods = courseGradingPeriodsArrayList.get(i);
             expandedSemesters.add(courseGradingPeriods);
             if (courseGradingPeriods.subGradingPeriodsAttributes != null) {
-                for(int j = 0; j<courseGradingPeriods.subGradingPeriodsAttributes.size(); j++){
+                for (int j = 0; j < courseGradingPeriods.subGradingPeriodsAttributes.size(); j++) {
                     expandedSemesters.add(courseGradingPeriods.subGradingPeriodsAttributes.get(j));
                 }
 
@@ -288,7 +311,7 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
         double studentMark = 0;
         double totalMarks = 0;
         for (int semester = 0; semester < expandedSemesters.size(); semester++) {
-            if(expandedSemesters.get(semester).isParent){
+            if (expandedSemesters.get(semester).isParent) {
                 continue;
             }
             isToAdd = true;
@@ -308,7 +331,7 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
                     objectArrayList.add(quiz1);
                     totalMarks = totalMarks + quiz1.total;
                     studentMark = studentMark + quiz1.grade;
-                    if(objectArrayList.get(headerPosition) instanceof GradeHeader){
+                    if (objectArrayList.get(headerPosition) instanceof GradeHeader) {
                         GradeHeader gradeHeader = (GradeHeader) objectArrayList.get(headerPosition);
                         gradeHeader.sumOfStudentMarks = studentMark;
                         gradeHeader.totalSummtion = totalMarks;
@@ -326,12 +349,12 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
         double studentMark = 0;
         double totalMarks = 0;
         for (int i = 0; i < expandedSemesters.size(); i++) {
-            if(expandedSemesters.get(i).isParent){
+            if (expandedSemesters.get(i).isParent) {
                 continue;
             }
             isToAdd = true;
             for (int j = 0; j < gradeItemArrayList.size(); j++) {
-                if (expandedSemesters.get(i).id == gradeItemArrayList.get(j).gradingPeriodId ) {
+                if (expandedSemesters.get(i).id == gradeItemArrayList.get(j).gradingPeriodId) {
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(i));
                     if (isToAdd) {
                         isToAdd = false;
@@ -363,7 +386,7 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
         double studentMark = 0;
         double totalMarks = 0;
         for (int i = 0; i < expandedSemesters.size(); i++) {
-            if(expandedSemesters.get(i).isParent){
+            if (expandedSemesters.get(i).isParent) {
                 continue;
             }
             isToAdd = true;
@@ -408,7 +431,7 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
                     && !courseGradingPeriods.isParent) {
                 currentSemester.add(keys.get(i));
                 isCurrent = true;
-            }else if(courseGradingPeriods.isChild){
+            } else if (courseGradingPeriods.isChild) {
                 if (Util.isDateInside(courseGradingPeriods.parentStartDate, courseGradingPeriods.parentEndDate, Util.getCurrentDate())) {
                     currentSemester.add(keys.get(i));
                     isCurrent = true;
@@ -440,20 +463,20 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
                     long time2 = (Util.convertStringToDate(entry2.endDate).getTime());
                     Long time3 = (Util.convertStringToDate(entry1.startDate).getTime());
                     long time4 = (Util.convertStringToDate(entry2.startDate).getTime());
-                    int endResult =  time1.compareTo(time2);
+                    int endResult = time1.compareTo(time2);
                     int startResult = time3.compareTo(time4);
-                    if(startResult == 0 || endResult == 0){
-                        if(startResult == 0){
-                            if(endResult>0){
+                    if (startResult == 0 || endResult == 0) {
+                        if (startResult == 0) {
+                            if (endResult > 0) {
                                 return -1;
-                            }else {
+                            } else {
                                 return 1;
                             }
-                        }else{
+                        } else {
                             return startResult;
                         }
 
-                    }else {
+                    } else {
                         return endResult;
                     }
 

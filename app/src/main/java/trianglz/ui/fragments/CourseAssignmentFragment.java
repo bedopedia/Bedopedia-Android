@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,22 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         bindViews();
         setListeners();
         getCourseAssignment();
+        onBackPress();
+    }
+
+    private void onBackPress() {
+        rootView.setFocusableInTouchMode(true);
+        rootView.requestFocus();
+        rootView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    getFragmentManager().popBackStack();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void getValueFromIntent() {
@@ -74,21 +91,23 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
             student = (Student) bundle.getSerializable(Constants.STUDENT);
         }
     }
+
     private void bindViews() {
         imageLoader = new PicassoLoader();
         studentImageView = rootView.findViewById(R.id.img_student);
         backBtn = rootView.findViewById(R.id.btn_back);
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
-        courseAssignmentAdapter = new CourseAssignmentAdapter(activity,this);
+        courseAssignmentAdapter = new CourseAssignmentAdapter(activity, this);
         recyclerView.setAdapter(courseAssignmentAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false));
-        courseAssignmentView = new CourseAssignmentView(activity,this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        courseAssignmentView = new CourseAssignmentView(activity, this);
     }
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
     }
+
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();
@@ -106,6 +125,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
                         public void onSuccess() {
 
                         }
+
                         @Override
                         public void onError() {
                             imageLoader = new PicassoLoader();
@@ -114,6 +134,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
                     });
         }
     }
+
     private void getCourseAssignment() {
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
@@ -127,7 +148,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_back:
                 activity.getSupportFragmentManager().popBackStack();
                 break;
@@ -144,59 +165,60 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onGetCourseAssignmentFailure(String message, int errorCode) {
-        if(activity.progress.isShowing()){
-           activity.progress.dismiss();
+        if (activity.progress.isShowing()) {
+            activity.progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             activity.logoutUser(activity);
-        }else {
+        } else {
             activity.showErrorDialog(activity);
         }
     }
 
     @Override
     public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList, CourseAssignment courseAssignment) {
-        if(activity.progress.isShowing()){
+        if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        openAssignmentDetailActivity(assignmentsDetailArrayList,courseAssignment);
+        openAssignmentDetailActivity(assignmentsDetailArrayList, courseAssignment);
     }
 
     @Override
     public void onGetAssignmentDetailFailure(String message, int errorCode) {
-        if(activity.progress.isShowing()){
+        if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
+        if (errorCode == 401 || errorCode == 500) {
             activity.logoutUser(activity);
-        }else {
+        } else {
             activity.showErrorDialog(activity);
         }
     }
 
     @Override
     public void onItemClicked(CourseAssignment courseAssignment) {
-        if(Util.isNetworkAvailable(activity)){
+        if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
                     courseAssignment.getId() + "/assignments";
-            courseAssignmentView.getAssinmentDetail(url,courseAssignment);
-        }else {
+            courseAssignmentView.getAssinmentDetail(url, courseAssignment);
+        } else {
             Util.showNoInternetConnectionDialog(activity);
         }
     }
+
     private void openAssignmentDetailActivity(ArrayList<AssignmentsDetail> assignmentsDetailArrayList,
                                               CourseAssignment courseAssignment) {
-      //  Intent intent = new Intent(this, AssignmentDetailActivity.class);
-        AssignmentDetailFragment assignmentDetailFragment= new AssignmentDetailFragment();
+        //  Intent intent = new Intent(this, AssignmentDetailActivity.class);
+        AssignmentDetailFragment assignmentDetailFragment = new AssignmentDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.KEY_STUDENT_NAME, student.getFirstName() + " " + student.getLastName());
-        bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
-        bundle.putSerializable(Constants.STUDENT,student);
-        if(courseAssignment.getCourseName() != null){
-            bundle.putString(Constants.KEY_COURSE_NAME,courseAssignment.getCourseName());
-        }else {
-            bundle.putString(Constants.KEY_COURSE_NAME,"");
+        bundle.putSerializable(Constants.KEY_ASSIGNMENTS, assignmentsDetailArrayList);
+        bundle.putSerializable(Constants.STUDENT, student);
+        if (courseAssignment.getCourseName() != null) {
+            bundle.putString(Constants.KEY_COURSE_NAME, courseAssignment.getCourseName());
+        } else {
+            bundle.putString(Constants.KEY_COURSE_NAME, "");
         }
         bundle.putInt(Constants.KEY_COURSE_ID, courseAssignment.getId());
         assignmentDetailFragment.setArguments(bundle);

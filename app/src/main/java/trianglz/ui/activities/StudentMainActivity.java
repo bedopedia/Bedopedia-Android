@@ -519,15 +519,11 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStackImmediate();
-        } else {
             if (isParent) {
                 if (!isStudent) {
                     super.onBackPressed();
                 }
             }
-        }
     }
 
     public Student getStudent() {

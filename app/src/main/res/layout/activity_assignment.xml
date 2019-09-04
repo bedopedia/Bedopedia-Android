@@ -53,14 +53,6 @@
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <agency.tango.android.avatarview.views.AvatarView
-                    android:id="@+id/img_student"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/notify" />
             </RelativeLayout>
 
             <View

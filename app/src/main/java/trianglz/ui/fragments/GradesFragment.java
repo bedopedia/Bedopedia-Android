@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,22 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         getValueFromIntent();
         bindViews();
         setListeners();
+        onBackPress();
+    }
+
+    private void onBackPress() {
+        rootView.setFocusableInTouchMode(true);
+        rootView.requestFocus();
+        rootView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    getFragmentManager().popBackStack();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void getValueFromIntent() {
@@ -84,7 +101,8 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         gradesAdapter.addData(courseGroups);
     }
-    private void setListeners(){
+
+    private void setListeners() {
         backBtn.setOnClickListener(this);
     }
 
@@ -117,10 +135,10 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_back:
-            //    activity.toolbarView.setVisibility(View.VISIBLE);
-            //    activity.headerLayout.setVisibility(View.VISIBLE);
+                //    activity.toolbarView.setVisibility(View.VISIBLE);
+                //    activity.headerLayout.setVisibility(View.VISIBLE);
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
         }
@@ -131,12 +149,13 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         openGradeDetailFragment(courseGroups.get(position));
 
     }
-    private void openGradeDetailFragment(CourseGroup courseGroup){
 
-        GradeDetailFragment gradeDetailFragment= new GradeDetailFragment();
+    private void openGradeDetailFragment(CourseGroup courseGroup) {
+
+        GradeDetailFragment gradeDetailFragment = new GradeDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_COURSE_GROUPS,courseGroup);
-        bundle.putSerializable(Constants.STUDENT,student);
+        bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroup);
+        bundle.putSerializable(Constants.STUDENT, student);
         gradeDetailFragment.setArguments(bundle);
         activity.getSupportFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, gradeDetailFragment).

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,6 @@ import com.skolera.skolera_android.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import agency.tango.android.avatarview.IImageLoader;
-import agency.tango.android.avatarview.loader.PicassoLoader;
-import agency.tango.android.avatarview.views.AvatarView;
-import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.SingleAssignmentPresenter;
 import trianglz.core.views.SingleAssignmentView;
@@ -48,7 +45,6 @@ public class AssignmentFragment extends Fragment implements AttachmentAdapter.At
     private AttachmentAdapter adapter;
     private SingleAssignmentView singleAssignmentView;
     private int courseId;
-    private AvatarView avatarView;
     private String studentName;
     private CardView cardView;
     private ImageButton backBtn;
@@ -69,8 +65,24 @@ public class AssignmentFragment extends Fragment implements AttachmentAdapter.At
         ReadIntent();
         bindViews();
         setListeners();
+        onBackPress();
         activity.showLoadingDialog();
         singleAssignmentView.showAssignment(courseId, assignmentsDetail.getId());
+    }
+
+    private void onBackPress() {
+        rootView.setFocusableInTouchMode(true);
+        rootView.requestFocus();
+        rootView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    getFragmentManager().popBackStack();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void ReadIntent() {
@@ -104,12 +116,6 @@ public class AssignmentFragment extends Fragment implements AttachmentAdapter.At
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16, activity), false));
         singleAssignmentView = new SingleAssignmentView(activity, this);
-        avatarView = activity.findViewById(R.id.img_student);
-        IImageLoader imageLoader = new PicassoLoader();
-        imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(studentName), "Path of Image");
-        if (studentName == null || studentName.equals("") || studentName.isEmpty()) {
-            avatarView.setVisibility(View.INVISIBLE);
-        }
     }
 
     private void setListeners() {
