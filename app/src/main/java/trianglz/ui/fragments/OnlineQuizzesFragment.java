@@ -175,7 +175,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onItemClicked(QuizzCourse quizzCourse) {
-       // openQuizzesDetailsActivity(quizzCourse);
+        openQuizzesDetailsActivity(quizzCourse);
     }
     private void openQuizzesDetailsActivity(QuizzCourse quizzCourse) {
         QuizzesDetailsFragment quizzesDetailsFragment = new QuizzesDetailsFragment();

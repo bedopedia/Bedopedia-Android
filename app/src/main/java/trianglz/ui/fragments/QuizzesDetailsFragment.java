@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         getValueFromIntent();
         bindViews();
         setListeners();
+        onBackPress();
         if (!teacherMode) {
             activity.showLoadingDialog();
             quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId());
@@ -142,6 +144,20 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             quizzes = new ArrayList<>();
         }
 
+    }
+    private void onBackPress() {
+        rootView.setFocusableInTouchMode(true);
+        rootView.requestFocus();
+        rootView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    getFragmentManager().popBackStack();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void setListeners() {
@@ -221,10 +237,15 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onItemClicked(Quizzes quizzes) {
         if (!teacherMode) {
-//            Intent intent = new Intent(this, SingleQuizActivity.class);
-//            intent.putExtra(Constants.KEY_QUIZZES, quizzes.toString());
-//            intent.putExtra(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
-//            startActivity(intent);
+            SingleQuizFragment singleQuizFragment = new SingleQuizFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
+            bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
+            singleQuizFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment).
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
         } else {
             GradingFragment gradingFragment = new GradingFragment();
             Bundle bundle = new Bundle();
