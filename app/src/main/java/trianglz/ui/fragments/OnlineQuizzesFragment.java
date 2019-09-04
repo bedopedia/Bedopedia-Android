@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -177,9 +178,14 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
        // openQuizzesDetailsActivity(quizzCourse);
     }
     private void openQuizzesDetailsActivity(QuizzCourse quizzCourse) {
-//        Intent intent = new Intent(this, QuizzesDetailsActivity.class);
-//        intent.putExtra(Constants.STUDENT, student.toString());
-//        intent.putExtra(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
-//        startActivity(intent);
+        QuizzesDetailsFragment quizzesDetailsFragment = new QuizzesDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.STUDENT, student.toString());
+        bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
+        quizzesDetailsFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, quizzesDetailsFragment).
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 }
