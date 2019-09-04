@@ -92,7 +92,6 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
         getValueFromIntent();
         bindViews();
         setListeners();
-        onBackPress();
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(), courseGroup.getId());
@@ -149,22 +148,6 @@ public class GradeDetailFragment extends Fragment  implements View.OnClickListen
         backBtn.setOnClickListener(this);
         allBtn.setOnClickListener(this);
         currentBtn.setOnClickListener(this);
-    }
-    private void onBackPress() {
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-//                    activity.toolbarView.setVisibility(View.VISIBLE);
-//                    activity.headerLayout.setVisibility(View.VISIBLE);
-                    activity.getSupportFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
     }
     private void setStudentImage() {
         final String imageUrl = student.getAvatar();

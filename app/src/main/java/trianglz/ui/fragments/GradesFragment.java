@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +60,6 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         getValueFromIntent();
         bindViews();
         setListeners();
-        onBackPress();
     }
 
     private void getValueFromIntent() {
@@ -90,22 +88,6 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         backBtn.setOnClickListener(this);
     }
 
-    private void onBackPress() {
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-//                    activity.toolbarView.setVisibility(View.VISIBLE);
-//                    activity.headerLayout.setVisibility(View.VISIBLE);
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();
