@@ -755,12 +755,21 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openAttendanceActivity() {
-        Intent attendanceIntent = new Intent(getActivity(), AttendanceActivity.class);
+        AttendanceFragment attendanceFragment= new AttendanceFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
         bundle.putString(Constants.KEY_ATTENDANCE, attendance);
-        attendanceIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(attendanceIntent);
+        attendanceFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, attendanceFragment).
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+//        Intent attendanceIntent = new Intent(getActivity(), AttendanceActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(Constants.STUDENT, student);
+//        bundle.putString(Constants.KEY_ATTENDANCE, attendance);
+//        attendanceIntent.putExtra(Constants.KEY_BUNDLE, bundle);
+//        startActivity(attendanceIntent);
     }
 
 
