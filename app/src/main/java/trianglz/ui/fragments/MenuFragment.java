@@ -66,7 +66,6 @@ import trianglz.ui.activities.BehaviorNotesActivity;
 import trianglz.ui.activities.CalendarActivity;
 import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.NotificationsActivity;
-import trianglz.ui.activities.OnlineQuizzesActivity;
 import trianglz.ui.activities.PostsActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.activities.SuperActivity;
@@ -656,9 +655,17 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 startActivity(intent);
                 break;
             case R.id.layout_quizzes:
-                Intent intent1 = new Intent(getActivity(), OnlineQuizzesActivity.class);
-                intent1.putExtra(Constants.STUDENT, student.toString());
-                startActivity(intent1);
+                OnlineQuizzesFragment onlineQuizzesFragment= new OnlineQuizzesFragment();
+                Bundle bundleQuiz= new Bundle();
+                bundleQuiz.putString(Constants.STUDENT, student.toString());
+                onlineQuizzesFragment.setArguments(bundleQuiz);
+                getActivity().getSupportFragmentManager().
+                        beginTransaction().add(R.id.menu_fragment_root, onlineQuizzesFragment).
+                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                        addToBackStack(null).commit();
+               // Intent intent1 = new Intent(getActivity(), OnlineQuizzesActivity.class);
+                //intent1.putExtra(Constants.STUDENT, student.toString());
+                //startActivity(intent1);
                 break;
             case R.id.layout_timetable_teacher:
                 openTeacherTimeTableActivity();

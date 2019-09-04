@@ -44,7 +44,7 @@ public class OnlineQuizzesView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                onlineQuizzesPresenter.onGetQuizzesCoursesFailure();
+                onlineQuizzesPresenter.onGetQuizzesCoursesFailure(message,errorCode);
             }
         });
     }

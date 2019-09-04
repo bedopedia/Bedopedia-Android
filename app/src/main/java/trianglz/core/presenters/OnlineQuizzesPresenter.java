@@ -9,5 +9,5 @@ import trianglz.models.QuizzCourse;
  */
 public interface OnlineQuizzesPresenter {
     void onGetQuizzesCoursesSuccess(ArrayList<QuizzCourse> quizzCourses);
-    void onGetQuizzesCoursesFailure();
+    void onGetQuizzesCoursesFailure(String message, int errorCode);
 }
