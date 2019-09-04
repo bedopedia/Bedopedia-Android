@@ -65,7 +65,6 @@ import trianglz.ui.activities.AttendanceActivity;
 import trianglz.ui.activities.BehaviorNotesActivity;
 import trianglz.ui.activities.CalendarActivity;
 import trianglz.ui.activities.ContactTeacherActivity;
-import trianglz.ui.activities.CourseAssignmentActivity;
 import trianglz.ui.activities.NotificationsActivity;
 import trianglz.ui.activities.OnlineQuizzesActivity;
 import trianglz.ui.activities.PostsActivity;
@@ -870,11 +869,21 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openAssignmentDetailActivity() {
-        Intent intent = new Intent(getActivity(), CourseAssignmentActivity.class);
+        CourseAssignmentFragment courseAssignmentFragment = new CourseAssignmentFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(intent);
+        courseAssignmentFragment.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, courseAssignmentFragment).
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+
+//        Intent intent = new Intent(getActivity(), CourseAssignmentActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(Constants.STUDENT, student);
+//        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+//        startActivity(intent);
     }
 
     private void openTeacherTimeTableActivity() {
