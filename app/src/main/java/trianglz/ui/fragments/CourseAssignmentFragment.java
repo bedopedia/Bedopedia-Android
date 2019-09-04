@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -186,19 +187,23 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
     }
     private void openAssignmentDetailActivity(ArrayList<AssignmentsDetail> assignmentsDetailArrayList,
                                               CourseAssignment courseAssignment) {
-//        Intent intent = new Intent(this, AssignmentDetailActivity.class);
-//        Bundle bundle = new Bundle();
-//        intent.putExtra(Constants.KEY_STUDENT_NAME, student.getFirstName() + " " + student.getLastName());
-//        bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
-//        bundle.putSerializable(Constants.STUDENT,student);
-//        intent.putExtra(Constants.KEY_BUNDLE,bundle);
-//        if(courseAssignment.getCourseName() != null){
-//            intent.putExtra(Constants.KEY_COURSE_NAME,courseAssignment.getCourseName());
-//        }else {
-//            intent.putExtra(Constants.KEY_COURSE_NAME,"");
-//        }
-//        intent.putExtra(Constants.KEY_COURSE_ID, courseAssignment.getId());
-//        startActivity(intent);
+      //  Intent intent = new Intent(this, AssignmentDetailActivity.class);
+        AssignmentDetailFragment assignmentDetailFragment= new AssignmentDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.KEY_STUDENT_NAME, student.getFirstName() + " " + student.getLastName());
+        bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
+        bundle.putSerializable(Constants.STUDENT,student);
+        if(courseAssignment.getCourseName() != null){
+            bundle.putString(Constants.KEY_COURSE_NAME,courseAssignment.getCourseName());
+        }else {
+            bundle.putString(Constants.KEY_COURSE_NAME,"");
+        }
+        bundle.putInt(Constants.KEY_COURSE_ID, courseAssignment.getId());
+        assignmentDetailFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, assignmentDetailFragment).
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
 }
