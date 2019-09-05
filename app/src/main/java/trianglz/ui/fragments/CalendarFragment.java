@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -37,6 +38,7 @@ import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.BottomItemDecoration;
 import trianglz.components.CircleTransform;
 import trianglz.core.presenters.CalendarEventsPresenter;
+import trianglz.core.presenters.FragmentCommunicationInterface;
 import trianglz.core.views.CalendarEventsView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
@@ -50,7 +52,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 05/09/2019.
  */
-public class CalendarFragment extends Fragment implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener, CalendarEventsPresenter {
+public class CalendarFragment extends Fragment implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener, CalendarEventsPresenter, FragmentCommunicationInterface {
 
     private StudentMainActivity activity;
     private View rootView;
@@ -269,7 +271,15 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         quizzesView.setVisibility(View.INVISIBLE);
     }
     private void openAddEventActivity() {
-//        Intent intent = new Intent(this, CreatePersonalEventActivity.class);
+        CreatePersonalEventFragment createPersonalEventFragment = CreatePersonalEventFragment.newInstance(this);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT, student);
+        createPersonalEventFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, createPersonalEventFragment).
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+ //       Intent intent = new Intent(this, CreatePersonalEventActivity.class);
 //        Bundle bundle = new Bundle();
 //        bundle.putSerializable(Constants.STUDENT, student);
 //        intent.putExtra(Constants.KEY_BUNDLE, bundle);
@@ -399,5 +409,10 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         } else {
             activity.showErrorDialog(activity);
         }
+    }
+
+    @Override
+    public void reloadEvents() {
+        getEvents();
     }
 }
