@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/posts_background"
     android:orientation="vertical"
+    android:clickable="true"
+    android:focusable="true"
     tools:context="trianglz.ui.activities.AssignmentActivity">
 
     <android.support.v7.widget.Toolbar

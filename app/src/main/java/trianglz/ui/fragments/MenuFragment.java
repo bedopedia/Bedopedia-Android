@@ -61,8 +61,6 @@ import trianglz.models.Notification;
 import trianglz.models.RootClass;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
-import trianglz.ui.activities.AttendanceActivity;
-import trianglz.ui.activities.BehaviorNotesActivity;
 import trianglz.ui.activities.CalendarActivity;
 import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.NotificationsActivity;
@@ -742,16 +740,30 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openBehaviourNotesActivity() {
-        Intent behaviorNotesIntent = new Intent(getActivity(), BehaviorNotesActivity.class);
-        behaviorNotesIntent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
+        BehaviorNotesMainFragment behaviorNotesMainFragment = new BehaviorNotesMainFragment();
         Bundle bundle = new Bundle();
+        bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
         bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveBehaviorNotes);
         bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeBehaviorNotes);
         bundle.putSerializable(Constants.KEY_OTHER_NOTES_LIST, (Serializable) otherBehaviorNotes);
         bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
         bundle.putSerializable(Constants.STUDENT, student);
-        behaviorNotesIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(behaviorNotesIntent);
+        behaviorNotesMainFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, behaviorNotesMainFragment).
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+
+        //Intent behaviorNotesIntent = new Intent(getActivity(), BehaviorNotesActivity.class);
+        //behaviorNotesIntent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
+        //Bundle bundle = new Bundle();
+//        bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveBehaviorNotes);
+//        bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeBehaviorNotes);
+//        bundle.putSerializable(Constants.KEY_OTHER_NOTES_LIST, (Serializable) otherBehaviorNotes);
+//        bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
+//        bundle.putSerializable(Constants.STUDENT, student);
+//        behaviorNotesIntent.putExtra(Constants.KEY_BUNDLE, bundle);
+//        startActivity(behaviorNotesIntent);
     }
 
     private void openAttendanceActivity() {
