@@ -61,7 +61,6 @@ import trianglz.models.Notification;
 import trianglz.models.RootClass;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
-import trianglz.ui.activities.CalendarActivity;
 import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.NotificationsActivity;
 import trianglz.ui.activities.PostsActivity;
@@ -718,11 +717,19 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openCalendarActivity() {
-        Intent calendarIntent = new Intent(getActivity(), CalendarActivity.class);
+        CalendarFragment calendarFragment = new CalendarFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
-        calendarIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(calendarIntent);
+        calendarFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, calendarFragment).
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+//        Intent calendarIntent = new Intent(getActivity(), CalendarActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(Constants.STUDENT, student);
+//        calendarIntent.putExtra(Constants.KEY_BUNDLE, bundle);
+//        startActivity(calendarIntent);
     }
 
     private void openTimeTableActivity() {
