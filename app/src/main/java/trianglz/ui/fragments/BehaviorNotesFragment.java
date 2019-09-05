@@ -81,9 +81,8 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
      * @return A new instance of fragment BehaviorNotesFragment.
      */
 
-    public static BehaviorNotesFragment newInstance() {
+    public static BehaviorNotesFragment newInstance(Bundle args) {
         BehaviorNotesFragment behaviorNotesFragment = new BehaviorNotesFragment();
-        Bundle args = new Bundle();
         behaviorNotesFragment.setArguments(args);
         return behaviorNotesFragment;
     }
@@ -93,13 +92,15 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         super.onCreate(savedInstanceState);
         Bundle extras = this.getActivity().getIntent().getExtras();
         context = getActivity();
-        Bundle bundle = getActivity().getIntent().getBundleExtra(Constants.KEY_BUNDLE);
-        positiveNotesList = (List<BehaviorNote>) bundle.getSerializable(Constants.KEY_POSITIVE_NOTES_LIST);
-        negativeNotesList = (List<BehaviorNote>) bundle.getSerializable(Constants.KEY_NEGATIVE_NOTES_LIST);
-        otherNoteList = (List<BehaviorNote>) bundle.getSerializable(Constants.KEY_OTHER_NOTES_LIST);
-        student = (Student)bundle.getSerializable(Constants.STUDENT);
-        studentId = bundle.getInt(studentIdKey)+"";
-
+        //   Bundle bundle = getActivity().getIntent().getBundleExtra(Constants.KEY_BUNDLE);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            positiveNotesList = (List<BehaviorNote>) bundle.getSerializable(Constants.KEY_POSITIVE_NOTES_LIST);
+            negativeNotesList = (List<BehaviorNote>) bundle.getSerializable(Constants.KEY_NEGATIVE_NOTES_LIST);
+            otherNoteList = (List<BehaviorNote>) bundle.getSerializable(Constants.KEY_OTHER_NOTES_LIST);
+            student = (Student) bundle.getSerializable(Constants.STUDENT);
+            studentId = bundle.getInt(studentIdKey) + "";
+        }
     }
 
     @Override
@@ -119,7 +120,7 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
     }
 
     private void bindViews() {
-        mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getActivity().getSupportFragmentManager(), positiveNotesList, negativeNotesList, otherNoteList,getActivity());
+        mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getActivity().getSupportFragmentManager(), positiveNotesList, negativeNotesList, otherNoteList, getActivity());
         mViewPager = rootView.findViewById(R.id.behavior_notes_container);
         mViewPager.setPagingEnabled(true);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -131,10 +132,10 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         studentImage = rootView.findViewById(R.id.img_student);
         imageLoader = new PicassoLoader();
         String name = student.firstName + " " + student.lastName;
-        setStudentImage(student.getAvatar(),name);
+        setStudentImage(student.getAvatar(), name);
         setHeader();
 
-        segmentedGroup = rootView.findViewById (R.id.segmented);
+        segmentedGroup = rootView.findViewById(R.id.segmented);
         if (SessionManager.getInstance().getStudentAccount()) {
             segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
         } else if (SessionManager.getInstance().getUserType()) {
@@ -169,9 +170,9 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
             public void onPageSelected(int position) {
                 if (position == 0) {
                     setTextBackgrounds(0);
-                } else if(position == 1){
+                } else if (position == 1) {
                     setTextBackgrounds(1);
-                }else {
+                } else {
                     setTextBackgrounds(2);
                 }
             }
@@ -182,6 +183,7 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
             }
         });
     }
+
     private void increaseButtonsHitArea() {
         final View parent = (View) backBtn.getParent();
         parent.post(new Runnable() {
@@ -197,19 +199,19 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         });
     }
 
-    private void setHeader(){
-        if(Util.getLocale(getActivity()).equals("ar")) {
+    private void setHeader() {
+        if (Util.getLocale(getActivity()).equals("ar")) {
             positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
             otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
             negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
-        }else {
+        } else {
             setTextBackgrounds(1);
             setTextBackgrounds(0);
         }
     }
 
     private void setTextBackgrounds(int pageNumber) {
-        if(Util.getLocale(getActivity()).equals("ar")){
+        if (Util.getLocale(getActivity()).equals("ar")) {
             if (pageNumber == 0) {
                 positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
                 positiveTv.setTextColor(getResources().getColor(R.color.white));
@@ -218,14 +220,14 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
                 otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
                 otherTv.setTextColor(getResources().getColor(R.color.jade_green));
 
-            } else if(pageNumber == 1){
+            } else if (pageNumber == 1) {
                 positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
                 positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
                 negativeTv.setBackground(getResources().getDrawable(R.drawable.solid_green_background));
                 negativeTv.setTextColor(getResources().getColor(R.color.white));
                 otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
                 otherTv.setTextColor(getResources().getColor(R.color.jade_green));
-            }else {
+            } else {
                 positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
                 positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
                 negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
@@ -234,7 +236,7 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
                 otherTv.setTextColor(getResources().getColor(R.color.white));
             }
 
-        }else {
+        } else {
             if (pageNumber == 0) {
                 positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
                 positiveTv.setTextColor(getResources().getColor(R.color.white));
@@ -243,14 +245,14 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
                 otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
                 otherTv.setTextColor(getResources().getColor(R.color.jade_green));
 
-            } else if(pageNumber == 1){
+            } else if (pageNumber == 1) {
                 positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
                 positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
                 negativeTv.setBackground(getResources().getDrawable(R.drawable.solid_green_background));
                 negativeTv.setTextColor(getResources().getColor(R.color.white));
                 otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
                 otherTv.setTextColor(getResources().getColor(R.color.jade_green));
-            }else {
+            } else {
                 positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
                 positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
                 negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
@@ -296,7 +298,7 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();
             imageLoader.loadImage(studentImage, new AvatarPlaceholderModified(name), "Path of Image");
-        } else{
+        } else {
             imageLoader = new PicassoLoader();
             imageLoader.loadImage(studentImage, new AvatarPlaceholderModified(name), "Path of Image");
             Picasso.with(getActivity())

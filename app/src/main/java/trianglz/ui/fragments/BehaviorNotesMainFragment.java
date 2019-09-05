@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.skolera.skolera_android.R;
 
+import Tools.FragmentUtils;
+
 /**
  * Created by Farah A. Moniem on 05/09/2019.
  */
@@ -24,7 +26,7 @@ public class BehaviorNotesMainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_behavior_notes, container, false);
         onBackPress();
-       // FragmentUtils.createFragment(getActivity().getSupportFragmentManager(), BehaviorNotesFragment.newInstance(), R.id.timetable_main_container );
+        FragmentUtils.createFragment(getActivity().getSupportFragmentManager(), BehaviorNotesFragment.newInstance(this.getArguments()), R.id.timetable_main_container );
         return rootView;
     }
     private void onBackPress() {
