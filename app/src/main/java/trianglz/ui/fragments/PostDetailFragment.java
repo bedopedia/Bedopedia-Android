@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -68,6 +69,7 @@ public class PostDetailFragment extends Fragment implements PostDetailsPresenter
         setListeners();
         onBackPress();
     }
+
     private void onBackPress() {
         rootView.setFocusableInTouchMode(true);
         rootView.requestFocus();
@@ -75,13 +77,14 @@ public class PostDetailFragment extends Fragment implements PostDetailsPresenter
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    getFragmentManager().popBackStack();
+                    activity.getSupportFragmentManager().popBackStack();
                     return true;
                 }
                 return false;
             }
         });
     }
+
     private void getValuesFromIntent() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -116,9 +119,11 @@ public class PostDetailFragment extends Fragment implements PostDetailsPresenter
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16, activity), false));
         recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(16, activity), false));
     }
+
     private void setListeners() {
         addPostFab.setOnClickListener(this);
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -130,7 +135,7 @@ public class PostDetailFragment extends Fragment implements PostDetailsPresenter
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_post_btn:
-              //  openCreatePostActivity();
+                //  openCreatePostActivity();
                 break;
         }
     }
@@ -149,17 +154,20 @@ public class PostDetailFragment extends Fragment implements PostDetailsPresenter
 
     @Override
     public void onAttachmentClicked(ArrayList<UploadedObject> uploadedObjects) {
-//        Intent intent = new Intent(this, AttachmentsActivity.class);
-//        Bundle bundle = new Bundle();
-//        ArrayList<String> uploadedObjectStrings = new ArrayList<>();
-//        for (UploadedObject uploadedObject : uploadedObjects) {
-//            uploadedObjectStrings.add(uploadedObject.toString());
-//        }
-//        if (!uploadedObjectStrings.isEmpty())
-//            bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
-//        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-//        intent.putExtra(Constants.KEY_COURSE_NAME, courseName);
-//        startActivity(intent);
+        AttachmentsFragment attachmentsFragment = new AttachmentsFragment();
+        Bundle bundle = new Bundle();
+        ArrayList<String> uploadedObjectStrings = new ArrayList<>();
+        for (UploadedObject uploadedObject : uploadedObjects) {
+            uploadedObjectStrings.add(uploadedObject.toString());
+        }
+        if (!uploadedObjectStrings.isEmpty())
+            bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
+        bundle.putString(Constants.KEY_COURSE_NAME, courseName);
+        attachmentsFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, attachmentsFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
     @Override
@@ -177,6 +185,7 @@ public class PostDetailFragment extends Fragment implements PostDetailsPresenter
 //        intent.putExtra(Constants.POST_DETAILS, postDetails.toString());
 //        startActivity(intent);
     }
+
     private void openCreatePostActivity() {
 //        Intent intent = new Intent(this, CreateTeacherPostActivity.class);
 //        intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroupId);

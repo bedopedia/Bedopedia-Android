@@ -150,7 +150,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    getFragmentManager().popBackStack();
+                    activity.getSupportFragmentManager().popBackStack();
                     return true;
                 }
                 return false;

@@ -79,7 +79,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
                     activity.toolbarView.setVisibility(View.VISIBLE);
                     activity.headerLayout.setVisibility(View.VISIBLE);
-                    getFragmentManager().popBackStack();
+                    activity.getSupportFragmentManager().popBackStack();
                     return true;
                 }
                 return false;

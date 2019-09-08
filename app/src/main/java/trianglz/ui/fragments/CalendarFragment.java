@@ -105,7 +105,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_BACK) {
                         Log.d("", "onKeyback: ");
-                        getFragmentManager().popBackStack();
+                        activity.getSupportFragmentManager().popBackStack();
                         activity.toolbarView.setVisibility(View.VISIBLE);
                         activity.headerLayout.setVisibility(View.VISIBLE);
                         return true;

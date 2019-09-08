@@ -42,7 +42,7 @@ public class BehaviorNotesMainFragment extends Fragment {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
                     activity.toolbarView.setVisibility(View.VISIBLE);
                     activity.headerLayout.setVisibility(View.VISIBLE);
-                    getFragmentManager().popBackStack();
+                    activity.getSupportFragmentManager().popBackStack();
                     return true;
                 }
                 return false;

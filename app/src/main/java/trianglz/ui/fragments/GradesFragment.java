@@ -69,7 +69,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    getFragmentManager().popBackStack();
+                    activity.getSupportFragmentManager().popBackStack();
                     activity.toolbarView.setVisibility(View.VISIBLE);
                     activity.headerLayout.setVisibility(View.VISIBLE);
                     return true;
