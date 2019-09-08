@@ -49,8 +49,6 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-//        activity.toolbarView.setVisibility(View.GONE);
-//        activity.headerLayout.setVisibility(View.GONE);
         rootView = inflater.inflate(R.layout.activity_grades, container, false);
         return rootView;
     }
@@ -72,6 +70,8 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
                     getFragmentManager().popBackStack();
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
                     return true;
                 }
                 return false;
@@ -90,6 +90,8 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     }
 
     private void bindViews() {
+        activity.toolbarView.setVisibility(View.GONE);
+        activity.headerLayout.setVisibility(View.GONE);
         backBtn = rootView.findViewById(R.id.btn_back);
         studentImageView = rootView.findViewById(R.id.img_student);
         recyclerView = rootView.findViewById(R.id.recycler_view);
@@ -137,8 +139,8 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
-                //    activity.toolbarView.setVisibility(View.VISIBLE);
-                //    activity.headerLayout.setVisibility(View.VISIBLE);
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
         }
@@ -158,7 +160,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         bundle.putSerializable(Constants.STUDENT, student);
         gradeDetailFragment.setArguments(bundle);
         activity.getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, gradeDetailFragment).
+                beginTransaction().add(R.id.menu_fragment_root, gradeDetailFragment,"MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
     }

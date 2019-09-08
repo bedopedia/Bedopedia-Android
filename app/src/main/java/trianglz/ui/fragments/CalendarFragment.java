@@ -79,8 +79,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-//        activity.toolbarView.setVisibility(View.GONE);
-//        activity.headerLayout.setVisibility(View.GONE);
+
         rootView = inflater.inflate(R.layout.activity_calendar, container, false);
         return rootView;
     }
@@ -96,15 +95,21 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         getEvents();
         onBackPress();
     }
+
     private void onBackPress() {
         rootView.setFocusableInTouchMode(true);
         rootView.requestFocus();
         rootView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    getFragmentManager().popBackStack();
-                    return true;
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        Log.d("", "onKeyback: ");
+                        getFragmentManager().popBackStack();
+                        activity.toolbarView.setVisibility(View.VISIBLE);
+                        activity.headerLayout.setVisibility(View.VISIBLE);
+                        return true;
+                    }
                 }
                 return false;
             }
@@ -114,11 +119,14 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            student = (Student)bundle.getSerializable(Constants.STUDENT);
+            student = (Student) bundle.getSerializable(Constants.STUDENT);
         }
     }
+
     private void bindViews() {
 
+        activity.toolbarView.setVisibility(View.GONE);
+        activity.headerLayout.setVisibility(View.GONE);
         allEvents = new ArrayList<>();
         academicEvents = new ArrayList<>();
         events = new ArrayList<>();
@@ -185,6 +193,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         compactCalendarView.setListener(this);
         createPersonalEventBtn.setOnClickListener(this);
     }
+
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();
@@ -211,9 +220,11 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
                     });
         }
     }
+
     private void setRecyclerView() {
         recyclerView.setAdapter(eventAdapter);
     }
+
     private void getEvents() {
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
@@ -224,6 +235,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
             Util.showNoInternetConnectionDialog(activity);
         }
     }
+
     private void fillCalendarEventLists(ArrayList<trianglz.models.Event> eventList) {
         events.clear();
         assignments.clear();
@@ -253,6 +265,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         Collections.sort(events, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
         Collections.sort(vacations, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
     }
+
     private String setHeaderDate(Date date) {
         DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(new Locale("en"));
         String[] months = dateFormatSymbols.getMonths();
@@ -261,6 +274,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         String yearDate = fmt.format(date);
         return monthString + " " + yearDate;
     }
+
     private void deselectAll() {
         allView.setVisibility(View.INVISIBLE);
         academicView.setVisibility(View.INVISIBLE);
@@ -270,27 +284,24 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         assignmentsView.setVisibility(View.INVISIBLE);
         quizzesView.setVisibility(View.INVISIBLE);
     }
+
     private void openAddEventActivity() {
         CreatePersonalEventFragment createPersonalEventFragment = CreatePersonalEventFragment.newInstance(this);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
         createPersonalEventFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, createPersonalEventFragment).
+                beginTransaction().add(R.id.menu_fragment_root, createPersonalEventFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
- //       Intent intent = new Intent(this, CreatePersonalEventActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.STUDENT, student);
-//        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-//        startActivityForResult(intent, 1);
     }
+
     private void createEvents(ArrayList<trianglz.models.Event> eventsArrayList, int color) {
         for (int i = 0; i < eventsArrayList.size(); i++) {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(eventsArrayList.get(i).startDate);
             while (c.getTimeInMillis() <= eventsArrayList.get(i).endDate) {
-                compactCalendarView.addEvent(new com.github.sundeepk.compactcalendarview.domain.Event(getResources().getColor(color, null),c.getTimeInMillis()*1000));
+                compactCalendarView.addEvent(new com.github.sundeepk.compactcalendarview.domain.Event(getResources().getColor(color, null), c.getTimeInMillis() * 1000));
                 c.add(Calendar.MILLISECOND, 86400);
             }
         }
@@ -316,6 +327,8 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
+                activity.toolbarView.setVisibility(View.VISIBLE);
+                activity.headerLayout.setVisibility(View.VISIBLE);
                 activity.getSupportFragmentManager().popBackStack();
                 break;
             case R.id.create_personal_event:

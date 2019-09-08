@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -102,13 +103,47 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
             @Override
             public void onPageSelected(int position) {
                 if (fragmentsCount == 4) {
-                    if (position == 1) {
+                    if (position == 0) {
+                        if (getSupportFragmentManager().findFragmentByTag("MenuFragments") != null && getSupportFragmentManager().findFragmentByTag("MenuFragments").isAdded()) {
+                            headerLayout.setVisibility(View.GONE);
+                            toolbarView.setVisibility(View.GONE);
+                        } else {
+                            headerLayout.setVisibility(View.VISIBLE);
+                            toolbarView.setVisibility(View.VISIBLE);
+                            Log.d("", "onPageSelected menu: ");
+                        }
+                        addNewMessageButton.setVisibility(View.GONE);
+                    } else if (position == 1) {
+                        if (getSupportFragmentManager().findFragmentByTag("MessagesFragments") != null && getSupportFragmentManager().findFragmentByTag("MessagesFragments").isAdded()) {
+                            headerLayout.setVisibility(View.GONE);
+                            toolbarView.setVisibility(View.GONE);
+                        } else {
+                            headerLayout.setVisibility(View.VISIBLE);
+                            toolbarView.setVisibility(View.VISIBLE);
+                        }
                         addNewMessageButton.setVisibility(View.VISIBLE);
-                    } else {
+                    } else if (position == 2) {
+                        Log.d("", "onPageSelected: noti");
+                        if (getSupportFragmentManager().findFragmentByTag("NotificationFragments") != null && getSupportFragmentManager().findFragmentByTag("NotificationFragments").isAdded()) {
+                            headerLayout.setVisibility(View.GONE);
+                            toolbarView.setVisibility(View.GONE);
+                        } else {
+                            headerLayout.setVisibility(View.VISIBLE);
+                            toolbarView.setVisibility(View.VISIBLE);
+                        }
+                        addNewMessageButton.setVisibility(View.GONE);
+                    } else if (position == 3) {
+                        if (getSupportFragmentManager().findFragmentByTag("AnnouncementFragments") != null && getSupportFragmentManager().findFragmentByTag("AnnouncementFragments").isAdded()) {
+                            headerLayout.setVisibility(View.GONE);
+                            toolbarView.setVisibility(View.GONE);
+                        } else {
+                            headerLayout.setVisibility(View.VISIBLE);
+                            toolbarView.setVisibility(View.VISIBLE);
+                        }
                         addNewMessageButton.setVisibility(View.GONE);
                     }
-                } else {
-                    addNewMessageButton.setVisibility(View.GONE);
+                } else if (fragmentsCount == 5) {
+
                 }
             }
 
@@ -519,12 +554,12 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-      //  if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            if (isParent) {
-                if (!isStudent) {
-                    super.onBackPressed();
-                }
+        //  if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+        if (isParent) {
+            if (!isStudent) {
+                super.onBackPressed();
             }
+        }
     }
 
     public Student getStudent() {

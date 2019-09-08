@@ -652,15 +652,15 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 startActivity(intent);
                 break;
             case R.id.layout_quizzes:
-                OnlineQuizzesFragment onlineQuizzesFragment= new OnlineQuizzesFragment();
-                Bundle bundleQuiz= new Bundle();
+                OnlineQuizzesFragment onlineQuizzesFragment = new OnlineQuizzesFragment();
+                Bundle bundleQuiz = new Bundle();
                 bundleQuiz.putString(Constants.STUDENT, student.toString());
                 onlineQuizzesFragment.setArguments(bundleQuiz);
                 getActivity().getSupportFragmentManager().
-                        beginTransaction().add(R.id.menu_fragment_root, onlineQuizzesFragment).
+                        beginTransaction().add(R.id.menu_fragment_root, onlineQuizzesFragment, "MenuFragments").
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                         addToBackStack(null).commit();
-               // Intent intent1 = new Intent(getActivity(), OnlineQuizzesActivity.class);
+                // Intent intent1 = new Intent(getActivity(), OnlineQuizzesActivity.class);
                 //intent1.putExtra(Constants.STUDENT, student.toString());
                 //startActivity(intent1);
                 break;
@@ -703,8 +703,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroups);
         gradesFragment.setArguments(bundle);
 
-                getActivity().getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, gradesFragment).
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, gradesFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
 //
@@ -722,7 +722,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         bundle.putSerializable(Constants.STUDENT, student);
         calendarFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, calendarFragment).
+                beginTransaction().add(R.id.menu_fragment_root, calendarFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
 //        Intent calendarIntent = new Intent(getActivity(), CalendarActivity.class);
@@ -757,7 +757,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         bundle.putSerializable(Constants.STUDENT, student);
         behaviorNotesMainFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, behaviorNotesMainFragment).
+                beginTransaction().add(R.id.menu_fragment_root, behaviorNotesMainFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
 
@@ -774,13 +774,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openAttendanceActivity() {
-        AttendanceFragment attendanceFragment= new AttendanceFragment();
+        AttendanceFragment attendanceFragment = new AttendanceFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
         bundle.putString(Constants.KEY_ATTENDANCE, attendance);
         attendanceFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, attendanceFragment).
+                beginTransaction().add(R.id.menu_fragment_root, attendanceFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
 //        Intent attendanceIntent = new Intent(getActivity(), AttendanceActivity.class);
@@ -910,7 +910,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         courseAssignmentFragment.setArguments(bundle);
 
         getActivity().getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, courseAssignmentFragment).
+                beginTransaction().add(R.id.menu_fragment_root, courseAssignmentFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
 
