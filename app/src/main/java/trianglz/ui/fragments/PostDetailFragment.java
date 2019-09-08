@@ -136,7 +136,7 @@ public class PostDetailFragment extends Fragment implements PostDetailsPresenter
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_post_btn:
-                //  openCreatePostActivity();
+                  openCreatePostActivity();
                 break;
         }
     }
@@ -188,9 +188,15 @@ public class PostDetailFragment extends Fragment implements PostDetailsPresenter
     }
 
     private void openCreatePostActivity() {
-//        Intent intent = new Intent(this, CreateTeacherPostActivity.class);
-//        intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroupId);
-//        startActivity(intent);
+        CreateTeacherPostFragment createTeacherPostFragment = new CreateTeacherPostFragment();
+        Bundle bundle= new Bundle();
+        bundle.putInt(Constants.KEY_COURSE_GROUP_ID, courseGroupId);
+        createTeacherPostFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, createTeacherPostFragment, "CourseFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+
     }
 
     @Override
