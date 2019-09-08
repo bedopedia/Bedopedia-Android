@@ -77,6 +77,8 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
                     getFragmentManager().popBackStack();
                     return true;
                 }
@@ -93,6 +95,8 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
     }
 
     private void bindViews() {
+        activity.toolbarView.setVisibility(View.GONE);
+        activity.headerLayout.setVisibility(View.GONE);
         imageLoader = new PicassoLoader();
         studentImageView = rootView.findViewById(R.id.img_student);
         backBtn = rootView.findViewById(R.id.btn_back);
@@ -150,6 +154,8 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
+                activity.toolbarView.setVisibility(View.VISIBLE);
+                activity.headerLayout.setVisibility(View.VISIBLE);
                 activity.getSupportFragmentManager().popBackStack();
                 break;
         }
@@ -223,7 +229,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         bundle.putInt(Constants.KEY_COURSE_ID, courseAssignment.getId());
         assignmentDetailFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, assignmentDetailFragment).
+                beginTransaction().add(R.id.menu_fragment_root, assignmentDetailFragment,"MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
     }

@@ -187,7 +187,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             bundle.putString(Constants.KEY_ASSIGNMENT_DETAIL, assignmentsDetail.toString());
             assignmentFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().
-                    beginTransaction().add(R.id.menu_fragment_root, assignmentFragment).
+                    beginTransaction().add(R.id.menu_fragment_root, assignmentFragment, "MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
         } else {
