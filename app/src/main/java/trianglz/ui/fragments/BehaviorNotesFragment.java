@@ -21,7 +21,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.Objects;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -31,9 +30,9 @@ import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.CustomRtlViewPager;
 import trianglz.managers.SessionManager;
+import trianglz.models.BehaviorNote;
 import trianglz.models.Student;
 import trianglz.ui.adapters.BehaviorNotesFragmentAdapter;
-import trianglz.models.BehaviorNote;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
@@ -280,7 +279,8 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
                 setTextBackgrounds(2);
                 break;
             case R.id.back_btn:
-                Objects.requireNonNull(getActivity()).onBackPressed();
+                getActivity().getSupportFragmentManager().popBackStack();
+            //    Objects.requireNonNull(getActivity()).onBackPressed();
                 break;
             case R.id.btn_positive:
                 mViewPager.setCurrentItem(0);
