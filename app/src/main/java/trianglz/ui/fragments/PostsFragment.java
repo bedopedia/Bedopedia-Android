@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -67,8 +68,7 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
     }
 
     private void getValuesFromIntent() {
-        Bundle bundle = new Bundle();
-        bundle = this.getArguments();
+        Bundle bundle = this.getArguments();
         if (bundle != null) {
             student = (Student) bundle.getSerializable(Constants.STUDENT);
             studentName = student.firstName + " " + student.lastName;
@@ -155,9 +155,14 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
 
     @Override
     public void onCourseClicked(int courseId, String courseName) {
-//        Intent intent = new Intent(this, PostDetailActivity.class);
-//        intent.putExtra(Constants.KEY_COURSE_ID, courseId);
-//        intent.putExtra(Constants.KEY_COURSE_NAME, courseName);
-//        startActivity(intent);
+        PostDetailFragment postDetailFragment = new PostDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.KEY_COURSE_ID, courseId);
+        bundle.putString(Constants.KEY_COURSE_NAME, courseName);
+        postDetailFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, postDetailFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 }
