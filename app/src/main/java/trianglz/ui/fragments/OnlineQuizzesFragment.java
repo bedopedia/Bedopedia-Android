@@ -60,8 +60,6 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-//        activity.toolbarView.setVisibility(View.GONE);
-//        activity.headerLayout.setVisibility(View.GONE);
         rootView = inflater.inflate(R.layout.activity_online_quizzes, container, false);
         return rootView;
     }
@@ -84,6 +82,8 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
                     getFragmentManager().popBackStack();
                     return true;
                 }
@@ -100,6 +100,8 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
     }
 
     private void bindViews() {
+        activity.toolbarView.setVisibility(View.GONE);
+        activity.headerLayout.setVisibility(View.GONE);
         imageLoader = new PicassoLoader();
         studentImageView = rootView.findViewById(R.id.img_student);
         backBtn = rootView.findViewById(R.id.btn_back);
@@ -147,6 +149,8 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
+            activity.toolbarView.setVisibility(View.VISIBLE);
+            activity.headerLayout.setVisibility(View.VISIBLE);
                 activity.getSupportFragmentManager().popBackStack();
                 break;
         }
@@ -184,7 +188,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
         quizzesDetailsFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, quizzesDetailsFragment).
+                beginTransaction().add(R.id.menu_fragment_root, quizzesDetailsFragment,"MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
     }

@@ -70,8 +70,6 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-//        activity.toolbarView.setVisibility(View.GONE);
-//        activity.headerLayout.setVisibility(View.GONE);
         rootView = inflater.inflate(R.layout.activity_quizzes_details, container, false);
         return rootView;
     }
@@ -243,7 +241,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
             singleQuizFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().
-                    beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment).
+                    beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment,"MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
         } else {
