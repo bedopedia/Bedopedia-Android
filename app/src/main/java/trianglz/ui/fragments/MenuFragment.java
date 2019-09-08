@@ -63,7 +63,6 @@ import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
 import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.NotificationsActivity;
-import trianglz.ui.activities.PostsActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.activities.SuperActivity;
 import trianglz.ui.activities.TimetableActivity;
@@ -644,12 +643,21 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 openAssignmentDetailActivity();
                 break;
             case R.id.layout_posts:
-                Intent intent = new Intent(getActivity(), PostsActivity.class);
+                PostsFragment postsFragment = new PostsFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.STUDENT, student);
-                intent.putExtra(Constants.KEY_BUNDLE, bundle);
-                intent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
-                startActivity(intent);
+                bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
+                postsFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().
+                        beginTransaction().add(R.id.menu_fragment_root, postsFragment, "MenuFragments").
+                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                        addToBackStack(null).commit();
+//                Intent intent = new Intent(getActivity(), PostsActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(Constants.STUDENT, student);
+//                intent.putExtra(Constants.KEY_BUNDLE, bundle);
+//                intent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
+//                startActivity(intent);
                 break;
             case R.id.layout_quizzes:
                 OnlineQuizzesFragment onlineQuizzesFragment = new OnlineQuizzesFragment();
