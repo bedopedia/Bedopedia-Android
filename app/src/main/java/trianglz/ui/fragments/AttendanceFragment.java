@@ -68,8 +68,6 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-//        activity.toolbarView.setVisibility(View.GONE);
-//        activity.headerLayout.setVisibility(View.GONE);
         rootView = inflater.inflate(R.layout.activity_attendance, container, false);
         return rootView;
     }
@@ -93,6 +91,8 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
                     getFragmentManager().popBackStack();
                     return true;
                 }
@@ -103,6 +103,8 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
 
     private void bindViews() {
+        activity.toolbarView.setVisibility(View.GONE);
+        activity.headerLayout.setVisibility(View.GONE);
         compactCalendarView = rootView.findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), new Locale("en"));
         compactCalendarView.setUseThreeLetterAbbreviation(true);
@@ -262,6 +264,8 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
+                activity.toolbarView.setVisibility(View.VISIBLE);
+                activity.headerLayout.setVisibility(View.VISIBLE);
                 activity.getSupportFragmentManager().popBackStack();
                 break;
             case R.id.layout_late:
