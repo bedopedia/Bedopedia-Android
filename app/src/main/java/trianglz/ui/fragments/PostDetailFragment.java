@@ -28,6 +28,7 @@ import trianglz.core.views.PostDetailsView;
 import trianglz.managers.SessionManager;
 import trianglz.models.PostDetails;
 import trianglz.models.UploadedObject;
+import trianglz.ui.activities.PostReplyActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.PostDetailsAdapter;
 import trianglz.utils.Constants;
@@ -180,10 +181,10 @@ public class PostDetailFragment extends Fragment implements PostDetailsPresenter
 
     @Override
     public void onCardClicked(PostDetails postDetails) {
-//        Intent intent = new Intent(this, PostReplyActivity.class);
-//        intent.putExtra(Constants.KEY_COURSE_NAME, courseName);
-//        intent.putExtra(Constants.POST_DETAILS, postDetails.toString());
-//        startActivity(intent);
+        Intent intent = new Intent(activity, PostReplyActivity.class);
+        intent.putExtra(Constants.KEY_COURSE_NAME, courseName);
+        intent.putExtra(Constants.POST_DETAILS, postDetails.toString());
+        startActivity(intent);
     }
 
     private void openCreatePostActivity() {
