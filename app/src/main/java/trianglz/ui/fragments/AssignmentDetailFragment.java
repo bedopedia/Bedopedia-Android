@@ -199,7 +199,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             bundle.putInt(Constants.KEY_ASSIGNMENT_ID, assignmentsDetail.getId());
             gradingFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().
-                    beginTransaction().add(R.id.menu_fragment_root, gradingFragment).
+                    beginTransaction().add(R.id.course_root, gradingFragment,"CoursesFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
 

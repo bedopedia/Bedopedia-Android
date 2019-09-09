@@ -61,9 +61,10 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         setListeners();
         onBackPress();
     }
+
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
-        if(bundle != null) {
+        if (bundle != null) {
             teacherCourse = TeacherCourse.create(bundle.getString(Constants.TEACHER_COURSE));
             courseGroup = CourseGroups.create(bundle.getString(Constants.KEY_COURSE_GROUPS));
         }
@@ -81,11 +82,11 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
     private void bindViews() {
         // binding
         backBtn = rootView.findViewById(R.id.btn_back);
-        courseGroupName =  rootView.findViewById(R.id.tv_course_name);
-        attendanceLayout =  rootView.findViewById(R.id.layout_attendance);
-        quizzesLayout =  rootView.findViewById(R.id.layout_quizzes);
-        assignmentsLayout =  rootView.findViewById(R.id.layout_assignments);
-        postsLayout =  rootView.findViewById(R.id.layout_posts);
+        courseGroupName = rootView.findViewById(R.id.tv_course_name);
+        attendanceLayout = rootView.findViewById(R.id.layout_attendance);
+        quizzesLayout = rootView.findViewById(R.id.layout_quizzes);
+        assignmentsLayout = rootView.findViewById(R.id.layout_assignments);
+        postsLayout = rootView.findViewById(R.id.layout_posts);
 
         // assigning values
         courseGroupName.setText(courseGroup.getName());
@@ -109,17 +110,18 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         });
     }
 
-    private void openAssignmentDetailActivity(){
-        if(Util.isNetworkAvailable(activity)){
+    private void openAssignmentDetailActivity() {
+        if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
-                    courseGroup.getCourseId()+ "/assignments";
+                    courseGroup.getCourseId() + "/assignments";
             courseAssignmentView.getAssinmentDetail(url, null);
-        }else {
+        } else {
             Util.showNoInternetConnectionDialog(activity);
         }
     }
-    private void openQuizzesDetailsActivity () {
+
+    private void openQuizzesDetailsActivity() {
         singleCourseGroupView.getTeacherQuizzes(courseGroup.getId() + "");
     }
 
@@ -135,7 +137,8 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
     }
-    private void openTeacherAttendanceActivity(){
+
+    private void openTeacherAttendanceActivity() {
 //        Intent intent = new Intent(this, TeacherAttendanceActivity.class);
 //        startActivity(intent);
     }
@@ -154,8 +157,8 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
                 openQuizzesDetailsActivity();
                 break;
             case R.id.layout_assignments:
-             //   activity.showLoadingDialog();
-            //    openAssignmentDetailActivity();
+                activity.showLoadingDialog();
+                openAssignmentDetailActivity();
                 break;
             case R.id.layout_posts:
                 openPostDetailsActivity();
@@ -175,18 +178,21 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList, CourseAssignment courseAssignment) {
-//        if(progress.isShowing()){
-//            progress.dismiss();
-//        }
-//        Intent intent = new Intent(this, AssignmentDetailActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
-//        intent.putExtra(Constants.KEY_BUNDLE,bundle);
-//        courseGroup.setCourseName(teacherCourse.getName());
-//        intent.putExtra(Constants.KEY_COURSE_GROUPS,courseGroup.toString());
-//        intent.putExtra(Constants.AVATAR, false);
-//        startActivity(intent);
+        if (activity.progress.isShowing()) {
+            activity.progress.dismiss();
+        }
 
+        AssignmentDetailFragment assignmentDetailFragment = new AssignmentDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
+        courseGroup.setCourseName(teacherCourse.getName());
+        bundle.putString(Constants.KEY_COURSE_GROUPS,courseGroup.toString());
+        bundle.putBoolean(Constants.AVATAR, false);
+        assignmentDetailFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.course_root, assignmentDetailFragment, "CoursesFragment").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
     @Override
@@ -201,10 +207,10 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         QuizzesDetailsFragment quizzesDetailsFragment = new QuizzesDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean(Constants.KEY_TEACHERS, true);
-        bundle.putString(Constants.KEY_COURSE_NAME,teacherCourse.getName());
-        bundle.putString(Constants.KEY_COURSE_GROUP_NAME,courseGroup.getName());
-        bundle.putString(Constants.KEY_COURSE_GROUPS,courseGroup.toString());
-        bundle.putParcelableArrayList(Constants.KEY_QUIZZES,quizzes);
+        bundle.putString(Constants.KEY_COURSE_NAME, teacherCourse.getName());
+        bundle.putString(Constants.KEY_COURSE_GROUP_NAME, courseGroup.getName());
+        bundle.putString(Constants.KEY_COURSE_GROUPS, courseGroup.toString());
+        bundle.putParcelableArrayList(Constants.KEY_QUIZZES, quizzes);
 
         quizzesDetailsFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().
