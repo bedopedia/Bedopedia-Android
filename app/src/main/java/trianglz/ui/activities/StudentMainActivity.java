@@ -143,7 +143,53 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                         addNewMessageButton.setVisibility(View.GONE);
                     }
                 } else if (fragmentsCount == 5) {
-
+                    if (position == 0) {
+                        if (getSupportFragmentManager().findFragmentByTag("CoursesFragments") != null && getSupportFragmentManager().findFragmentByTag("CoursesFragments").isAdded()) {
+                            headerLayout.setVisibility(View.GONE);
+                            toolbarView.setVisibility(View.GONE);
+                        } else {
+                            headerLayout.setVisibility(View.VISIBLE);
+                            toolbarView.setVisibility(View.VISIBLE);
+                            Log.d("", "onPageSelected menu: ");
+                        }
+                        addNewMessageButton.setVisibility(View.GONE);
+                    } else if (position == 1) {
+                        if (getSupportFragmentManager().findFragmentByTag("AnnouncementFragments") != null && getSupportFragmentManager().findFragmentByTag("AnnouncementFragments").isAdded()) {
+                            headerLayout.setVisibility(View.GONE);
+                            toolbarView.setVisibility(View.GONE);
+                        } else {
+                            headerLayout.setVisibility(View.VISIBLE);
+                            toolbarView.setVisibility(View.VISIBLE);
+                        }
+                        addNewMessageButton.setVisibility(View.VISIBLE);
+                    } else if (position == 2) {
+                        if (getSupportFragmentManager().findFragmentByTag("MessagesFragments") != null && getSupportFragmentManager().findFragmentByTag("MessagesFragments").isAdded()) {
+                            headerLayout.setVisibility(View.GONE);
+                            toolbarView.setVisibility(View.GONE);
+                        } else {
+                            headerLayout.setVisibility(View.VISIBLE);
+                            toolbarView.setVisibility(View.VISIBLE);
+                        }
+                        addNewMessageButton.setVisibility(View.GONE);
+                    } else if (position == 3) {
+                        if (getSupportFragmentManager().findFragmentByTag("NotificationFragments") != null && getSupportFragmentManager().findFragmentByTag("NotificationFragments").isAdded()) {
+                            headerLayout.setVisibility(View.GONE);
+                            toolbarView.setVisibility(View.GONE);
+                        } else {
+                            headerLayout.setVisibility(View.VISIBLE);
+                            toolbarView.setVisibility(View.VISIBLE);
+                        }
+                        addNewMessageButton.setVisibility(View.GONE);
+                    } else if (position == 4) {
+                        if (getSupportFragmentManager().findFragmentByTag("MenuFragments") != null && getSupportFragmentManager().findFragmentByTag("MenuFragments").isAdded()) {
+                            headerLayout.setVisibility(View.GONE);
+                            toolbarView.setVisibility(View.GONE);
+                        } else {
+                            headerLayout.setVisibility(View.VISIBLE);
+                            toolbarView.setVisibility(View.VISIBLE);
+                        }
+                        addNewMessageButton.setVisibility(View.GONE);
+                    }
                 }
             }
 

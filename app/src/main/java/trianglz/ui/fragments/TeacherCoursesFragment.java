@@ -1,9 +1,9 @@
 package trianglz.ui.fragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import trianglz.components.BottomItemDecoration;
 import trianglz.core.presenters.TeacherCoursesPresenter;
@@ -21,7 +20,6 @@ import trianglz.core.views.TeacherCoursesView;
 import trianglz.managers.SessionManager;
 import trianglz.models.CourseGroups;
 import trianglz.models.TeacherCourse;
-import trianglz.ui.activities.CourseGroupsActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TeacherCoursesAdapter;
 import trianglz.utils.Constants;
@@ -95,9 +93,17 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
     @Override
     public void onCourseSelected(TeacherCourse teacherCourse) {
         if (teacherCourse != null) {
-            Intent intent = new Intent(getParentActivity(), CourseGroupsActivity.class);
-            intent.putExtra(Constants.TEACHER_COURSE, teacherCourse.toString());
-            startActivity(intent);
+            CourseGroupsFragment courseGroupsFragment = new CourseGroupsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.TEACHER_COURSE, teacherCourse.toString());
+            courseGroupsFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().
+                    beginTransaction().add(R.id.course_root, courseGroupsFragment, "CoursesFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+//            Intent intent = new Intent(getParentActivity(), CourseGroupsActivity.class);
+//            intent.putExtra(Constants.TEACHER_COURSE, teacherCourse.toString());
+//            startActivity(intent);
         }
     }
 

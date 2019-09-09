@@ -193,7 +193,7 @@ public class PostDetailFragment extends Fragment implements PostDetailsPresenter
         bundle.putInt(Constants.KEY_COURSE_GROUP_ID, courseGroupId);
         createTeacherPostFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, createTeacherPostFragment, "CourseFragments").
+                beginTransaction().add(R.id.menu_fragment_root, createTeacherPostFragment, "CoursesFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
 
