@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,12 +124,16 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
     }
 
     private void openPostDetailsActivity() {
-//        Intent intent = new Intent(this, PostDetailActivity.class);
-//        intent.putExtra(Constants.KEY_COURSE_GROUP_ID, courseGroup.getId());
-//        intent.putExtra(Constants.KEY_COURSE_ID, courseGroup.getCourseId());
-//        intent.putExtra(Constants.KEY_COURSE_NAME, teacherCourse.getName());
-//        Log.d("tag", "openPostDetailsActivity: " + courseGroup.getId());
-//        startActivity(intent);
+        PostDetailFragment postDetailFragment = new PostDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.KEY_COURSE_GROUP_ID, courseGroup.getId());
+        bundle.putInt(Constants.KEY_COURSE_ID, courseGroup.getCourseId());
+        bundle.putString(Constants.KEY_COURSE_NAME, teacherCourse.getName());
+        postDetailFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.course_root, postDetailFragment, "CoursesFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
     private void openTeacherAttendanceActivity(){
 //        Intent intent = new Intent(this, TeacherAttendanceActivity.class);
@@ -149,8 +154,8 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
                 openQuizzesDetailsActivity();
                 break;
             case R.id.layout_assignments:
-                activity.showLoadingDialog();
-                openAssignmentDetailActivity();
+             //   activity.showLoadingDialog();
+            //    openAssignmentDetailActivity();
                 break;
             case R.id.layout_posts:
                 openPostDetailsActivity();

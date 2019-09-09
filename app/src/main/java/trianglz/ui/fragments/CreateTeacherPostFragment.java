@@ -35,6 +35,7 @@ import java.io.OutputStream;
 import trianglz.components.HideKeyboardOnTouch;
 import trianglz.core.presenters.AttachFileToTeacherPostPresenter;
 import trianglz.core.presenters.CreateTeacherPostPresenter;
+import trianglz.core.presenters.FragmentCommunicationInterface;
 import trianglz.core.views.AttachFileToTeacherPostView;
 import trianglz.core.views.CreateTeacherPostView;
 import trianglz.managers.SessionManager;
@@ -61,6 +62,13 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
     private int courseGroupId, attachmentIndex = 0;
     private TeacherAttachmentAdapter adapter;
     private CreateTeacherPostView createTeacherPostView;
+    private FragmentCommunicationInterface fragmentCommunicationInterface;
+
+    public static CreateTeacherPostFragment newInstance(FragmentCommunicationInterface fragmentCommunicationInterface) {
+        CreateTeacherPostFragment createTeacherPostFragment = new CreateTeacherPostFragment();
+        createTeacherPostFragment.fragmentCommunicationInterface = fragmentCommunicationInterface;
+        return createTeacherPostFragment;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -213,9 +221,8 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
             if (activity.progress.isShowing()) {
                 activity.progress.dismiss();
             }
-//            Intent returnIntent = new Intent();
-//            activity.setResult(Activity.RESULT_OK, returnIntent);
-//            activity.finish();
+            fragmentCommunicationInterface.reloadEvents();
+            activity.getSupportFragmentManager().popBackStack();
         }
     }
 
@@ -234,9 +241,8 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
             if (activity.progress.isShowing()) {
                 activity.progress.dismiss();
             }
-//            Intent returnIntent = new Intent();
-//            activity.setResult(Activity.RESULT_OK, returnIntent);
-//            activity.finish();
+            activity.getSupportFragmentManager().popBackStack();
+            fragmentCommunicationInterface.reloadEvents();
         }
     }
 

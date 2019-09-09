@@ -1,6 +1,5 @@
 package trianglz.ui.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +22,7 @@ import java.util.ArrayList;
 
 import trianglz.components.BottomItemDecoration;
 import trianglz.components.TopItemDecoration;
+import trianglz.core.presenters.FragmentCommunicationInterface;
 import trianglz.core.presenters.PostDetailsPresenter;
 import trianglz.core.views.PostDetailsView;
 import trianglz.managers.SessionManager;
@@ -37,7 +37,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 08/09/2019.
  */
-public class PostDetailFragment extends Fragment implements PostDetailsPresenter, View.OnClickListener, PostDetailsAdapter.PostDetailsInterface {
+public class PostDetailFragment extends Fragment implements FragmentCommunicationInterface,PostDetailsPresenter, View.OnClickListener, PostDetailsAdapter.PostDetailsInterface {
 
     private StudentMainActivity activity;
     private View rootView;
@@ -188,22 +188,20 @@ public class PostDetailFragment extends Fragment implements PostDetailsPresenter
     }
 
     private void openCreatePostActivity() {
-        CreateTeacherPostFragment createTeacherPostFragment = new CreateTeacherPostFragment();
+        CreateTeacherPostFragment createTeacherPostFragment = CreateTeacherPostFragment.newInstance(this);
         Bundle bundle= new Bundle();
         bundle.putInt(Constants.KEY_COURSE_GROUP_ID, courseGroupId);
         createTeacherPostFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, createTeacherPostFragment, "CoursesFragments").
+                beginTransaction().add(R.id.course_root, createTeacherPostFragment, "CoursesFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
 
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-            }
-        }
+    public void reloadEvents() {
+        activity.showLoadingDialog();
+        postDetailsView.getPostDetails(courseId, 1);
     }
 }
