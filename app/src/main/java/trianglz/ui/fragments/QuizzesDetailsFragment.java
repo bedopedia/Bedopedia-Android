@@ -256,7 +256,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             bundle.putString(Constants.KEY_QUIZ_NAME, quizzes.getName());
             gradingFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().
-                    beginTransaction().add(R.id.menu_fragment_root, gradingFragment).
+                    beginTransaction().add(R.id.course_root, gradingFragment,"CoursesFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();        }
     }

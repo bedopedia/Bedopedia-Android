@@ -150,7 +150,7 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
                 openTeacherAttendanceActivity();
                 break;
             case R.id.layout_quizzes:
-             //   activity.showLoadingDialog();
+                activity.showLoadingDialog();
                 openQuizzesDetailsActivity();
                 break;
             case R.id.layout_assignments:
@@ -197,14 +197,20 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onGetTeacherQuizzesSuccess(ArrayList<Quizzes> quizzes) {
-//        if (progress.isShowing()) progress.hide();
-//        Intent intent = new Intent(this, QuizzesDetailsActivity.class);
-//        intent.putExtra(Constants.KEY_TEACHERS, true);
-//        intent.putExtra(Constants.KEY_COURSE_NAME,teacherCourse.getName());
-//        intent.putExtra(Constants.KEY_COURSE_GROUP_NAME,courseGroup.getName());
-//        intent.putExtra(Constants.KEY_COURSE_GROUPS,courseGroup.toString());
-//        intent.putExtra(Constants.KEY_QUIZZES,quizzes);
-//        startActivity(intent);
+        if (activity.progress.isShowing()) activity.progress.hide();
+        QuizzesDetailsFragment quizzesDetailsFragment = new QuizzesDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Constants.KEY_TEACHERS, true);
+        bundle.putString(Constants.KEY_COURSE_NAME,teacherCourse.getName());
+        bundle.putString(Constants.KEY_COURSE_GROUP_NAME,courseGroup.getName());
+        bundle.putString(Constants.KEY_COURSE_GROUPS,courseGroup.toString());
+        bundle.putParcelableArrayList(Constants.KEY_QUIZZES,quizzes);
+
+        quizzesDetailsFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.course_root, quizzesDetailsFragment, "CoursesFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
     @Override
