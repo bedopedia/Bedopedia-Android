@@ -641,6 +641,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 openAssignmentDetailActivity();
                 break;
             case R.id.layout_posts:
+                appBarLayout.setExpanded(true);
                 PostsFragment postsFragment = new PostsFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.STUDENT, student);
@@ -658,6 +659,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 //                startActivity(intent);
                 break;
             case R.id.layout_quizzes:
+                appBarLayout.setExpanded(true);
                 OnlineQuizzesFragment onlineQuizzesFragment = new OnlineQuizzesFragment();
                 Bundle bundleQuiz = new Bundle();
                 bundleQuiz.putString(Constants.STUDENT, student.toString());
@@ -678,6 +680,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     private void openWeeklyPlannerActivity() {
         if (rootClass.getWeeklyPlans().size() > 0) {
+            appBarLayout.setExpanded(true);
             WeeklyPlannerFragment weeklyPlannerFragment = new WeeklyPlannerFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, rootClass);
@@ -717,7 +720,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         bundle.putSerializable(Constants.STUDENT, student);
         bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroups);
         gradesFragment.setArguments(bundle);
-
+        appBarLayout.setExpanded(true);
         getActivity().getSupportFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, gradesFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
@@ -732,6 +735,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openCalendarActivity() {
+        appBarLayout.setExpanded(true);
         CalendarFragment calendarFragment = new CalendarFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
@@ -751,6 +755,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (nextSlot.isEmpty()) {
             Util.showErrorDialog(getActivity(), "Skolera", getParentActivity().getResources().getString(R.string.there_is_no_time_table));
         } else {
+            appBarLayout.setExpanded(true);
             TimetableMainFragment timetableMainFragment = new TimetableMainFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
@@ -774,6 +779,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openBehaviourNotesActivity() {
+        appBarLayout.setExpanded(true);
         BehaviorNotesMainFragment behaviorNotesMainFragment = new BehaviorNotesMainFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
@@ -801,6 +807,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openAttendanceActivity() {
+        appBarLayout.setExpanded(true);
         AttendanceFragment attendanceFragment = new AttendanceFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
@@ -935,7 +942,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
         courseAssignmentFragment.setArguments(bundle);
-
+        appBarLayout.setExpanded(true);
         getActivity().getSupportFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, courseAssignmentFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
@@ -952,6 +959,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (nextSlot.isEmpty()) {
             Util.showErrorDialog(getActivity(), "Skolera", getParentActivity().getResources().getString(R.string.there_is_no_time_table));
         } else {
+            appBarLayout.setExpanded(true);
             TimetableMainFragment timetableMainFragment = new TimetableMainFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
