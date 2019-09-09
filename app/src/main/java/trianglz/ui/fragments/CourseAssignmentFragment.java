@@ -77,9 +77,11 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.toolbarView.setVisibility(View.VISIBLE);
-                    activity.headerLayout.setVisibility(View.VISIBLE);
                     activity.getSupportFragmentManager().popBackStack();
+                    if (activity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
+                        activity.toolbarView.setVisibility(View.VISIBLE);
+                        activity.headerLayout.setVisibility(View.VISIBLE);
+                    }
                     return true;
                 }
                 return false;
@@ -229,7 +231,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         bundle.putInt(Constants.KEY_COURSE_ID, courseAssignment.getId());
         assignmentDetailFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, assignmentDetailFragment,"MenuFragments").
+                beginTransaction().add(R.id.menu_fragment_root, assignmentDetailFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
     }

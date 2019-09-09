@@ -82,9 +82,11 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.toolbarView.setVisibility(View.VISIBLE);
-                    activity.headerLayout.setVisibility(View.VISIBLE);
                     activity.getSupportFragmentManager().popBackStack();
+                    if (activity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
+                        activity.toolbarView.setVisibility(View.VISIBLE);
+                        activity.headerLayout.setVisibility(View.VISIBLE);
+                    }
                     return true;
                 }
                 return false;
@@ -149,8 +151,8 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
-            activity.toolbarView.setVisibility(View.VISIBLE);
-            activity.headerLayout.setVisibility(View.VISIBLE);
+                activity.toolbarView.setVisibility(View.VISIBLE);
+                activity.headerLayout.setVisibility(View.VISIBLE);
                 activity.getSupportFragmentManager().popBackStack();
                 break;
         }
@@ -181,6 +183,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
     public void onItemClicked(QuizzCourse quizzCourse) {
         openQuizzesDetailsActivity(quizzCourse);
     }
+
     private void openQuizzesDetailsActivity(QuizzCourse quizzCourse) {
         QuizzesDetailsFragment quizzesDetailsFragment = new QuizzesDetailsFragment();
         Bundle bundle = new Bundle();
@@ -188,7 +191,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
         quizzesDetailsFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, quizzesDetailsFragment,"MenuFragments").
+                beginTransaction().add(R.id.menu_fragment_root, quizzesDetailsFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
     }

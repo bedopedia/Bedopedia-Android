@@ -40,9 +40,11 @@ public class BehaviorNotesMainFragment extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.toolbarView.setVisibility(View.VISIBLE);
-                    activity.headerLayout.setVisibility(View.VISIBLE);
                     activity.getSupportFragmentManager().popBackStack();
+                    if (activity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
+                        activity.toolbarView.setVisibility(View.VISIBLE);
+                        activity.headerLayout.setVisibility(View.VISIBLE);
+                    }
                     return true;
                 }
                 return false;
