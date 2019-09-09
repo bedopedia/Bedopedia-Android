@@ -4,7 +4,6 @@ package trianglz.ui.fragments;
  * file modified by gemy
  */
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -35,6 +33,7 @@ import trianglz.components.CustomRtlViewPager;
 import trianglz.managers.SessionManager;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
+import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TimetableAdapter;
 import trianglz.utils.Constants;
 
@@ -67,9 +66,8 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
      *
      * @return A new instance of fragment TimeTableFragment.
      */
-    public static Fragment newInstance() {
+    public static Fragment newInstance(Bundle args) {
         Fragment fragment = new TimeTableFragment();
-        Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,8 +75,9 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getActivity().getIntent();
-        Bundle bundle = intent.getBundleExtra(Constants.KEY_BUNDLE);
+        //   Intent intent = getActivity().getIntent();
+        // Bundle bundle = intent.getBundleExtra(Constants.KEY_BUNDLE);
+        Bundle bundle = this.getArguments();
         tomorrowSlots = (ArrayList<TimeTableSlot>) bundle.getSerializable(Constants.KEY_TOMORROW);
         todaySlots = (ArrayList<TimeTableSlot>) bundle.getSerializable(Constants.KEY_TODAY);
         student = (Student) bundle.getSerializable(Constants.STUDENT);
@@ -109,8 +108,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        mSectionsPagerAdapter = new TimetableAdapter(getActivity().getSupportFragmentManager(), tomorrowSlots, todaySlots);
+        mSectionsPagerAdapter = new TimetableAdapter(getChildFragmentManager(), tomorrowSlots, todaySlots);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(0);
@@ -146,7 +144,11 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
                 mViewPager.setCurrentItem(1);
                 break;
             case R.id.back_btn:
-                Objects.requireNonNull(getActivity()).onBackPressed();
+                StudentMainActivity activity = (StudentMainActivity) getActivity();
+                activity.headerLayout.setVisibility(View.VISIBLE);
+                activity.toolbarView.setVisibility(View.VISIBLE);
+                activity.getSupportFragmentManager().popBackStack();
+                //  Objects.requireNonNull(getActivity()).onBackPressed();
                 break;
 
         }

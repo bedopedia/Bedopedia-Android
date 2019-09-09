@@ -32,6 +32,7 @@ import trianglz.components.CustomRtlViewPager;
 import trianglz.managers.SessionManager;
 import trianglz.models.BehaviorNote;
 import trianglz.models.Student;
+import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.BehaviorNotesFragmentAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -119,7 +120,7 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
     }
 
     private void bindViews() {
-        mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getActivity().getSupportFragmentManager(), positiveNotesList, negativeNotesList, otherNoteList, getActivity());
+        mSectionsPagerAdapter = new BehaviorNotesFragmentAdapter(getChildFragmentManager(), positiveNotesList, negativeNotesList, otherNoteList, getActivity());
         mViewPager = rootView.findViewById(R.id.behavior_notes_container);
         mViewPager.setPagingEnabled(true);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -279,8 +280,11 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
                 setTextBackgrounds(2);
                 break;
             case R.id.back_btn:
-                getActivity().getSupportFragmentManager().popBackStack();
-            //    Objects.requireNonNull(getActivity()).onBackPressed();
+                StudentMainActivity activity = (StudentMainActivity) getActivity();
+                activity.headerLayout.setVisibility(View.VISIBLE);
+                activity.toolbarView.setVisibility(View.VISIBLE);
+                activity.getSupportFragmentManager().popBackStack();
+                //    Objects.requireNonNull(getActivity()).onBackPressed();
                 break;
             case R.id.btn_positive:
                 mViewPager.setCurrentItem(0);

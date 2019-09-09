@@ -65,7 +65,6 @@ import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.NotificationsActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.activities.SuperActivity;
-import trianglz.ui.activities.TimetableActivity;
 import trianglz.ui.activities.WeeklyPlannerActivity;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -744,13 +743,25 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (nextSlot.isEmpty()) {
             Util.showErrorDialog(getActivity(), "Skolera", getParentActivity().getResources().getString(R.string.there_is_no_time_table));
         } else {
-            Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
+            TimetableMainFragment timetableMainFragment = new TimetableMainFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
             bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
             bundle.putSerializable(Constants.STUDENT, student);
-            timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-            startActivity(timeTableIntent);
+            timetableMainFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, timetableMainFragment, "MenuFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+
+//
+//            Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
+//            bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
+//            bundle.putSerializable(Constants.STUDENT, student);
+//            timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
+//            startActivity(timeTableIntent);
         }
     }
 
@@ -933,12 +944,24 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (nextSlot.isEmpty()) {
             Util.showErrorDialog(getActivity(), "Skolera", getParentActivity().getResources().getString(R.string.there_is_no_time_table));
         } else {
-            Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
+            TimetableMainFragment timetableMainFragment = new TimetableMainFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
             bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
-            timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-            startActivity(timeTableIntent);
+            bundle.putSerializable(Constants.STUDENT, student);
+            timetableMainFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, timetableMainFragment, "MenuFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+
+
+//            Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
+//            bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
+//            timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
+//            startActivity(timeTableIntent);
         }
     }
 }
