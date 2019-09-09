@@ -94,7 +94,6 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         singleCourseGroupView = new SingleCourseGroupView(activity, this);
     }
 
-
     private void onBackPress() {
         rootView.setFocusableInTouchMode(true);
         rootView.requestFocus();
@@ -139,8 +138,11 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
     }
 
     private void openTeacherAttendanceActivity() {
-//        Intent intent = new Intent(this, TeacherAttendanceActivity.class);
-//        startActivity(intent);
+        TeacherAttendanceFragment teacherAttendanceFragment = new TeacherAttendanceFragment();
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.course_root, teacherAttendanceFragment, "CoursesFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
     @Override
