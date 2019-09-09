@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="trianglz.ui.activities.AnnouncementActivity"
+    android:focusable="true"
+    android:clickable="true"
+    android:background="@color/snow"
     android:orientation="vertical">
 
     <RelativeLayout

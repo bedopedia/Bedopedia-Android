@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.Html;
 import android.view.KeyEvent;
@@ -45,6 +46,7 @@ import trianglz.utils.Util;
  * Created by Farah A. Moniem on 09/09/2019.
  */
 public class WeeklyPlannerFragment extends Fragment implements View.OnClickListener {
+
     private View rootView;
     private StudentMainActivity activity;
     public Student student;
@@ -276,6 +278,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
                     });
         }
     }
+
     private void onBackPress() {
         rootView.setFocusableInTouchMode(true);
         rootView.requestFocus();
@@ -294,7 +297,17 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
             }
         });
     }
-
+    private void openWeeklyNoteActivity() {
+        AnnouncementDetailFragment announcementDetailFragment = new AnnouncementDetailFragment();
+        Bundle bundle = new Bundle();
+        WeeklyNote weeklyNote = rootClass.getWeeklyPlans().get(0).getWeeklyNotes().get(0);
+        bundle.putSerializable(Constants.KEY_WEEKLY_NOTE,weeklyNote);
+        announcementDetailFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, announcementDetailFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -304,7 +317,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
                 activity.getSupportFragmentManager().popBackStack();
                 break;
             case R.id.btn_see_more:
-              //  openWeeklyNoteActivity();
+                openWeeklyNoteActivity();
                 break;
         }
     }
