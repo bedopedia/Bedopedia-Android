@@ -65,7 +65,6 @@ import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.NotificationsActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.activities.SuperActivity;
-import trianglz.ui.activities.WeeklyPlannerActivity;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
@@ -679,12 +678,21 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     private void openWeeklyPlannerActivity() {
         if (rootClass.getWeeklyPlans().size() > 0) {
-            Intent myIntent = new Intent(getActivity(), WeeklyPlannerActivity.class);
+            WeeklyPlannerFragment weeklyPlannerFragment = new WeeklyPlannerFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, rootClass);
             bundle.putSerializable(Constants.STUDENT, student);
-            myIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-            startActivity(myIntent);
+            weeklyPlannerFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, weeklyPlannerFragment, "MenuFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+//            Intent myIntent = new Intent(getActivity(), WeeklyPlannerActivity.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, rootClass);
+//            bundle.putSerializable(Constants.STUDENT, student);
+//            myIntent.putExtra(Constants.KEY_BUNDLE, bundle);
+//            startActivity(myIntent);
         } else {
             Util.showErrorDialog(getActivity(), "Skolera", getParentActivity().getResources().getString(R.string.there_is_no_weekly_planner));
         }
