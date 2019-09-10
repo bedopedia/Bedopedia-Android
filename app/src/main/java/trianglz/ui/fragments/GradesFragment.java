@@ -59,7 +59,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         getValueFromIntent();
         bindViews();
         setListeners();
-        onBackPress();
+      //  onBackPress();
     }
 
     private void onBackPress() {

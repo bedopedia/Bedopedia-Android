@@ -25,7 +25,7 @@ public class TimetableMainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_time_table, container, false);
         activity = (StudentMainActivity) getActivity();
-        onBackPress();
+    //    onBackPress();
         activity.toolbarView.setVisibility(View.GONE);
         activity.headerLayout.setVisibility(View.GONE);
         FragmentUtils.createFragment(activity.getSupportFragmentManager(), TimeTableFragment.newInstance(this.getArguments()), R.id.timetable_main_container);

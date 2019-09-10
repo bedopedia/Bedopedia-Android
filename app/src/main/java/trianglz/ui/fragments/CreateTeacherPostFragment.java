@@ -83,7 +83,7 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
         bindViews();
         setListeners();
         getValuesFromIntent();
-        onBackPress();
+    //    onBackPress();
     }
     private void bindViews() {
         attachFileToTeacherPostView = new AttachFileToTeacherPostView(activity, this);

@@ -77,7 +77,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         getValueFromIntent();
         bindViews();
         setListeners();
-        onBackPress();
+   //     onBackPress();
     }
 
     private void getValueFromIntent() {

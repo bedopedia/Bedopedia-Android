@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +52,7 @@ public class CourseGroupsFragment extends Fragment implements TeacherCoursesAdap
         getValueFromIntent();
         bindViews();
         setListeners();
-        onBackPress();
+      //  onBackPress();
     }
 
     private void getValueFromIntent() {
@@ -77,26 +76,6 @@ public class CourseGroupsFragment extends Fragment implements TeacherCoursesAdap
         teacherCoursesAdapter.addCourseGroups(Arrays.asList(teacherCourse.getCourseGroups()));
     }
 
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    if (activity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                        activity.toolbarView.setVisibility(View.VISIBLE);
-                        activity.headerLayout.setVisibility(View.VISIBLE);
-                    }
-
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
-
     private void setListeners() {
         backBtn.setOnClickListener(this);
     }
@@ -107,7 +86,7 @@ public class CourseGroupsFragment extends Fragment implements TeacherCoursesAdap
             case R.id.btn_back:
                 activity.toolbarView.setVisibility(View.VISIBLE);
                 activity.headerLayout.setVisibility(View.VISIBLE);
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
         }
     }
@@ -123,7 +102,7 @@ public class CourseGroupsFragment extends Fragment implements TeacherCoursesAdap
         bundle.putString(Constants.KEY_COURSE_GROUPS, courseGroups.toString());
         bundle.putString(Constants.TEACHER_COURSE, teacherCourse.toString());
         singleCourseGroupFragment.setArguments(bundle);
-        activity.getSupportFragmentManager().
+         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.course_root, singleCourseGroupFragment, "CoursesFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();

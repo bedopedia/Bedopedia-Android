@@ -48,7 +48,7 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
         getValueFromIntent();
         bindViews();
         setListeners();
-        onBackPress();
+   //     onBackPress();
     }
 
     private void getValueFromIntent() {

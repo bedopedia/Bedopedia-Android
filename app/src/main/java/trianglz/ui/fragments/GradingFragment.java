@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,22 +67,6 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
         bindViews();
         setListeners();
         fetchData();
-        onBackPress();
-
-    }
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 
 
@@ -133,7 +116,7 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
         }
     }

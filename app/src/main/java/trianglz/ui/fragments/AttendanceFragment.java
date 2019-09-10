@@ -81,7 +81,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         setAttendance();
         setRecyclerView();
         setEvents();
-        onBackPress();
+    //    onBackPress();
     }
 
     private void onBackPress() {

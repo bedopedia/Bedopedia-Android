@@ -48,7 +48,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         super.onActivityCreated(savedInstanceState);
         bindViews();
         setListeners();
-        onBackPress();
+     //   onBackPress();
     }
 
     private void bindViews() {

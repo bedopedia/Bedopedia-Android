@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,6 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         getValueFromIntent();
         bindViews();
         setListeners();
-        onBackPress();
     }
 
     private void getValueFromIntent() {
@@ -94,21 +92,6 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         singleCourseGroupView = new SingleCourseGroupView(activity, this);
     }
 
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
-
     private void openAssignmentDetailActivity() {
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
@@ -131,7 +114,7 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         bundle.putInt(Constants.KEY_COURSE_ID, courseGroup.getCourseId());
         bundle.putString(Constants.KEY_COURSE_NAME, teacherCourse.getName());
         postDetailFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().
+        getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.course_root, postDetailFragment, "CoursesFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
@@ -139,7 +122,7 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
 
     private void openTeacherAttendanceActivity() {
         TeacherAttendanceFragment teacherAttendanceFragment = new TeacherAttendanceFragment();
-        getActivity().getSupportFragmentManager().
+        getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.course_root, teacherAttendanceFragment, "CoursesFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
@@ -149,7 +132,7 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager();
                 break;
             case R.id.layout_attendance:
                 openTeacherAttendanceActivity();
@@ -191,7 +174,7 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         bundle.putString(Constants.KEY_COURSE_GROUPS,courseGroup.toString());
         bundle.putBoolean(Constants.AVATAR, false);
         assignmentDetailFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().
+        getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.course_root, assignmentDetailFragment, "CoursesFragment").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
@@ -215,7 +198,7 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         bundle.putParcelableArrayList(Constants.KEY_QUIZZES, quizzes);
 
         quizzesDetailsFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().
+        getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.course_root, quizzesDetailsFragment, "CoursesFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();

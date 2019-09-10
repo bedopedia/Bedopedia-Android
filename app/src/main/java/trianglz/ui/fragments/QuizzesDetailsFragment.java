@@ -80,7 +80,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         getValueFromIntent();
         bindViews();
         setListeners();
-        onBackPress();
+    //    onBackPress();
         if (!teacherMode) {
             activity.showLoadingDialog();
             quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId());

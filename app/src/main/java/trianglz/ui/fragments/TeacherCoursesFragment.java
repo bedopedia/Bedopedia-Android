@@ -28,7 +28,7 @@ import trianglz.utils.Util;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPresenter, TeacherCoursesAdapter.TeacherCoursesInterface {
+public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPresenter, TeacherCoursesAdapter.TeacherCoursesInterface, StudentMainActivity.OnBackPressedInterface {
 
     private View rootView;
     private TeacherCoursesView teacherCoursesView;
@@ -58,11 +58,11 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
     private void bindViews() {
         teacherCoursesView = new TeacherCoursesView(getParentActivity(), this);
         recyclerView = rootView.findViewById(R.id.recycler_view);
-        teacherCoursesAdapter = new TeacherCoursesAdapter(getParentActivity(),this);
+        teacherCoursesAdapter = new TeacherCoursesAdapter(getParentActivity(), this);
         recyclerView.setAdapter(teacherCoursesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
-                LinearLayoutManager.VERTICAL,false));
-        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(6,getParentActivity()),false));
+                LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(6, getParentActivity()), false));
     }
 
     // this method is to reduce the amount of calling getActivity()
@@ -97,7 +97,7 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
             Bundle bundle = new Bundle();
             bundle.putString(Constants.TEACHER_COURSE, teacherCourse.toString());
             courseGroupsFragment.setArguments(bundle);
-            getActivity().getSupportFragmentManager().
+            getChildFragmentManager().
                     beginTransaction().add(R.id.course_root, courseGroupsFragment, "CoursesFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
@@ -110,5 +110,16 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
     @Override
     public void onCourseGroupSelected(CourseGroups courseGroups) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (activity.pager.getCurrentItem() == 0){
+            getChildFragmentManager().popBackStack();
+            if(getChildFragmentManager().getFragments().size()==1){
+                activity.toolbarView.setVisibility(View.VISIBLE);
+                activity.headerLayout.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }

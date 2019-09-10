@@ -66,7 +66,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         getValueFromIntent();
         bindViews();
         setListeners();
-        onBackPress();
+     //   onBackPress();
     }
     private void onBackPress() {
         rootView.setFocusableInTouchMode(true);

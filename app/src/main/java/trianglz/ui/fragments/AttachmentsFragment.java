@@ -50,7 +50,7 @@ public class AttachmentsFragment extends Fragment implements AttachmentAdapter.A
         super.onActivityCreated(savedInstanceState);
         getDataFromIntent();
         bindViews();
-        onBackPress();
+    //    onBackPress();
     }
 
     private void getDataFromIntent() {

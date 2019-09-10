@@ -64,7 +64,7 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
         bindViews();
         activity.showLoadingDialog();
         setStudentImage(student.getAvatar(), studentName);
-        onBackPress();
+   //     onBackPress();
     }
 
     private void getValuesFromIntent() {

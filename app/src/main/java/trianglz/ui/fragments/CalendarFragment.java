@@ -93,7 +93,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         setRecyclerView();
         getEvents();
-        onBackPress();
+    //    onBackPress();
     }
 
     private void onBackPress() {

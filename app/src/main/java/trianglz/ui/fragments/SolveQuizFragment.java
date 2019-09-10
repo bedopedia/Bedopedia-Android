@@ -53,7 +53,7 @@ public class SolveQuizFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         bindViews();
-        onBackPress();
+   //     onBackPress();
     }
 
     private void bindViews() {

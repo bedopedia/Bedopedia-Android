@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,23 +76,9 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         getValueFromIntent();
         bindViews();
         setListeners();
-        onBackPress();
+   //     onBackPress();
     }
 
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
 
     private void getValueFromIntent() {
         isStudent = SessionManager.getInstance().getStudentAccount();
@@ -166,7 +151,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_open:
                 adapter.addData(getArrayList(true));
@@ -186,7 +171,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             bundle.putString(Constants.KEY_STUDENT_NAME, studentName);
             bundle.putString(Constants.KEY_ASSIGNMENT_DETAIL, assignmentsDetail.toString());
             assignmentFragment.setArguments(bundle);
-            getActivity().getSupportFragmentManager().
+            getParentFragment().getChildFragmentManager().
                     beginTransaction().add(R.id.menu_fragment_root, assignmentFragment, "MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
@@ -198,7 +183,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             bundle.putString(Constants.KEY_ASSIGNMENT_NAME, assignmentsDetail.getName());
             bundle.putInt(Constants.KEY_ASSIGNMENT_ID, assignmentsDetail.getId());
             gradingFragment.setArguments(bundle);
-            getActivity().getSupportFragmentManager().
+            getParentFragment().getChildFragmentManager().
                     beginTransaction().add(R.id.course_root, gradingFragment,"CoursesFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();

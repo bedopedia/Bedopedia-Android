@@ -67,7 +67,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         bindViews();
         setListeners();
         getCourseAssignment();
-        onBackPress();
+      //  onBackPress();
     }
 
     private void onBackPress() {

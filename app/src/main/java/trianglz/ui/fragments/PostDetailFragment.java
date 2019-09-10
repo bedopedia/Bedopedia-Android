@@ -68,7 +68,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
         getValuesFromIntent();
         bindViews();
         setListeners();
-        onBackPress();
+   //     onBackPress();
     }
 
     private void onBackPress() {
