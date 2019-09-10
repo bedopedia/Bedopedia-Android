@@ -645,20 +645,19 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        //  if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-        if (isParent) {
-            if (!isStudent) {
-                super.onBackPressed();
-            }
-        } else {
-            List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
-            if (fragmentList != null) {
-                for (Fragment fragment : fragmentList) {
-                    if (fragment instanceof OnBackPressedInterface) {
-                        ((OnBackPressedInterface) fragment).onBackPressed();
-                    }
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+        if (fragmentList != null) {
+            for (Fragment fragment : fragmentList) {
+                if (fragment instanceof OnBackPressedInterface) {
+                    ((OnBackPressedInterface) fragment).onBackPressed();
                 }
             }
+//            if (isParent && !isStudent) {
+//                Log.d("", "onBackPressed: "+fragmentList.size());
+//                if (fragmentList.isEmpty()) {
+//                    super.onBackPressed();
+//                }
+//            }
         }
     }
 

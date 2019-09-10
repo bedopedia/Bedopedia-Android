@@ -995,6 +995,10 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             }
         } else if (isParent) {
             if (activity.pager.getCurrentItem() == 3) {
+                if(getChildFragmentManager().getFragments().size()==0){
+                    getActivity().finish();
+                    return;
+                }
                 getChildFragmentManager().popBackStack();
                 if (getChildFragmentManager().getFragments().size() == 1) {
                     activity.toolbarView.setVisibility(View.VISIBLE);
