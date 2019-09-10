@@ -170,7 +170,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         bundle.putString(Constants.STUDENT, student.toString());
         bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
         quizzesDetailsFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().
+        getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, quizzesDetailsFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
