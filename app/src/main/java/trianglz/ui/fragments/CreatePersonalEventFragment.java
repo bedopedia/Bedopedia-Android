@@ -95,23 +95,8 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
         setListeners();
         studentName = student.firstName + " " + student.lastName;
         setStudentImage(student.getAvatar(), studentName);
-   //     onBackPress();
     }
 
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
 
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
@@ -381,10 +366,10 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
                 }
                 break;
             case R.id.event_cancel_btn:
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_back:
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
         }
 
@@ -398,7 +383,7 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
         if (fragmentCommunicationInterface != null) {
             fragmentCommunicationInterface.reloadEvents();
         }
-        activity.getSupportFragmentManager().popBackStack();
+       getParentFragment().getChildFragmentManager().popBackStack();
     }
 
     @Override

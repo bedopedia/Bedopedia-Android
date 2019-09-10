@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,28 +92,6 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         setRecyclerView();
         getEvents();
-    //    onBackPress();
-    }
-
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK) {
-                        activity.getSupportFragmentManager().popBackStack();
-                        if (activity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                            activity.toolbarView.setVisibility(View.VISIBLE);
-                            activity.headerLayout.setVisibility(View.VISIBLE);
-                        }
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
     }
 
     private void getValueFromIntent() {
@@ -291,7 +268,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
         createPersonalEventFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().
+        getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, createPersonalEventFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
@@ -330,7 +307,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
             case R.id.btn_back:
                 activity.toolbarView.setVisibility(View.VISIBLE);
                 activity.headerLayout.setVisibility(View.VISIBLE);
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.create_personal_event:
                 openAddEventActivity();
