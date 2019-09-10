@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,23 +30,4 @@ public class TimetableMainFragment extends Fragment {
         FragmentUtils.createFragment(activity.getSupportFragmentManager(), TimeTableFragment.newInstance(this.getArguments()), R.id.timetable_main_container);
         return rootView;
     }
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    if (activity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                        activity.toolbarView.setVisibility(View.VISIBLE);
-                        activity.headerLayout.setVisibility(View.VISIBLE);
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
-
 }

@@ -147,7 +147,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
                 StudentMainActivity activity = (StudentMainActivity) getActivity();
                 activity.headerLayout.setVisibility(View.VISIBLE);
                 activity.toolbarView.setVisibility(View.VISIBLE);
-                activity.getSupportFragmentManager().popBackStack();
+                activity.onBackPressed();
                 //  Objects.requireNonNull(getActivity()).onBackPressed();
                 break;
 
