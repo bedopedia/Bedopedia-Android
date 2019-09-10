@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.Html;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -279,31 +278,13 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         }
     }
 
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    if (activity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                        activity.toolbarView.setVisibility(View.VISIBLE);
-                        activity.headerLayout.setVisibility(View.VISIBLE);
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
     private void openWeeklyNoteActivity() {
         AnnouncementDetailFragment announcementDetailFragment = new AnnouncementDetailFragment();
         Bundle bundle = new Bundle();
         WeeklyNote weeklyNote = rootClass.getWeeklyPlans().get(0).getWeeklyNotes().get(0);
         bundle.putSerializable(Constants.KEY_WEEKLY_NOTE,weeklyNote);
         announcementDetailFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().
+        getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, announcementDetailFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
@@ -314,7 +295,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
             case R.id.btn_back:
                 activity.headerLayout.setVisibility(View.VISIBLE);
                 activity.toolbarView.setVisibility(View.VISIBLE);
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_see_more:
                 openWeeklyNoteActivity();
