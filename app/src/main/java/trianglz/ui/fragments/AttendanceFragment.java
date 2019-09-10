@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,26 +80,6 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         setAttendance();
         setRecyclerView();
         setEvents();
-    //    onBackPress();
-    }
-
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    if (activity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                        activity.toolbarView.setVisibility(View.VISIBLE);
-                        activity.headerLayout.setVisibility(View.VISIBLE);
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 
 
@@ -268,7 +247,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
             case R.id.btn_back:
                 activity.toolbarView.setVisibility(View.VISIBLE);
                 activity.headerLayout.setVisibility(View.VISIBLE);
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.layout_late:
                 deselectAll();
