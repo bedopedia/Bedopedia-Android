@@ -72,7 +72,7 @@ import trianglz.utils.Util;
  * A simple {@link Fragment} subclass.
  */
 public class MenuFragment extends Fragment implements StudentDetailPresenter,
-        View.OnClickListener, SettingsDialog.SettingsDialogInterface {
+        View.OnClickListener, SettingsDialog.SettingsDialogInterface, StudentMainActivity.OnBackPressedInterface {
 
     //fragment root view
     private View rootView;
@@ -647,7 +647,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 bundle.putSerializable(Constants.STUDENT, student);
                 bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
                 postsFragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().
+                getChildFragmentManager().
                         beginTransaction().add(R.id.menu_fragment_root, postsFragment, "MenuFragments").
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                         addToBackStack(null).commit();
@@ -664,7 +664,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 Bundle bundleQuiz = new Bundle();
                 bundleQuiz.putString(Constants.STUDENT, student.toString());
                 onlineQuizzesFragment.setArguments(bundleQuiz);
-                getActivity().getSupportFragmentManager().
+                getChildFragmentManager().
                         beginTransaction().add(R.id.menu_fragment_root, onlineQuizzesFragment, "MenuFragments").
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                         addToBackStack(null).commit();
@@ -686,7 +686,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, rootClass);
             bundle.putSerializable(Constants.STUDENT, student);
             weeklyPlannerFragment.setArguments(bundle);
-            getActivity().getSupportFragmentManager().
+            getChildFragmentManager().
                     beginTransaction().add(R.id.menu_fragment_root, weeklyPlannerFragment, "MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
@@ -721,7 +721,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroups);
         gradesFragment.setArguments(bundle);
         appBarLayout.setExpanded(true);
-        getActivity().getSupportFragmentManager().
+        getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, gradesFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
@@ -740,7 +740,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
         calendarFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().
+        getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, calendarFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
@@ -762,7 +762,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
             bundle.putSerializable(Constants.STUDENT, student);
             timetableMainFragment.setArguments(bundle);
-            getActivity().getSupportFragmentManager().
+            getChildFragmentManager().
                     beginTransaction().add(R.id.menu_fragment_root, timetableMainFragment, "MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
@@ -789,7 +789,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
         bundle.putSerializable(Constants.STUDENT, student);
         behaviorNotesMainFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().
+        getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, behaviorNotesMainFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
@@ -813,7 +813,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         bundle.putSerializable(Constants.STUDENT, student);
         bundle.putString(Constants.KEY_ATTENDANCE, attendance);
         attendanceFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().
+        getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, attendanceFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
@@ -943,7 +943,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         bundle.putSerializable(Constants.STUDENT, student);
         courseAssignmentFragment.setArguments(bundle);
         appBarLayout.setExpanded(true);
-        getActivity().getSupportFragmentManager().
+        getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, courseAssignmentFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
@@ -966,7 +966,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
             bundle.putSerializable(Constants.STUDENT, student);
             timetableMainFragment.setArguments(bundle);
-            getActivity().getSupportFragmentManager().
+            getChildFragmentManager().
                     beginTransaction().add(R.id.menu_fragment_root, timetableMainFragment, "MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
@@ -978,6 +978,37 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 //            bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
 //            timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
 //            startActivity(timeTableIntent);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
+        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
+        if (isStudent) {
+            if (activity.pager.getCurrentItem() == 0) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        } else if (isParent) {
+            if (activity.pager.getCurrentItem() == 3) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        } else {
+            if (activity.pager.getCurrentItem() == 4) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
 }
