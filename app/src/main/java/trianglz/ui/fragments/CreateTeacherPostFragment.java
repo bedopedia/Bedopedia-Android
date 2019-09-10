@@ -83,7 +83,6 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
         bindViews();
         setListeners();
         getValuesFromIntent();
-    //    onBackPress();
     }
     private void bindViews() {
         attachFileToTeacherPostView = new AttachFileToTeacherPostView(activity, this);
@@ -119,7 +118,7 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
+                    getParentFragment().getChildFragmentManager().popBackStack();
                     return true;
                 }
                 return false;
@@ -198,7 +197,7 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.close_btn:
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.post_btn:
                 if (validate()) {
@@ -222,7 +221,7 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
                 activity.progress.dismiss();
             }
             fragmentCommunicationInterface.reloadEvents();
-            activity.getSupportFragmentManager().popBackStack();
+            getParentFragment().getChildFragmentManager().popBackStack();
         }
     }
 
@@ -241,7 +240,7 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
             if (activity.progress.isShowing()) {
                 activity.progress.dismiss();
             }
-            activity.getSupportFragmentManager().popBackStack();
+            getParentFragment().getChildFragmentManager().popBackStack();
             fragmentCommunicationInterface.reloadEvents();
         }
     }

@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,23 +67,8 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
         getValuesFromIntent();
         bindViews();
         setListeners();
-   //     onBackPress();
     }
 
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
 
     private void getValuesFromIntent() {
         Bundle bundle = this.getArguments();
@@ -106,7 +90,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
             }
         });
         if (!isStudent && !isParent) {
@@ -165,7 +149,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
             bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
         bundle.putString(Constants.KEY_COURSE_NAME, courseName);
         attachmentsFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().
+        getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, attachmentsFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
@@ -192,7 +176,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
         Bundle bundle= new Bundle();
         bundle.putInt(Constants.KEY_COURSE_GROUP_ID, courseGroupId);
         createTeacherPostFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().
+        getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.course_root, createTeacherPostFragment, "CoursesFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();

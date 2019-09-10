@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +49,6 @@ public class AttachmentsFragment extends Fragment implements AttachmentAdapter.A
         super.onActivityCreated(savedInstanceState);
         getDataFromIntent();
         bindViews();
-    //    onBackPress();
     }
 
     private void getDataFromIntent() {
@@ -70,7 +68,7 @@ public class AttachmentsFragment extends Fragment implements AttachmentAdapter.A
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
             }
         });
         courseNameTextView = rootView.findViewById(R.id.tv_course_name);
@@ -80,21 +78,6 @@ public class AttachmentsFragment extends Fragment implements AttachmentAdapter.A
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         adapter.addData(uploadedObjects);
     }
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
-
 
     @Override
     public void onAttachmentClicked(String fileUrl) {
