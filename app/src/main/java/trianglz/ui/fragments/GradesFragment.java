@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,27 +58,8 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         getValueFromIntent();
         bindViews();
         setListeners();
-      //  onBackPress();
     }
 
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    if (activity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                        activity.toolbarView.setVisibility(View.VISIBLE);
-                        activity.headerLayout.setVisibility(View.VISIBLE);
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
 
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
@@ -143,7 +123,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
             case R.id.btn_back:
                 activity.toolbarView.setVisibility(View.VISIBLE);
                 activity.headerLayout.setVisibility(View.VISIBLE);
-                getActivity().getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
         }
     }
@@ -161,7 +141,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroup);
         bundle.putSerializable(Constants.STUDENT, student);
         gradeDetailFragment.setArguments(bundle);
-        activity.getSupportFragmentManager().
+        getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, gradeDetailFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
