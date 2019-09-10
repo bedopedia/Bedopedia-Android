@@ -283,7 +283,7 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
                 StudentMainActivity activity = (StudentMainActivity) getActivity();
                 activity.headerLayout.setVisibility(View.VISIBLE);
                 activity.toolbarView.setVisibility(View.VISIBLE);
-                activity.getSupportFragmentManager().popBackStack();
+                activity.onBackPressed();
                 //    Objects.requireNonNull(getActivity()).onBackPressed();
                 break;
             case R.id.btn_positive:
