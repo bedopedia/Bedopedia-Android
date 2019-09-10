@@ -80,7 +80,7 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
+                    getParentFragment().getChildFragmentManager().popBackStack();
                     return true;
                 }
                 return false;
@@ -129,7 +129,7 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_back:
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
         }
     }
