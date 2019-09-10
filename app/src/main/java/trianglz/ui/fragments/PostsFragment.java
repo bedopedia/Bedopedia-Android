@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +63,6 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
         bindViews();
         activity.showLoadingDialog();
         setStudentImage(student.getAvatar(), studentName);
-   //     onBackPress();
     }
 
     private void getValuesFromIntent() {
@@ -76,6 +74,7 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
             postsView.getRecentPosts(bundle.getInt(Constants.KEY_STUDENT_ID, 150));
         }
     }
+
     private void bindViews() {
         activity.toolbarView.setVisibility(View.GONE);
         activity.headerLayout.setVisibility(View.GONE);
@@ -87,7 +86,7 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
                 public void onClick(View view) {
                     activity.toolbarView.setVisibility(View.VISIBLE);
                     activity.headerLayout.setVisibility(View.VISIBLE);
-                    activity.getSupportFragmentManager().popBackStack();
+                    getParentFragment().getChildFragmentManager().popBackStack();
                 }
             });
         }
@@ -97,6 +96,7 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
 
     }
+
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();
@@ -124,25 +124,6 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
         }
     }
 
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    if(activity.getSupportFragmentManager().getBackStackEntryCount()==1) {
-                        activity.toolbarView.setVisibility(View.VISIBLE);
-                        activity.headerLayout.setVisibility(View.VISIBLE);
-                    }
-
-                        return true;
-                }
-                return false;
-            }
-        });
-    }
 
     @Override
     public void onGetPostsSuccess(ArrayList<PostsResponse> parsePostsResponse) {
@@ -163,7 +144,7 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
         bundle.putInt(Constants.KEY_COURSE_ID, courseId);
         bundle.putString(Constants.KEY_COURSE_NAME, courseName);
         postDetailFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().
+        getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, postDetailFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
