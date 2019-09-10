@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,8 +53,6 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-//        activity.toolbarView.setVisibility(View.GONE);
-//        activity.headerLayout.setVisibility(View.GONE);
         rootView = inflater.inflate(R.layout.activity_single_quiz, container, false);
         return rootView;
     }
@@ -66,21 +63,6 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         getValueFromIntent();
         bindViews();
         setListeners();
-     //   onBackPress();
-    }
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 
     private void setListeners() {
@@ -173,7 +155,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btn_back) {
-            activity.getSupportFragmentManager().popBackStack();
+            getParentFragment().getChildFragmentManager().popBackStack();
         } else if (view.getId() == R.id.solve_quiz_btn) {
             openSolveQuizActivity();
         }

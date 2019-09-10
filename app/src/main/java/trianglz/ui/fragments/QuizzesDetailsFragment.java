@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +79,6 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         getValueFromIntent();
         bindViews();
         setListeners();
-    //    onBackPress();
         if (!teacherMode) {
             activity.showLoadingDialog();
             quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId());
@@ -143,20 +141,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         }
 
     }
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    activity.getSupportFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
+
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
@@ -205,7 +190,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_back:
-                activity.getSupportFragmentManager().popBackStack();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_open:
                 adapter.addData(getArrayList(true));
@@ -240,7 +225,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
             bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
             singleQuizFragment.setArguments(bundle);
-            getActivity().getSupportFragmentManager().
+            getParentFragment().getChildFragmentManager().
                     beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment,"MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
@@ -255,7 +240,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             bundle.putBoolean(Constants.KEY_ASSIGNMENTS_GRADING, false);
             bundle.putString(Constants.KEY_QUIZ_NAME, quizzes.getName());
             gradingFragment.setArguments(bundle);
-            getActivity().getSupportFragmentManager().
+            getParentFragment().getChildFragmentManager().
                     beginTransaction().add(R.id.course_root, gradingFragment,"CoursesFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();        }

@@ -54,8 +54,6 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-//        activity.toolbarView.setVisibility(View.GONE);
-//        activity.headerLayout.setVisibility(View.GONE);
         rootView = inflater.inflate(R.layout.activity_assignment_grading, container, false);
         return rootView;
     }
