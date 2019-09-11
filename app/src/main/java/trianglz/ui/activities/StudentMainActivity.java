@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -125,6 +126,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                     addNewMessageButton.setVisibility(View.GONE);
                 }
             }
+
 
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -297,20 +299,27 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.ll_courses_tab:
                 handleTabsClicking(pagerAdapter.getCount() - 5);
+                returnToRoot(pagerAdapter.getCount() - 5);
                 break;
             case R.id.ll_announcment_tab:
                 handleTabsClicking(pagerAdapter.getCount() - 4);
+                returnToRoot(pagerAdapter.getCount() - 4);
+
                 break;
             case R.id.ll_messages_tab:
                 handleTabsClicking(pagerAdapter.getCount() - 3);
+                returnToRoot(pagerAdapter.getCount() - 3);
+
                 break;
             case R.id.ll_notifications_tab:
                 SessionManager.getInstance().setNotificationCounterToZero();
                 redCircleImageView.setVisibility(View.GONE);
                 handleTabsClicking(pagerAdapter.getCount() - 2);
+                returnToRoot(pagerAdapter.getCount() - 3);
                 break;
             case R.id.ll_menu_tab:
                 handleTabsClicking(pagerAdapter.getCount() - 1);
+                returnToRoot(pagerAdapter.getCount() - 1);
                 break;
             case R.id.btn_setting_student:
                 settingsDialog.show();
@@ -545,12 +554,6 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                     ((OnBackPressedInterface) fragment).onBackPressed();
                 }
             }
-//            if (isParent && !isStudent) {
-//                Log.d("", "onBackPressed: "+fragmentList.size());
-//                if (fragmentList.isEmpty()) {
-//                    super.onBackPressed();
-//                }
-//            }
         }
     }
 
@@ -581,6 +584,16 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 headerLayout.setVisibility(View.GONE);
                 toolbarView.setVisibility(View.GONE);
             } else {
+                headerLayout.setVisibility(View.VISIBLE);
+                toolbarView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private void returnToRoot(int tabNumber) {
+        if (tabNumber == pager.getCurrentItem()) {
+            if (pagerAdapter.getItem(tabNumber).getChildFragmentManager() != null) {
+                pagerAdapter.getItem(tabNumber).getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 headerLayout.setVisibility(View.VISIBLE);
                 toolbarView.setVisibility(View.VISIBLE);
             }

@@ -27,7 +27,7 @@ import trianglz.utils.Util;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NotificationsFragment extends Fragment implements NotificationsPresenter, View.OnClickListener, AdapterPaginationInterface {
+public class NotificationsFragment extends Fragment implements NotificationsPresenter, View.OnClickListener, AdapterPaginationInterface, StudentMainActivity.OnBackPressedInterface {
 
     // fragment root view 
     private View rootView;
@@ -135,6 +135,15 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         if (activity.progress.isShowing()) {
             if (!activity.isCalling)
                 activity.progress.dismiss();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
+        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
+        if (isParent) {
+            getActivity().finish();
         }
     }
 }

@@ -32,7 +32,7 @@ import trianglz.utils.Util;
  */
 public class AnnouncementsFragment extends Fragment implements View.OnClickListener
         , AnnouncementAdapter.AnnouncementAdapterInterface
-        , AnnouncementInterface {
+        , AnnouncementInterface, StudentMainActivity.OnBackPressedInterface {
 
     // rootView
     private View rootView;
@@ -152,6 +152,15 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         if (activity.progress.isShowing()) {
             if (!activity.isCalling)
                 activity.progress.dismiss();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
+        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
+        if (isParent) {
+            getActivity().finish();
         }
     }
 }
