@@ -4,6 +4,7 @@ package trianglz.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +24,6 @@ import trianglz.models.Actor;
 import trianglz.models.MessageThread;
 import trianglz.models.Student;
 import trianglz.ui.activities.ChatActivity;
-import trianglz.ui.activities.NewMessageActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.activities.SuperActivity;
 import trianglz.ui.adapters.ContactTeacherAdapter;
@@ -34,7 +34,7 @@ import trianglz.utils.Util;
  * A simple {@link Fragment} subclass.
  */
 public class MessagesFragment extends Fragment implements View.OnClickListener,
-        ContactTeacherPresenter, ContactTeacherAdapter.ContactTeacherAdapterInterface {
+        ContactTeacherPresenter, ContactTeacherAdapter.ContactTeacherAdapterInterface,StudentMainActivity.OnBackPressedInterface {
 
     // root view 
     private View rootView;
@@ -154,14 +154,50 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     }
 
     public void openNewMessageActivity() {
-        Intent intent = new Intent(getActivity(), NewMessageActivity.class);
-        if (student != null) intent.putExtra(Constants.STUDENT, student.toString());
-        startActivity(intent);
+        NewMessageFragment newMessageFragment= new NewMessageFragment();
+        Bundle bundle = new Bundle();
+        if (student != null)
+            bundle.putString(Constants.STUDENT, student.toString());
+        newMessageFragment.setArguments(bundle);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.messages_root, newMessageFragment, "MessagesFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+//        Intent intent = new Intent(getActivity(), NewMessageActivity.class);
+//        if (student != null) intent.putExtra(Constants.STUDENT, student.toString());
+//        startActivity(intent);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         isOpeningThread = false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
+        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
+        if (isStudent) {
+            if (activity.pager.getCurrentItem() == 1) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        } else if (isParent) {
+            if (activity.pager.getCurrentItem() == 1) {
+                if(getChildFragmentManager().getFragments().size()==0){
+                    getActivity().finish();
+                    return;
+                }
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
 }
