@@ -76,11 +76,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        if (SessionManager.getInstance().getNotficiationCounter() > 0) {
-            redCircleImageView.setVisibility(View.VISIBLE);
-        } else {
-            redCircleImageView.setVisibility(View.GONE);
-        }
+        notificationCheck();
     }
 
     private void getValueFromIntent() {
@@ -313,7 +309,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 break;
             case R.id.ll_notifications_tab:
                 SessionManager.getInstance().setNotificationCounterToZero();
-                redCircleImageView.setVisibility(View.GONE);
+                notificationCheck();
                 handleTabsClicking(pagerAdapter.getCount() - 2);
                 returnToRoot(pagerAdapter.getCount() - 3);
                 break;
@@ -597,6 +593,14 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 headerLayout.setVisibility(View.VISIBLE);
                 toolbarView.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    private void notificationCheck(){
+        if (SessionManager.getInstance().getNotficiationCounter() > 0) {
+            redCircleImageView.setVisibility(View.VISIBLE);
+        } else {
+            redCircleImageView.setVisibility(View.GONE);
         }
     }
 }

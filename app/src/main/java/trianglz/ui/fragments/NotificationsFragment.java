@@ -55,7 +55,6 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         setListeners();
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.setAsSeen(SessionManager.getInstance().getUserId());
         notificationsView.setAsSeen(url);
-        SessionManager.getInstance().setNotificationCounterToZero();
         if (Util.isNetworkAvailable(getActivity())) {
             getNotifications(false);
             activity.showLoadingDialog();
