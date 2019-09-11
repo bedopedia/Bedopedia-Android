@@ -142,7 +142,9 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         Boolean isStudent = SessionManager.getInstance().getStudentAccount();
         Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
         if (isParent) {
-            getActivity().finish();
+            if (activity.pager.getCurrentItem() == 2) {
+                getActivity().finish();
+            }
         }
     }
 }

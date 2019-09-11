@@ -160,7 +160,9 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         Boolean isStudent = SessionManager.getInstance().getStudentAccount();
         Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
         if (isParent) {
-            getActivity().finish();
+            if (activity.pager.getCurrentItem() == 0) {
+                getActivity().finish();
+            }
         }
     }
 }
