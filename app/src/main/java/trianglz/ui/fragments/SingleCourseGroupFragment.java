@@ -182,13 +182,13 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onGetAssignmentDetailFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) activity.progress.hide();
+        if (activity.progress.isShowing()) activity.progress.dismiss();
 
     }
 
     @Override
     public void onGetTeacherQuizzesSuccess(ArrayList<Quizzes> quizzes) {
-        if (activity.progress.isShowing()) activity.progress.hide();
+        if (activity.progress.isShowing()) activity.progress.dismiss();
         QuizzesDetailsFragment quizzesDetailsFragment = new QuizzesDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean(Constants.KEY_TEACHERS, true);
@@ -206,7 +206,7 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onGetTeacherQuizzesFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) activity.progress.hide();
+        if (activity.progress.isShowing()) activity.progress.dismiss();
 
     }
 }
