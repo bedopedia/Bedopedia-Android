@@ -111,7 +111,8 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         PostDetailFragment postDetailFragment = new PostDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Constants.KEY_COURSE_GROUP_ID, courseGroup.getId());
-        bundle.putInt(Constants.KEY_COURSE_ID, courseGroup.getCourseId());
+ //       bundle.putInt(Constants.KEY_COURSE_ID, courseGroup.getCourseId());
+        bundle.putInt(Constants.KEY_COURSE_ID, courseGroup.getId());
         bundle.putString(Constants.KEY_COURSE_NAME, teacherCourse.getName());
         postDetailFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
