@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -250,13 +251,14 @@ public class TodayFragment extends Fragment {
         lParam.topMargin = getInDp(eventPosition);
         lParam.leftMargin = getInDp(3);
         mEventView.setLayoutParams(lParam);
-        mEventView.setPadding(24, 8, 24, 0);
-        mEventView.setHeight(getInDp(height/2));
+        mEventView.setPadding(24, 0, 24, 0);
+        mEventView.setHeight(getInDp(height));
         mEventView.setWidth(2500);
         mEventView.setTextColor(Color.parseColor("#52616b"));
         mEventView.setText(courseName);
         mEventView.setTypeface(roboto);
         mEventView.setTextSize(14);
+        mEventView.setGravity(Gravity.CENTER_VERTICAL);
         mEventView.setBackgroundColor(Color.parseColor(mainColors.get(randomNumber)));
         mLayout.addView(mEventView);
 
@@ -274,7 +276,7 @@ public class TodayFragment extends Fragment {
         mEventView3.setTextSize(10);
         mEventView3.setText(classRoom);
         mEventView3.setBackgroundColor(Color.parseColor(mainColors.get(randomNumber)));
-        mLayout.addView(mEventView3);
+      //  mLayout.addView(mEventView3);
 
 
         TextView mEventView1 = new TextView(getActivity());
