@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,9 +36,10 @@ import trianglz.utils.Util;
 
 public class StudentMainActivity extends SuperActivity implements View.OnClickListener, SettingsDialog.SettingsDialogInterface {
 
-    private LinearLayout coursesLayout, firstLayout, secondLayout, thirdLayout, fourthLayout;
-    private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView;
+    private LinearLayout coursesLayout, firstLayout, secondLayout, fourthLayout;
+    private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView, redCircleImageView;
     private TextView coursesTextView, firstTextView, secondTextView, thirdTextView, fourthTextView;
+    private FrameLayout thirdLayout;
     public View toolbarView;
     public Boolean isCalling = false;
     public CustomRtlViewPager pager;
@@ -68,6 +70,16 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         getValueFromIntent();
         bindViews();
         setListeners();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SessionManager.getInstance().getNotficiationCounter() > 0) {
+            redCircleImageView.setVisibility(View.VISIBLE);
+        } else {
+            redCircleImageView.setVisibility(View.GONE);
+        }
     }
 
     private void getValueFromIntent() {
@@ -113,6 +125,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                     addNewMessageButton.setVisibility(View.GONE);
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
 
@@ -140,6 +153,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         secondTabImageView = findViewById(R.id.iv_messages);
         thirdTabImageView = findViewById(R.id.iv_notifcations);
         fourthTabImageView = findViewById(R.id.iv_menu);
+        redCircleImageView = findViewById(R.id.img_red_circle);
 
         // text views
         firstTextView = findViewById(R.id.tv_announcements);
@@ -291,6 +305,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 handleTabsClicking(pagerAdapter.getCount() - 3);
                 break;
             case R.id.ll_notifications_tab:
+                SessionManager.getInstance().setNotificationCounterToZero();
+                redCircleImageView.setVisibility(View.GONE);
                 handleTabsClicking(pagerAdapter.getCount() - 2);
                 break;
             case R.id.ll_menu_tab:
@@ -325,7 +341,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     private void handleParentTabs(int tabNumber) {
         pager.setCurrentItem(tabNumber);
-      //  showHideToolBar(pagerAdapter.getItem(tabNumber));
+        //  showHideToolBar(pagerAdapter.getItem(tabNumber));
         switch (tabNumber) {
             case 0:
                 firstTabImageView.setImageResource(R.drawable.ic_announcements_selected_parent);
@@ -437,7 +453,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     private void handleTeacherTabs(int tabNumber) {
         pager.setCurrentItem(tabNumber);
-       // showHideToolBar(pagerAdapter.getItem(tabNumber));
+        // showHideToolBar(pagerAdapter.getItem(tabNumber));
         // text view content
         coursesTextView.setText(getResources().getString(R.string.courses));
         firstTextView.setText(getResources().getString(R.string.announcements));

@@ -223,13 +223,13 @@
                     android:layout_gravity="center"
                     android:src="@drawable/ic_notifications_tab" />
                 <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
                     android:src="@drawable/absent"
                     android:layout_gravity="end"
-                    android:layout_marginEnd="40dp"
+                    android:layout_marginEnd="42dp"
                     android:layout_marginTop="16dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:id="@+id/img_red_circle"/>
                 <TextView
                     android:id="@+id/tv_notifications"
