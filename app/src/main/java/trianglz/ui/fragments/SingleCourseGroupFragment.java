@@ -132,7 +132,7 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
-                getParentFragment().getChildFragmentManager();
+                getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.layout_attendance:
                 openTeacherAttendanceActivity();
