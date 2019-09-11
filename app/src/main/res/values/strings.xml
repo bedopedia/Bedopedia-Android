@@ -116,7 +116,7 @@
 
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="other">Other</string>
-    <string name="continue_">continue</string>
+    <string name="continue_">Continue</string>
     <string name="average_grade_is">Avg. grade is</string>
     <string name="wrong_email_or_password">Wrong email or password</string>
 

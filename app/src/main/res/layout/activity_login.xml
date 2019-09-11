@@ -100,7 +100,7 @@
             />
 
 
-    <trianglz.components.SfProBlackButton
+    <trianglz.components.SfproRegularButton
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="57dp"
