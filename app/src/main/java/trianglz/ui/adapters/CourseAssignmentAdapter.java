@@ -58,9 +58,9 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         setCourseImage("", courseAssignment.getCourseName(), holder);
         if(courseAssignment.getAssignmentState() != null){
             if (courseAssignment.getAssignmentState().equals("running")) {
-                holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
             } else {
-                holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
             }
         }else {
             holder.dateLinearLayout.setVisibility(View.INVISIBLE);
