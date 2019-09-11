@@ -294,28 +294,26 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_courses_tab:
+                returnToRootFragment(pagerAdapter.getCount() - 5);
                 handleTabsClicking(pagerAdapter.getCount() - 5);
-                returnToRoot(pagerAdapter.getCount() - 5);
                 break;
             case R.id.ll_announcment_tab:
+                returnToRootFragment(pagerAdapter.getCount() - 4);
                 handleTabsClicking(pagerAdapter.getCount() - 4);
-                returnToRoot(pagerAdapter.getCount() - 4);
-
                 break;
             case R.id.ll_messages_tab:
+                returnToRootFragment(pagerAdapter.getCount() - 3);
                 handleTabsClicking(pagerAdapter.getCount() - 3);
-                returnToRoot(pagerAdapter.getCount() - 3);
-
                 break;
             case R.id.ll_notifications_tab:
+                returnToRootFragment(pagerAdapter.getCount() - 2);
                 SessionManager.getInstance().setNotificationCounterToZero();
                 notificationCheck();
                 handleTabsClicking(pagerAdapter.getCount() - 2);
-                returnToRoot(pagerAdapter.getCount() - 3);
                 break;
             case R.id.ll_menu_tab:
+                returnToRootFragment(pagerAdapter.getCount() - 1);
                 handleTabsClicking(pagerAdapter.getCount() - 1);
-                returnToRoot(pagerAdapter.getCount() - 1);
                 break;
             case R.id.btn_setting_student:
                 settingsDialog.show();
@@ -586,7 +584,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         }
     }
 
-    private void returnToRoot(int tabNumber) {
+    private void returnToRootFragment(int tabNumber) {
         if (tabNumber == pager.getCurrentItem()) {
             if (pagerAdapter.getItem(tabNumber).getChildFragmentManager() != null) {
                 pagerAdapter.getItem(tabNumber).getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
