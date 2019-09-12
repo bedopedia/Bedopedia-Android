@@ -111,10 +111,10 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
             progress.dismiss();
         }
         if(errorCode == 401 ){
-        Util.showErrorDialog(this,"Skolera",getResources().
-                getString(R.string.not_correct_school_code));
+            showErrorDialog(this, -3,getResources().
+                    getString(R.string.not_correct_school_code));
         }else {
-            showErrorDialog(this);
+            showErrorDialog(this, errorCode,"");
         }
     }
 
@@ -132,10 +132,11 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401){
-            Util.showErrorDialog(this,"Skolera",getResources().getString(R.string.wrong_school_code));
+        if(errorCode == 401 ){
+            showErrorDialog(this, -3,getResources().
+                    getString(R.string.not_correct_school_code));
         }else {
-            showErrorDialog(this);
+            showErrorDialog(this, errorCode,"");
         }
     }
 

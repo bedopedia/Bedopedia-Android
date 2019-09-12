@@ -131,11 +131,7 @@ public class NewMessageFragment extends Fragment implements View.OnClickListener
         if(activity.progress.isShowing()){
             activity.progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            activity.logoutUser(activity);
-        }else {
-            activity.showErrorDialog(activity);
-        }
+        activity.showErrorDialog(activity, errorCode,"");
     }
 
     @Override

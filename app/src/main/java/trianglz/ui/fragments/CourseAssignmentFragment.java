@@ -156,11 +156,8 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(activity);
-        } else {
-            activity.showErrorDialog(activity);
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
     @Override
@@ -176,11 +173,8 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(activity);
-        } else {
-            activity.showErrorDialog(activity);
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
     @Override

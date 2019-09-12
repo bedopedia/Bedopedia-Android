@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
@@ -24,7 +23,6 @@ import trianglz.components.HideKeyboardOnTouch;
 import trianglz.core.presenters.LoginPresenter;
 import trianglz.core.views.LoginView;
 import trianglz.managers.SessionManager;
-import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
 import trianglz.models.School;
 import trianglz.models.Student;
@@ -32,7 +30,7 @@ import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
 public class LoginActivity extends SuperActivity implements View.OnClickListener, LoginPresenter,
-        TextView.OnEditorActionListener{
+        TextView.OnEditorActionListener {
     private MaterialEditText emailEditText;
     private MaterialEditText passwordEditText;
     private Button loginBtn;
@@ -55,7 +53,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         emailEditText = findViewById(R.id.et_email);
         passwordEditText = findViewById(R.id.et_password);
         loginBtn = findViewById(R.id.btn_login);
-        loginBtn.setBackground(Util.getCurvedBackgroundColor(Util.convertDpToPixel(8,this),
+        loginBtn.setBackground(Util.getCurvedBackgroundColor(Util.convertDpToPixel(8, this),
                 getResources().getColor(R.color.jade_green)));
         loginView = new LoginView(this, this);
         schoolImageView = findViewById(R.id.img_school);
@@ -74,15 +72,14 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                if(Util.isNetworkAvailable(this)){
+                if (Util.isNetworkAvailable(this)) {
                     if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
                         super.showLoadingDialog();
                         String url = school.schoolUrl + "/api/auth/sign_in";
-                        loginView.login(url,emailEditText.getText().toString(), passwordEditText.getText().toString(),school.schoolUrl);
+                        loginView.login(url, emailEditText.getText().toString(), passwordEditText.getText().toString(), school.schoolUrl);
                     }
-                }else {
-                    Util.showErrorDialog(LoginActivity.this,getResources().getString(R.string.skolera),
-                            getResources().getString(R.string.no_internet_connection));
+                } else {
+                    showErrorDialog(this, -3, getResources().getString(R.string.no_internet_connection));
                 }
                 break;
             case R.id.btn_back:
@@ -94,10 +91,10 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     public boolean validate(String email, String password) {
         boolean valid = true;
-            if(email.isEmpty()){
-                showErrorMessage(emailEditText, getResources().getString(R.string.email_is_empty));
-                valid = false;
-            }
+        if (email.isEmpty()) {
+            showErrorMessage(emailEditText, getResources().getString(R.string.email_is_empty));
+            valid = false;
+        }
         if (password.isEmpty() || password.length() < 4) {
             if (password.isEmpty()) {
                 showErrorMessage(passwordEditText, getResources().getString(R.string.password_is_empty));
@@ -135,46 +132,46 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     public void onLoginSuccess(Actor actor) {
         openStudentDetailActivity(actor);
         String url = school.schoolUrl + "/api/auth/sign_in";
-        SessionManager.getInstance().setloginValues(url,emailEditText.getText().toString(),
+        SessionManager.getInstance().setloginValues(url, emailEditText.getText().toString(),
                 passwordEditText.getText().toString());
     }
 
     @Override
     public void onLoginSuccess() {
         progress.dismiss();
-        if(SessionManager.getInstance().getUserType()){
+        if (SessionManager.getInstance().getUserType()) {
             openHomeActivity();
         }
         String url = school.schoolUrl + "/api/auth/sign_in";
-        SessionManager.getInstance().setloginValues(url,emailEditText.getText().toString(),
+        SessionManager.getInstance().setloginValues(url, emailEditText.getText().toString(),
                 passwordEditText.getText().toString());
     }
 
     @Override
     public void onLoginFailure(String message, int errorCode) {
-        if(progress.isShowing()){
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(errorCode == 401 ){
-          Util.showErrorDialog(this,"Skolera",getResources().getString(R.string.wrong_username_or_password));
-        }else {
-            showErrorDialog(this);
+        if (errorCode == 401) {
+            showErrorDialog(this, -3, getResources().getString(R.string.wrong_username_or_password));
+        } else {
+            showErrorDialog(this, errorCode, "");
         }
     }
 
     @Override
     public void onGetStudentsHomeSuccess(ArrayList<Object> dataObjectArrayList) {
         String url = school.schoolUrl + "/api/auth/sign_in";
-        SessionManager.getInstance().setloginValues(url,emailEditText.getText().toString(),
+        SessionManager.getInstance().setloginValues(url, emailEditText.getText().toString(),
                 passwordEditText.getText().toString());
-        if(progress.isShowing()){
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(dataObjectArrayList.size() >1){
+        if (dataObjectArrayList.size() > 1) {
             ArrayList<JSONArray> attendanceJsonArray = (ArrayList<JSONArray>) dataObjectArrayList.get(0);
             ArrayList<Student> studentArrayList = (ArrayList<Student>) dataObjectArrayList.get(1);
-            if(studentArrayList.size()> 0 && attendanceJsonArray.size() >0){
-                openStudentDetailActivity(studentArrayList.get(0),attendanceJsonArray.get(0));
+            if (studentArrayList.size() > 0 && attendanceJsonArray.size() > 0) {
+                openStudentDetailActivity(studentArrayList.get(0), attendanceJsonArray.get(0));
             }
         }
 
@@ -183,27 +180,27 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     @Override
     public void onGetStudentsHomeFailure(String message, int errorCode) {
-        if(progress.isShowing()){
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(errorCode == 401 ){
-            Util.showErrorDialog(this,"Skolera",getResources().getString(R.string.wrong_username_or_password));
-        }else {
-            showErrorDialog(this);
+        if (errorCode == 401) {
+            showErrorDialog(this, -3, getResources().getString(R.string.wrong_username_or_password));
+        } else {
+            showErrorDialog(this, errorCode, "");
         }
     }
 
 
-    private void openHomeActivity(){
-        Intent intent = new Intent(this,HomeActivity.class);
+    private void openHomeActivity() {
+        Intent intent = new Intent(this, HomeActivity.class);
         this.startActivity(intent);
     }
 
-    private void openStudentDetailActivity(Actor actor){
-        Intent intent = new Intent(this,StudentMainActivity.class);
+    private void openStudentDetailActivity(Actor actor) {
+        Intent intent = new Intent(this, StudentMainActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_ACTOR,actor);
-        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        bundle.putSerializable(Constants.KEY_ACTOR, actor);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
         this.startActivity(intent);
     }
 
@@ -212,15 +209,14 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         if (i == EditorInfo.IME_ACTION_DONE) {
             switch (textView.getId()) {
                 case R.id.et_password:
-                    if(Util.isNetworkAvailable(this)){
+                    if (Util.isNetworkAvailable(this)) {
                         if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
                             super.showLoadingDialog();
                             String url = school.schoolUrl + "/api/auth/sign_in";
-                            loginView.login(url,emailEditText.getText().toString(), passwordEditText.getText().toString(),school.schoolUrl);
+                            loginView.login(url, emailEditText.getText().toString(), passwordEditText.getText().toString(), school.schoolUrl);
                         }
-                    }else {
-                        Util.showErrorDialog(LoginActivity.this,getResources().getString(R.string.skolera),
-                                getResources().getString(R.string.no_internet_connection));
+                    } else {
+                        showErrorDialog(this, -3, getResources().getString(R.string.no_internet_connection));
                     }
                     break;
 
@@ -229,7 +225,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         return false;
     }
 
-    private void openStudentDetailActivity(Student student,JSONArray studentAttendance) {
+    private void openStudentDetailActivity(Student student, JSONArray studentAttendance) {
         Intent intent = new Intent(this, StudentMainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);

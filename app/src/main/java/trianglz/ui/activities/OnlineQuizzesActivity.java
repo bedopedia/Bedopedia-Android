@@ -131,11 +131,7 @@ public class OnlineQuizzesActivity extends SuperActivity implements View.OnClick
         if (progress.isShowing()) {
             progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            logoutUser(this);
-        } else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
 

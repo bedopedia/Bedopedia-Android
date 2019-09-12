@@ -25,7 +25,6 @@ import trianglz.models.MessageThread;
 import trianglz.models.Student;
 import trianglz.ui.activities.ChatActivity;
 import trianglz.ui.activities.StudentMainActivity;
-import trianglz.ui.activities.SuperActivity;
 import trianglz.ui.adapters.ContactTeacherAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -122,11 +121,8 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
             if (!activity.isCalling)
                 activity.progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(getActivity());
-        } else {
-            SuperActivity.showErrorDialog(getActivity());
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
     @Override

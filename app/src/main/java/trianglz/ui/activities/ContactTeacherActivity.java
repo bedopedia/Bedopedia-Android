@@ -1,22 +1,16 @@
 package trianglz.ui.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.skolera.skolera_android.AskTeacherActivity;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.ContactTeacherPresenter;
@@ -125,11 +119,7 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override

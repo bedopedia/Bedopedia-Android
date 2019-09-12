@@ -181,11 +181,7 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
         if (progress.isShowing()) {
             progress.dismiss();
         }
-        if (code == 401 || code == 500) {
-            logoutUser(this);
-        } else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, code,"");
     }
 
     private void bindViews() {
@@ -334,7 +330,7 @@ public class CalendarActivity extends SuperActivity implements View.OnClickListe
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(eventsArrayList.get(i).startDate);
             while (c.getTimeInMillis() <= eventsArrayList.get(i).endDate) {
-                compactCalendarView.addEvent(new Event(getResources().getColor(color, null),c.getTimeInMillis()*1000));
+                compactCalendarView.addEvent(new Event(getResources().getColor(color, null), c.getTimeInMillis() * 1000));
                 c.add(Calendar.MILLISECOND, 86400);
             }
         }

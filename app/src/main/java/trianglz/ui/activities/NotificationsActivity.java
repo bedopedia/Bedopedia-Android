@@ -3,7 +3,6 @@ package trianglz.ui.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -89,11 +88,7 @@ public class NotificationsActivity extends SuperActivity implements Notification
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override

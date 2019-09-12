@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 
-import trianglz.components.MimeTypeInterface;
 import trianglz.components.OnImageSelectedListener;
 import trianglz.core.presenters.ChatPresenter;
 import trianglz.core.views.ChatView;
@@ -284,11 +282,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override
@@ -304,11 +298,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override
@@ -317,8 +307,8 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     }
 
     @Override
-    public void onSendImageFailure() {
-        showErrorDialog(this);
+    public void onSendImageFailure(String message, int errorCode) {
+        showErrorDialog(this, errorCode,"");
     }
 
     private ArrayList<Object> setDates(ArrayList<Object> messageObjectArrayList) {

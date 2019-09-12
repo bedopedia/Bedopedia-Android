@@ -64,7 +64,6 @@ import trianglz.models.TimeTableSlot;
 import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.NotificationsActivity;
 import trianglz.ui.activities.StudentMainActivity;
-import trianglz.ui.activities.SuperActivity;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
@@ -336,11 +335,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            getParentActivity().logoutUser(getParentActivity());
-        } else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
     @Override
@@ -360,11 +356,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            getParentActivity().logoutUser(getParentActivity());
-        } else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
     @Override
@@ -406,11 +399,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            getParentActivity().logoutUser(getParentActivity());
-        } else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
     @Override
@@ -439,11 +429,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            getParentActivity().logoutUser(getParentActivity());
-        } else {
-            getParentActivity().showErrorDialog(getParentActivity());
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
 
     }
 
@@ -469,11 +456,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (getParentActivity().progress.isShowing()) {
             getParentActivity().progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            getParentActivity().logoutUser(getParentActivity());
-        } else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
+        activity.showErrorDialog(activity, errorCode,"");
     }
 
     @Override
@@ -510,11 +493,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 getParentActivity().progress.dismiss();
             }
         }
-        if (errorCode == 401 || errorCode == 500) {
-            getParentActivity().logoutUser(getParentActivity());
-        } else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
     @Override
@@ -549,11 +529,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 //            }
 //            Util.showNoInternetConnectionDialog(getParentActivity());
 //        }
-        if (errorCode == 401 || errorCode == 500) {
-            getParentActivity().logoutUser(getParentActivity());
-        } else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
 
@@ -579,11 +556,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 getParentActivity().progress.dismiss();
             }
         }
-        if (errorCode == 401 || errorCode == 500) {
-            getParentActivity().logoutUser(getParentActivity());
-        } else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
 
@@ -697,7 +671,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 //            myIntent.putExtra(Constants.KEY_BUNDLE, bundle);
 //            startActivity(myIntent);
         } else {
-            Util.showErrorDialog(getActivity(), "Skolera", getParentActivity().getResources().getString(R.string.there_is_no_weekly_planner));
+            activity.showErrorDialog(activity,-3,getParentActivity().getResources().getString(R.string.there_is_no_weekly_planner));
         }
     }
 
@@ -753,7 +727,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     private void openTimeTableActivity() {
         if (nextSlot.isEmpty()) {
-            Util.showErrorDialog(getActivity(), "Skolera", getParentActivity().getResources().getString(R.string.there_is_no_time_table));
+            activity.showErrorDialog(activity,-3,getParentActivity().getResources().getString(R.string.there_is_no_time_table));
         } else {
             appBarLayout.setExpanded(true);
             TimetableMainFragment timetableMainFragment = new TimetableMainFragment();
@@ -957,7 +931,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     private void openTeacherTimeTableActivity() {
         if (nextSlot.isEmpty()) {
-            Util.showErrorDialog(getActivity(), "Skolera", getParentActivity().getResources().getString(R.string.there_is_no_time_table));
+            activity.showErrorDialog(activity,-3,getParentActivity().getResources().getString(R.string.there_is_no_time_table));
         } else {
             appBarLayout.setExpanded(true);
             TimetableMainFragment timetableMainFragment = new TimetableMainFragment();

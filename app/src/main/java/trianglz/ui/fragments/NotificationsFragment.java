@@ -20,7 +20,6 @@ import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Notification;
 import trianglz.ui.activities.StudentMainActivity;
-import trianglz.ui.activities.SuperActivity;
 import trianglz.ui.adapters.NotificationsAdapter;
 import trianglz.utils.Util;
 
@@ -106,11 +105,8 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
             if (!activity.isCalling)
                 activity.progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(getActivity());
-        } else {
-            SuperActivity.showErrorDialog(getActivity());
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
     @Override

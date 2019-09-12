@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.javiersantos.appupdater.AppUpdater;
@@ -342,11 +341,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override
@@ -363,11 +358,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override
@@ -392,11 +383,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
+
     }
 
     @Override
@@ -423,11 +411,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
+
 
     }
 
@@ -450,11 +435,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         if (progress.isShowing()) {
             progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            logoutUser(this);
-        } else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
+
     }
 
     @Override
@@ -491,11 +473,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             Util.showNoInternetConnectionDialog(this);
         }
 
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override
@@ -538,11 +516,7 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
             }
             Util.showNoInternetConnectionDialog(this);
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
 
@@ -566,11 +540,8 @@ public class StudentDetailActivity extends SuperActivity implements StudentDetai
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
+
     }
 
 

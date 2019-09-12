@@ -195,11 +195,8 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         if (progress.isShowing()) {
             progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            logoutUser(this);
-        } else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
+
     }
 
     @Override
@@ -217,11 +214,8 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         if (progress.isShowing()) {
             progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            logoutUser(this);
-        } else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
+
     }
 
     @Override
@@ -236,11 +230,7 @@ public class GradeDetailActivity extends SuperActivity implements View.OnClickLi
         if (progress.isShowing()) {
             progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            logoutUser(this);
-        } else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
 

@@ -134,7 +134,7 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
     @Override
     public void onGetPostsFailure(String message, int errorCode) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
-        activity.showErrorDialog(activity);
+        activity.showErrorDialog(activity, errorCode,"");
     }
 
     @Override

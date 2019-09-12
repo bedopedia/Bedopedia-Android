@@ -198,4 +198,6 @@
     <string name="present">حاضر</string>
     <string name="assign_for_all">Assign for all</string>
     <string name="assign_for_selected">Assign for selected</string>
+    <string name="something_went_wrong">حدث خطأ ما، برجاء المحاولة مرة اخرى</string>
+
 </resources>

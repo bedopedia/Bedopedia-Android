@@ -212,11 +212,8 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(activity);
-        } else {
-            activity.showErrorDialog(activity);
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
     @Override
@@ -233,11 +230,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(activity);
-        } else {
-            activity.showErrorDialog(activity);
-        }
+        activity.showErrorDialog(activity, errorCode,"");
     }
 
     @Override
@@ -252,11 +245,8 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(activity);
-        } else {
-            activity.showErrorDialog(activity);
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
     private void setAdapterData(ArrayList<CourseGradingPeriods> courseGradingPeriodsArrayList) {

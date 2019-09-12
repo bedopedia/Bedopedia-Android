@@ -107,7 +107,7 @@ public class PostsActivity extends SuperActivity implements PostsPresenter, Post
     @Override
     public void onGetPostsFailure(String message, int errorCode) {
         if (progress.isShowing()) progress.dismiss();
-        showErrorDialog(this);
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override

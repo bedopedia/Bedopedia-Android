@@ -130,11 +130,8 @@ public class AssignmentFragment extends Fragment implements AttachmentAdapter.At
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(activity);
-        } else {
-            activity.showErrorDialog(activity);
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
 
     }
 

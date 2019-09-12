@@ -129,7 +129,7 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
         String post = postEditText.getText().toString();
         Boolean valid = true;
         if (post.isEmpty()) {
-            Util.showErrorDialog(activity, "Skolera", getResources().getString(R.string.post_is_empty));
+            activity.showErrorDialog(activity,-3,getResources().getString(R.string.post_is_empty));
             valid = false;
         }
         return valid;
@@ -250,11 +250,8 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(activity);
-        } else {
-            activity.showErrorDialog(activity);
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -276,8 +273,7 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
                                         attachmentLayout.setVisibility(View.VISIBLE);
                                         recyclerView.setVisibility(View.GONE);
                                     }
-                                    Util.showErrorDialog(activity, getResources().getString(R.string.cannot_select_file), getResources().getString(R.string.file_is_big));
-
+                                    activity.showErrorDialog(activity,-3,getResources().getString(R.string.file_is_big));
                                 }
                             }
                         } else {
@@ -293,7 +289,7 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
                                     attachmentLayout.setVisibility(View.VISIBLE);
                                     recyclerView.setVisibility(View.GONE);
                                 }
-                                Util.showErrorDialog(activity, "Skolera", getResources().getString(R.string.file_is_big));
+                                activity.showErrorDialog(activity,-3,getResources().getString(R.string.file_is_big));
                             }
                         }
                     }

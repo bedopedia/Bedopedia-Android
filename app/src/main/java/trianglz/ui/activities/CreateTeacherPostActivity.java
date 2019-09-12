@@ -38,7 +38,6 @@ import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.PostDetails;
 import trianglz.ui.adapters.TeacherAttachmentAdapter;
 import trianglz.utils.Constants;
-import trianglz.utils.Util;
 
 public class CreateTeacherPostActivity extends SuperActivity implements AttachFileToTeacherPostPresenter, TeacherAttachmentAdapter.TeacherAttachmentInterface, CreateTeacherPostPresenter, View.OnClickListener {
     private Button uploadBtn, postBtn;
@@ -125,11 +124,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
         if (progress.isShowing()) {
             progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            logoutUser(this);
-        } else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
     void createPost() {
@@ -146,7 +141,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
         String post = postEditText.getText().toString();
         Boolean valid = true;
         if (post.isEmpty()) {
-            Util.showErrorDialog(this, "Skolera", getResources().getString(R.string.post_is_empty));
+            showErrorDialog(this, -3, getResources().getString(R.string.post_is_empty));
             valid = false;
         }
         return valid;
@@ -180,8 +175,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
                                         attachmentLayout.setVisibility(View.VISIBLE);
                                         recyclerView.setVisibility(View.GONE);
                                     }
-                                    Util.showErrorDialog(this, getResources().getString(R.string.cannot_select_file), getResources().getString(R.string.file_is_big));
-
+                                    showErrorDialog(this,-3,getResources().getString(R.string.file_is_big));
                                 }
                             }
                         } else {
@@ -197,7 +191,7 @@ public class CreateTeacherPostActivity extends SuperActivity implements AttachFi
                                     attachmentLayout.setVisibility(View.VISIBLE);
                                     recyclerView.setVisibility(View.GONE);
                                 }
-                                Util.showErrorDialog(this, "Skolera", getResources().getString(R.string.file_is_big));
+                                showErrorDialog(this, -3, getResources().getString(R.string.file_is_big));
                             }
                         }
                     }

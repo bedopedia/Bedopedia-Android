@@ -395,11 +395,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        if (code == 401 || code == 500) {
-            activity.logoutUser(activity);
-        } else {
-            activity.showErrorDialog(activity);
-        }
+        activity.showErrorDialog(activity, code,"");
     }
 
     @Override

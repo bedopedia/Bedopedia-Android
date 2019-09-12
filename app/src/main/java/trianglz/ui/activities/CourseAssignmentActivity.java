@@ -129,11 +129,7 @@ public class CourseAssignmentActivity extends SuperActivity implements View.OnCl
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override
@@ -167,7 +163,7 @@ public class CourseAssignmentActivity extends SuperActivity implements View.OnCl
         if(progress.isShowing()){
             progress.dismiss();
         }
-        showErrorDialog(this);
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override

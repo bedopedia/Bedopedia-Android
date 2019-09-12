@@ -29,7 +29,6 @@ import trianglz.models.StudentSubmission;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.StudentGradeAdapter;
 import trianglz.utils.Constants;
-import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 04/09/2019.
@@ -155,7 +154,7 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onGetAssignmentSubmissionsFailure(String message, int errorCode) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
-        Util.showErrorDialog(activity, "Skolera", message);
+        activity.showErrorDialog(activity, errorCode, "");
     }
 
     @Override
@@ -183,11 +182,7 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onPostAssignmentGradeFailure(String message, int errorCode) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(activity);
-        } else {
-            Util.showErrorDialog(activity, "Skolera", "Something went wrong, please try again");
-        }
+        activity.showErrorDialog(activity, errorCode, "");
     }
 
     @Override
@@ -200,11 +195,7 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onGetQuizzesSubmissionsFailure(String message, int errorCode) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(activity);
-        } else {
-            Util.showErrorDialog(activity, "Skolera", "Something went wrong, please try again");
-        }
+        activity.showErrorDialog(activity, errorCode, "");
     }
 
     @Override
@@ -243,11 +234,8 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onPostQuizGradeFailure(String message, int errorCode) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(activity);
-        } else {
-            Util.showErrorDialog(activity, "Skolera", "Something went wrong, please try again");
-        }
+        activity.showErrorDialog(activity, errorCode, "");
+
     }
 
     @Override

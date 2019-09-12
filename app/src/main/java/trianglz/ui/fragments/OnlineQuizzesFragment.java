@@ -151,11 +151,8 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        if (errorCode == 401 || errorCode == 500) {
-            activity.logoutUser(activity);
-        } else {
-            activity.showErrorDialog(activity);
-        }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
 

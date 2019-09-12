@@ -161,7 +161,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
     @Override
     public void onPostReplyFailure(String message, int errorCode) {
         progress.dismiss();
-        showErrorDialog(this);
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override

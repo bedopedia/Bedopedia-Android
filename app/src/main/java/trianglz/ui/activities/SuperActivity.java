@@ -18,20 +18,22 @@ import trianglz.managers.SessionManager;
 public class SuperActivity extends AppCompatActivity implements SuperPresenter {
     public ProgressDialog progress;
     private SuperView superView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        superView = new SuperView(this,this);
+        superView = new SuperView(this, this);
         progress = new ProgressDialog(this);
         progress.setCancelable(false);
     }
 
 
-    public void showLoadingDialog(){
+    public void showLoadingDialog() {
         progress.setTitle(R.string.LoadDialogueTitle);
         progress.setMessage(getString(R.string.LoadDialogueBody));
         progress.show();
     }
+
     public void logoutUser(Context context) {
         SessionManager.getInstance().logoutUser();
         openSchoolLoginActivity(context);
@@ -46,12 +48,15 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
     }
 
 
-
-
-    public static void showErrorDialog(Context context) {
+    public void showErrorDialog(Context context, int errorCode, String content) {
+        if (errorCode == 401 || errorCode == 500) {
+            content = context.getResources().getString(R.string.system_error);
+        } else if (errorCode != -3) {
+            content = context.getResources().getString(R.string.something_went_wrong);
+        }
         new MaterialDialog.Builder(context)
                 .title("Skolera")
-                .content(context.getResources().getString(R.string.system_error))
+                .content(content)
                 .titleColor(context.getResources().getColor(R.color.jade_green))
                 .neutralText(context.getResources().getString(R.string.ok))
                 .neutralColor(context.getResources().getColor(R.color.jade_green))
@@ -59,7 +64,9 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
                 .onNeutral(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(MaterialDialog dialog, DialogAction which) {
-
+                        if (errorCode == 401) {
+                            logoutUser(context);
+                        }
                     }
                 })
                 .show();
@@ -67,6 +74,6 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(LocalHelper.onAttach(base,"en"));
+        super.attachBaseContext(LocalHelper.onAttach(base, "en"));
     }
 }
