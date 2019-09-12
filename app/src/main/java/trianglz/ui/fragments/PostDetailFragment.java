@@ -102,7 +102,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16, activity), false));
-        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(36, activity), false));
+        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(66, activity), false));
     }
 
     private void setListeners() {
