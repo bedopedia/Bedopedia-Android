@@ -288,6 +288,7 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
             valid = true;
         } else if (first.after(second)) {
             valid = false;
+            activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.correct_dates));
         }
         return valid;
     }
@@ -383,7 +384,7 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
         if (fragmentCommunicationInterface != null) {
             fragmentCommunicationInterface.reloadEvents();
         }
-       getParentFragment().getChildFragmentManager().popBackStack();
+        getParentFragment().getChildFragmentManager().popBackStack();
     }
 
     @Override
@@ -391,6 +392,6 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, errorCode,"");
+        activity.showErrorDialog(activity, errorCode, "");
     }
 }

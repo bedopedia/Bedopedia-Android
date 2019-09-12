@@ -71,7 +71,7 @@
     <string name="email_address">البريد الإلكترونى</string>
     <string name="password">كلمه المرور</string>
     <string name="send">إرسال</string>
-    <string name="ok">تم</string>
+    <string name="ok">تأكيد</string>
     <string name="no_internet_connection">لا يوجد انترنت</string>
     <string name="all">الكل</string>
 
@@ -199,5 +199,6 @@
     <string name="assign_for_all">Assign for all</string>
     <string name="assign_for_selected">Assign for selected</string>
     <string name="something_went_wrong">حدث خطأ ما، برجاء المحاولة مرة اخرى</string>
+    <string name="correct_dates">برجاء إدخال تواريخ صحيحة</string>
 
 </resources>

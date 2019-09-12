@@ -573,15 +573,19 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void showHideToolBar(Fragment fragment) {
-        if (fragment.getChildFragmentManager() != null) {
-            if (fragment.getChildFragmentManager().getFragments().size() > 0) {
-                headerLayout.setVisibility(View.GONE);
-                toolbarView.setVisibility(View.GONE);
-            } else {
-                headerLayout.setVisibility(View.VISIBLE);
-                toolbarView.setVisibility(View.VISIBLE);
-            }
+        if (!fragment.isAdded()) {
+            return;
         }
+            if (fragment.getChildFragmentManager() != null) {
+                if (fragment.getChildFragmentManager().getFragments().size() > 0) {
+                    headerLayout.setVisibility(View.GONE);
+                    toolbarView.setVisibility(View.GONE);
+                } else {
+                    headerLayout.setVisibility(View.VISIBLE);
+                    toolbarView.setVisibility(View.VISIBLE);
+                }
+            }
+
     }
 
     private void returnToRootFragment(int tabNumber) {
@@ -594,7 +598,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         }
     }
 
-    private void notificationCheck(){
+    private void notificationCheck() {
         if (SessionManager.getInstance().getNotficiationCounter() > 0) {
             redCircleImageView.setVisibility(View.VISIBLE);
         } else {

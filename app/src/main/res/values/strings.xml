@@ -223,4 +223,5 @@
     <string name="assign_for_all">Assign for all</string>
     <string name="assign_for_selected">Assign for selected</string>
     <string name="something_went_wrong">Something went wrong, please try again</string>
+    <string name="correct_dates">Please enter correct dates</string>
 </resources>
