@@ -12,13 +12,8 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import agency.tango.android.avatarview.IImageLoader;
@@ -30,14 +25,14 @@ import trianglz.utils.Util;
 /**
  * Created by ${Aly} on 6/23/2019.
  */
-public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDetailAdapter.Holder>{
+public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDetailAdapter.Holder> {
     public Context context;
     public List<AssignmentsDetail> mDataList;
     private AssignmentDetailInterface anInterface;
     private String courseName = "";
 
 
-    public AssignmentDetailAdapter(Context context, AssignmentDetailInterface assignmentDetailInterface,String courseName) {
+    public AssignmentDetailAdapter(Context context, AssignmentDetailInterface assignmentDetailInterface, String courseName) {
         this.context = context;
         this.mDataList = new ArrayList<>();
         this.anInterface = assignmentDetailInterface;
@@ -59,36 +54,36 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
             holder.subjectNameTextView.setText(courseName);
         }
         if (assignmentsDetail.getEndAt() != null) {
-            holder.dateTextView.setText(Util.getPostDateAmPm(assignmentsDetail.getEndAt(),context));
+            holder.dateTextView.setText(Util.getPostDateAmPm(assignmentsDetail.getEndAt(), context));
         }
 
         if (assignmentsDetail.getEndAt() != null) {
             holder.dayTextView.setText(Util.getAssigmentDetailEndDateDay(assignmentsDetail.getEndAt()));
-            holder.monthTextView.setText(Util.getAssigmentDetailEndDateMonth(assignmentsDetail.getEndAt(),context));
+            holder.monthTextView.setText(Util.getAssigmentDetailEndDateMonth(assignmentsDetail.getEndAt(), context));
         }
         if (assignmentsDetail.getName() != null) {
             holder.assignmentNameTextView.setText(assignmentsDetail.getName());
         }
-        if(assignmentsDetail.getState() != null){
+        if (assignmentsDetail.getState() != null) {
             if (assignmentsDetail.getState().equals("running")) {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
             } else {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
             }
-        }else {
+        } else {
             holder.dateTextView.setVisibility(View.INVISIBLE);
         }
 
         String published = context.getString(R.string.published) + " " + Util.getPostDate(dateTime.toString(), context);
         holder.publishedTextView.setText(published);
-        if (assignmentsDetail.getDescription() != null || assignmentsDetail.getUploadedFilesCount() != 0) {
-            holder.cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    anInterface.onItemClicked(assignmentsDetail);
-                }
-            });
-        }
+        //  if (assignmentsDetail.getDescription() != null || assignmentsDetail.getUploadedFilesCount() != 0) {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                anInterface.onItemClicked(assignmentsDetail);
+            }
+        });
+        //  }
     }
 
     @Override

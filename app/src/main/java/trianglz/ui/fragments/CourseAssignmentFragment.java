@@ -156,7 +156,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, errorCode,"");
+        activity.showErrorDialog(activity, errorCode, "");
 
     }
 
@@ -173,7 +173,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, errorCode,"");
+        activity.showErrorDialog(activity, errorCode, "");
 
     }
 
@@ -182,7 +182,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
-                    courseAssignment.getId() + "/assignments";
+                    courseAssignment.getCourseId() + "/assignments/";
             courseAssignmentView.getAssinmentDetail(url, courseAssignment);
         } else {
             Util.showNoInternetConnectionDialog(activity);

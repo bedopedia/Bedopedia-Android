@@ -344,7 +344,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         activity.isCalling = true;
         this.courseGroups = courseGroups;
         totalGrade = getParentActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
-        studentGradeTextView.setVisibility(View.VISIBLE);
+      //  studentGradeTextView.setVisibility(View.VISIBLE);
         studentGradeTextView.setText(totalGrade);
         String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
         studentDetailView.getStudentTimeTable(timeTableUrl);
