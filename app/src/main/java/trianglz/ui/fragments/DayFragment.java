@@ -19,7 +19,6 @@ import trianglz.models.DailyNote;
 import trianglz.models.Day;
 import trianglz.models.Student;
 import trianglz.ui.activities.DailyNoteActivity;
-import trianglz.ui.activities.WeeklyPlannerActivity;
 import trianglz.ui.adapters.DayFragmentAdapter;
 import trianglz.utils.Constants;
 

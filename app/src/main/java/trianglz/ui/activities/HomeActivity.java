@@ -27,7 +27,6 @@ import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.HomePresenter;
 import trianglz.core.views.HomeView;
 import trianglz.managers.SessionManager;
-import trianglz.models.CourseAssignment;
 import trianglz.models.Student;
 import trianglz.ui.adapters.HomeAdapter;
 import trianglz.utils.Constants;
@@ -141,11 +140,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
     }
 
     private void openAssignmentDetailActivity(Student student){
-        Intent intent = new Intent(this, CourseAssignmentActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT, student);
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(intent);
+
     }
 
     private void openStudentDetailActivity(Student student, int position) {

@@ -19,97 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="trianglz.ui.activities.TeacherAttendanceActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name="trianglz.ui.activities.SolveQuizActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.CreateTeacherPostActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.GradingActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.SingleCourseGroupActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.CourseGroupsActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.SingleQuizActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.AssignmentActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.QuizzesDetailsActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.CreatePersonalEventActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name="trianglz.ui.activities.PostReplyActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="trianglz.ui.activities.OnlineQuizzesActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.AttachmentsActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.PostDetailActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.CalendarActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.PostsActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name="trianglz.ui.activities.StudentMainActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.CourseAssignmentActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="trianglz.ui.activities.AssignmentDetailActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -160,14 +76,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="trianglz.ui.activities.BehaviorNotesActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2" />
-        <activity
-            android:name="trianglz.ui.activities.TimetableActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2" />
-        <activity
             android:name=".MessageThreadActivity"
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
@@ -197,10 +105,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />
         <activity
-            android:name="trianglz.ui.activities.StudentDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2" />
-        <activity
             android:name="trianglz.ui.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2">
@@ -212,18 +116,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="trianglz.ui.activities.AttendanceActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2" />
-        <activity
-            android:name="trianglz.ui.activities.GradesActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2" />
-        <activity
-            android:name="trianglz.ui.activities.GradeDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2" />
-        <activity
             android:name="trianglz.ui.activities.ContactTeacherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />
@@ -233,18 +125,6 @@
             android:theme="@style/AppTheme_v2" />
         <activity
             android:name="trianglz.ui.activities.ChatActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2" />
-        <activity
-            android:name="trianglz.ui.activities.AnnouncementActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2" />
-        <activity
-            android:name="trianglz.ui.activities.AnnouncementDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2" />
-        <activity
-            android:name="trianglz.ui.activities.WeeklyPlannerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />
         <activity
