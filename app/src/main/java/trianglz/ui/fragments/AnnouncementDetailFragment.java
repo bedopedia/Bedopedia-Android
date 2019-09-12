@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +61,8 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
     }
 
     private void bindViews() {
+        activity.toolbarView.setVisibility(View.GONE);
+        activity.headerLayout.setVisibility(View.GONE);
         backBtn = rootView.findViewById(R.id.btn_back);
         headerTextView = rootView.findViewById(R.id.tv_header);
         announcementImageView = rootView.findViewById(R.id.img_annoucement);
@@ -73,20 +74,6 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
     }
 
 
-    private void onBackPress() {
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    getParentFragment().getChildFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
 
     private void setWeeklyNote() {
         headerTextView.setText(weeklyNote.getTitle());
@@ -129,6 +116,8 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_back:
+                activity.headerLayout.setVisibility(View.VISIBLE);
+                activity.toolbarView.setVisibility(View.VISIBLE);
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
         }

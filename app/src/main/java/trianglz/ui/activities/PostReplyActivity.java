@@ -56,6 +56,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
 
     private void setListeners() {
         rootView.setOnTouchListener(new HideKeyboardOnTouch(this));
+        recyclerView.setOnTouchListener(new HideKeyboardOnTouch(this));
         sendReplyButton.setOnClickListener(this);
     }
 

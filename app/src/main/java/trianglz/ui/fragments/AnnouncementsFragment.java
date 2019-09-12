@@ -1,9 +1,9 @@
 package trianglz.ui.fragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +21,6 @@ import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
 import trianglz.models.Announcement;
-import trianglz.ui.activities.AnnouncementDetailActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.AnnouncementAdapter;
 import trianglz.utils.Constants;
@@ -69,6 +68,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     }
 
     private void bindViews() {
+
         adapter = new AnnouncementAdapter(getActivity(), this);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
@@ -137,11 +137,19 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
 
 
     private void openAnnouncementDetailActivity(Announcement announcement) {
-        Intent intent = new Intent(getActivity(), AnnouncementDetailActivity.class);
+        AnnouncementDetailFragment announcementDetailFragment = new AnnouncementDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_ANNOUNCEMENTS, announcement);
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(intent);
+        announcementDetailFragment.setArguments(bundle);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.announcement_root, announcementDetailFragment).
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+//        Intent intent = new Intent(getActivity(), AnnouncementDetailActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(Constants.KEY_ANNOUNCEMENTS, announcement);
+//        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+//        startActivity(intent);
 
     }
 
@@ -159,9 +167,32 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     public void onBackPressed() {
         Boolean isStudent = SessionManager.getInstance().getStudentAccount();
         Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
-        if (isParent) {
+        if (isStudent) {
+            if (activity.pager.getCurrentItem() == 3) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        } else if (isParent) {
             if (activity.pager.getCurrentItem() == 0) {
                 getActivity().finish();
+                return;
+            }
+            getChildFragmentManager().popBackStack();
+            if (getChildFragmentManager().getFragments().size() == 1) {
+                activity.toolbarView.setVisibility(View.VISIBLE);
+                activity.headerLayout.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (activity.pager.getCurrentItem() == 1) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+
             }
         }
     }
