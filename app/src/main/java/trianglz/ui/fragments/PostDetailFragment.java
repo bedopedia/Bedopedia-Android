@@ -36,7 +36,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 08/09/2019.
  */
-public class PostDetailFragment extends Fragment implements FragmentCommunicationInterface,PostDetailsPresenter, View.OnClickListener, PostDetailsAdapter.PostDetailsInterface {
+public class PostDetailFragment extends Fragment implements FragmentCommunicationInterface, PostDetailsPresenter, View.OnClickListener, PostDetailsAdapter.PostDetailsInterface {
 
     private StudentMainActivity activity;
     private View rootView;
@@ -120,7 +120,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_post_btn:
-                  openCreatePostActivity();
+                openCreatePostActivity();
                 break;
         }
     }
@@ -149,10 +149,17 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
             bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
         bundle.putString(Constants.KEY_COURSE_NAME, courseName);
         attachmentsFragment.setArguments(bundle);
-        getParentFragment().getChildFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, attachmentsFragment, "MenuFragments").
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                addToBackStack(null).commit();
+        if (!SessionManager.getInstance().getUserType()) {
+            getParentFragment().getChildFragmentManager().
+                    beginTransaction().add(R.id.course_root, attachmentsFragment, "MenuFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+        } else {
+            getParentFragment().getChildFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, attachmentsFragment, "MenuFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+        }
     }
 
     @Override
@@ -173,7 +180,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
 
     private void openCreatePostActivity() {
         CreateTeacherPostFragment createTeacherPostFragment = CreateTeacherPostFragment.newInstance(this);
-        Bundle bundle= new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putInt(Constants.KEY_COURSE_GROUP_ID, courseGroupId);
         createTeacherPostFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().

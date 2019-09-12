@@ -37,6 +37,11 @@
         </service>
 
         <activity
+            android:name="trianglz.ui.AttachmentsActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name="login.schoolCode"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
