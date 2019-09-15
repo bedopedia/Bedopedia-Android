@@ -224,4 +224,6 @@
     <string name="assign_for_selected">Assign for selected</string>
     <string name="something_went_wrong">Something went wrong, please try again</string>
     <string name="correct_dates">Please enter correct dates</string>
+    <string name="remove_all_status">Remove all status</string>
+    <string name="assign_action_for_all">Assign action for all students</string>
 </resources>

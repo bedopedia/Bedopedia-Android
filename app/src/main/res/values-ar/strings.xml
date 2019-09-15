@@ -200,5 +200,7 @@
     <string name="assign_for_selected">Assign for selected</string>
     <string name="something_went_wrong">حدث خطأ ما، برجاء المحاولة مرة اخرى</string>
     <string name="correct_dates">برجاء إدخال تواريخ صحيحة</string>
+    <string name="remove_all_status">Remove all status</string>
+    <string name="assign_action_for_all">Assign action for all students</string>
 
 </resources>
