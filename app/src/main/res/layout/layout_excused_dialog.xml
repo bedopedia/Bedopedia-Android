@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/transparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:paddingTop="80dp"
+        android:background="@drawable/curved_solid_white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:text="@string/student_excused" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/steel"
+            android:layout_gravity="center"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="2dp"
+            android:textSize="14sp"
+            android:text="@string/write_reason" />
+
+        <EditText
+            android:id="@+id/excuse_reason_edit_text"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="104dp"
+            android:gravity="start"
+            android:background="@drawable/curved_cool_grey"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:imeOptions="actionDone"
+            android:inputType="textMultiLine"
+            android:maxHeight="104dp"
+            android:hint="@string/reason_hint" />
+
+        <Button
+            android:id="@+id/submit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="96dp"
+            android:layout_marginEnd="96dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/curved_solid_cerulean_blue"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerInside"
+        android:src="@drawable/blue_backgroung" />
+</FrameLayout>

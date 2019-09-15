@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import trianglz.components.ExcusedDialog;
 import trianglz.components.TakeAttendanceDialog;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TeacherAttendanceAdapter;
@@ -147,7 +148,8 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onExcusedClicked() {
-
+        ExcusedDialog excusedDialog = new ExcusedDialog(activity);
+        excusedDialog.show();
     }
 
     @Override
