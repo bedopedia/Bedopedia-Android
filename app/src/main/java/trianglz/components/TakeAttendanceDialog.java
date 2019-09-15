@@ -20,16 +20,18 @@ import com.skolera.skolera_android.R;
  */
 public class TakeAttendanceDialog extends BottomSheetDialog implements View.OnClickListener, DialogInterface.OnShowListener {
 
-    Context context;
-    Button cancelButton;
-    TextView actionTextView;
-    LinearLayout assignPresentLayout, assignAbsentLayout, assignLateLayout, removeAllStatusLayout;
+    private Context context;
+    private Button cancelButton;
+    private TextView actionTextView;
+    private Boolean isMultipleSelected;
+    private LinearLayout assignPresentLayout, assignAbsentLayout, assignLateLayout, removeAllStatusLayout;
 
-    public TakeAttendanceDialog(@NonNull Context context) {
+    public TakeAttendanceDialog(@NonNull Context context, Boolean isMultipleSelected) {
         super(context, R.style.AttendanceDialog);
         View view = getLayoutInflater().inflate(R.layout.layout_take_attendance, null);
         setContentView(view);
         this.context = context;
+        this.isMultipleSelected = isMultipleSelected;
     }
 
     @Override
@@ -50,6 +52,11 @@ public class TakeAttendanceDialog extends BottomSheetDialog implements View.OnCl
         removeAllStatusLayout = findViewById(R.id.remove_all_status);
         cancelButton = findViewById(R.id.cancel_attendance_dialog_btn);
         actionTextView = findViewById(R.id.dialog_action_tv);
+        if (isMultipleSelected) {
+            actionTextView.setText(context.getResources().getString(R.string.assign_action_for_selected));
+        } else {
+            actionTextView.setText(context.getResources().getString(R.string.assign_action_for_all));
+        }
     }
 
     private void setListeners() {
@@ -73,7 +80,7 @@ public class TakeAttendanceDialog extends BottomSheetDialog implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.assign_present_layout:
                 break;
             case R.id.assign_absent_layout:

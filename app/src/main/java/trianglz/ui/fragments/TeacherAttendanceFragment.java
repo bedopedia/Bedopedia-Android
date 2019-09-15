@@ -15,7 +15,10 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import trianglz.components.TakeAttendanceDialog;
 import trianglz.ui.activities.StudentMainActivity;
@@ -29,11 +32,12 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     private View rootView;
     private TextView todaysDate;
+    private Boolean isMultipleSelected;
     private ImageButton backButton;
     private RecyclerView recyclerView;
     private StudentMainActivity activity;
     private View fullDayView, perSlotView;
-    TakeAttendanceDialog takeAttendanceDialog;
+    private TakeAttendanceDialog takeAttendanceDialog;
     private TeacherAttendanceAdapter teacherAttendanceAdapter;
     private Button fullDayButton, perSlotButton, assignAllButton, assignSelectedButton;
 
@@ -58,6 +62,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         perSlotView = rootView.findViewById(R.id.per_slot_view);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         todaysDate = rootView.findViewById(R.id.todays_date);
+        todaysDate.setText(getCurrentDate());
         backButton = rootView.findViewById(R.id.btn_back);
         assignAllButton = rootView.findViewById(R.id.assign_all_btn);
         assignSelectedButton = rootView.findViewById(R.id.assign_selected_btn);
@@ -67,7 +72,6 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         recyclerView.setLayoutManager(linearLayoutManager);
         teacherAttendanceAdapter.addData(getFakeData());
         recyclerView.setAdapter(teacherAttendanceAdapter);
-        takeAttendanceDialog = new TakeAttendanceDialog(activity);
     }
 
     private void setListeners() {
@@ -101,6 +105,12 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         return stringArrayList;
     }
 
+    private String getCurrentDate() {
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("EEEE d MMM");
+        String formattedDate = df.format(c);
+        return formattedDate;
+    }
 
     @Override
     public void onClick(View v) {
@@ -115,6 +125,11 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
                 showPerSlotAttendance();
                 break;
             case R.id.assign_all_btn:
+                takeAttendanceDialog = new TakeAttendanceDialog(activity, false);
+                takeAttendanceDialog.show();
+                break;
+            case R.id.assign_selected_btn:
+                takeAttendanceDialog = new TakeAttendanceDialog(activity, true);
                 takeAttendanceDialog.show();
                 break;
         }
