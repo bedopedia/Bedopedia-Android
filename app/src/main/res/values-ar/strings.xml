@@ -206,5 +206,6 @@
     <string name="student_excused">The student was excused for this day</string>
     <string name="write_reason">Write down the reason</string>
     <string name="reason_hint">Tell more about the reason</string>
-    <string name="select_slot">Select slots</string>
+    <string name="select_slot">Select slot</string>
+    <string name="apply">Apply</string>
 </resources>
