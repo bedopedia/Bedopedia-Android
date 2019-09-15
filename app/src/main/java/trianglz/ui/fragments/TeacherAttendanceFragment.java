@@ -17,6 +17,7 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
+import trianglz.components.TakeAttendanceDialog;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TeacherAttendanceAdapter;
 
@@ -26,14 +27,15 @@ import trianglz.ui.adapters.TeacherAttendanceAdapter;
 public class TeacherAttendanceFragment extends Fragment implements View.OnClickListener, TeacherAttendanceAdapter.TeacherAttendanceAdapterInterface {
 
 
-    private StudentMainActivity activity;
     private View rootView;
-    private Button fullDayButton, perSlotButton, assignAllButton, assignSelectedButton;
     private TextView todaysDate;
-    private View fullDayView, perSlotView;
     private ImageButton backButton;
     private RecyclerView recyclerView;
+    private StudentMainActivity activity;
+    private View fullDayView, perSlotView;
+    TakeAttendanceDialog takeAttendanceDialog;
     private TeacherAttendanceAdapter teacherAttendanceAdapter;
+    private Button fullDayButton, perSlotButton, assignAllButton, assignSelectedButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         fullDayView = rootView.findViewById(R.id.full_day_view);
         perSlotView = rootView.findViewById(R.id.per_slot_view);
         recyclerView = rootView.findViewById(R.id.recycler_view);
+        todaysDate = rootView.findViewById(R.id.todays_date);
         backButton = rootView.findViewById(R.id.btn_back);
         assignAllButton = rootView.findViewById(R.id.assign_all_btn);
         assignSelectedButton = rootView.findViewById(R.id.assign_selected_btn);
@@ -64,6 +67,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         recyclerView.setLayoutManager(linearLayoutManager);
         teacherAttendanceAdapter.addData(getFakeData());
         recyclerView.setAdapter(teacherAttendanceAdapter);
+        takeAttendanceDialog = new TakeAttendanceDialog(activity);
     }
 
     private void setListeners() {
@@ -109,6 +113,9 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
                 break;
             case R.id.per_slot_btn:
                 showPerSlotAttendance();
+                break;
+            case R.id.assign_all_btn:
+                takeAttendanceDialog.show();
                 break;
         }
     }

@@ -226,4 +226,5 @@
     <string name="correct_dates">Please enter correct dates</string>
     <string name="remove_all_status">Remove all status</string>
     <string name="assign_action_for_all">Assign action for all students</string>
+    <string name="assign_action_for_selected">Assign action for selected students</string>
 </resources>
