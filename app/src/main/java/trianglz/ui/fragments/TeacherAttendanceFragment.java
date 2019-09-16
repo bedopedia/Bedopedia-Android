@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -96,6 +97,12 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         fullDayView.setVisibility(View.INVISIBLE);
         perSlotButton.setTextColor(getResources().getColor(R.color.cerulean_blue, null));
         fullDayButton.setTextColor(getResources().getColor(R.color.greyish, null));
+        PerSlotFragment perSlotFragment = new PerSlotFragment();
+        getParentFragment().getChildFragmentManager().
+                beginTransaction().add(R.id.course_root, perSlotFragment, "CoursesFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+
     }
 
     private ArrayList<String> getFakeData() {

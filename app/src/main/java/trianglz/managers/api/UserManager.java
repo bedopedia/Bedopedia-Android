@@ -94,8 +94,8 @@ public class UserManager {
 
     public static void getTeacherCourses(String teacherId, final ArrayResponseListener arrayResponseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getTeacherCourses(teacherId);
-        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
-        HashMap<String,String> paramsHashMap = new HashMap<>();
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String, String> paramsHashMap = new HashMap<>();
         NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -104,7 +104,7 @@ public class UserManager {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                arrayResponseListener.onFailure(message,errorCode);
+                arrayResponseListener.onFailure(message, errorCode);
             }
         });
     }
@@ -136,7 +136,7 @@ public class UserManager {
 
     }
 
-    public static void getPostDetails(int courseId,int page, final ResponseListener responseListener) {
+    public static void getPostDetails(int courseId, int page, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postsDetailsApi(courseId, page);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
@@ -424,7 +424,7 @@ public class UserManager {
 
     }
 
-    public static void showAssignment (String url, final ResponseListener responseListener) {
+    public static void showAssignment(String url, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
             @Override
@@ -450,7 +450,7 @@ public class UserManager {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                responseListener.onFailure(message,errorCode);
+                responseListener.onFailure(message, errorCode);
             }
         });
     }
@@ -461,7 +461,7 @@ public class UserManager {
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-            responseListener.onSuccess(response);
+                responseListener.onSuccess(response);
             }
 
             @Override
@@ -696,7 +696,7 @@ public class UserManager {
             eventAttributesJsonObject.put(Constants.KEY_DESCRIPTION, description);
             eventAttributesJsonObject.put(Constants.KEY_CANCEL, cancel);
 
-            eventJsonObject.put(Constants.KEY_EVENT,eventAttributesJsonObject);
+            eventJsonObject.put(Constants.KEY_EVENT, eventAttributesJsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -719,7 +719,7 @@ public class UserManager {
         String url = SessionManager.getInstance().getBaseUrl() +
                 ApiEndPoints.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
-        HashMap<String,String> paramsHashMap = new HashMap<>();
+        HashMap<String, String> paramsHashMap = new HashMap<>();
         NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -732,6 +732,7 @@ public class UserManager {
             }
         });
     }
+
     public static void postAssignmentGrade(GradeModel gradeModel, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() +
                 ApiEndPoints.postAssignmentGrade(gradeModel.getCourseId(),
@@ -757,6 +758,7 @@ public class UserManager {
             }
         });
     }
+
     public static void postQuizGrade(GradeModel gradeModel, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() +
                 ApiEndPoints.postQuizGrade(gradeModel.getCourseId(),
@@ -782,6 +784,7 @@ public class UserManager {
             }
         });
     }
+
     public static void postSubmissionFeedback(Feedback feedback, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postSubmissionFeedback();
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
@@ -811,18 +814,18 @@ public class UserManager {
         });
     }
 
-    public static void createTeacherPost(String url,String post,int ownerId,int courseGroupId,String postableType, final ResponseListener responseListener ){
+    public static void createTeacherPost(String url, String post, int ownerId, int courseGroupId, String postableType, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
-        JSONObject jsonObject= new JSONObject();
-        JSONObject postJsonObject= new JSONObject();
+        JSONObject jsonObject = new JSONObject();
+        JSONObject postJsonObject = new JSONObject();
         try {
-            postJsonObject.put(Constants.CONTENT,post);
-            postJsonObject.put(Constants.KEY_OWNER_ID,ownerId);
-            postJsonObject.put(Constants.KEY_POSTABLE_ID,courseGroupId);
-            postJsonObject.put(Constants.KEY_POSTABLE_TYPE,postableType);
-            postJsonObject.put(Constants.KEY_VIDEO_PREVIEW,"");
-            postJsonObject.put(Constants.KEY_VIDEO_URL,"");
-            jsonObject.put(Constants.KEY_POST,postJsonObject);
+            postJsonObject.put(Constants.CONTENT, post);
+            postJsonObject.put(Constants.KEY_OWNER_ID, ownerId);
+            postJsonObject.put(Constants.KEY_POSTABLE_ID, courseGroupId);
+            postJsonObject.put(Constants.KEY_POSTABLE_TYPE, postableType);
+            postJsonObject.put(Constants.KEY_VIDEO_PREVIEW, "");
+            postJsonObject.put(Constants.KEY_VIDEO_URL, "");
+            jsonObject.put(Constants.KEY_POST, postJsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -840,11 +843,11 @@ public class UserManager {
     }
 
 
-    public static void attachFileToTeacherPost(String url, int postId, File file,MultiPartResponseListener multiPartResponseListener){
+    public static void attachFileToTeacherPost(String url, int postId, File file, MultiPartResponseListener multiPartResponseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> multiPartHashmap = new HashMap<>();
-        multiPartHashmap.put(Constants.KEY_NAME,file.getName());
-        multiPartHashmap.put(Constants.KEY_POST_IDS,Integer.toString(postId));
+        multiPartHashmap.put(Constants.KEY_NAME, file.getName());
+        multiPartHashmap.put(Constants.KEY_POST_IDS, Integer.toString(postId));
         NetworkManager.upload(url, multiPartHashmap, file, headerHashMap, new HandleMultiPartResponseListener() {
             @Override
             public void onProgress(long uploaded, long total) {
@@ -858,9 +861,23 @@ public class UserManager {
 
             @Override
             public void onFailure(String s, int errorCode) {
-                multiPartResponseListener.onFailure(s,errorCode);
+                multiPartResponseListener.onFailure(s, errorCode);
             }
         });
     }
 
+    public static void getTeacherAttendance(String url, final ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
 }
