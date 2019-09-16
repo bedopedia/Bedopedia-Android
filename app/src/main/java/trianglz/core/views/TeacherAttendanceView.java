@@ -21,7 +21,7 @@ public class TeacherAttendanceView {
         this.teacherAttendancePresenter = teacherAttendancePresenter;
     }
 
-    public void getTeacherAttendance(String url) {
+    public void getFullDayTeacherAttendance(String url) {
         UserManager.getTeacherAttendance(url, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {

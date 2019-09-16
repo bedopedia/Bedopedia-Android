@@ -26,6 +26,7 @@ public class ApiEndPoints {
     public static String getAssignmentSubmissions(int courseId, int courseGroupId, int assignmentId) {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/assignments/" + assignmentId + "/submissions";
     }
+
     public static String postAssignmentGrade(int courseId, int courseGroupId, int assignmentId) {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/assignments/" + assignmentId + "/student_grade";
     }
@@ -67,9 +68,9 @@ public class ApiEndPoints {
         Uri.Builder builder = new Uri.Builder();
         builder.appendPath("api")
                 .appendPath("quizzes")
-                .appendPath(quizId+"")
+                .appendPath(quizId + "")
                 .appendPath("submissions")
-                .appendQueryParameter("course_group_id", courseGroupId+"");
+                .appendQueryParameter("course_group_id", courseGroupId + "");
         return builder.toString();
 
     }
@@ -132,14 +133,21 @@ public class ApiEndPoints {
     public static String getEvents(int userId, String type, String endDate, String startDate) {
         return "/api/events?by_subscriber%5Bsubscriber_id%5D=" + userId + "&by_subscriber%5Bsubscriber_type%5D=" + type + "&start_date_between%5Bend_date%5D=" + endDate + "&start_date_between%5Bstart_date%5D=" + startDate;
     }
-    public  static String createEvent(){
+
+    public static String createEvent() {
         return "/api/events";
 
     }
+
     public static String createPostCourseGroup() {
         return "/api/posts";
     }
-    public static String attachFiletoPost(){
+
+    public static String attachFiletoPost() {
         return "/api/posts/create_uploaded_file_for_posts";
+    }
+
+    public static String getFullDayAttendance(int courseGroupId,int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear) {
+        return "/api/course_groups/"+courseGroupId+"/attendances?by_period%5Bend_date%5D=" + endDay + "%2F" + endMonth + "%2F" + endYear + "&by_period%5Bstart_date%5D=" + startDay + "%2F" + startMonth + "%2F" + startYear;
     }
 }

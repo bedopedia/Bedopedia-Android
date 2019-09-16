@@ -18,13 +18,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.models.AttendanceStudent;
 
 
 /**
@@ -35,12 +35,12 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
     TeacherAttendanceAdapterInterface teacherAttendanceAdapterInterface;
     HashMap<Integer, Status> positionStatusHashMap;
     HashMap<Integer, Boolean> positionCheckStatusHashMap;
-    List<String> items;
+    ArrayList<AttendanceStudent> mDataList;
 
 
     public TeacherAttendanceAdapter(Context context, TeacherAttendanceAdapterInterface teacherAttendanceAdapterInterface) {
         this.context = context;
-        this.items = new ArrayList<>();
+        this.mDataList = new ArrayList<>();
         positionStatusHashMap = new HashMap<>();
         positionCheckStatusHashMap = new HashMap<>();
         this.teacherAttendanceAdapterInterface = teacherAttendanceAdapterInterface;
@@ -56,7 +56,7 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        setStudentImage("", holder, "Amanda Paul");
+        setStudentImage(mDataList.get(position).getAvatarUrl(), holder, mDataList.get(position).getName());
         holder.clearAllStatus();
         if (positionStatusHashMap.containsKey(position)) {
             Status status = positionStatusHashMap.get(position);
@@ -95,18 +95,17 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
             holder.checkAttendanceImageButton.setBackground(context.getResources().getDrawable(R.drawable.curved_cool_grey, null));
             holder.checkAttendanceImageButton.setImageResource(R.color.transparent);
         }
-
-
+        holder.studentName.setText(mDataList.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return mDataList.size();
     }
 
-    public void addData(ArrayList<String> data) {
-        items.clear();
-        items.addAll(data);
+    public void addData(ArrayList<AttendanceStudent> data) {
+        mDataList.clear();
+        mDataList.addAll(data);
         for (int i = 0; i < data.size(); i++) {
             positionCheckStatusHashMap.put(i, false);
         }
@@ -166,9 +165,9 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
                     } else {
                         positionCheckStatusHashMap.put(getAdapterPosition(), false);
                     }
-                    if(positionCheckStatusHashMap.containsValue(true)){
+                    if (positionCheckStatusHashMap.containsValue(true)) {
                         teacherAttendanceAdapterInterface.onCheckClicked(true);
-                    }else{
+                    } else {
                         teacherAttendanceAdapterInterface.onCheckClicked(false);
                     }
 

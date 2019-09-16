@@ -17,27 +17,34 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import trianglz.components.ExcusedDialog;
 import trianglz.components.TakeAttendanceDialog;
+import trianglz.core.presenters.TeacherAttendancePresenter;
+import trianglz.core.views.TeacherAttendanceView;
+import trianglz.managers.SessionManager;
+import trianglz.managers.api.ApiEndPoints;
+import trianglz.models.Attendance;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TeacherAttendanceAdapter;
+import trianglz.utils.Constants;
 
 /**
  * Created by Farah A. Moniem on 09/09/2019.
  */
-public class TeacherAttendanceFragment extends Fragment implements View.OnClickListener, TeacherAttendanceAdapter.TeacherAttendanceAdapterInterface {
+public class TeacherAttendanceFragment extends Fragment implements View.OnClickListener, TeacherAttendanceAdapter.TeacherAttendanceAdapterInterface, TeacherAttendancePresenter {
 
 
     private View rootView;
+    private int courseGroupId;
     private TextView todaysDate;
     private Boolean isMultipleSelected;
     private ImageButton backButton;
     private RecyclerView recyclerView;
     private StudentMainActivity activity;
+    private TeacherAttendanceView teacherAttendanceView;
     private View fullDayView, perSlotView;
     private TakeAttendanceDialog takeAttendanceDialog;
     private TeacherAttendanceAdapter teacherAttendanceAdapter;
@@ -53,10 +60,17 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getValuesFromIntent();
         bindViews();
         setListeners();
     }
 
+    private void getValuesFromIntent() {
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            courseGroupId = bundle.getInt(Constants.KEY_COURSE_GROUP_ID, 0);
+        }
+    }
     private void bindViews() {
         fullDayButton = rootView.findViewById(R.id.full_day_btn);
         perSlotButton = rootView.findViewById(R.id.per_slot_btn);
@@ -72,8 +86,9 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         teacherAttendanceAdapter = new TeacherAttendanceAdapter(activity, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(linearLayoutManager);
-        teacherAttendanceAdapter.addData(getFakeData());
         recyclerView.setAdapter(teacherAttendanceAdapter);
+        teacherAttendanceView = new TeacherAttendanceView(activity,this);
+        getFullDayAttendance();
     }
 
     private void setListeners() {
@@ -105,12 +120,16 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     }
 
-    private ArrayList<String> getFakeData() {
-        ArrayList<String> stringArrayList = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            stringArrayList.add("Test " + i);
-        }
-        return stringArrayList;
+    private void getFullDayAttendance() {
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+        String url= SessionManager.getInstance().getBaseUrl()+ ApiEndPoints.getFullDayAttendance(courseGroupId,day,month,year,day,month,year);
+        teacherAttendanceView.getFullDayTeacherAttendance(url);
+        activity.showLoadingDialog();
     }
 
     private String getCurrentDate() {
@@ -173,6 +192,18 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             assignAllButton.setVisibility(View.VISIBLE);
             assignSelectedButton.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onGetTeacherAttendanceSuccess(Attendance attendance) {
+        if(activity.progress.isShowing())
+            activity.progress.dismiss();
+        teacherAttendanceAdapter.addData(attendance.getStudents());
+    }
+
+    @Override
+    public void onGetTeacherAttendanceFailure(String message, int code) {
+        activity.showErrorDialog(activity,code,"");
     }
 }
 

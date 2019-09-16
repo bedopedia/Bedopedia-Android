@@ -7,26 +7,28 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Attendance {
 
     @SerializedName("attendances")
-    private Attendances[] attendances;
+    private ArrayList<Attendances> attendances;
     @SerializedName("students")
-    private AttendanceStudent[] students;
+    private ArrayList<AttendanceStudent> students;
 
-    public void setAttendances(Attendances[] attendances) {
+    public void setAttendances(ArrayList<Attendances> attendances) {
         this.attendances = attendances;
     }
 
-    public Attendances[] getAttendances() {
+    public ArrayList<Attendances> getAttendances() {
         return this.attendances;
     }
 
-    public void setStudents(AttendanceStudent[] students) {
+    public void setStudents(ArrayList<AttendanceStudent> students) {
         this.students = students;
     }
 
-    public AttendanceStudent[] getStudents() {
+    public ArrayList<AttendanceStudent> getStudents() {
         return this.students;
     }
 

@@ -123,6 +123,9 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
 
     private void openTeacherAttendanceActivity() {
         TeacherAttendanceFragment teacherAttendanceFragment = new TeacherAttendanceFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.KEY_COURSE_GROUP_ID, courseGroup.getId());
+        teacherAttendanceFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.course_root, teacherAttendanceFragment, "CoursesFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
