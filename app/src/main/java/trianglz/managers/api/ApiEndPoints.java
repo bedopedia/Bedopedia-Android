@@ -150,4 +150,7 @@ public class ApiEndPoints {
     public static String getFullDayAttendance(int courseGroupId,int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear) {
         return "/api/course_groups/"+courseGroupId+"/attendances?by_period%5Bend_date%5D=" + endDay + "%2F" + endMonth + "%2F" + endYear + "&by_period%5Bstart_date%5D=" + startDay + "%2F" + startMonth + "%2F" + startYear;
     }
+    public static String getPerSlotAttendance(int courseGroupId,int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear) {
+        return "/api/course_groups/"+courseGroupId+"/attendances?by_slots%5Bend_date%5D=" + endDay + "%2F" + endMonth + "%2F" + endYear + "&by_period%5Bstart_date%5D=" + startDay + "%2F" + startMonth + "%2F" + startYear;
+    }
 }

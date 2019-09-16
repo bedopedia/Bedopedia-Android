@@ -14,13 +14,15 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
+import trianglz.models.AttendanceTimetableSlot;
+
 /**
  * Created by Farah A. Moniem on 15/09/2019.
  */
 public class PerSlotAdapter extends RecyclerView.Adapter<PerSlotAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList mDataList;
+    private ArrayList<AttendanceTimetableSlot> mDataList;
     private int selectedPosition = -1;
     private SlotAdapterInterface slotAdapterInterface;
 
@@ -52,6 +54,7 @@ public class PerSlotAdapter extends RecyclerView.Adapter<PerSlotAdapter.ViewHold
             viewHolder.slotSelectedImageView.setVisibility(View.GONE);
             viewHolder.slotDeselectedImageView.setVisibility(View.VISIBLE);
         }
+        viewHolder.slotNameTextView.setText(context.getResources().getString(R.string.slot) + " " + mDataList.get(position).getSlotNo());
     }
 
     @Override
@@ -59,7 +62,7 @@ public class PerSlotAdapter extends RecyclerView.Adapter<PerSlotAdapter.ViewHold
         return mDataList.size();
     }
 
-    public void addData(ArrayList<String> list) {
+    public void addData(ArrayList<AttendanceTimetableSlot> list) {
         this.mDataList.clear();
         this.mDataList.addAll(list);
         notifyDataSetChanged();

@@ -16,13 +16,15 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
+import trianglz.models.AttendanceTimetableSlot;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.PerSlotAdapter;
+import trianglz.utils.Constants;
 
 /**
  * Created by Farah A. Moniem on 15/09/2019.
  */
-public class PerSlotFragment extends Fragment implements View.OnClickListener , PerSlotAdapter.SlotAdapterInterface {
+public class PerSlotFragment extends Fragment implements View.OnClickListener, PerSlotAdapter.SlotAdapterInterface {
 
     StudentMainActivity activity;
     View rootView;
@@ -30,6 +32,7 @@ public class PerSlotFragment extends Fragment implements View.OnClickListener , 
     Button applyButton;
     ImageButton closeButton;
     PerSlotAdapter adapter;
+    ArrayList<AttendanceTimetableSlot> attendanceTimetableSlots;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,18 +44,26 @@ public class PerSlotFragment extends Fragment implements View.OnClickListener , 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getValuesFromIntent();
         bindViews();
         setListeners();
+    }
+
+    private void getValuesFromIntent() {
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            attendanceTimetableSlots = (ArrayList<AttendanceTimetableSlot>) bundle.getSerializable(Constants.TIMETABLE_SLOTS);
+        }
     }
 
     private void bindViews() {
         recyclerView = rootView.findViewById(R.id.recycler_view);
         applyButton = rootView.findViewById(R.id.apply_btn);
         closeButton = rootView.findViewById(R.id.close_btn);
-        adapter = new PerSlotAdapter(activity,this);
+        adapter = new PerSlotAdapter(activity, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter.addData(getFakeData());
+        adapter.addData(attendanceTimetableSlots);
         recyclerView.setAdapter(adapter);
     }
 
@@ -61,13 +72,6 @@ public class PerSlotFragment extends Fragment implements View.OnClickListener , 
         closeButton.setOnClickListener(this);
     }
 
-    private ArrayList<String> getFakeData() {
-        ArrayList<String> stringArrayList = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            stringArrayList.add("Slot " + i);
-        }
-        return stringArrayList;
-    }
 
     @Override
     public void onClick(View view) {

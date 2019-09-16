@@ -221,6 +221,7 @@ public class Constants {
     public static final String KEY_POST = "post";
     public static final int PICKFILE_RESULT_CODE = 1;
     public static final String KEY_POST_IDS = "post_ids[]";
+    public static final String TIMETABLE_SLOTS = "timetable_slot";
 
 }
 

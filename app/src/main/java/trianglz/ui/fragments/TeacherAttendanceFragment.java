@@ -38,7 +38,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
 
     private View rootView;
-    private int courseGroupId;
+    private int courseGroupId, day, month, year;
     private TextView todaysDate;
     private Boolean isMultipleSelected;
     private ImageButton backButton;
@@ -71,6 +71,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             courseGroupId = bundle.getInt(Constants.KEY_COURSE_GROUP_ID, 0);
         }
     }
+
     private void bindViews() {
         fullDayButton = rootView.findViewById(R.id.full_day_btn);
         perSlotButton = rootView.findViewById(R.id.per_slot_btn);
@@ -87,7 +88,8 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(teacherAttendanceAdapter);
-        teacherAttendanceView = new TeacherAttendanceView(activity,this);
+        teacherAttendanceView = new TeacherAttendanceView(activity, this);
+        getDateInNumbers();
         getFullDayAttendance();
     }
 
@@ -108,28 +110,24 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     }
 
     private void showPerSlotAttendance() {
-        perSlotView.setVisibility(View.VISIBLE);
-        fullDayView.setVisibility(View.INVISIBLE);
-        perSlotButton.setTextColor(getResources().getColor(R.color.cerulean_blue, null));
-        fullDayButton.setTextColor(getResources().getColor(R.color.greyish, null));
-        PerSlotFragment perSlotFragment = new PerSlotFragment();
-        getParentFragment().getChildFragmentManager().
-                beginTransaction().add(R.id.course_root, perSlotFragment, "CoursesFragments").
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                addToBackStack(null).commit();
-
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getPerSlotAttendance(courseGroupId, day, month, year, day, month, year);
+        teacherAttendanceView.getFullDayTeacherAttendance(url);
+        activity.showLoadingDialog();
     }
 
     private void getFullDayAttendance() {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getFullDayAttendance(courseGroupId, day, month, year, day, month, year);
+        teacherAttendanceView.getFullDayTeacherAttendance(url);
+        activity.showLoadingDialog();
+    }
+
+    private void getDateInNumbers() {
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int month = cal.get(Calendar.MONTH);
-        int year = cal.get(Calendar.YEAR);
-        String url= SessionManager.getInstance().getBaseUrl()+ ApiEndPoints.getFullDayAttendance(courseGroupId,day,month,year,day,month,year);
-        teacherAttendanceView.getFullDayTeacherAttendance(url);
-        activity.showLoadingDialog();
+        day = cal.get(Calendar.DAY_OF_MONTH);
+        month = cal.get(Calendar.MONTH);
+        year = cal.get(Calendar.YEAR);
     }
 
     private String getCurrentDate() {
@@ -196,14 +194,31 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onGetTeacherAttendanceSuccess(Attendance attendance) {
-        if(activity.progress.isShowing())
-            activity.progress.dismiss();
-        teacherAttendanceAdapter.addData(attendance.getStudents());
+        if (attendance.getTimetableSlots() == null) {
+            if (activity.progress.isShowing())
+                activity.progress.dismiss();
+            teacherAttendanceAdapter.addData(attendance.getStudents());
+        }else{
+            if (activity.progress.isShowing())
+                activity.progress.dismiss();
+            perSlotView.setVisibility(View.VISIBLE);
+            fullDayView.setVisibility(View.INVISIBLE);
+            perSlotButton.setTextColor(getResources().getColor(R.color.cerulean_blue, null));
+            fullDayButton.setTextColor(getResources().getColor(R.color.greyish, null));
+            PerSlotFragment perSlotFragment = new PerSlotFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constants.TIMETABLE_SLOTS,attendance.getTimetableSlots());
+            perSlotFragment.setArguments(bundle);
+            getParentFragment().getChildFragmentManager().
+                    beginTransaction().add(R.id.course_root, perSlotFragment, "CoursesFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+        }
     }
 
     @Override
     public void onGetTeacherAttendanceFailure(String message, int code) {
-        activity.showErrorDialog(activity,code,"");
+        activity.showErrorDialog(activity, code, "");
     }
 }
 

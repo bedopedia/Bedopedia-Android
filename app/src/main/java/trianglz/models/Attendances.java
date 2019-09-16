@@ -3,16 +3,19 @@ package trianglz.models;
 /**
  * Created by Farah A. Moniem on 16/09/2019.
  */
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
-public class Attendances {
+import java.io.Serializable;
+
+public class Attendances implements Serializable {
 
     @SerializedName("id")
     private int id;
     @SerializedName("date")
-    private int date;
+    private long date;
     @SerializedName("comment")
     private String comment;
     @SerializedName("status")
@@ -32,11 +35,11 @@ public class Attendances {
         return this.id;
     }
 
-    public void setDate(int date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
-    public int getDate() {
+    public long getDate() {
         return this.date;
     }
 

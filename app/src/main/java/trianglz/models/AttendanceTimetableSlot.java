@@ -4,12 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Farah A. Moniem on 16/09/2019.
  */
-public class AttendanceTimetableSlot {
+public class AttendanceTimetableSlot implements Serializable {
 
     @SerializedName("id")
     private int id;
@@ -38,7 +39,7 @@ public class AttendanceTimetableSlot {
     @SerializedName("course_id")
     private int courseId;
     @SerializedName("level")
-    private ArrayList<Level> level;
+    private TimetableSlotLevel level;
 
     public void setId(int id) {
         this.id = id;
@@ -145,11 +146,11 @@ public class AttendanceTimetableSlot {
         return this.courseId;
     }
 
-    public void setLevel(ArrayList<Level> level) {
+    public void setLevel(TimetableSlotLevel level) {
         this.level = level;
     }
 
-    public ArrayList<Level> getLevel() {
+    public TimetableSlotLevel getLevel() {
         return this.level;
     }
 

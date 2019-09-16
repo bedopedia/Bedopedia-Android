@@ -208,4 +208,5 @@
     <string name="reason_hint">Tell more about the reason</string>
     <string name="select_slot">Select slot</string>
     <string name="apply">Apply</string>
+    <string name="slot">Slot</string>
 </resources>
