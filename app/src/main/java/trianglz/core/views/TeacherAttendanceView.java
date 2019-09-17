@@ -35,4 +35,18 @@ public class TeacherAttendanceView {
             }
         });
     }
+
+    public void createBatchAttendance(String url, String date, String comment, String status, int studentId, int timetableSlotId){
+        UserManager.createBatchAttendance(url, date, comment, status, studentId, timetableSlotId, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                teacherAttendancePresenter.onBatchAttendanceCreatedSuccess();
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                teacherAttendancePresenter.onBatchAttendanceCreatedFailure(message, errorCode);
+            }
+        });
+    }
 }

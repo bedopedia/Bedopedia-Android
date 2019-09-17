@@ -9,4 +9,6 @@ import trianglz.models.Attendance;
 public interface TeacherAttendancePresenter {
     void onGetTeacherAttendanceSuccess(Attendance attendance);
     void onGetTeacherAttendanceFailure(String message,int code);
+    void onBatchAttendanceCreatedSuccess();
+    void onBatchAttendanceCreatedFailure(String message,int code);
 }

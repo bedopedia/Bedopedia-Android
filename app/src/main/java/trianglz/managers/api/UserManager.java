@@ -880,4 +880,37 @@ public class UserManager {
             }
         });
     }
+
+    public static void createBatchAttendance(String url, String date, String comment, String status, int studentId, int timetableSlotId, final ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject rootJsonObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
+        JSONObject attendanceJson = new JSONObject();
+        JSONArray attendancesJsonArray = new JSONArray();
+        try {
+            attendanceJson.put(Constants.KEY_DATE, date);
+            attendanceJson.put(Constants.KEY_COMMENT, comment);
+            attendanceJson.put(Constants.KEY_STATUS, status);
+            attendanceJson.put(Constants.KEY_STUDENT_ID, studentId);
+            attendanceJson.put(Constants.TIMETABLE_SLOTS_ID, timetableSlotId);
+
+            attendancesJsonArray.put(attendanceJson);
+            jsonObject.put(Constants.KEY_ATTENDANCES, attendancesJsonArray);
+            rootJsonObject.put(Constants.KEY_ATTENDANCE, jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        NetworkManager.post(url, jsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+
+            }
+        });
+    }
 }

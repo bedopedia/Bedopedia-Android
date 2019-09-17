@@ -222,6 +222,8 @@ public class Constants {
     public static final int PICKFILE_RESULT_CODE = 1;
     public static final String KEY_POST_IDS = "post_ids[]";
     public static final String TIMETABLE_SLOTS = "timetable_slot";
+    public static final String TIMETABLE_SLOTS_ID ="timetable_slot_id";
+    public static final String KEY_ATTENDANCES = "attendances";
 
 }
 
