@@ -74,20 +74,18 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
                     holder.lateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_light_tan_two, null));
                     holder.lateButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.late_icon, null), null, null, null);
                     holder.lateButton.setTextColor(context.getResources().getColor(R.color.electric_violet, null));
-                    //  teacherAttendanceAdapterInterface.onLateClicked(mDataList.get(position));
                     break;
                 case ABSENT:
                     holder.absentButton.setBackground(context.getResources().getDrawable(R.drawable.curved_very_light_pink, null));
                     holder.absentButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.absent_icon, null), null, null, null);
                     holder.absentButton.setTextColor(context.getResources().getColor(R.color.salmon, null));
-                    //   teacherAttendanceAdapterInterface.onAbsentClicked(mDataList.get(position));
                     break;
                 case EXCUSED:
                     holder.excusedButton.setBackground(context.getResources().getDrawable(R.drawable.curved_powder_blue, null));
                     holder.excusedButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.excused_icon, null), null, null, null);
                     holder.excusedButton.setTextColor(context.getResources().getColor(R.color.cerulean_blue, null));
-                    //   teacherAttendanceAdapterInterface.onExcusedClicked(mDataList.get(position));
                     break;
+
             }
         }
         if (positionCheckStatusHashMap.containsKey(position)) {
@@ -114,18 +112,24 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
             for (int i = 0; i < data.size(); i++) {
                 for (int k = 0; k < attendances.size(); k++) {
                     if (data.get(i).getChildId() == attendances.get(k).getStudentId()) {
-                        if (attendances.get(k).getStatus().equals(Constants.TYPE_ABSENT)) {
-                            positionStatusHashMap.put(i, Status.ABSENT);
-                        } else if (attendances.get(k).getStatus().equals(Constants.TYPE_LATE)) {
-                            positionStatusHashMap.put(i, Status.LATE);
-                        } else if (attendances.get(k).getStatus().equals(Constants.TYPE_PRESENT)) {
-                            positionStatusHashMap.put(i, Status.PRESENT);
-                        } else if (attendances.get(k).getStatus().equals(Constants.TYPE_EXCUSED)) {
-                            positionStatusHashMap.put(i, Status.EXCUSED);
-                        } else {
-                            positionStatusHashMap.put(i, null);
+                        switch (attendances.get(k).getStatus()) {
+                            case Constants.TYPE_ABSENT:
+                                positionStatusHashMap.put(i, Status.ABSENT);
+                                break;
+                            case Constants.TYPE_LATE:
+                                positionStatusHashMap.put(i, Status.LATE);
+                                break;
+                            case Constants.TYPE_PRESENT:
+                                positionStatusHashMap.put(i, Status.PRESENT);
+                                break;
+                            case Constants.TYPE_EXCUSED:
+                                positionStatusHashMap.put(i, Status.EXCUSED);
+                                break;
                         }
                     }
+                }
+                if (!positionStatusHashMap.containsKey(i)) {
+                    positionStatusHashMap.put(i, Status.NOATTENDANCE);
                 }
             }
         }
@@ -256,7 +260,7 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
     }
 
     public enum Status {
-        PRESENT, LATE, ABSENT, EXCUSED
+        PRESENT, LATE, ABSENT, EXCUSED, NOATTENDANCE
     }
 
 

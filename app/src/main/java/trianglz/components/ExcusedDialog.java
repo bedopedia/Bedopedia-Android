@@ -13,6 +13,8 @@ import android.widget.EditText;
 
 import com.skolera.skolera_android.R;
 
+import trianglz.ui.adapters.TeacherAttendanceAdapter;
+
 /**
  * Created by Farah A. Moniem on 15/09/2019.
  */
@@ -20,14 +22,20 @@ public class ExcusedDialog extends Dialog implements DialogInterface.OnShowListe
 
     private EditText excuseEditText;
     private Button submitButton;
+    private ExcusedDialogInterface excusedDialogInterface;
     private Context context;
+    private int studentId;
+    private TeacherAttendanceAdapter.Status status;
 
 
-    public ExcusedDialog(@NonNull Context context) {
+    public ExcusedDialog(@NonNull Context context, ExcusedDialogInterface excusedDialogInterface, int studentId, TeacherAttendanceAdapter.Status status) {
         super(context, R.style.GradeDialog);
         View view = getLayoutInflater().inflate(R.layout.layout_excused_dialog, null);
         setContentView(view);
-        this.context=context;
+        this.context = context;
+        this.excusedDialogInterface = excusedDialogInterface;
+        this.studentId = studentId;
+        this.status = status;
     }
 
     @Override
@@ -71,8 +79,8 @@ public class ExcusedDialog extends Dialog implements DialogInterface.OnShowListe
     public void onClick(View v) {
         if (v.getId() == R.id.submit_btn) {
             if (validate(excuseEditText.getText().toString())) {
-
-
+                excusedDialogInterface.onApplyClicked(excuseEditText.getText().toString(), studentId, status);
+                dismiss();
             } else {
                 excuseEditText.setBackgroundResource(R.drawable.curved_tomato);
             }
@@ -92,5 +100,9 @@ public class ExcusedDialog extends Dialog implements DialogInterface.OnShowListe
             valid = false;
         }
         return valid;
+    }
+
+    public interface ExcusedDialogInterface {
+        void onApplyClicked(String comment, int studentId, TeacherAttendanceAdapter.Status status);
     }
 }

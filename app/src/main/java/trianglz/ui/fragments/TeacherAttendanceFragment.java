@@ -32,10 +32,12 @@ import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TeacherAttendanceAdapter;
 import trianglz.utils.Constants;
 
+import static trianglz.ui.adapters.TeacherAttendanceAdapter.Status.NOATTENDANCE;
+
 /**
  * Created by Farah A. Moniem on 09/09/2019.
  */
-public class TeacherAttendanceFragment extends Fragment implements View.OnClickListener, TeacherAttendanceAdapter.TeacherAttendanceAdapterInterface, TeacherAttendancePresenter {
+public class TeacherAttendanceFragment extends Fragment implements View.OnClickListener, TeacherAttendanceAdapter.TeacherAttendanceAdapterInterface, TeacherAttendancePresenter, ExcusedDialog.ExcusedDialogInterface {
 
 
     private View rootView;
@@ -163,7 +165,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onAbsentClicked(AttendanceStudent attendanceStudent, TeacherAttendanceAdapter.Status status) {
-        if (status == null) {
+        if (status == NOATTENDANCE) {
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
             String date = day + "-" + month + "-" + year;
             activity.showLoadingDialog();
@@ -173,7 +175,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onPresentClicked(AttendanceStudent attendanceStudent, TeacherAttendanceAdapter.Status status) {
-        if (status == null) {
+        if (status == NOATTENDANCE) {
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
             String date = day + "-" + month + "-" + year;
             activity.showLoadingDialog();
@@ -183,13 +185,15 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onExcusedClicked(AttendanceStudent attendanceStudent, TeacherAttendanceAdapter.Status status) {
-            ExcusedDialog excusedDialog = new ExcusedDialog(activity);
+        if (status == NOATTENDANCE) {
+            ExcusedDialog excusedDialog = new ExcusedDialog(activity, this, attendanceStudent.getChildId(),status);
             excusedDialog.show();
+        }
     }
 
     @Override
     public void onLateClicked(AttendanceStudent attendanceStudent, TeacherAttendanceAdapter.Status status) {
-        if (status == null) {
+        if (status == NOATTENDANCE) {
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
             String date = day + "-" + month + "-" + year;
             activity.showLoadingDialog();
@@ -210,6 +214,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onGetTeacherAttendanceSuccess(Attendance attendance) {
+        //todo
         if (attendance.getTimetableSlots() == null) {
             if (activity.progress.isShowing())
                 activity.progress.dismiss();
@@ -242,7 +247,6 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         if (activity.progress.isShowing())
             activity.progress.dismiss();
         getFullDayAttendance();
-        getFullDayAttendance();
     }
 
     @Override
@@ -250,6 +254,14 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         if (activity.progress.isShowing())
             activity.progress.dismiss();
         activity.showErrorDialog(activity, code, "");
+    }
+
+    @Override
+    public void onApplyClicked(String comment, int studentId,TeacherAttendanceAdapter.Status status) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
+        String date = day + "-" + month + "-" + year;
+        activity.showLoadingDialog();
+        teacherAttendanceView.createBatchAttendance(url, date, comment, Constants.TYPE_EXCUSED, studentId);
     }
 }
 
