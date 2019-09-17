@@ -187,7 +187,6 @@ public class GradeDetailView {
             String name = jsonObject.optString(Constants.KEY_NAME);
             boolean publish = jsonObject.optBoolean(Constants.KEY_PUBLISH);
             String startDate = jsonObject.optString(Constants.KEY_START_DATE);
-            int weight = jsonObject.optInt(Constants.KEY_WEIGHT);
             JSONArray subGradingArray = jsonObject.optJSONArray(Constants.KEY_SUB_GRADING_ATTRIBUTES);
             ArrayList<CourseGradingPeriods> subGradingPeriodsArrayList = new ArrayList<>();
             for(int j = 0; j<subGradingArray.length(); j++){
@@ -198,9 +197,8 @@ public class GradeDetailView {
                 String subName = subGradeObject.optString(Constants.KEY_NAME);
                 boolean subPublish = subGradeObject.optBoolean(Constants.KEY_PUBLISH);
                 String subStartDate = subGradeObject.optString(Constants.KEY_START_DATE);
-                int subWeight = subGradeObject.optInt(Constants.KEY_WEIGHT);
                 subCourseGradingPeriods = new CourseGradingPeriods(subEndDate,
-                        subID,subLock,subName,subPublish,subStartDate,null,subWeight,true,false);
+                        subID,subLock,subName,subPublish,subStartDate,null,true,false);
                 subCourseGradingPeriods.parentStartDate = startDate;
                 subCourseGradingPeriods.parentEndDate = endDate;
                 subGradingPeriodsArrayList.add(subCourseGradingPeriods);
@@ -208,11 +206,11 @@ public class GradeDetailView {
             if(subGradingPeriodsArrayList.size()>0){
                 gradingPeriodsArrayList.add(new CourseGradingPeriods(endDate+"",id,lock,
                         name,publish,startDate,subGradingPeriodsArrayList,
-                        weight,false,true));
+                        false,true));
             }else {
                 gradingPeriodsArrayList.add(new CourseGradingPeriods(endDate+"",id,lock,
                         name,publish,startDate,subGradingPeriodsArrayList,
-                        weight,false,false));
+                        false,false));
             }
 
         }

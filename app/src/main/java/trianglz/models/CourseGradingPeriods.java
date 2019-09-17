@@ -13,7 +13,6 @@ public class CourseGradingPeriods {
     public boolean publish;
     public String startDate;
     public ArrayList<CourseGradingPeriods> subGradingPeriodsAttributes;
-    public int weight;
     public boolean isChild;
     public boolean isParent;
 
@@ -21,8 +20,8 @@ public class CourseGradingPeriods {
     public  String parentEndDate = "";
 
     public CourseGradingPeriods(String endDate, int id, boolean lock, String name, boolean publish,
-                                String startDate, ArrayList<CourseGradingPeriods> subGradingPeriodsAttributes,
-                                int weight, boolean isChild, boolean isParent) {
+                                String startDate, ArrayList<CourseGradingPeriods> subGradingPeriodsAttributes
+                                , boolean isChild, boolean isParent) {
         this.endDate = endDate;
         this.id = id;
         this.lock = lock;
@@ -30,7 +29,6 @@ public class CourseGradingPeriods {
         this.publish = publish;
         this.startDate = startDate;
         this.subGradingPeriodsAttributes = subGradingPeriodsAttributes;
-        this.weight = weight;
         this.isChild = isChild;
         this.isParent = isParent;
     }
