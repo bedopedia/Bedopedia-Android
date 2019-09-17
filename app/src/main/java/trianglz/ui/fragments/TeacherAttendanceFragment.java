@@ -162,34 +162,39 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public void onAbsentClicked(AttendanceStudent attendanceStudent) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
-        String date = day + "-" + month + "-" + year;
-        activity.showLoadingDialog();
-        teacherAttendanceView.createBatchAttendance(url, date, "", Constants.TYPE_ABSENT, attendanceStudent.getChildId());
+    public void onAbsentClicked(AttendanceStudent attendanceStudent, TeacherAttendanceAdapter.Status status) {
+        if (status == null) {
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
+            String date = day + "-" + month + "-" + year;
+            activity.showLoadingDialog();
+            teacherAttendanceView.createBatchAttendance(url, date, "", Constants.TYPE_ABSENT, attendanceStudent.getChildId());
+        }
     }
 
     @Override
-    public void onPresentClicked(AttendanceStudent attendanceStudent) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
-        String date = day + "-" + month + "-" + year;
-        activity.showLoadingDialog();
-        teacherAttendanceView.createBatchAttendance(url, date, "", Constants.TYPE_PRESENT, attendanceStudent.getChildId());
+    public void onPresentClicked(AttendanceStudent attendanceStudent, TeacherAttendanceAdapter.Status status) {
+        if (status == null) {
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
+            String date = day + "-" + month + "-" + year;
+            activity.showLoadingDialog();
+            teacherAttendanceView.createBatchAttendance(url, date, "", Constants.TYPE_PRESENT, attendanceStudent.getChildId());
+        }
     }
 
     @Override
-    public void onExcusedClicked(AttendanceStudent attendanceStudent) {
-        ExcusedDialog excusedDialog = new ExcusedDialog(activity);
-        excusedDialog.show();
+    public void onExcusedClicked(AttendanceStudent attendanceStudent, TeacherAttendanceAdapter.Status status) {
+            ExcusedDialog excusedDialog = new ExcusedDialog(activity);
+            excusedDialog.show();
     }
 
     @Override
-    public void onLateClicked(AttendanceStudent attendanceStudent) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
-        String date = day + "-" + month + "-" + year;
-        activity.showLoadingDialog();
-        teacherAttendanceView.createBatchAttendance(url, date, "", Constants.TYPE_LATE, attendanceStudent.getChildId());
-
+    public void onLateClicked(AttendanceStudent attendanceStudent, TeacherAttendanceAdapter.Status status) {
+        if (status == null) {
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
+            String date = day + "-" + month + "-" + year;
+            activity.showLoadingDialog();
+            teacherAttendanceView.createBatchAttendance(url, date, "", Constants.TYPE_LATE, attendanceStudent.getChildId());
+        }
     }
 
     @Override
