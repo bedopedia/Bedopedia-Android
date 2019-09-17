@@ -227,7 +227,7 @@ public class Constants {
     public static final String TYPE_PRESENT = "present";
     public static final String TYPE_LATE = "late";
     public static final String TYPE_ABSENT = "absent";
-    public static final String TYPE_EXCUSED = "attendances";
+    public static final String TYPE_EXCUSED = "excused";
 
 
 }

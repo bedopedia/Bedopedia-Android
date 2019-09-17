@@ -127,7 +127,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
         day = cal.get(Calendar.DAY_OF_MONTH);
-        month = cal.get(Calendar.MONTH)+1;
+        month = cal.get(Calendar.MONTH) + 1;
         year = cal.get(Calendar.YEAR);
     }
 
@@ -208,7 +208,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         if (attendance.getTimetableSlots() == null) {
             if (activity.progress.isShowing())
                 activity.progress.dismiss();
-            teacherAttendanceAdapter.addData(attendance.getStudents());
+            teacherAttendanceAdapter.addData(attendance.getStudents(), attendance.getAttendances());
         } else {
             if (activity.progress.isShowing())
                 activity.progress.dismiss();
@@ -236,6 +236,8 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     public void onBatchAttendanceCreatedSuccess() {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
+        getFullDayAttendance();
+        getFullDayAttendance();
     }
 
     @Override

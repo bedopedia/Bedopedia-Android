@@ -25,6 +25,8 @@ import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.models.AttendanceStudent;
+import trianglz.models.Attendances;
+import trianglz.utils.Constants;
 
 
 /**
@@ -36,11 +38,13 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
     HashMap<Integer, Status> positionStatusHashMap;
     HashMap<Integer, Boolean> positionCheckStatusHashMap;
     ArrayList<AttendanceStudent> mDataList;
+    ArrayList<Attendances> mDataAttendancesList;
 
 
     public TeacherAttendanceAdapter(Context context, TeacherAttendanceAdapterInterface teacherAttendanceAdapterInterface) {
         this.context = context;
         this.mDataList = new ArrayList<>();
+        this.mDataAttendancesList = new ArrayList<>();
         positionStatusHashMap = new HashMap<>();
         positionCheckStatusHashMap = new HashMap<>();
         this.teacherAttendanceAdapterInterface = teacherAttendanceAdapterInterface;
@@ -65,25 +69,24 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
                     holder.presentButton.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage, null));
                     holder.presentButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.present_icon, null), null, null, null);
                     holder.presentButton.setTextColor(context.getResources().getColor(R.color.boring_green, null));
-                    teacherAttendanceAdapterInterface.onPresentClicked( mDataList.get(position));
                     break;
                 case LATE:
                     holder.lateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_light_tan_two, null));
                     holder.lateButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.late_icon, null), null, null, null);
                     holder.lateButton.setTextColor(context.getResources().getColor(R.color.electric_violet, null));
-                    teacherAttendanceAdapterInterface.onLateClicked( mDataList.get(position));
+                  //  teacherAttendanceAdapterInterface.onLateClicked(mDataList.get(position));
                     break;
                 case ABSENT:
                     holder.absentButton.setBackground(context.getResources().getDrawable(R.drawable.curved_very_light_pink, null));
                     holder.absentButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.absent_icon, null), null, null, null);
                     holder.absentButton.setTextColor(context.getResources().getColor(R.color.salmon, null));
-                    teacherAttendanceAdapterInterface.onAbsentClicked( mDataList.get(position));
+                 //   teacherAttendanceAdapterInterface.onAbsentClicked(mDataList.get(position));
                     break;
                 case EXCUSED:
                     holder.excusedButton.setBackground(context.getResources().getDrawable(R.drawable.curved_powder_blue, null));
                     holder.excusedButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.excused_icon, null), null, null, null);
                     holder.excusedButton.setTextColor(context.getResources().getColor(R.color.cerulean_blue, null));
-                    teacherAttendanceAdapterInterface.onExcusedClicked( mDataList.get(position));
+                 //   teacherAttendanceAdapterInterface.onExcusedClicked(mDataList.get(position));
                     break;
             }
         }
@@ -103,12 +106,32 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
         return mDataList.size();
     }
 
-    public void addData(ArrayList<AttendanceStudent> data) {
+    public void addData(ArrayList<AttendanceStudent> data, ArrayList<Attendances> attendances) {
+        mDataAttendancesList.clear();
+        mDataAttendancesList.addAll(attendances);
         mDataList.clear();
         mDataList.addAll(data);
         for (int i = 0; i < data.size(); i++) {
             positionCheckStatusHashMap.put(i, false);
         }
+        if (attendances != null || !attendances.isEmpty() || attendances.size() != 0) {
+            for (int i = 0; i < data.size(); i++) {
+                for (int k = 0; k < attendances.size(); k++) {
+                    if (data.get(i).getChildId() == attendances.get(k).getStudentId()) {
+                        if (attendances.get(k).getStatus().equals(Constants.TYPE_ABSENT)) {
+                            positionStatusHashMap.put(i, Status.ABSENT);
+                        } else if (attendances.get(k).getStatus().equals(Constants.TYPE_LATE)) {
+                            positionStatusHashMap.put(i, Status.LATE);
+                        } else if (attendances.get(k).getStatus().equals(Constants.TYPE_PRESENT)) {
+                            positionStatusHashMap.put(i, Status.PRESENT);
+                        } else if (attendances.get(k).getStatus().equals(Constants.TYPE_EXCUSED)) {
+                            positionStatusHashMap.put(i, Status.EXCUSED);
+                        }
+                    }
+                }
+            }
+        }
+
         notifyDataSetChanged();
     }
 
@@ -143,20 +166,24 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.present_btn:
-                    positionStatusHashMap.put(getAdapterPosition(), Status.PRESENT);
-                    notifyDataSetChanged();
+                    teacherAttendanceAdapterInterface.onPresentClicked(mDataList.get(getAdapterPosition()));
+//                    positionStatusHashMap.put(getAdapterPosition(), Status.PRESENT);
+//                    notifyDataSetChanged();
                     break;
                 case R.id.late_btn:
-                    positionStatusHashMap.put(getAdapterPosition(), Status.LATE);
-                    notifyDataSetChanged();
+                    teacherAttendanceAdapterInterface.onLateClicked(mDataList.get(getAdapterPosition()));
+//                    positionStatusHashMap.put(getAdapterPosition(), Status.LATE);
+//                    notifyDataSetChanged();
                     break;
                 case R.id.excused_btn:
-                    positionStatusHashMap.put(getAdapterPosition(), Status.EXCUSED);
-                    notifyDataSetChanged();
+                    teacherAttendanceAdapterInterface.onExcusedClicked(mDataList.get(getAdapterPosition()));
+//                    positionStatusHashMap.put(getAdapterPosition(), Status.EXCUSED);
+//                    notifyDataSetChanged();
                     break;
                 case R.id.absent_btn:
-                    positionStatusHashMap.put(getAdapterPosition(), Status.ABSENT);
-                    notifyDataSetChanged();
+                    teacherAttendanceAdapterInterface.onAbsentClicked(mDataList.get(getAdapterPosition()));
+//                    positionStatusHashMap.put(getAdapterPosition(), Status.ABSENT);
+//                    notifyDataSetChanged();
                     break;
                 case R.id.check_attendance_btn:
                     Boolean checkStatus = positionCheckStatusHashMap.get(getAdapterPosition());
