@@ -27,6 +27,7 @@ import trianglz.core.views.TeacherAttendanceView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Attendance;
+import trianglz.models.AttendanceStudent;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TeacherAttendanceAdapter;
 import trianglz.utils.Constants;
@@ -161,23 +162,23 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public void onAbsentClicked() {
+    public void onAbsentClicked(AttendanceStudent attendanceStudent) {
 
     }
 
     @Override
-    public void onPresentClicked() {
+    public void onPresentClicked(AttendanceStudent attendanceStudent) {
 
     }
 
     @Override
-    public void onExcusedClicked() {
+    public void onExcusedClicked(AttendanceStudent attendanceStudent) {
         ExcusedDialog excusedDialog = new ExcusedDialog(activity);
         excusedDialog.show();
     }
 
     @Override
-    public void onLateClicked() {
+    public void onLateClicked(AttendanceStudent attendanceStudent) {
 
     }
 
