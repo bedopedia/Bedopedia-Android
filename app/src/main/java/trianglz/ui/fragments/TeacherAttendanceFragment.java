@@ -186,7 +186,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     @Override
     public void onExcusedClicked(AttendanceStudent attendanceStudent, TeacherAttendanceAdapter.Status status) {
         if (status == NOATTENDANCE) {
-            ExcusedDialog excusedDialog = new ExcusedDialog(activity, this, attendanceStudent.getChildId(),status);
+            ExcusedDialog excusedDialog = new ExcusedDialog(activity, this, attendanceStudent.getChildId(), status);
             excusedDialog.show();
         }
     }
@@ -257,11 +257,13 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public void onApplyClicked(String comment, int studentId,TeacherAttendanceAdapter.Status status) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
-        String date = day + "-" + month + "-" + year;
-        activity.showLoadingDialog();
-        teacherAttendanceView.createBatchAttendance(url, date, comment, Constants.TYPE_EXCUSED, studentId);
+    public void onApplyClicked(String comment, int studentId, TeacherAttendanceAdapter.Status status) {
+        if (status == NOATTENDANCE) {
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
+            String date = day + "-" + month + "-" + year;
+            activity.showLoadingDialog();
+            teacherAttendanceView.createBatchAttendance(url, date, comment, Constants.TYPE_EXCUSED, studentId);
+        }
     }
 }
 
