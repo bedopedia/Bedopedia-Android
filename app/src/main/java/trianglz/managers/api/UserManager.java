@@ -901,7 +901,7 @@ public class UserManager {
             e.printStackTrace();
         }
 
-        NetworkManager.post(url, jsonObject, headerHashMap, new HandleResponseListener() {
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 responseListener.onSuccess(response);
@@ -909,8 +909,41 @@ public class UserManager {
 
             @Override
             public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
 
             }
         });
     }
+    public static void createBatchAttendance(String url, String date, String comment, String status, int studentId,  final ArrayResponseListener arrayResponseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject rootJsonObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
+        JSONObject attendanceJson = new JSONObject();
+        JSONArray attendancesJsonArray = new JSONArray();
+        try {
+            attendanceJson.put(Constants.KEY_DATE, date);
+            attendanceJson.put(Constants.KEY_COMMENT, comment);
+            attendanceJson.put(Constants.KEY_STATUS, status);
+            attendanceJson.put(Constants.KEY_STUDENT_ID, studentId);
+
+            attendancesJsonArray.put(attendanceJson);
+            jsonObject.put(Constants.KEY_ATTENDANCES, attendancesJsonArray);
+            rootJsonObject.put(Constants.KEY_ATTENDANCE, jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                arrayResponseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                arrayResponseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
 }

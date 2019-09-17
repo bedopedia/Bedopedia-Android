@@ -163,12 +163,18 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onAbsentClicked(AttendanceStudent attendanceStudent) {
-
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
+        String date = day + "-" + month + "-" + year;
+        activity.showLoadingDialog();
+        teacherAttendanceView.createBatchAttendance(url, date, "", Constants.TYPE_ABSENT, attendanceStudent.getChildId());
     }
 
     @Override
     public void onPresentClicked(AttendanceStudent attendanceStudent) {
-
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
+        String date = day + "-" + month + "-" + year;
+        activity.showLoadingDialog();
+        teacherAttendanceView.createBatchAttendance(url, date, "", Constants.TYPE_PRESENT, attendanceStudent.getChildId());
     }
 
     @Override
@@ -179,6 +185,10 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onLateClicked(AttendanceStudent attendanceStudent) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
+        String date = day + "-" + "09" + "-" + year;
+        activity.showLoadingDialog();
+        teacherAttendanceView.createBatchAttendance(url, date, "", Constants.TYPE_LATE, attendanceStudent.getChildId());
 
     }
 
@@ -199,7 +209,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             if (activity.progress.isShowing())
                 activity.progress.dismiss();
             teacherAttendanceAdapter.addData(attendance.getStudents());
-        }else{
+        } else {
             if (activity.progress.isShowing())
                 activity.progress.dismiss();
             perSlotView.setVisibility(View.VISIBLE);
@@ -208,7 +218,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             fullDayButton.setTextColor(getResources().getColor(R.color.greyish, null));
             PerSlotFragment perSlotFragment = new PerSlotFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable(Constants.TIMETABLE_SLOTS,attendance.getTimetableSlots());
+            bundle.putSerializable(Constants.TIMETABLE_SLOTS, attendance.getTimetableSlots());
             perSlotFragment.setArguments(bundle);
             getParentFragment().getChildFragmentManager().
                     beginTransaction().add(R.id.course_root, perSlotFragment, "CoursesFragments").
@@ -219,6 +229,19 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onGetTeacherAttendanceFailure(String message, int code) {
+        activity.showErrorDialog(activity, code, "");
+    }
+
+    @Override
+    public void onBatchAttendanceCreatedSuccess() {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+    }
+
+    @Override
+    public void onBatchAttendanceCreatedFailure(String message, int code) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
         activity.showErrorDialog(activity, code, "");
     }
 }

@@ -7,6 +7,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.androidnetworking.interfaces.OkHttpResponseAndJSONArrayRequestListener;
 import com.androidnetworking.interfaces.OkHttpResponseAndJSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 
@@ -124,6 +125,50 @@ public class NetworkManager {
                             handleResponseListener.onFailure(getErrorMessage(anError), anError.getErrorCode());
                         }
                     });
+
+        }
+
+    }
+
+    public static void post(String url, JSONObject object, final HashMap<String, String> headerValues, final HandleArrayResponseListener handleArrayResponseListener) {
+        if (object == null) {
+            AndroidNetworking.post(url)
+                    .addHeaders(headerValues)
+                    .setPriority(Priority.HIGH)
+                    .build()
+                    .getAsOkHttpResponseAndJSONArray(new OkHttpResponseAndJSONArrayRequestListener() {
+                        @Override
+                        public void onResponse(Response okHttpResponse, JSONArray response) {
+                            Headers headers = okHttpResponse.headers();
+                            handleArrayResponseListener.onSuccess(response);
+                        }
+
+                        @Override
+                        public void onError(ANError anError) {
+
+                        }
+                    });
+
+
+        } else {
+            AndroidNetworking.post(url)
+                    .addHeaders(headerValues)
+                    .addJSONObjectBody(object)
+                    .setPriority(Priority.HIGH)
+                    .build().getAsOkHttpResponseAndJSONArray(new OkHttpResponseAndJSONArrayRequestListener() {
+                @Override
+                public void onResponse(Response okHttpResponse, JSONArray response) {
+                    Headers headers = okHttpResponse.headers();
+                    handleArrayResponseListener.onSuccess(response);
+                }
+
+                @Override
+                public void onError(ANError anError) {
+                    handleArrayResponseListener.onFailure(getErrorMessage(anError), anError.getErrorCode());
+
+                }
+            });
+
 
         }
 

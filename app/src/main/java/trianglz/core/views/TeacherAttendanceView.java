@@ -2,9 +2,11 @@ package trianglz.core.views;
 
 import android.content.Context;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import trianglz.core.presenters.TeacherAttendancePresenter;
+import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Attendance;
@@ -40,6 +42,19 @@ public class TeacherAttendanceView {
         UserManager.createBatchAttendance(url, date, comment, status, studentId, timetableSlotId, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
+                teacherAttendancePresenter.onBatchAttendanceCreatedSuccess();
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                teacherAttendancePresenter.onBatchAttendanceCreatedFailure(message, errorCode);
+            }
+        });
+    }
+    public void createBatchAttendance(String url, String date, String comment, String status, int studentId){
+        UserManager.createBatchAttendance(url, date, comment, status, studentId, new ArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
                 teacherAttendancePresenter.onBatchAttendanceCreatedSuccess();
             }
 

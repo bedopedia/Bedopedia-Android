@@ -224,6 +224,11 @@ public class Constants {
     public static final String TIMETABLE_SLOTS = "timetable_slot";
     public static final String TIMETABLE_SLOTS_ID ="timetable_slot_id";
     public static final String KEY_ATTENDANCES = "attendances";
+    public static final String TYPE_PRESENT = "present";
+    public static final String TYPE_LATE = "late";
+    public static final String TYPE_ABSENT = "absent";
+    public static final String TYPE_EXCUSED = "attendances";
+
 
 }
 
