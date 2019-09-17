@@ -127,7 +127,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
         day = cal.get(Calendar.DAY_OF_MONTH);
-        month = cal.get(Calendar.MONTH);
+        month = cal.get(Calendar.MONTH)+1;
         year = cal.get(Calendar.YEAR);
     }
 
@@ -186,7 +186,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     @Override
     public void onLateClicked(AttendanceStudent attendanceStudent) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
-        String date = day + "-" + "09" + "-" + year;
+        String date = day + "-" + month + "-" + year;
         activity.showLoadingDialog();
         teacherAttendanceView.createBatchAttendance(url, date, "", Constants.TYPE_LATE, attendanceStudent.getChildId());
 
