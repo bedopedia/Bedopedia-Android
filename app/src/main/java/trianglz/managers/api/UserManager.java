@@ -983,7 +983,7 @@ public class UserManager {
             attendanceJson.put(Constants.KEY_COMMENT, comment);
             attendanceJson.put(Constants.KEY_STATUS, status);
 
-            rootJsonObject.put(Constants.KEY_ATTENDANCE, attendanceId);
+            rootJsonObject.put(Constants.KEY_ATTENDANCE, attendanceJson);
             rootJsonObject.put(Constants.KEY_ID, attendanceId);
         } catch (JSONException e) {
             e.printStackTrace();
