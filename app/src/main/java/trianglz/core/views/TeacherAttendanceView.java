@@ -5,6 +5,8 @@ import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import trianglz.core.presenters.TeacherAttendancePresenter;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
@@ -38,8 +40,8 @@ public class TeacherAttendanceView {
         });
     }
 
-    public void createBatchAttendance(String url, String date, String comment, String status, int studentId, int timetableSlotId) {
-        UserManager.createBatchAttendance(url, date, comment, status, studentId, timetableSlotId, new ArrayResponseListener() {
+    public void createBatchAttendance(String url, String date, String comment, String status, ArrayList<Integer> studentIds, int timetableSlotId) {
+        UserManager.createBatchAttendance(url, date, comment, status,  studentIds, timetableSlotId, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
                 teacherAttendancePresenter.onBatchAttendanceCreatedSuccess();
@@ -52,8 +54,8 @@ public class TeacherAttendanceView {
         });
     }
 
-    public void createBatchAttendance(String url, String date, String comment, String status, int studentId) {
-        UserManager.createBatchAttendance(url, date, comment, status, studentId, new ArrayResponseListener() {
+    public void createBatchAttendance(String url, String date, String comment, String status, ArrayList<Integer> studentIds) {
+        UserManager.createBatchAttendance(url, date, comment, status,  studentIds, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
                 teacherAttendancePresenter.onBatchAttendanceCreatedSuccess();

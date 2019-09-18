@@ -881,19 +881,20 @@ public class UserManager {
         });
     }
 
-    public static void createBatchAttendance(String url, String date, String comment, String status, int studentId, int timetableSlotId, final ArrayResponseListener responseListener) {
+    public static void createBatchAttendance(String url, String date, String comment, String status, ArrayList<Integer> studentIds, int timetableSlotId, final ArrayResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject rootJsonObject = new JSONObject();
         JSONObject jsonObject = new JSONObject();
         JSONObject attendanceJson = new JSONObject();
         JSONArray attendancesJsonArray = new JSONArray();
         try {
-            attendanceJson.put(Constants.KEY_DATE, date);
-            attendanceJson.put(Constants.KEY_COMMENT, comment);
-            attendanceJson.put(Constants.KEY_STATUS, status);
-            attendanceJson.put(Constants.KEY_STUDENT_ID, studentId);
-            attendanceJson.put(Constants.TIMETABLE_SLOTS_ID, timetableSlotId);
-
+            for (int i = 0; i < studentIds.size(); i++) {
+                attendanceJson.put(Constants.KEY_DATE, date);
+                attendanceJson.put(Constants.KEY_COMMENT, comment);
+                attendanceJson.put(Constants.KEY_STATUS, status);
+                attendanceJson.put(Constants.KEY_STUDENT_ID, studentIds.get(i));
+                attendanceJson.put(Constants.TIMETABLE_SLOTS_ID, timetableSlotId);
+            }
             attendancesJsonArray.put(attendanceJson);
             jsonObject.put(Constants.KEY_ATTENDANCES, attendancesJsonArray);
             rootJsonObject.put(Constants.KEY_ATTENDANCE, jsonObject);
@@ -915,17 +916,19 @@ public class UserManager {
         });
     }
 
-    public static void createBatchAttendance(String url, String date, String comment, String status, int studentId, final ArrayResponseListener arrayResponseListener) {
+    public static void createBatchAttendance(String url, String date, String comment, String status, ArrayList<Integer> studentIds, final ArrayResponseListener arrayResponseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject rootJsonObject = new JSONObject();
         JSONObject jsonObject = new JSONObject();
         JSONObject attendanceJson = new JSONObject();
         JSONArray attendancesJsonArray = new JSONArray();
         try {
-            attendanceJson.put(Constants.KEY_DATE, date);
-            attendanceJson.put(Constants.KEY_COMMENT, comment);
-            attendanceJson.put(Constants.KEY_STATUS, status);
-            attendanceJson.put(Constants.KEY_STUDENT_ID, studentId);
+            for (int i = 0; i < studentIds.size(); i++) {
+                attendanceJson.put(Constants.KEY_DATE, date);
+                attendanceJson.put(Constants.KEY_COMMENT, comment);
+                attendanceJson.put(Constants.KEY_STATUS, status);
+                attendanceJson.put(Constants.KEY_STUDENT_ID, studentIds.get(i));
+            }
 
             attendancesJsonArray.put(attendanceJson);
             jsonObject.put(Constants.KEY_ATTENDANCES, attendancesJsonArray);
@@ -956,7 +959,7 @@ public class UserManager {
             attendanceJson.put(Constants.KEY_STATUS, status);
             attendanceJson.put(Constants.TIMETABLE_SLOTS_ID, timetableSlotId);
 
-            rootJsonObject.put(Constants.KEY_ATTENDANCE, attendanceId);
+            rootJsonObject.put(Constants.KEY_ATTENDANCE, attendanceJson);
             rootJsonObject.put(Constants.KEY_ID, attendanceId);
         } catch (JSONException e) {
             e.printStackTrace();
