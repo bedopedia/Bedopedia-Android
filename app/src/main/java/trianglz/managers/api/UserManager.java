@@ -914,7 +914,8 @@ public class UserManager {
             }
         });
     }
-    public static void createBatchAttendance(String url, String date, String comment, String status, int studentId,  final ArrayResponseListener arrayResponseListener) {
+
+    public static void createBatchAttendance(String url, String date, String comment, String status, int studentId, final ArrayResponseListener arrayResponseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject rootJsonObject = new JSONObject();
         JSONObject jsonObject = new JSONObject();
@@ -946,7 +947,7 @@ public class UserManager {
         });
     }
 
-    public static void updateAttendance(String url, String comment, String status, int timetableSlotId, int attendanceId,final ResponseListener responseListener){
+    public static void updateAttendance(String url, String comment, String status, int timetableSlotId, int attendanceId, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject rootJsonObject = new JSONObject();
         JSONObject attendanceJson = new JSONObject();
@@ -956,7 +957,7 @@ public class UserManager {
             attendanceJson.put(Constants.TIMETABLE_SLOTS_ID, timetableSlotId);
 
             rootJsonObject.put(Constants.KEY_ATTENDANCE, attendanceId);
-            rootJsonObject.put(Constants.KEY_ID,attendanceId);
+            rootJsonObject.put(Constants.KEY_ID, attendanceId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -973,7 +974,8 @@ public class UserManager {
             }
         });
     }
-    public static void updateAttendance(String url,  String comment, String status, int attendanceId,final ResponseListener responseListener){
+
+    public static void updateAttendance(String url, String comment, String status, int attendanceId, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject rootJsonObject = new JSONObject();
         JSONObject attendanceJson = new JSONObject();
@@ -982,7 +984,7 @@ public class UserManager {
             attendanceJson.put(Constants.KEY_STATUS, status);
 
             rootJsonObject.put(Constants.KEY_ATTENDANCE, attendanceId);
-            rootJsonObject.put(Constants.KEY_ID,attendanceId);
+            rootJsonObject.put(Constants.KEY_ID, attendanceId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

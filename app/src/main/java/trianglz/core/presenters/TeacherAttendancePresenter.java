@@ -11,4 +11,6 @@ public interface TeacherAttendancePresenter {
     void onGetTeacherAttendanceFailure(String message,int code);
     void onBatchAttendanceCreatedSuccess();
     void onBatchAttendanceCreatedFailure(String message,int code);
+    void onUpdateAttendanceSuccess();
+    void onUpdateAttendanceFailure(String message,int code);
 }
