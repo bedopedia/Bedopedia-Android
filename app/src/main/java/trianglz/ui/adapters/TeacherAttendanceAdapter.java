@@ -62,27 +62,20 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         setStudentImage(mDataList.get(position).getAvatarUrl(), holder, mDataList.get(position).getName());
         holder.clearAllStatus();
-        if (positionStatusHashMap.containsKey( mDataList.get(position).getChildId())) {
+        if (positionStatusHashMap.containsKey(mDataList.get(position).getChildId())) {
             Attendances attendances = positionStatusHashMap.get(mDataList.get(position).getChildId());
             switch (attendances.getStatus()) {
                 case Constants.TYPE_PRESENT:
-                    holder.presentButton.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage, null));
-                    holder.presentButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.present_icon, null), null, null, null);
-                    holder.presentButton.setTextColor(context.getResources().getColor(R.color.boring_green, null));
+                    setButtonDrawble(holder.presentButton, R.drawable.curved_light_sage, R.drawable.present_icon, R.color.boring_green);
                     break;
                 case Constants.TYPE_LATE:
-                    holder.lateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_light_tan_two, null));
-                    holder.lateButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.late_icon, null), null, null, null);
-                    holder.lateButton.setTextColor(context.getResources().getColor(R.color.electric_violet, null));
+                    setButtonDrawble(holder.lateButton, R.drawable.curved_light_tan_two, R.drawable.late_icon, R.color.electric_violet);
                     break;
                 case Constants.TYPE_ABSENT:
-                    holder.absentButton.setBackground(context.getResources().getDrawable(R.drawable.curved_very_light_pink, null));
-                    holder.absentButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.absent_icon, null), null, null, null);
-                    holder.absentButton.setTextColor(context.getResources().getColor(R.color.salmon, null));
+                    setButtonDrawble(holder.absentButton, R.drawable.curved_very_light_pink, R.drawable.absent_icon, R.color.salmon);
                     break;
                 case Constants.TYPE_EXCUSED:
-                    holder.excusedButton.setBackground(context.getResources().getDrawable(R.drawable.curved_powder_blue, null));
-                    holder.excusedButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.excused_icon, null), null, null, null);
+                    setButtonDrawble(holder.excusedButton, R.drawable.curved_powder_blue, R.drawable.excused_icon, R.color.cerulean_blue);
                     holder.excusedButton.setTextColor(context.getResources().getColor(R.color.cerulean_blue, null));
                     break;
 
@@ -157,10 +150,10 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
                     teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_LATE);
                     break;
                 case R.id.excused_btn:
-                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(),Constants.TYPE_EXCUSED);
+                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_EXCUSED);
                     break;
                 case R.id.absent_btn:
-                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(),Constants.TYPE_ABSENT);
+                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_ABSENT);
                     break;
                 case R.id.check_attendance_btn:
                     if (positionCheckStatusHashMap.containsKey(getAdapterPosition())) {
@@ -182,21 +175,10 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
             checkAttendanceImageButton.setBackground(context.getResources().getDrawable(R.drawable.curved_cool_grey, null));
             checkAttendanceImageButton.setImageResource(R.color.transparent);
 
-            presentButton.setBackground(context.getResources().getDrawable(R.drawable.curved_white_four, null));
-            presentButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.not_present, null), null, null, null);
-            presentButton.setTextColor(context.getResources().getColor(R.color.warm_grey2, null));
-
-            lateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_white_four, null));
-            lateButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.not_late, null), null, null, null);
-            lateButton.setTextColor(context.getResources().getColor(R.color.warm_grey2, null));
-
-            excusedButton.setBackground(context.getResources().getDrawable(R.drawable.curved_white_four, null));
-            excusedButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.not_excused, null), null, null, null);
-            excusedButton.setTextColor(context.getResources().getColor(R.color.warm_grey2, null));
-
-            absentButton.setBackground(context.getResources().getDrawable(R.drawable.curved_white_four, null));
-            absentButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.not_absent, null), null, null, null);
-            absentButton.setTextColor(context.getResources().getColor(R.color.warm_grey2, null));
+            setButtonDrawble(presentButton, R.drawable.curved_white_four, R.drawable.not_present, R.color.warm_grey2);
+            setButtonDrawble(lateButton, R.drawable.curved_white_four, R.drawable.not_late, R.color.warm_grey2);
+            setButtonDrawble(excusedButton, R.drawable.curved_white_four, R.drawable.not_excused, R.color.warm_grey2);
+            setButtonDrawble(absentButton, R.drawable.curved_white_four, R.drawable.not_absent, R.color.warm_grey2);
         }
 
         private void increaseButtonsHitArea() {
@@ -242,6 +224,11 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
         }
     }
 
+    private void setButtonDrawble(Button button, int background, int compoundDrawable, int color) {
+        button.setBackground(context.getResources().getDrawable(background, null));
+        button.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(compoundDrawable, null), null, null, null);
+        button.setTextColor(context.getResources().getColor(color, null));
+    }
 
     public interface TeacherAttendanceAdapterInterface {
 
