@@ -108,8 +108,8 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
         mDataAttendancesList.addAll(attendances);
         mDataList.clear();
         mDataList.addAll(data);
-        if (!attendances.isEmpty()) {
-            for (int i = 0; i < data.size(); i++) {
+        for (int i = 0; i < data.size(); i++) {
+            if (!attendances.isEmpty()) {
                 for (int k = 0; k < attendances.size(); k++) {
                     if (data.get(i).getChildId() == attendances.get(k).getStudentId()) {
                         switch (attendances.get(k).getStatus()) {
@@ -131,8 +131,11 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
                 if (!positionStatusHashMap.containsKey(i)) {
                     positionStatusHashMap.put(i, Status.NOATTENDANCE);
                 }
+            } else {
+                positionStatusHashMap.put(i, Status.NOATTENDANCE);
             }
         }
+
 
         notifyDataSetChanged();
     }
