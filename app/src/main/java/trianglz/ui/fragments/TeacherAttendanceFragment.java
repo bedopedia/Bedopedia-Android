@@ -248,8 +248,9 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                         addToBackStack(null).commit();
                 isFragmentShowing = false;
+            }else{
+                teacherAttendanceAdapter.addData(attendance.getStudents(), attendance.getAttendances());
             }
-            teacherAttendanceAdapter.addData(attendance.getStudents(), attendance.getAttendances());
         }
     }
 
