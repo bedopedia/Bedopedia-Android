@@ -27,6 +27,7 @@ import trianglz.core.views.TeacherAttendanceView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Attendance;
+import trianglz.models.AttendanceTimetableSlot;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TeacherAttendanceAdapter;
 import trianglz.utils.Constants;
@@ -35,13 +36,16 @@ import trianglz.utils.Constants;
 /**
  * Created by Farah A. Moniem on 09/09/2019.
  */
-public class TeacherAttendanceFragment extends Fragment implements View.OnClickListener, TeacherAttendanceAdapter.TeacherAttendanceAdapterInterface, TeacherAttendancePresenter, ExcusedDialog.ExcusedDialogInterface {
+public class TeacherAttendanceFragment extends Fragment implements View.OnClickListener, PerSlotFragment.SelectSlotInterface, TeacherAttendanceAdapter.TeacherAttendanceAdapterInterface, TeacherAttendancePresenter, ExcusedDialog.ExcusedDialogInterface {
 
 
     private View rootView;
     private int courseGroupId, day, month, year;
     private TextView todaysDate;
     private Boolean isMultipleSelected;
+    private Boolean perSlot = false;
+    private AttendanceTimetableSlot attendanceTimetableSlot;
+    private Attendance attendance;
     private ImageButton backButton;
     private RecyclerView recyclerView;
     private StudentMainActivity activity;
@@ -102,16 +106,24 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         assignSelectedButton.setOnClickListener(this);
     }
 
-    private void showFullDayAttendance() {
+    private void colorFullDayAttendance() {
         fullDayView.setVisibility(View.VISIBLE);
         perSlotView.setVisibility(View.INVISIBLE);
         fullDayButton.setTextColor(getResources().getColor(R.color.cerulean_blue, null));
         perSlotButton.setTextColor(getResources().getColor(R.color.greyish, null));
+        todaysDate.setText(getCurrentDate());
+    }
 
+    private void colorPerSlotAttendance() {
+        perSlotView.setVisibility(View.VISIBLE);
+        fullDayView.setVisibility(View.INVISIBLE);
+        perSlotButton.setTextColor(getResources().getColor(R.color.cerulean_blue, null));
+        fullDayButton.setTextColor(getResources().getColor(R.color.greyish, null));
+        todaysDate.setText(activity.getResources().getString(R.string.slot) + " " + attendanceTimetableSlot.getSlotNo());
     }
 
     private void showPerSlotAttendance() {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getPerSlotAttendance(courseGroupId, day, month, year, day, month, year);
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getPerSlotAttendance(courseGroupId, day, month, year);
         teacherAttendanceView.getFullDayTeacherAttendance(url);
         activity.showLoadingDialog();
     }
@@ -145,7 +157,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.full_day_btn:
-                showFullDayAttendance();
+                getFullDayAttendance();
                 break;
             case R.id.per_slot_btn:
                 showPerSlotAttendance();
@@ -202,18 +214,17 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     @Override
     public void onGetTeacherAttendanceSuccess(Attendance attendance) {
         //todo
+        this.attendance = attendance;
         if (attendance.getTimetableSlots() == null) {
             if (activity.progress.isShowing())
                 activity.progress.dismiss();
+            perSlot = false;
+            colorFullDayAttendance();
             teacherAttendanceAdapter.addData(attendance.getStudents(), attendance.getAttendances());
         } else {
             if (activity.progress.isShowing())
                 activity.progress.dismiss();
-            perSlotView.setVisibility(View.VISIBLE);
-            fullDayView.setVisibility(View.INVISIBLE);
-            perSlotButton.setTextColor(getResources().getColor(R.color.cerulean_blue, null));
-            fullDayButton.setTextColor(getResources().getColor(R.color.greyish, null));
-            PerSlotFragment perSlotFragment = new PerSlotFragment();
+            PerSlotFragment perSlotFragment = PerSlotFragment.newInstance(this);
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.TIMETABLE_SLOTS, attendance.getTimetableSlots());
             perSlotFragment.setArguments(bundle);
@@ -273,6 +284,14 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             activity.showLoadingDialog();
         }
 
+    }
+
+    @Override
+    public void onApplySelected(AttendanceTimetableSlot timetableSlot) {
+        perSlot = true;
+        this.attendanceTimetableSlot = timetableSlot;
+        teacherAttendanceAdapter.addData(attendance.getStudents(), attendance.getAttendances());
+        colorPerSlotAttendance();
     }
 }
 

@@ -14,7 +14,10 @@ import android.widget.ImageButton;
 
 import com.skolera.skolera_android.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import trianglz.models.AttendanceTimetableSlot;
 import trianglz.ui.activities.StudentMainActivity;
@@ -26,13 +29,22 @@ import trianglz.utils.Constants;
  */
 public class PerSlotFragment extends Fragment implements View.OnClickListener, PerSlotAdapter.SlotAdapterInterface {
 
-    StudentMainActivity activity;
-    View rootView;
-    RecyclerView recyclerView;
-    Button applyButton;
-    ImageButton closeButton;
-    PerSlotAdapter adapter;
-    ArrayList<AttendanceTimetableSlot> attendanceTimetableSlots;
+    private StudentMainActivity activity;
+    private View rootView;
+    private RecyclerView recyclerView;
+    private Button applyButton;
+    private ImageButton closeButton;
+    private PerSlotAdapter adapter;
+    private AttendanceTimetableSlot timtableSlotSelected;
+    private boolean slotSelected = false;
+    private SelectSlotInterface selectSlotInterface;
+    private ArrayList<AttendanceTimetableSlot> attendanceTimetableSlots;
+
+    public static PerSlotFragment newInstance(SelectSlotInterface selectSlotInterface) {
+        PerSlotFragment perSlotFragment = new PerSlotFragment();
+        perSlotFragment.selectSlotInterface = selectSlotInterface;
+        return perSlotFragment;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,6 +75,7 @@ public class PerSlotFragment extends Fragment implements View.OnClickListener, P
         adapter = new PerSlotAdapter(activity, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(linearLayoutManager);
+        validateTodaySlots();
         adapter.addData(attendanceTimetableSlots);
         recyclerView.setAdapter(adapter);
     }
@@ -72,11 +85,27 @@ public class PerSlotFragment extends Fragment implements View.OnClickListener, P
         closeButton.setOnClickListener(this);
     }
 
+    private void validateTodaySlots() {
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("EEEE");
+        String formattedDate = df.format(c);
+        for (int i = 0; i < attendanceTimetableSlots.size(); i++) {
+            if (!attendanceTimetableSlots.get(i).getDay().toLowerCase().equals(formattedDate.toLowerCase())) {
+                attendanceTimetableSlots.remove(i);
+            }
+        }
+    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.apply_btn:
+                if (slotSelected == true) {
+                    selectSlotInterface.onApplySelected(timtableSlotSelected);
+                    getParentFragment().getChildFragmentManager().popBackStack();
+                } else {
+                    getParentFragment().getChildFragmentManager().popBackStack();
+                }
                 break;
             case R.id.close_btn:
                 getParentFragment().getChildFragmentManager().popBackStack();
@@ -86,7 +115,12 @@ public class PerSlotFragment extends Fragment implements View.OnClickListener, P
     }
 
     @Override
-    public void onSlotClicked(int position) {
+    public void onSlotClicked(AttendanceTimetableSlot timtableSlot) {
+        slotSelected = true;
+        this.timtableSlotSelected = timtableSlot;
+    }
 
+    public interface SelectSlotInterface {
+        void onApplySelected(AttendanceTimetableSlot timetableSlot);
     }
 }

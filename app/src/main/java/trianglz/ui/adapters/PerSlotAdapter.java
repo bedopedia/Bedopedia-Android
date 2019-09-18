@@ -93,7 +93,7 @@ public class PerSlotAdapter extends RecyclerView.Adapter<PerSlotAdapter.ViewHold
         public void onClick(View v) {
             if (v.getId() == R.id.slot_layout) {
                 selectedPosition = getAdapterPosition();
-                slotAdapterInterface.onSlotClicked(getAdapterPosition());
+                slotAdapterInterface.onSlotClicked(mDataList.get(getAdapterPosition()));
                 notifyDataSetChanged();
 
             }
@@ -101,6 +101,6 @@ public class PerSlotAdapter extends RecyclerView.Adapter<PerSlotAdapter.ViewHold
     }
 
     public interface SlotAdapterInterface {
-        void onSlotClicked(int position);
+        void onSlotClicked(AttendanceTimetableSlot timetableSlot);
     }
 }
