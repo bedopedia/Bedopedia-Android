@@ -34,11 +34,11 @@ import trianglz.utils.Constants;
  */
 public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttendanceAdapter.ViewHolder> {
     public Context context;
-    TeacherAttendanceAdapterInterface teacherAttendanceAdapterInterface;
-    HashMap<Integer, Status> positionStatusHashMap;
-    HashMap<Integer, AttendanceStudent> positionCheckStatusHashMap;
-    ArrayList<AttendanceStudent> mDataList;
-    ArrayList<Attendances> mDataAttendancesList;
+    private TeacherAttendanceAdapterInterface teacherAttendanceAdapterInterface;
+    public HashMap<Integer, Attendances> positionStatusHashMap;
+    public HashMap<Integer, AttendanceStudent> positionCheckStatusHashMap;
+    private ArrayList<AttendanceStudent> mDataList;
+    private ArrayList<Attendances> mDataAttendancesList;
 
 
     public TeacherAttendanceAdapter(Context context, TeacherAttendanceAdapterInterface teacherAttendanceAdapterInterface) {
@@ -62,25 +62,25 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         setStudentImage(mDataList.get(position).getAvatarUrl(), holder, mDataList.get(position).getName());
         holder.clearAllStatus();
-        if (positionStatusHashMap.containsKey(position)) {
-            Status status = positionStatusHashMap.get(position);
-            switch (status) {
-                case PRESENT:
+        if (positionStatusHashMap.containsKey( mDataList.get(position).getChildId())) {
+            Attendances attendances = positionStatusHashMap.get(mDataList.get(position).getChildId());
+            switch (attendances.getStatus()) {
+                case Constants.TYPE_PRESENT:
                     holder.presentButton.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage, null));
                     holder.presentButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.present_icon, null), null, null, null);
                     holder.presentButton.setTextColor(context.getResources().getColor(R.color.boring_green, null));
                     break;
-                case LATE:
+                case Constants.TYPE_LATE:
                     holder.lateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_light_tan_two, null));
                     holder.lateButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.late_icon, null), null, null, null);
                     holder.lateButton.setTextColor(context.getResources().getColor(R.color.electric_violet, null));
                     break;
-                case ABSENT:
+                case Constants.TYPE_ABSENT:
                     holder.absentButton.setBackground(context.getResources().getDrawable(R.drawable.curved_very_light_pink, null));
                     holder.absentButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.absent_icon, null), null, null, null);
                     holder.absentButton.setTextColor(context.getResources().getColor(R.color.salmon, null));
                     break;
-                case EXCUSED:
+                case Constants.TYPE_EXCUSED:
                     holder.excusedButton.setBackground(context.getResources().getDrawable(R.drawable.curved_powder_blue, null));
                     holder.excusedButton.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.excused_icon, null), null, null, null);
                     holder.excusedButton.setTextColor(context.getResources().getColor(R.color.cerulean_blue, null));
@@ -112,31 +112,11 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
             if (!attendances.isEmpty()) {
                 for (int k = 0; k < attendances.size(); k++) {
                     if (data.get(i).getChildId() == attendances.get(k).getStudentId()) {
-                        switch (attendances.get(k).getStatus()) {
-                            case Constants.TYPE_ABSENT:
-                                positionStatusHashMap.put(i, Status.ABSENT);
-                                break;
-                            case Constants.TYPE_LATE:
-                                positionStatusHashMap.put(i, Status.LATE);
-                                break;
-                            case Constants.TYPE_PRESENT:
-                                positionStatusHashMap.put(i, Status.PRESENT);
-                                break;
-                            case Constants.TYPE_EXCUSED:
-                                positionStatusHashMap.put(i, Status.EXCUSED);
-                                break;
-                        }
+                        positionStatusHashMap.put(data.get(i).getChildId(), attendances.get(k));
                     }
                 }
-                if (!positionStatusHashMap.containsKey(i)) {
-                    positionStatusHashMap.put(i, Status.NOATTENDANCE);
-                }
-            } else {
-                positionStatusHashMap.put(i, Status.NOATTENDANCE);
             }
         }
-
-
         notifyDataSetChanged();
     }
 
@@ -171,16 +151,16 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.present_btn:
-                    teacherAttendanceAdapterInterface.onPresentClicked(mDataList.get(getAdapterPosition()), positionStatusHashMap.get(getAdapterPosition()));
+                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_PRESENT);
                     break;
                 case R.id.late_btn:
-                    teacherAttendanceAdapterInterface.onLateClicked(mDataList.get(getAdapterPosition()), positionStatusHashMap.get(getAdapterPosition()));
+                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_LATE);
                     break;
                 case R.id.excused_btn:
-                    teacherAttendanceAdapterInterface.onExcusedClicked(mDataList.get(getAdapterPosition()), positionStatusHashMap.get(getAdapterPosition()));
+                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(),Constants.TYPE_EXCUSED);
                     break;
                 case R.id.absent_btn:
-                    teacherAttendanceAdapterInterface.onAbsentClicked(mDataList.get(getAdapterPosition()), positionStatusHashMap.get(getAdapterPosition()));
+                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(),Constants.TYPE_ABSENT);
                     break;
                 case R.id.check_attendance_btn:
                     if (positionCheckStatusHashMap.containsKey(getAdapterPosition())) {
@@ -262,20 +242,10 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
         }
     }
 
-    public enum Status {
-        PRESENT, LATE, ABSENT, EXCUSED, NOATTENDANCE
-    }
-
 
     public interface TeacherAttendanceAdapterInterface {
 
-        void onAbsentClicked(AttendanceStudent attendanceStudent, Status status);
-
-        void onPresentClicked(AttendanceStudent attendanceStudent, Status status);
-
-        void onExcusedClicked(AttendanceStudent attendanceStudent, Status status);
-
-        void onLateClicked(AttendanceStudent attendanceStudent, Status status);
+        void onStatusClicked(int studentId, String status);
 
         void onCheckClicked(Boolean isSelected);
     }
