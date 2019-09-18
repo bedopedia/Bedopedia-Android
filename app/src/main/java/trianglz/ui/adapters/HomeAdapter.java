@@ -137,15 +137,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
         attendanceStatus = attendanceStatus.substring(0, 1).toUpperCase() + attendanceStatus.substring(1).toLowerCase();
         holder.stateTextView.setText(attendanceStatus);
         if (attendanceStatus.equals("Present")) {
-            holder.stateImageView.setBackgroundResource(R.drawable.attendance_circle_green);
+            holder.stateImageView.setImageResource(R.drawable.attendance_circle_green);
         } else if (attendanceStatus.equals("Not taken")) {
-            holder.stateImageView.setBackgroundResource(R.drawable.attendance_circle_grey);
+            holder.stateImageView.setImageResource(R.drawable.attendance_circle_grey);
         } else if (attendanceStatus.equals("Late")) {
-            holder.stateImageView.setBackgroundResource(R.drawable.attendance_circle_yellow);
+            holder.stateImageView.setImageResource(R.drawable.attendance_circle_yellow);
         } else if (attendanceStatus.equals("Excused")) {
-            holder.stateImageView.setBackgroundResource(R.drawable.attendance_circle_blue);
+            holder.stateImageView.setImageResource(R.drawable.attendance_circle_blue);
         } else if (attendanceStatus.equals("Absent")) {
-            holder.stateImageView.setBackgroundResource(R.drawable.attendance_circle_red);
+            holder.stateImageView.setImageResource(R.drawable.attendance_circle_red);
         }
     }
 
