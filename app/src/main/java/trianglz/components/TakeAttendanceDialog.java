@@ -87,12 +87,15 @@ public class TakeAttendanceDialog extends BottomSheetDialog implements View.OnCl
         switch (view.getId()) {
             case R.id.assign_present_layout:
                 takeAttendanceDialogInterface.onStatusSelected(Constants.TYPE_PRESENT);
+                dismiss();
                 break;
             case R.id.assign_absent_layout:
                 takeAttendanceDialogInterface.onStatusSelected(Constants.TYPE_ABSENT);
+                dismiss();
                 break;
             case R.id.assign_late_layout:
                 takeAttendanceDialogInterface.onStatusSelected(Constants.TYPE_LATE);
+                dismiss();
                 break;
             case R.id.cancel_attendance_dialog_btn:
                 dismiss();

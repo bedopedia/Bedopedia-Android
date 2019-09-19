@@ -233,4 +233,5 @@
     <string name="select_slot">Select slot</string>
     <string name="apply">Apply</string>
     <string name="slot">Slot</string>
+    <string name="no_slots_available">No slots available</string>
 </resources>

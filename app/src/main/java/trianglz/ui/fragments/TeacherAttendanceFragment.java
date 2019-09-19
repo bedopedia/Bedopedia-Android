@@ -211,29 +211,33 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     public void onGetTeacherAttendanceSuccess(Attendance attendance) {
         createIds.clear();
         this.attendance = attendance;
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+
         if (attendance.getTimetableSlots() == null) {
-            if (activity.progress.isShowing())
-                activity.progress.dismiss();
             perSlot = false;
             teacherAttendanceAdapter.attendanceTimetableSlot = null;
             colorFullDayAttendance();
             teacherAttendanceAdapter.addData(attendance.getStudents(), attendance.getAttendances());
         } else {
-            if (activity.progress.isShowing())
-                activity.progress.dismiss();
-            if (isFragmentShowing) {
-                PerSlotFragment perSlotFragment = PerSlotFragment.newInstance(this);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.TIMETABLE_SLOTS, attendance.getTimetableSlots());
-                perSlotFragment.setArguments(bundle);
-                getParentFragment().getChildFragmentManager().
-                        beginTransaction().add(R.id.course_root, perSlotFragment, "CoursesFragments").
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                        addToBackStack(null).commit();
-                isFragmentShowing = false;
-            } else {
-                teacherAttendanceAdapter.addData(attendance.getStudents(), attendance.getAttendances());
+            if (!attendance.getTimetableSlots().isEmpty()) {
+                if (isFragmentShowing) {
+                    PerSlotFragment perSlotFragment = PerSlotFragment.newInstance(this);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.TIMETABLE_SLOTS, attendance.getTimetableSlots());
+                    perSlotFragment.setArguments(bundle);
+                    getParentFragment().getChildFragmentManager().
+                            beginTransaction().add(R.id.course_root, perSlotFragment, "CoursesFragments").
+                            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                            addToBackStack(null).commit();
+                    isFragmentShowing = false;
+                } else {
+                    teacherAttendanceAdapter.addData(attendance.getStudents(), attendance.getAttendances());
+                }
+            }else{
+                activity.showErrorDialog(activity,-3,activity.getResources().getString(R.string.no_slots_available));
             }
+
         }
     }
 
@@ -292,7 +296,11 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         } else {
             url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
             String date = day + "-" + month + "-" + year;
-            teacherAttendanceView.createBatchAttendance(url, date, comment, Constants.TYPE_EXCUSED, studentIds);
+            if (perSlot) {
+                teacherAttendanceView.createBatchAttendance(url, date, comment, Constants.TYPE_EXCUSED, studentIds, attendanceTimetableSlot.getId());
+            } else {
+                teacherAttendanceView.createBatchAttendance(url, date, comment, Constants.TYPE_EXCUSED, studentIds);
+            }
             activity.showLoadingDialog();
         }
     }
