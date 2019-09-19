@@ -14,10 +14,7 @@ import android.widget.ImageButton;
 
 import com.skolera.skolera_android.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import trianglz.models.AttendanceTimetableSlot;
 import trianglz.ui.activities.StudentMainActivity;
@@ -38,7 +35,7 @@ public class PerSlotFragment extends Fragment implements View.OnClickListener, P
     private AttendanceTimetableSlot timtableSlotSelected;
     private boolean slotSelected = false;
     private SelectSlotInterface selectSlotInterface;
-    private ArrayList<AttendanceTimetableSlot> attendanceTimetableSlots, adapterTimeTableSlots;
+    private ArrayList<AttendanceTimetableSlot> attendanceTimetableSlots;
 
     public static PerSlotFragment newInstance(SelectSlotInterface selectSlotInterface) {
         PerSlotFragment perSlotFragment = new PerSlotFragment();
@@ -75,9 +72,7 @@ public class PerSlotFragment extends Fragment implements View.OnClickListener, P
         adapter = new PerSlotAdapter(activity, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapterTimeTableSlots = new ArrayList<>();
-        validateTodaySlots();
-        adapter.addData(adapterTimeTableSlots);
+        adapter.addData(attendanceTimetableSlots);
         recyclerView.setAdapter(adapter);
     }
 
@@ -86,16 +81,7 @@ public class PerSlotFragment extends Fragment implements View.OnClickListener, P
         closeButton.setOnClickListener(this);
     }
 
-    private void validateTodaySlots() {
-        Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("EEEE");
-        String formattedDate = df.format(c);
-        for (int i = 0; i < attendanceTimetableSlots.size(); i++) {
-            if (attendanceTimetableSlots.get(i).getDay().toLowerCase().equals(formattedDate.toLowerCase())) {
-                 adapterTimeTableSlots.add(attendanceTimetableSlots.get(i));
-            }
-        }
-    }
+
 
     @Override
     public void onClick(View view) {

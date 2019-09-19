@@ -57,6 +57,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     private View fullDayView, perSlotView;
     private TakeAttendanceDialog takeAttendanceDialog;
     private ArrayList<Integer> createIds, updateIds;
+    private ArrayList <AttendanceTimetableSlot> adapterTimeTableSlots;
     private TeacherAttendanceAdapter teacherAttendanceAdapter;
     private Button fullDayButton, perSlotButton, assignAllButton, assignSelectedButton;
 
@@ -101,6 +102,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         teacherAttendanceView = new TeacherAttendanceView(activity, this);
         createIds = new ArrayList<>();
         updateIds = new ArrayList<>();
+        adapterTimeTableSlots = new ArrayList<>();
         getDateInNumbers();
         getFullDayAttendance();
     }
@@ -220,11 +222,12 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             colorFullDayAttendance();
             teacherAttendanceAdapter.addData(attendance.getStudents(), attendance.getAttendances());
         } else {
-            if (!attendance.getTimetableSlots().isEmpty()) {
+            validateTodaySlots();
+            if (!adapterTimeTableSlots.isEmpty()) {
                 if (isFragmentShowing) {
                     PerSlotFragment perSlotFragment = PerSlotFragment.newInstance(this);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.TIMETABLE_SLOTS, attendance.getTimetableSlots());
+                    bundle.putSerializable(Constants.TIMETABLE_SLOTS, adapterTimeTableSlots);
                     perSlotFragment.setArguments(bundle);
                     getParentFragment().getChildFragmentManager().
                             beginTransaction().add(R.id.course_root, perSlotFragment, "CoursesFragments").
@@ -364,6 +367,15 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         }
 
     }
-
+    private void validateTodaySlots() {
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("EEEE");
+        String formattedDate = df.format(c);
+        for (int i = 0; i < attendance.getTimetableSlots().size(); i++) {
+            if (attendance.getTimetableSlots().get(i).getDay().toLowerCase().equals(formattedDate.toLowerCase())) {
+                adapterTimeTableSlots.add(attendance.getTimetableSlots().get(i));
+            }
+        }
+    }
 }
 
