@@ -25,6 +25,7 @@ import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.models.AttendanceStudent;
+import trianglz.models.AttendanceTimetableSlot;
 import trianglz.models.Attendances;
 import trianglz.utils.Constants;
 
@@ -34,6 +35,7 @@ import trianglz.utils.Constants;
  */
 public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttendanceAdapter.ViewHolder> {
     public Context context;
+    public AttendanceTimetableSlot attendanceTimetableSlot = null;
     private TeacherAttendanceAdapterInterface teacherAttendanceAdapterInterface;
     public HashMap<Integer, Attendances> positionStatusHashMap;
     public HashMap<Integer, AttendanceStudent> positionCheckStatusHashMap;
@@ -101,11 +103,20 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
         mDataAttendancesList.addAll(attendances);
         mDataList.clear();
         mDataList.addAll(data);
+        positionStatusHashMap.clear();
         for (int i = 0; i < data.size(); i++) {
             if (!attendances.isEmpty()) {
                 for (int k = 0; k < attendances.size(); k++) {
-                    if (data.get(i).getChildId() == attendances.get(k).getStudentId()) {
-                        positionStatusHashMap.put(data.get(i).getChildId(), attendances.get(k));
+                    if (attendanceTimetableSlot == null) {
+                        if (data.get(i).getChildId() == attendances.get(k).getStudentId()) {
+                            positionStatusHashMap.put(data.get(i).getChildId(), attendances.get(k));
+                        }
+                    } else {
+                        if (attendanceTimetableSlot.getId() == attendances.get(k).getTimetableSlotId()) {
+                            if (data.get(i).getChildId() == attendances.get(k).getStudentId()) {
+                                positionStatusHashMap.put(data.get(i).getChildId(), attendances.get(k));
+                            }
+                        }
                     }
                 }
             }

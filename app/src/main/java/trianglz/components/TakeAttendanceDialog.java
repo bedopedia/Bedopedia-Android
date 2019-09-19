@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import trianglz.utils.Constants;
+
 /**
  * Created by Farah A. Moniem on 15/09/2019.
  */
@@ -24,14 +26,16 @@ public class TakeAttendanceDialog extends BottomSheetDialog implements View.OnCl
     private Button cancelButton;
     private TextView actionTextView;
     private Boolean isMultipleSelected;
+    private TakeAttendanceDialogInterface takeAttendanceDialogInterface;
     private LinearLayout assignPresentLayout, assignAbsentLayout, assignLateLayout, removeAllStatusLayout;
 
-    public TakeAttendanceDialog(@NonNull Context context, Boolean isMultipleSelected) {
+    public TakeAttendanceDialog(@NonNull Context context, Boolean isMultipleSelected, TakeAttendanceDialogInterface takeAttendanceDialogInterface) {
         super(context, R.style.AttendanceDialog);
         View view = getLayoutInflater().inflate(R.layout.layout_take_attendance, null);
         setContentView(view);
         this.context = context;
         this.isMultipleSelected = isMultipleSelected;
+        this.takeAttendanceDialogInterface = takeAttendanceDialogInterface;
     }
 
     @Override
@@ -82,15 +86,22 @@ public class TakeAttendanceDialog extends BottomSheetDialog implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.assign_present_layout:
+                takeAttendanceDialogInterface.onStatusSelected(Constants.TYPE_PRESENT);
                 break;
             case R.id.assign_absent_layout:
+                takeAttendanceDialogInterface.onStatusSelected(Constants.TYPE_ABSENT);
                 break;
             case R.id.assign_late_layout:
+                takeAttendanceDialogInterface.onStatusSelected(Constants.TYPE_LATE);
                 break;
             case R.id.cancel_attendance_dialog_btn:
                 dismiss();
                 break;
 
         }
+    }
+
+    public interface TakeAttendanceDialogInterface {
+        void onStatusSelected(String status);
     }
 }

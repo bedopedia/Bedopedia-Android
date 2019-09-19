@@ -19,6 +19,7 @@ import com.skolera.skolera_android.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import trianglz.components.ExcusedDialog;
@@ -28,6 +29,7 @@ import trianglz.core.views.TeacherAttendanceView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Attendance;
+import trianglz.models.AttendanceStudent;
 import trianglz.models.AttendanceTimetableSlot;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TeacherAttendanceAdapter;
@@ -37,7 +39,7 @@ import trianglz.utils.Constants;
 /**
  * Created by Farah A. Moniem on 09/09/2019.
  */
-public class TeacherAttendanceFragment extends Fragment implements View.OnClickListener, PerSlotFragment.SelectSlotInterface, TeacherAttendanceAdapter.TeacherAttendanceAdapterInterface, TeacherAttendancePresenter, ExcusedDialog.ExcusedDialogInterface {
+public class TeacherAttendanceFragment extends Fragment implements View.OnClickListener, TakeAttendanceDialog.TakeAttendanceDialogInterface, PerSlotFragment.SelectSlotInterface, TeacherAttendanceAdapter.TeacherAttendanceAdapterInterface, TeacherAttendancePresenter, ExcusedDialog.ExcusedDialogInterface {
 
 
     private View rootView;
@@ -54,6 +56,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     private TeacherAttendanceView teacherAttendanceView;
     private View fullDayView, perSlotView;
     private TakeAttendanceDialog takeAttendanceDialog;
+    private ArrayList<Integer> createIds, updateIds;
     private TeacherAttendanceAdapter teacherAttendanceAdapter;
     private Button fullDayButton, perSlotButton, assignAllButton, assignSelectedButton;
 
@@ -96,6 +99,8 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(teacherAttendanceAdapter);
         teacherAttendanceView = new TeacherAttendanceView(activity, this);
+        createIds = new ArrayList<>();
+        updateIds = new ArrayList<>();
         getDateInNumbers();
         getFullDayAttendance();
     }
@@ -167,11 +172,13 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
                 getPerSlotAttendance();
                 break;
             case R.id.assign_all_btn:
-                takeAttendanceDialog = new TakeAttendanceDialog(activity, false);
+                isMultipleSelected = false;
+                takeAttendanceDialog = new TakeAttendanceDialog(activity, false, this);
                 takeAttendanceDialog.show();
                 break;
             case R.id.assign_selected_btn:
-                takeAttendanceDialog = new TakeAttendanceDialog(activity, true);
+                isMultipleSelected = true;
+                takeAttendanceDialog = new TakeAttendanceDialog(activity, true, this);
                 takeAttendanceDialog.show();
                 break;
         }
@@ -179,39 +186,13 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onStatusClicked(int studentId, String status) {
-        String url;
-        int attendanceId;
-        ArrayList<Integer> studentIds=new ArrayList<>();
+        ArrayList<Integer> studentIds = new ArrayList<>();
         studentIds.add(studentId);
-        String date = day + "-" + month + "-" + year;
-        if (teacherAttendanceAdapter.positionStatusHashMap.containsKey(studentId)) {
-            attendanceId = teacherAttendanceAdapter.positionStatusHashMap.get(studentId).getId();
-            url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.updateAttendance(attendanceId);
-            if (status.equals(Constants.TYPE_EXCUSED)) {
-                ExcusedDialog excusedDialog = new ExcusedDialog(activity, this, studentId);
-                excusedDialog.show();
-            } else {
-                if (perSlot) {
-                    teacherAttendanceView.updateAttendance(url, "", status, attendanceId, attendanceTimetableSlot.getId());
-                } else {
-                    teacherAttendanceView.updateAttendance(url, "", status, attendanceId);
-                    activity.showLoadingDialog();
-                }
-            }
+        if (status.equals(Constants.TYPE_EXCUSED)) {
+            ExcusedDialog excusedDialog = new ExcusedDialog(activity, this, studentId);
+            excusedDialog.show();
         } else {
-            url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
-            if (status.equals(Constants.TYPE_EXCUSED)) {
-                ExcusedDialog excusedDialog = new ExcusedDialog(activity, this, studentId);
-                excusedDialog.show();
-            } else {
-                if (perSlot) {
-                    teacherAttendanceView.createBatchAttendance(url, date, "", status, studentIds, attendanceTimetableSlot.getId());
-                    activity.showLoadingDialog();
-                } else {
-                    teacherAttendanceView.createBatchAttendance(url, date, "", status, studentIds, attendanceTimetableSlot.getId());
-                    activity.showLoadingDialog();
-                }
-            }
+            getCreateAndUpdateBatch(studentIds, status);
         }
     }
 
@@ -228,11 +209,13 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onGetTeacherAttendanceSuccess(Attendance attendance) {
+        createIds.clear();
         this.attendance = attendance;
         if (attendance.getTimetableSlots() == null) {
             if (activity.progress.isShowing())
                 activity.progress.dismiss();
             perSlot = false;
+            teacherAttendanceAdapter.attendanceTimetableSlot = null;
             colorFullDayAttendance();
             teacherAttendanceAdapter.addData(attendance.getStudents(), attendance.getAttendances());
         } else {
@@ -248,7 +231,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                         addToBackStack(null).commit();
                 isFragmentShowing = false;
-            }else{
+            } else {
                 teacherAttendanceAdapter.addData(attendance.getStudents(), attendance.getAttendances());
             }
         }
@@ -299,7 +282,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     public void onSubmitClicked(String comment, int studentId) {
         String url;
         int attendanceId;
-        ArrayList<Integer> studentIds=new ArrayList<>();
+        ArrayList<Integer> studentIds = new ArrayList<>();
         studentIds.add(studentId);
         if (teacherAttendanceAdapter.positionStatusHashMap.containsKey(studentId)) {
             attendanceId = teacherAttendanceAdapter.positionStatusHashMap.get(studentId).getId();
@@ -312,15 +295,67 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             teacherAttendanceView.createBatchAttendance(url, date, comment, Constants.TYPE_EXCUSED, studentIds);
             activity.showLoadingDialog();
         }
-
     }
 
     @Override
     public void onApplySelected(AttendanceTimetableSlot timetableSlot) {
         perSlot = true;
         this.attendanceTimetableSlot = timetableSlot;
+        teacherAttendanceAdapter.attendanceTimetableSlot = timetableSlot;
         teacherAttendanceAdapter.addData(attendance.getStudents(), attendance.getAttendances());
         colorPerSlotAttendance();
     }
+
+    @Override
+    public void onStatusSelected(String status) {
+        Collection<AttendanceStudent> values = teacherAttendanceAdapter.positionCheckStatusHashMap.values();
+        ArrayList<AttendanceStudent> listOfValues = new ArrayList<>(values);
+        ArrayList<Integer> studentIds = new ArrayList<>();
+        if (isMultipleSelected) {
+            for (int i = 0; i < listOfValues.size(); i++) {
+                studentIds.add(listOfValues.get(i).getChildId());
+            }
+            getCreateAndUpdateBatch(studentIds, status);
+        } else {
+            for (int i = 0; i < attendance.getStudents().size(); i++) {
+                studentIds.add(attendance.getStudents().get(i).getChildId());
+            }
+            getCreateAndUpdateBatch(studentIds, status);
+        }
+    }
+
+    public void getCreateAndUpdateBatch(ArrayList<Integer> studentIds, String status) {
+        String url;
+        int attendanceId;
+        String date = day + "-" + month + "-" + year;
+        for (int i = 0; i < studentIds.size(); i++) {
+            if (teacherAttendanceAdapter.positionStatusHashMap.containsKey(studentIds.get(i))) {
+                updateIds.add(studentIds.get(i));
+            } else {
+                createIds.add(studentIds.get(i));
+            }
+        }
+        if (!createIds.isEmpty()) {
+            url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
+            if (perSlot) {
+                teacherAttendanceView.createBatchAttendance(url, date, "", status, createIds, attendanceTimetableSlot.getId());
+                activity.showLoadingDialog();
+            } else {
+                teacherAttendanceView.createBatchAttendance(url, date, "", status, createIds);
+                activity.showLoadingDialog();
+            }
+        } else {
+//            attendanceId = teacherAttendanceAdapter.positionStatusHashMap.get(studentIds.get(i)).getId();
+//            url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.updateAttendance(attendanceId);
+//            if (perSlot) {
+//                teacherAttendanceView.updateAttendance(url, "", status, attendanceId, attendanceTimetableSlot.getId());
+//            } else {
+//                teacherAttendanceView.updateAttendance(url, "", status, attendanceId);
+//                activity.showLoadingDialog();
+//            }
+        }
+
+    }
+
 }
 

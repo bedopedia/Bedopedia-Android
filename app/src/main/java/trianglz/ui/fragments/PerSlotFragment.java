@@ -38,7 +38,7 @@ public class PerSlotFragment extends Fragment implements View.OnClickListener, P
     private AttendanceTimetableSlot timtableSlotSelected;
     private boolean slotSelected = false;
     private SelectSlotInterface selectSlotInterface;
-    private ArrayList<AttendanceTimetableSlot> attendanceTimetableSlots;
+    private ArrayList<AttendanceTimetableSlot> attendanceTimetableSlots, adapterTimeTableSlots;
 
     public static PerSlotFragment newInstance(SelectSlotInterface selectSlotInterface) {
         PerSlotFragment perSlotFragment = new PerSlotFragment();
@@ -75,8 +75,9 @@ public class PerSlotFragment extends Fragment implements View.OnClickListener, P
         adapter = new PerSlotAdapter(activity, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(linearLayoutManager);
+        adapterTimeTableSlots = new ArrayList<>();
         validateTodaySlots();
-        adapter.addData(attendanceTimetableSlots);
+        adapter.addData(adapterTimeTableSlots);
         recyclerView.setAdapter(adapter);
     }
 
@@ -90,8 +91,8 @@ public class PerSlotFragment extends Fragment implements View.OnClickListener, P
         SimpleDateFormat df = new SimpleDateFormat("EEEE");
         String formattedDate = df.format(c);
         for (int i = 0; i < attendanceTimetableSlots.size(); i++) {
-            if (!attendanceTimetableSlots.get(i).getDay().toLowerCase().equals(formattedDate.toLowerCase())) {
-                attendanceTimetableSlots.remove(i);
+            if (attendanceTimetableSlots.get(i).getDay().toLowerCase().equals(formattedDate.toLowerCase())) {
+                 adapterTimeTableSlots.add(attendanceTimetableSlots.get(i));
             }
         }
     }

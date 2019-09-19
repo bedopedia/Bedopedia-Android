@@ -63,7 +63,7 @@ public class Attendances implements Serializable {
         this.timetableSlotId = timetableSlotId;
     }
 
-    public Object getTimetableSlotId() {
+    public int getTimetableSlotId() {
         return this.timetableSlotId;
     }
 

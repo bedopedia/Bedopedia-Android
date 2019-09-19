@@ -920,17 +920,16 @@ public class UserManager {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject rootJsonObject = new JSONObject();
         JSONObject jsonObject = new JSONObject();
-        JSONObject attendanceJson = new JSONObject();
         JSONArray attendancesJsonArray = new JSONArray();
         try {
             for (int i = 0; i < studentIds.size(); i++) {
+                JSONObject attendanceJson = new JSONObject();
                 attendanceJson.put(Constants.KEY_DATE, date);
                 attendanceJson.put(Constants.KEY_COMMENT, comment);
                 attendanceJson.put(Constants.KEY_STATUS, status);
                 attendanceJson.put(Constants.KEY_STUDENT_ID, studentIds.get(i));
+                attendancesJsonArray.put(attendanceJson);
             }
-
-            attendancesJsonArray.put(attendanceJson);
             jsonObject.put(Constants.KEY_ATTENDANCES, attendancesJsonArray);
             rootJsonObject.put(Constants.KEY_ATTENDANCE, jsonObject);
         } catch (JSONException e) {
