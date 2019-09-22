@@ -197,16 +197,16 @@ public class Constants {
     public static final String DISABLE_CLICK = "disable_click";
     public static final String KEY_COURSE_GROUP_NAME = "course_group_name";
     public static final String KEY_ASSIGNMENT_ID = "assignment_id";
-    public static final String KEY_ASSIGNMENTS_GRADING= "is_assignments_grading";
-    public static final String KEY_QUIZ_ID= "quiz_id";
+    public static final String KEY_ASSIGNMENTS_GRADING = "is_assignments_grading";
+    public static final String KEY_QUIZ_ID = "quiz_id";
     public static final String KEY_ASSIGNMENT_NAME = "assignment_name";
     public static final String KEY_QUIZ_NAME = "quiz_name";
-    public static final String TYPE_EVENT="event";
-    public static final String TYPE_VACATIONS="vacations";
-    public static final String TYPE_PERSONAL="personal";
-    public static final String TYPE_QUIZZES="quizzes";
-    public static final String TYPE_ACADEMIC="academic";
-    public static final String TYPE_ASSIGNMENTS="assignments";
+    public static final String TYPE_EVENT = "event";
+    public static final String TYPE_VACATIONS = "vacations";
+    public static final String TYPE_PERSONAL = "personal";
+    public static final String TYPE_QUIZZES = "quizzes";
+    public static final String TYPE_ACADEMIC = "academic";
+    public static final String TYPE_ASSIGNMENTS = "assignments";
     public static final String KEY_EVENT = "event";
     public static final String KEY_ALL_DAY = "all_day";
     public static final String KEY_SUBSCRIPTIONS_ATTRIBUTES = "subscriptions_attributes";
@@ -222,7 +222,7 @@ public class Constants {
     public static final int PICKFILE_RESULT_CODE = 1;
     public static final String KEY_POST_IDS = "post_ids[]";
     public static final String TIMETABLE_SLOTS = "timetable_slot";
-    public static final String TIMETABLE_SLOTS_ID ="timetable_slot_id";
+    public static final String TIMETABLE_SLOTS_ID = "timetable_slot_id";
     public static final String KEY_ATTENDANCES = "attendances";
     public static final String TYPE_PRESENT = "present";
     public static final String TYPE_LATE = "late";
@@ -230,6 +230,7 @@ public class Constants {
     public static final String TYPE_EXCUSED = "excused";
 
 
-    public static final String DELETE_ALL = "delete_all" ;
+    public static final String DELETE_ALL = "delete_all";
+    public static final String KEY_IDS = "ids";
 }
 

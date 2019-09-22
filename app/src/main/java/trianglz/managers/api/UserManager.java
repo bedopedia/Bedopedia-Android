@@ -949,22 +949,16 @@ public class UserManager {
         });
     }
 
-    public static void updateAttendance(String url, String comment, String status, int timetableSlotId, int attendanceId, final ResponseListener responseListener) {
+
+    public static void deleteBatchAttendance(String url, ArrayList<Integer> studentIds, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject rootJsonObject = new JSONObject();
-        JSONObject attendanceJson = new JSONObject();
         try {
-            attendanceJson.put(Constants.KEY_COMMENT, comment);
-            attendanceJson.put(Constants.KEY_STATUS, status);
-            attendanceJson.put(Constants.TIMETABLE_SLOTS_ID, timetableSlotId);
-
-            rootJsonObject.put(Constants.KEY_ATTENDANCE, attendanceJson);
-            rootJsonObject.put(Constants.KEY_ID, attendanceId);
+            rootJsonObject.put(Constants.KEY_IDS, studentIds);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        NetworkManager.put(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 responseListener.onSuccess(response);
@@ -973,35 +967,8 @@ public class UserManager {
             @Override
             public void onFailure(String message, int errorCode) {
                 responseListener.onFailure(message, errorCode);
+
             }
         });
     }
-
-    public static void updateAttendance(String url, String comment, String status, int attendanceId, final ResponseListener responseListener) {
-        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
-        JSONObject rootJsonObject = new JSONObject();
-        JSONObject attendanceJson = new JSONObject();
-        try {
-            attendanceJson.put(Constants.KEY_COMMENT, comment);
-            attendanceJson.put(Constants.KEY_STATUS, status);
-
-            rootJsonObject.put(Constants.KEY_ATTENDANCE, attendanceJson);
-            rootJsonObject.put(Constants.KEY_ID, attendanceId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        NetworkManager.put(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                responseListener.onSuccess(response);
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-                responseListener.onFailure(message, errorCode);
-            }
-        });
-    }
-
 }
