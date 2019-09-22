@@ -950,11 +950,15 @@ public class UserManager {
     }
 
 
-    public static void deleteBatchAttendance(String url, ArrayList<Integer> studentIds, final ResponseListener responseListener) {
+    public static void deleteBatchAttendance(String url, ArrayList<Integer> attendanceIds, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject rootJsonObject = new JSONObject();
+        JSONArray attendanceIdsJsonArray = new JSONArray();
         try {
-            rootJsonObject.put(Constants.KEY_IDS, studentIds);
+            for (int i = 0; i < attendanceIds.size(); i++) {
+                attendanceIdsJsonArray.put(attendanceIds.get(i));
+            }
+            rootJsonObject.put(Constants.KEY_IDS, attendanceIdsJsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }

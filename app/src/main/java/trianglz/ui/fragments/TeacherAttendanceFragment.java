@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 
 import trianglz.components.ExcusedDialog;
 import trianglz.components.TakeAttendanceDialog;
@@ -31,6 +32,7 @@ import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Attendance;
 import trianglz.models.AttendanceStudent;
 import trianglz.models.AttendanceTimetableSlot;
+import trianglz.models.Attendances;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TeacherAttendanceAdapter;
 import trianglz.utils.Constants;
@@ -267,7 +269,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public void onUpdateAttendanceSuccess() {
+    public void onBatchAttendanceDeletedSuccess() {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
         if (perSlot) {
@@ -278,11 +280,16 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public void onUpdateAttendanceFailure(String message, int code) {
+    public void onBatchAttendanceDeletedFailure(String message, int code) {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
-        activity.showErrorDialog(activity, code, "");
+        if (perSlot) {
+            getPerSlotAttendance();
+        } else {
+            getFullDayAttendance();
+        }
     }
+
 
     @Override
     public void onSubmitClicked(String comment, int studentId) {
@@ -319,10 +326,21 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             }
             getCreateAndUpdateBatch(studentIds, status);
         } else {
-            for (int i = 0; i < attendance.getStudents().size(); i++) {
-                studentIds.add(attendance.getStudents().get(i).getChildId());
+            if (status.equals(Constants.DELETE_ALL)) {
+                String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.deleteBatchAttendance();
+                if (!teacherAttendanceAdapter.positionStatusHashMap.isEmpty()) {
+                    for (Map.Entry<Integer, Attendances> entry : teacherAttendanceAdapter.positionStatusHashMap.entrySet()) {
+                        studentIds.add(entry.getValue().getId());
+                    }
+                    teacherAttendanceView.deleteBatchAttendance(url, studentIds);
+                    activity.showLoadingDialog();
+                }
+            } else {
+                for (int i = 0; i < attendance.getStudents().size(); i++) {
+                    studentIds.add(attendance.getStudents().get(i).getChildId());
+                }
+                getCreateAndUpdateBatch(studentIds, status);
             }
-            getCreateAndUpdateBatch(studentIds, status);
         }
     }
 

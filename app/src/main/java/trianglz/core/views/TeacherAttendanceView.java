@@ -77,7 +77,7 @@ public class TeacherAttendanceView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                teacherAttendancePresenter.onBatchAttendanceCreatedFailure(message, errorCode);
+                teacherAttendancePresenter.onBatchAttendanceDeletedFailure(message, errorCode);
             }
         });
     }
