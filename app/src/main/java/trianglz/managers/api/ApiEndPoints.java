@@ -159,4 +159,7 @@ public class ApiEndPoints {
         return "/api/attendances/batch_create";
     }
 
+    public static String deleteBatchAttendance() {
+        return "/api/attendances/batch_destroy";
+    }
 }
