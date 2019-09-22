@@ -192,23 +192,22 @@
     <string name="clicking_button">بضغتك على زر + إضافة ملف سيضاف ملف جديد</string>
     <string name="post">نشر</string>
     <string name="answer">Answer</string>
-    <string name="full_day">Full Day</string>
     <string name="solve_quiz_now">Solve Quiz now</string>
     <string name="present">حاضر</string>
-    <string name="per_slot">Per slot</string>
-    <string name="assign_for_all">Assign for all</string>
-    <string name="assign_for_selected">Assign for selected</string>
     <string name="something_went_wrong">حدث خطأ ما، برجاء المحاولة مرة اخرى</string>
     <string name="correct_dates">برجاء إدخال تواريخ صحيحة</string>
-    <string name="remove_all_status">Remove all status</string>
-    <string name="assign_action_for_all">Assign action for all students</string>
-    <string name="assign_action_for_selected">Assign action for selected students</string>
-    <string name="student_excused">The student was excused for this day</string>
-    <string name="write_reason">Write down the reason</string>
-    <string name="reason_hint">Tell more about the reason</string>
-    <string name="select_slot">Select slot</string>
-    <string name="apply">Apply</string>
-    <string name="slot">Slot</string>
-    <string name="no_slots_available">No slots available</string>
-
+    <string name="remove_all_status">ازالة كل الحالات</string>
+    <string name="assign_action_for_all">تعيين لكل الطلبة</string>
+    <string name="assign_action_for_selected">تعيين للطلبة المختارة</string>
+    <string name="student_excused">الطالب معتذر اليوم</string>
+    <string name="write_reason">اكتب السبب</string>
+    <string name="reason_hint">السبب</string>
+    <string name="select_slot">اختر الحصة</string>
+    <string name="apply">تطبيق</string>
+    <string name="slot">حصة</string>
+    <string name="no_slots_available">لا يوجد حصص</string>
+    <string name="full_day">يوم كامل</string>
+    <string name="per_slot">لكل حصة</string>
+    <string name="assign_for_all">تعيين للكل</string>
+    <string name="assign_for_selected">تعيين للمختارين</string>
 </resources>
