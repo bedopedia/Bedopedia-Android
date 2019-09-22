@@ -159,7 +159,4 @@ public class ApiEndPoints {
         return "/api/attendances/batch_create";
     }
 
-    public static String updateAttendance(int attendanceId) {
-        return "/api/attendances/" + attendanceId;
-    }
 }
