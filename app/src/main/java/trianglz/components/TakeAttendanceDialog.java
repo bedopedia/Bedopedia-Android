@@ -97,6 +97,9 @@ public class TakeAttendanceDialog extends BottomSheetDialog implements View.OnCl
                 takeAttendanceDialogInterface.onStatusSelected(Constants.TYPE_LATE);
                 dismiss();
                 break;
+            case R.id.remove_all_status:
+                takeAttendanceDialogInterface.onStatusSelected(Constants.DELETE_ALL);
+                dismiss();
             case R.id.cancel_attendance_dialog_btn:
                 dismiss();
                 break;

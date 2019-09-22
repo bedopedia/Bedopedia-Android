@@ -230,5 +230,6 @@ public class Constants {
     public static final String TYPE_EXCUSED = "excused";
 
 
+    public static final String DELETE_ALL = "delete_all" ;
 }
 
