@@ -48,11 +48,14 @@ public class PerSlotAdapter extends RecyclerView.Adapter<PerSlotAdapter.ViewHold
         }
         viewHolder.clearAllSelected();
         if (selectedPosition == position) {
+            viewHolder.itemLayout.setBackground(context.getResources().getDrawable(R.color.ice_blue_70,null));
             viewHolder.slotSelectedImageView.setVisibility(View.VISIBLE);
             viewHolder.slotDeselectedImageView.setVisibility(View.GONE);
         } else {
             viewHolder.slotSelectedImageView.setVisibility(View.GONE);
             viewHolder.slotDeselectedImageView.setVisibility(View.VISIBLE);
+            viewHolder.itemLayout.setBackground(context.getResources().getDrawable(R.color.white,null));
+
         }
         viewHolder.slotNameTextView.setText(context.getResources().getString(R.string.slot) + " " + mDataList.get(position).getSlotNo());
     }

@@ -70,5 +70,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:scaleType="centerInside"
-        android:src="@drawable/blue_backgroung" />
+        android:src="@drawable/excused_dialog_icon" />
 </FrameLayout>
