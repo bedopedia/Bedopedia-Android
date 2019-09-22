@@ -237,7 +237,7 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
 
     private void setButtonDrawble(Button button, int background, int compoundDrawable, int color) {
         button.setBackground(context.getResources().getDrawable(background, null));
-        button.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(compoundDrawable, null), null, null, null);
+        button.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(compoundDrawable, null), null, null, null);
         button.setTextColor(context.getResources().getColor(color, null));
     }
 

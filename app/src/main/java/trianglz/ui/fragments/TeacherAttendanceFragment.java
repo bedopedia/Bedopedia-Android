@@ -325,6 +325,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
                 studentIds.add(listOfValues.get(i).getChildId());
             }
             getCreateAndUpdateBatch(studentIds, status);
+            teacherAttendanceAdapter.positionCheckStatusHashMap.clear();
         } else {
             if (status.equals(Constants.DELETE_ALL)) {
                 String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.deleteBatchAttendance();
