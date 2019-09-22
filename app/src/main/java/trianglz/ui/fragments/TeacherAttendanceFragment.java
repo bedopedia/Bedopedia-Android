@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 import trianglz.components.ExcusedDialog;
@@ -241,7 +242,6 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             } else {
                 activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.no_slots_available));
             }
-
         }
     }
 
@@ -364,8 +364,9 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     }
 
     private void validateTodaySlots() {
+        adapterTimeTableSlots.clear();
         Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("EEEE");
+        SimpleDateFormat df = new SimpleDateFormat("EEEE", Locale.US);
         String formattedDate = df.format(c);
         for (int i = 0; i < attendance.getTimetableSlots().size(); i++) {
             if (attendance.getTimetableSlots().get(i).getDay().toLowerCase().equals(formattedDate.toLowerCase())) {
