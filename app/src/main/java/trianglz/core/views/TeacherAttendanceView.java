@@ -68,33 +68,17 @@ public class TeacherAttendanceView {
         });
     }
 
-    public void updateAttendance(String url, String comment, String status, int attendanceID, int timetableSlotId) {
-        UserManager.updateAttendance(url, comment, status, timetableSlotId, attendanceID, new ResponseListener() {
+    public void deleteBatchAttendance(String url,ArrayList<Integer> studentIds){
+        UserManager.deleteBatchAttendance(url, studentIds, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                teacherAttendancePresenter.onUpdateAttendanceSuccess();
+                teacherAttendancePresenter.onBatchAttendanceDeletedSuccess();
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                teacherAttendancePresenter.onUpdateAttendanceFailure(message, errorCode);
+                teacherAttendancePresenter.onBatchAttendanceCreatedFailure(message, errorCode);
             }
         });
-
-    }
-
-    public void updateAttendance(String url, String comment, String status, int attendanceID) {
-        UserManager.updateAttendance(url, comment, status, attendanceID, new ResponseListener() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                teacherAttendancePresenter.onUpdateAttendanceSuccess();
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-                teacherAttendancePresenter.onUpdateAttendanceFailure(message, errorCode);
-            }
-        });
-
     }
 }
