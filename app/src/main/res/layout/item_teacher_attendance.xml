@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -43,9 +43,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="28dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="14dp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
