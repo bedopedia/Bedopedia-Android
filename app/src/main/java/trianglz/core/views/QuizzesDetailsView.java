@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import trianglz.core.presenters.QuizzesDetailsPresenter;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.Meta;
 import trianglz.models.Quizzes;
 import trianglz.utils.Constants;
 
@@ -30,11 +31,13 @@ public class QuizzesDetailsView {
             @Override
             public void onSuccess(JSONObject response) {
                 JSONArray jsonArray = response.optJSONArray(Constants.KEY_QUIZZES);
+                JSONObject metaJsonObject = response.optJSONObject(Constants.KEY_META);
+                Meta meta= new Meta(metaJsonObject);
                 ArrayList<Quizzes> quizzes = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     quizzes.add(Quizzes.create(jsonArray.optString(i)));
                 }
-                quizzesDetailsPresenter.onGetQuizzesDetailsSuccess(quizzes);
+                quizzesDetailsPresenter.onGetQuizzesDetailsSuccess(quizzes,meta);
             }
 
             @Override

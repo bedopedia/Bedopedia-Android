@@ -228,6 +228,7 @@ public class Constants {
     public static final String TYPE_LATE = "late";
     public static final String TYPE_ABSENT = "absent";
     public static final String TYPE_EXCUSED = "excused";
+    public static final String KEY_META = "meta";
 
 
     public static final String DELETE_ALL = "delete_all";
