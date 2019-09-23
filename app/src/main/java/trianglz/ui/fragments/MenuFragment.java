@@ -372,16 +372,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
         todaySlots = (List<TimeTableSlot>) timeTableData.get(0);
         tomorrowSlots = (List<TimeTableSlot>) timeTableData.get(1);
-        if (nextSlot.isEmpty()) {
-            //  nextSlotTextView.setText(getParentActivity().getResources().getString(R.string.there_is_no_time_table));
-            //teacherNextSlotTextView.setText(getParentActivity().getResources().getString(R.string.there_is_no_time_table));
-            //timeTableLayout.setClickable(false);
-            // teacherTimeTableLayout.setClickable(false);
-        } else {
+        if (!nextSlot.isEmpty()) {
             nextSlotTextView.setVisibility(View.VISIBLE);
             teacherNextSlotTextView.setVisibility(View.VISIBLE);
-            //    timeTableLayout.setClickable(true);
-            //  teacherTimeTableLayout.setClickable(true);
             nextSlotTextView.setText(nextSlot);
             teacherNextSlotTextView.setText(nextSlot);
         }
@@ -465,29 +458,14 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             Notification notification = notificationArrayList.get(0);
         } else {
         }
-        //   if (Util.isNetworkAvailable(getParentActivity())) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
         studentDetailView.getMessages(url, SessionManager.getInstance().getId());
-//        } else {
-//            if (getParentActivity().progress.isShowing()) {
-//                getParentActivity().progress.dismiss();
-//            }
-//            Util.showNoInternetConnectionDialog(getParentActivity());
-        //       }
-
     }
 
     @Override
     public void onGetNotificationFailure(String message, int errorCode) {
-        // if (Util.isNetworkAvailable(getParentActivity())) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
         studentDetailView.getMessages(url, SessionManager.getInstance().getId());
-//        } else {
-//            if (getParentActivity().progress.isShowing()) {
-//                getParentActivity().progress.dismiss();
-//            }
-//            Util.showNoInternetConnectionDialog(getParentActivity());
-        //      }
         if (!activity.isCalling) {
             if (getParentActivity().progress.isShowing()) {
                 getParentActivity().progress.dismiss();
@@ -508,29 +486,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             }
         } else {
         }
-        //      if (Util.isNetworkAvailable(getParentActivity())) {
-        //      getAnnouncement();
-//        } else {
-//            if (getParentActivity().progress.isShowing()) {
-//                getParentActivity().progress.dismiss();
-//            }
-//            Util.showNoInternetConnectionDialog(getParentActivity());
-//        }
-
     }
 
     @Override
     public void onGetMessagesFailure(String message, int errorCode) {
-        //    if (Util.isNetworkAvailable(getParentActivity())) {
-        //  getAnnouncement();
-        //  } else {
-//            if (getParentActivity().progress.isShowing()) {
-//                getParentActivity().progress.dismiss();
-//            }
-//            Util.showNoInternetConnectionDialog(getParentActivity());
-//        }
         activity.showErrorDialog(activity, errorCode,"");
-
     }
 
 
@@ -625,12 +585,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                         beginTransaction().add(R.id.menu_fragment_root, postsFragment, "MenuFragments").
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                         addToBackStack(null).commit();
-//                Intent intent = new Intent(getActivity(), PostsActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable(Constants.STUDENT, student);
-//                intent.putExtra(Constants.KEY_BUNDLE, bundle);
-//                intent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
-//                startActivity(intent);
                 break;
             case R.id.layout_quizzes:
                 appBarLayout.setExpanded(true);
@@ -642,9 +596,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                         beginTransaction().add(R.id.menu_fragment_root, onlineQuizzesFragment, "MenuFragments").
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                         addToBackStack(null).commit();
-                // Intent intent1 = new Intent(getActivity(), OnlineQuizzesActivity.class);
-                //intent1.putExtra(Constants.STUDENT, student.toString());
-                //startActivity(intent1);
                 break;
             case R.id.layout_timetable_teacher:
                 openTeacherTimeTableActivity();
@@ -664,12 +615,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                     beginTransaction().add(R.id.menu_fragment_root, weeklyPlannerFragment, "MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
-//            Intent myIntent = new Intent(getActivity(), WeeklyPlannerActivity.class);
-//            Bundle bundle = new Bundle();
-//            bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, rootClass);
-//            bundle.putSerializable(Constants.STUDENT, student);
-//            myIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-//            startActivity(myIntent);
         } else {
             activity.showErrorDialog(activity,-3,getParentActivity().getResources().getString(R.string.there_is_no_weekly_planner));
         }
@@ -699,13 +644,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 beginTransaction().add(R.id.menu_fragment_root, gradesFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
-//
-//        Intent gradesIntent = new Intent(getActivity(), GradesActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.STUDENT, student);
-//        bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroups);
-//        gradesIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-//        startActivity(gradesIntent);
     }
 
     private void openCalendarActivity() {
@@ -718,11 +656,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 beginTransaction().add(R.id.menu_fragment_root, calendarFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
-//        Intent calendarIntent = new Intent(getActivity(), CalendarActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.STUDENT, student);
-//        calendarIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-//        startActivity(calendarIntent);
     }
 
     private void openTimeTableActivity() {
@@ -740,15 +673,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                     beginTransaction().add(R.id.menu_fragment_root, timetableMainFragment, "MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
-
-//
-//            Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
-//            Bundle bundle = new Bundle();
-//            bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
-//            bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
-//            bundle.putSerializable(Constants.STUDENT, student);
-//            timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-//            startActivity(timeTableIntent);
         }
     }
 
@@ -767,17 +691,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 beginTransaction().add(R.id.menu_fragment_root, behaviorNotesMainFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
-
-        //Intent behaviorNotesIntent = new Intent(getActivity(), BehaviorNotesActivity.class);
-        //behaviorNotesIntent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
-        //Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveBehaviorNotes);
-//        bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeBehaviorNotes);
-//        bundle.putSerializable(Constants.KEY_OTHER_NOTES_LIST, (Serializable) otherBehaviorNotes);
-//        bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
-//        bundle.putSerializable(Constants.STUDENT, student);
-//        behaviorNotesIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-//        startActivity(behaviorNotesIntent);
     }
 
     private void openAttendanceActivity() {
@@ -791,12 +704,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 beginTransaction().add(R.id.menu_fragment_root, attendanceFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
-//        Intent attendanceIntent = new Intent(getActivity(), AttendanceActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.STUDENT, student);
-//        bundle.putString(Constants.KEY_ATTENDANCE, attendance);
-//        attendanceIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-//        startActivity(attendanceIntent);
     }
 
 
@@ -921,12 +828,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 beginTransaction().add(R.id.menu_fragment_root, courseAssignmentFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
-
-//        Intent intent = new Intent(getActivity(), CourseAssignmentActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.STUDENT, student);
-//        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-//        startActivity(intent);
     }
 
     private void openTeacherTimeTableActivity() {
@@ -944,14 +845,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                     beginTransaction().add(R.id.menu_fragment_root, timetableMainFragment, "MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
-
-
-//            Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
-//            Bundle bundle = new Bundle();
-//            bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
-//            bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
-//            timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-//            startActivity(timeTableIntent);
         }
     }
 

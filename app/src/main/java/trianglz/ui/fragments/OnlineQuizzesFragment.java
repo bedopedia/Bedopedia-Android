@@ -70,7 +70,6 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         bindViews();
         setListeners();
         activity.showLoadingDialog();
-      //  onBackPress();
         onlineQuizzesView.getQuizzesCourses(student.getId());
     }
 
