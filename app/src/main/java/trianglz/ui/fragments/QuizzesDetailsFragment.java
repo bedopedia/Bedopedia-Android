@@ -32,6 +32,7 @@ import trianglz.core.presenters.QuizzesDetailsPresenter;
 import trianglz.core.views.QuizzesDetailsView;
 import trianglz.managers.SessionManager;
 import trianglz.models.CourseGroups;
+import trianglz.models.Meta;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Quizzes;
 import trianglz.models.Student;
@@ -63,8 +64,9 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private QuizzesDetailsView quizzesDetailsView;
     private CourseGroups courseGroup;
     private boolean teacherMode = false;
-    private  int page=1;
-
+    private int page = 1;
+    private int totalPages;
+    private boolean isOpen=true;
 
     @Nullable
     @Override
@@ -81,15 +83,14 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         bindViews();
         setListeners();
         if (!teacherMode) {
-            activity.showLoadingDialog();
-            quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId(),page);
+            getQuizzes();
         }
     }
 
 
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
-        if(bundle != null) {
+        if (bundle != null) {
             if (bundle.getBoolean(Constants.KEY_TEACHERS, false)) {
                 quizzes = bundle.getParcelableArrayList(Constants.KEY_QUIZZES);
                 teacherMode = true;
@@ -109,7 +110,8 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         imageLoader = new PicassoLoader();
         studentImageView = rootView.findViewById(R.id.img_student);
         backBtn = rootView.findViewById(R.id.btn_back);
-        if (!teacherMode) setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+        if (!teacherMode)
+            setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         if (teacherMode) {
             adapter = new QuizzesDetailsAdapter(activity, this, courseGroupName);
@@ -117,11 +119,11 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             adapter = new QuizzesDetailsAdapter(activity, this, courseName);
         }
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false));
-        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(10,activity),false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(10, activity), false));
         headerTextView = rootView.findViewById(R.id.tv_header);
         headerTextView.setText(courseName);
-        if (quizzes != null) adapter.addData(getArrayList(true));
+        if (quizzes != null) adapter.addData(getArrayList(isOpen));
 
         // radio button for segment control
         segmentedGroup = rootView.findViewById(R.id.segmented);
@@ -149,8 +151,9 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         openButton.setOnClickListener(this);
         closedButton.setOnClickListener(this);
     }
+
     private ArrayList<Quizzes> getArrayList(boolean isOpen) {
-        if (quizzes.isEmpty()) return null ;
+        if (quizzes.isEmpty()) return quizzes;
         ArrayList<Quizzes> filteredQuizzes = new ArrayList<>();
         for (Quizzes quiz : quizzes) {
             if (quiz.getState().equals("running")) {
@@ -161,6 +164,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         }
         return filteredQuizzes;
     }
+
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();
@@ -178,6 +182,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
                         public void onSuccess() {
 
                         }
+
                         @Override
                         public void onError() {
                             imageLoader = new PicassoLoader();
@@ -189,26 +194,31 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_back:
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_open:
-                adapter.addData(getArrayList(true));
+                isOpen=true;
+                recyclerView.scrollToPosition(0);
+                adapter.addData(getArrayList(isOpen));
                 break;
             case R.id.btn_closed:
-                adapter.addData(getArrayList(false));
+                isOpen=false;
+                recyclerView.scrollToPosition(0);
+                adapter.addData(getArrayList(isOpen));
                 break;
         }
     }
 
     @Override
-    public void onGetQuizzesDetailsSuccess(ArrayList<Quizzes> quizzes) {
+    public void onGetQuizzesDetailsSuccess(ArrayList<Quizzes> quizzes, Meta meta) {
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        this.quizzes = quizzes;
-        adapter.addData(getArrayList(true));
+        this.quizzes.addAll(quizzes);
+        totalPages = meta.getTotalPages();
+        adapter.addData(getArrayList(isOpen));
     }
 
     @Override
@@ -216,7 +226,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, errorCode,"");
+        activity.showErrorDialog(activity, errorCode, "");
 
     }
 
@@ -229,7 +239,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
             singleQuizFragment.setArguments(bundle);
             getParentFragment().getChildFragmentManager().
-                    beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment,"MenuFragments").
+                    beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment, "MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
         } else {
@@ -244,8 +254,26 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             bundle.putString(Constants.KEY_QUIZ_NAME, quizzes.getName());
             gradingFragment.setArguments(bundle);
             getParentFragment().getChildFragmentManager().
-                    beginTransaction().add(R.id.course_root, gradingFragment,"CoursesFragments").
+                    beginTransaction().add(R.id.course_root, gradingFragment, "CoursesFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                    addToBackStack(null).commit();        }
+                    addToBackStack(null).commit();
+        }
+    }
+
+    private void getQuizzes() {
+        if (Util.isNetworkAvailable(getActivity())) {
+            activity.showLoadingDialog();
+            quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId(), page);
+        } else {
+            Util.showNoInternetConnectionDialog(getActivity());
+        }
+    }
+
+    @Override
+    public void onReachPosition() {
+        page++;
+        if (page < totalPages) {
+            getQuizzes();
+        }
     }
 }

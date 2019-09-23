@@ -20,6 +20,7 @@ import java.util.List;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
+import trianglz.managers.SessionManager;
 import trianglz.models.Quizzes;
 import trianglz.utils.Util;
 
@@ -46,6 +47,12 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
 
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
+        Boolean teacher = !SessionManager.getInstance().getUserType();
+        if(position == mDataList.size() - 1 ){
+            if(!teacher){
+                anInterface.onReachPosition();
+            }
+        }
         final Quizzes quizzes = mDataList.get(position);
         DateTime dateTime = new DateTime(quizzes.getStartDate());
         if (quizzes.getName() != null) {
@@ -121,5 +128,6 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
 
     public interface QuizzesDetailsInterface {
         void onItemClicked(Quizzes quizzes);
+        void onReachPosition();
     }
 }
