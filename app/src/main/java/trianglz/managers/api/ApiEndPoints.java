@@ -43,8 +43,8 @@ public class ApiEndPoints {
         return "/api/students/" + studentId + "/course_groups_with_quizzes_number";
     }
 
-    public static String getQuizzesDetails(int studentId, int courseId) {
-        return "/api/students/" + studentId + "/quizzes?course_group_ids=[" + courseId + "]";
+    public static String getQuizzesDetails(int studentId, int courseId,int page) {
+        return "/api/students/" + studentId + "/quizzes?page="+page+"&per_page=10&course_group_ids=[" + courseId + "]";
     }
 
     public static String getTeacherQuizzes(String courseGroupId) {
