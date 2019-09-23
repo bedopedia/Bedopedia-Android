@@ -28,7 +28,6 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
     public List<Quizzes> mDataList;
     private QuizzesDetailsInterface anInterface;
     private String courseName = "";
-    private int currentLimit = 0;
 
 
     public QuizzesDetailsAdapter(Context context, QuizzesDetailsInterface assignmentDetailInterface,String courseName) {
@@ -82,13 +81,6 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
                 anInterface.onItemClicked(quizzes);
             }
         });
-        if (currentLimit != position) {
-            if (position == mDataList.size() - 4) {
-                currentLimit = position;
-                float size = mDataList.size();
-                anInterface.loadNextPage(Math.round(size / 10) + 1);
-            }
-        }
     }
 
     @Override
@@ -129,6 +121,5 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
 
     public interface QuizzesDetailsInterface {
         void onItemClicked(Quizzes quizzes);
-        void loadNextPage(int page);
     }
 }

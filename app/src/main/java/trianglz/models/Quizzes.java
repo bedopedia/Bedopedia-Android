@@ -58,8 +58,6 @@ public class Quizzes implements Parcelable {
 	private Questions[] questions;
 	@SerializedName("objectives")
 	private Object[] objectives;
-    @SerializedName("meta")
-    private Meta meta;
 
     protected Quizzes(Parcel in) {
         id = in.readInt();
@@ -151,13 +149,7 @@ public class Quizzes implements Parcelable {
     public void setNumOfQuestionsPerPage(int numOfQuestionsPerPage) {
         this.numOfQuestionsPerPage = numOfQuestionsPerPage;
     }
-    public void setMeta(Meta meta) {
-        this.meta = meta;
-    }
 
-    public Meta getMeta() {
-        return this.meta;
-    }
     public String getState() {
         return state;
     }

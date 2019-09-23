@@ -63,7 +63,6 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private QuizzesDetailsView quizzesDetailsView;
     private CourseGroups courseGroup;
     private boolean teacherMode = false;
-    private int lastPage = 0;
 
 
     @Nullable
@@ -82,7 +81,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         setListeners();
         if (!teacherMode) {
             activity.showLoadingDialog();
-            quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId(),1);
+            quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId());
         }
     }
 
@@ -247,13 +246,5 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
                     beginTransaction().add(R.id.course_root, gradingFragment,"CoursesFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();        }
-    }
-
-    @Override
-    public void loadNextPage(int page) {
-        if (lastPage != page) {
-            quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId(),page);
-            lastPage = page;
-        }
     }
 }
