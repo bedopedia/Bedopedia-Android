@@ -234,4 +234,5 @@
     <string name="apply">Apply</string>
     <string name="slot">Slot</string>
     <string name="no_slots_available">No slots available</string>
+    <string name="user_name">User name</string>
 </resources>

@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:text="@string/email_address"
+        android:text="@string/user_name"
         android:textColor="@color/greyish_brown"
         android:textSize="17sp"
         android:layout_marginBottom="4dp" />

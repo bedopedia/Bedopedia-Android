@@ -210,4 +210,5 @@
     <string name="per_slot">لكل حصة</string>
     <string name="assign_for_all">تعيين للكل</string>
     <string name="assign_for_selected">تعيين للمختارين</string>
+    <string name="user_name">أسم المستخدم</string>
 </resources>
