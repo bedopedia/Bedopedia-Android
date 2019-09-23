@@ -320,22 +320,27 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         Collection<AttendanceStudent> values = teacherAttendanceAdapter.positionCheckStatusHashMap.values();
         ArrayList<AttendanceStudent> listOfValues = new ArrayList<>(values);
         ArrayList<Integer> studentIds = new ArrayList<>();
+        ArrayList<Integer> attendanceIds = new ArrayList<>();
         if (isMultipleSelected) {
             for (int i = 0; i < listOfValues.size(); i++) {
                 studentIds.add(listOfValues.get(i).getChildId());
+                if (teacherAttendanceAdapter.positionStatusHashMap.containsKey(studentIds.get(i))) {
+                    attendanceIds.add(teacherAttendanceAdapter.positionStatusHashMap.get(studentIds.get(i)).getId());
+                }
             }
-            getCreateAndUpdateBatch(studentIds, status);
+            if (status.equals(Constants.DELETE_ALL)) {
+                deleteBatchAttendance(attendanceIds);
+            } else {
+                getCreateAndUpdateBatch(studentIds, status);
+            }
             teacherAttendanceAdapter.positionCheckStatusHashMap.clear();
+            teacherAttendanceAdapter.teacherAttendanceAdapterInterface.onCheckClicked(false);
         } else {
             if (status.equals(Constants.DELETE_ALL)) {
-                String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.deleteBatchAttendance();
-                if (!teacherAttendanceAdapter.positionStatusHashMap.isEmpty()) {
-                    for (Map.Entry<Integer, Attendances> entry : teacherAttendanceAdapter.positionStatusHashMap.entrySet()) {
-                        studentIds.add(entry.getValue().getId());
-                    }
-                    teacherAttendanceView.deleteBatchAttendance(url, studentIds);
-                    activity.showLoadingDialog();
+                for (Map.Entry<Integer, Attendances> entry : teacherAttendanceAdapter.positionStatusHashMap.entrySet()) {
+                    attendanceIds.add(entry.getValue().getId());
                 }
+                deleteBatchAttendance(attendanceIds);
             } else {
                 for (int i = 0; i < attendance.getStudents().size(); i++) {
                     studentIds.add(attendance.getStudents().get(i).getChildId());
@@ -360,6 +365,14 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
                 teacherAttendanceView.createBatchAttendance(url, date, "", status, createIds);
                 activity.showLoadingDialog();
             }
+        }
+    }
+
+    public void deleteBatchAttendance(ArrayList<Integer> attendancesIds) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.deleteBatchAttendance();
+        if (!teacherAttendanceAdapter.positionStatusHashMap.isEmpty()) {
+            teacherAttendanceView.deleteBatchAttendance(url, attendancesIds);
+            activity.showLoadingDialog();
         }
     }
 
