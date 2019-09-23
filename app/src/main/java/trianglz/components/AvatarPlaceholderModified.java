@@ -9,6 +9,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import agency.tango.android.avatarview.AvatarPlaceholder;
 import trianglz.utils.Util;
@@ -112,43 +113,63 @@ public class  AvatarPlaceholderModified extends AvatarPlaceholder {
     }
 
     private String convertNameToAvatarText(String name) {
-        if (name == null) return "";
-        name = name.trim();
-
-        if(Util.isNotNullOrEmpty(name)){
-            if(name.contains(" & ")){
-                String [] nameArray = name.split(" & ");
-                if(nameArray.length>1){
-                    return nameArray[0].substring(0,1).toUpperCase() +
-                            nameArray[1].substring(0,1).toUpperCase();
-                }else {
-                    return nameArray[0].substring(0,2).toUpperCase();
+        if(name != null) {
+            String[] nameArray = name.split(" ");
+            if (nameArray.length > 1) {
+                String first = nameArray[0];
+                String last = nameArray[nameArray.length - 1];
+                if (first.length() > 0 && last.length() > 0) {
+                    return first.substring(0, 1).toUpperCase() +
+                            last.substring(0, 1).toUpperCase();
+                } else if (first.length() == 0 && last.length() > 0) {
+                    return last.substring(0, 1).toUpperCase();
+                } else if (first.length() > 0) {
+                    return first.substring(0, 1).toUpperCase();
+                } else {
+                    return "";
                 }
-
-            }else if(name.contains("&")){
-                String [] nameArray = name.split("&");
-                if(nameArray.length>1){
-                    return nameArray[0].substring(0,1).toUpperCase() +
-                            nameArray[1].substring(0,1).toUpperCase();
-                }else {
-                    return nameArray[0].substring(0,2).toUpperCase();
-                }
-            }else if(name.contains(" ")){
-                String [] nameArray = name.split(" ");
-                if(nameArray.length>1){
-                    return nameArray[0].substring(0,1).toUpperCase() +
-                            nameArray[1].substring(0,1).toUpperCase();
-                }else {
-                    return nameArray[0].substring(0,2).toUpperCase();
-                }
-            }else{
-                if (name.length()>1)
-                    return name.substring(0, 2).toUpperCase();
-                else return name.toUpperCase();
+            } else {
+                String first = nameArray[0];
+                return first.substring(0, 1).toUpperCase();
             }
+        }else {
+            return "";
         }
 
-        return defaultString;
+//        if(Util.isNotNullOrEmpty(name)){
+//            if(name.contains(" & ")){
+//                String [] nameArray = name.split(" & ");
+//                if(nameArray.length>1){
+//                    return nameArray[0].substring(0,1).toUpperCase() +
+//                            nameArray[1].substring(0,1).toUpperCase();
+//                }else {
+//                    return nameArray[0].substring(0,2).toUpperCase();
+//                }
+//
+//            }else if(name.contains("&")){
+//                String [] nameArray = name.split("&");
+//                if(nameArray.length>1){
+//                    return nameArray[0].substring(0,1).toUpperCase() +
+//                            nameArray[1].substring(0,1).toUpperCase();
+//                }else {
+//                    return nameArray[0].substring(0,2).toUpperCase();
+//                }
+//            }else if(name.contains(" ")){
+//                String [] nameArray = name.split(" ");
+//                if(nameArray.length>1){
+//                    return nameArray[0].substring(0,1).toUpperCase() +
+//                            nameArray[1].substring(0,1).toUpperCase();
+//                }else {
+//                    return nameArray[0].substring(0,2).toUpperCase();
+//                }
+//            }else{
+//                if (name.length()>1)
+//                    return name.substring(0, 2).toUpperCase();
+//                else return name.toUpperCase();
+//            }
+//        }
+//
+//        return defaultString;
     }
 
     private String convertStringToColor(String text) {

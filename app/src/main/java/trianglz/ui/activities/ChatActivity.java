@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 
+import trianglz.components.HideKeyboardOnTouch;
 import trianglz.components.OnImageSelectedListener;
 import trianglz.core.presenters.ChatPresenter;
 import trianglz.core.views.ChatView;
@@ -42,7 +43,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     private int teacherId;
     private int courseId;
     private ImageButton imageBtn;
-    private LinearLayout rootView;
+    private LinearLayout rootView,sendLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,21 +73,22 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
 
     private void bindViews() {
         chatHeaderTextView = findViewById(R.id.tv_chat_header);
-        if(messageThread != null) {
-            String name  = "";
-            if(messageThread.otherNames.contains("&")) {
-                String[] nameArray = messageThread.otherNames.split("&");
-                if (nameArray.length > 1) {
-                    name =  nameArray[0]+
-                            nameArray[1];
-                } else {
-                    name = nameArray[0];
-                }
-                chatHeaderTextView.setText(name);
-            }else {
-                chatHeaderTextView.setText(messageThread.otherNames);
+        String name  = "";
+        String[] nameArray = messageThread.otherNames.split(" ");
+        if(nameArray.length>1){
+            String first  = nameArray[0];
+            String last = nameArray[nameArray.length-1];
+            if(first.length() > 0 && last.length() > 0){
+                name =  first + " " + last;
+            }else if( first.length() == 0 && last.length() > 0){
+                name =  last;
+            }else if(first.length() > 0){
+                name =  first;
             }
+        }else {
+            name  = nameArray[0];
         }
+        chatHeaderTextView.setText(name);
         backBtn = findViewById(R.id.btn_back);
         recyclerView = findViewById(R.id.recycler_view);
         chatAdapter = new ChatAdapter(this, SessionManager.getInstance().getUserId());
@@ -99,12 +101,22 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         sendBtn = findViewById(R.id.enter_chat1);
         imageBtn = findViewById(R.id.btn_image);
         rootView = findViewById(R.id.root_view);
+        sendLinearLayout = findViewById(R.id.ll_send);
+
+        if(messageThread != null){
+            if(messageThread.id == -1){
+                sendLinearLayout.setVisibility(View.GONE);
+            }else {
+                sendLinearLayout.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
         sendBtn.setOnClickListener(this);
         imageBtn.setOnClickListener(this);
+        recyclerView.setOnTouchListener(new HideKeyboardOnTouch(this));
     }
 
     @Override
