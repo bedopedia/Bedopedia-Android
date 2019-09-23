@@ -52,11 +52,13 @@ public class ContactTeacherView {
             int id = thread.optInt(Constants.KEY_ID);
             boolean isRead = thread.optBoolean(Constants.KEY_IS_READ);
             JSONArray avatarJsonArray =  thread.optJSONArray(Constants.KEY_OTHER_AVATARS);
-            String otherAvatar;
-            if(avatarJsonArray.length()>0){
-                otherAvatar = avatarJsonArray.optString(avatarJsonArray.length()-1);
-            }else {
-                otherAvatar = avatarJsonArray.toString();
+            String otherAvatar = "";
+            if(avatarJsonArray != null) {
+                if (avatarJsonArray.length() > 0) {
+                    otherAvatar = avatarJsonArray.optString(avatarJsonArray.length() - 1);
+                } else {
+                    otherAvatar = avatarJsonArray.toString();
+                }
             }
             String otherNames = thread.optString(Constants.KEY_OTHER_NAMES);
             String tag = thread.optString(Constants.KEY_TAG);
@@ -81,14 +83,22 @@ public class ContactTeacherView {
             for (int j = 0; j < messages.length(); j++) {
                 JSONObject messageObj = messages.optJSONObject(j);
                 JSONObject user = messageObj.optJSONObject(Constants.KEY_USER);
-                int userId = user.optInt(Constants.KEY_ID);
-                String firstName = user.optString(Constants.KEY_FIRST_NAME);
-                String lastName = user.optString(Constants.KEY_LAST_NAME);
-                String gender = user.optString(Constants.KEY_GENDER);
-                String avatarUrl = user.optString(Constants.KEY_AVATER_URL);
-                String userType = user.optString(Constants.KEY_USER_TYPE);
-                User sender = new User(userId, firstName, lastName, gender, "",
-                        avatarUrl, userType);
+                User sender;
+                if(user != null){
+                    int userId = user.optInt(Constants.KEY_ID);
+                    String firstName = user.optString(Constants.KEY_FIRST_NAME);
+                    String lastName = user.optString(Constants.KEY_LAST_NAME);
+                    String gender = user.optString(Constants.KEY_GENDER);
+                    String avatarUrl = user.optString(Constants.KEY_AVATER_URL);
+                    String userType = user.optString(Constants.KEY_USER_TYPE);
+                    sender = new User(userId, firstName, lastName, gender, "",
+                            avatarUrl, userType);
+                }else {
+                    sender = new User(-1, "Deleted User", "", "", "",
+                            "", "");
+                    id = -1;
+
+                }
                 String attachmentUrl = messageObj.opt(Constants.KEY_ATTACHMENT_URL).toString();
                 String fileName = messageObj.opt(Constants.KEY_FILE_NAME).toString();
                 String ext = messageObj.opt(Constants.KEY_EXT).toString();
@@ -96,9 +106,10 @@ public class ContactTeacherView {
                 String createdAt = messageObj.optString(Constants.KEY_CREATED_AT);
                 String updatedAt = messageObj.optString(Constants.KEY_UPADTED_AT);
                 int messageThreadId = messageObj.optInt(Constants.KEY_ID);
-                Message message = new Message(attachmentUrl,body, createdAt, ext,fileName,userId,messageThreadId,updatedAt, sender);
+                Message message = new Message(attachmentUrl,body, createdAt, ext,fileName,sender.getId(),messageThreadId,updatedAt, sender);
                 messageArrayList.add(message);
             }
+
 
             messageThreadArrayList.add(new MessageThread(courseId,courseName,id,isRead,lastAddedDate
                     ,messageArrayList,name,otherAvatar,otherNames,participantArrayList,tag));

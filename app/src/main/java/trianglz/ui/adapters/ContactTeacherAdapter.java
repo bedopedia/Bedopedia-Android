@@ -54,25 +54,32 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
     public void onBindViewHolder(final Holder holder, final int position) {
         MessageThread messageThread = mDataList.get(position);
         String name  = "";
-        if(messageThread.otherNames.contains("&")) {
-            String[] nameArray = messageThread.otherNames.split("&");
-            if (nameArray.length > 1) {
-                name =  nameArray[0]+
-                        nameArray[1];
-            } else {
-                name = nameArray[0];
+        String[] nameArray = messageThread.otherNames.split(" ");
+        if(nameArray.length>1){
+            String first  = nameArray[0];
+            String last = nameArray[nameArray.length-1];
+            if(first.length() > 0 && last.length() > 0){
+                name =  first + " " + last;
+            }else if( first.length() == 0 && last.length() > 0){
+                name =  last;
+            }else if(first.length() > 0){
+                name =  first;
             }
-            holder.teacherName.setText(name);
         }else {
-            holder.teacherName.setText(messageThread.otherNames);
+            name  = nameArray[0];
         }
+        holder.teacherName.setText(name);
         if(!messageThread.courseName.isEmpty() && !messageThread.courseName.equals("null")){
             holder.subjectTextView.setText(messageThread.courseName);
         }else {
             if(messageThread.messageArrayList.size()>0){
-                Message message = messageThread.messageArrayList.get(messageThread.messageArrayList.size()-1);
+                Message message = messageThread.messageArrayList.get(0);
                 String body = android.text.Html.fromHtml(message.body).toString().trim();
-                holder.subjectTextView.setText(body +".."+message.user.firstName);
+                if(!message.user.firstName.isEmpty()) {
+                    holder.subjectTextView.setText(message.user.firstName + " : " + body + "..");
+                }else {
+                    holder.subjectTextView.setText(body + "..");
+                }
             }else {
                 holder.subjectTextView.setText("");
             }
