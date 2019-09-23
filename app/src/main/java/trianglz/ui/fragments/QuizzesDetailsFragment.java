@@ -63,6 +63,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private QuizzesDetailsView quizzesDetailsView;
     private CourseGroups courseGroup;
     private boolean teacherMode = false;
+    private  int page=1;
 
 
     @Nullable
@@ -81,7 +82,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         setListeners();
         if (!teacherMode) {
             activity.showLoadingDialog();
-            quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId());
+            quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId(),page);
         }
     }
 

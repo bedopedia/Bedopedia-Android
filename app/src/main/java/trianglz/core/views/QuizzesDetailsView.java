@@ -25,8 +25,8 @@ public class QuizzesDetailsView {
         this.context = context;
         this.quizzesDetailsPresenter = quizzesDetailsPresenter;
     }
-    public void getQuizzesDetails(int studentId, int courseId) {
-        UserManager.getQuizzesDetails(studentId, courseId, new ResponseListener() {
+    public void getQuizzesDetails(int studentId, int courseId,int page) {
+        UserManager.getQuizzesDetails(studentId, courseId, page, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 JSONArray jsonArray = response.optJSONArray(Constants.KEY_QUIZZES);
