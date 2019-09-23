@@ -36,7 +36,7 @@ import trianglz.utils.Constants;
 public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttendanceAdapter.ViewHolder> {
     public Context context;
     public AttendanceTimetableSlot attendanceTimetableSlot = null;
-    private TeacherAttendanceAdapterInterface teacherAttendanceAdapterInterface;
+    public TeacherAttendanceAdapterInterface teacherAttendanceAdapterInterface;
     public HashMap<Integer, Attendances> positionStatusHashMap;
     public HashMap<Integer, AttendanceStudent> positionCheckStatusHashMap;
     private ArrayList<AttendanceStudent> mDataList;
