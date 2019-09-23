@@ -7,5 +7,5 @@ import trianglz.models.Quizzes;
 // created by gemy
 public interface QuizzesDetailsPresenter {
     void onGetQuizzesDetailsSuccess(ArrayList<Quizzes> quizzes);
-    void onGetQuizzesDetailsFailure();
+    void onGetQuizzesDetailsFailure(String message, int errorCode);
 }

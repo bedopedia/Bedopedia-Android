@@ -39,7 +39,7 @@ public class QuizzesDetailsView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                quizzesDetailsPresenter.onGetQuizzesDetailsFailure();
+                quizzesDetailsPresenter.onGetQuizzesDetailsFailure(message, errorCode);
             }
         });
     }

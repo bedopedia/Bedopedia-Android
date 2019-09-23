@@ -211,10 +211,12 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onGetQuizzesDetailsFailure() {
+    public void onGetQuizzesDetailsFailure(String message, int errorCode) {
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
+        activity.showErrorDialog(activity, errorCode,"");
+
     }
 
     @Override
