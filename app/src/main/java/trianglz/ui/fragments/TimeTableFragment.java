@@ -150,7 +150,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         } else if (SessionManager.getInstance().getUserType()) {
             segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
         } else {
-            studentImage.setVisibility(View.GONE);
+            studentImage.setVisibility(View.INVISIBLE);
             segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
         }
     }
