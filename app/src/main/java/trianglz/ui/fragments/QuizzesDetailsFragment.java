@@ -237,6 +237,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             Bundle bundle = new Bundle();
             bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
             bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
+            bundle.putString(Constants.STUDENT, student.toString());
             singleQuizFragment.setArguments(bundle);
             getParentFragment().getChildFragmentManager().
                     beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment, "MenuFragments").

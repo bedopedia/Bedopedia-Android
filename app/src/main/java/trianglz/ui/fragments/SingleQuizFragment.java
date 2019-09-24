@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
@@ -20,8 +22,10 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
+import trianglz.components.CircleTransform;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Quizzes;
+import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -44,6 +48,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
     private Quizzes quizzes;
     private AvatarView avatarView;
     private ImageButton backButton;
+    private Student student;
 
     // grades variables
     private View quizGradeView, quizNotStartedView;
@@ -74,6 +79,8 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         if (bundle != null) {
             quizzes = Quizzes.create(bundle.getString(Constants.KEY_QUIZZES));
             course = QuizzCourse.create(bundle.getString(Constants.KEY_COURSE_QUIZZES));
+            student = Student.create(bundle.getString(Constants.STUDENT));
+
         }
     }
     private void bindViews() {
@@ -90,9 +97,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         cardView = rootView.findViewById(R.id.card_view);
         avatarView = rootView.findViewById(R.id.img_student);
         solveQuizBtn = rootView.findViewById(R.id.solve_quiz_btn);
-        IImageLoader imageLoader = new PicassoLoader();
-        imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(course.getCourseName()), "Path url");
-        // views
+         // views
         quizGradeView = rootView.findViewById(R.id.v_quiz_grade);
         quizNotStartedView = rootView.findViewById(R.id.v_not_started_quiz);
 
@@ -101,6 +106,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         noteTextview = rootView.findViewById(R.id.tv_note);
         backButton = rootView.findViewById(R.id.btn_back);
         backButton.setOnClickListener(this);
+        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         DateTime dateTime = new DateTime(quizzes.getStartDate());
         if (quizzes.getName() != null) {
             subjectNameTextView.setText(course.getCourseName());
@@ -164,4 +170,31 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
       //  Intent intent = new Intent(this, SolveQuizActivity.class);
        // startActivity(intent);
     }
+    private void setStudentImage(String imageUrl, final String name) {
+        if (imageUrl == null || imageUrl.equals("")) {
+            imageLoader = new PicassoLoader();
+            imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), "Path of Image");
+        } else {
+            imageLoader = new PicassoLoader();
+            imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), "Path of Image");
+            Picasso.with(activity)
+                    .load(imageUrl)
+                    .fit()
+                    .noPlaceholder()
+                    .transform(new CircleTransform())
+                    .into(avatarView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            imageLoader = new PicassoLoader();
+                            imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), "Path of Image");
+                        }
+                    });
+        }
+    }
+
 }
