@@ -210,4 +210,7 @@
     <string name="per_slot">لكل حصة</string>
     <string name="assign_for_all">تعيين للكل</string>
     <string name="assign_for_selected">تعيين للمختارين</string>
+    <string name="details">Details</string>
+    <string name="questions">Questions</string>
+    <string name="answers">Answers</string>
 </resources>
