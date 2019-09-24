@@ -273,7 +273,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onReachPosition() {
         page++;
-        if (page < totalPages) {
+        if (page <= totalPages) {
             getQuizzes();
         }
     }
