@@ -335,6 +335,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             }
             teacherAttendanceAdapter.positionCheckStatusHashMap.clear();
             teacherAttendanceAdapter.teacherAttendanceAdapterInterface.onCheckClicked(false);
+            teacherAttendanceAdapter.notifyDataSetChanged();
         } else {
             if (status.equals(Constants.DELETE_ALL)) {
                 for (Map.Entry<Integer, Attendances> entry : teacherAttendanceAdapter.positionStatusHashMap.entrySet()) {
@@ -370,7 +371,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     public void deleteBatchAttendance(ArrayList<Integer> attendancesIds) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.deleteBatchAttendance();
-        if (!teacherAttendanceAdapter.positionStatusHashMap.isEmpty()) {
+        if (!attendancesIds.isEmpty()) {
             teacherAttendanceView.deleteBatchAttendance(url, attendancesIds);
             activity.showLoadingDialog();
         }
