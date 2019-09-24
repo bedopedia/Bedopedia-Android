@@ -146,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_clock"
+                        android:src="@drawable/green_clock_icon"
                         android:layout_marginStart="1dp"
                         android:layout_marginEnd="5dp" />
 
@@ -162,7 +162,7 @@
                         android:layout_gravity="start"
                         android:singleLine="true"
                         android:text="sjkldajkljsadlkjsdaklsjda"
-                        android:textColor="@color/black"
+                        android:textColor="@color/pine"
                         android:textSize="12sp" />
                 </LinearLayout>
 

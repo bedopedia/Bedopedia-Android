@@ -144,7 +144,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                     quizGradeView.setVisibility(View.VISIBLE);
                     dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_red, null));
                     dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown,null));
-                    clockImageView.setBackground(this.getResources().getDrawable(R.drawable.red_clock_icon,null));
+                    clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.red_clock_icon,null));
                     dateTextView.setText(this.getResources().getString(R.string.solved));
                     buttonsLayout.setVisibility(View.VISIBLE);
                     gradeTextView.setText(quizzes.getStudentSubmissions().getScore() + "");
@@ -161,12 +161,12 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                     solveQuizBtn.setVisibility(View.VISIBLE);
                     dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_light_sage, null));
                     dateTextView.setTextColor(this.getResources().getColor(R.color.pine,null));
-                    clockImageView.setBackground(this.getResources().getDrawable(R.drawable.green_clock_icon,null));
+                    clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.green_clock_icon,null));
                 }
             } else {
                 dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_red, null));
                 dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown,null));
-                clockImageView.setBackground(this.getResources().getDrawable(R.drawable.red_clock_icon,null));
+                clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.red_clock_icon,null));
                 if (quizzes.getStudentSubmissions() != null) {
                     quizGradeView.setVisibility(View.VISIBLE);
                     gradeTextView.setText(quizzes.getStudentSubmissions().getScore() + "");
