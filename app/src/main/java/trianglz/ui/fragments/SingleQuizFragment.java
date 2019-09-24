@@ -136,7 +136,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         publishedTextView.setText(published);
 
         if (quizzes.getState().equals("running")) {
-            quizNotStartedView.setVisibility(View.VISIBLE);
+           // quizNotStartedView.setVisibility(View.VISIBLE);
             quizGradeView.setVisibility(View.GONE);
         } else {
             quizNotStartedView.setVisibility(View.GONE);
