@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,8 +41,8 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
     private TextView subjectNameTextView, dateTextView,
             assignmentNameTextView, dayTextView, monthTextView, publishedTextView;
     private IImageLoader imageLoader;
-    private Button solveQuizBtn;
-    private LinearLayout dateLinearLayout;
+    private Button solveQuizBtn, detailsBtn, questionsBtn, answersBtn;
+    private LinearLayout dateLinearLayout, buttonsLayout;
     private LinearLayout cardView;
     private TextView headTextView;
     private QuizzCourse course;
@@ -49,6 +50,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
     private AvatarView avatarView;
     private ImageButton backButton;
     private Student student;
+    private ImageView clockImageView;
 
     // grades variables
     private View quizGradeView, quizNotStartedView;
@@ -71,7 +73,11 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
     }
 
     private void setListeners() {
+        backButton.setOnClickListener(this);
         solveQuizBtn.setOnClickListener(this);
+        detailsBtn.setOnClickListener(this);
+        questionsBtn.setOnClickListener(this);
+        answersBtn.setOnClickListener(this);
     }
 
     private void getValueFromIntent() {
@@ -83,6 +89,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
 
         }
     }
+
     private void bindViews() {
         headTextView = rootView.findViewById(R.id.tv_quiz_name);
         headTextView.setText(course.getCourseName());
@@ -97,7 +104,12 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         cardView = rootView.findViewById(R.id.card_view);
         avatarView = rootView.findViewById(R.id.img_student);
         solveQuizBtn = rootView.findViewById(R.id.solve_quiz_btn);
-         // views
+        detailsBtn = rootView.findViewById(R.id.details_btn);
+        questionsBtn = rootView.findViewById(R.id.questions_btn);
+        answersBtn = rootView.findViewById(R.id.answers_btn);
+        buttonsLayout = rootView.findViewById(R.id.buttons_layout);
+        clockImageView = rootView.findViewById(R.id.date_icon);
+        // views
         quizGradeView = rootView.findViewById(R.id.v_quiz_grade);
         quizNotStartedView = rootView.findViewById(R.id.v_not_started_quiz);
 
@@ -105,9 +117,9 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         outOfTextView = rootView.findViewById(R.id.tv_out_of);
         noteTextview = rootView.findViewById(R.id.tv_note);
         backButton = rootView.findViewById(R.id.btn_back);
-        backButton.setOnClickListener(this);
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         DateTime dateTime = new DateTime(quizzes.getStartDate());
+
         if (quizzes.getName() != null) {
             subjectNameTextView.setText(course.getCourseName());
         }
@@ -122,54 +134,85 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         if (quizzes.getName() != null) {
             assignmentNameTextView.setText(quizzes.getName());
         }
-        if (quizzes.getState() != null) {
-            if (quizzes.getState().equals("running")) {
-                dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_light_sage));
-            } else {
-                dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_red));
-            }
-        } else {
-            dateTextView.setVisibility(View.INVISIBLE);
-        }
 
         String published = this.getString(R.string.published) + " " + Util.getPostDate(dateTime.toString(), activity);
         publishedTextView.setText(published);
+        if (quizzes.getState() != null) {
 
-        if (quizzes.getState().equals("running")) {
-           // quizNotStartedView.setVisibility(View.VISIBLE);
-            quizGradeView.setVisibility(View.GONE);
-        } else {
-            quizNotStartedView.setVisibility(View.GONE);
-            quizGradeView.setVisibility(View.VISIBLE);
-            if (quizzes.getStudentSubmissions() != null) {
-                gradeTextView.setText(quizzes.getStudentSubmissions().getScore() + "");
-                outOfTextView.setText(getResources().getString(R.string.out_of) + " " + quizzes.getTotalScore() + "");
-                String feedBack = quizzes.getStudentSubmissions().getFeedback();
-                if (feedBack != null) {
-                    noteTextview.setText(quizzes.getStudentSubmissions().getFeedback());
+            if (quizzes.getState().equals("running")) {
+                if (quizzes.getStudentSubmissions() != null) {
+                    quizGradeView.setVisibility(View.VISIBLE);
+                    dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_red, null));
+                    dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown,null));
+                    clockImageView.setBackground(this.getResources().getDrawable(R.drawable.red_clock_icon,null));
+                    dateTextView.setText(this.getResources().getString(R.string.solved));
+                    buttonsLayout.setVisibility(View.VISIBLE);
+                    gradeTextView.setText(quizzes.getStudentSubmissions().getScore() + "");
+                    outOfTextView.setText(getResources().getString(R.string.out_of) + " " + quizzes.getTotalScore() + "");
+                    String feedBack = quizzes.getStudentSubmissions().getFeedback();
+                    if (feedBack != null) {
+                        noteTextview.setText(quizzes.getStudentSubmissions().getFeedback());
+                    } else {
+                        noteTextview.setVisibility(View.INVISIBLE);
+                    }
                 } else {
-                    noteTextview.setVisibility(View.INVISIBLE);
+                    quizGradeView.setVisibility(View.GONE);
+                    buttonsLayout.setVisibility(View.GONE);
+                    solveQuizBtn.setVisibility(View.VISIBLE);
+                    dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_light_sage, null));
+                    dateTextView.setTextColor(this.getResources().getColor(R.color.pine,null));
+                    clockImageView.setBackground(this.getResources().getDrawable(R.drawable.green_clock_icon,null));
                 }
             } else {
-                gradeTextView.setText("--");
-                outOfTextView.setText(getResources().getString(R.string.out_of) + " " + quizzes.getTotalScore() + "");
-                noteTextview.setText(getResources().getString(R.string.no_submission));
+                dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_red, null));
+                dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown,null));
+                clockImageView.setBackground(this.getResources().getDrawable(R.drawable.red_clock_icon,null));
+                if (quizzes.getStudentSubmissions() != null) {
+                    quizGradeView.setVisibility(View.VISIBLE);
+                    gradeTextView.setText(quizzes.getStudentSubmissions().getScore() + "");
+                    outOfTextView.setText(getResources().getString(R.string.out_of) + " " + quizzes.getTotalScore() + "");
+                    String feedBack = quizzes.getStudentSubmissions().getFeedback();
+                    if (feedBack != null) {
+                        noteTextview.setText(quizzes.getStudentSubmissions().getFeedback());
+                    } else {
+                        noteTextview.setVisibility(View.INVISIBLE);
+                    }
+                } else {
+                    quizGradeView.setVisibility(View.GONE);
+//                gradeTextView.setText("--");
+//                outOfTextView.setText(getResources().getString(R.string.out_of) + " " + quizzes.getTotalScore() + "");
+//                noteTextview.setText(getResources().getString(R.string.no_submission));
+                }
             }
+        } else {
+            dateTextView.setVisibility(View.INVISIBLE);
+
         }
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.btn_back) {
-            getParentFragment().getChildFragmentManager().popBackStack();
-        } else if (view.getId() == R.id.solve_quiz_btn) {
-            openSolveQuizActivity();
+        switch (view.getId()) {
+            case R.id.btn_back:
+                getParentFragment().getChildFragmentManager().popBackStack();
+                break;
+            case R.id.solve_quiz_btn:
+                openSolveQuizActivity();
+                break;
+            case R.id.details_btn:
+                break;
+            case R.id.questions_btn:
+                break;
+            case R.id.answers_btn:
+                break;
         }
     }
+
     private void openSolveQuizActivity() {
-      //  Intent intent = new Intent(this, SolveQuizActivity.class);
-       // startActivity(intent);
+        //  Intent intent = new Intent(this, SolveQuizActivity.class);
+        // startActivity(intent);
     }
+
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();

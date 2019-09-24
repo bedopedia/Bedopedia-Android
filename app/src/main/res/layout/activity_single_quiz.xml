@@ -142,6 +142,7 @@
                     android:id="@+id/ll_date">
 
                     <ImageView
+                        android:id="@+id/date_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -266,6 +267,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/buttons_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
