@@ -7,8 +7,7 @@
     android:orientation="vertical"
     android:clickable="true"
     android:focusable="true"
-    android:background="@color/snow"
-    tools:context="trianglz.ui.activities.SolveQuizActivity">
+    android:background="@color/snow">
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -144,7 +143,7 @@
             android:background="@drawable/curved_salmon_background_radius_8"
             android:textAllCaps="false"
             android:id="@+id/btn_next"
-            android:text="@string/previous"/>
+            android:text="@string/next"/>
     </LinearLayout>
 
 
