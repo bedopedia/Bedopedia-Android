@@ -19,8 +19,10 @@ import java.util.Collections;
 
 import trianglz.components.CustomeLayoutManager;
 import trianglz.components.TopItemDecoration;
+import trianglz.models.Quizzes;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.SingleMultiSelectAnswerAdapter;
+import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
 /**
@@ -37,6 +39,7 @@ public class SolveQuizFragment extends Fragment {
     private RecyclerView recyclerView;
     private SingleMultiSelectAnswerAdapter singleMultiSelectAnswerAdapter;
     private TextView questionTextView;
+    private Quizzes quizzes;
 
     @Nullable
     @Override
@@ -51,8 +54,8 @@ public class SolveQuizFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getValueFromIntent();
         bindViews();
-   //     onBackPress();
     }
 
     private void bindViews() {
@@ -69,6 +72,12 @@ public class SolveQuizFragment extends Fragment {
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         singleMultiSelectAnswerAdapter.addData(getFakeData());
 
+    }
+    private void getValueFromIntent() {
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            quizzes = Quizzes.create(bundle.getString(Constants.KEY_QUIZZES));
+        }
     }
 
     private ArrayList<String> getFakeData() {

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -209,8 +210,16 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
     }
 
     private void openSolveQuizActivity() {
-        //  Intent intent = new Intent(this, SolveQuizActivity.class);
-        // startActivity(intent);
+        SolveQuizFragment solveQuizFragment = new SolveQuizFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
+//        bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
+//        bundle.putString(Constants.STUDENT, student.toString());
+        solveQuizFragment.setArguments(bundle);
+        getParentFragment().getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, solveQuizFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
     private void setStudentImage(String imageUrl, final String name) {
