@@ -43,7 +43,7 @@ public class ApiEndPoints {
         return "/api/students/" + studentId + "/course_groups_with_quizzes_number";
     }
 
-    public static String getQuizzesDetails(int studentId, int courseId,int page) {
+    public static String getQuizzesDetails(int studentId, int courseId, int page) {
         return "/api/students/" + studentId + "/quizzes?page=" + page + "&per_page=20&course_group_ids=[" + courseId + "]";
     }
 
@@ -161,5 +161,9 @@ public class ApiEndPoints {
 
     public static String deleteBatchAttendance() {
         return "/api/attendances/batch_destroy";
+    }
+
+    public static String getQuizQuestions(int quizId) {
+        return "/api/quizzes/" + quizId;
     }
 }
