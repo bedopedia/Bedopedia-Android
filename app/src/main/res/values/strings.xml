@@ -239,4 +239,6 @@
     <string name="answers">Answers</string>
     <string name="user_name">User name</string>
     <string name="solved">Solved</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 </resources>
