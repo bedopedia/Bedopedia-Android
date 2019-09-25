@@ -44,7 +44,7 @@
             android:layout_width="22dp"
             android:layout_height="18dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_send_image" />
+            android:src="@drawable/sorting_icon" />
 
         <RadioButton
             android:id="@+id/radio_button"
