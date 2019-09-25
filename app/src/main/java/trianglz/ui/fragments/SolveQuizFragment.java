@@ -86,7 +86,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
         backButton = rootView.findViewById(R.id.back_btn);
         previousButton = rootView.findViewById(R.id.btn_previous);
         nextButton = rootView.findViewById(R.id.btn_next);
-        counterTextView.setText(secondsConverter(quizzes.getDuration()));
         subjectNameTextView.setText(quizzes.getName());
         singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MULTI_SELECTION);
         recyclerView.setAdapter(singleMultiSelectAnswerAdapter);
