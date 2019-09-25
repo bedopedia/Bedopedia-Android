@@ -21,7 +21,7 @@ public class SolveQuizView {
         this.context = context;
     }
 
-    void getQuizQuestions(String url){
+    public void getQuizQuestions(String url){
         UserManager.getQuizQuestions(url, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
