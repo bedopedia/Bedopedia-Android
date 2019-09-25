@@ -16,6 +16,7 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 import trianglz.components.CustomeLayoutManager;
 import trianglz.components.TopItemDecoration;
@@ -63,6 +64,8 @@ public class SolveQuizFragment extends Fragment {
         counterTextView = rootView.findViewById(R.id.tv_counter);
         questionTextView = rootView.findViewById(R.id.tv_question);
         recyclerView = rootView.findViewById(R.id.rv_answers);
+        counterTextView.setText(secondsConverter(quizzes.getDuration()));
+        subjectNameTextView.setText(quizzes.getName());
         singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MULTI_SELECTION);
         recyclerView.setAdapter(singleMultiSelectAnswerAdapter);
         CustomeLayoutManager customeLayoutManager = new CustomeLayoutManager(activity);
@@ -73,6 +76,7 @@ public class SolveQuizFragment extends Fragment {
         singleMultiSelectAnswerAdapter.addData(getFakeData());
 
     }
+
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -87,6 +91,7 @@ public class SolveQuizFragment extends Fragment {
         }
         return stringArrayList;
     }
+
     private void setItemTouchHelper() {
 
         itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
@@ -109,5 +114,17 @@ public class SolveQuizFragment extends Fragment {
             }
         });
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    private String secondsConverter(int time) {
+        int seconds = time % 60;
+        int hours = time / 60;
+        int minutes = hours % 60;
+        hours = hours / 60;
+        if (hours == 0) {
+            return String.format(Locale.ENGLISH,"%02d",minutes) + ":" + String.format(Locale.ENGLISH,"%02d",seconds);
+        } else {
+            return String.format(Locale.ENGLISH,"%02d",hours) + ":" +String.format(Locale.ENGLISH,"%02d",minutes) + ":" + String.format(Locale.ENGLISH,"%02d",seconds);
+        }
     }
 }

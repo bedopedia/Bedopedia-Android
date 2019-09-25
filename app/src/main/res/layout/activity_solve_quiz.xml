@@ -34,13 +34,13 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="20dp">
                 <ImageButton
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="16dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/back_arrow"/>
+                    android:src="@drawable/chevron_left"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -49,7 +49,6 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:id="@+id/tv_subject_name"
-                    android:text="sajkdsdajlsadjskaldjsdaklj"
                     android:textColor="@color/posts_black"
                     android:textSize="24sp" />
 
