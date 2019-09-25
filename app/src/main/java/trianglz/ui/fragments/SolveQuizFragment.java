@@ -1,6 +1,7 @@
 package trianglz.ui.fragments;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -43,6 +44,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
     private SingleMultiSelectAnswerAdapter singleMultiSelectAnswerAdapter;
     private TextView questionTextView;
     private Quizzes quizzes;
+    public long millisUntilFinish;
+    private CountDownTimer countDownTimer;
 
     @Nullable
     @Override
@@ -58,6 +61,21 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
         getValueFromIntent();
         bindViews();
         setListeners();
+        startCountDown(quizzes.getDuration() * 1000);
+    }
+
+    private void startCountDown(long duration) {
+        countDownTimer = new CountDownTimer(duration, 1000) {
+            public void onTick(long millisUntilFinished) {
+                counterTextView.setText(secondsConverter(millisUntilFinished / 1000));
+                millisUntilFinish = millisUntilFinished;
+            }
+
+            public void onFinish() {
+                counterTextView.setText("done!");
+            }
+
+        }.start();
     }
 
     private void bindViews() {
@@ -126,16 +144,23 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    private String secondsConverter(int time) {
-        int seconds = time % 60;
-        int hours = time / 60;
-        int minutes = hours % 60;
+    private String secondsConverter(long time) {
+        long seconds = time % 60;
+        long hours = time / 60;
+        long minutes = hours % 60;
         hours = hours / 60;
         if (hours == 0) {
             return String.format(Locale.ENGLISH, "%02d", minutes) + ":" + String.format(Locale.ENGLISH, "%02d", seconds);
         } else {
             return String.format(Locale.ENGLISH, "%02d", hours) + ":" + String.format(Locale.ENGLISH, "%02d", minutes) + ":" + String.format(Locale.ENGLISH, "%02d", seconds);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        countDownTimer.cancel();
+        startCountDown(millisUntilFinish);
     }
 
     @Override
