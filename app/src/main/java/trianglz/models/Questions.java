@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+
 public class Questions {
 
 	@SerializedName("id")
@@ -20,13 +22,13 @@ public class Questions {
 	@SerializedName("score")
 	private int score;
 	@SerializedName("answers_attributes")
-	private AnswersAttributes[] answersAttributes;
+	private ArrayList<AnswersAttributes> answersAttributes;
 	@SerializedName("correction_style")
 	private Object correctionStyle;
 	@SerializedName("type")
 	private String type;
 	@SerializedName("bloom")
-	private Object[] bloom;
+	private String[] bloom;
 	@SerializedName("files")
 	private Object files;
 	@SerializedName("uploaded_file")
@@ -66,11 +68,11 @@ public class Questions {
 		return this.score;
 	}
 
-	public void setAnswersAttributes(AnswersAttributes[] answersAttributes) {
+	public void setAnswersAttributes(ArrayList<AnswersAttributes> answersAttributes) {
 		this.answersAttributes = answersAttributes;
 	}
 
-	public AnswersAttributes[] getAnswersAttributes() {
+	public ArrayList<AnswersAttributes> getAnswersAttributes() {
 		return this.answersAttributes;
 	}
 
@@ -90,11 +92,11 @@ public class Questions {
 		return this.type;
 	}
 
-	public void setBloom(Object[] bloom) {
+	public void setBloom(String[] bloom) {
 		this.bloom = bloom;
 	}
 
-	public Object[] getBloom() {
+	public String[] getBloom() {
 		return this.bloom;
 	}
 
