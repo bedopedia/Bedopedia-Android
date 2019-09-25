@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class QuizQuestion {
 
     @SerializedName("id")
@@ -44,11 +46,11 @@ public class QuizQuestion {
     @SerializedName("student_solved")
     private boolean studentSolved;
     @SerializedName("blooms")
-    private Object[] blooms;
+    private String[] blooms;
     @SerializedName("grading_period_lock")
     private boolean gradingPeriodLock;
     @SerializedName("questions")
-    private Questions[] questions;
+    private ArrayList<Questions> questions;
     @SerializedName("objectives")
     private Object[] objectives;
     @SerializedName("grouping_students")
@@ -192,11 +194,11 @@ public class QuizQuestion {
         return this.studentSolved;
     }
 
-    public void setBlooms(Object[] blooms) {
+    public void setBlooms(String[] blooms) {
         this.blooms = blooms;
     }
 
-    public Object[] getBlooms() {
+    public String[] getBlooms() {
         return this.blooms;
     }
 
@@ -208,11 +210,11 @@ public class QuizQuestion {
         return this.gradingPeriodLock;
     }
 
-    public void setQuestions(Questions[] questions) {
+    public void setQuestions(ArrayList<Questions> questions) {
         this.questions = questions;
     }
 
-    public Questions[] getQuestions() {
+    public ArrayList<Questions> getQuestions() {
         return this.questions;
     }
 
