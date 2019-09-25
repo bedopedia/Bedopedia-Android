@@ -19,15 +19,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import trianglz.models.AnswersAttributes;
+
 public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleMultiSelectAnswerAdapter.SingleMultiSelectionViewHolder> {
 
-    public List<String> mDataList;
+    public List<AnswersAttributes> mDataList;
 
     private Context context;
     private TYPE type;
 
     private int selectedPosition = -1;
-    private HashMap<Integer, String> multiSelectHashMap;
+    private HashMap<Integer, Integer> multiSelectHashMap;
     private boolean onBind;
 
 
@@ -48,8 +50,8 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
     @Override
     public void onBindViewHolder(@NonNull SingleMultiSelectionViewHolder holder, int position) {
         onBind = true;
-        holder.questionAnswerTextView.setText(mDataList.get(position));
-        if (type.equals(TYPE.SINGLE_SELECTION)) {
+        holder.questionAnswerTextView.setText(mDataList.get(position).getBody());
+        if (type.equals(TYPE.SINGLE_SELECTION)||type.equals(TYPE.TRUE_OR_FALSE)) {
             if (holder.getAdapterPosition() == selectedPosition) {
                 holder.radioButton.setChecked(true);
             } else {
@@ -67,7 +69,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
 
         } else if (type.equals(TYPE.MATCH_ANSWERS)) {
 
-        }
+        }else if(type.equals(TYPE.TRUE_OR_FALSE))
 
         onBind = false;
     }
@@ -79,7 +81,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
     }
 
 
-    public void addData(ArrayList<String> data) {
+    public void addData(ArrayList<AnswersAttributes> data) {
         mDataList.clear();
         mDataList.addAll(data);
         notifyDataSetChanged();
@@ -89,7 +91,8 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
         SINGLE_SELECTION,
         MULTI_SELECTION,
         REORDER_ANSWERS,
-        MATCH_ANSWERS
+        MATCH_ANSWERS,
+        TRUE_OR_FALSE
     }
 
     public class AnswerViewHolder extends RecyclerView.ViewHolder {
@@ -125,7 +128,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
                 sortImageView.setVisibility(View.GONE);
                 questionNumberTextView.setVisibility(View.GONE);
                 matchAnswerEditText.setVisibility(View.GONE);
-            } else if (type == TYPE.SINGLE_SELECTION) {
+            } else if (type == TYPE.SINGLE_SELECTION || type==TYPE.TRUE_OR_FALSE) {
                 radioButton.setVisibility(View.VISIBLE);
                 multiSelectionImageButton.setVisibility(View.GONE);
                 sortImageView.setVisibility(View.GONE);
@@ -138,7 +141,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
                 questionNumberTextView.setVisibility(View.GONE);
                 matchAnswerEditText.setVisibility(View.GONE);
             } else if (type == TYPE.MATCH_ANSWERS) {
-                questionNumberTextView.setVisibility(View.VISIBLE);
+            //    questionNumberTextView.setVisibility(View.VISIBLE);
                 matchAnswerEditText.setVisibility(View.VISIBLE);
                 sortImageView.setVisibility(View.GONE);
                 radioButton.setVisibility(View.GONE);
@@ -162,7 +165,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter<SingleM
                     if (multiSelectHashMap.containsKey(getAdapterPosition())) {
                         multiSelectHashMap.remove(getAdapterPosition());
                     } else {
-                        multiSelectHashMap.put(getAdapterPosition(), mDataList.get(getAdapterPosition()));
+                        multiSelectHashMap.put(getAdapterPosition(), mDataList.get(getAdapterPosition()).getId());
                     }
                     notifyDataSetChanged();
                 } else if (type.equals(TYPE.SINGLE_SELECTION)) {
