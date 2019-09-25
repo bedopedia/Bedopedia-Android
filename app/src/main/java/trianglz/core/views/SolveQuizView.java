@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import trianglz.core.presenters.SolveQuizPresenter;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.QuizQuestion;
 
 /**
  * Created by Farah A. Moniem on 25/09/2019.
@@ -24,7 +25,8 @@ public class SolveQuizView {
         UserManager.getQuizQuestions(url, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                solveQuizPresenter.onGetQuizQuestionsSuccess(response);
+                QuizQuestion quizQuestion = QuizQuestion.create(response.toString());
+                solveQuizPresenter.onGetQuizQuestionsSuccess(quizQuestion);
             }
 
             @Override
