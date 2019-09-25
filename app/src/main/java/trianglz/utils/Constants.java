@@ -233,5 +233,11 @@ public class Constants {
 
     public static final String DELETE_ALL = "delete_all";
     public static final String KEY_IDS = "ids";
+    public static final String TYPE_MULTIPLE_SELECT ="MultipleSelect";
+    public static final String TYPE_MULTIPLE_CHOICE ="MultipleChoice";
+    public static final String TYPE_TRUE_OR_FALSE ="TrueOrFalse";
+    public static final String TYPE_MATCH ="Match";
+    public static final String TYPE_REORDER="Reorder";
+
 }
 
