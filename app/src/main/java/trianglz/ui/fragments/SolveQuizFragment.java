@@ -9,6 +9,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -29,13 +30,14 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 04/09/2019.
  */
-public class SolveQuizFragment extends Fragment {
+public class SolveQuizFragment extends Fragment implements View.OnClickListener {
     private StudentMainActivity activity;
     private View rootView;
 
     private TextView subjectNameTextView;
     private TextView counterTextView;
     private ImageButton backButton;
+    private Button previousButton, nextButton;
     private ItemTouchHelper itemTouchHelper;
     private RecyclerView recyclerView;
     private SingleMultiSelectAnswerAdapter singleMultiSelectAnswerAdapter;
@@ -46,8 +48,6 @@ public class SolveQuizFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-//        activity.toolbarView.setVisibility(View.GONE);
-//        activity.headerLayout.setVisibility(View.GONE);
         rootView = inflater.inflate(R.layout.activity_solve_quiz, container, false);
         return rootView;
     }
@@ -57,6 +57,7 @@ public class SolveQuizFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         getValueFromIntent();
         bindViews();
+        setListeners();
     }
 
     private void bindViews() {
@@ -64,6 +65,9 @@ public class SolveQuizFragment extends Fragment {
         counterTextView = rootView.findViewById(R.id.tv_counter);
         questionTextView = rootView.findViewById(R.id.tv_question);
         recyclerView = rootView.findViewById(R.id.rv_answers);
+        backButton = rootView.findViewById(R.id.back_btn);
+        previousButton = rootView.findViewById(R.id.btn_previous);
+        nextButton = rootView.findViewById(R.id.btn_next);
         counterTextView.setText(secondsConverter(quizzes.getDuration()));
         subjectNameTextView.setText(quizzes.getName());
         singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MULTI_SELECTION);
@@ -75,6 +79,12 @@ public class SolveQuizFragment extends Fragment {
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         singleMultiSelectAnswerAdapter.addData(getFakeData());
 
+    }
+
+    private void setListeners() {
+        backButton.setOnClickListener(this);
+        previousButton.setOnClickListener(this);
+        nextButton.setOnClickListener(this);
     }
 
     private void getValueFromIntent() {
@@ -122,9 +132,22 @@ public class SolveQuizFragment extends Fragment {
         int minutes = hours % 60;
         hours = hours / 60;
         if (hours == 0) {
-            return String.format(Locale.ENGLISH,"%02d",minutes) + ":" + String.format(Locale.ENGLISH,"%02d",seconds);
+            return String.format(Locale.ENGLISH, "%02d", minutes) + ":" + String.format(Locale.ENGLISH, "%02d", seconds);
         } else {
-            return String.format(Locale.ENGLISH,"%02d",hours) + ":" +String.format(Locale.ENGLISH,"%02d",minutes) + ":" + String.format(Locale.ENGLISH,"%02d",seconds);
+            return String.format(Locale.ENGLISH, "%02d", hours) + ":" + String.format(Locale.ENGLISH, "%02d", minutes) + ":" + String.format(Locale.ENGLISH, "%02d", seconds);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back_btn:
+                getParentFragment().getChildFragmentManager().popBackStack();
+                break;
+            case R.id.btn_previous:
+                break;
+            case R.id.btn_next:
+                break;
         }
     }
 }
