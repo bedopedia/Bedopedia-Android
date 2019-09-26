@@ -19,11 +19,11 @@ import com.skolera.skolera_android.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
 import trianglz.components.CustomeLayoutManager;
+import trianglz.components.HideKeyboardOnTouch;
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.SolveQuizPresenter;
 import trianglz.core.views.SolveQuizView;
@@ -50,7 +50,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private ItemTouchHelper itemTouchHelper;
     private RecyclerView recyclerView;
     private SingleMultiSelectAnswerAdapter singleMultiSelectAnswerAdapter;
-    private TextView questionTextView;
     private SolveQuizView solveQuizView;
     private Quizzes quizzes;
     public long millisUntilFinish;
@@ -92,7 +91,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private void bindViews() {
         subjectNameTextView = rootView.findViewById(R.id.tv_subject_name);
         counterTextView = rootView.findViewById(R.id.tv_counter);
-        questionTextView = rootView.findViewById(R.id.tv_question);
         recyclerView = rootView.findViewById(R.id.rv_answers);
         backButton = rootView.findViewById(R.id.back_btn);
         previousButton = rootView.findViewById(R.id.btn_previous);
@@ -112,6 +110,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         backButton.setOnClickListener(this);
         previousButton.setOnClickListener(this);
         nextButton.setOnClickListener(this);
+        recyclerView.setOnTouchListener(new HideKeyboardOnTouch(activity));
     }
 
     private void getValueFromIntent() {
@@ -120,29 +119,30 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             quizzes = Quizzes.create(bundle.getString(Constants.KEY_QUIZZES));
         }
     }
-
-    private ArrayList<String> getFakeData() {
-        ArrayList<String> stringArrayList = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            stringArrayList.add("Test " + i);
-        }
-        return stringArrayList;
-    }
-
     private void setItemTouchHelper() {
 
         itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder dragged, RecyclerView.ViewHolder target) {
+            public boolean canDropOver(RecyclerView recyclerView, RecyclerView.ViewHolder current, RecyclerView.ViewHolder target) {
+                return current.getItemViewType() == target.getItemViewType();
+            }
 
-                int draggedPosition = dragged.getAdapterPosition();
-                int targetPosition = target.getAdapterPosition();
-                Collections.swap(singleMultiSelectAnswerAdapter.mDataList, draggedPosition, targetPosition);
-                singleMultiSelectAnswerAdapter.notifyItemMoved(draggedPosition, targetPosition);
-                for (int i = 0; i < singleMultiSelectAnswerAdapter.mDataList.size(); i++) {
-                    //   Log.d("list", "onMove: " +singleMultiSelectAnswerAdapter.mDataList.get(i));
+            @Override
+            public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
+                super.onSelectedChanged(viewHolder, actionState);
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder dragged, RecyclerView.ViewHolder target) {
+                if (dragged.getItemViewType() == SingleMultiSelectAnswerAdapter.TYPE_QUESTION || dragged.getItemViewType() == SingleMultiSelectAnswerAdapter.TYPE_ANSWER_TEXT) {
+                    return false;
+                } else {
+                    int draggedPosition = dragged.getAdapterPosition();
+                    int targetPosition = target.getAdapterPosition();
+                    Collections.swap(singleMultiSelectAnswerAdapter.question.getAnswersAttributes(), draggedPosition - 2, targetPosition - 2);
+                    singleMultiSelectAnswerAdapter.notifyItemMoved(draggedPosition, targetPosition);
+                    return false;
                 }
-                return false;
             }
 
             @Override
@@ -459,7 +459,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 displayQuestionsAndAnswers(index);
                 break;
             case R.id.btn_next:
-                if (index < quizQuestion.getQuestions().size()-1)
+                if (index < quizQuestion.getQuestions().size() - 1)
                     index++;
                 displayQuestionsAndAnswers(index);
                 break;
@@ -485,7 +485,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     void displayQuestionsAndAnswers(int index) {
         if (!quizQuestion.getQuestions().isEmpty()) {
-            questionTextView.setText(quizQuestion.getQuestions().get(index).getBody());
             switch (quizQuestion.getQuestions().get(index).getType()) {
                 case Constants.TYPE_MULTIPLE_SELECT:
                     detachItemTouchHelper();
@@ -510,7 +509,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
             }
             recyclerView.setAdapter(singleMultiSelectAnswerAdapter);
-            singleMultiSelectAnswerAdapter.addData(quizQuestion.getQuestions().get(index).getAnswersAttributes());
+            singleMultiSelectAnswerAdapter.addData(quizQuestion.getQuestions().get(index));
         }
     }
 }
