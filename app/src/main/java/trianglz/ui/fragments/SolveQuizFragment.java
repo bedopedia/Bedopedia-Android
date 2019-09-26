@@ -153,6 +153,12 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    private void detachItemTouchHelper() {
+        if (itemTouchHelper != null) {
+            itemTouchHelper.attachToRecyclerView(null);
+        }
+    }
+
     private String secondsConverter(long time) {
         long seconds = time % 60;
         long hours = time / 60;
@@ -448,11 +454,13 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_previous:
-                index--;
+                if (index > 0)
+                    index--;
                 displayQuestionsAndAnswers(index);
                 break;
             case R.id.btn_next:
-                index++;
+                if (index < quizQuestion.getQuestions().size()-1)
+                    index++;
                 displayQuestionsAndAnswers(index);
                 break;
         }
@@ -477,29 +485,32 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     void displayQuestionsAndAnswers(int index) {
         if (!quizQuestion.getQuestions().isEmpty()) {
-            if (index < quizQuestion.getQuestions().size()) {
-                questionTextView.setText(quizQuestion.getQuestions().get(index).getBody());
-                switch (quizQuestion.getQuestions().get(index).getType()) {
-                    case Constants.TYPE_MULTIPLE_SELECT:
-                        singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MULTI_SELECTION);
-                        break;
-                    case Constants.TYPE_MULTIPLE_CHOICE:
-                        singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.SINGLE_SELECTION);
-                        break;
-                    case Constants.TYPE_TRUE_OR_FALSE:
-                        singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.TRUE_OR_FALSE);
-                        break;
-                    case Constants.TYPE_MATCH:
-                        singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MATCH_ANSWERS);
-                        break;
-                    case Constants.TYPE_REORDER:
-                        singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.REORDER_ANSWERS);
-                        break;
+            questionTextView.setText(quizQuestion.getQuestions().get(index).getBody());
+            switch (quizQuestion.getQuestions().get(index).getType()) {
+                case Constants.TYPE_MULTIPLE_SELECT:
+                    detachItemTouchHelper();
+                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MULTI_SELECTION);
+                    break;
+                case Constants.TYPE_MULTIPLE_CHOICE:
+                    detachItemTouchHelper();
+                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.SINGLE_SELECTION);
+                    break;
+                case Constants.TYPE_TRUE_OR_FALSE:
+                    detachItemTouchHelper();
+                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.TRUE_OR_FALSE);
+                    break;
+                case Constants.TYPE_MATCH:
+                    detachItemTouchHelper();
+                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MATCH_ANSWERS);
+                    break;
+                case Constants.TYPE_REORDER:
+                    setItemTouchHelper();
+                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.REORDER_ANSWERS);
+                    break;
 
-                }
-                recyclerView.setAdapter(singleMultiSelectAnswerAdapter);
-                singleMultiSelectAnswerAdapter.addData(quizQuestion.getQuestions().get(index).getAnswersAttributes());
             }
+            recyclerView.setAdapter(singleMultiSelectAnswerAdapter);
+            singleMultiSelectAnswerAdapter.addData(quizQuestion.getQuestions().get(index).getAnswersAttributes());
         }
     }
 }
