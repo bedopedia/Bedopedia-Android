@@ -45,6 +45,7 @@ public class QuizDetailsFragment extends Fragment implements View.OnClickListene
     }
 
     private void bindViews() {
+        toolbarQuizNameTextView = rootView.findViewById(R.id.tv_quiz_name);
         quizDescriptionTextView = rootView.findViewById(R.id.quiz_desc_tv);
         quizNameTextView = rootView.findViewById(R.id.quiz_name_tv);
         publishDateTextView = rootView.findViewById(R.id.publish_date_tv);
