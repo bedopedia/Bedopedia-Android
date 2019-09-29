@@ -25,6 +25,11 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.core.presenters.ShowQuizPresenter;
+import trianglz.core.views.ShowQuizView;
+import trianglz.managers.SessionManager;
+import trianglz.managers.api.ApiEndPoints;
+import trianglz.models.QuizQuestion;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Quizzes;
 import trianglz.models.Student;
@@ -35,7 +40,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 04/09/2019.
  */
-public class SingleQuizFragment extends Fragment implements View.OnClickListener {
+public class SingleQuizFragment extends Fragment implements View.OnClickListener, ShowQuizPresenter {
 
     private StudentMainActivity activity;
     private View rootView;
@@ -51,6 +56,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
     private AvatarView avatarView;
     private ImageButton backButton;
     private Student student;
+    private ShowQuizView showQuizView;
     private ImageView clockImageView;
 
     // grades variables
@@ -110,6 +116,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         answersBtn = rootView.findViewById(R.id.answers_btn);
         buttonsLayout = rootView.findViewById(R.id.buttons_layout);
         clockImageView = rootView.findViewById(R.id.date_icon);
+        showQuizView = new ShowQuizView(this, activity);
         // views
         quizGradeView = rootView.findViewById(R.id.v_quiz_grade);
         quizNotStartedView = rootView.findViewById(R.id.v_not_started_quiz);
@@ -144,8 +151,8 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                 if (quizzes.getStudentSubmissions() != null) {
                     quizGradeView.setVisibility(View.VISIBLE);
                     dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_red, null));
-                    dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown,null));
-                    clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.red_clock_icon,null));
+                    dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown, null));
+                    clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.red_clock_icon, null));
                     dateTextView.setText(this.getResources().getString(R.string.solved));
                     buttonsLayout.setVisibility(View.VISIBLE);
                     gradeTextView.setText(quizzes.getStudentSubmissions().getScore() + "");
@@ -161,13 +168,13 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                     buttonsLayout.setVisibility(View.GONE);
                     solveQuizBtn.setVisibility(View.VISIBLE);
                     dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_light_sage, null));
-                    dateTextView.setTextColor(this.getResources().getColor(R.color.pine,null));
-                    clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.green_clock_icon,null));
+                    dateTextView.setTextColor(this.getResources().getColor(R.color.pine, null));
+                    clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.green_clock_icon, null));
                 }
             } else {
                 dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_red, null));
-                dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown,null));
-                clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.red_clock_icon,null));
+                dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown, null));
+                clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.red_clock_icon, null));
                 if (quizzes.getStudentSubmissions() != null) {
                     quizGradeView.setVisibility(View.VISIBLE);
                     dateTextView.setText(this.getResources().getString(R.string.solved));
@@ -209,13 +216,9 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
     }
 
     private void openQuizDetailsFragment() {
-        QuizDetailsFragment quizDetailsFragment = new QuizDetailsFragment();
-        Bundle bundle = new Bundle();
-        quizDetailsFragment.setArguments( bundle);
-        getParentFragment().getChildFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, quizDetailsFragment, "MenuFragments").
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                addToBackStack(null).commit();
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizQuestions(quizzes.getId());
+        showQuizView.getQuizQuestions(url);
+        activity.showLoadingDialog();
     }
 
     private void openSolveQuizActivity() {
@@ -258,4 +261,22 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    @Override
+    public void onGetQuizQuestionsSuccess(QuizQuestion quizQuestion) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        QuizDetailsFragment quizDetailsFragment = new QuizDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.KEY_QUIZ_QUESTION, quizQuestion.toString());
+        quizDetailsFragment.setArguments(bundle);
+        getParentFragment().getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, quizDetailsFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onGetQuizQuestionsFailure(String message, int errorCode) {
+        activity.showErrorDialog(activity, errorCode, "");
+    }
 }
