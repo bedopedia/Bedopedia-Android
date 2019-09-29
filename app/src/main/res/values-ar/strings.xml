@@ -228,4 +228,6 @@
     <string name="lesson">الدرس</string>
     <string name="learning_objectives">الأهداف</string>
     <string name="course_groups">الصفوف</string>
+    <string name="no_objective">لا يوجد اهداف</string>
+
 </resources>
