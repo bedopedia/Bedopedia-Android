@@ -212,7 +212,7 @@
     <string name="assign_for_selected">تعيين للمختارين</string>
     <string name="details">التفاصيل</string>
     <string name="questions">الأسئلة</string>
-    <string name="answers">الأجوبة</string>
+    <string name="answers">الإجابات</string>
     <string name="user_name">أسم المستخدم</string>
     <string name="solved">تم حله</string>
     <string name="next">التالي</string>
@@ -222,7 +222,7 @@
     <string name="duration">المدة الزمنية</string>
     <string name="total_score">مجموع النقاط</string>
     <string name="curriculum_information">معلومات منهجية</string>
-    <string name="blooms_taxonomy">Bloom\'s Taxonomy</string>
+    <string name="blooms_taxonomy">التصنيف</string>
     <string name="topic">الموضوع</string>
     <string name="subtopic">الموضوع الفرعي</string>
     <string name="lesson">الدرس</string>
