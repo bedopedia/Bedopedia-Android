@@ -170,6 +170,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                 clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.red_clock_icon,null));
                 if (quizzes.getStudentSubmissions() != null) {
                     quizGradeView.setVisibility(View.VISIBLE);
+                    dateTextView.setText(this.getResources().getString(R.string.solved));
                     gradeTextView.setText(quizzes.getStudentSubmissions().getScore() + "");
                     outOfTextView.setText(getResources().getString(R.string.out_of) + " " + quizzes.getTotalScore() + "");
                     String feedBack = quizzes.getStudentSubmissions().getFeedback();
@@ -180,9 +181,6 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                     }
                 } else {
                     quizGradeView.setVisibility(View.GONE);
-//                gradeTextView.setText("--");
-//                outOfTextView.setText(getResources().getString(R.string.out_of) + " " + quizzes.getTotalScore() + "");
-//                noteTextview.setText(getResources().getString(R.string.no_submission));
                 }
             }
         } else {
@@ -201,12 +199,23 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                 openSolveQuizActivity();
                 break;
             case R.id.details_btn:
+                openQuizDetailsFragment();
                 break;
             case R.id.questions_btn:
                 break;
             case R.id.answers_btn:
                 break;
         }
+    }
+
+    private void openQuizDetailsFragment() {
+        QuizDetailsFragment quizDetailsFragment = new QuizDetailsFragment();
+        Bundle bundle = new Bundle();
+        quizDetailsFragment.setArguments( bundle);
+        getParentFragment().getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, quizDetailsFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
     private void openSolveQuizActivity() {
