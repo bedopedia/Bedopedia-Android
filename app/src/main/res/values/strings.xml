@@ -241,4 +241,15 @@
     <string name="solved">Solved</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="basic_info">Basic Info</string>
+    <string name="publish_date">Publish Date</string>
+    <string name="duration">Duration</string>
+    <string name="total_score">Total Score</string>
+    <string name="curriculum_information">Curriculum Information</string>
+    <string name="blooms_taxonomy">Bloom\'s Taxonomy</string>
+    <string name="topic">Topic</string>
+    <string name="subtopic">Subtopic</string>
+    <string name="lesson">Lesson</string>
+    <string name="learning_objectives">Learning Objectives</string>
+    <string name="course_groups">Course Groups</string>
 </resources>
