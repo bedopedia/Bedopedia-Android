@@ -25,8 +25,6 @@ import java.util.Locale;
 import trianglz.components.CustomeLayoutManager;
 import trianglz.components.HideKeyboardOnTouch;
 import trianglz.components.TopItemDecoration;
-import trianglz.core.presenters.SolveQuizPresenter;
-import trianglz.core.views.SolveQuizView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.QuizQuestion;
@@ -39,7 +37,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 04/09/2019.
  */
-public class SolveQuizFragment extends Fragment implements View.OnClickListener, SolveQuizPresenter {
+public class SolveQuizFragment extends Fragment implements View.OnClickListener {
     private StudentMainActivity activity;
     private View rootView;
 
@@ -50,7 +48,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private ItemTouchHelper itemTouchHelper;
     private RecyclerView recyclerView;
     private SingleMultiSelectAnswerAdapter singleMultiSelectAnswerAdapter;
-    private SolveQuizView solveQuizView;
     private Quizzes quizzes;
     public long millisUntilFinish;
     private CountDownTimer countDownTimer;
@@ -95,7 +92,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         backButton = rootView.findViewById(R.id.back_btn);
         previousButton = rootView.findViewById(R.id.btn_previous);
         nextButton = rootView.findViewById(R.id.btn_next);
-        solveQuizView = new SolveQuizView(this, activity);
         subjectNameTextView.setText(quizzes.getName());
 
         CustomeLayoutManager customeLayoutManager = new CustomeLayoutManager(activity);
@@ -173,7 +169,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     void getQuizQuestions() {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizQuestions(quizzes.getId());
-        //   solveQuizView.getQuizQuestions(url);
+        //   showQuizView.getQuizQuestions(url);
         JSONObject response;
         try {
             response = new JSONObject("{\n" +
@@ -466,22 +462,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    @Override
-    public void onGetQuizQuestionsSuccess(QuizQuestion quizQuestion) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
-//        singleMultiSelectAnswerAdapter.addData(getFakeData());
-//        startCountDown(quizzes.getDuration() * 1000);
-    }
-
-    @Override
-    public void onGetQuizQuestionsFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
-        activity.showErrorDialog(activity, errorCode, "");
-    }
 
     void displayQuestionsAndAnswers(int index) {
         if (!quizQuestion.getQuestions().isEmpty()) {
