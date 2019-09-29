@@ -70,13 +70,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"        android:padding="16dp"
+            >
 
             <TextView
                 android:id="@+id/quiz_name_tv"
@@ -85,6 +85,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textAlignment="viewStart"
                 android:layout_marginBottom="16dp"
                 android:text="General - End Of Module 1 Quiz" />
 
@@ -97,6 +98,7 @@
                 android:textStyle="bold"
                 android:includeFontPadding="false"
                 android:layout_marginBottom="24dp"
+                android:textAlignment="viewStart"
                 android:text="A revision on what was learned in module 1." />
 
             <TextView
@@ -105,6 +107,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textAlignment="viewStart"
                 android:includeFontPadding="false"
                 android:layout_marginBottom="16dp"
                 android:text="@string/basic_info" />
@@ -121,6 +124,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/black"
                     android:textSize="17sp"
+                    android:textAlignment="viewStart"
                     android:includeFontPadding="false"
                     android:text="@string/publish_date" />
 
@@ -131,7 +135,7 @@
                     android:layout_weight="2"
                     android:textColor="@color/cool_grey"
                     android:textSize="17sp"
-                    android:gravity="end"
+                    android:textAlignment="viewEnd"
                     android:maxLines="1"
                     android:includeFontPadding="false"
                     android:text="9 May, 2019 - 2:51 PM" />
@@ -149,6 +153,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/black"
                     android:textSize="17sp"
+                    android:textAlignment="viewStart"
                     android:includeFontPadding="false"
                     android:text="@string/due_date" />
 
@@ -156,11 +161,12 @@
                     android:id="@+id/due_date_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:textColor="@color/cool_grey"
                     android:textSize="17sp"
                     android:gravity="end"
                     android:maxLines="1"
+                    android:textAlignment="viewEnd"
                     android:includeFontPadding="false"
                     android:text="9 May, 2019 - 2:51 PM" />
             </LinearLayout>
@@ -184,11 +190,12 @@
                     android:id="@+id/duration_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:textColor="@color/cool_grey"
                     android:textSize="17sp"
                     android:gravity="end"
                     android:maxLines="1"
+                    android:textAlignment="viewEnd"
                     android:includeFontPadding="false"
                     android:text="30 minutes" />
             </LinearLayout>
@@ -212,10 +219,11 @@
                     android:id="@+id/total_score_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:textColor="@color/cool_grey"
                     android:textSize="17sp"
                     android:gravity="end"
+                    android:textAlignment="textEnd"
                     android:includeFontPadding="false"
                     android:text="10" />
             </LinearLayout>
@@ -239,7 +247,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:textColor="@color/black"
                     android:textSize="17sp"
                     android:includeFontPadding="false"
@@ -249,13 +257,13 @@
                     android:id="@+id/blooms_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:textColor="@color/cool_grey"
                     android:textSize="17sp"
                     android:gravity="end"
-                    android:maxLines="1"
+                    android:textAlignment="viewEnd"
                     android:includeFontPadding="false"
-                    android:text="Evaluation" />
+                    android:text="Evaluatiojshxbjahjakhdsakjdhaskjdhakjsdhakjshdkjsahdkjashdkjsahdkjsadn" />
             </LinearLayout>
 
             <LinearLayout
@@ -277,11 +285,12 @@
                     android:id="@+id/topic_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:textColor="@color/cool_grey"
                     android:textSize="17sp"
                     android:gravity="end"
                     android:maxLines="1"
+                    android:textAlignment="viewEnd"
                     android:includeFontPadding="false"
                     android:text="Topic 1" />
             </LinearLayout>
@@ -305,11 +314,12 @@
                     android:id="@+id/subtopic_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:textColor="@color/cool_grey"
                     android:textSize="17sp"
                     android:gravity="end"
                     android:maxLines="1"
+                    android:textAlignment="viewEnd"
                     android:includeFontPadding="false"
                     android:text="Subtopic 2" />
             </LinearLayout>
@@ -326,6 +336,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/black"
                     android:textSize="17sp"
+                    android:textAlignment="viewStart"
                     android:includeFontPadding="false"
                     android:text="@string/lesson" />
 
@@ -333,11 +344,12 @@
                     android:id="@+id/lesson_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:textColor="@color/cool_grey"
                     android:textSize="17sp"
                     android:gravity="end"
                     android:maxLines="1"
+                    android:textAlignment="viewEnd"
                     android:includeFontPadding="false"
                     android:text="A" />
             </LinearLayout>
@@ -348,6 +360,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textAlignment="viewStart"
                 android:includeFontPadding="false"
                 android:layout_marginBottom="16dp"
                 android:text="@string/learning_objectives" />
@@ -359,9 +372,10 @@
                 android:textColor="@color/cool_grey"
                 android:textSize="17sp"
                 android:textStyle="bold"
+                android:textAlignment="viewStart"
                 android:includeFontPadding="false"
                 android:layout_marginBottom="24dp"
-                android:text="There Are No Lesson Objectives" />
+                android:text="@string/no_objective" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -369,6 +383,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textAlignment="viewStart"
                 android:includeFontPadding="false"
                 android:layout_marginBottom="16dp"
                 android:text="@string/course_groups" />
@@ -381,6 +396,7 @@
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:includeFontPadding="false"
+                android:textAlignment="viewStart"
                 android:layout_marginBottom="24dp"
                 android:text="A" />
         </LinearLayout>
