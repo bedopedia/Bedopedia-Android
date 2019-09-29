@@ -22,7 +22,7 @@ public class QuizQuestion {
     @SerializedName("description")
     private String description;
     @SerializedName("course_groups")
-    private CourseGroups[] courseGroups;
+    private ArrayList<CourseGroups> courseGroups;
     @SerializedName("category")
     private Category category;
     @SerializedName("lesson")
@@ -52,7 +52,7 @@ public class QuizQuestion {
     @SerializedName("questions")
     private ArrayList<Questions> questions;
     @SerializedName("objectives")
-    private Object[] objectives;
+    private  ArrayList<Objective> objectives;
     @SerializedName("grouping_students")
     private GroupingStudents[] groupingStudents;
     @SerializedName("course_groups_quiz")
@@ -98,11 +98,11 @@ public class QuizQuestion {
         return this.description;
     }
 
-    public void setCourseGroups(CourseGroups[] courseGroups) {
+    public void setCourseGroups(ArrayList<CourseGroups> courseGroups) {
         this.courseGroups = courseGroups;
     }
 
-    public CourseGroups[] getCourseGroups() {
+    public ArrayList<CourseGroups> getCourseGroups() {
         return this.courseGroups;
     }
 
@@ -218,11 +218,11 @@ public class QuizQuestion {
         return this.questions;
     }
 
-    public void setObjectives(Object[] objectives) {
+    public void setObjectives(ArrayList<Objective> objectives) {
         this.objectives = objectives;
     }
 
-    public Object[] getObjectives() {
+    public ArrayList<Objective> getObjectives() {
         return this.objectives;
     }
 
