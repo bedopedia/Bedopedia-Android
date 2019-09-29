@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
-import trianglz.core.presenters.SolveQuizPresenter;
+import trianglz.core.presenters.ShowQuizPresenter;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.QuizQuestion;
@@ -12,12 +12,12 @@ import trianglz.models.QuizQuestion;
 /**
  * Created by Farah A. Moniem on 25/09/2019.
  */
-public class SolveQuizView {
-    private SolveQuizPresenter solveQuizPresenter;
+public class ShowQuizView {
+    private ShowQuizPresenter showQuizPresenter;
     private Context context;
 
-    public SolveQuizView(SolveQuizPresenter solveQuizPresenter, Context context) {
-        this.solveQuizPresenter = solveQuizPresenter;
+    public ShowQuizView(ShowQuizPresenter showQuizPresenter, Context context) {
+        this.showQuizPresenter = showQuizPresenter;
         this.context = context;
     }
 
@@ -26,12 +26,12 @@ public class SolveQuizView {
             @Override
             public void onSuccess(JSONObject response) {
                 QuizQuestion quizQuestion = QuizQuestion.create(response.toString());
-                solveQuizPresenter.onGetQuizQuestionsSuccess(quizQuestion);
+                showQuizPresenter.onGetQuizQuestionsSuccess(quizQuestion);
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                solveQuizPresenter.onGetQuizQuestionsFailure(message, errorCode);
+                showQuizPresenter.onGetQuizQuestionsFailure(message, errorCode);
             }
         });
     }
