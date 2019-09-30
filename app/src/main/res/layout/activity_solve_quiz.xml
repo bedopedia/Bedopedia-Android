@@ -91,8 +91,14 @@
     </android.support.v4.widget.NestedScrollView>
 
     <TextView
+        android:id="@+id/question_counter_tv"
+        android:text="hellooooooo"
+        android:textColor="@color/black"
+        android:layout_margin="24dp"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:textSize="16sp"/>
 
     
@@ -124,6 +130,17 @@
             android:textAllCaps="false"
             android:id="@+id/btn_next"
             android:text="@string/next"/>
+        <Button
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:background="@drawable/curved_salmon_background_radius_8"
+            android:textAllCaps="false"
+            android:id="@+id/btn_submit"
+            android:text="@string/submit"/>
     </LinearLayout>
 
 
