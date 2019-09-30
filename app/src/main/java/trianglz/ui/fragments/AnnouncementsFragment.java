@@ -175,7 +175,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
                     activity.headerLayout.setVisibility(View.VISIBLE);
                 }
             }
-        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString())) {
             if (activity.pager.getCurrentItem() == 0) {
                 getActivity().finish();
                 return;
