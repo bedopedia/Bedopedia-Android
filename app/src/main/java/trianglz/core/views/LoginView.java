@@ -87,7 +87,7 @@ public class LoginView {
             Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
             refreshFireBaseToken();
             loginPresenter.onLoginSuccess(actor);
-        }else{
+        }else if(userType.equals("hod")){
             SessionManager.getInstance().setUserType(SessionManager.Actor.HOD);
             String firstName = data.optString("firstname");
             String lastName = data.optString("lastname");
@@ -96,8 +96,16 @@ public class LoginView {
             Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
             refreshFireBaseToken();
             loginPresenter.onLoginSuccess(actor);
+        }else if(userType.equals("admin")) {
+            SessionManager.getInstance().setUserType(SessionManager.Actor.ADMIN);
+            String firstName = data.optString("firstname");
+            String lastName = data.optString("lastname");
+            String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);
+            String avtarUrl = data.optString(Constants.KEY_AVATER_URL);
+            Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+            refreshFireBaseToken();
+            loginPresenter.onLoginSuccess(actor);
         }
-
     }
 
     public void updateToken() {
