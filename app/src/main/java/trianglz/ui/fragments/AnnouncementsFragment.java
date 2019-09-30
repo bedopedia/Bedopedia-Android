@@ -107,7 +107,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
             pageNumber = 1;
         }
         String type;
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())){
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             type = "parent";
         } else {
             type = "student";
@@ -175,7 +175,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
                     activity.headerLayout.setVisibility(View.VISIBLE);
                 }
             }
-        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString())) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             if (activity.pager.getCurrentItem() == 0) {
                 getActivity().finish();
                 return;
@@ -184,6 +184,14 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
             if (getChildFragmentManager().getFragments().size() == 1) {
                 activity.toolbarView.setVisibility(View.VISIBLE);
                 activity.headerLayout.setVisibility(View.VISIBLE);
+            }
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString())) {
+            if (activity.pager.getCurrentItem() == 0) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
             }
         } else {
             if (activity.pager.getCurrentItem() == 1) {
