@@ -229,5 +229,7 @@
     <string name="learning_objectives">الأهداف</string>
     <string name="course_groups">الصفوف</string>
     <string name="no_objective">لا يوجد اهداف</string>
+    <string name="quiz_submitted">Quiz has been submitted successfully</string>
+    <string name="see_grade">You will be able to see your grade in grades section</string>
 
 </resources>
