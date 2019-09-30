@@ -48,9 +48,9 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
 
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
-        Boolean teacher = !SessionManager.getInstance().getUserType();
+//        Boolean teacher = !SessionManager.getInstance().getUserType();
         if(position == mDataList.size() - 1 ){
-            if(!teacher){
+            if(!SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())){
                 anInterface.onReachPosition();
             }
         }

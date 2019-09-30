@@ -107,7 +107,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
             pageNumber = 1;
         }
         String type;
-        if (SessionManager.getInstance().getUserType()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())){
             type = "parent";
         } else {
             type = "student";
@@ -165,9 +165,9 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
-        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
-        if (isStudent) {
+//        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
+//        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             if (activity.pager.getCurrentItem() == 3) {
                 getChildFragmentManager().popBackStack();
                 if (getChildFragmentManager().getFragments().size() == 1) {
@@ -175,7 +175,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
                     activity.headerLayout.setVisibility(View.VISIBLE);
                 }
             }
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             if (activity.pager.getCurrentItem() == 0) {
                 getActivity().finish();
                 return;

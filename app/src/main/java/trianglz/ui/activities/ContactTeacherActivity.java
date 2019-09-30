@@ -25,7 +25,7 @@ import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
 public class ContactTeacherActivity extends SuperActivity implements View.OnClickListener,
-        ContactTeacherPresenter,ContactTeacherAdapter.ContactTeacherAdapterInterface{
+        ContactTeacherPresenter, ContactTeacherAdapter.ContactTeacherAdapterInterface {
     private ImageButton backBtn;
     private ImageButton newMessageBtn;
     private Student student;
@@ -43,36 +43,36 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
         setContentView(R.layout.activity_contact_teacher);
         bindViews();
         setListeners();
-        if(SessionManager.getInstance().getUserType()){
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
-        }else {
-            actor = (Actor)  getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
+        } else {
+            actor = (Actor) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
         }
 
     }
 
-    private void bindViews(){
+    private void bindViews() {
         backBtn = findViewById(R.id.btn_back);
         newMessageBtn = findViewById(R.id.btn_new_message);
-        contactTeacherView = new ContactTeacherView(this,this);
+        contactTeacherView = new ContactTeacherView(this, this);
         recyclerView = findViewById(R.id.recycler_view);
-        contactTeacherAdapter = new ContactTeacherAdapter(this,this);
+        contactTeacherAdapter = new ContactTeacherAdapter(this, this);
         recyclerView.setAdapter(contactTeacherAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8,this),false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, this), false));
         messageThreadArrayList = new ArrayList<>();
         headerTextView = findViewById(R.id.tv_header);
-        if(SessionManager.getInstance().getUserType()){
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             headerTextView.setText(getResources().getString(R.string.contact_teacher));
             newMessageBtn.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             headerTextView.setText(getResources().getString(R.string.messages));
             newMessageBtn.setVisibility(View.INVISIBLE);
         }
 
     }
 
-    private void setListeners(){
+    private void setListeners() {
         backBtn.setOnClickListener(this);
         newMessageBtn.setOnClickListener(this);
     }
@@ -81,11 +81,11 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        if(Util.isNetworkAvailable(this)){
+        if (Util.isNetworkAvailable(this)) {
             showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-            contactTeacherView.getMessages(url,SessionManager.getInstance().getId());
-        }else {
+            contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
+        } else {
             Util.showNoInternetConnectionDialog(this);
         }
         isOpeningThread = false;
@@ -93,18 +93,18 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
 
     @Override
     public void onClick(View view) {
-       switch (view.getId()){
-           case R.id.btn_back:
-               onBackPressed();
-               break;
-           case R.id.btn_new_message:
-               if(Util.isNetworkAvailable(this)){
-                   openNewMessageActivity();
-               }else {
-                   Util.showNoInternetConnectionDialog(this);
-               }
-               break;
-       }
+        switch (view.getId()) {
+            case R.id.btn_back:
+                onBackPressed();
+                break;
+            case R.id.btn_new_message:
+                if (Util.isNetworkAvailable(this)) {
+                    openNewMessageActivity();
+                } else {
+                    Util.showNoInternetConnectionDialog(this);
+                }
+                break;
+        }
     }
 
     @Override
@@ -116,20 +116,20 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
 
     @Override
     public void onGetMessagesFailure(String message, int errorCode) {
-        if(progress.isShowing()){
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        showErrorDialog(this, errorCode,"");
+        showErrorDialog(this, errorCode, "");
     }
 
     @Override
     public void onThreadClicked(int position) {
-        if(!isOpeningThread){
-            if(Util.isNetworkAvailable(this)){
+        if (!isOpeningThread) {
+            if (Util.isNetworkAvailable(this)) {
                 isOpeningThread = true;
                 MessageThread messageThread = contactTeacherAdapter.mDataList.get(position);
                 openChatActivity(messageThread);
-            }else {
+            } else {
                 Util.showNoInternetConnectionDialog(this);
             }
 
@@ -139,18 +139,18 @@ public class ContactTeacherActivity extends SuperActivity implements View.OnClic
     }
 
     private void openChatActivity(MessageThread messageThread) {
-        Intent intent = new Intent(this,ChatActivity.class);
+        Intent intent = new Intent(this, ChatActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_MESSAGES,messageThread);
-        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        bundle.putSerializable(Constants.KEY_MESSAGES, messageThread);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
     }
 
-    private void openNewMessageActivity(){
+    private void openNewMessageActivity() {
         Intent intent = new Intent(this, NewMessageActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT,student);
-       intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        bundle.putSerializable(Constants.STUDENT, student);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
     }
 

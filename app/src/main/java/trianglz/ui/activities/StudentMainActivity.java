@@ -62,7 +62,6 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     public Actor actor;
 
     // booleans
-    boolean isStudent, isParent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +79,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void getValueFromIntent() {
-        isStudent = SessionManager.getInstance().getStudentAccount();
-        isParent = SessionManager.getInstance().getUserType();
-        if (isParent) {
+        //       isStudent = SessionManager.getInstance().getStudentAccount();
+        //     isParent = SessionManager.getInstance().getUserType();
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
             attendance = (String) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ATTENDANCE);
         } else {
@@ -133,7 +132,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     private void bindViews() {
 
-        if (!isStudent && !isParent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             teacherCoursesFragment = new TeacherCoursesFragment();
             coursesLayout = findViewById(R.id.ll_courses_tab);
             coursesImageView = findViewById(R.id.iv_courses);
@@ -170,9 +169,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         addNewMessageButton.setVisibility(View.GONE);
         backBtn = findViewById(R.id.back_btn);
         backBtn.setVisibility(View.GONE);
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             settingsBtn.setVisibility(View.VISIBLE);
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             settingsBtn.setVisibility(View.GONE);
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) addNewMessageButton.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_START, 0);
@@ -194,16 +193,16 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         pager.setPagingEnabled(false);
         setUpAdapterAccordingToUserType();
         pager.setAdapter(pagerAdapter);
-
+        String h = SessionManager.getInstance().getUserType();
         // set default tab according to user type
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             pager.setOffscreenPageLimit(4);
             pager.setCurrentItem(0);
             handleStudentTabs(pagerAdapter.getCount() - 4);
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             pager.setOffscreenPageLimit(4);
             pager.setCurrentItem(4);
-        } else {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             pager.setOffscreenPageLimit(5);
             pager.setCurrentItem(4);
             handleTeacherTabs(4);
@@ -211,11 +210,11 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void setUpAdapterAccordingToUserType() {
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getStudentFragmentList());
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getParentFragmentList());
-        } else {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getTeacherFragmentList());
         }
     }
@@ -332,11 +331,11 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void handleTabsClicking(int tabNumber) {
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             handleStudentTabs(tabNumber);
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             handleParentTabs(tabNumber);
-        } else {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             handleTeacherTabs(tabNumber);
         }
 
@@ -576,15 +575,15 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         if (!fragment.isAdded()) {
             return;
         }
-            if (fragment.getChildFragmentManager() != null) {
-                if (fragment.getChildFragmentManager().getFragments().size() > 0) {
-                    headerLayout.setVisibility(View.GONE);
-                    toolbarView.setVisibility(View.GONE);
-                } else {
-                    headerLayout.setVisibility(View.VISIBLE);
-                    toolbarView.setVisibility(View.VISIBLE);
-                }
+        if (fragment.getChildFragmentManager() != null) {
+            if (fragment.getChildFragmentManager().getFragments().size() > 0) {
+                headerLayout.setVisibility(View.GONE);
+                toolbarView.setVisibility(View.GONE);
+            } else {
+                headerLayout.setVisibility(View.VISIBLE);
+                toolbarView.setVisibility(View.VISIBLE);
             }
+        }
 
     }
 

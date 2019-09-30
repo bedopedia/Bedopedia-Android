@@ -57,7 +57,6 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     private SegmentedGroup segmentedGroup;
     private int courseId;
     private String studentName;
-    boolean isStudent, isParent;
     private CourseGroups courseGroups;
 
     @Nullable
@@ -81,8 +80,8 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
 
 
     private void getValueFromIntent() {
-        isStudent = SessionManager.getInstance().getStudentAccount();
-        isParent = SessionManager.getInstance().getUserType();
+//        isStudent = SessionManager.getInstance().getStudentAccount();
+//        isParent = SessionManager.getInstance().getUserType();
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             student = (Student) bundle.getSerializable(Constants.STUDENT);
@@ -119,9 +118,9 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         openButton = rootView.findViewById(R.id.btn_open);
         closedButton = rootView.findViewById(R.id.btn_closed);
         segmentedGroup.check(openButton.getId());
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
         } else {
             segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
@@ -164,7 +163,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onItemClicked(AssignmentsDetail assignmentsDetail) {
-        if (isStudent || isParent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             AssignmentFragment assignmentFragment = new AssignmentFragment();
             Bundle bundle = new Bundle();
             if (courseId != 0) bundle.putInt(Constants.KEY_COURSE_ID, courseId);

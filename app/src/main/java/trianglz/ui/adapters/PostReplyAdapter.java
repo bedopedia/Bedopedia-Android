@@ -138,8 +138,8 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
                 });
         } else if (position == 1) {
             ReplyViewHolder replyViewHolder = (ReplyViewHolder) holder;
-            if (SessionManager.getInstance().getUserType()) {replyViewHolder.itemView.setVisibility(View.GONE);}
-            if (SessionManager.getInstance().getStudentAccount()) {replyViewHolder.itemView.setVisibility(View.VISIBLE);}
+            if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {replyViewHolder.itemView.setVisibility(View.GONE);}
+            if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {replyViewHolder.itemView.setVisibility(View.VISIBLE);}
             replyViewHolder.replyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

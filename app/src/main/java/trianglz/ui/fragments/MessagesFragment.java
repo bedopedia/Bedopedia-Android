@@ -61,7 +61,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         activity = (StudentMainActivity) getActivity();
         bindViews();
         setListeners();
-        if (SessionManager.getInstance().getUserType()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             student = activity.getStudent();
         } else {
             actor = activity.getActor();
@@ -172,9 +172,10 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onBackPressed() {
-        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
-        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
-        if (isStudent) {
+      //  Boolean isStudent = SessionManager.getInstance().getStudentAccount();
+      //  Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
+
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             if (activity.pager.getCurrentItem() == 1) {
                 getChildFragmentManager().popBackStack();
                 if (getChildFragmentManager().getFragments().size() == 1) {
@@ -182,7 +183,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
                     activity.headerLayout.setVisibility(View.VISIBLE);
                 }
             }
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             if (activity.pager.getCurrentItem() == 1) {
                 if(getChildFragmentManager().getFragments().size()==0){
                     getActivity().finish();

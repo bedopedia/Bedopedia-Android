@@ -70,17 +70,25 @@ public class LoginView {
         SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
         String userType = data.optString(Constants.KEY_USER_TYPE);
         if (userType.equals("parent")) {
-            SessionManager.getInstance().setUserType(true);
+            SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
             refreshFireBaseToken();
             loginPresenter.onLoginSuccess();
         } else if (userType.equals("student")) {
-            SessionManager.getInstance().setUserType(true);
-            SessionManager.getInstance().setStudentType(true);
+            SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);
             int parentId = data.optInt(Constants.PARENT_ID);
             String url = SessionManager.getInstance().getBaseUrl() + "/api/parents/" + parentId + "/children";
             getStudents(url, id + "",id);
-        } else {
-            SessionManager.getInstance().setUserType(false);
+        } else if(userType.equals("teacher")) {
+            SessionManager.getInstance().setUserType(SessionManager.Actor.TEACHER);
+            String firstName = data.optString("firstname");
+            String lastName = data.optString("lastname");
+            String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);
+            String avtarUrl = data.optString(Constants.KEY_AVATER_URL);
+            Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+            refreshFireBaseToken();
+            loginPresenter.onLoginSuccess(actor);
+        }else{
+            SessionManager.getInstance().setUserType(SessionManager.Actor.HOD);
             String firstName = data.optString("firstname");
             String lastName = data.optString("lastname");
             String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);

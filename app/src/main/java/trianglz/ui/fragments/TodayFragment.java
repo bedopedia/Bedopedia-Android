@@ -207,7 +207,7 @@ public class TodayFragment extends Fragment {
             Date endDate = eObject.getTo();
             String courseName = eObject.getCourseName();
             String classRoom ="";
-            if (!SessionManager.getInstance().getUserType() && !SessionManager.getInstance().getStudentAccount()) {
+            if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
                 classRoom = eObject.getCoureGroupName();
             } else {
                 classRoom = eObject.getClassRoom();

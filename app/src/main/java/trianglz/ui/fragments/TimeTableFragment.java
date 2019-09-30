@@ -118,7 +118,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         mViewPager.setPagingEnabled(true);
         bindViews();
         setListeners();
-        if (SessionManager.getInstance().getUserType()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             setStudentImage();
         }
         increaseButtonsHitArea();
@@ -145,9 +145,9 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         // radio button for segment control
         segmentedGroup = rootView.findViewById(R.id.segmented);
         segmentedGroup.check(todayButton.getId());
-        if (SessionManager.getInstance().getStudentAccount()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-        } else if (SessionManager.getInstance().getUserType()) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
         } else {
             studentImage.setVisibility(View.INVISIBLE);
