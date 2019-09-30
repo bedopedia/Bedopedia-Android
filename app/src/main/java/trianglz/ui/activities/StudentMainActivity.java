@@ -60,6 +60,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     public Student student;
     public String attendance;
     public Actor actor;
+    public boolean isHod = false;
 
     // booleans
 
@@ -132,18 +133,22 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     private void bindViews() {
 
+        // tabs
+        firstLayout = findViewById(R.id.ll_announcment_tab);
+        secondLayout = findViewById(R.id.ll_messages_tab);
+        thirdLayout = findViewById(R.id.ll_notifications_tab);
+        fourthLayout = findViewById(R.id.ll_menu_tab);
+
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             teacherCoursesFragment = new TeacherCoursesFragment();
             coursesLayout = findViewById(R.id.ll_courses_tab);
             coursesImageView = findViewById(R.id.iv_courses);
             coursesTextView = findViewById(R.id.tv_courses);
             coursesLayout.setVisibility(View.VISIBLE);
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
+            fourthLayout.setVisibility(View.GONE);
+            isHod = true;
         }
-        // tabs
-        firstLayout = findViewById(R.id.ll_announcment_tab);
-        secondLayout = findViewById(R.id.ll_messages_tab);
-        thirdLayout = findViewById(R.id.ll_notifications_tab);
-        fourthLayout = findViewById(R.id.ll_menu_tab);
 
         // image views
         firstTabImageView = findViewById(R.id.iv_announcements);
@@ -206,6 +211,10 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
             pager.setOffscreenPageLimit(5);
             pager.setCurrentItem(4);
             handleTeacherTabs(4);
+        } else {
+            pager.setOffscreenPageLimit(3);
+            pager.setCurrentItem(2);
+            handleHodTabs(0);
         }
     }
 
@@ -216,6 +225,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getParentFragmentList());
         } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getTeacherFragmentList());
+        } else {
+            pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getHodFragmentList());
         }
     }
 
@@ -244,6 +255,14 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         fragmentArrayList.add(messagesFragment);
         fragmentArrayList.add(notificationsFragment);
         fragmentArrayList.add(announcementsFragment);
+        return fragmentArrayList;
+    }
+
+    private ArrayList<Fragment> getHodFragmentList() {
+        ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+        fragmentArrayList.add(announcementsFragment);
+        fragmentArrayList.add(messagesFragment);
+        fragmentArrayList.add(notificationsFragment);
         return fragmentArrayList;
     }
 
@@ -297,18 +316,33 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 handleTabsClicking(pagerAdapter.getCount() - 5);
                 break;
             case R.id.ll_announcment_tab:
-                returnToRootFragment(pagerAdapter.getCount() - 4);
-                handleTabsClicking(pagerAdapter.getCount() - 4);
+                if (isHod){
+                    returnToRootFragment(pagerAdapter.getCount() - 3);
+                    handleTabsClicking(pagerAdapter.getCount() - 3);}
+                else{
+                    returnToRootFragment(pagerAdapter.getCount() - 4);
+                    handleTabsClicking(pagerAdapter.getCount() - 4);
+                }
                 break;
             case R.id.ll_messages_tab:
-                returnToRootFragment(pagerAdapter.getCount() - 3);
-                handleTabsClicking(pagerAdapter.getCount() - 3);
+                if (isHod){
+                    returnToRootFragment(pagerAdapter.getCount() - 2);
+                    handleTabsClicking(pagerAdapter.getCount() - 2);}
+                else{
+                    returnToRootFragment(pagerAdapter.getCount() - 3);
+                    handleTabsClicking(pagerAdapter.getCount() - 3);
+                }
                 break;
             case R.id.ll_notifications_tab:
-                returnToRootFragment(pagerAdapter.getCount() - 2);
                 SessionManager.getInstance().setNotificationCounterToZero();
                 notificationCheck();
-                handleTabsClicking(pagerAdapter.getCount() - 2);
+                if (isHod){
+                    returnToRootFragment(pagerAdapter.getCount() - 1);
+                    handleTabsClicking(pagerAdapter.getCount() - 1);}
+                else{
+                    returnToRootFragment(pagerAdapter.getCount() - 2);
+                    handleTabsClicking(pagerAdapter.getCount() - 2);
+                }
                 break;
             case R.id.ll_menu_tab:
                 returnToRootFragment(pagerAdapter.getCount() - 1);
@@ -337,6 +371,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
             handleParentTabs(tabNumber);
         } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             handleTeacherTabs(tabNumber);
+        } else {
+            handleHodTabs(tabNumber);
         }
 
     }
@@ -533,6 +569,49 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 secondTextView.setVisibility(View.GONE);
                 thirdTextView.setVisibility(View.GONE);
                 fourthTextView.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    private void handleHodTabs(int tabNumber) {
+        pager.setCurrentItem(tabNumber);
+        // showHideToolBar(pagerAdapter.getItem(tabNumber));
+        // text view content
+        firstTextView.setText(getResources().getString(R.string.announcements));
+        secondTextView.setText(getResources().getString(R.string.messages));
+        thirdTextView.setText(getResources().getString(R.string.notifications));
+        // text view text color
+        int color = Color.parseColor("#007ee5");
+        firstTextView.setTextColor(color);
+        secondTextView.setTextColor(color);
+        thirdTextView.setTextColor(color);
+        switch (tabNumber) {
+            case 0:
+                firstTabImageView.setImageResource(R.drawable.ic_announcment_selected_teacher);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+
+                firstTextView.setVisibility(View.VISIBLE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.GONE);
+                break;
+            case 1:
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_selected_teacher);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.VISIBLE);
+                thirdTextView.setVisibility(View.GONE);
+                break;
+            case 2:
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notification_selected_teacher);
+
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.VISIBLE);
                 break;
         }
     }
