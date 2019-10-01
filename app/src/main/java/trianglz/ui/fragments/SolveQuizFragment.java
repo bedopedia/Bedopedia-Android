@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import trianglz.components.CustomeLayoutManager;
 import trianglz.components.HideKeyboardOnTouch;
+import trianglz.components.QuizSubmittedDialog;
 import trianglz.components.TopItemDecoration;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
@@ -42,9 +43,9 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
     private View rootView;
 
     private TextView subjectNameTextView;
-    private TextView counterTextView;
+    private TextView timerTextView, questionCounterTextView;
     private ImageButton backButton;
-    private Button previousButton, nextButton;
+    private Button previousButton, nextButton, submitButton;
     private ItemTouchHelper itemTouchHelper;
     private RecyclerView recyclerView;
     private SingleMultiSelectAnswerAdapter singleMultiSelectAnswerAdapter;
@@ -53,12 +54,14 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
     private CountDownTimer countDownTimer;
     private QuizQuestion quizQuestion;
     private int index = 0;
+    private Fragment fragment;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
         rootView = inflater.inflate(R.layout.activity_solve_quiz, container, false);
+        fragment = this;
         return rootView;
     }
 
@@ -74,12 +77,13 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
     private void startCountDown(long duration) {
         countDownTimer = new CountDownTimer(duration, 1000) {
             public void onTick(long millisUntilFinished) {
-                counterTextView.setText(secondsConverter(millisUntilFinished / 1000));
+                timerTextView.setText(secondsConverter(millisUntilFinished / 1000));
                 millisUntilFinish = millisUntilFinished;
             }
 
             public void onFinish() {
-                counterTextView.setText("done!");
+                QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment, countDownTimer);
+                quizSubmittedDialog.show();
             }
 
         }.start();
@@ -87,13 +91,14 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
 
     private void bindViews() {
         subjectNameTextView = rootView.findViewById(R.id.tv_subject_name);
-        counterTextView = rootView.findViewById(R.id.tv_counter);
+        timerTextView = rootView.findViewById(R.id.tv_counter);
         recyclerView = rootView.findViewById(R.id.rv_answers);
         backButton = rootView.findViewById(R.id.back_btn);
         previousButton = rootView.findViewById(R.id.btn_previous);
         nextButton = rootView.findViewById(R.id.btn_next);
+        submitButton = rootView.findViewById(R.id.btn_submit);
+        questionCounterTextView = rootView.findViewById(R.id.question_counter_tv);
         subjectNameTextView.setText(quizzes.getName());
-
         CustomeLayoutManager customeLayoutManager = new CustomeLayoutManager(activity);
         customeLayoutManager.setScrollEnabled(false);
         recyclerView.setLayoutManager(customeLayoutManager);
@@ -106,6 +111,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
         backButton.setOnClickListener(this);
         previousButton.setOnClickListener(this);
         nextButton.setOnClickListener(this);
+        submitButton.setOnClickListener(this);
         recyclerView.setOnTouchListener(new HideKeyboardOnTouch(activity));
     }
 
@@ -115,6 +121,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
             quizzes = Quizzes.create(bundle.getString(Constants.KEY_QUIZZES));
         }
     }
+
     private void setItemTouchHelper() {
 
         itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
@@ -444,9 +451,16 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        countDownTimer.cancel();
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_btn:
+                countDownTimer.cancel();
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_previous:
@@ -459,12 +473,27 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
                     index++;
                 displayQuestionsAndAnswers(index);
                 break;
+            case R.id.btn_submit:
+                QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment, countDownTimer);
+                quizSubmittedDialog.show();
+                break;
         }
     }
 
+    void updateQuestionCounterTextViewAndNextBtn(int index) {
+        questionCounterTextView.setText(index + 1 + " " + activity.getResources().getString(R.string.out_of) + " " + quizQuestion.getQuestions().size());
+        if (index == quizQuestion.getQuestions().size() - 1) {
+            nextButton.setVisibility(View.GONE);
+            submitButton.setVisibility(View.VISIBLE);
+        } else {
+            nextButton.setVisibility(View.VISIBLE);
+            submitButton.setVisibility(View.GONE);
+        }
+    }
 
     void displayQuestionsAndAnswers(int index) {
         if (!quizQuestion.getQuestions().isEmpty()) {
+            updateQuestionCounterTextViewAndNextBtn(index);
             switch (quizQuestion.getQuestions().get(index).getType()) {
                 case Constants.TYPE_MULTIPLE_SELECT:
                     detachItemTouchHelper();
