@@ -203,12 +203,13 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.solve_quiz_btn:
-                openSolveQuizActivity();
+                openSolveQuizActivity(Constants.SOLVE_QUIZ);
                 break;
             case R.id.details_btn:
                 openQuizDetailsFragment();
                 break;
             case R.id.questions_btn:
+                openSolveQuizActivity(Constants.VIEW_QUESTIONS);
                 break;
             case R.id.answers_btn:
                 break;
@@ -221,13 +222,11 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         activity.showLoadingDialog();
     }
 
-    private void openSolveQuizActivity() {
+    private void openSolveQuizActivity(int mode) {
         SolveQuizFragment solveQuizFragment = new SolveQuizFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
-        bundle.putInt(Constants.MODE,Constants.SOLVE_QUIZ);
-//        bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
-//        bundle.putString(Constants.STUDENT, student.toString());
+        bundle.putInt(Constants.MODE, mode);
         solveQuizFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, solveQuizFragment, "MenuFragments").
