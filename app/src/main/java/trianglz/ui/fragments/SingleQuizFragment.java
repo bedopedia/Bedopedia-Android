@@ -225,6 +225,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         SolveQuizFragment solveQuizFragment = new SolveQuizFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
+        bundle.putInt(Constants.MODE,Constants.SOLVE_QUIZ);
 //        bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
 //        bundle.putString(Constants.STUDENT, student.toString());
         solveQuizFragment.setArguments(bundle);
