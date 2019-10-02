@@ -27,22 +27,19 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
     public Questions question;
 
     private Context context;
-    private TYPE type;
+    public TYPE type;
 
-    private int selectedPosition = -1;
-    private HashMap<Integer, Integer> multiSelectHashMap;
-    private boolean onBind;
+    public HashMap<Questions, Object> questionsObjectHashMap;
     public static final int TYPE_QUESTION = 0;
     public static final int TYPE_ANSWER_TEXT = 1;
     public static final int TYPE_QUESTION_ANSWER = 2;
     private int mode;
 
-    public SingleMultiSelectAnswerAdapter(Context context, TYPE type, int mode) {
+    public SingleMultiSelectAnswerAdapter(Context context, int mode) {
 
         this.context = context;
         question = new Questions();
-        multiSelectHashMap = new HashMap<>();
-        this.type = type;
+        questionsObjectHashMap = new HashMap<>();
         this.mode = mode;
     }
 
@@ -62,13 +59,13 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        onBind = true;
         AnswersAttributes answersAttributes;
         if (position == 0) {
             final QuestionViewHolder holder = (QuestionViewHolder) viewHolder;
             holder.questionTextView.setText(question.getBody());
         } else if (position != 1) {
             final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
+            holder.setViews();
             if (type.equals(TYPE.TRUE_OR_FALSE)) {
                 answersAttributes = question.getAnswersAttributes().get(0);
                 if (position - 2 == 0) {
@@ -80,62 +77,68 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                 answersAttributes = question.getAnswersAttributes().get(position - 2);
                 holder.questionAnswerTextView.setText(answersAttributes.getBody());
             }
-            if (mode != Constants.SOLVE_QUIZ) {
-                holder.radioButton.setClickable(false);
-                holder.radioButton.setFocusable(false);
-                holder.radioButton.setChecked(false);
-                holder.multiSelectionImageButton.setClickable(false);
-                holder.multiSelectionImageButton.setFocusable(false);
-                holder.matchAnswerEditText.setClickable(false);
-                holder.matchAnswerEditText.setFocusable(false);
-                holder.multiSelectionImageButton.setImageDrawable(null);
-                holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
-                if (mode == Constants.VIEW_ANSWERS) {
-                    if (type.equals(TYPE.SINGLE_SELECTION)) {
-                        if (answersAttributes.isCorrect() == true) {
-                            holder.radioButton.setChecked(true);
-                        }
-                    } else if (type.equals(TYPE.MULTI_SELECTION)) {
-                        if (answersAttributes.isCorrect() == true) {
-                            holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
-                            holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
-                        }
-                    } else if (type.equals(TYPE.TRUE_OR_FALSE)) {
-                        if (answersAttributes.isCorrect() == true) {
-                            if (holder.questionAnswerTextView.getText().toString().toLowerCase().equals("true")) {
-                                holder.radioButton.setChecked(true);
-                            }
-                        }
-                    } else if (type.equals(TYPE.REORDER_ANSWERS)) {
-                        ArrayList<AnswersAttributes> sortMatchAnswers = sortMatchAnswers(question.getAnswersAttributes());
-                        holder.questionAnswerTextView.setText(sortMatchAnswers.get(position - 2).getBody());
-                    } else if (type.equals(TYPE.MATCH_ANSWERS)) {
-                        holder.matchAnswerEditText.setText(answersAttributes.getMatch());
-                    }
-                }
-            } else {
-                if (type.equals(TYPE.SINGLE_SELECTION) || type.equals(TYPE.TRUE_OR_FALSE)) {
-                    if (holder.getAdapterPosition() == selectedPosition) {
+
+            if (mode == Constants.VIEW_ANSWERS) {
+                if (type.equals(TYPE.SINGLE_SELECTION)) {
+                    if (answersAttributes.isCorrect()) {
                         holder.radioButton.setChecked(true);
-                    } else {
-                        holder.radioButton.setChecked(false);
                     }
                 } else if (type.equals(TYPE.MULTI_SELECTION)) {
-                    if (multiSelectHashMap.containsKey(holder.getAdapterPosition())) {
+                    if (answersAttributes.isCorrect()) {
                         holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
                         holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
-                    } else {
-                        holder.multiSelectionImageButton.setImageDrawable(null);
-                        holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
+                    }
+                } else if (type.equals(TYPE.TRUE_OR_FALSE)) {
+                    if (answersAttributes.isCorrect()) {
+                        if (holder.questionAnswerTextView.getText().toString().toLowerCase().equals("true")) {
+                            holder.radioButton.setChecked(true);
+                        }
                     }
                 } else if (type.equals(TYPE.REORDER_ANSWERS)) {
-
+                    ArrayList<AnswersAttributes> sortMatchAnswers = sortMatchAnswers(question.getAnswersAttributes());
+                    holder.questionAnswerTextView.setText(sortMatchAnswers.get(position - 2).getBody());
                 } else if (type.equals(TYPE.MATCH_ANSWERS)) {
-
+                    holder.matchAnswerEditText.setText(answersAttributes.getMatch());
                 }
+            } else {
+                if (questionsObjectHashMap.containsKey(question)) {
+                    if (questionsObjectHashMap.get(question) instanceof ArrayList) {
+                        ArrayList<AnswersAttributes> answersAttributesArrayList = (ArrayList<AnswersAttributes>) questionsObjectHashMap.get(question);
+                        for (int i = 0; i < answersAttributesArrayList.size(); i++) {
+                            if (answersAttributesArrayList.get(i).getId() == question.getAnswersAttributes().get(position - 2).getId()) {
+                                if (type.equals(TYPE.MULTI_SELECTION)) {
+                                    holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
+                                    holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
+                                } else if (type.equals(TYPE.SINGLE_SELECTION)) {
+                                    holder.radioButton.setChecked(true);
+                                } else if (type.equals(TYPE.MATCH_ANSWERS)) {
+
+                                }
+                                return;
+                            }
+                        }
+                        if (type.equals(TYPE.MULTI_SELECTION)) {
+                            holder.multiSelectionImageButton.setImageDrawable(null);
+                            holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
+                        } else if (type.equals(TYPE.SINGLE_SELECTION)) {
+                            holder.radioButton.setChecked(false);
+                        } else if (type.equals(TYPE.MATCH_ANSWERS)) {
+
+                        }
+                    }
+                } else {
+                    if (type.equals(TYPE.MULTI_SELECTION)) {
+                        holder.multiSelectionImageButton.setImageDrawable(null);
+                        holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
+                    } else if (type.equals(TYPE.SINGLE_SELECTION)) {
+                        holder.radioButton.setChecked(false);
+                    } else if (type.equals(TYPE.MATCH_ANSWERS)) {
+
+                    }
+                }
+
             }
         }
-        onBind = false;
     }
 
 
@@ -173,15 +176,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
         TRUE_OR_FALSE
     }
 
-    public class AnswerViewHolder extends RecyclerView.ViewHolder {
-        TextView answerTextView;
-
-        public AnswerViewHolder(View itemView) {
-            super(itemView);
-            answerTextView = itemView.findViewById(R.id.answer_tv);
-        }
-    }
-
     class QuestionAnswerViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
         TextView questionAnswerTextView;
         EditText matchAnswerEditText;
@@ -199,6 +193,21 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(this);
 
             multiSelectionImageButton = itemView.findViewById(R.id.btn_multi_select);
+
+            if (mode != Constants.SOLVE_QUIZ) {
+                radioButton.setClickable(false);
+                radioButton.setFocusable(false);
+                radioButton.setChecked(false);
+                multiSelectionImageButton.setClickable(false);
+                multiSelectionImageButton.setFocusable(false);
+                matchAnswerEditText.setClickable(false);
+                matchAnswerEditText.setFocusable(false);
+                multiSelectionImageButton.setImageDrawable(null);
+                multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
+            }
+        }
+
+        public void setViews() {
             if (type == TYPE.MULTI_SELECTION) {
                 multiSelectionImageButton.setVisibility(View.VISIBLE);
                 radioButton.setVisibility(View.GONE);
@@ -224,28 +233,45 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             }
         }
 
-
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if (!onBind) {
-                selectedPosition = getAdapterPosition();
-                notifyDataSetChanged();
-            }
+            notifyDataSetChanged();
         }
 
         @Override
         public void onClick(View view) {
-            if (!onBind) {
-                if (type.equals(TYPE.MULTI_SELECTION)) {
-                    if (multiSelectHashMap.containsKey(getAdapterPosition())) {
-                        multiSelectHashMap.remove(getAdapterPosition());
-                    } else {
-                        multiSelectHashMap.put(getAdapterPosition(), question.getAnswersAttributes().get(getAdapterPosition() - 2).getId());
+            if (!type.equals(TYPE.TRUE_OR_FALSE)) {
+                if (questionsObjectHashMap.containsKey(question)) {
+                    if (questionsObjectHashMap.get(question) instanceof ArrayList) {
+                        ArrayList<AnswersAttributes> answersAttributes = (ArrayList<AnswersAttributes>) questionsObjectHashMap.get(question);
+                        for (int i = 0; i < answersAttributes.size(); i++) {
+                            if (answersAttributes.get(i).getId() == question.getAnswersAttributes().get(getAdapterPosition() - 2).getId()) {
+                                answersAttributes.remove(i);
+                                questionsObjectHashMap.put(question, answersAttributes);
+                                notifyDataSetChanged();
+                                return;
+                            }
+                        }
+                        if (type.equals(TYPE.SINGLE_SELECTION)) {
+                            ArrayList<AnswersAttributes> singleAnswersAttributes = new ArrayList<>();
+                            singleAnswersAttributes.add(question.getAnswersAttributes().get(getAdapterPosition() - 2));
+                            questionsObjectHashMap.put(question, singleAnswersAttributes);
+                        } else {
+                            answersAttributes.add(question.getAnswersAttributes().get(getAdapterPosition() - 2));
+                            questionsObjectHashMap.put(question, answersAttributes);
+                        }
+
                     }
-                    notifyDataSetChanged();
-                } else if (type.equals(TYPE.SINGLE_SELECTION) || type.equals(TYPE.TRUE_OR_FALSE)) {
-                    selectedPosition = getAdapterPosition();
-                    notifyDataSetChanged();
+                } else {
+                    ArrayList<AnswersAttributes> answersAttributes = new ArrayList<>();
+                    answersAttributes.add(question.getAnswersAttributes().get(getAdapterPosition() - 2));
+                    questionsObjectHashMap.put(question, answersAttributes);
+                }
+                notifyDataSetChanged();
+            } else if (type.equals(TYPE.TRUE_OR_FALSE)) {
+                if (questionsObjectHashMap.containsKey(question)) {
+
+                }else{
 
                 }
             }
