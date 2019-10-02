@@ -50,11 +50,11 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
     private RecyclerView recyclerView;
     private SingleMultiSelectAnswerAdapter singleMultiSelectAnswerAdapter;
     private Quizzes quizzes;
-    public long millisUntilFinish;
     private CountDownTimer countDownTimer;
     private QuizQuestion quizQuestion;
     private int index = 0;
     private Fragment fragment;
+    private int mode; //0 solve, 1 view questions, 2 view answers
 
     @Nullable
     @Override
@@ -78,12 +78,12 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
         countDownTimer = new CountDownTimer(duration, 1000) {
             public void onTick(long millisUntilFinished) {
                 timerTextView.setText(secondsConverter(millisUntilFinished / 1000));
-                millisUntilFinish = millisUntilFinished;
             }
 
             public void onFinish() {
-                QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment, countDownTimer);
+                QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment);
                 quizSubmittedDialog.show();
+                countDownTimer.cancel();
             }
 
         }.start();
@@ -104,7 +104,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
         recyclerView.setLayoutManager(customeLayoutManager);
         recyclerView.setNestedScrollingEnabled(true);
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
-
     }
 
     private void setListeners() {
@@ -119,6 +118,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             quizzes = Quizzes.create(bundle.getString(Constants.KEY_QUIZZES));
+            mode = bundle.getInt(Constants.MODE);
         }
     }
 
@@ -443,12 +443,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
         // activity.showLoadingDialog();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        countDownTimer.cancel();
-        startCountDown(millisUntilFinish);
-    }
 
     @Override
     public void onDestroy() {
@@ -474,7 +468,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
                 displayQuestionsAndAnswers(index);
                 break;
             case R.id.btn_submit:
-                QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment, countDownTimer);
+                countDownTimer.cancel();
+                QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment);
                 quizSubmittedDialog.show();
                 break;
         }
@@ -489,6 +484,11 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
             nextButton.setVisibility(View.VISIBLE);
             submitButton.setVisibility(View.GONE);
         }
+        if(index == 0){
+            previousButton.setVisibility(View.INVISIBLE);
+        }else{
+            previousButton.setVisibility(View.VISIBLE);
+        }
     }
 
     void displayQuestionsAndAnswers(int index) {
@@ -497,23 +497,23 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
             switch (quizQuestion.getQuestions().get(index).getType()) {
                 case Constants.TYPE_MULTIPLE_SELECT:
                     detachItemTouchHelper();
-                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MULTI_SELECTION);
+                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MULTI_SELECTION,mode);
                     break;
                 case Constants.TYPE_MULTIPLE_CHOICE:
                     detachItemTouchHelper();
-                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.SINGLE_SELECTION);
+                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.SINGLE_SELECTION,mode);
                     break;
                 case Constants.TYPE_TRUE_OR_FALSE:
                     detachItemTouchHelper();
-                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.TRUE_OR_FALSE);
+                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.TRUE_OR_FALSE,mode);
                     break;
                 case Constants.TYPE_MATCH:
                     detachItemTouchHelper();
-                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MATCH_ANSWERS);
+                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MATCH_ANSWERS,mode);
                     break;
                 case Constants.TYPE_REORDER:
                     setItemTouchHelper();
-                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.REORDER_ANSWERS);
+                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.REORDER_ANSWERS,mode);
                     break;
 
             }
