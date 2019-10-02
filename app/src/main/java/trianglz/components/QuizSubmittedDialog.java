@@ -2,7 +2,6 @@ package trianglz.components;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -19,16 +18,14 @@ public class QuizSubmittedDialog extends Dialog implements View.OnClickListener 
     private Button submitButton;
     private StudentMainActivity context;
     private Fragment fragment;
-    private CountDownTimer countDownTimer;
 
 
-    public QuizSubmittedDialog(@NonNull StudentMainActivity context, Fragment fragment, CountDownTimer countDownTimer) {
-        super(context, R.style.GradeDialog);
+    public QuizSubmittedDialog(@NonNull StudentMainActivity context, Fragment fragment) {
+        super(context, R.style.QuizDialog);
         View view = getLayoutInflater().inflate(R.layout.layout_quiz_submitted_dialog, null);
         setContentView(view);
         this.context = context;
         this.fragment = fragment;
-        this.countDownTimer = countDownTimer;
     }
 
     @Override
@@ -52,7 +49,6 @@ public class QuizSubmittedDialog extends Dialog implements View.OnClickListener 
             for (int i = 0; i < fragment.getParentFragment().getChildFragmentManager().getFragments().size(); i++)
                 fragment.getParentFragment().getChildFragmentManager().popBackStack();
         }
-        countDownTimer.cancel();
         context.toolbarView.setVisibility(View.VISIBLE);
         context.headerLayout.setVisibility(View.VISIBLE);
         dismiss();
