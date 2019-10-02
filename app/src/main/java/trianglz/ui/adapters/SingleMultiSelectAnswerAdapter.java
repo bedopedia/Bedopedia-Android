@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import trianglz.models.AnswersAttributes;
@@ -62,22 +63,24 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         onBind = true;
+        AnswersAttributes answersAttributes;
         if (position == 0) {
             final QuestionViewHolder holder = (QuestionViewHolder) viewHolder;
             holder.questionTextView.setText(question.getBody());
         } else if (position != 1) {
             final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
             if (type.equals(TYPE.TRUE_OR_FALSE)) {
+                answersAttributes = question.getAnswersAttributes().get(0);
                 if (position - 2 == 0) {
                     holder.questionAnswerTextView.setText(context.getString(R.string.true_answer));
                 } else {
                     holder.questionAnswerTextView.setText(context.getString(R.string.false_answer));
                 }
             } else {
-                AnswersAttributes answersAttributes = question.getAnswersAttributes().get(position - 2);
+                answersAttributes = question.getAnswersAttributes().get(position - 2);
                 holder.questionAnswerTextView.setText(answersAttributes.getBody());
             }
-            if (mode == Constants.VIEW_QUESTIONS) {
+            if (mode != Constants.SOLVE_QUIZ) {
                 holder.radioButton.setClickable(false);
                 holder.radioButton.setFocusable(false);
                 holder.radioButton.setChecked(false);
@@ -87,24 +90,47 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                 holder.matchAnswerEditText.setFocusable(false);
                 holder.multiSelectionImageButton.setImageDrawable(null);
                 holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
-            } else {
-                    if (type.equals(TYPE.SINGLE_SELECTION) || type.equals(TYPE.TRUE_OR_FALSE)) {
-                        if (holder.getAdapterPosition() == selectedPosition) {
+                if (mode == Constants.VIEW_ANSWERS) {
+                    if (type.equals(TYPE.SINGLE_SELECTION)) {
+                        if (answersAttributes.isCorrect() == true) {
                             holder.radioButton.setChecked(true);
-                        } else {
-                            holder.radioButton.setChecked(false);
                         }
                     } else if (type.equals(TYPE.MULTI_SELECTION)) {
-                        if (multiSelectHashMap.containsKey(holder.getAdapterPosition())) {
+                        if (answersAttributes.isCorrect() == true) {
                             holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
                             holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
-                        } else {
-                            holder.multiSelectionImageButton.setImageDrawable(null);
-                            holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
+                        }
+                    } else if (type.equals(TYPE.TRUE_OR_FALSE)) {
+                        if (answersAttributes.isCorrect() == true) {
+                            if (holder.questionAnswerTextView.getText().toString().toLowerCase().equals("true")) {
+                                holder.radioButton.setChecked(true);
+                            }
                         }
                     } else if (type.equals(TYPE.REORDER_ANSWERS)) {
-
+                        ArrayList<AnswersAttributes> sortMatchAnswers = sortMatchAnswers(question.getAnswersAttributes());
+                        holder.questionAnswerTextView.setText(sortMatchAnswers.get(position - 2).getBody());
                     } else if (type.equals(TYPE.MATCH_ANSWERS)) {
+                        holder.matchAnswerEditText.setText(answersAttributes.getMatch());
+                    }
+                }
+            } else {
+                if (type.equals(TYPE.SINGLE_SELECTION) || type.equals(TYPE.TRUE_OR_FALSE)) {
+                    if (holder.getAdapterPosition() == selectedPosition) {
+                        holder.radioButton.setChecked(true);
+                    } else {
+                        holder.radioButton.setChecked(false);
+                    }
+                } else if (type.equals(TYPE.MULTI_SELECTION)) {
+                    if (multiSelectHashMap.containsKey(holder.getAdapterPosition())) {
+                        holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
+                        holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
+                    } else {
+                        holder.multiSelectionImageButton.setImageDrawable(null);
+                        holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
+                    }
+                } else if (type.equals(TYPE.REORDER_ANSWERS)) {
+
+                } else if (type.equals(TYPE.MATCH_ANSWERS)) {
 
                 }
             }
@@ -135,8 +161,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
 
 
     public void addData(Questions data) {
-//        question.clear();
-//        question.addAll(data);
         this.question = data;
         notifyDataSetChanged();
     }
@@ -243,4 +267,15 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
         }
     }
 
+    private ArrayList<AnswersAttributes> sortMatchAnswers(ArrayList<AnswersAttributes> answersAttributes) {
+        ArrayList<AnswersAttributes> sortedAnswersAttributes = new ArrayList<>(answersAttributes);
+        for (int i = 0; i < answersAttributes.size(); i++) {
+            for (int k = 0; k < answersAttributes.size(); k++) {
+                if (Integer.parseInt(answersAttributes.get(i).getMatch()) == k + 1) {
+                    sortedAnswersAttributes.set(k, answersAttributes.get(i));
+                }
+            }
+        }
+        return sortedAnswersAttributes;
+    }
 }

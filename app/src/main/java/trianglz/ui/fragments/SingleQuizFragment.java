@@ -212,6 +212,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                 openSolveQuizActivity(Constants.VIEW_QUESTIONS);
                 break;
             case R.id.answers_btn:
+                openSolveQuizActivity(Constants.VIEW_ANSWERS);
                 break;
         }
     }
