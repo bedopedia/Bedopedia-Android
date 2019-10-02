@@ -105,6 +105,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
         recyclerView.setLayoutManager(customeLayoutManager);
         recyclerView.setNestedScrollingEnabled(true);
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
+        singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, mode);
+        recyclerView.setAdapter(singleMultiSelectAnswerAdapter);
     }
 
     private void setListeners() {
@@ -1086,28 +1088,30 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
     }
 
     void updateQuestionCounterTextViewAndNextBtn(int index) {
+        String questionCountText = index + 1 + " " + activity.getResources().getString(R.string.out_of) + " " + quizQuestion.getQuestions().size();
         if (index == quizQuestion.getQuestions().size() - 1) {
             if (mode != Constants.SOLVE_QUIZ) {
                 nextButton.setVisibility(View.GONE);
                 submitButton.setVisibility(View.GONE);
                 questionCounterButton.setVisibility(View.VISIBLE);
                 questionCounterTextView.setVisibility(View.GONE);
-                questionCounterButton.setText(index + 1 + " " + activity.getResources().getString(R.string.out_of) + " " + quizQuestion.getQuestions().size());
+                questionCounterButton.setText(questionCountText);
             } else {
                 nextButton.setVisibility(View.GONE);
                 submitButton.setVisibility(View.VISIBLE);
                 questionCounterTextView.setVisibility(View.VISIBLE);
+                questionCounterTextView.setText(questionCountText);
                 questionCounterButton.setVisibility(View.GONE);
             }
         } else if (index == 0) {
             questionCounterTextView.setVisibility(View.GONE);
-            previousButton.setText(index + 1 + " " + activity.getResources().getString(R.string.out_of) + " " + quizQuestion.getQuestions().size());
+            previousButton.setText(questionCountText);
         } else {
             nextButton.setVisibility(View.VISIBLE);
             submitButton.setVisibility(View.GONE);
             questionCounterButton.setVisibility(View.GONE);
             questionCounterTextView.setVisibility(View.VISIBLE);
-            questionCounterTextView.setText(index + 1 + " " + activity.getResources().getString(R.string.out_of) + " " + quizQuestion.getQuestions().size());
+            questionCounterTextView.setText(questionCountText);
             previousButton.setText(activity.getResources().getString(R.string.previous));
         }
 
@@ -1119,28 +1123,27 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
             switch (quizQuestion.getQuestions().get(index).getType()) {
                 case Constants.TYPE_MULTIPLE_SELECT:
                     detachItemTouchHelper();
-                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MULTI_SELECTION, mode);
+                    singleMultiSelectAnswerAdapter.type = SingleMultiSelectAnswerAdapter.TYPE.MULTI_SELECTION;
                     break;
                 case Constants.TYPE_MULTIPLE_CHOICE:
                     detachItemTouchHelper();
-                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.SINGLE_SELECTION, mode);
+                    singleMultiSelectAnswerAdapter.type = SingleMultiSelectAnswerAdapter.TYPE.SINGLE_SELECTION;
                     break;
                 case Constants.TYPE_TRUE_OR_FALSE:
                     detachItemTouchHelper();
-                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.TRUE_OR_FALSE, mode);
+                    singleMultiSelectAnswerAdapter.type = SingleMultiSelectAnswerAdapter.TYPE.TRUE_OR_FALSE;
                     break;
                 case Constants.TYPE_MATCH:
                     detachItemTouchHelper();
-                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.MATCH_ANSWERS, mode);
+                    singleMultiSelectAnswerAdapter.type = SingleMultiSelectAnswerAdapter.TYPE.MATCH_ANSWERS;
                     break;
                 case Constants.TYPE_REORDER:
-                    if (mode == Constants.SOLVE_QUIZ)
-                        setItemTouchHelper();
-                    singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, SingleMultiSelectAnswerAdapter.TYPE.REORDER_ANSWERS, mode);
+                    setItemTouchHelper();
+                    singleMultiSelectAnswerAdapter.type = SingleMultiSelectAnswerAdapter.TYPE.REORDER_ANSWERS;
                     break;
 
             }
-            recyclerView.setAdapter(singleMultiSelectAnswerAdapter);
+            recyclerView.scrollToPosition(0);
             singleMultiSelectAnswerAdapter.addData(quizQuestion.getQuestions().get(index));
         }
     }
