@@ -136,9 +136,9 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         setHeader();
 
         segmentedGroup = rootView.findViewById(R.id.segmented);
-        if (SessionManager.getInstance().getStudentAccount()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-        } else if (SessionManager.getInstance().getUserType()) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
         } else {
             segmentedGroup.setTintColor(Color.parseColor("#007ee5"));

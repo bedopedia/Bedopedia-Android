@@ -124,7 +124,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         bindViews();
         setListeners();
         setParentActorView();
-        if (SessionManager.getInstance().getUserType()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
             if (Util.isNetworkAvailable(getParentActivity())) {
                 studentDetailView.getStudentCourses(courseUrl);
@@ -230,7 +230,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void setParentActorView() {
-        if (!SessionManager.getInstance().getUserType()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             parentLayout.setVisibility(View.GONE);
             teacherLayout.setVisibility(View.VISIBLE);
             actorName = actor.firstName + " " + actor.lastName;
@@ -365,7 +365,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     @Override
     public void oneGetTimeTableSuccess(ArrayList<Object> timeTableData) {
 
-        if (!SessionManager.getInstance().getUserType()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             activity.isCalling = false;
         } else {
             activity.isCalling = true;
@@ -380,7 +380,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             nextSlotTextView.setText(nextSlot);
             teacherNextSlotTextView.setText(nextSlot);
         }
-        if (SessionManager.getInstance().getStudentAccount() || SessionManager.getInstance().getUserType()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             String url = SessionManager.getInstance().getBaseUrl() + "/api/behavior_notes";
             studentDetailView.getStudentBehavioursNotes(url, student.getId() + "");
         } else {
@@ -625,7 +625,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private void openMessagesActivity() {
         Intent intent = new Intent(getActivity(), ContactTeacherActivity.class);
         Bundle bundle = new Bundle();
-        if (SessionManager.getInstance().getUserType()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             bundle.putSerializable(Constants.STUDENT, student);
         } else {
             bundle.putSerializable(Constants.KEY_ACTOR, actor);
@@ -852,9 +852,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onBackPressed() {
-        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
-        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
-        if (isStudent) {
+//        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
+//        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             if (activity.pager.getCurrentItem() == 0) {
                 getChildFragmentManager().popBackStack();
                 if (getChildFragmentManager().getFragments().size() == 1) {
@@ -862,7 +862,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                     activity.headerLayout.setVisibility(View.VISIBLE);
                 }
             }
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             if (activity.pager.getCurrentItem() == 3) {
                 if(getChildFragmentManager().getFragments().size()==0){
                     getActivity().finish();

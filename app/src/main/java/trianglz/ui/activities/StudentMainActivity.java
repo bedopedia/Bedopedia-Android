@@ -60,9 +60,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     public Student student;
     public String attendance;
     public Actor actor;
+    public boolean isHod = false;
 
     // booleans
-    boolean isStudent, isParent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +80,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void getValueFromIntent() {
-        isStudent = SessionManager.getInstance().getStudentAccount();
-        isParent = SessionManager.getInstance().getUserType();
-        if (isParent) {
+        //       isStudent = SessionManager.getInstance().getStudentAccount();
+        //     isParent = SessionManager.getInstance().getUserType();
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
             attendance = (String) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ATTENDANCE);
         } else {
@@ -133,18 +133,22 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     private void bindViews() {
 
-        if (!isStudent && !isParent) {
-            teacherCoursesFragment = new TeacherCoursesFragment();
-            coursesLayout = findViewById(R.id.ll_courses_tab);
-            coursesImageView = findViewById(R.id.iv_courses);
-            coursesTextView = findViewById(R.id.tv_courses);
-            coursesLayout.setVisibility(View.VISIBLE);
-        }
         // tabs
         firstLayout = findViewById(R.id.ll_announcment_tab);
         secondLayout = findViewById(R.id.ll_messages_tab);
         thirdLayout = findViewById(R.id.ll_notifications_tab);
         fourthLayout = findViewById(R.id.ll_menu_tab);
+
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
+            teacherCoursesFragment = new TeacherCoursesFragment();
+            coursesLayout = findViewById(R.id.ll_courses_tab);
+            coursesImageView = findViewById(R.id.iv_courses);
+            coursesTextView = findViewById(R.id.tv_courses);
+            coursesLayout.setVisibility(View.VISIBLE);
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
+            fourthLayout.setVisibility(View.GONE);
+            isHod = true;
+        }
 
         // image views
         firstTabImageView = findViewById(R.id.iv_announcements);
@@ -170,9 +174,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         addNewMessageButton.setVisibility(View.GONE);
         backBtn = findViewById(R.id.back_btn);
         backBtn.setVisibility(View.GONE);
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             settingsBtn.setVisibility(View.VISIBLE);
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             settingsBtn.setVisibility(View.GONE);
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) addNewMessageButton.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_START, 0);
@@ -194,29 +198,35 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         pager.setPagingEnabled(false);
         setUpAdapterAccordingToUserType();
         pager.setAdapter(pagerAdapter);
-
+        String h = SessionManager.getInstance().getUserType();
         // set default tab according to user type
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             pager.setOffscreenPageLimit(4);
             pager.setCurrentItem(0);
             handleStudentTabs(pagerAdapter.getCount() - 4);
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             pager.setOffscreenPageLimit(4);
             pager.setCurrentItem(4);
-        } else {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             pager.setOffscreenPageLimit(5);
             pager.setCurrentItem(4);
             handleTeacherTabs(4);
+        } else {
+            pager.setOffscreenPageLimit(3);
+            pager.setCurrentItem(2);
+            handleHodTabs(0);
         }
     }
 
     private void setUpAdapterAccordingToUserType() {
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getStudentFragmentList());
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getParentFragmentList());
-        } else {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getTeacherFragmentList());
+        } else {
+            pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getHodFragmentList());
         }
     }
 
@@ -245,6 +255,14 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         fragmentArrayList.add(messagesFragment);
         fragmentArrayList.add(notificationsFragment);
         fragmentArrayList.add(announcementsFragment);
+        return fragmentArrayList;
+    }
+
+    private ArrayList<Fragment> getHodFragmentList() {
+        ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+        fragmentArrayList.add(announcementsFragment);
+        fragmentArrayList.add(messagesFragment);
+        fragmentArrayList.add(notificationsFragment);
         return fragmentArrayList;
     }
 
@@ -298,18 +316,33 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 handleTabsClicking(pagerAdapter.getCount() - 5);
                 break;
             case R.id.ll_announcment_tab:
-                returnToRootFragment(pagerAdapter.getCount() - 4);
-                handleTabsClicking(pagerAdapter.getCount() - 4);
+                if (isHod){
+                    returnToRootFragment(pagerAdapter.getCount() - 3);
+                    handleTabsClicking(pagerAdapter.getCount() - 3);}
+                else{
+                    returnToRootFragment(pagerAdapter.getCount() - 4);
+                    handleTabsClicking(pagerAdapter.getCount() - 4);
+                }
                 break;
             case R.id.ll_messages_tab:
-                returnToRootFragment(pagerAdapter.getCount() - 3);
-                handleTabsClicking(pagerAdapter.getCount() - 3);
+                if (isHod){
+                    returnToRootFragment(pagerAdapter.getCount() - 2);
+                    handleTabsClicking(pagerAdapter.getCount() - 2);}
+                else{
+                    returnToRootFragment(pagerAdapter.getCount() - 3);
+                    handleTabsClicking(pagerAdapter.getCount() - 3);
+                }
                 break;
             case R.id.ll_notifications_tab:
-                returnToRootFragment(pagerAdapter.getCount() - 2);
                 SessionManager.getInstance().setNotificationCounterToZero();
                 notificationCheck();
-                handleTabsClicking(pagerAdapter.getCount() - 2);
+                if (isHod){
+                    returnToRootFragment(pagerAdapter.getCount() - 1);
+                    handleTabsClicking(pagerAdapter.getCount() - 1);}
+                else{
+                    returnToRootFragment(pagerAdapter.getCount() - 2);
+                    handleTabsClicking(pagerAdapter.getCount() - 2);
+                }
                 break;
             case R.id.ll_menu_tab:
                 returnToRootFragment(pagerAdapter.getCount() - 1);
@@ -332,12 +365,14 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void handleTabsClicking(int tabNumber) {
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             handleStudentTabs(tabNumber);
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             handleParentTabs(tabNumber);
-        } else {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             handleTeacherTabs(tabNumber);
+        } else {
+            handleHodTabs(tabNumber);
         }
 
     }
@@ -538,6 +573,49 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         }
     }
 
+    private void handleHodTabs(int tabNumber) {
+        pager.setCurrentItem(tabNumber);
+        // showHideToolBar(pagerAdapter.getItem(tabNumber));
+        // text view content
+        firstTextView.setText(getResources().getString(R.string.announcements));
+        secondTextView.setText(getResources().getString(R.string.messages));
+        thirdTextView.setText(getResources().getString(R.string.notifications));
+        // text view text color
+        int color = Color.parseColor("#007ee5");
+        firstTextView.setTextColor(color);
+        secondTextView.setTextColor(color);
+        thirdTextView.setTextColor(color);
+        switch (tabNumber) {
+            case 0:
+                firstTabImageView.setImageResource(R.drawable.ic_announcment_selected_teacher);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+
+                firstTextView.setVisibility(View.VISIBLE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.GONE);
+                break;
+            case 1:
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_selected_teacher);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.VISIBLE);
+                thirdTextView.setVisibility(View.GONE);
+                break;
+            case 2:
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notification_selected_teacher);
+
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -576,15 +654,15 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         if (!fragment.isAdded()) {
             return;
         }
-            if (fragment.getChildFragmentManager() != null) {
-                if (fragment.getChildFragmentManager().getFragments().size() > 0) {
-                    headerLayout.setVisibility(View.GONE);
-                    toolbarView.setVisibility(View.GONE);
-                } else {
-                    headerLayout.setVisibility(View.VISIBLE);
-                    toolbarView.setVisibility(View.VISIBLE);
-                }
+        if (fragment.getChildFragmentManager() != null) {
+            if (fragment.getChildFragmentManager().getFragments().size() > 0) {
+                headerLayout.setVisibility(View.GONE);
+                toolbarView.setVisibility(View.GONE);
+            } else {
+                headerLayout.setVisibility(View.VISIBLE);
+                toolbarView.setVisibility(View.VISIBLE);
             }
+        }
 
     }
 

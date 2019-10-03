@@ -3,7 +3,6 @@ package trianglz.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 
 import com.skolera.skolera_android.R;
 
@@ -73,7 +72,7 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
 
     @Override
     public void onLoginSuccess() {
-        if(SessionManager.getInstance().getUserType()){
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             openHomeActivity();
         }
         finish();

@@ -52,7 +52,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     private int lastPage = 0;
 
     private FloatingActionButton addPostFab;
-    private boolean isStudent, isParent;
+  //  private boolean isStudent, isParent;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,8 +81,8 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     }
 
     private void bindViews() {
-        isStudent = SessionManager.getInstance().getStudentAccount();
-        isParent = SessionManager.getInstance().getUserType();
+//        isStudent = SessionManager.getInstance().getStudentAccount();
+//        isParent = SessionManager.getInstance().getUserType();
         addPostFab = rootView.findViewById(R.id.add_post_btn);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         postDetailsView = new PostDetailsView(activity, this);
@@ -93,7 +93,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
                 getParentFragment().getChildFragmentManager().popBackStack();
             }
         });
-        if (!isStudent && !isParent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             addPostFab.setVisibility(View.VISIBLE);
         }
         courseNameTextView = rootView.findViewById(R.id.tv_course_name);
@@ -102,7 +102,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16, activity), false));
-        if (!isStudent && !isParent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(72, activity), false));
         } else
             recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(16, activity), false));
@@ -152,7 +152,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
             bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
         bundle.putString(Constants.KEY_COURSE_NAME, courseName);
         attachmentsFragment.setArguments(bundle);
-        if (!SessionManager.getInstance().getUserType()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             getParentFragment().getChildFragmentManager().
                     beginTransaction().add(R.id.course_root, attachmentsFragment, "MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).

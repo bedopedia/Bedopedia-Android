@@ -61,17 +61,25 @@ public class SplashView {
         SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
         String userType = data.optString(Constants.KEY_USER_TYPE);
         if (userType.equals("parent")) {
-            SessionManager.getInstance().setUserType(true);
+            SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
             refreshFireBaseToken();
             splashPresenter.onLoginSuccess();
         } else if (userType.equals("student")) {
-            SessionManager.getInstance().setUserType(true);
-            SessionManager.getInstance().setStudentType(true);
+            SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);
             int parentId = data.optInt(Constants.PARENT_ID);
             String url = SessionManager.getInstance().getBaseUrl() + "/api/parents/" + parentId + "/children";
             getStudents(url, id + "", id);
+        } else if (userType.equals("teacher")) {
+            SessionManager.getInstance().setUserType(SessionManager.Actor.TEACHER);
+            String firstName = data.optString("firstname");
+            String lastName = data.optString("lastname");
+            String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);
+            String avtarUrl = data.optString(Constants.KEY_AVATER_URL);
+            Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+            refreshFireBaseToken();
+            splashPresenter.onLoginSuccess(actor);
         } else {
-            SessionManager.getInstance().setUserType(false);
+            SessionManager.getInstance().setUserType(SessionManager.Actor.HOD);
             String firstName = data.optString("firstname");
             String lastName = data.optString("lastname");
             String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);
@@ -129,7 +137,7 @@ public class SplashView {
             @Override
             public void onSuccess(JSONArray responseArray) {
                 refreshFireBaseToken();
-                splashPresenter.onGetStudentsHomeSuccess(parseStudentResponse(responseArray,id));
+                splashPresenter.onGetStudentsHomeSuccess(parseStudentResponse(responseArray, id));
             }
 
             @Override
@@ -160,7 +168,7 @@ public class SplashView {
                         studentData.optString("section_name"),
                         studentData.optString("stage_name"),
                         studentData.optJSONObject("today_workload_status"),
-                        0, studentData.optInt("user_id"),null, null));
+                        0, studentData.optInt("user_id"), null, null));
                 objectArrayList.add(kidsAttendances);
                 objectArrayList.add(myKids);
             }

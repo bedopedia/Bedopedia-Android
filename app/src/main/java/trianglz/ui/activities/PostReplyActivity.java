@@ -97,10 +97,10 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
         postReplyView = new PostReplyView(this,this);
         sendReplyButton = findViewById (R.id.send);
         replyEditText = findViewById(R.id.et_reply);
-        if (SessionManager.getInstance().getStudentAccount()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             inputLayout.setVisibility(View.VISIBLE);
             sendReplyButton.setBackground(getResources().getDrawable(R.drawable.circle_student_background));
-        } else if(!SessionManager.getInstance().getUserType()&&!SessionManager.getInstance().getStudentAccount()){
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             inputLayout.setVisibility(View.VISIBLE);
             sendReplyButton.setBackground(getResources().getDrawable(R.drawable.circle_blue_background));
         }else{

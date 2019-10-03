@@ -130,7 +130,7 @@ public class TomorrowFragment extends Fragment {
             Date endDate = eObject.getTo();
             String classRoom ="";
             String courseName = eObject.getCourseName();
-            if (!SessionManager.getInstance().getUserType() && !SessionManager.getInstance().getStudentAccount()) {
+            if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
                  classRoom = eObject.getCoureGroupName();
             } else {
                  classRoom = eObject.getClassRoom();

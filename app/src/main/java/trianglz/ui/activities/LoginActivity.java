@@ -139,7 +139,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     @Override
     public void onLoginSuccess() {
         progress.dismiss();
-        if (SessionManager.getInstance().getUserType()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             openHomeActivity();
         }
         String url = school.schoolUrl + "/api/auth/sign_in";

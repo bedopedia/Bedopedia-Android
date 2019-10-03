@@ -66,7 +66,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private boolean teacherMode = false;
     private int page = 1;
     private int totalPages;
-    private boolean isOpen=true;
+    private boolean isOpen = true;
 
     @Nullable
     @Override
@@ -130,9 +130,9 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         openButton = rootView.findViewById(R.id.btn_open);
         closedButton = rootView.findViewById(R.id.btn_closed);
         segmentedGroup.check(openButton.getId());
-        if (SessionManager.getInstance().getStudentAccount()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-        } else if (SessionManager.getInstance().getUserType()) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
         } else {
             segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
@@ -199,12 +199,12 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_open:
-                isOpen=true;
+                isOpen = true;
                 recyclerView.scrollToPosition(0);
                 adapter.addData(getArrayList(isOpen));
                 break;
             case R.id.btn_closed:
-                isOpen=false;
+                isOpen = false;
                 recyclerView.scrollToPosition(0);
                 adapter.addData(getArrayList(isOpen));
                 break;
