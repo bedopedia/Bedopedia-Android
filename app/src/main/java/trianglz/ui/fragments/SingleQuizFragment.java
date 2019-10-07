@@ -163,15 +163,25 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                     } else {
                         noteTextview.setVisibility(View.INVISIBLE);
                     }
+                    if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+                        buttonsLayout.setVisibility(View.GONE);
+                    }
                 } else {
                     quizGradeView.setVisibility(View.GONE);
                     buttonsLayout.setVisibility(View.GONE);
-                    solveQuizBtn.setVisibility(View.VISIBLE);
+                    if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+                        quizNotStartedView.setVisibility(View.VISIBLE);
+                    } else {
+                        solveQuizBtn.setVisibility(View.VISIBLE);
+                    }
                     dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_light_sage, null));
                     dateTextView.setTextColor(this.getResources().getColor(R.color.pine, null));
                     clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.green_clock_icon, null));
                 }
             } else {
+                if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+                    buttonsLayout.setVisibility(View.GONE);
+                }
                 dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_red, null));
                 dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown, null));
                 clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.red_clock_icon, null));
