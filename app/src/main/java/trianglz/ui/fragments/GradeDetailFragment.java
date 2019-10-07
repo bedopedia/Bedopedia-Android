@@ -37,9 +37,9 @@ import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Assignment;
 import trianglz.models.CourseGradingPeriods;
-import trianglz.models.CourseGroup;
 import trianglz.models.GradeHeader;
 import trianglz.models.GradeItem;
+import trianglz.models.PostsResponse;
 import trianglz.models.Quiz;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
@@ -54,7 +54,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
 
     private View rootView;
     private StudentMainActivity activity;
-    private CourseGroup courseGroup;
+    private PostsResponse courseGroup;
     private RecyclerView recyclerView;
     private GradeDetailAdapter gradeDetailAdapter;
     private Student student;
@@ -103,7 +103,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            courseGroup = (CourseGroup) bundle.getSerializable(Constants.KEY_COURSE_GROUPS);
+            courseGroup = (PostsResponse) bundle.getSerializable(Constants.KEY_COURSE_GROUPS);
             student = (Student) bundle.getSerializable(Constants.STUDENT);
         }
     }
