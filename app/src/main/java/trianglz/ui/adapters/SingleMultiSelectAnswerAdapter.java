@@ -212,9 +212,8 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
 
             if (mode != Constants.SOLVE_QUIZ) {
                 itemView.setClickable(false);
-                radioButton.setClickable(false);
-                radioButton.setFocusable(false);
-                radioButton.setChecked(false);
+  //              radioButton.setClickable(false);
+//                radioButton.setChecked(false);
                 multiSelectionImageButton.setClickable(false);
                 multiSelectionImageButton.setFocusable(false);
                 matchAnswerEditText.setClickable(false);
@@ -234,6 +233,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             } else if (type == TYPE.SINGLE_SELECTION) {
                 itemView.setBackgroundColor(context.getResources().getColor(R.color.white, null));
                 radioButton.setVisibility(View.VISIBLE);
+                radioButton.setChecked(false);
                 multiSelectionImageButton.setVisibility(View.GONE);
                 sortImageView.setVisibility(View.GONE);
                 matchAnswerEditText.setVisibility(View.GONE);
