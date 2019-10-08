@@ -44,7 +44,7 @@ public class SettingsDialog extends BottomSheetDialog implements View.OnClickLis
         setListeners();
         getWindow().findViewById(R.id.design_bottom_sheet);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        getWindow().setDimAmount((float) 0.3);
+        getWindow().setDimAmount((float) 0.4);
 
     }
 
