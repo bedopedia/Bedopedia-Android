@@ -229,5 +229,6 @@
     <string name="learning_objectives">الأهداف</string>
     <string name="course_groups">الصفوف</string>
     <string name="no_objective">لا يوجد اهداف</string>
+    <string name="restart_application">هل أنت متأكد أنك تريد تغيير اللغة للإنجليزية؟</string>
 
 </resources>
