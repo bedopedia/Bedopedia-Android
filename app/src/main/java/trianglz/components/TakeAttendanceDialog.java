@@ -8,6 +8,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -31,8 +32,6 @@ public class TakeAttendanceDialog extends BottomSheetDialog implements View.OnCl
 
     public TakeAttendanceDialog(@NonNull Context context, Boolean isMultipleSelected, TakeAttendanceDialogInterface takeAttendanceDialogInterface) {
         super(context, R.style.AttendanceDialog);
-        View view = getLayoutInflater().inflate(R.layout.layout_take_attendance, null);
-        setContentView(view);
         this.context = context;
         this.isMultipleSelected = isMultipleSelected;
         this.takeAttendanceDialogInterface = takeAttendanceDialogInterface;
@@ -40,13 +39,15 @@ public class TakeAttendanceDialog extends BottomSheetDialog implements View.OnCl
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.setOnShowListener(this);
+        setContentView(R.layout.layout_take_attendance);
         bindViews();
         setListeners();
-        getWindow()
-                .findViewById(R.id.design_bottom_sheet)
-                .setBackgroundResource(android.R.color.transparent);
+        getWindow().findViewById(R.id.design_bottom_sheet);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setDimAmount((float) 0.4);
+
+    //    getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+      //  getWindow().setDimAmount((float) 0.5);
     }
 
     private void bindViews() {
@@ -76,10 +77,10 @@ public class TakeAttendanceDialog extends BottomSheetDialog implements View.OnCl
     public void onShow(DialogInterface dialog) {
         BottomSheetDialog d = (BottomSheetDialog) dialog;
         FrameLayout bottomSheet = d.findViewById(R.id.design_bottom_sheet);
-        CoordinatorLayout lyout = (CoordinatorLayout) bottomSheet.getParent();
+        CoordinatorLayout layout = (CoordinatorLayout) bottomSheet.getParent();
         BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
         behavior.setPeekHeight(bottomSheet.getHeight());
-        lyout.getParent().requestLayout();
+        layout.getParent().requestLayout();
     }
 
     @Override
