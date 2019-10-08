@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -723,7 +724,16 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onChangeLanguageClicked() {
-        changeLanguage();
+        new AlertDialog.Builder(activity)
+                .setTitle(getResources().getString(R.string.skolera))
+                .setMessage(getResources().getString(R.string.restart_application))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        changeLanguage();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 
     @Override

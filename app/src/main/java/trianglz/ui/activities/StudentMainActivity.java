@@ -1,5 +1,6 @@
 package trianglz.ui.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -268,7 +271,16 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onChangeLanguageClicked() {
-        changeLanguage();
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.skolera))
+                .setMessage(getResources().getString(R.string.restart_application))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        changeLanguage();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 
     @Override
@@ -316,19 +328,19 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 handleTabsClicking(pagerAdapter.getCount() - 5);
                 break;
             case R.id.ll_announcment_tab:
-                if (isHod){
+                if (isHod) {
                     returnToRootFragment(pagerAdapter.getCount() - 3);
-                    handleTabsClicking(pagerAdapter.getCount() - 3);}
-                else{
+                    handleTabsClicking(pagerAdapter.getCount() - 3);
+                } else {
                     returnToRootFragment(pagerAdapter.getCount() - 4);
                     handleTabsClicking(pagerAdapter.getCount() - 4);
                 }
                 break;
             case R.id.ll_messages_tab:
-                if (isHod){
+                if (isHod) {
                     returnToRootFragment(pagerAdapter.getCount() - 2);
-                    handleTabsClicking(pagerAdapter.getCount() - 2);}
-                else{
+                    handleTabsClicking(pagerAdapter.getCount() - 2);
+                } else {
                     returnToRootFragment(pagerAdapter.getCount() - 3);
                     handleTabsClicking(pagerAdapter.getCount() - 3);
                 }
@@ -336,10 +348,10 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
             case R.id.ll_notifications_tab:
                 SessionManager.getInstance().setNotificationCounterToZero();
                 notificationCheck();
-                if (isHod){
+                if (isHod) {
                     returnToRootFragment(pagerAdapter.getCount() - 1);
-                    handleTabsClicking(pagerAdapter.getCount() - 1);}
-                else{
+                    handleTabsClicking(pagerAdapter.getCount() - 1);
+                } else {
                     returnToRootFragment(pagerAdapter.getCount() - 2);
                     handleTabsClicking(pagerAdapter.getCount() - 2);
                 }
