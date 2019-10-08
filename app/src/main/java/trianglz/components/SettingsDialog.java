@@ -2,7 +2,6 @@ package trianglz.components;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
@@ -37,9 +36,6 @@ public class SettingsDialog extends BottomSheetDialog implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.layout_settings);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().setBackgroundDrawableResource((R.color.dialog_background_color));
-//        }
         bindViews();
         setListeners();
         getWindow().findViewById(R.id.design_bottom_sheet);
@@ -80,13 +76,6 @@ public class SettingsDialog extends BottomSheetDialog implements View.OnClickLis
                 settingsDialogInterface.onSignOutClicked();
                 cancel();
                 break;
-            case R.id.item_layout:
-                cancel();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    getWindow().setStatusBarColor(context.getResources().getColor(R.color.dialog_background_color));
-                }
-                break;
-
 
         }
     }
@@ -101,12 +90,6 @@ public class SettingsDialog extends BottomSheetDialog implements View.OnClickLis
         layout.getParent().requestLayout();
     }
 
-    @Override
-    public void dismiss() {
-        super.dismiss();
-        //   getWindow().setBackgroundDrawableResource(R.color.transparent);
-
-    }
 
     public interface SettingsDialogInterface {
 
