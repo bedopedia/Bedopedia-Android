@@ -12,6 +12,6 @@
         android:layout_height="150dp"
         style="@style/AVLoadingIndicatorView"
         android:visibility="visible"
-        app:indicatorName="BallClipRotateIndicator"
-        app:indicatorColor="@color/tomato" />
+        app:indicatorName="BallScaleMultipleIndicator"
+        app:indicatorColor="@color/colorPrimary" />
 </LinearLayout>
