@@ -50,8 +50,10 @@ public class LoadingDialog extends Dialog {
             avLoadingIndicatorView.setIndicatorColor(Color.parseColor("#fd8268"));
         } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             avLoadingIndicatorView.setIndicatorColor(Color.parseColor("#06c4cc"));
-        } else {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
             avLoadingIndicatorView.setIndicatorColor(Color.parseColor("#007ee5"));
+        }else{
+            avLoadingIndicatorView.setIndicatorColor(Color.parseColor("#2ABC4F"));
         }
     }
 }
