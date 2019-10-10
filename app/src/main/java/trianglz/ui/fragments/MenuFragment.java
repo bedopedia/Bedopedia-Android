@@ -334,9 +334,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         this.courseGroups = courseGroups;
         // String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/grade_certificate";
         //   studentDetailView.getStudentGrades(url, courseGroups);
-        postsView.getRecentPosts(student.getId());
-//        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
-//        studentDetailView.getStudentTimeTable(timeTableUrl);
+   //     postsView.getRecentPosts(student.getId());
+        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
+        studentDetailView.getStudentTimeTable(timeTableUrl);
     }
 
     @Override
