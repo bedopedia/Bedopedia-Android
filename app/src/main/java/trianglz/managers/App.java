@@ -24,7 +24,7 @@ import trianglz.components.LocalHelper;
  * Created by ${Aly} on 10/24/2018.
  */
 
-@ReportsCrashes(mailTo = "aliabdelrahmanweka74@gmail.com", // my email here
+@ReportsCrashes(mailTo = "skoleraulp@gmail.com", 
         mode = ReportingInteractionMode.TOAST,
         resToastText = R.string.crash_toast_text)
 
