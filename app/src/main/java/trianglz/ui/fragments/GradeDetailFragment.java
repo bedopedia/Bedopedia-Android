@@ -92,8 +92,12 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         setListeners();
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(), courseGroup.getId());
-            gradeDetailView.getAverageGrade(url, student.getId() + "");
+
+            String courseGradePeriodUrl = SessionManager.getInstance().getBaseUrl() +
+                    ApiEndPoints.studentGradeBook(courseGroup.getCourseId(), courseGroup.getId());
+            gradeDetailView.getStudentGradeBook(courseGradePeriodUrl, student.getId());
+//            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(), courseGroup.getId());
+//            gradeDetailView.getAverageGrade(url, student.getId() + "");
         } else {
             Util.showNoInternetConnectionDialog(activity);
         }
@@ -202,9 +206,6 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         this.assignmentsHashMap = assignmentsHashMap;
         this.gradeItemHashMap = gradeItemHashMap;
 
-        String courseGradePeriodUrl = SessionManager.getInstance().getBaseUrl() +
-                ApiEndPoints.studentGradeBook(courseGroup.getCourseId(), courseGroup.getId());
-        gradeDetailView.getStudentGradeBook(courseGradePeriodUrl, student.getId());
     }
 
     @Override
