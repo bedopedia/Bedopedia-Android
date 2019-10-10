@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.text.Html;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -173,7 +172,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         headerLayout = findViewById(R.id.rl_header);
         settingsBtn = findViewById(R.id.btn_setting_student);
         addNewMessageButton = findViewById(R.id.btn_new_message);
-        settingsDialog = new SettingsDialog(this, R.style.SettingsDialog, this);
+        settingsDialog = new SettingsDialog(this, R.style.BottomSheetDialog, this);
         addNewMessageButton.setVisibility(View.GONE);
         backBtn = findViewById(R.id.back_btn);
         backBtn.setVisibility(View.GONE);
@@ -680,7 +679,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     private void returnToRootFragment(int tabNumber) {
         if (tabNumber == pager.getCurrentItem()) {
-            if (pagerAdapter.getItem(tabNumber).getChildFragmentManager() != null) {
+            if (pagerAdapter.getItem(tabNumber).isAdded()) {
                 pagerAdapter.getItem(tabNumber).getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 headerLayout.setVisibility(View.VISIBLE);
                 toolbarView.setVisibility(View.VISIBLE);
