@@ -259,7 +259,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         setAssignmentArrayList(allSemesterArrayList);
         setGradingItems(allSemesterArrayList);
         setAverageValues();
-        setData();
+        setData(allSemesterArrayList);
 
     }
 
@@ -392,11 +392,11 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void setData() {
+    private void setData(ArrayList<CourseGradingPeriods> allSemesterArrayList) {
         boolean isCurrent = false;
         allSemestersList = new ArrayList<>();
         currentSemester = new ArrayList<>();
-        List keys = sortKeys();
+        List keys = allSemesterArrayList;
         for (int i = 0; i < keys.size(); i++) {
             allSemestersList.add(keys.get(i));
             CourseGradingPeriods courseGradingPeriods = (CourseGradingPeriods) keys.get(i);
@@ -433,7 +433,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
                 @Override
                 public int compare(CourseGradingPeriods entry1, CourseGradingPeriods entry2) {
                     Long time1 = (Util.convertStringToDate(entry1.endDate).getTime());
-                    long time2 = (Util.convertStringToDate(entry2.endDate).getTime());
+                    Long time2 = (Util.convertStringToDate(entry2.endDate).getTime());
                     Long time3 = (Util.convertStringToDate(entry1.startDate).getTime());
                     long time4 = (Util.convertStringToDate(entry2.startDate).getTime());
                     int endResult = time1.compareTo(time2);
