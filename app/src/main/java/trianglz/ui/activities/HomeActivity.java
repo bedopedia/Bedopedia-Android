@@ -64,7 +64,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         notificationBtn = findViewById(R.id.btn_notification);
         redCircleImageView = findViewById(R.id.img_red_circle);
         kidsAttendances = new ArrayList<>();
-        settingsDialog = new SettingsDialog(this, R.style.SettingsDialog, this);
+        settingsDialog = new SettingsDialog(this, R.style.BottomSheetDialog, this);
         settingsBtn = findViewById(R.id.btn_setting);
     }
 

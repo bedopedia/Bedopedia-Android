@@ -31,7 +31,7 @@ public class TakeAttendanceDialog extends BottomSheetDialog implements View.OnCl
     private LinearLayout assignPresentLayout, assignAbsentLayout, assignLateLayout, removeAllStatusLayout;
 
     public TakeAttendanceDialog(@NonNull Context context, Boolean isMultipleSelected, TakeAttendanceDialogInterface takeAttendanceDialogInterface) {
-        super(context, R.style.AttendanceDialog);
+        super(context, R.style.BottomSheetDialog);
         this.context = context;
         this.isMultipleSelected = isMultipleSelected;
         this.takeAttendanceDialogInterface = takeAttendanceDialogInterface;

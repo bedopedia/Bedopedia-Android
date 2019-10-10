@@ -191,7 +191,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         parentLayout = rootView.findViewById(R.id.layout_parent);
         teacherLayout = rootView.findViewById(R.id.layout_teacher);
         teacherTimeTableLayout = rootView.findViewById(R.id.layout_timetable_teacher);
-        settingsDialog = new SettingsDialog(getParentActivity(), R.style.SettingsDialog, this);
+        settingsDialog = new SettingsDialog(getParentActivity(), R.style.BottomSheetDialog, this);
         weeklyPlannerTextView = rootView.findViewById(R.id.tv_weekly_planner);
 
         student = getParentActivity().getStudent();
