@@ -387,6 +387,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
             activity.progress.dismiss();
         }
         allEvents.clear();
+        compactCalendarView.removeAllEvents();
         allEvents.addAll(events);
         Collections.sort(allEvents, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
         eventAdapter.addData(allEvents, EventAdapter.EVENTSTATE.ALL);
