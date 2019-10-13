@@ -1,32 +1,25 @@
 package trianglz.models;
-import android.support.annotation.NonNull;
-import android.text.format.DateFormat;
 
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by Farah A. Moniem on 28/07/2019.
  */
 
-public class Event  {
+public class Event {
 
     @SerializedName("id")
     private int id;
     @SerializedName("type")
     private String type;
     @SerializedName("end_date")
-    public Long endDate;
+    public String endDate;
     @SerializedName("start_date")
-    public Long startDate;
+    public String startDate;
     @SerializedName("description")
     private String description;
     @SerializedName("title")
@@ -52,39 +45,45 @@ public class Event  {
         return this.type;
     }
 
-    public void setEndDate(Long endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
-    public Date getEndDate() {
-        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-        cal.setTimeInMillis(endDate * 1000L);
-        String dateString = DateFormat.format("dd-MM-yyyy hh:mm:ss", cal).toString();
-        SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-        Date date=new Date();
-        try {
-            date=formatter.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;    }
+    //    public Date getEndDate() {
+//        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+//        cal.setTimeInMillis(endDate * 1000L);
+//        String dateString = DateFormat.format("dd-MM-yyyy hh:mm:ss", cal).toString();
+//        SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+//        Date date=new Date();
+//        try {
+//            date=formatter.parse(dateString);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return date;    }
+    public String getEndDate() {
+        return this.endDate;
+    }
 
-    public void setStartDate(Long startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getStartDate() {
-        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-        cal.setTimeInMillis(startDate * 1000L);
-        String dateString = DateFormat.format("dd-MM-yyyy hh:mm:ss", cal).toString();
-        SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-        Date date=new Date();
-        try {
-            date=formatter.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
+    //    public Date getStartDate() {
+//        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+//        cal.setTimeInMillis(startDate * 1000L);
+//        String dateString = DateFormat.format("dd-MM-yyyy hh:mm:ss", cal).toString();
+//        SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+//        Date date=new Date();
+//        try {
+//            date=formatter.parse(dateString);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return date;
+//    }
+    public String getStartDate() {
+        return this.startDate;
     }
 
     public void setDescription(String description) {
@@ -131,11 +130,11 @@ public class Event  {
     }
 
 
-
     public static class SortByDate implements Comparator<Event> {
         @Override
         public int compare(Event a, Event b) {
-            return a.getStartDate().compareTo(b.getStartDate());
+            return 1;
+            //     return a.getStartDate().compareTo(b.getStartDate());
         }
     }
 
