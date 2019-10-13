@@ -42,7 +42,7 @@ public class TakeAttendanceDialog extends BottomSheetDialog implements View.OnCl
         setContentView(R.layout.layout_take_attendance);
         bindViews();
         setListeners();
-        getWindow().findViewById(R.id.design_bottom_sheet);
+        getWindow().findViewById(R.id.design_bottom_sheet).setBackgroundResource(android.R.color.transparent);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().setDimAmount((float) 0.4);
 
