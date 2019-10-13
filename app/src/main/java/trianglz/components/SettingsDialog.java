@@ -38,7 +38,7 @@ public class SettingsDialog extends BottomSheetDialog implements View.OnClickLis
         setContentView(R.layout.layout_settings);
         bindViews();
         setListeners();
-        getWindow().findViewById(R.id.design_bottom_sheet);
+        getWindow().findViewById(R.id.design_bottom_sheet).setBackgroundResource(android.R.color.transparent);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().setDimAmount((float) 0.4);
 
@@ -46,7 +46,6 @@ public class SettingsDialog extends BottomSheetDialog implements View.OnClickLis
 
 
     private void bindViews() {
-
         languageBtn = findViewById(R.id.btn_language);
         signoutBtn = findViewById(R.id.btn_sign_out);
         cancelBtn = findViewById(R.id.btn_cancel);
