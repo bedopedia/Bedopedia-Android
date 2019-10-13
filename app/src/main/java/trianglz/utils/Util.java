@@ -9,13 +9,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -44,6 +41,7 @@ import java.util.regex.Pattern;
 import Tools.CalendarUtils;
 import gun0912.tedbottompicker.TedBottomPicker;
 import trianglz.components.DexterPermissionErrorListener;
+import trianglz.components.ErrorDialog;
 import trianglz.components.MimeTypeInterface;
 import trianglz.components.OnImageSelectedListener;
 import trianglz.models.Message;
@@ -77,20 +75,23 @@ public class Util {
     }
 
     public static void showErrorDialog(Context context, String title, String content) {
-        new MaterialDialog.Builder(context)
-                .title(title)
-                .content(content)
-                .titleColor(context.getResources().getColor(R.color.jade_green))
-                .neutralText(context.getResources().getString(R.string.ok))
-                .neutralColor(context.getResources().getColor(R.color.jade_green))
-                .contentColor(context.getResources().getColor(R.color.steel))
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(MaterialDialog dialog, DialogAction which) {
-
-                    }
-                })
-                .show();
+        ErrorDialog errorDialog = new ErrorDialog(context,content);
+        errorDialog.show();
+//        new MaterialDialog.Builder(context)
+//                .title(title)
+//                .content(content)
+//                .titleColor(context.getResources().getColor(R.color.jade_green))
+//                .titleGravity(GravityEnum.CENTER)
+//                .neutralText(context.getResources().getString(R.string.ok))
+//                .neutralColor(context.getResources().getColor(R.color.jade_green))
+//                .contentColor(context.getResources().getColor(R.color.steel))
+//                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+//                    @Override
+//                    public void onClick(MaterialDialog dialog, DialogAction which) {
+//
+//                    }
+//                })
+//                .show();
     }
 
 
