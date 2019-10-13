@@ -133,8 +133,7 @@ public class Event {
     public static class SortByDate implements Comparator<Event> {
         @Override
         public int compare(Event a, Event b) {
-            return 1;
-            //     return a.getStartDate().compareTo(b.getStartDate());
+             return a.getStartDate().compareTo(b.getStartDate());
         }
     }
 
