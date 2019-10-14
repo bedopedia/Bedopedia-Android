@@ -4,12 +4,13 @@
     android:id="@+id/parent_view"
     android:clickable="true"
     android:focusable="true"
-    android:layout_marginEnd="30dp"
-    android:layout_marginStart="30dp"
+    android:paddingStart="50dp"
+    android:paddingEnd="50dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp"
-    android:background="@drawable/curved_solid_white"
+    android:background="@drawable/error_dialog_drawable"
     android:orientation="vertical">
 
     <TextView
@@ -36,6 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:layout_marginTop="20dp">
 
         <Button
@@ -46,20 +49,19 @@
             android:text="@string/cancel"
             android:textSize="14sp"
             android:textAllCaps="false"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:visibility="gone"
-            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:background="@drawable/curved_gainsboro"
             android:textColor="@color/white" />
         <Button
             android:id="@+id/submit_btn"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:background="@drawable/curved_jade_green"
-            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:text="@string/ok"
             android:textSize="14sp"
             android:textAllCaps="false"
