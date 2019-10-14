@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +45,7 @@ import agency.tango.android.avatarview.views.AvatarView;
 import attendance.Attendance;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
 import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.PostsPresenter;
@@ -75,7 +75,7 @@ import trianglz.utils.Util;
  * A simple {@link Fragment} subclass.
  */
 public class MenuFragment extends Fragment implements StudentDetailPresenter,
-        View.OnClickListener, SettingsDialog.SettingsDialogInterface, StudentMainActivity.OnBackPressedInterface, PostsPresenter {
+        View.OnClickListener, SettingsDialog.SettingsDialogInterface, StudentMainActivity.OnBackPressedInterface, PostsPresenter, ErrorDialog.DialogConfirmationInterface {
 
     //fragment root view
     private View rootView;
@@ -724,16 +724,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onChangeLanguageClicked() {
-        new AlertDialog.Builder(activity)
-                .setTitle(getResources().getString(R.string.skolera))
-                .setMessage(getResources().getString(R.string.restart_application))
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        changeLanguage();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .show();
+        ErrorDialog errorDialog = new ErrorDialog(activity, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
+        errorDialog.show();
     }
 
     @Override
@@ -915,6 +907,12 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetPostsFailure(String message, int errorCode) {
+
+    }
+
+    @Override
+    public void onConfirm() {
+        changeLanguage();
 
     }
 }

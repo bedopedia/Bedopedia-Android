@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -23,6 +22,7 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
 import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.HomePresenter;
@@ -33,7 +33,7 @@ import trianglz.ui.adapters.HomeAdapter;
 import trianglz.utils.Constants;
 
 public class HomeActivity extends SuperActivity implements HomePresenter, View.OnClickListener,
-        HomeAdapter.HomeAdapterInterface, SettingsDialog.SettingsDialogInterface {
+        HomeAdapter.HomeAdapterInterface, SettingsDialog.SettingsDialogInterface, ErrorDialog.DialogConfirmationInterface {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
     private String id;
@@ -156,16 +156,8 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
 
     @Override
     public void onChangeLanguageClicked() {
-        new AlertDialog.Builder(this)
-                .setTitle(getResources().getString(R.string.skolera))
-                .setMessage(getResources().getString(R.string.restart_application))
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        changeLanguage();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .show();
+        ErrorDialog errorDialog = new ErrorDialog(this, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
+        errorDialog.show();
     }
 
     @Override
@@ -246,4 +238,8 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         }
     }
 
+    @Override
+    public void onConfirm() {
+        changeLanguage();
+    }
 }

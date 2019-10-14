@@ -1,6 +1,5 @@
 package trianglz.ui.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -23,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import trianglz.components.CustomRtlViewPager;
+import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
 import trianglz.components.SettingsDialog;
 import trianglz.managers.SessionManager;
@@ -37,7 +36,7 @@ import trianglz.ui.fragments.TeacherCoursesFragment;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class StudentMainActivity extends SuperActivity implements View.OnClickListener, SettingsDialog.SettingsDialogInterface {
+public class StudentMainActivity extends SuperActivity implements View.OnClickListener, SettingsDialog.SettingsDialogInterface, ErrorDialog.DialogConfirmationInterface {
 
     private LinearLayout coursesLayout, firstLayout, secondLayout, fourthLayout;
     private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView, redCircleImageView;
@@ -270,16 +269,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onChangeLanguageClicked() {
-        new AlertDialog.Builder(this)
-                .setTitle(getResources().getString(R.string.skolera))
-                .setMessage(getResources().getString(R.string.restart_application))
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        changeLanguage();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .show();
+        ErrorDialog errorDialog = new ErrorDialog(this, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
+        errorDialog.show();
     }
 
     @Override
@@ -655,6 +646,11 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    @Override
+    public void onConfirm() {
+        changeLanguage();
     }
 
     public interface OnBackPressedInterface {

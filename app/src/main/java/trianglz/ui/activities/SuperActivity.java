@@ -54,23 +54,7 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
         } else if (errorCode != -3) {
             content = context.getResources().getString(R.string.something_went_wrong);
         }
-//        new MaterialDialog.Builder(context)
-//                .title("Skolera")
-//                .content(content)
-//                .titleColor(context.getResources().getColor(R.color.jade_green))
-//                .neutralText(context.getResources().getString(R.string.ok))
-//                .neutralColor(context.getResources().getColor(R.color.jade_green))
-//                .contentColor(context.getResources().getColor(R.color.steel))
-//                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-//                    @Override
-//                    public void onClick(MaterialDialog dialog, DialogAction which) {
-//                        if (errorCode == 401) {
-//                            logoutUser(context);
-//                        }
-//                    }
-//                })
-//                .show();
-        errorDialog = new ErrorDialog(context,content);
+        errorDialog = new ErrorDialog(context,content, ErrorDialog.DialogType.ERROR);
         errorDialog.show();
     }
 
