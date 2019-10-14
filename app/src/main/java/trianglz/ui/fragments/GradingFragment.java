@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import trianglz.models.StudentSubmission;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.StudentGradeAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 04/09/2019.
@@ -47,6 +49,7 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     private String headerString;
     private String feedBack;
     private TextView headerTextView;
+    private SwipeRefreshLayout pullRefreshLayout;
 
 
     @Nullable
@@ -103,10 +106,19 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
                 headerTextView.setText(getResources().getString(R.string.quiz));
             }
         }
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
+
     }
 
     void setListeners() {
         backBtn.setOnClickListener(this);
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchData();
+            }
+        });
     }
 
     @Override
@@ -148,6 +160,7 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onGetAssignmentSubmissionsSuccess(ArrayList<StudentSubmission> submissions) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
+        pullRefreshLayout.setRefreshing(false);
         adapter.addData(submissions);
     }
 
@@ -190,6 +203,7 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
         if (activity.progress.isShowing()) activity.progress.dismiss();
         adapter.setIsQuizzes();
         adapter.addData(studentSubmissions);
+        pullRefreshLayout.setRefreshing(false);
     }
 
     @Override
