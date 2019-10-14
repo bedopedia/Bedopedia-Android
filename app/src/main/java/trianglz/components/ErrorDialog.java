@@ -21,16 +21,29 @@ public class ErrorDialog extends Dialog implements DialogInterface.OnShowListene
 
     private TextView contentTextView, titleTextView;
     private String content;
-    private Button submitButton;
+    private Button confirmButton, cancelButton;
     private Context context;
+    private DialogConfirmationInterface dialogConfirmationInterface;
+    private DialogType dialogType;
 
 
-    public ErrorDialog(@NonNull Context context, String content) {
+    public ErrorDialog(@NonNull Context context, String content, DialogType dialogType) {
         super(context, R.style.ErrorDialog);
         View view = getLayoutInflater().inflate(R.layout.layout_error_dialog, null);
         setContentView(view);
         this.context = context;
         this.content = content;
+        this.dialogType = dialogType;
+    }
+
+    public ErrorDialog(@NonNull Context context, String content, DialogType dialogType, DialogConfirmationInterface dialogConfirmationInterface) {
+        super(context, R.style.ErrorDialog);
+        View view = getLayoutInflater().inflate(R.layout.layout_error_dialog, null);
+        setContentView(view);
+        this.context = context;
+        this.content = content;
+        this.dialogType = dialogType;
+        this.dialogConfirmationInterface = dialogConfirmationInterface;
     }
 
     @Override
@@ -42,30 +55,47 @@ public class ErrorDialog extends Dialog implements DialogInterface.OnShowListene
 
     private void setListeners() {
         this.setOnShowListener(this);
-        submitButton.setOnClickListener(this);
+        confirmButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
     }
 
     private void bindViews() {
         getWindow().setDimAmount((float) 0.3);
         titleTextView = findViewById(R.id.dialog_title_tv);
         contentTextView = findViewById(R.id.dialog_content_tv);
-        submitButton = findViewById(R.id.submit_btn);
+        confirmButton = findViewById(R.id.submit_btn);
+        cancelButton = findViewById(R.id.cancel_btn);
         contentTextView.setText(content);
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            submitButton.setBackground(context.getResources().getDrawable(R.drawable.curved_salmon_25dp, null));
-        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            submitButton.setBackground(context.getResources().getDrawable(R.drawable.curved_turquoise_25, null));
-        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
-            submitButton.setBackground(context.getResources().getDrawable(R.drawable.curved_cerulean_blue, null));
+        if (dialogType == DialogType.CONFIRMATION) {
+            cancelButton.setVisibility(View.VISIBLE);
         } else {
-            submitButton.setBackground(context.getResources().getDrawable(R.drawable.curved_jade_green_25, null));
+            cancelButton.setVisibility(View.GONE);
+        }
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
+            confirmButton.setBackground(context.getResources().getDrawable(R.drawable.curved_salmon_25dp, null));
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+            confirmButton.setBackground(context.getResources().getDrawable(R.drawable.curved_turquoise_25, null));
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
+            confirmButton.setBackground(context.getResources().getDrawable(R.drawable.curved_cerulean_blue, null));
+        } else {
+            confirmButton.setBackground(context.getResources().getDrawable(R.drawable.curved_jade_green_25, null));
         }
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.submit_btn) {
-            dismiss();
+        switch (v.getId()) {
+            case R.id.submit_btn:
+                if (dialogType == DialogType.CONFIRMATION) {
+                    dialogConfirmationInterface.onConfirm();
+                    dismiss();
+                } else {
+                    dismiss();
+                }
+                break;
+            case R.id.cancel_btn:
+                dismiss();
+                break;
         }
     }
 
@@ -74,4 +104,11 @@ public class ErrorDialog extends Dialog implements DialogInterface.OnShowListene
         super.show();
     }
 
+    public enum DialogType {
+        CONFIRMATION, ERROR
+    }
+
+    public interface DialogConfirmationInterface {
+        void onConfirm();
+    }
 }
