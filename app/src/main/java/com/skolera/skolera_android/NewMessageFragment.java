@@ -28,7 +28,6 @@ import java.util.Map;
 import Models.MessageAttributes;
 import Models.NewMessageThread;
 import Models.Teacher;
-import Tools.Dialogue;
 import Tools.SharedPreferenceUtils;
 import grades.CourseGroup;
 import login.Services.ApiClient;
@@ -36,6 +35,7 @@ import login.Services.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import trianglz.utils.Util;
 
 
 public class NewMessageFragment extends Fragment {
@@ -179,7 +179,7 @@ public class NewMessageFragment extends Fragment {
             public void onResponse(Call<NewMessageThread> call, Response<NewMessageThread> response) {
                 int statusCode = response.code();
                 if(statusCode == 401) {
-                    Dialogue.AlertDialog(getActivity(),getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                    Util.showErrorDialog(getActivity(),getString(R.string.Dialogue401Body));
                 } else {
                     Intent intent = new Intent(getActivity(), com.skolera.skolera_android.AskTeacherActivity.class);
                     intent.putExtra(studentIdKey, studentId);
@@ -191,7 +191,7 @@ public class NewMessageFragment extends Fragment {
             @Override
             public void onFailure(Call<NewMessageThread> call, Throwable throwable) {
                 progress.dismiss();
-                Dialogue.AlertDialog(getActivity(), getString(R.string.ConnectionErrorTitle), getString(R.string.ConnectionErrorBody));
+                Util.showErrorDialog(getActivity(),getString(R.string.ConnectionErrorBody));
             }
         });
     }
@@ -212,7 +212,7 @@ public class NewMessageFragment extends Fragment {
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
                 int statusCode = response.code();
                 if(statusCode == 401) {
-                    Dialogue.AlertDialog(getActivity(),getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                    Util.showErrorDialog(getActivity(),getString(R.string.Dialogue401Body));
                 } else if (statusCode == 200) {
                     for (int i = 0 ; i < response.body().size() ; i++) {
                         JsonObject courseGroupData = response.body().get(i);
@@ -236,7 +236,7 @@ public class NewMessageFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 progress.dismiss();
-                Dialogue.AlertDialog(getActivity(),getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+                Util.showErrorDialog(getActivity(),getString(R.string.ConnectionErrorBody));
             }
         });
     }
@@ -255,7 +255,7 @@ public class NewMessageFragment extends Fragment {
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
                 int statusCode = response.code();
                 if(statusCode == 401) {
-                    Dialogue.AlertDialog(getActivity(),getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                    Util.showErrorDialog(getActivity(),getString(R.string.Dialogue401Body));
                 } else if (statusCode == 200) {
                     ArrayList teachers = response.body();
                     for (int i = 0; i <teachers.size(); i++) {
@@ -286,7 +286,7 @@ public class NewMessageFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 progress.dismiss();
-                Dialogue.AlertDialog(getActivity(),getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+                Util.showErrorDialog(getActivity(),getString(R.string.ConnectionErrorBody));
             }
         });
     }
