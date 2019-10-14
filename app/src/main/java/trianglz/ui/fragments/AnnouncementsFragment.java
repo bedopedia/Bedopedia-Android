@@ -4,6 +4,7 @@ package trianglz.ui.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -44,6 +45,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     private int pageNumber = 1;
     private Actor actor;
     private boolean newIncomingNotificationData;
+    private SwipeRefreshLayout pullRefreshLayout;
 
     public AnnouncementsFragment() {
         // Required empty public constructor
@@ -57,6 +59,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         rootView = inflater.inflate(R.layout.fragment_announcements, container, false);
         activity = (StudentMainActivity) getActivity();
         bindViews();
+        setListeners();
         if (Util.isNetworkAvailable(getActivity())) {
             getAnnouncement(false);
             if (!activity.isCalling)
@@ -76,10 +79,20 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(6, getActivity()), false));
         announcementView = new AnnouncementView(getActivity(), this);
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
 
     }
 
-
+    private void setListeners() {
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                activity.showLoadingDialog();
+                getAnnouncement(false);
+            }
+        });
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -125,6 +138,8 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         }
         newIncomingNotificationData = announcementArrayList.size() != 0;
         adapter.addData(announcementArrayList, newIncomingNotificationData);
+        pullRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
