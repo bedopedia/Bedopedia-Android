@@ -98,7 +98,6 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
             @Override
             public void onRefresh() {
                 getCourseAssignment();
-                pullRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -158,6 +157,8 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
             activity.progress.dismiss();
         }
         courseAssignmentAdapter.addData(courseAssignmentArrayList);
+        pullRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
@@ -175,6 +176,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
             activity.progress.dismiss();
         }
         openAssignmentDetailActivity(assignmentsDetailArrayList, courseAssignment);
+
     }
 
     @Override
