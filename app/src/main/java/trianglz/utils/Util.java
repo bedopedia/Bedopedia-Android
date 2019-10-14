@@ -44,6 +44,7 @@ import trianglz.components.DexterPermissionErrorListener;
 import trianglz.components.ErrorDialog;
 import trianglz.components.MimeTypeInterface;
 import trianglz.components.OnImageSelectedListener;
+import trianglz.managers.SessionManager;
 import trianglz.models.Message;
 
 /**
@@ -486,5 +487,17 @@ public class Util {
             e.printStackTrace();
         }
         return formattedDay;
+    }
+
+    public static int checkUserColor() {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
+            return R.color.salmon;
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+            return R.color.turquoise_blue;
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
+            return R.color.cerulean_blue;
+        } else {
+            return R.color.jade_green;
+        }
     }
 }
