@@ -3,6 +3,7 @@ package trianglz.ui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
     private NotificationsView notificationsView;
     private int pageNumber;
     private boolean newIncomingNotificationData;
+    private SwipeRefreshLayout pullRefreshLayout;
 
     public NotificationsFragment() {
         // Required empty public constructor
@@ -70,9 +72,18 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         notificationsView = new NotificationsView(getActivity(), this);
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
     }
 
     private void setListeners() {
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNotifications(false);
+                activity.showLoadingDialog();
+            }
+        });
     }
 
     private void getNotifications(boolean pagination) {
@@ -97,6 +108,8 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         }
         newIncomingNotificationData = notifications.size() != 0;
         adapter.addData(notifications, newIncomingNotificationData);
+        pullRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
