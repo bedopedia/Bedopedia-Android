@@ -18,14 +18,12 @@
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         app:contentInsetRight="0dp"
-        app:contentInsetEnd="0dp"
-        >
+        app:contentInsetEnd="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/btn_back"
@@ -35,7 +33,7 @@
                 android:src="@drawable/chevron_left"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:layout_marginEnd="2dp"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -63,8 +61,7 @@
                     android:layout_marginTop="12dp"
                     android:gravity="center"
                     android:visibility="gone"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <trianglz.components.SfuiRegularTextView
                         android:id="@+id/tv_positive"
@@ -78,7 +75,6 @@
                         android:textColor="@color/white" />
 
 
-
                     <trianglz.components.SfuiRegularTextView
                         android:id="@+id/tv_negative"
                         android:layout_width="0dp"
@@ -88,7 +84,6 @@
                         android:text="@string/negativeBehaviorNotes"
                         android:textAlignment="center"
                         android:textColor="@color/jade_green" />
-
 
 
                     <trianglz.components.SfuiRegularTextView
@@ -102,8 +97,8 @@
                         android:textAlignment="center"
                         android:textColor="@color/jade_green" />
                 </LinearLayout>
-                <info.hoang8f.android.segmented.SegmentedGroup
-                    xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+
+                <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/segmented"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -139,16 +134,22 @@
                 android:layout_height="35dp"
                 android:id="@+id/img_student"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="4dp"/>
+                android:layout_marginEnd="4dp" />
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>
