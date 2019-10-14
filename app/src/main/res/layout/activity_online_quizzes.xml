@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:background="@color/snow"
-    tools:context="trianglz.ui.activities.OnlineQuizzesActivity">
+    tools:context="trianglz.ui.fragments.OnlineQuizzesFragment">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -74,12 +74,18 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:background="@color/snow"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:background="@color/snow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>
