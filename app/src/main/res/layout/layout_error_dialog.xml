@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_view"
     android:clickable="true"
     android:focusable="true"
@@ -31,18 +32,40 @@
         android:gravity="start"
         android:textColor="@color/black" />
 
-    <Button
-        android:id="@+id/submit_btn"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/curved_jade_green"
-        android:text="@string/ok"
-        android:textSize="14sp"
-        android:textAllCaps="false"
-        android:textColor="@color/white" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/cancel_btn"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textSize="14sp"
+            android:textAllCaps="false"
+            android:layout_marginStart="20dp"
+            android:visibility="gone"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/curved_gainsboro"
+            android:textColor="@color/white" />
+        <Button
+            android:id="@+id/submit_btn"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/curved_jade_green"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:text="@string/ok"
+            android:textSize="14sp"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
 </LinearLayout>
 
 
