@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "742721869641-pom8qbsp92gpjquuhhhu1nc83uhvpi71.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bedopedia.bedopedia_android",
+            "certificate_hash": "6645a8a05e79b13112a492e192d5a31c134c396c"
+          }
+        },
+        {
           "client_id": "742721869641-jp7c1m14tuid9899h6husi4v28t5lchc.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -25,15 +33,20 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742721869641-jp7c1m14tuid9899h6husi4v28t5lchc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "742721869641-48ra6qad1c80a9i90tqa8orhd6daut9h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.skolera.skolera"
+              }
+            }
+          ]
         }
       }
     },
@@ -64,11 +77,7 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "742721869641-jp7c1m14tuid9899h6husi4v28t5lchc.apps.googleusercontent.com",
@@ -82,9 +91,6 @@
               }
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

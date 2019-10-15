@@ -86,7 +86,7 @@ dependencies {
     // Check for v11.4.2 or higher
     implementation 'com.google.firebase:firebase-core:16.0.4'
     // Add dependency
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.6'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     implementation 'com.karumi:dexter:5.0.0'
     implementation 'gun0912.ted:tedbottompicker:1.2.6'
     implementation 'com.github.stfalcon:frescoimageviewer:0.5.0'
