@@ -153,24 +153,13 @@
             android:layout_height="1dp"
             android:background="@color/steel_transparent" />
 
-        <FrameLayout
+
+        <trianglz.components.CustomRtlViewPager
+            android:id="@+id/behavior_notes_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            <trianglz.components.CustomRtlViewPager
-                android:id="@+id/behavior_notes_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="24sp"
-                android:text="No data to preview" />
-
-        </FrameLayout>
 
     </LinearLayout>
 
