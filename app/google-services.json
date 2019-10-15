@@ -59,6 +59,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "742721869641-biamhvhk9ijh8d3kcof7i69ahsvsrhob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skolera.skolera_android",
+            "certificate_hash": "b5fc5ea8e2ba48c014818c71c2a7d0edb81c846d"
+          }
+        },
+        {
           "client_id": "742721869641-1jkus5hqr7vavpmpabg5fnbd1hcu5ebn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
