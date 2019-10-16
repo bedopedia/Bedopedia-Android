@@ -154,7 +154,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                     dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown, null));
                     clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.red_clock_icon, null));
                     dateTextView.setText(this.getResources().getString(R.string.solved));
-                    buttonsLayout.setVisibility(View.VISIBLE);
+                   // buttonsLayout.setVisibility(View.VISIBLE);
                     gradeTextView.setText(quizzes.getStudentSubmissions().getScore() + "");
                     outOfTextView.setText(getResources().getString(R.string.out_of) + " " + quizzes.getTotalScore() + "");
                     String feedBack = quizzes.getStudentSubmissions().getFeedback();
@@ -163,25 +163,16 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                     } else {
                         noteTextview.setVisibility(View.INVISIBLE);
                     }
-                    if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-                        buttonsLayout.setVisibility(View.GONE);
-                    }
                 } else {
                     quizGradeView.setVisibility(View.GONE);
                     buttonsLayout.setVisibility(View.GONE);
-                    if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-                        quizNotStartedView.setVisibility(View.VISIBLE);
-                    } else {
-                        solveQuizBtn.setVisibility(View.VISIBLE);
-                    }
+                    //solveQuizBtn.setVisibility(View.VISIBLE);
+                    quizNotStartedView.setVisibility(View.VISIBLE);
                     dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_light_sage, null));
                     dateTextView.setTextColor(this.getResources().getColor(R.color.pine, null));
                     clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.green_clock_icon, null));
                 }
             } else {
-                if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-                    buttonsLayout.setVisibility(View.GONE);
-                }
                 dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_red, null));
                 dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown, null));
                 clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.red_clock_icon, null));
@@ -213,16 +204,14 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.solve_quiz_btn:
-                openSolveQuizActivity(Constants.SOLVE_QUIZ);
+                openSolveQuizActivity();
                 break;
             case R.id.details_btn:
                 openQuizDetailsFragment();
                 break;
             case R.id.questions_btn:
-                openSolveQuizActivity(Constants.VIEW_QUESTIONS);
                 break;
             case R.id.answers_btn:
-                openSolveQuizActivity(Constants.VIEW_ANSWERS);
                 break;
         }
     }
@@ -233,11 +222,12 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         activity.showLoadingDialog();
     }
 
-    private void openSolveQuizActivity(int mode) {
+    private void openSolveQuizActivity() {
         SolveQuizFragment solveQuizFragment = new SolveQuizFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
-        bundle.putInt(Constants.MODE, mode);
+//        bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
+//        bundle.putString(Constants.STUDENT, student.toString());
         solveQuizFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, solveQuizFragment, "MenuFragments").

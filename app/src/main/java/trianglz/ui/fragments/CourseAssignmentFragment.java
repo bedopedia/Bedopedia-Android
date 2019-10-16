@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private Student student;
+    private SwipeRefreshLayout pullRefreshLayout;
     private RecyclerView recyclerView;
     private CourseAssignmentAdapter courseAssignmentAdapter;
     private CourseAssignmentView courseAssignmentView;
@@ -53,8 +55,6 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-//        activity.toolbarView.setVisibility(View.GONE);
-//        activity.headerLayout.setVisibility(View.GONE);
         rootView = inflater.inflate(R.layout.activity_course_assignment, container, false);
         return rootView;
     }
@@ -80,6 +80,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         activity.toolbarView.setVisibility(View.GONE);
         activity.headerLayout.setVisibility(View.GONE);
         imageLoader = new PicassoLoader();
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         studentImageView = rootView.findViewById(R.id.img_student);
         backBtn = rootView.findViewById(R.id.btn_back);
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
@@ -88,10 +89,17 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         recyclerView.setAdapter(courseAssignmentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         courseAssignmentView = new CourseAssignmentView(activity, this);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
     }
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getCourseAssignment();
+            }
+        });
     }
 
     private void setStudentImage(String imageUrl, final String name) {
@@ -149,6 +157,8 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
             activity.progress.dismiss();
         }
         courseAssignmentAdapter.addData(courseAssignmentArrayList);
+        pullRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
@@ -166,6 +176,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
             activity.progress.dismiss();
         }
         openAssignmentDetailActivity(assignmentsDetailArrayList, courseAssignment);
+
     }
 
     @Override

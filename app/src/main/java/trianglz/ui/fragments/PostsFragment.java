@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +32,7 @@ import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.PostsAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 08/09/2019.
@@ -47,6 +49,8 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
     private String studentName = "";
     private PostsAdapter adapter;
     private Toolbar toolbar;
+    private int studentId;
+    private SwipeRefreshLayout pullRefreshLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,9 +65,12 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
         super.onActivityCreated(savedInstanceState);
         getValuesFromIntent();
         bindViews();
+        setListeners();
         activity.showLoadingDialog();
         setStudentImage(student.getAvatar(), studentName);
     }
+
+
 
     private void getValuesFromIntent() {
         Bundle bundle = this.getArguments();
@@ -71,6 +78,7 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
             student = (Student) bundle.getSerializable(Constants.STUDENT);
             studentName = student.firstName + " " + student.lastName;
             postsView = new PostsView(activity, this);
+            studentId = bundle.getInt(Constants.KEY_STUDENT_ID, 150);
             postsView.getRecentPosts(bundle.getInt(Constants.KEY_STUDENT_ID, 150));
         }
     }
@@ -94,9 +102,19 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
         adapter = new PostsAdapter(activity, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
     }
 
+    private void setListeners() {
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                activity.showLoadingDialog();
+                postsView.getRecentPosts(studentId);
+            }
+        });
+    }
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();
@@ -129,6 +147,7 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
     public void onGetPostsSuccess(ArrayList<PostsResponse> parsePostsResponse) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
         adapter.addData(parsePostsResponse);
+        pullRefreshLayout.setRefreshing(false);
     }
 
     @Override

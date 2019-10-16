@@ -1,14 +1,17 @@
 package trianglz.components;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.os.Build;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.skolera.skolera_android.R;
@@ -16,12 +19,11 @@ import com.skolera.skolera_android.R;
 /**
  * Created by ${Aly} on 11/14/2018.
  */
-public class SettingsDialog extends Dialog implements View.OnClickListener {
+public class SettingsDialog extends BottomSheetDialog implements View.OnClickListener, DialogInterface.OnShowListener {
     private Button languageBtn, signoutBtn, cancelBtn;
     private Context context;
     private SettingsDialogInterface settingsDialogInterface;
     public LinearLayout itemLayout;
-    private android.os.Handler handler;
 
 
     public SettingsDialog(@NonNull Context context, @StyleRes int themeResId, SettingsDialogInterface settingsDialogInterface) {
@@ -34,22 +36,21 @@ public class SettingsDialog extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.layout_settings);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setBackgroundDrawableResource((R.color.dialog_background_color));
-        }
         bindViews();
         setListeners();
+        getWindow().findViewById(R.id.design_bottom_sheet).setBackgroundResource(android.R.color.transparent);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setDimAmount((float) 0.4);
 
     }
 
 
     private void bindViews() {
-
         languageBtn = findViewById(R.id.btn_language);
         signoutBtn = findViewById(R.id.btn_sign_out);
         cancelBtn = findViewById(R.id.btn_cancel);
         itemLayout = findViewById(R.id.item_layout);
-        handler = new Handler();
+
     }
 
 
@@ -74,15 +75,18 @@ public class SettingsDialog extends Dialog implements View.OnClickListener {
                 settingsDialogInterface.onSignOutClicked();
                 cancel();
                 break;
-            case R.id.item_layout:
-                cancel();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    getWindow().setStatusBarColor(context.getResources().getColor(R.color.dialog_background_color));
-                }
-                break;
-
 
         }
+    }
+
+    @Override
+    public void onShow(DialogInterface dialog) {
+        BottomSheetDialog d = (BottomSheetDialog) dialog;
+        FrameLayout bottomSheet = d.findViewById(R.id.design_bottom_sheet);
+        CoordinatorLayout layout = (CoordinatorLayout) bottomSheet.getParent();
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+        behavior.setPeekHeight(bottomSheet.getHeight());
+        layout.getParent().requestLayout();
     }
 
 

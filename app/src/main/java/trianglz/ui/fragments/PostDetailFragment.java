@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -50,9 +51,10 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     private String subjectName;
     private int courseId;
     private int lastPage = 0;
+    private SwipeRefreshLayout pullRefreshLayout;
 
     private FloatingActionButton addPostFab;
-  //  private boolean isStudent, isParent;
+    //  private boolean isStudent, isParent;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,8 +83,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     }
 
     private void bindViews() {
-//        isStudent = SessionManager.getInstance().getStudentAccount();
-//        isParent = SessionManager.getInstance().getUserType();
+        ;
         addPostFab = rootView.findViewById(R.id.add_post_btn);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         postDetailsView = new PostDetailsView(activity, this);
@@ -106,10 +107,18 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
             recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(72, activity), false));
         } else
             recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(16, activity), false));
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
     }
 
     private void setListeners() {
         addPostFab.setOnClickListener(this);
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reloadEvents();
+            }
+        });
     }
 
     @Override
@@ -132,6 +141,8 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     public void onGetPostDetailsSuccess(ArrayList<PostDetails> postDetails, int page) {
         adapter.addData(postDetails, page);
         if (activity.progress.isShowing()) activity.progress.dismiss();
+        pullRefreshLayout.setRefreshing(false);
+
     }
 
     @Override

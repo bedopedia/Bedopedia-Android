@@ -107,7 +107,7 @@
     <string name="grade_items">Grade items</string>
     <string name="there_is_no_time_table">No timetable available</string>
     <string name="current">Current</string>
-    <string name="ok">ok</string>
+    <string name="ok">Ok</string>
     <string name="change_language">Change language to arabic</string>
     <string name="sign_out">Sign out</string>
     <string name="cancel">Cancel</string>
@@ -258,4 +258,5 @@
     <string name="go_home">Go to home</string>
     <string name="true_answer">True</string>
     <string name="false_answer">False</string>
+    <string name="restart_application">Are you sure you want to change the language to Arabic?</string>
 </resources>

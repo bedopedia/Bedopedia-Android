@@ -21,6 +21,8 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.DateTime;
+
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -277,10 +279,12 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     private void createEvents(ArrayList<trianglz.models.Event> eventsArrayList, int color) {
         for (int i = 0; i < eventsArrayList.size(); i++) {
             Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(eventsArrayList.get(i).startDate);
-            while (c.getTimeInMillis() <= eventsArrayList.get(i).endDate) {
-                compactCalendarView.addEvent(new com.github.sundeepk.compactcalendarview.domain.Event(getResources().getColor(color, null), c.getTimeInMillis() * 1000));
-                c.add(Calendar.MILLISECOND, 86400);
+            DateTime startTime = new DateTime(eventsArrayList.get(i).getStartDate());
+            DateTime endTime = new DateTime(eventsArrayList.get(i).getEndDate());
+            c.setTimeInMillis(startTime.getMillis());
+            while (c.getTimeInMillis() <= endTime.getMillis()) {
+                compactCalendarView.addEvent(new com.github.sundeepk.compactcalendarview.domain.Event(getResources().getColor(color, null), c.getTimeInMillis()));
+                c.add(Calendar.DATE, 1);
             }
         }
     }
@@ -383,6 +387,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
             activity.progress.dismiss();
         }
         allEvents.clear();
+        compactCalendarView.removeAllEvents();
         allEvents.addAll(events);
         Collections.sort(allEvents, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
         eventAdapter.addData(allEvents, EventAdapter.EVENTSTATE.ALL);
@@ -395,7 +400,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, code,"");
+        activity.showErrorDialog(activity, code, "");
     }
 
     @Override
