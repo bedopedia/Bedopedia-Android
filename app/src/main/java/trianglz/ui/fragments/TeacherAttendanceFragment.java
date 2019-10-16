@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ import trianglz.models.Attendances;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TeacherAttendanceAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 
 /**
@@ -63,6 +65,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     private ArrayList<AttendanceTimetableSlot> adapterTimeTableSlots;
     private TeacherAttendanceAdapter teacherAttendanceAdapter;
     private Button fullDayButton, perSlotButton, assignAllButton, assignSelectedButton;
+    private SwipeRefreshLayout pullRefreshLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -105,6 +108,8 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         teacherAttendanceView = new TeacherAttendanceView(activity, this);
         createIds = new ArrayList<>();
         adapterTimeTableSlots = new ArrayList<>();
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         getDateInNumbers();
         getFullDayAttendance();
     }
@@ -115,6 +120,16 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         backButton.setOnClickListener(this);
         assignAllButton.setOnClickListener(this);
         assignSelectedButton.setOnClickListener(this);
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (perSlot) {
+                    getPerSlotAttendance();
+                } else {
+                    getFullDayAttendance();
+                }
+            }
+        });
     }
 
     private void colorFullDayAttendance() {
@@ -215,6 +230,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     public void onGetTeacherAttendanceSuccess(Attendance attendance) {
         createIds.clear();
         this.attendance = attendance;
+        pullRefreshLayout.setRefreshing(false);
         if (activity.progress.isShowing())
             activity.progress.dismiss();
 

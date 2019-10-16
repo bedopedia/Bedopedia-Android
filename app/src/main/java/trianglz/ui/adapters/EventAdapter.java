@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import org.joda.time.DateTime;
+
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +56,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             holder.lineView.setBackgroundResource(R.color.iris);
         }
         Event event = items.get(position);
+        DateTime dateTime = new DateTime(event.getStartDate());
 
         if (Util.getLocale(context).equals("ar")) {
-            holder.eventDay.setText(String.format(new Locale("ar"), event.getStartDate().getDate() + ""));
-            holder.eventMonth.setText(String.format(new Locale("ar"), getMonthName(event.getStartDate().getMonth()) + ""));
+            holder.eventDay.setText(String.format(new Locale("ar"), dateTime.getDayOfMonth() + ""));
+            holder.eventMonth.setText(String.format(new Locale("ar"), getMonthName(dateTime.getMonthOfYear()) + ""));
         } else {
-            holder.eventDay.setText(event.getStartDate().getDate() + "");
-            holder.eventMonth.setText(getMonthName(event.getStartDate().getMonth()) + "");
+            holder.eventDay.setText(dateTime.getDayOfMonth() + "");
+            holder.eventMonth.setText(getMonthName(dateTime.getMonthOfYear()) + "");
         }
 
         holder.eventTitle.setText(event.getTitle());
@@ -106,7 +109,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     String getMonthName(int m) {
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
-        return months[m];
+        return months[m-1];
     }
 }
 

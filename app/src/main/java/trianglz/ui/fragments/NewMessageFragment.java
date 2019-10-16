@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -47,6 +48,7 @@ public class NewMessageFragment extends Fragment implements View.OnClickListener
     private ArrayList<Object> subjectObjectArrayList;
     private ArrayList<MessageThread> messageThreadArrayList;
     private Subject selectedSubject;
+    private SwipeRefreshLayout pullRefreshLayout;
 
     @Nullable
     @Override
@@ -84,12 +86,21 @@ public class NewMessageFragment extends Fragment implements View.OnClickListener
         subjectHeaderTextView = rootView.findViewById(R.id.tv_header_subject);
         teacherHeaderTextView = rootView.findViewById(R.id.tv_header_teacher);
         subjectObjectArrayList = new ArrayList<>();
-
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
     }
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
         subjectHeaderTextView.setOnClickListener(this);
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                activity.showLoadingDialog();
+                String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getCourseGroups(student.getId());
+                newMessageView.getCourseGroups(url);
+            }
+        });
     }
 
     private void getValueFromIntent() {
@@ -108,7 +119,7 @@ public class NewMessageFragment extends Fragment implements View.OnClickListener
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.tv_header_subject:
-                if(subjectHeaderTextView.getText().toString() != getResources().getString(R.string.select_a_course)){
+                if (subjectHeaderTextView.getText().toString() != getResources().getString(R.string.select_a_course)) {
                     newMessageAdapter.subjectName = "";
                     teacherHeaderTextView.setVisibility(View.GONE);
                     subjectHeaderTextView.setText(getResources().getString(R.string.select_a_course));
@@ -124,19 +135,21 @@ public class NewMessageFragment extends Fragment implements View.OnClickListener
         subjectObjectArrayList.addAll(subjectArrayList);
         newMessageAdapter.addData(subjectObjectArrayList, NewMessageAdapter.Type.SUBJECT);
         activity.progress.dismiss();
+        pullRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
     public void onGetCourseGroupsFailure(String message, int errorCode) {
-        if(activity.progress.isShowing()){
+        if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, errorCode,"");
+        activity.showErrorDialog(activity, errorCode, "");
     }
 
     @Override
     public void onSubjectSelected(int position) {
-        if(newMessageAdapter.type.equals(NewMessageAdapter.Type.SUBJECT)) {
+        if (newMessageAdapter.type.equals(NewMessageAdapter.Type.SUBJECT)) {
             if (((Subject) newMessageAdapter.mDataList.get(position)).courseName.equals(subjectHeaderTextView.getText().toString())) {
                 newMessageAdapter.subjectName = "";
                 teacherHeaderTextView.setVisibility(View.GONE);
@@ -160,13 +173,13 @@ public class NewMessageFragment extends Fragment implements View.OnClickListener
     @Override
     public void onTeacherSelected(int position) {
         Teacher teacher = (Teacher) newMessageAdapter.mDataList.get(position);
-        openChatActivity(teacher.id,selectedSubject.id);
+        openChatActivity(teacher.id, selectedSubject.id);
     }
 
     private void openChatActivity(int teacherId, int courseId) {
         Intent intent = new Intent(activity, ChatActivity.class);
-        intent.putExtra(Constants.KEY_TEACHER_ID,teacherId);
-        intent.putExtra(Constants.KEY_COURSE_ID,courseId);
+        intent.putExtra(Constants.KEY_TEACHER_ID, teacherId);
+        intent.putExtra(Constants.KEY_COURSE_ID, courseId);
         startActivity(intent);
     }
 }

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.OnlineQuizzesAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 04/09/2019.
@@ -54,6 +56,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
     private SegmentedGroup segmentedGroup;
     // networking view
     private OnlineQuizzesView onlineQuizzesView;
+    private SwipeRefreshLayout pullRefreshLayout;
 
     @Nullable
     @Override
@@ -92,6 +95,8 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         onlineQuizzesView = new OnlineQuizzesView(activity, this);
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
     }
 
     private void setStudentImage(String imageUrl, final String name) {
@@ -123,6 +128,13 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                activity.showLoadingDialog();
+                onlineQuizzesView.getQuizzesCourses(student.getId());
+            }
+        });
     }
 
 
@@ -143,6 +155,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
             activity.progress.dismiss();
         }
         adapter.addData(quizzCourses);
+        pullRefreshLayout.setRefreshing(false);
     }
 
     @Override

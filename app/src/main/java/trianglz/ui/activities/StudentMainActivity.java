@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import trianglz.components.CustomRtlViewPager;
+import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
 import trianglz.components.SettingsDialog;
 import trianglz.managers.SessionManager;
@@ -35,7 +36,7 @@ import trianglz.ui.fragments.TeacherCoursesFragment;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class StudentMainActivity extends SuperActivity implements View.OnClickListener, SettingsDialog.SettingsDialogInterface {
+public class StudentMainActivity extends SuperActivity implements View.OnClickListener, SettingsDialog.SettingsDialogInterface, ErrorDialog.DialogConfirmationInterface {
 
     private LinearLayout coursesLayout, firstLayout, secondLayout, fourthLayout;
     private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView, redCircleImageView;
@@ -170,7 +171,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         headerLayout = findViewById(R.id.rl_header);
         settingsBtn = findViewById(R.id.btn_setting_student);
         addNewMessageButton = findViewById(R.id.btn_new_message);
-        settingsDialog = new SettingsDialog(this, R.style.SettingsDialog, this);
+        settingsDialog = new SettingsDialog(this, R.style.BottomSheetDialog, this);
         addNewMessageButton.setVisibility(View.GONE);
         backBtn = findViewById(R.id.back_btn);
         backBtn.setVisibility(View.GONE);
@@ -268,7 +269,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onChangeLanguageClicked() {
-        changeLanguage();
+        ErrorDialog errorDialog = new ErrorDialog(this, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
+        errorDialog.show();
     }
 
     @Override
@@ -316,19 +318,19 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 handleTabsClicking(pagerAdapter.getCount() - 5);
                 break;
             case R.id.ll_announcment_tab:
-                if (isHod){
+                if (isHod) {
                     returnToRootFragment(pagerAdapter.getCount() - 3);
-                    handleTabsClicking(pagerAdapter.getCount() - 3);}
-                else{
+                    handleTabsClicking(pagerAdapter.getCount() - 3);
+                } else {
                     returnToRootFragment(pagerAdapter.getCount() - 4);
                     handleTabsClicking(pagerAdapter.getCount() - 4);
                 }
                 break;
             case R.id.ll_messages_tab:
-                if (isHod){
+                if (isHod) {
                     returnToRootFragment(pagerAdapter.getCount() - 2);
-                    handleTabsClicking(pagerAdapter.getCount() - 2);}
-                else{
+                    handleTabsClicking(pagerAdapter.getCount() - 2);
+                } else {
                     returnToRootFragment(pagerAdapter.getCount() - 3);
                     handleTabsClicking(pagerAdapter.getCount() - 3);
                 }
@@ -336,10 +338,10 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
             case R.id.ll_notifications_tab:
                 SessionManager.getInstance().setNotificationCounterToZero();
                 notificationCheck();
-                if (isHod){
+                if (isHod) {
                     returnToRootFragment(pagerAdapter.getCount() - 1);
-                    handleTabsClicking(pagerAdapter.getCount() - 1);}
-                else{
+                    handleTabsClicking(pagerAdapter.getCount() - 1);
+                } else {
                     returnToRootFragment(pagerAdapter.getCount() - 2);
                     handleTabsClicking(pagerAdapter.getCount() - 2);
                 }
@@ -646,6 +648,11 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     }
 
+    @Override
+    public void onConfirm() {
+        changeLanguage();
+    }
+
     public interface OnBackPressedInterface {
         void onBackPressed();
     }
@@ -668,7 +675,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     private void returnToRootFragment(int tabNumber) {
         if (tabNumber == pager.getCurrentItem()) {
-            if (pagerAdapter.getItem(tabNumber).getChildFragmentManager() != null) {
+            if (pagerAdapter.getItem(tabNumber).isAdded()) {
                 pagerAdapter.getItem(tabNumber).getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 headerLayout.setVisibility(View.VISIBLE);
                 toolbarView.setVisibility(View.VISIBLE);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -47,6 +48,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     private ArrayList<MessageThread> messageThreadArrayList;
     private Actor actor;
     private boolean isOpeningThread = false;
+    private SwipeRefreshLayout pullRefreshLayout;
 
     public MessagesFragment() {
         // Required empty public constructor
@@ -77,10 +79,19 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, getActivity()), false));
         messageThreadArrayList = new ArrayList<>();
-
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
     }
 
     private void setListeners() {
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                activity.showLoadingDialog();
+                String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
+                contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
+            }
+        });
     }
 
 
@@ -113,6 +124,8 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         contactTeacherAdapter.addData(messageThreadArrayList);
         if (!activity.isCalling)
             activity.progress.dismiss();
+        pullRefreshLayout.setRefreshing(false);
+
     }
 
     @Override

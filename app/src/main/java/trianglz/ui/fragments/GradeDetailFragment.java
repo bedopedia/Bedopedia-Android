@@ -37,9 +37,9 @@ import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Assignment;
 import trianglz.models.CourseGradingPeriods;
-import trianglz.models.CourseGroup;
 import trianglz.models.GradeHeader;
 import trianglz.models.GradeItem;
+import trianglz.models.PostsResponse;
 import trianglz.models.Quiz;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
@@ -54,7 +54,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
 
     private View rootView;
     private StudentMainActivity activity;
-    private CourseGroup courseGroup;
+    private PostsResponse courseGroup;
     private RecyclerView recyclerView;
     private GradeDetailAdapter gradeDetailAdapter;
     private Student student;
@@ -92,8 +92,12 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         setListeners();
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(), courseGroup.getId());
-            gradeDetailView.getAverageGrade(url, student.getId() + "");
+
+            String courseGradePeriodUrl = SessionManager.getInstance().getBaseUrl() +
+                    ApiEndPoints.studentGradeBook(courseGroup.getCourseId(), courseGroup.getId());
+            gradeDetailView.getStudentGradeBook(courseGradePeriodUrl, student.getId());
+//            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(), courseGroup.getId());
+//            gradeDetailView.getAverageGrade(url, student.getId() + "");
         } else {
             Util.showNoInternetConnectionDialog(activity);
         }
@@ -103,7 +107,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            courseGroup = (CourseGroup) bundle.getSerializable(Constants.KEY_COURSE_GROUPS);
+            courseGroup = (PostsResponse) bundle.getSerializable(Constants.KEY_COURSE_GROUPS);
             student = (Student) bundle.getSerializable(Constants.STUDENT);
         }
     }
@@ -202,9 +206,6 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         this.assignmentsHashMap = assignmentsHashMap;
         this.gradeItemHashMap = gradeItemHashMap;
 
-        String courseGradePeriodUrl = SessionManager.getInstance().getBaseUrl() +
-                ApiEndPoints.studentGradeBook(courseGroup.getCourseId(), courseGroup.getId());
-        gradeDetailView.getStudentGradeBook(courseGradePeriodUrl, student.getId());
     }
 
     @Override
@@ -258,7 +259,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         setAssignmentArrayList(allSemesterArrayList);
         setGradingItems(allSemesterArrayList);
         setAverageValues();
-        setData();
+        setData(allSemesterArrayList);
 
     }
 
@@ -391,11 +392,11 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void setData() {
+    private void setData(ArrayList<CourseGradingPeriods> allSemesterArrayList) {
         boolean isCurrent = false;
         allSemestersList = new ArrayList<>();
         currentSemester = new ArrayList<>();
-        List keys = sortKeys();
+        List keys = allSemesterArrayList;
         for (int i = 0; i < keys.size(); i++) {
             allSemestersList.add(keys.get(i));
             CourseGradingPeriods courseGradingPeriods = (CourseGradingPeriods) keys.get(i);
@@ -432,7 +433,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
                 @Override
                 public int compare(CourseGradingPeriods entry1, CourseGradingPeriods entry2) {
                     Long time1 = (Util.convertStringToDate(entry1.endDate).getTime());
-                    long time2 = (Util.convertStringToDate(entry2.endDate).getTime());
+                    Long time2 = (Util.convertStringToDate(entry2.endDate).getTime());
                     Long time3 = (Util.convertStringToDate(entry1.startDate).getTime());
                     long time4 = (Util.convertStringToDate(entry2.startDate).getTime());
                     int endResult = time1.compareTo(time2);

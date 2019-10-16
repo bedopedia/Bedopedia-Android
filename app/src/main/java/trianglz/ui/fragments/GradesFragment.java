@@ -23,7 +23,7 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
-import trianglz.models.CourseGroup;
+import trianglz.models.PostsResponse;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.GradesAdapter;
@@ -40,7 +40,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     private RecyclerView recyclerView;
     private GradesAdapter gradesAdapter;
     private Student student;
-    private ArrayList<CourseGroup> courseGroups;
+    private ArrayList<PostsResponse> postsResponses;
     private IImageLoader imageLoader;
     private StudentMainActivity activity;
 
@@ -65,7 +65,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             student = (Student) bundle.getSerializable(Constants.STUDENT);
-            this.courseGroups = (ArrayList<CourseGroup>) bundle.getSerializable(Constants.KEY_COURSE_GROUPS);
+            this.postsResponses = (ArrayList<PostsResponse>) bundle.getSerializable(Constants.KEY_COURSE_GROUPS);
         }
 //        student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
 //        this.courseGroups = (ArrayList<CourseGroup>) getIntent().getBundleExtra(Constants.KEY_BUNDLE)
@@ -83,7 +83,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         setStudentImage(student.getAvatar(), studentName);
         recyclerView.setAdapter(gradesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-        gradesAdapter.addData(courseGroups);
+        gradesAdapter.addData(postsResponses);
     }
 
     private void setListeners() {
@@ -130,15 +130,15 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
 
     @Override
     public void onSubjectSelected(int position) {
-        openGradeDetailFragment(courseGroups.get(position));
+        openGradeDetailFragment(postsResponses.get(position));
 
     }
 
-    private void openGradeDetailFragment(CourseGroup courseGroup) {
+    private void openGradeDetailFragment(PostsResponse postsResponse) {
 
         GradeDetailFragment gradeDetailFragment = new GradeDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroup);
+        bundle.putSerializable(Constants.KEY_COURSE_GROUPS, postsResponse);
         bundle.putSerializable(Constants.STUDENT, student);
         gradeDetailFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().

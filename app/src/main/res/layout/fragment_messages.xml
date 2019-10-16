@@ -1,15 +1,23 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/messages_root"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/white"
     tools:context="trianglz.ui.fragments.MessagesFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/recycler_view"/>
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/pullToRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/recycler_view" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+</FrameLayout>

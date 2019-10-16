@@ -17,7 +17,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +26,6 @@ import Adapters.AskTeacherAdapter;
 import Models.Message;
 import Models.MessageThread;
 import Models.User;
-import Tools.Dialogue;
 import Tools.SharedPreferenceUtils;
 import login.Services.ApiClient;
 import login.Services.ApiInterface;
@@ -35,6 +33,7 @@ import myKids.Student;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import trianglz.utils.Util;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -156,7 +155,7 @@ public class AskTeacherFragment extends Fragment {
                     progress.dismiss();
                     int statusCode = response.code();
                     if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                        Util.showErrorDialog(context,getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
                         ArrayList<JsonObject> threads = response.body();
                         for (int i = 0 ; i < threads.size(); i++) {
