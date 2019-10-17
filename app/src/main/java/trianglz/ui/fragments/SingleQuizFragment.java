@@ -234,6 +234,8 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         Bundle bundle = new Bundle();
         bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
         bundle.putInt(Constants.MODE, mode);
+        bundle.putSerializable(Constants.STUDENT,student);
+        bundle.putString(Constants.KEY_COURSE_QUIZZES, course.toString());
         solveQuizFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, solveQuizFragment, "MenuFragments").
