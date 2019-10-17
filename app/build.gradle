@@ -92,6 +92,7 @@ dependencies {
     implementation 'net.danlew:android.joda:2.10.2'
 
     implementation 'info.hoang8f:android-segmented:1.0.6'
+    implementation 'org.sufficientlysecure:html-textview:3.7'
 
 }
 
