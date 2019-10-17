@@ -166,4 +166,9 @@ public class ApiEndPoints {
     public static String getQuizQuestions(int quizId) {
         return "/api/quizzes/" + quizId;
     }
+
+    public static String createQuizSubmission(){return "/api/active_quizzes/create_submission";}
+    public static String getQuizQuestion(int quizId) {
+        return "/api/quizzes/" + quizId + "/quiz_solve_details";
+    }
 }
