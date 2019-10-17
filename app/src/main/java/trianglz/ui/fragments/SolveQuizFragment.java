@@ -26,10 +26,15 @@ import trianglz.components.CustomeLayoutManager;
 import trianglz.components.HideKeyboardOnTouch;
 import trianglz.components.QuizSubmittedDialog;
 import trianglz.components.TopItemDecoration;
+import trianglz.core.presenters.SolveQuizPresenter;
+import trianglz.core.views.SolveQuizView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.QuizQuestion;
+import trianglz.models.QuizzCourse;
 import trianglz.models.Quizzes;
+import trianglz.models.Student;
+import trianglz.models.StudentSubmission;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.SingleMultiSelectAnswerAdapter;
 import trianglz.utils.Constants;
@@ -38,7 +43,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 04/09/2019.
  */
-public class SolveQuizFragment extends Fragment implements View.OnClickListener {
+public class SolveQuizFragment extends Fragment implements View.OnClickListener, SolveQuizPresenter {
     private StudentMainActivity activity;
     private View rootView;
 
@@ -54,6 +59,9 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
     private QuizQuestion quizQuestion;
     private int index = 0;
     private Fragment fragment;
+    private SolveQuizView solveQuizView;
+    private Student student;
+    private QuizzCourse course;
     private int mode; //0 solve, 1 view questions, 2 view answers
 
     @Nullable
@@ -100,6 +108,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
         questionCounterButton = rootView.findViewById(R.id.bottom_question_count);
         questionCounterTextView = rootView.findViewById(R.id.question_counter_tv);
         subjectNameTextView.setText(quizzes.getName());
+        solveQuizView = new SolveQuizView(activity, this);
         CustomeLayoutManager customeLayoutManager = new CustomeLayoutManager(activity);
         customeLayoutManager.setScrollEnabled(false);
         recyclerView.setLayoutManager(customeLayoutManager);
@@ -122,6 +131,9 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
         if (bundle != null) {
             quizzes = Quizzes.create(bundle.getString(Constants.KEY_QUIZZES));
             mode = bundle.getInt(Constants.MODE);
+            student = (Student) bundle.getSerializable(Constants.STUDENT);
+            course = QuizzCourse.create(bundle.getString(Constants.KEY_COURSE_QUIZZES));
+
         }
     }
 
@@ -178,6 +190,14 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
     }
 
     void getQuizQuestions() {
+        if (quizzes.getStudentSubmissions() == null) {
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createQuizSubmission();
+            solveQuizView.createQuizSubmission(url, quizzes.getId(), student.getId(), course.getId(), 0);
+            activity.showLoadingDialog();
+        } else {
+
+        }
+
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizQuestions(quizzes.getId());
         //   showQuizView.getQuizQuestions(url);
         JSONObject response;
@@ -1146,5 +1166,18 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener 
             recyclerView.scrollToPosition(0);
             singleMultiSelectAnswerAdapter.addData(quizQuestion.getQuestions().get(index));
         }
+    }
+
+    @Override
+    public void onCreateSubmissionSuccess(StudentSubmission studentSubmission) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+    }
+
+    @Override
+    public void onCreateSubmissionFailure(String message, int errorCode) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        activity.showErrorDialog(activity, errorCode, message);
     }
 }
