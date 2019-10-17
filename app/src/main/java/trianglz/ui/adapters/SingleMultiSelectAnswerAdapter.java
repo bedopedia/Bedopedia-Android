@@ -212,8 +212,8 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
 
             if (mode != Constants.SOLVE_QUIZ) {
                 itemView.setClickable(false);
-  //              radioButton.setClickable(false);
-//                radioButton.setChecked(false);
+                radioButton.setClickable(false);
+                radioButton.setChecked(false);
                 multiSelectionImageButton.setClickable(false);
                 multiSelectionImageButton.setFocusable(false);
                 matchAnswerEditText.setClickable(false);
