@@ -2,6 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:gravity="bottom"
+    android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -38,6 +42,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_gravity="center"
                 android:src="@drawable/present_icon" />
 
             <TextView
@@ -45,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/present"
+                android:layout_gravity="center"
                 android:textSize="18sp"
                 android:textAllCaps="false"
                 android:textColor="@color/boring_green" />
@@ -68,6 +74,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_gravity="center"
                 android:src="@drawable/late_icon" />
 
             <TextView
@@ -75,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/late"
+                android:layout_gravity="center"
                 android:textSize="18sp"
                 android:textAllCaps="false"
                 android:textColor="@color/electric_violet" />
@@ -98,12 +106,14 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_gravity="center"
                 android:src="@drawable/absent_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_gravity="center"
                 android:text="@string/absent"
                 android:textSize="18sp"
                 android:textAllCaps="false"
@@ -129,6 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_gravity="center"
                 android:text="@string/remove_all_status"
                 android:textSize="18sp"
                 android:textAllCaps="false"

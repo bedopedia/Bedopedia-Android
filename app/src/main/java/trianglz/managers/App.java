@@ -6,27 +6,23 @@ import android.os.Environment;
 import android.support.multidex.MultiDex;
 
 import com.androidnetworking.AndroidNetworking;
+import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.skolera.skolera_android.R;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
 //import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
-import org.acra.ACRA;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
 
 import java.io.File;
 
+import io.fabric.sdk.android.Fabric;
 import trianglz.components.LocalHelper;
 
 /**
  * Created by ${Aly} on 10/24/2018.
  */
 
-@ReportsCrashes(mailTo = "aliabdelrahmanweka74@gmail.com", // my email here
-        mode = ReportingInteractionMode.TOAST,
-        resToastText = R.string.crash_toast_text)
 
 public class App extends Application {
     public static final String TAG = App.class
@@ -44,7 +40,6 @@ public class App extends Application {
         mApp = this;
         AndroidNetworking.initialize(getApplicationContext());
         EmojiManager.install(new GoogleEmojiProvider());
-        ACRA.init(this);
         Fresco.initialize(this);
     }
 

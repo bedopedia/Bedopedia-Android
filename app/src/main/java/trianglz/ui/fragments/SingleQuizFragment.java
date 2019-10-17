@@ -169,11 +169,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                 } else {
                     quizGradeView.setVisibility(View.GONE);
                     buttonsLayout.setVisibility(View.GONE);
-                    if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-                        quizNotStartedView.setVisibility(View.VISIBLE);
-                    } else {
-                        solveQuizBtn.setVisibility(View.VISIBLE);
-                    }
+                    solveQuizBtn.setVisibility(View.VISIBLE);
                     dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_light_sage, null));
                     dateTextView.setTextColor(this.getResources().getColor(R.color.pine, null));
                     clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.green_clock_icon, null));

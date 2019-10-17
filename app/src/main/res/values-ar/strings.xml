@@ -229,6 +229,8 @@
     <string name="learning_objectives">الأهداف</string>
     <string name="course_groups">الصفوف</string>
     <string name="no_objective">لا يوجد اهداف</string>
+    <string name="restart_application">هل أنت متأكد أنك تريد تغيير اللغة للإنجليزية؟</string>
+
     <string name="quiz_submitted"> تم تسليم الاختبار بنجاح</string>
     <string name="see_grade">You will be able to see your grade in grades section</string>
     <string name="go_home">الرجوع للصفحة الرئيسية</string>

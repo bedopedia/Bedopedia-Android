@@ -22,6 +22,7 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
 import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.HomePresenter;
@@ -32,7 +33,7 @@ import trianglz.ui.adapters.HomeAdapter;
 import trianglz.utils.Constants;
 
 public class HomeActivity extends SuperActivity implements HomePresenter, View.OnClickListener,
-        HomeAdapter.HomeAdapterInterface, SettingsDialog.SettingsDialogInterface {
+        HomeAdapter.HomeAdapterInterface, SettingsDialog.SettingsDialogInterface, ErrorDialog.DialogConfirmationInterface {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
     private String id;
@@ -63,7 +64,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         notificationBtn = findViewById(R.id.btn_notification);
         redCircleImageView = findViewById(R.id.img_red_circle);
         kidsAttendances = new ArrayList<>();
-        settingsDialog = new SettingsDialog(this, R.style.SettingsDialog, this);
+        settingsDialog = new SettingsDialog(this, R.style.BottomSheetDialog, this);
         settingsBtn = findViewById(R.id.btn_setting);
     }
 
@@ -109,7 +110,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         if (progress.isShowing()) {
             progress.dismiss();
         }
-        showErrorDialog(this, errorCode,"");
+        showErrorDialog(this, errorCode, "");
     }
 
     @Override
@@ -139,7 +140,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         openAssignmentDetailActivity(student);
     }
 
-    private void openAssignmentDetailActivity(Student student){
+    private void openAssignmentDetailActivity(Student student) {
 
     }
 
@@ -155,7 +156,8 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
 
     @Override
     public void onChangeLanguageClicked() {
-        changeLanguage();
+        ErrorDialog errorDialog = new ErrorDialog(this, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
+        errorDialog.show();
     }
 
     @Override
@@ -236,4 +238,8 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         }
     }
 
+    @Override
+    public void onConfirm() {
+        changeLanguage();
+    }
 }

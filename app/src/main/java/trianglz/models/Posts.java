@@ -5,12 +5,13 @@ package trianglz.models;//
 //  Created on July 17, 2019
 //
 
-import java.util.*;
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
-public class Posts {
+import java.io.Serializable;
+
+public class Posts implements Serializable {
 
 	@SerializedName("id")
 	private int id;

@@ -107,7 +107,7 @@
     <string name="grade_items">Grade items</string>
     <string name="there_is_no_time_table">No timetable available</string>
     <string name="current">Current</string>
-    <string name="ok">ok</string>
+    <string name="ok">Ok</string>
     <string name="change_language">Change language to arabic</string>
     <string name="sign_out">Sign out</string>
     <string name="cancel">Cancel</string>
@@ -253,6 +253,7 @@
     <string name="learning_objectives">Learning Objectives</string>
     <string name="course_groups">Course Groups</string>
     <string name="no_objective">There Are No Lesson Objectives</string>
+    <string name="restart_application">Are you sure you want to change the language to Arabic?</string>
     <string name="quiz_submitted">Quiz has been submitted successfully</string>
     <string name="see_grade">You will be able to see your grade in grades section</string>
     <string name="go_home">Go to home</string>

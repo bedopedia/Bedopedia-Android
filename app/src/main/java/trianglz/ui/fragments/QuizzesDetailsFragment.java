@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -67,6 +68,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private int page = 1;
     private int totalPages;
     private boolean isOpen = true;
+    private SwipeRefreshLayout pullRefreshLayout;
 
     @Nullable
     @Override
@@ -110,18 +112,23 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         imageLoader = new PicassoLoader();
         studentImageView = rootView.findViewById(R.id.img_student);
         backBtn = rootView.findViewById(R.id.btn_back);
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         if (!teacherMode)
             setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         if (teacherMode) {
+            pullRefreshLayout.setEnabled(false);
             adapter = new QuizzesDetailsAdapter(activity, this, courseGroupName);
         } else {
             adapter = new QuizzesDetailsAdapter(activity, this, courseName);
+
         }
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(10, activity), false));
         headerTextView = rootView.findViewById(R.id.tv_header);
+
         headerTextView.setText(courseName);
         if (quizzes != null) adapter.addData(getArrayList(isOpen));
 
@@ -150,6 +157,14 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         backBtn.setOnClickListener(this);
         openButton.setOnClickListener(this);
         closedButton.setOnClickListener(this);
+        if (!teacherMode) {
+            pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    getQuizzes();
+                }
+            });
+        }
     }
 
     private ArrayList<Quizzes> getArrayList(boolean isOpen) {
@@ -216,6 +231,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
+        pullRefreshLayout.setRefreshing(false);
         this.quizzes.addAll(quizzes);
         totalPages = meta.getTotalPages();
         adapter.addData(getArrayList(isOpen));

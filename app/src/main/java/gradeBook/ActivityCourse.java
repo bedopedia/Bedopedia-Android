@@ -4,34 +4,33 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-
 import android.widget.TextView;
 
-import com.skolera.skolera_android.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import Tools.InternetConnection;
 import Tools.SharedPreferenceUtils;
 import gradeBook.Adapters.CourseAdapter;
 import login.Services.ApiClient;
 import login.Services.ApiInterface;
-import Tools.Dialogue;
-import Tools.InternetConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import trianglz.utils.Util;
 
 
 public class ActivityCourse extends AppCompatActivity {
@@ -103,7 +102,7 @@ public class ActivityCourse extends AppCompatActivity {
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     int statusCode = response.code();
                     if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                        Util.showErrorDialog(context,getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
 
                         ArrayList<ArrayList<String>> header = new ArrayList<>();
@@ -261,7 +260,7 @@ public class ActivityCourse extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
                     progress.dismiss();
-                    Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+                    Util.showErrorDialog(context,getString(R.string.ConnectionErrorBody));
                 }
             });
 
@@ -303,7 +302,7 @@ public class ActivityCourse extends AppCompatActivity {
         if (InternetConnection.isInternetAvailable(this)){
             new GradeBookAsyncTask().execute();
         } else {
-            Dialogue.AlertDialog(this,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+            Util.showErrorDialog(context,getString(R.string.ConnectionErrorBody));
         }
 
     }
