@@ -218,6 +218,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                 multiSelectionImageButton.setFocusable(false);
                 matchAnswerEditText.setClickable(false);
                 matchAnswerEditText.setFocusable(false);
+                matchAnswerEditText.setEnabled(false);
                 multiSelectionImageButton.setImageDrawable(null);
                 multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
             }
