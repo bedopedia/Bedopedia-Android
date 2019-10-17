@@ -246,5 +246,7 @@ public class Constants {
 
 
     public static final String KEY_QUIZ_QUESTION = "quiz_question";
+    public static final String SCORE = "score";
+    public static final String SUBMISSION = "submission";
 }
 
