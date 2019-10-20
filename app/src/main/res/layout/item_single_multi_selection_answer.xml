@@ -17,16 +17,16 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="4dp">
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/question_number_tv"-->
-        <!--            android:layout_width="24dp"-->
-        <!--            android:layout_height="24dp"-->
-        <!--            android:text="1"-->
-        <!--            android:textStyle="bold"-->
-        <!--            android:background="@color/transparent"-->
-        <!--            android:layout_gravity="center"-->
-        <!--            android:textSize="20sp"-->
-        <!--            android:textColor="@color/cool_grey" />-->
+        <TextView
+            android:id="@+id/question_number_tv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:text="1"
+            android:textStyle="bold"
+            android:background="@color/transparent"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/cool_grey" />
 
         <ImageButton
             android:id="@+id/btn_multi_select"
@@ -72,7 +72,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <TextView
+        <org.sufficientlysecure.htmltextview.HtmlTextView
             android:id="@+id/tv_answer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
