@@ -148,7 +148,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         if (quizzes.getState() != null) {
 
             if (quizzes.getState().equals("running")) {
-                if (quizzes.getStudentSubmissions() != null) {
+                if (quizzes.getStudentSubmissions() != null && quizzes.getStudentSubmissions().getIsSubmitted()) {
                     quizGradeView.setVisibility(View.VISIBLE);
                     dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_red, null));
                     dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown, null));
