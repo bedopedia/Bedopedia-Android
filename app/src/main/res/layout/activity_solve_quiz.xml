@@ -67,7 +67,7 @@
                 android:textStyle="bold"
                 android:id="@+id/tv_counter"
                 android:layout_marginBottom="12dp"
-                android:text="20:30"/>
+                android:text="00:00"/>
 
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
