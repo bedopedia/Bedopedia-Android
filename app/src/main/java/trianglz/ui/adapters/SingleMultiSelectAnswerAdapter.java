@@ -19,6 +19,7 @@ import com.skolera.skolera_android.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import trianglz.models.Answers;
 import trianglz.models.AnswersAttributes;
 import trianglz.models.Questions;
 import trianglz.utils.Constants;
@@ -40,7 +41,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
 
     public SingleMultiSelectAnswerAdapter(Context context, int mode) {
         this.context = context;
-        question = new Questions();
         questionsObjectHashMap = new HashMap<>();
         this.mode = mode;
     }
@@ -73,24 +73,30 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             answersAttributes = question.getAnswersAttributes().get(position - 2);
             final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
             holder.setViews();
-            holder.questionAnswerTextView.setText(answersAttributes.getBody());
-            if (mode == Constants.VIEW_ANSWERS) {
-                if (type.equals(TYPE.SINGLE_SELECTION)) {
-                    if (answersAttributes.isCorrect()) {
-                        holder.radioButton.setChecked(true);
+            if (mode != Constants.SOLVE_QUIZ) {
+                holder.questionAnswerTextView.setText(answersAttributes.getBody());
+                if (mode == Constants.VIEW_ANSWERS) {
+                    if (type.equals(TYPE.SINGLE_SELECTION)) {
+                        if (answersAttributes.isCorrect()) {
+                            holder.radioButton.setChecked(true);
+                        }
+                    } else if (type.equals(TYPE.MULTI_SELECTION)) {
+                        if (answersAttributes.isCorrect()) {
+                            holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
+                            holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
+                        }
+                    } else if (type.equals(TYPE.REORDER_ANSWERS)) {
+                        ArrayList<AnswersAttributes> sortMatchAnswers = sortMatchAnswers(question.getAnswersAttributes());
+                        holder.questionAnswerTextView.setText(sortMatchAnswers.get(position - 2).getBody());
+                    } else if (type.equals(TYPE.MATCH_ANSWERS)) {
+                        holder.matchAnswerEditText.setText(answersAttributes.getMatch());
                     }
-                } else if (type.equals(TYPE.MULTI_SELECTION)) {
-                    if (answersAttributes.isCorrect()) {
-                        holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
-                        holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
-                    }
-                } else if (type.equals(TYPE.REORDER_ANSWERS)) {
-                    ArrayList<AnswersAttributes> sortMatchAnswers = sortMatchAnswers(question.getAnswersAttributes());
-                    holder.questionAnswerTextView.setText(sortMatchAnswers.get(position - 2).getBody());
-                } else if (type.equals(TYPE.MATCH_ANSWERS)) {
-                    holder.matchAnswerEditText.setText(answersAttributes.getMatch());
                 }
             } else {
+                if (!type.equals(TYPE.MATCH_ANSWERS)) {
+                    ArrayList<Answers> answers = (ArrayList<Answers>) question.getAnswers();
+                    holder.questionAnswerTextView.setText(answers.get(position - 2).getBody());
+                }
                 if (questionsObjectHashMap.containsKey(question)) {
                     if (questionsObjectHashMap.get(question) instanceof ArrayList) {
                         ArrayList<AnswersAttributes> answersAttributesArrayList = (ArrayList<AnswersAttributes>) questionsObjectHashMap.get(question);
@@ -135,14 +141,16 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             }
         } else if (position != 1) {
             final TrueFalseAnswerViewHolder holder = (TrueFalseAnswerViewHolder) viewHolder;
-            answersAttributes = question.getAnswersAttributes().get(position - 2);
-            if (mode == Constants.VIEW_ANSWERS) {
-                if (answersAttributes.isCorrect()) {
-                    holder.trueRadioButton.setChecked(true);
-                } else {
-                    holder.falseRadioButton.setChecked(true);
+            if (mode != Constants.SOLVE_QUIZ) {
+                answersAttributes = question.getAnswersAttributes().get(position - 2);
+                if (mode == Constants.VIEW_ANSWERS) {
+                    if (answersAttributes.isCorrect()) {
+                        holder.trueRadioButton.setChecked(true);
+                    } else {
+                        holder.falseRadioButton.setChecked(true);
+                    }
                 }
-            } else if ((mode == Constants.SOLVE_QUIZ)) {
+            } else {
                 if (questionsObjectHashMap.containsKey(question)) {
                     if (questionsObjectHashMap.get(question) instanceof Boolean) {
                         Boolean state = (Boolean) questionsObjectHashMap.get(question);
@@ -175,7 +183,21 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return question.getAnswersAttributes().size() + 2;
+        if (question != null) {
+            if (mode == Constants.SOLVE_QUIZ) {
+                if (type.equals(TYPE.MATCH_ANSWERS)) {
+                    Answers answers = (Answers) question.getAnswers();
+                    return answers.getMatches().size() + answers.getOptions().size() + 2;
+                } else {
+                    ArrayList<Answers> answers = (ArrayList<Answers>) question.getAnswers();
+                    return answers.size() + 2;
+                }
+            } else {
+                return question.getAnswersAttributes().size() + 2;
+            }
+        } else {
+            return 0;
+        }
     }
 
 
