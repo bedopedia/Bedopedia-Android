@@ -3,6 +3,7 @@ package trianglz.models;
 /**
  * Created by Farah A. Moniem on 25/09/2019.
  */
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
@@ -10,6 +11,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class QuizQuestion {
+
 
     @SerializedName("id")
     private int id;
@@ -52,11 +54,15 @@ public class QuizQuestion {
     @SerializedName("questions")
     private ArrayList<Questions> questions;
     @SerializedName("objectives")
-    private  ArrayList<Objective> objectives;
+    private ArrayList<Objective> objectives;
     @SerializedName("grouping_students")
     private GroupingStudents[] groupingStudents;
     @SerializedName("course_groups_quiz")
     private CourseGroupsQuiz[] courseGroupsQuiz;
+    @SerializedName("hours")
+    private int hours;
+    @SerializedName("minutes")
+    private int minutes;
 
     public void setId(int id) {
         this.id = id;
@@ -101,6 +107,23 @@ public class QuizQuestion {
     public void setCourseGroups(ArrayList<CourseGroups> courseGroups) {
         this.courseGroups = courseGroups;
     }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
+    public int getHours() {
+        return this.hours;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
+
+    public int getMinutes() {
+        return this.minutes;
+    }
+
 
     public ArrayList<CourseGroups> getCourseGroups() {
         return this.courseGroups;
