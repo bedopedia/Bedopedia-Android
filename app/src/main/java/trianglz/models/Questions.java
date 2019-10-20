@@ -38,7 +38,7 @@ public class Questions {
 
 
     @SerializedName("answers")
-    private ArrayList<Answers> answers;
+    private Object answers;
     @SerializedName("number_of_correct_answers")
     private int numberOfCorrectAnswers;
 
@@ -132,11 +132,11 @@ public class Questions {
     }
 
 
-    public void setAnswers(ArrayList<Answers> answers) {
+    public void setAnswers(Object answers) {
         this.answers = answers;
     }
 
-    public ArrayList<Answers> getAnswers() {
+    public Object getAnswers() {
         return this.answers;
     }
 
@@ -147,6 +147,7 @@ public class Questions {
     public int getNumberOfCorrectAnswers() {
         return this.numberOfCorrectAnswers;
     }
+
 
 
     public static Questions create(String json) {
