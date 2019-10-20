@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 public class QuizQuestion {
 
-
     @SerializedName("id")
     private int id;
     @SerializedName("name")

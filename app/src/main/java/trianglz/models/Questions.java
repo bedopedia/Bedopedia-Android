@@ -7,9 +7,11 @@ package trianglz.models;//
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Questions {
 
@@ -38,7 +40,8 @@ public class Questions {
 
 
     @SerializedName("answers")
-    private Object answers;
+    @JsonAdapter(AlwaysListTypeAdapterFactory.class)
+    private List<Answers> answers;
     @SerializedName("number_of_correct_answers")
     private int numberOfCorrectAnswers;
 
@@ -132,11 +135,11 @@ public class Questions {
     }
 
 
-    public void setAnswers(Object answers) {
+    public void setAnswers(List<Answers> answers) {
         this.answers = answers;
     }
 
-    public Object getAnswers() {
+    public List<Answers> getAnswers() {
         return this.answers;
     }
 
