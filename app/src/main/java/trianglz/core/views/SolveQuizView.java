@@ -41,6 +41,7 @@ public class SolveQuizView {
         UserManager.getQuizSolveDetails(url, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
+
                 QuizQuestion quizQuestion = QuizQuestion.create(response.toString());
                 solveQuizPresenter.onGetQuizSolveDetailsSuccess(quizQuestion);
             }
