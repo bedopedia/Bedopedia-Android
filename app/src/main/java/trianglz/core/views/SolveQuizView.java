@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import trianglz.core.presenters.SolveQuizPresenter;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.QuizQuestion;
 import trianglz.models.StudentSubmission;
 
 /**
@@ -33,6 +34,20 @@ public class SolveQuizView {
             @Override
             public void onFailure(String message, int errorCode) {
                 solveQuizPresenter.onCreateSubmissionFailure(message,errorCode);
+            }
+        });
+    }
+    public void getQuizSolveDetails(String url){
+        UserManager.getQuizSolveDetails(url, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                QuizQuestion quizQuestion = QuizQuestion.create(response.toString());
+                solveQuizPresenter.onGetQuizSolveDetailsSuccess(quizQuestion);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                solveQuizPresenter.onGetQuizSolveDetailsFailure(message,errorCode);
             }
         });
     }
