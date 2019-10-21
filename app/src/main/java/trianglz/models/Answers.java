@@ -22,7 +22,7 @@ public class Answers {
 	@SerializedName("matches")
 	private ArrayList<String> matches;
 	@SerializedName("options")
-	private ArrayList<Options> options;
+	private ArrayList<Answers> options;
 	@SerializedName("is_correct")
 	private boolean isCorrect;
 	@SerializedName("created_at")
@@ -103,11 +103,11 @@ public class Answers {
 		return this.matches;
 	}
 
-	public void setOptions(ArrayList<Options> options) {
+	public void setOptions(ArrayList<Answers> options) {
 		this.options = options;
 	}
 
-	public ArrayList<Options> getOptions() {
+	public ArrayList<Answers> getOptions() {
 		return this.options;
 	}
 
