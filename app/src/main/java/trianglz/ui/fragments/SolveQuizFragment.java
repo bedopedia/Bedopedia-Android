@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import trianglz.components.CustomeLayoutManager;
@@ -27,6 +28,7 @@ import trianglz.core.presenters.SolveQuizPresenter;
 import trianglz.core.views.SolveQuizView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
+import trianglz.models.Answers;
 import trianglz.models.QuizQuestion;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Quizzes;
@@ -155,8 +157,9 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 } else {
                     int draggedPosition = dragged.getAdapterPosition();
                     int targetPosition = target.getAdapterPosition();
-                    Collections.swap(singleMultiSelectAnswerAdapter.question.getAnswersAttributes(), draggedPosition - 2, targetPosition - 2);
+                    Collections.swap(singleMultiSelectAnswerAdapter.question.getAnswers(), draggedPosition - 2, targetPosition - 2);
                     singleMultiSelectAnswerAdapter.notifyItemMoved(draggedPosition, targetPosition);
+                    setMatchReorder();
                     return false;
                 }
             }
@@ -301,6 +304,9 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     public void onCreateSubmissionSuccess(StudentSubmission studentSubmission) {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizSolveDetails(quizzes.getId());
+        solveQuizView.getQuizSolveDetails(url);
+        activity.showLoadingDialog();
     }
 
     @Override
@@ -328,5 +334,12 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         if (activity.progress.isShowing())
             activity.progress.dismiss();
         activity.showErrorDialog(activity, errorCode, message);
+    }
+
+    void setMatchReorder() {
+        List<Answers> answers = singleMultiSelectAnswerAdapter.question.getAnswers();
+        for (int i = 0; i < answers.size(); i++) {
+            answers.get(i).setMatch(Integer.toString(i+1));
+        }
     }
 }
