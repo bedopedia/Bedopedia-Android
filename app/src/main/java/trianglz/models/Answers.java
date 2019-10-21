@@ -23,7 +23,78 @@ public class Answers {
 	private ArrayList<String> matches;
 	@SerializedName("options")
 	private ArrayList<Options> options;
+	@SerializedName("is_correct")
+	private boolean isCorrect;
+	@SerializedName("created_at")
+	private String createdAt;
+	@SerializedName("updated_at")
+	private String updatedAt;
+	@SerializedName("match")
+	private String match;
+	@SerializedName("deleted_at")
+	private String deletedAt;
+	@SerializedName("answer_id")
+	private int answerId;
+	@SerializedName("quiz_submission_id")
+	private int quizSubmissionId;
 
+	public boolean isCorrect() {
+		return isCorrect;
+	}
+
+	public void setCorrect(boolean correct) {
+		isCorrect = correct;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public String getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(String updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+
+
+	public String getMatch() {
+		return match;
+	}
+
+	public void setMatch(String match) {
+		this.match = match;
+	}
+
+	public String getDeletedAt() {
+		return deletedAt;
+	}
+
+	public void setDeletedAt(String deletedAt) {
+		this.deletedAt = deletedAt;
+	}
+
+	public void setAnswerId(int answerId) {
+		this.answerId = answerId;
+	}
+
+	public int getAnswerId() {
+		return this.answerId;
+	}
+
+	public void setQuizSubmissionId(int quizSubmissionId) {
+		this.quizSubmissionId = quizSubmissionId;
+	}
+
+	public int getQuizSubmissionId() {
+		return this.quizSubmissionId;
+	}
 	public void setMatches(ArrayList<String> matches) {
 		this.matches = matches;
 	}
