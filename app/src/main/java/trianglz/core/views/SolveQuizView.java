@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import trianglz.core.presenters.SolveQuizPresenter;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.AnswerSubmission;
 import trianglz.models.QuizQuestion;
 import trianglz.models.StudentSubmission;
 
@@ -33,11 +34,12 @@ public class SolveQuizView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                solveQuizPresenter.onCreateSubmissionFailure(message,errorCode);
+                solveQuizPresenter.onCreateSubmissionFailure(message, errorCode);
             }
         });
     }
-    public void getQuizSolveDetails(String url){
+
+    public void getQuizSolveDetails(String url) {
         UserManager.getQuizSolveDetails(url, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -48,7 +50,22 @@ public class SolveQuizView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                solveQuizPresenter.onGetQuizSolveDetailsFailure(message,errorCode);
+                solveQuizPresenter.onGetQuizSolveDetailsFailure(message, errorCode);
+            }
+        });
+    }
+
+    public void postAnswerSubmission(String url, int quizSubmissionId, AnswerSubmission answerSubmission) {
+        UserManager.postAnswerSubmission(url, quizSubmissionId, answerSubmission, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                solveQuizPresenter.onPostAnswerSubmissionSuccess();
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                solveQuizPresenter.onPostAnswerSubmissionFailure(message, errorCode);
+
             }
         });
     }

@@ -12,4 +12,6 @@ public interface SolveQuizPresenter {
     void onCreateSubmissionFailure(String message, int errorCode);
     void onGetQuizSolveDetailsSuccess(QuizQuestion quizQuestion);
     void onGetQuizSolveDetailsFailure(String message, int errorCode);
+    void onPostAnswerSubmissionSuccess();
+    void  onPostAnswerSubmissionFailure(String message, int errorCode);
 }

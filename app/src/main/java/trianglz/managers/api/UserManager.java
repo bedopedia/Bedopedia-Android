@@ -18,6 +18,8 @@ import trianglz.managers.network.HandleArrayResponseListener;
 import trianglz.managers.network.HandleMultiPartResponseListener;
 import trianglz.managers.network.HandleResponseListener;
 import trianglz.managers.network.NetworkManager;
+import trianglz.models.AnswerSubmission;
+import trianglz.models.Answers;
 import trianglz.models.Feedback;
 import trianglz.models.GradeModel;
 import trianglz.utils.Constants;
@@ -1031,6 +1033,39 @@ public class UserManager {
             public void onFailure(String message, int errorCode) {
                 responseListener.onFailure(message, errorCode);
 
+            }
+        });
+    }
+
+    public static void postAnswerSubmission(String url, int quizSubmissionId, AnswerSubmission answerSubmission, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject rootJsonObject = new JSONObject();
+        JSONArray answerJsonArray = new JSONArray();
+        try {
+            for (Answers answers : answerSubmission.getAnswerSubmission()) {
+                JSONObject answerJsonObject = new JSONObject();
+                answerJsonObject.put(Constants.KEY_ANSWER_ID, answers.getId());
+                answerJsonObject.put(Constants.KEY_IS_CORRECT, answers.isCorrect());
+                answerJsonObject.put(Constants.KEY_MATCH, answers.getMatch());
+                answerJsonObject.put(Constants.KEY_QUESTION_ID, answers.getQuestionId());
+                answerJsonObject.put(Constants.KEY_QUIZ_SUBMISSION_ID, quizSubmissionId);
+                answerJsonArray.put(answerJsonObject);
+            }
+            rootJsonObject.put(Constants.KEY_ANSWER_SUBMISSION,answerJsonArray);
+            rootJsonObject.put(Constants.KEY_QUESTION_ID,answerSubmission.getQuestionId());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
             }
         });
     }

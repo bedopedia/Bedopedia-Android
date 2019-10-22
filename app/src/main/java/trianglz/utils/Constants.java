@@ -248,5 +248,12 @@ public class Constants {
     public static final String KEY_QUIZ_QUESTION = "quiz_question";
     public static final String SCORE = "score";
     public static final String SUBMISSION = "submission";
+    public static final String KEY_ANSWER_ID="answer_id";
+    public static final String KEY_ANSWER_SUBMISSION="answer_submission";
+    public static final String KEY_IS_CORRECT="is_correct";
+    public static final String KEY_MATCH="match";
+    public static final String KEY_QUESTION_ID="question_id";
+    public static final String KEY_QUIZ_SUBMISSION_ID="quiz_submission_id";
+
 }
 

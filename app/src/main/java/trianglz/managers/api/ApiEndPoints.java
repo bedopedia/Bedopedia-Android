@@ -171,4 +171,7 @@ public class ApiEndPoints {
     public static String getQuizSolveDetails(int quizId) {
         return "/api/quizzes/" + quizId + "/quiz_solve_details";
     }
+    public static String postAnswerSubmission(){
+        return "/api/answer_submissions";
+    }
 }
