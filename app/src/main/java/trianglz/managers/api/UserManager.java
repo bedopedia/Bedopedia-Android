@@ -1037,7 +1037,7 @@ public class UserManager {
         });
     }
 
-    public static void postAnswerSubmission(String url, int quizSubmissionId, AnswerSubmission answerSubmission, ResponseListener responseListener) {
+    public static void postAnswerSubmission(String url, int quizSubmissionId, AnswerSubmission answerSubmission, ArrayResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject rootJsonObject = new JSONObject();
         JSONArray answerJsonArray = new JSONArray();
@@ -1057,9 +1057,9 @@ public class UserManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleArrayResponseListener() {
             @Override
-            public void onSuccess(JSONObject response) {
+            public void onSuccess(JSONArray response) {
                 responseListener.onSuccess(response);
             }
 

@@ -2,9 +2,11 @@ package trianglz.core.views;
 
 import android.content.Context;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import trianglz.core.presenters.SolveQuizPresenter;
+import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.AnswerSubmission;
@@ -56,9 +58,9 @@ public class SolveQuizView {
     }
 
     public void postAnswerSubmission(String url, int quizSubmissionId, AnswerSubmission answerSubmission) {
-        UserManager.postAnswerSubmission(url, quizSubmissionId, answerSubmission, new ResponseListener() {
+        UserManager.postAnswerSubmission(url, quizSubmissionId, answerSubmission, new ArrayResponseListener() {
             @Override
-            public void onSuccess(JSONObject response) {
+            public void onSuccess(JSONArray response) {
                 solveQuizPresenter.onPostAnswerSubmissionSuccess();
             }
 
