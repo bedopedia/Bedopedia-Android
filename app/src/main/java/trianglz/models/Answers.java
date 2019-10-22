@@ -37,6 +37,16 @@ public class Answers {
 	private int answerId;
 	@SerializedName("quiz_submission_id")
 	private int quizSubmissionId;
+    private int matchIndex;
+
+    public int getMatchIndex() {
+        return matchIndex;
+    }
+
+    public void setMatchIndex(int matchIndex) {
+        this.matchIndex = matchIndex;
+    }
+
 
 	public boolean isCorrect() {
 		return isCorrect;
