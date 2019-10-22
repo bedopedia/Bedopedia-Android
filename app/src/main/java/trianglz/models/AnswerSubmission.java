@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class AnswerSubmission {
 
     @SerializedName("answer_submission")
-    private ArrayList<Answers> answers;
+    public ArrayList<Answers> answers;
     @SerializedName("question_id")
     private int questionId;
 
