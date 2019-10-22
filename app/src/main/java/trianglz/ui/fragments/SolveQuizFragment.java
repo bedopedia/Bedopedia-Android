@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -28,7 +29,9 @@ import trianglz.core.presenters.SolveQuizPresenter;
 import trianglz.core.views.SolveQuizView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
+import trianglz.models.AnswerSubmission;
 import trianglz.models.Answers;
+import trianglz.models.Questions;
 import trianglz.models.QuizQuestion;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Quizzes;
@@ -61,7 +64,10 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private SolveQuizView solveQuizView;
     private Student student;
     private QuizzCourse course;
+    private Questions question;
+    private int quizSubmissionId;
     private int mode; //0 solve, 1 view questions, 2 view answers
+    private boolean isSubmit = false;
 
     @Nullable
     @Override
@@ -159,7 +165,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     int targetPosition = target.getAdapterPosition();
                     Collections.swap(singleMultiSelectAnswerAdapter.question.getAnswers(), draggedPosition - 2, targetPosition - 2);
                     singleMultiSelectAnswerAdapter.notifyItemMoved(draggedPosition, targetPosition);
-                    setMatchReorder();
                     return false;
                 }
             }
@@ -199,6 +204,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizSolveDetails(quizzes.getId());
             solveQuizView.getQuizSolveDetails(url);
             activity.showLoadingDialog();
+            quizSubmissionId = quizzes.getStudentSubmissions().getId();
 
         }
     }
@@ -220,19 +226,19 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_previous:
-                if (index > 0)
+                if (index > 0) {
                     index--;
+                    question = quizQuestion.getQuestions().get(index);
+                }
                 displayQuestionsAndAnswers(index);
                 break;
             case R.id.btn_next:
-                if (index < quizQuestion.getQuestions().size() - 1)
-                    index++;
-                displayQuestionsAndAnswers(index);
+                isSubmit = false;
+                submitAnswer();
                 break;
             case R.id.btn_submit:
-                countDownTimer.cancel();
-                QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment);
-                quizSubmittedDialog.show();
+                isSubmit = true;
+                submitAnswer();
                 break;
         }
     }
@@ -272,7 +278,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     void displayQuestionsAndAnswers(int index) {
         if (!quizQuestion.getQuestions().isEmpty()) {
             updateQuestionCounterTextViewAndNextBtn(index);
-            switch (quizQuestion.getQuestions().get(index).getType()) {
+            switch (question.getType()) {
                 case Constants.TYPE_MULTIPLE_SELECT:
                     detachItemTouchHelper();
                     singleMultiSelectAnswerAdapter.type = SingleMultiSelectAnswerAdapter.TYPE.MULTI_SELECTION;
@@ -296,7 +302,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
             }
             recyclerView.scrollToPosition(0);
-            singleMultiSelectAnswerAdapter.addData(quizQuestion.getQuestions().get(index));
+            singleMultiSelectAnswerAdapter.addData(question);
         }
     }
 
@@ -306,6 +312,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             activity.progress.dismiss();
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizSolveDetails(quizzes.getId());
         solveQuizView.getQuizSolveDetails(url);
+        quizSubmissionId = studentSubmission.getId();
         activity.showLoadingDialog();
     }
 
@@ -326,6 +333,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         } else {
             timerTextView.setVisibility(View.GONE);
         }
+        question = quizQuestion.getQuestions().get(index);
         displayQuestionsAndAnswers(index);
     }
 
@@ -336,10 +344,59 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         activity.showErrorDialog(activity, errorCode, message);
     }
 
+    @Override
+    public void onPostAnswerSubmissionSuccess() {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        if (isSubmit) {
+            countDownTimer.cancel();
+            QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment);
+            quizSubmittedDialog.show();
+        } else {
+            if (index < quizQuestion.getQuestions().size() - 1) {
+                index++;
+                question = quizQuestion.getQuestions().get(index);
+            }
+            displayQuestionsAndAnswers(index);
+        }
+    }
+
+    @Override
+    public void onPostAnswerSubmissionFailure(String message, int errorCode) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        activity.showErrorDialog(activity, errorCode, message);
+    }
+
+    void submitAnswer() {
+        if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(question.getId())) {
+            ArrayList<Answers> answers = singleMultiSelectAnswerAdapter.questionsAnswerHashMap.get(question.getId());
+            AnswerSubmission answerSubmission = new AnswerSubmission();
+            answerSubmission.answers = new ArrayList<>();
+            if (question.getType().equals(Constants.TYPE_REORDER)) {
+                setMatchReorder();
+                answerSubmission.answers.addAll(singleMultiSelectAnswerAdapter.question.getAnswers());
+            } else {
+                answerSubmission.answers = new ArrayList<>();
+                answerSubmission.answers.addAll(answers);
+            }
+            answerSubmission.setQuestionId(question.getId());
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postAnswerSubmission();
+            solveQuizView.postAnswerSubmission(url, quizSubmissionId, answerSubmission);
+            activity.showLoadingDialog();
+        } else {
+            if (index < quizQuestion.getQuestions().size() - 1) {
+                index++;
+                question = quizQuestion.getQuestions().get(index);
+            }
+            displayQuestionsAndAnswers(index);
+        }
+    }
+
     void setMatchReorder() {
         List<Answers> answers = singleMultiSelectAnswerAdapter.question.getAnswers();
         for (int i = 0; i < answers.size(); i++) {
-            answers.get(i).setMatch(Integer.toString(i+1));
+            answers.get(i).setMatch(Integer.toString(i + 1));
         }
     }
 }
