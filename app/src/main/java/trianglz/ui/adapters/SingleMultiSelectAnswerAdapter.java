@@ -241,7 +241,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             if (mode == Constants.SOLVE_QUIZ) {
                 ArrayList<Answers> answers = (ArrayList<Answers>) question.getAnswers();
                 if (type.equals(TYPE.MATCH_ANSWERS)) {
-                    return answers.get(0).getMatches().size() + answers.get(0).getMatches().size() + 2;
+                    return answers.get(0).getOptions().size() + answers.get(0).getMatches().size() + 2;
                 } else {
                     return answers.size() + 2;
                 }

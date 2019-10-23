@@ -171,6 +171,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     singleMultiSelectAnswerAdapter.notifyItemMoved(draggedPosition, targetPosition);
                     return false;
                 }
+
             }
 
             @Override
@@ -301,7 +302,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             singleMultiSelectAnswerAdapter.addData(question);
         }
     }
-
     @Override
     public void onCreateSubmissionSuccess(StudentSubmission studentSubmission) {
         //    if (activity.progress.isShowing())
@@ -344,8 +344,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             if (index < quizQuestion.getQuestions().size() - 1) {
                 index++;
                 question = quizQuestion.getQuestions().get(index);
+                displayQuestionsAndAnswers(index);
             }
-            displayQuestionsAndAnswers(index);
         }
     }
 
@@ -385,26 +385,28 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             answerSubmission.answers.addAll(singleMultiSelectAnswerAdapter.question.getAnswers());
             answerSubmission.setQuestionId(question.getId());
             submitSingleAnswer(answerSubmission);
-        }
-        if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(question.getId())) {
-            ArrayList<Answers> answers = singleMultiSelectAnswerAdapter.questionsAnswerHashMap.get(question.getId());
-            answerSubmission.answers.addAll(answers);
-            answerSubmission.setQuestionId(question.getId());
-            submitSingleAnswer(answerSubmission);
         } else {
-            if (index < quizQuestion.getQuestions().size() - 1) {
-                index++;
-                question = quizQuestion.getQuestions().get(index);
+            if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(question.getId())) {
+                ArrayList<Answers> answers = singleMultiSelectAnswerAdapter.questionsAnswerHashMap.get(question.getId());
+                answerSubmission.answers.addAll(answers);
+                answerSubmission.setQuestionId(question.getId());
+                submitSingleAnswer(answerSubmission);
+            } else {
+                if (index < quizQuestion.getQuestions().size() - 1) {
+                    index++;
+                    question = quizQuestion.getQuestions().get(index);
+                    displayQuestionsAndAnswers(index);
+                }
             }
-            displayQuestionsAndAnswers(index);
         }
     }
 
     private void setMatchReorder() {
         List<Answers> answers = singleMultiSelectAnswerAdapter.question.getAnswers();
         for (int i = 0; i < answers.size(); i++) {
-            answers.get(i).setMatch(Integer.toString(i + 1));
+            singleMultiSelectAnswerAdapter.question.getAnswers().get(i).setMatch(Integer.toString(i + 1));
         }
+        singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), (ArrayList) singleMultiSelectAnswerAdapter.question.getAnswers());
     }
 
     private void createSubmission() {
