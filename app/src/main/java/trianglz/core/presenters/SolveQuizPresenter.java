@@ -1,5 +1,7 @@
 package trianglz.core.presenters;
 
+import org.json.JSONObject;
+
 import trianglz.models.QuizQuestion;
 import trianglz.models.StudentSubmission;
 
@@ -13,5 +15,7 @@ public interface SolveQuizPresenter {
     void onGetQuizSolveDetailsSuccess(QuizQuestion quizQuestion);
     void onGetQuizSolveDetailsFailure(String message, int errorCode);
     void onPostAnswerSubmissionSuccess();
-    void  onPostAnswerSubmissionFailure(String message, int errorCode);
+    void onPostAnswerSubmissionFailure(String message, int errorCode);
+    void onGetAnswerSubmissionSuccess(JSONObject jsonObject);
+    void onGetAnswerSubmissionFailure(String message, int errorCode);
 }

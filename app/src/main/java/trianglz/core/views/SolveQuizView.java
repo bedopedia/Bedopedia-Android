@@ -71,4 +71,18 @@ public class SolveQuizView {
             }
         });
     }
+
+    public void getAnswerSubmission(String url) {
+        UserManager.getAnswerSubmission(url, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                solveQuizPresenter.onGetAnswerSubmissionSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                solveQuizPresenter.onGetAnswerSubmissionFailure(message, errorCode);
+            }
+        });
+    }
 }
