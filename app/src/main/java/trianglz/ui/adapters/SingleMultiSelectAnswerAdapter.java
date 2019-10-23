@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,14 +102,12 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                 if (questionsAnswerHashMap.containsKey(question.getId())) {
                     ArrayList<Answers> answers1 = questionsAnswerHashMap.get(question.getId());
                     for (int i = 0; i < answers1.size(); i++) {
-                        ArrayList<Answers> options = question.getAnswers().get(0).getOptions();
-                        if (answers1.get(i).getId() == options.get(position - answers.get(0).getOptions().size() - 2).getId()) {
+                        if (holder.questionAnswerTextView.getText().toString().equals(answers1.get(i).getMatch())) {
                             holder.matchAnswerEditText.setText(answers1.get(i).getMatchIndex() + "");
                         }
                     }
                 }
             }
-
         } else if (position != 1 && !type.equals(TYPE.TRUE_OR_FALSE)) {
             final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
             holder.setViews();
@@ -126,8 +125,13 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                             holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
                         }
                     } else if (type.equals(TYPE.REORDER_ANSWERS)) {
-                        ArrayList<AnswersAttributes> sortMatchAnswers = sortMatchAnswers(question.getAnswersAttributes());
-                        holder.questionAnswerTextView.setHtml(sortMatchAnswers.get(position - 2).getBody());
+                        ArrayList<Object> objects = new ArrayList<>();
+                        objects.addAll(question.getAnswersAttributes());
+                        ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
+                        if (sortMatchAnswers.get(position - 2) instanceof AnswersAttributes) {
+                            AnswersAttributes answersAttribute = (AnswersAttributes) sortMatchAnswers.get(position - 2);
+                            holder.questionAnswerTextView.setHtml(answersAttribute.getBody());
+                        }
                     } else if (type.equals(TYPE.MATCH_ANSWERS)) {
                         holder.matchAnswerEditText.setText(answersAttributes.getMatch());
                     }
@@ -137,8 +141,24 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                 holder.questionAnswerTextView.setHtml(answers.get(position - 2).getBody());
                 if (questionsAnswerHashMap.containsKey(question.getId())) {
                     ArrayList<Answers> answers1 = questionsAnswerHashMap.get(question.getId());
+                    if (type.equals(TYPE.REORDER_ANSWERS)) {
+                        for (int i = 0; i < question.getAnswers().size(); i++) {
+                            for (int k = 0; k < answers1.size(); k++) {
+                                if (question.getAnswers().get(i).getId() == answers1.get(k).getId() || question.getAnswers().get(i).getId() == answers1.get(k).getAnswerId()) {
+                                    question.getAnswers().get(i).setMatch(answers1.get(k).getMatch());
+                                }
+                            }
+                        }
+                        ArrayList<Object> objects = new ArrayList<>();
+                        objects.addAll(question.getAnswers());
+                        ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
+                        if (sortMatchAnswers.get(position - 2) instanceof Answers) {
+                            Answers answer = (Answers) sortMatchAnswers.get(position - 2);
+                            holder.questionAnswerTextView.setHtml(answer.getBody());
+                        }
+                    }
                     for (int i = 0; i < answers1.size(); i++) {
-                        if (answers1.get(i).getId() == question.getAnswers().get(position - 2).getId()) {
+                        if (answers1.get(i).getId() == question.getAnswers().get(position - 2).getId() || answers1.get(i).getAnswerId() == question.getAnswers().get(position - 2).getId()) {
                             if (type.equals(TYPE.MULTI_SELECTION)) {
                                 holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
                                 holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
@@ -147,7 +167,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                             }
                             return;
                         }
-
                     }
                     if (type.equals(TYPE.MULTI_SELECTION)) {
                         holder.multiSelectionImageButton.setImageDrawable(null);
@@ -364,9 +383,9 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
-            if (!matchAnswerEditText.getText().toString().isEmpty()) {
-                String answerText = matchAnswerEditText.getText().toString();
+        public void afterTextChanged(Editable editable) {
+            if (!editable.toString().isEmpty()) {
+                String answerText = editable.toString();
                 int index = Integer.parseInt(answerText);
                 if (index - 1 < question.getAnswers().get(0).getOptions().size() && index - 1 >= 0) {
                     Answers answer = question.getAnswers().get(0).getOptions().get(index - 1);
@@ -388,13 +407,13 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     } else {
                         ArrayList<Answers> answers = new ArrayList<>();
                         Answers answer1 = question.getAnswers().get(0).getOptions().get(index - 1);
-                        answer.setMatchIndex(Integer.parseInt(matchQuestionNumberTextView.getText().toString()));
+                        answer.setMatchIndex(index);
                         answer.setMatch(questionAnswerTextView.getText().toString());
                         answers.add(answer1);
                         questionsAnswerHashMap.put(question.getId(), answers);
                     }
                 }
-            }else{
+            } else {
 
             }
         }
@@ -456,12 +475,22 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private ArrayList<AnswersAttributes> sortMatchAnswers(ArrayList<AnswersAttributes> answersAttributes) {
-        ArrayList<AnswersAttributes> sortedAnswersAttributes = new ArrayList<>(answersAttributes);
+    private ArrayList<Object> sortMatchAnswers(ArrayList<Object> answersAttributes) {
+        ArrayList<Object> sortedAnswersAttributes = new ArrayList<>(answersAttributes);
         for (int i = 0; i < answersAttributes.size(); i++) {
             for (int k = 0; k < answersAttributes.size(); k++) {
-                if (Integer.parseInt(answersAttributes.get(i).getMatch()) == k + 1) {
-                    sortedAnswersAttributes.set(k, answersAttributes.get(i));
+                Log.d("test", "" + i + " " + k);
+                if (answersAttributes.get(i) instanceof AnswersAttributes) {
+                    AnswersAttributes answersAttribute = (AnswersAttributes) answersAttributes.get(i);
+                    if (Integer.parseInt(answersAttribute.getMatch()) == k + 1) {
+                        sortedAnswersAttributes.set(k, answersAttributes.get(i));
+                    }
+                } else if (answersAttributes.get(i) instanceof Answers) {
+                    Answers answers = (Answers) answersAttributes.get(i);
+                    int x = k + 1;
+                    if (Integer.parseInt(answers.getMatch()) == x) {
+                        sortedAnswersAttributes.set(k, answersAttributes.get(i));
+                    }
                 }
             }
         }
