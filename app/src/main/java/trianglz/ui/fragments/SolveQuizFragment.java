@@ -16,6 +16,10 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -197,15 +201,10 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     void getQuizQuestions() {
         if (quizzes.getStudentSubmissions() == null) {
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createQuizSubmission();
-            solveQuizView.createQuizSubmission(url, quizzes.getId(), student.getId(), course.getId(), 0);
-            activity.showLoadingDialog();
+            createSubmission();
         } else {
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizSolveDetails(quizzes.getId());
-            solveQuizView.getQuizSolveDetails(url);
-            activity.showLoadingDialog();
+            getQuizSolveDetails();
             quizSubmissionId = quizzes.getStudentSubmissions().getId();
-
         }
     }
 
@@ -278,21 +277,18 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     void displayQuestionsAndAnswers(int index) {
         if (!quizQuestion.getQuestions().isEmpty()) {
             updateQuestionCounterTextViewAndNextBtn(index);
+            detachItemTouchHelper();
             switch (question.getType()) {
                 case Constants.TYPE_MULTIPLE_SELECT:
-                    detachItemTouchHelper();
                     singleMultiSelectAnswerAdapter.type = SingleMultiSelectAnswerAdapter.TYPE.MULTI_SELECTION;
                     break;
                 case Constants.TYPE_MULTIPLE_CHOICE:
-                    detachItemTouchHelper();
                     singleMultiSelectAnswerAdapter.type = SingleMultiSelectAnswerAdapter.TYPE.SINGLE_SELECTION;
                     break;
                 case Constants.TYPE_TRUE_OR_FALSE:
-                    detachItemTouchHelper();
                     singleMultiSelectAnswerAdapter.type = SingleMultiSelectAnswerAdapter.TYPE.TRUE_OR_FALSE;
                     break;
                 case Constants.TYPE_MATCH:
-                    detachItemTouchHelper();
                     singleMultiSelectAnswerAdapter.type = SingleMultiSelectAnswerAdapter.TYPE.MATCH_ANSWERS;
                     break;
                 case Constants.TYPE_REORDER:
@@ -308,12 +304,10 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onCreateSubmissionSuccess(StudentSubmission studentSubmission) {
-        if (activity.progress.isShowing())
-            activity.progress.dismiss();
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizSolveDetails(quizzes.getId());
-        solveQuizView.getQuizSolveDetails(url);
+        //    if (activity.progress.isShowing())
+//            activity.progress.dismiss();
         quizSubmissionId = studentSubmission.getId();
-        activity.showLoadingDialog();
+        getQuizSolveDetails();
     }
 
     @Override
@@ -325,16 +319,10 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onGetQuizSolveDetailsSuccess(QuizQuestion quizQuestion) {
-        if (activity.progress.isShowing())
-            activity.progress.dismiss();
+        //     if (activity.progress.isShowing())
+//            activity.progress.dismiss();
         this.quizQuestion = quizQuestion;
-        if (mode == Constants.SOLVE_QUIZ) {
-            startCountDown(quizQuestion.getDuration() * 60000);
-        } else {
-            timerTextView.setVisibility(View.GONE);
-        }
-        question = quizQuestion.getQuestions().get(index);
-        displayQuestionsAndAnswers(index);
+        getAnswerSubmission();
     }
 
     @Override
@@ -368,22 +356,41 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         activity.showErrorDialog(activity, errorCode, message);
     }
 
-    void submitAnswer() {
+    @Override
+    public void onGetAnswerSubmissionSuccess(JSONObject jsonObject) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        checkQuestionHasAnswer(jsonObject);
+        if (mode == Constants.SOLVE_QUIZ) {
+            startCountDown(quizQuestion.getDuration() * 60000);
+        } else {
+            timerTextView.setVisibility(View.GONE);
+        }
+        question = quizQuestion.getQuestions().get(index);
+        displayQuestionsAndAnswers(index);
+    }
+
+    @Override
+    public void onGetAnswerSubmissionFailure(String message, int errorCode) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        activity.showErrorDialog(activity, errorCode, message);
+    }
+
+    private void submitAnswer() {
+        AnswerSubmission answerSubmission = new AnswerSubmission();
+        answerSubmission.answers = new ArrayList<>();
+        if (question.getType().equals(Constants.TYPE_REORDER)) {
+            setMatchReorder();
+            answerSubmission.answers.addAll(singleMultiSelectAnswerAdapter.question.getAnswers());
+            answerSubmission.setQuestionId(question.getId());
+            submitSingleAnswer(answerSubmission);
+        }
         if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(question.getId())) {
             ArrayList<Answers> answers = singleMultiSelectAnswerAdapter.questionsAnswerHashMap.get(question.getId());
-            AnswerSubmission answerSubmission = new AnswerSubmission();
-            answerSubmission.answers = new ArrayList<>();
-            if (question.getType().equals(Constants.TYPE_REORDER)) {
-                setMatchReorder();
-                answerSubmission.answers.addAll(singleMultiSelectAnswerAdapter.question.getAnswers());
-            } else {
-                answerSubmission.answers = new ArrayList<>();
-                answerSubmission.answers.addAll(answers);
-            }
+            answerSubmission.answers.addAll(answers);
             answerSubmission.setQuestionId(question.getId());
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postAnswerSubmission();
-            solveQuizView.postAnswerSubmission(url, quizSubmissionId, answerSubmission);
-            activity.showLoadingDialog();
+            submitSingleAnswer(answerSubmission);
         } else {
             if (index < quizQuestion.getQuestions().size() - 1) {
                 index++;
@@ -393,10 +400,52 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    void setMatchReorder() {
+    private void setMatchReorder() {
         List<Answers> answers = singleMultiSelectAnswerAdapter.question.getAnswers();
         for (int i = 0; i < answers.size(); i++) {
             answers.get(i).setMatch(Integer.toString(i + 1));
+        }
+    }
+
+    private void createSubmission() {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createQuizSubmission();
+        solveQuizView.createQuizSubmission(url, quizzes.getId(), student.getId(), course.getId(), 0);
+        activity.showLoadingDialog();
+    }
+
+    private void getQuizSolveDetails() {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizSolveDetails(quizzes.getId());
+        solveQuizView.getQuizSolveDetails(url);
+        activity.showLoadingDialog();
+    }
+
+    private void getAnswerSubmission() {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnswerSubmission(quizSubmissionId);
+        solveQuizView.getAnswerSubmission(url);
+        activity.showLoadingDialog();
+    }
+
+    private void submitSingleAnswer(AnswerSubmission answerSubmission) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postAnswerSubmission();
+        solveQuizView.postAnswerSubmission(url, quizSubmissionId, answerSubmission);
+        activity.showLoadingDialog();
+    }
+
+    private void checkQuestionHasAnswer(JSONObject jsonObject) {
+        ArrayList<Answers> answers;
+        for (Questions question : quizQuestion.getQuestions()) {
+            try {
+                JSONArray jsonArray = jsonObject.getJSONArray(Integer.toString(question.getId()));
+                answers = new ArrayList<>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject answerObject = jsonArray.optJSONObject(i);
+                    Answers answer = Answers.create(answerObject.toString());
+                    answers.add(answer);
+                }
+                singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
