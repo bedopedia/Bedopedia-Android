@@ -37,7 +37,7 @@ public class Answers {
 	private int answerId;
 	@SerializedName("quiz_submission_id")
 	private int quizSubmissionId;
-    private int matchIndex;
+    private int matchIndex = -1;
 
     public int getMatchIndex() {
         return matchIndex;
