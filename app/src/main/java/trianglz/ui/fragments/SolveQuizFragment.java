@@ -22,7 +22,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 
 import trianglz.components.CustomeLayoutManager;
@@ -304,8 +303,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     }
     @Override
     public void onCreateSubmissionSuccess(StudentSubmission studentSubmission) {
-        //    if (activity.progress.isShowing())
-//            activity.progress.dismiss();
         quizSubmissionId = studentSubmission.getId();
         getQuizSolveDetails();
     }
@@ -319,10 +316,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onGetQuizSolveDetailsSuccess(QuizQuestion quizQuestion) {
-        //     if (activity.progress.isShowing())
-//            activity.progress.dismiss();
         this.quizQuestion = quizQuestion;
-        getAnswerSubmission();
+            getAnswerSubmission();
     }
 
     @Override
@@ -381,7 +376,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         AnswerSubmission answerSubmission = new AnswerSubmission();
         answerSubmission.answers = new ArrayList<>();
         if (question.getType().equals(Constants.TYPE_REORDER)) {
-            setMatchReorder();
             answerSubmission.answers.addAll(singleMultiSelectAnswerAdapter.question.getAnswers());
             answerSubmission.setQuestionId(question.getId());
             submitSingleAnswer(answerSubmission);
@@ -401,13 +395,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    private void setMatchReorder() {
-        List<Answers> answers = singleMultiSelectAnswerAdapter.question.getAnswers();
-        for (int i = 0; i < answers.size(); i++) {
-            singleMultiSelectAnswerAdapter.question.getAnswers().get(i).setMatch(Integer.toString(i + 1));
-        }
-        singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), (ArrayList) singleMultiSelectAnswerAdapter.question.getAnswers());
-    }
+
 
     private void createSubmission() {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createQuizSubmission();
@@ -444,7 +432,17 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     Answers answer = Answers.create(answerObject.toString());
                     answers.add(answer);
                 }
-                singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);
+                if(question.getType().equals(Constants.TYPE_REORDER)){
+                    for (int i = 0; i < question.getAnswers().size(); i++) {
+                        for (int k = 0; k < answers.size(); k++) {
+                            if (question.getAnswers().get(i).getId() == answers.get(k).getAnswerId()) {
+                                question.getAnswers().get(i).setMatch(answers.get(k).getMatch());
+                            }
+                        }
+                    }
+                }else{
+                    singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
