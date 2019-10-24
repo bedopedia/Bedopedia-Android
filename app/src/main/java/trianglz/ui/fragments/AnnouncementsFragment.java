@@ -122,7 +122,13 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         String type;
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             type = "parent";
-        } else {
+        } else if(SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
+            type = "teacher";
+        }else if(SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
+            type = "hod";
+        }else if(SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString())) {
+            type = "admin";
+        }else  {
             type = "student";
         }
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(pageNumber, type, 20);
