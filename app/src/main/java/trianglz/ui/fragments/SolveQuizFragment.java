@@ -168,6 +168,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     int targetPosition = target.getAdapterPosition();
                     Collections.swap(singleMultiSelectAnswerAdapter.question.getAnswers(), draggedPosition - 2, targetPosition - 2);
                     singleMultiSelectAnswerAdapter.notifyItemMoved(draggedPosition, targetPosition);
+                    singleMultiSelectAnswerAdapter.notifyDataSetChanged();
                     return false;
                 }
 
@@ -430,6 +431,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject answerObject = jsonArray.optJSONObject(i);
                     Answers answer = Answers.create(answerObject.toString());
+                    answer.setId(answer.getAnswerId());
                     answers.add(answer);
                 }
                 if(question.getType().equals(Constants.TYPE_REORDER)){
