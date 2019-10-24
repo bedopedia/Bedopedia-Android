@@ -25,6 +25,7 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import trianglz.models.Answers;
 import trianglz.models.AnswersAttributes;
@@ -75,7 +76,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             final QuestionViewHolder holder = (QuestionViewHolder) viewHolder;
             holder.questionTextView.setHtml(question.getBody());
         } else if (type.equals(TYPE.MATCH_ANSWERS)) {
-
             ArrayList<Answers> answers = (ArrayList<Answers>) question.getAnswers();
             if (position < answers.get(0).getOptions().size() + 1) {
                 final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
@@ -141,22 +141,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                 holder.questionAnswerTextView.setHtml(answers.get(position - 2).getBody());
                 if (questionsAnswerHashMap.containsKey(question.getId())) {
                     ArrayList<Answers> answers1 = questionsAnswerHashMap.get(question.getId());
-                    if (type.equals(TYPE.REORDER_ANSWERS)) {
-                        for (int i = 0; i < question.getAnswers().size(); i++) {
-                            for (int k = 0; k < answers1.size(); k++) {
-                                if (question.getAnswers().get(i).getId() == answers1.get(k).getId() || question.getAnswers().get(i).getId() == answers1.get(k).getAnswerId()) {
-                                    question.getAnswers().get(i).setMatch(answers1.get(k).getMatch());
-                                }
-                            }
-                        }
-                        ArrayList<Object> objects = new ArrayList<>();
-                        objects.addAll(question.getAnswers());
-                        ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
-                        if (sortMatchAnswers.get(position - 2) instanceof Answers) {
-                            Answers answer = (Answers) sortMatchAnswers.get(position - 2);
-                            holder.questionAnswerTextView.setHtml(answer.getBody());
-                        }
-                    }
                     for (int i = 0; i < answers1.size(); i++) {
                         if (answers1.get(i).getId() == question.getAnswers().get(position - 2).getId() || answers1.get(i).getAnswerId() == question.getAnswers().get(position - 2).getId()) {
                             if (type.equals(TYPE.MULTI_SELECTION)) {
@@ -180,6 +164,17 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                         holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
                     } else if (type.equals(TYPE.SINGLE_SELECTION)) {
                         holder.radioButton.setChecked(false);
+                    } else if (type.equals(TYPE.REORDER_ANSWERS)) {
+                        ArrayList<Object> objects = new ArrayList<>();
+                        setMatchReorder(question.getAnswers());
+                        objects.addAll(question.getAnswers());
+                        ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
+//                        question.answers.clear();
+//                        question.answers.addAll((List)sortMatchAnswers);
+                        if (sortMatchAnswers.get(position - 2) instanceof Answers) {
+                            Answers answer = (Answers) sortMatchAnswers.get(position - 2);
+                            holder.questionAnswerTextView.setHtml(answer.getBody());
+                        }
                     }
                 }
             }
@@ -257,6 +252,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
     public void addData(Questions data) {
         this.question = data;
         notifyDataSetChanged();
+
     }
 
     public enum TYPE {
@@ -495,5 +491,11 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             }
         }
         return sortedAnswersAttributes;
+    }
+
+    private void setMatchReorder(List<Answers> answers) {
+        for (int i = 0; i < answers.size(); i++) {
+                answers.get(i).setMatch(Integer.toString(i + 1));
+        }
     }
 }
