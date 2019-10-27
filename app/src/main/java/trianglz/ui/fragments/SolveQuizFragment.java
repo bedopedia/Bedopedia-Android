@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import trianglz.components.CustomeLayoutManager;
 import trianglz.components.HideKeyboardOnTouch;
@@ -382,6 +383,15 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 answerSubmission.setQuestionId(question.getId());
                 submitSingleAnswer(answerSubmission);
             }
+        } else if (question.getType().equals(Constants.TYPE_MATCH)) {
+            for (Map.Entry mapElement : singleMultiSelectAnswerAdapter.matchAnswersHashMap.entrySet()) {
+                String match = (String) mapElement.getKey();
+                Answers value = ((Answers) mapElement.getValue());
+                value.setMatch(match);
+                answerSubmission.answers.add(value);
+            }
+            answerSubmission.setQuestionId(question.getId());
+            submitSingleAnswer(answerSubmission);
         } else {
             if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(question.getId())) {
                 ArrayList<Answers> currentAnswers = new ArrayList<>();
@@ -481,7 +491,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
                 } else if (question.getType().equals(Constants.TYPE_MATCH)) {
                     setMatchIndex(question.getAnswers().get(0).getOptions());
-                    fillMatchHashmap(question.getAnswers().get(0).getOptions(),answers);
+                    fillMatchHashmap(question.getAnswers().get(0).getOptions(), answers);
 
                 } else {
                     singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);

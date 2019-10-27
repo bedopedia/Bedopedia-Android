@@ -110,8 +110,8 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                 holder.matchQuestionNumberTextView.setVisibility(View.GONE);
                 String key = answers.get(0).getMatches().get(position - answers.get(0).getOptions().size() - 2);
                 holder.questionAnswerTextView.setHtml(key);
-                if(matchAnswersHashMap.containsKey(key)){
-                    Answers answer = matchAnswersHashMap.get(key);
+                if(matchAnswersHashMap.containsKey(Jsoup.parse(key).text())){
+                    Answers answer = matchAnswersHashMap.get(Jsoup.parse(key).text());
                     holder.matchAnswerEditText.setText(answer.getMatchIndex() + "");
                 }else {
                     holder.matchAnswerEditText.setText("");
