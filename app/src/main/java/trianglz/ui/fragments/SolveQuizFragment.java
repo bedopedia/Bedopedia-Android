@@ -479,6 +479,10 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), correctAnswers);
                     singleMultiSelectAnswerAdapter.previousAnswersHashMap.put(question.getId(), correctAnswers);
 
+                } else if (question.getType().equals(Constants.TYPE_MATCH)) {
+                    setMatchIndex(question.getAnswers().get(0).getOptions());
+                    fillMatchHashmap(question.getAnswers().get(0).getOptions(),answers);
+
                 } else {
                     singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);
                     singleMultiSelectAnswerAdapter.previousAnswersHashMap.put(question.getId(), answers);
@@ -509,5 +513,21 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         }
         answerSubmission.setQuestionId(question.getId());
         submitSingleAnswer(answerSubmission);
+    }
+
+    private void fillMatchHashmap(ArrayList<Answers> options, ArrayList<Answers> answers) {
+        for (int i = 0; i < answers.size(); i++) {
+            for (int j = 0; j < options.size(); j++) {
+                if (answers.get(i).getAnswerId() == options.get(j).getId()) {
+                    singleMultiSelectAnswerAdapter.matchAnswersHashMap.put(answers.get(i).getMatch(), options.get(j));
+                }
+            }
+        }
+    }
+
+    private void setMatchIndex(ArrayList<Answers> answers) {
+        for (int i = 0; i < answers.size(); i++) {
+            answers.get(i).setMatchIndex(i + 1);
+        }
     }
 }
