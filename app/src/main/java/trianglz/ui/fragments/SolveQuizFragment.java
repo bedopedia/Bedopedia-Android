@@ -334,6 +334,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     public void onPostAnswerSubmissionSuccess() {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
+        singleMultiSelectAnswerAdapter.previousAnswersHashMap.putAll(singleMultiSelectAnswerAdapter.questionsAnswerHashMap);
         if (isSubmit) {
             countDownTimer.cancel();
             QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment);
@@ -379,38 +380,66 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         AnswerSubmission answerSubmission = new AnswerSubmission();
         answerSubmission.answers = new ArrayList<>();
         if (question.getType().equals(Constants.TYPE_REORDER)) {
-            answerSubmission.answers.addAll(singleMultiSelectAnswerAdapter.question.getAnswers());
-            answerSubmission.setQuestionId(question.getId());
-            submitSingleAnswer(answerSubmission);
-        } else {
-            if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(question.getId())) {
-                ArrayList<Answers> answers = new ArrayList<>();
-                answers.addAll(singleMultiSelectAnswerAdapter.questionsAnswerHashMap.get(question.getId()));
-                answerSubmission.answers.addAll(answers);
-                if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) || question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE)) {
-                    ArrayList<Answers> correctAnswers = new ArrayList<>();
-                    for (int i = 0; i < answers.size(); i++) {
-                        answers.get(i).setCorrect(true);
-                    }
-                    for (int j = 0; j < question.getAnswers().size(); j++) {
-                        for (int i = 0; i < answers.size(); i++) {
-                            if (question.getAnswers().get(j).getId() != answers.get(i).getId()) {
-                                Answers answer = question.getAnswers().get(j);
-                                answer.setCorrect(false);
-                                correctAnswers.add(answer);
-                            }
-                        }
-                    }
-                    answerSubmission.answers.addAll(correctAnswers);
-                }
+            if (singleMultiSelectAnswerAdapter.reorderAnswers.equals(singleMultiSelectAnswerAdapter.question.getAnswers())) {
+                nextPage();
+            } else {
+                answerSubmission.answers.addAll(singleMultiSelectAnswerAdapter.question.getAnswers());
                 answerSubmission.setQuestionId(question.getId());
                 submitSingleAnswer(answerSubmission);
-            } else {
-                if (index < quizQuestion.getQuestions().size() - 1) {
-                    index++;
-                    question = quizQuestion.getQuestions().get(index);
-                    displayQuestionsAndAnswers(index);
+            }
+        } else {
+            if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(question.getId())) {
+                ArrayList<Answers> currentAnswers = new ArrayList<>();
+                currentAnswers.addAll(singleMultiSelectAnswerAdapter.questionsAnswerHashMap.get(question.getId()));
+                if (singleMultiSelectAnswerAdapter.previousAnswersHashMap.containsKey(question.getId())) {
+                    ArrayList<Answers> previousAnswers = new ArrayList<>();
+                    previousAnswers.addAll(singleMultiSelectAnswerAdapter.previousAnswersHashMap.get(question.getId()));
+                    if (currentAnswers.equals(previousAnswers)) {
+                        nextPage();
+                    } else {
+                        answerSubmission.answers.addAll(currentAnswers);
+                        if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) || question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE)) {
+                            ArrayList<Answers> correctAnswers = new ArrayList<>();
+                            for (int i = 0; i < currentAnswers.size(); i++) {
+                                currentAnswers.get(i).setCorrect(true);
+                            }
+                            for (int j = 0; j < question.getAnswers().size(); j++) {
+                                for (int i = 0; i < currentAnswers.size(); i++) {
+                                    if (question.getAnswers().get(j).getId() != currentAnswers.get(i).getId()) {
+                                        Answers answer = question.getAnswers().get(j);
+                                        answer.setCorrect(false);
+                                        correctAnswers.add(answer);
+                                    }
+                                }
+                            }
+                            answerSubmission.answers.addAll(correctAnswers);
+                        }
+                        answerSubmission.setQuestionId(question.getId());
+                        submitSingleAnswer(answerSubmission);
+                    }
+                } else {
+                    answerSubmission.answers.addAll(currentAnswers);
+                    if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) || question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE)) {
+                        ArrayList<Answers> correctAnswers = new ArrayList<>();
+                        for (int i = 0; i < currentAnswers.size(); i++) {
+                            currentAnswers.get(i).setCorrect(true);
+                        }
+                        for (int j = 0; j < question.getAnswers().size(); j++) {
+                            for (int i = 0; i < currentAnswers.size(); i++) {
+                                if (question.getAnswers().get(j).getId() != currentAnswers.get(i).getId()) {
+                                    Answers answer = question.getAnswers().get(j);
+                                    answer.setCorrect(false);
+                                    correctAnswers.add(answer);
+                                }
+                            }
+                        }
+                        answerSubmission.answers.addAll(correctAnswers);
+                    }
+                    answerSubmission.setQuestionId(question.getId());
+                    submitSingleAnswer(answerSubmission);
                 }
+            } else {
+                nextPage();
             }
         }
     }
@@ -446,11 +475,21 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         }
     }
 
+    private void nextPage() {
+        if (index < quizQuestion.getQuestions().size() - 1) {
+            index++;
+            question = quizQuestion.getQuestions().get(index);
+            displayQuestionsAndAnswers(index);
+        }
+    }
+
     private void checkQuestionHasAnswer(JSONObject jsonObject) {
         ArrayList<Answers> answers;
         for (Questions question : quizQuestion.getQuestions()) {
             if (question.getType().equals(Constants.TYPE_REORDER)) {
                 setMatchReorder(question.getAnswers());
+                singleMultiSelectAnswerAdapter.reorderAnswers.clear();
+                singleMultiSelectAnswerAdapter.reorderAnswers.addAll(question.getAnswers());
             }
             try {
                 JSONArray jsonArray = jsonObject.getJSONArray(Integer.toString(question.getId()));
@@ -469,6 +508,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                             }
                         }
                     }
+                    singleMultiSelectAnswerAdapter.reorderAnswers.clear();
+                    singleMultiSelectAnswerAdapter.reorderAnswers.addAll(question.getAnswers());
                 } else if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) || question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE)) {
                     ArrayList<Answers> correctAnswers = new ArrayList<>();
                     for (int i = 0; i < answers.size(); i++) {
@@ -477,8 +518,11 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                         }
                     }
                     singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), correctAnswers);
+                    singleMultiSelectAnswerAdapter.previousAnswersHashMap.put(question.getId(), correctAnswers);
+
                 } else {
                     singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);
+                    singleMultiSelectAnswerAdapter.previousAnswersHashMap.put(question.getId(), answers);
                 }
 
             } catch (JSONException e) {
