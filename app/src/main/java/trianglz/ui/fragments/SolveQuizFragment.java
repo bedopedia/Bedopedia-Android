@@ -19,9 +19,11 @@ import com.skolera.skolera_android.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -73,6 +75,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private int quizSubmissionId;
     private int mode; //0 solve, 1 view questions, 2 view answers
     private boolean isSubmit = false;
+    private HashMap<String, Answers> previousMatchAnswersHashMap;
 
     @Nullable
     @Override
@@ -127,6 +130,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         singleMultiSelectAnswerAdapter = new SingleMultiSelectAnswerAdapter(activity, mode);
         recyclerView.setAdapter(singleMultiSelectAnswerAdapter);
+        previousMatchAnswersHashMap = new HashMap<>();
     }
 
     private void setListeners() {
@@ -334,7 +338,11 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     public void onPostAnswerSubmissionSuccess() {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
-        singleMultiSelectAnswerAdapter.previousAnswersHashMap.putAll(singleMultiSelectAnswerAdapter.questionsAnswerHashMap);
+        if (question.getType().equals(Constants.TYPE_MATCH)) {
+            copyMatchMaps(previousMatchAnswersHashMap, singleMultiSelectAnswerAdapter.matchAnswersHashMap);
+        } else {
+            copyMaps(singleMultiSelectAnswerAdapter.previousAnswersHashMap, singleMultiSelectAnswerAdapter.questionsAnswerHashMap);
+        }
         if (isSubmit) {
             countDownTimer.cancel();
             QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment);
@@ -372,6 +380,25 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         activity.showErrorDialog(activity, errorCode, message);
     }
 
+    @Override
+    public void onDeleteAnswerSubmissionSuccess() {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        if (question.getType().equals(Constants.TYPE_MATCH)) {
+            for (int i = 0; i < question.getAnswers().get(0).getMatches().size(); i++) {
+                previousMatchAnswersHashMap.remove(Jsoup.parse(question.getAnswers().get(0).getMatches().get(i)).text());
+            }
+        }
+        nextPage();
+    }
+
+    @Override
+    public void onDeleteAnswerSubmissionFailure(String message, int errorCode) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        activity.showErrorDialog(activity, errorCode, message);
+    }
+
     private void submitAnswer() {
         AnswerSubmission answerSubmission = new AnswerSubmission();
         answerSubmission.answers = new ArrayList<>();
@@ -384,14 +411,20 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 submitSingleAnswer(answerSubmission);
             }
         } else if (question.getType().equals(Constants.TYPE_MATCH)) {
-            for (Map.Entry mapElement : singleMultiSelectAnswerAdapter.matchAnswersHashMap.entrySet()) {
-                String match = (String) mapElement.getKey();
-                Answers value = ((Answers) mapElement.getValue());
-                value.setMatch(match);
-                answerSubmission.answers.add(value);
+            if (!previousMatchAnswersHashMap.isEmpty() && singleMultiSelectAnswerAdapter.matchAnswersHashMap.isEmpty()) {
+                deleteSingleAnswer(question.getId(), quizSubmissionId);
+            } else if (previousMatchAnswersHashMap.equals(singleMultiSelectAnswerAdapter.matchAnswersHashMap)) {
+                nextPage();
+            } else {
+                for (Map.Entry mapElement : singleMultiSelectAnswerAdapter.matchAnswersHashMap.entrySet()) {
+                    String match = (String) mapElement.getKey();
+                    Answers value = ((Answers) mapElement.getValue());
+                    value.setMatch(match);
+                    answerSubmission.answers.add(value);
+                }
+                answerSubmission.setQuestionId(question.getId());
+                submitSingleAnswer(answerSubmission);
             }
-            answerSubmission.setQuestionId(question.getId());
-            submitSingleAnswer(answerSubmission);
         } else {
             if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(question.getId())) {
                 ArrayList<Answers> currentAnswers = new ArrayList<>();
@@ -400,7 +433,9 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 if (singleMultiSelectAnswerAdapter.previousAnswersHashMap.containsKey(question.getId())) {
                     ArrayList<Answers> previousAnswers = new ArrayList<>();
                     previousAnswers.addAll(singleMultiSelectAnswerAdapter.previousAnswersHashMap.get(question.getId()));
-                    if (currentAnswers.equals(previousAnswers)) {
+                    if (currentAnswers.isEmpty()) {
+                        deleteSingleAnswer(question.getId(), quizSubmissionId);
+                    } else if (currentAnswers.equals(previousAnswers)) {
                         nextPage();
                     } else {
                         fillAnswerSubmission(currentAnswers, answerSubmission);
@@ -435,6 +470,12 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private void submitSingleAnswer(AnswerSubmission answerSubmission) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postAnswerSubmission();
         solveQuizView.postAnswerSubmission(url, quizSubmissionId, answerSubmission);
+        activity.showLoadingDialog();
+    }
+
+    private void deleteSingleAnswer(int questionId, int quizSubmissionId) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.deleteAnswerSubmission();
+        solveQuizView.deleteAnswerSubmission(url, questionId, quizSubmissionId);
         activity.showLoadingDialog();
     }
 
@@ -530,6 +571,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             for (int j = 0; j < options.size(); j++) {
                 if (answers.get(i).getAnswerId() == options.get(j).getId()) {
                     singleMultiSelectAnswerAdapter.matchAnswersHashMap.put(answers.get(i).getMatch(), options.get(j));
+                    previousMatchAnswersHashMap.put(answers.get(i).getMatch(), options.get(j));
                 }
             }
         }
@@ -538,6 +580,26 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private void setMatchIndex(ArrayList<Answers> answers) {
         for (int i = 0; i < answers.size(); i++) {
             answers.get(i).setMatchIndex(i + 1);
+        }
+    }
+
+    private void copyMaps(HashMap<Integer, ArrayList<Answers>> previousMap, HashMap<Integer, ArrayList<Answers>> currentMap) {
+        for (Map.Entry mapElement : currentMap.entrySet()) {
+            ArrayList<Answers> previousAnswers = new ArrayList<>();
+            int questionId = (int) mapElement.getKey();
+            ArrayList<Answers> answers = ((ArrayList<Answers>) mapElement.getValue());
+            previousAnswers.addAll(answers);
+            previousMap.put(questionId, previousAnswers);
+        }
+    }
+
+    private void copyMatchMaps(HashMap<String, Answers> previousMap, HashMap<String, Answers> currentMap) {
+        for (Map.Entry mapElement : currentMap.entrySet()) {
+            Answers previousAnswer;
+            String match = (String) mapElement.getKey();
+            Answers answers = (Answers) mapElement.getValue();
+            previousAnswer = answers;
+            previousMap.put(match, previousAnswer);
         }
     }
 }
