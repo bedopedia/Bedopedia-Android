@@ -375,14 +375,14 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                 int index = Integer.parseInt(answerText);
                 if (index - 1 < question.getAnswers().get(0).getOptions().size() && index - 1 >= 0) {
                     Answers answer = question.getAnswers().get(0).getOptions().get(index - 1);
-                    removeOldValue(matchAnswersHashMap,index,answer);
                     answer.setMatchIndex(index);
+                    answer.setMatch(questionAnswerTextView.getText().toString());
+                    removeOldValue(matchAnswersHashMap,index,answer);
                     matchAnswersHashMap.put(questionAnswerTextView.getText().toString(), answer);
                     printMap(matchAnswersHashMap);
                 }
             } else {
                 matchAnswersHashMap.remove(questionAnswerTextView.getText().toString());
-                printMap(matchAnswersHashMap);
             }
         }
     }
@@ -457,6 +457,9 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
 
 
      static void printMap(Map mp) {
+        if(mp.size() == 0){
+            Log.v("TEST_HASH_MAP",   "EMPTY");
+        }
         Iterator it = mp.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
@@ -477,11 +480,15 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             }
         }
         if(!key.isEmpty()){
+            Answers oldAnswer = matchAnswersHashMap.get(key);
+            if(oldAnswer.getMatchIndex() == newAnswer.getMatchIndex() &&
+                    key.equals(newAnswer.getMatch())){
+                return;
+            }
             matchAnswersHashMap.remove(key);
             ArrayList<Answers> answers = (ArrayList<Answers>) question.getAnswers();
            ArrayList<String> optionsList =  answers.get(0).getMatches();
            for(int i = 0; i<optionsList.size() ;i ++){
-               Log.v("TEST_KEYSSS",Jsoup.parse(optionsList.get(i)).text()+"---"+key);
                if(Jsoup.parse(optionsList.get(i)).text().equals(key)){
                    int position =  i+  answers.get(0).getMatches().size() + 2;
                    notifyItemChanged(position);
