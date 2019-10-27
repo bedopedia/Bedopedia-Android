@@ -166,11 +166,11 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                         holder.radioButton.setChecked(false);
                     } else if (type.equals(TYPE.REORDER_ANSWERS)) {
                         ArrayList<Object> objects = new ArrayList<>();
-                        setMatchReorder(question.getAnswers());
+                        //setMatchReorder(question.getAnswers());
                         objects.addAll(question.getAnswers());
                         ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
-//                        question.answers.clear();
-//                        question.answers.addAll((List)sortMatchAnswers);
+                        question.answers.clear();
+                        question.answers.addAll((List)sortMatchAnswers);
                         if (sortMatchAnswers.get(position - 2) instanceof Answers) {
                             Answers answer = (Answers) sortMatchAnswers.get(position - 2);
                             holder.questionAnswerTextView.setHtml(answer.getBody());
@@ -493,9 +493,5 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
         return sortedAnswersAttributes;
     }
 
-    private void setMatchReorder(List<Answers> answers) {
-        for (int i = 0; i < answers.size(); i++) {
-                answers.get(i).setMatch(Integer.toString(i + 1));
-        }
-    }
+
 }
