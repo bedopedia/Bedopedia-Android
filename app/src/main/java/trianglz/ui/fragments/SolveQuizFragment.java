@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import trianglz.components.CustomeLayoutManager;
@@ -167,8 +168,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     int draggedPosition = dragged.getAdapterPosition();
                     int targetPosition = target.getAdapterPosition();
                     Collections.swap(singleMultiSelectAnswerAdapter.question.getAnswers(), draggedPosition - 2, targetPosition - 2);
+                    setMatchReorder(singleMultiSelectAnswerAdapter.question.getAnswers());
                     singleMultiSelectAnswerAdapter.notifyItemMoved(draggedPosition, targetPosition);
-                    singleMultiSelectAnswerAdapter.notifyDataSetChanged();
                     return false;
                 }
 
@@ -302,6 +303,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             singleMultiSelectAnswerAdapter.addData(question);
         }
     }
+
     @Override
     public void onCreateSubmissionSuccess(StudentSubmission studentSubmission) {
         quizSubmissionId = studentSubmission.getId();
@@ -318,7 +320,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onGetQuizSolveDetailsSuccess(QuizQuestion quizQuestion) {
         this.quizQuestion = quizQuestion;
-            getAnswerSubmission();
+        getAnswerSubmission();
     }
 
     @Override
@@ -397,7 +399,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     }
 
 
-
     private void createSubmission() {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createQuizSubmission();
         solveQuizView.createQuizSubmission(url, quizzes.getId(), student.getId(), course.getId(), 0);
@@ -422,9 +423,18 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         activity.showLoadingDialog();
     }
 
+    private void setMatchReorder(List<Answers> answers) {
+        for (int i = 0; i < answers.size(); i++) {
+            answers.get(i).setMatch(Integer.toString(i + 1));
+        }
+    }
+
     private void checkQuestionHasAnswer(JSONObject jsonObject) {
         ArrayList<Answers> answers;
         for (Questions question : quizQuestion.getQuestions()) {
+            if (question.getType().equals(Constants.TYPE_REORDER)) {
+                setMatchReorder(question.getAnswers());
+            }
             try {
                 JSONArray jsonArray = jsonObject.getJSONArray(Integer.toString(question.getId()));
                 answers = new ArrayList<>();
@@ -434,7 +444,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     answer.setId(answer.getAnswerId());
                     answers.add(answer);
                 }
-                if(question.getType().equals(Constants.TYPE_REORDER)){
+                if (question.getType().equals(Constants.TYPE_REORDER)) {
                     for (int i = 0; i < question.getAnswers().size(); i++) {
                         for (int k = 0; k < answers.size(); k++) {
                             if (question.getAnswers().get(i).getId() == answers.get(k).getAnswerId()) {
@@ -442,7 +452,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                             }
                         }
                     }
-                }else{
+                } else {
                     singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);
                 }
             } catch (JSONException e) {
