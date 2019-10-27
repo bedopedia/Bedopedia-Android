@@ -37,11 +37,9 @@ public class Questions {
     private UploadedObject uploadedFile;
     @SerializedName("correct_answers_count")
     private int correctAnswersCount;
-
-
     @SerializedName("answers")
     @JsonAdapter(AlwaysListTypeAdapterFactory.class)
-    private List<Answers> answers;
+    public List<Answers> answers;
     @SerializedName("number_of_correct_answers")
     private int numberOfCorrectAnswers;
 
