@@ -1051,8 +1051,8 @@ public class UserManager {
                 answerJsonObject.put(Constants.KEY_QUIZ_SUBMISSION_ID, quizSubmissionId);
                 answerJsonArray.put(answerJsonObject);
             }
-            rootJsonObject.put(Constants.KEY_ANSWER_SUBMISSION,answerJsonArray);
-            rootJsonObject.put(Constants.KEY_QUESTION_ID,answerSubmission.getQuestionId());
+            rootJsonObject.put(Constants.KEY_ANSWER_SUBMISSION, answerJsonArray);
+            rootJsonObject.put(Constants.KEY_QUESTION_ID, answerSubmission.getQuestionId());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1069,9 +1069,33 @@ public class UserManager {
             }
         });
     }
+
     public static void getAnswerSubmission(String url, ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
+
+    public static void deleteAnswerSubmission(String url, int questionId, int quizSubmissionId, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.KEY_QUIZ_SUBMISSION_ID, quizSubmissionId);
+            jsonObject.put(Constants.KEY_QUESTION_ID, questionId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.delete(url, jsonObject, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 responseListener.onSuccess(response);

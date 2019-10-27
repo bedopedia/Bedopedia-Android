@@ -182,4 +182,8 @@ public class ApiEndPoints {
     public static String getAnswerSubmission(int submissionId) {
         return "/api/answer_submissions?by_quiz_sumbission=" + submissionId;
     }
+
+    public static String deleteAnswerSubmission() {
+        return "/api/answer_submissions/remove_answer_submission";
+    }
 }

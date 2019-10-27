@@ -85,4 +85,17 @@ public class SolveQuizView {
             }
         });
     }
+    public void deleteAnswerSubmission(String url, int questionId, int quizSubmissionId){
+        UserManager.deleteAnswerSubmission(url,questionId,quizSubmissionId , new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                solveQuizPresenter.onDeleteAnswerSubmissionSuccess();
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                solveQuizPresenter.onDeleteAnswerSubmissionFailure(message, errorCode);
+            }
+        });
+    }
 }

@@ -18,4 +18,6 @@ public interface SolveQuizPresenter {
     void onPostAnswerSubmissionFailure(String message, int errorCode);
     void onGetAnswerSubmissionSuccess(JSONObject jsonObject);
     void onGetAnswerSubmissionFailure(String message, int errorCode);
+    void onDeleteAnswerSubmissionSuccess();
+    void onDeleteAnswerSubmissionFailure(String message, int errorCode);
 }
