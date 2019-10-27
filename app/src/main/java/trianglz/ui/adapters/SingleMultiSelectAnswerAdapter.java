@@ -166,11 +166,10 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                         holder.radioButton.setChecked(false);
                     } else if (type.equals(TYPE.REORDER_ANSWERS)) {
                         ArrayList<Object> objects = new ArrayList<>();
-                        //setMatchReorder(question.getAnswers());
                         objects.addAll(question.getAnswers());
                         ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
                         question.answers.clear();
-                        question.answers.addAll((List)sortMatchAnswers);
+                        question.answers.addAll((List) sortMatchAnswers);
                         if (sortMatchAnswers.get(position - 2) instanceof Answers) {
                             Answers answer = (Answers) sortMatchAnswers.get(position - 2);
                             holder.questionAnswerTextView.setHtml(answer.getBody());

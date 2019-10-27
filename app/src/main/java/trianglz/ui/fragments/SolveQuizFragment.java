@@ -384,8 +384,25 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             submitSingleAnswer(answerSubmission);
         } else {
             if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(question.getId())) {
-                ArrayList<Answers> answers = singleMultiSelectAnswerAdapter.questionsAnswerHashMap.get(question.getId());
+                ArrayList<Answers> answers = new ArrayList<>();
+                answers.addAll(singleMultiSelectAnswerAdapter.questionsAnswerHashMap.get(question.getId()));
                 answerSubmission.answers.addAll(answers);
+                if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) || question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE)) {
+                    ArrayList<Answers> correctAnswers = new ArrayList<>();
+                    for (int i = 0; i < answers.size(); i++) {
+                        answers.get(i).setCorrect(true);
+                    }
+                    for (int j = 0; j < question.getAnswers().size(); j++) {
+                        for (int i = 0; i < answers.size(); i++) {
+                            if (question.getAnswers().get(j).getId() != answers.get(i).getId()) {
+                                Answers answer = question.getAnswers().get(j);
+                                answer.setCorrect(false);
+                                correctAnswers.add(answer);
+                            }
+                        }
+                    }
+                    answerSubmission.answers.addAll(correctAnswers);
+                }
                 answerSubmission.setQuestionId(question.getId());
                 submitSingleAnswer(answerSubmission);
             } else {
@@ -452,9 +469,18 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                             }
                         }
                     }
+                } else if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) || question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE)) {
+                    ArrayList<Answers> correctAnswers = new ArrayList<>();
+                    for (int i = 0; i < answers.size(); i++) {
+                        if (answers.get(i).isCorrect()) {
+                            correctAnswers.add(answers.get(i));
+                        }
+                    }
+                    singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), correctAnswers);
                 } else {
                     singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
