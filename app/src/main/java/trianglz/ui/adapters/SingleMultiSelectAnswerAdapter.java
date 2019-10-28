@@ -49,12 +49,14 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
     public static final int TYPE_QUESTION_ANSWER = 2;
     private static final int TYPE_TRUE_OR_FALSE = 3;
     private int mode;
+    private ArrayList<String> matchesArrayList;
 
     public SingleMultiSelectAnswerAdapter(Context context, int mode) {
         this.context = context;
         questionsAnswerHashMap = new HashMap<>();
         matchAnswersHashMap = new HashMap<>();
         reorderAnswers = new ArrayList<>();
+        matchesArrayList = new ArrayList<>();
         this.mode = mode;
     }
 
@@ -83,54 +85,88 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             final QuestionViewHolder holder = (QuestionViewHolder) viewHolder;
             holder.questionTextView.setHtml(question.getBody());
         } else if (type.equals(TYPE.MATCH_ANSWERS)) {
-
-            ArrayList<Answers> answers = (ArrayList<Answers>) question.getAnswers();
-            if (position < answers.get(0).getOptions().size() + 1) {
-                final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
-                holder.setViews();
-                holder.matchQuestionNumberTextView.setText(position + "");
-                holder.matchAnswerEditText.setVisibility(View.GONE);
-                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.white));
-                holder.questionAnswerTextView.setHtml(answers.get(0).getOptions().get(position - 1).getBody());
-            } else if (position > answers.get(0).getOptions().size() + 1) {
-                final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
-                holder.setViews();
-                String digits = "";
-                for (int i = 0; i < answers.get(0).getOptions().size(); i++) {
-                    digits = digits + (i + 1);
+            if (mode == Constants.SOLVE_QUIZ || mode == Constants.VIEW_STUDENT_ANSWERS) {
+                ArrayList<Answers> answers = (ArrayList<Answers>) question.getAnswers();
+                if (position < answers.get(0).getOptions().size() + 1) {
+                    final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
+                    holder.setViews();
+                    holder.matchQuestionNumberTextView.setText(position + "");
+                    holder.matchAnswerEditText.setVisibility(View.GONE);
+                    holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.white));
+                    holder.questionAnswerTextView.setHtml(answers.get(0).getOptions().get(position - 1).getBody());
+                } else if (position > answers.get(0).getOptions().size() + 1) {
+                    final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
+                    holder.setViews();
+                    String digits = "";
+                    for (int i = 0; i < answers.get(0).getOptions().size(); i++) {
+                        digits = digits + (i + 1);
+                    }
+                    if (answers.get(0).getOptions().size() < 10) {
+                        holder.matchAnswerEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
+                    }
+                    holder.matchAnswerEditText.setKeyListener(DigitsKeyListener.getInstance(digits));
+                    holder.matchAnswerEditText.addTextChangedListener(holder);
+                    holder.matchAnswerEditText.setVisibility(View.VISIBLE);
+                    holder.matchQuestionNumberTextView.setVisibility(View.GONE);
+                    String key = answers.get(0).getMatches().get(position - answers.get(0).getOptions().size() - 2);
+                    holder.questionAnswerTextView.setHtml(key);
+                    if (matchAnswersHashMap.containsKey(Jsoup.parse(key).text())) {
+                        Answers answer = matchAnswersHashMap.get(Jsoup.parse(key).text());
+                        holder.matchAnswerEditText.setText(answer.getMatchIndex() + "");
+                    } else {
+                        holder.matchAnswerEditText.setText("");
+                    }
                 }
-                if (answers.get(0).getOptions().size() < 10) {
-                    holder.matchAnswerEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
+            } else {
+                ArrayList<AnswersAttributes> answersAttributesArrayList = question.getAnswersAttributes();
+                for (AnswersAttributes answersAttribute : question.getAnswersAttributes()) {
+                    matchesArrayList.add(answersAttribute.getMatch());
                 }
-                holder.matchAnswerEditText.setKeyListener(DigitsKeyListener.getInstance(digits));
-                holder.matchAnswerEditText.addTextChangedListener(holder);
-                holder.matchAnswerEditText.setVisibility(View.VISIBLE);
-                holder.matchQuestionNumberTextView.setVisibility(View.GONE);
-                String key = answers.get(0).getMatches().get(position - answers.get(0).getOptions().size() - 2);
-                holder.questionAnswerTextView.setHtml(key);
-                if(matchAnswersHashMap.containsKey(Jsoup.parse(key).text())){
-                    Answers answer = matchAnswersHashMap.get(Jsoup.parse(key).text());
-                    holder.matchAnswerEditText.setText(answer.getMatchIndex() + "");
-                }else {
-                    holder.matchAnswerEditText.setText("");
+                if (position < answersAttributesArrayList.size() + 1) {
+                    final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
+                    holder.setViews();
+                    holder.matchQuestionNumberTextView.setText(position + "");
+                    holder.matchAnswerEditText.setVisibility(View.GONE);
+                    holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.white));
+                    holder.questionAnswerTextView.setHtml(answersAttributesArrayList.get(position - 1).getBody());
+                } else if (position > answersAttributesArrayList.size() + 1) {
+                    final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
+                    holder.setViews();
+                    String digits = "";
+                    for (int i = 0; i < answersAttributesArrayList.size(); i++) {
+                        digits = digits + (i + 1);
+                    }
+                    if (answersAttributesArrayList.size() < 10) {
+                        holder.matchAnswerEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
+                    }
+                    holder.matchAnswerEditText.setKeyListener(DigitsKeyListener.getInstance(digits));
+                    holder.matchAnswerEditText.setVisibility(View.VISIBLE);
+                    holder.matchQuestionNumberTextView.setVisibility(View.GONE);
+                    String key = matchesArrayList.get(position - answersAttributesArrayList.size() - 2);
+                    holder.questionAnswerTextView.setHtml(key);
+                    holder.matchAnswerEditText.setText(mapMatchIndex(answersAttributesArrayList, key));
                 }
             }
-
         } else if (position != 1 && !type.equals(TYPE.TRUE_OR_FALSE)) {
             final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
             holder.setViews();
             if (mode != Constants.SOLVE_QUIZ) {
                 answersAttributes = question.getAnswersAttributes().get(position - 2);
                 holder.questionAnswerTextView.setHtml(answersAttributes.getBody());
-                if (mode == Constants.VIEW_ANSWERS) {
+                if (mode == Constants.VIEW_CORRECT_ANSWERS) {
                     if (type.equals(TYPE.SINGLE_SELECTION)) {
                         if (answersAttributes.isCorrect()) {
                             holder.radioButton.setChecked(true);
+                        } else {
+                            holder.radioButton.setChecked(false);
                         }
                     } else if (type.equals(TYPE.MULTI_SELECTION)) {
                         if (answersAttributes.isCorrect()) {
                             holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
                             holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
+                        } else {
+                            holder.multiSelectionImageButton.setImageDrawable(null);
+                            holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
                         }
                     } else if (type.equals(TYPE.REORDER_ANSWERS)) {
                         ArrayList<Object> objects = new ArrayList<>();
@@ -140,8 +176,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                             AnswersAttributes answersAttribute = (AnswersAttributes) sortMatchAnswers.get(position - 2);
                             holder.questionAnswerTextView.setHtml(answersAttribute.getBody());
                         }
-                    } else if (type.equals(TYPE.MATCH_ANSWERS)) {
-                        holder.matchAnswerEditText.setText(answersAttributes.getMatch());
                     }
                 }
             } else {
@@ -192,7 +226,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             final TrueFalseAnswerViewHolder holder = (TrueFalseAnswerViewHolder) viewHolder;
             if (mode != Constants.SOLVE_QUIZ) {
                 answersAttributes = question.getAnswersAttributes().get(position - 2);
-                if (mode == Constants.VIEW_ANSWERS) {
+                if (mode == Constants.VIEW_CORRECT_ANSWERS) {
                     if (answersAttributes.isCorrect()) {
                         holder.trueRadioButton.setChecked(true);
                     } else {
@@ -218,14 +252,27 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
+        ArrayList<Answers> answers = new ArrayList<>();
+        ArrayList<AnswersAttributes> answersAttributes = new ArrayList<>();
         if (type == TYPE.MATCH_ANSWERS) {
-            ArrayList<Answers> answers = (ArrayList<Answers>) question.getAnswers();
-            if (position == 0)
-                return TYPE_QUESTION;
-            else if (position == answers.get(0).getOptions().size() + 1) {
-                return TYPE_ANSWER_TEXT;
+            if (mode == Constants.SOLVE_QUIZ || mode == Constants.VIEW_STUDENT_ANSWERS) {
+                answers = (ArrayList<Answers>) question.getAnswers();
+                if (position == 0) {
+                    return TYPE_QUESTION;
+                } else if (position == answers.get(0).getOptions().size() + 1) {
+                    return TYPE_ANSWER_TEXT;
+                } else {
+                    return TYPE_QUESTION_ANSWER;
+                }
             } else {
-                return TYPE_QUESTION_ANSWER;
+                answersAttributes = question.getAnswersAttributes();
+                if (position == 0) {
+                    return TYPE_QUESTION;
+                } else if (position == answersAttributes.size() + 1) {
+                    return TYPE_ANSWER_TEXT;
+                } else {
+                    return TYPE_QUESTION_ANSWER;
+                }
             }
         } else {
             if (position == 0)
@@ -251,7 +298,11 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     return answers.size() + 2;
                 }
             } else {
-                return question.getAnswersAttributes().size() + 2;
+                if (type.equals(TYPE.MATCH_ANSWERS)) {
+                    return (question.getAnswersAttributes().size() * 2) + 2;
+                } else {
+                    return question.getAnswersAttributes().size() + 2;
+                }
             }
         } else {
             return 0;
@@ -399,7 +450,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     Answers answer = question.getAnswers().get(0).getOptions().get(index - 1);
                     answer.setMatchIndex(index);
                     answer.setMatch(questionAnswerTextView.getText().toString());
-                    removeOldValue(matchAnswersHashMap,index,answer);
+                    removeOldValue(matchAnswersHashMap, index, answer);
                     matchAnswersHashMap.put(questionAnswerTextView.getText().toString(), answer);
                     printMap(matchAnswersHashMap);
                 }
@@ -488,9 +539,9 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
     }
 
 
-     static void printMap(Map mp) {
-        if(mp.size() == 0){
-            Log.v("TEST_HASH_MAP",   "EMPTY");
+    static void printMap(Map mp) {
+        if (mp.size() == 0) {
+            Log.v("TEST_HASH_MAP", "EMPTY");
         }
         Iterator it = mp.entrySet().iterator();
         while (it.hasNext()) {
@@ -500,32 +551,40 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
         }
     }
 
+    String mapMatchIndex(ArrayList<AnswersAttributes> answersAttributes, String match) {
+        for (int i = 0; i < answersAttributes.size(); i++) {
+            if (answersAttributes.get(i).getMatch().equals(match)) {
+                return (i + 1) + "";
+            }
+        }
+        return "";
+    }
 
-     void removeOldValue(Map mp,int index,Answers newAnswer){
+    void removeOldValue(Map mp, int index, Answers newAnswer) {
         Iterator it = mp.entrySet().iterator();
-        String key = "" ;
+        String key = "";
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
             Answers answers = (Answers) pair.getValue();
-            if(answers.getMatchIndex() == index){
+            if (answers.getMatchIndex() == index) {
                 key = (String) pair.getKey();
             }
         }
-        if(!key.isEmpty()){
+        if (!key.isEmpty()) {
             Answers oldAnswer = matchAnswersHashMap.get(key);
-            if(oldAnswer.getMatchIndex() == newAnswer.getMatchIndex() &&
-                    key.equals(newAnswer.getMatch())){
+            if (oldAnswer.getMatchIndex() == newAnswer.getMatchIndex() &&
+                    key.equals(newAnswer.getMatch())) {
                 return;
             }
             matchAnswersHashMap.remove(key);
             ArrayList<Answers> answers = (ArrayList<Answers>) question.getAnswers();
-           ArrayList<String> optionsList =  answers.get(0).getMatches();
-           for(int i = 0; i<optionsList.size() ;i ++){
-               if(Jsoup.parse(optionsList.get(i)).text().equals(key)){
-                   int position =  i+  answers.get(0).getMatches().size() + 2;
-                   notifyItemChanged(position);
-               }
-           }
+            ArrayList<String> optionsList = answers.get(0).getMatches();
+            for (int i = 0; i < optionsList.size(); i++) {
+                if (Jsoup.parse(optionsList.get(i)).text().equals(key)) {
+                    int position = i + answers.get(0).getMatches().size() + 2;
+                    notifyItemChanged(position);
+                }
+            }
         }
     }
 }
