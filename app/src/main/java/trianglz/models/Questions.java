@@ -10,7 +10,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Questions {
@@ -23,8 +22,8 @@ public class Questions {
     private String difficulty;
     @SerializedName("score")
     private int score;
-    @SerializedName("answers_attributes")
-    private ArrayList<AnswersAttributes> answersAttributes;
+//    @SerializedName("answers_attributes")
+//    private ArrayList<Answers> answersAttributes;
     @SerializedName("correction_style")
     private Object correctionStyle;
     @SerializedName("type")
@@ -37,8 +36,9 @@ public class Questions {
     private UploadedObject uploadedFile;
     @SerializedName("correct_answers_count")
     private int correctAnswersCount;
-    @SerializedName("answers")
     @JsonAdapter(AlwaysListTypeAdapterFactory.class)
+    @SerializedName(value="answers", alternate={"answers_attributes"})
+   // @SerializedName(value="answers")
     public List<Answers> answers;
     @SerializedName("number_of_correct_answers")
     private int numberOfCorrectAnswers;
@@ -76,13 +76,13 @@ public class Questions {
         return this.score;
     }
 
-    public void setAnswersAttributes(ArrayList<AnswersAttributes> answersAttributes) {
-        this.answersAttributes = answersAttributes;
-    }
-
-    public ArrayList<AnswersAttributes> getAnswersAttributes() {
-        return this.answersAttributes;
-    }
+//    public void setAnswersAttributes(ArrayList<Answers> answersAttributes) {
+//        this.answersAttributes = answersAttributes;
+//    }
+//
+//    public ArrayList<Answers> getAnswersAttributes() {
+//        return this.answersAttributes;
+//    }
 
     public void setCorrectionStyle(Object correctionStyle) {
         this.correctionStyle = correctionStyle;

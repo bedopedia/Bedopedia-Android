@@ -29,22 +29,22 @@ final class AlwaysListTypeAdapterFactory<E>
     @Override
     public <T> TypeAdapter<T> create(final Gson gson, final TypeToken<T> typeToken) {
         // If it's not a List -- just delegate the job to Gson and let it pick the best type adapter itself
-        if ( !List.class.isAssignableFrom(typeToken.getRawType()) ) {
+        if (!List.class.isAssignableFrom(typeToken.getRawType())) {
             return null;
         }
         // Resolving the list parameter type
         final Type elementType = resolveTypeArgument(typeToken.getType());
-        @SuppressWarnings("unchecked")
-        final TypeAdapter<E> elementTypeAdapter = (TypeAdapter<E>) gson.getAdapter(TypeToken.get(elementType));
+        @SuppressWarnings("unchecked") final TypeAdapter<E> elementTypeAdapter = (TypeAdapter<E>) gson.getAdapter(TypeToken.get(elementType));
+        final TypeAdapter<List<E>> defaultListAdapter = gson.getDelegateAdapter(this, (TypeToken<List<E>>) TypeToken.getParameterized(List.class, elementType));
+
         // Note that the always-list type adapter is made null-safe, so we don't have to check nulls ourselves
-        @SuppressWarnings("unchecked")
-        final TypeAdapter<T> alwaysListTypeAdapter = (TypeAdapter<T>) new AlwaysListTypeAdapter<>(elementTypeAdapter).nullSafe();
+        @SuppressWarnings("unchecked") final TypeAdapter<T> alwaysListTypeAdapter = (TypeAdapter<T>) new AlwaysListTypeAdapter<>(elementTypeAdapter, defaultListAdapter).nullSafe();
         return alwaysListTypeAdapter;
     }
 
     private static Type resolveTypeArgument(final Type type) {
         // The given type is not parameterized?
-        if ( !(type instanceof ParameterizedType) ) {
+        if (!(type instanceof ParameterizedType)) {
             // No, raw
             return Object.class;
         }
@@ -56,15 +56,18 @@ final class AlwaysListTypeAdapterFactory<E>
             extends TypeAdapter<List<E>> {
 
         private final TypeAdapter<E> elementTypeAdapter;
+        private final TypeAdapter<List<E>> defaultListAdapter;
 
-        private AlwaysListTypeAdapter(final TypeAdapter<E> elementTypeAdapter) {
+        private AlwaysListTypeAdapter(final TypeAdapter<E> elementTypeAdapter, final TypeAdapter<List<E>> defaultListAdapter) {
             this.elementTypeAdapter = elementTypeAdapter;
+            this.defaultListAdapter = defaultListAdapter;
         }
 
         @Override
-        public void write(final JsonWriter out, final List<E> list) {
-            throw new UnsupportedOperationException();
+        public void write(final JsonWriter out, final List<E> list) throws IOException {
+            defaultListAdapter.write(out, list);
         }
+
 
         @Override
         public List<E> read(final JsonReader in)
@@ -72,11 +75,11 @@ final class AlwaysListTypeAdapterFactory<E>
             // This is where we detect the list "type"
             final List<E> list = new ArrayList<>();
             final JsonToken token = in.peek();
-            switch ( token ) {
+            switch (token) {
                 case BEGIN_ARRAY:
                     // If it's a regular list, just consume [, <all elements>, and ]
                     in.beginArray();
-                    while ( in.hasNext() ) {
+                    while (in.hasNext()) {
                         list.add(elementTypeAdapter.read(in));
                     }
                     in.endArray();
