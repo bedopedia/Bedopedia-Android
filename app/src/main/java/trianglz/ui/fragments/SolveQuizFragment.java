@@ -137,6 +137,9 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         recyclerView.setAdapter(singleMultiSelectAnswerAdapter);
         previousMatchAnswersHashMap = new HashMap<>();
         previousAnswersHashMap = new HashMap<>();
+        if (mode != Constants.SOLVE_QUIZ) {
+            timerTextView.setVisibility(View.GONE);
+        }
 
     }
 
@@ -249,9 +252,9 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             case R.id.btn_next:
                 isSubmit = false;
                 if (mode == Constants.SOLVE_QUIZ) {
-                    nextPage();
-                } else {
                     submitAnswer();
+                } else {
+                    nextPage();
                 }
                 break;
             case R.id.btn_submit:
@@ -372,11 +375,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         if (activity.progress.isShowing())
             activity.progress.dismiss();
         checkQuestionHasAnswer(jsonObject);
-        if (mode == Constants.SOLVE_QUIZ) {
-            startCountDown(quizQuestion.getDuration() * 60000);
-        } else {
-            timerTextView.setVisibility(View.GONE);
-        }
+        startCountDown(quizQuestion.getDuration() * 60000);
         question = quizQuestion.getQuestions().get(index);
         displayQuestionsAndAnswers(index);
     }
