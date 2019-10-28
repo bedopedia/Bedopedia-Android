@@ -97,6 +97,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             getQuizQuestions();
         } else {
             question = quizQuestion.getQuestions().get(index);
+            getAnswerSubmission();
             displayQuestionsAndAnswers(index);
         }
     }
@@ -161,6 +162,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             if (mode != Constants.SOLVE_QUIZ) {
                 quizQuestion = QuizQuestion.create(bundle.getString(Constants.KEY_QUIZ_QUESTION));
             }
+            quizSubmissionId = quizzes.getStudentSubmissions().getId();
         }
     }
 
@@ -223,7 +225,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             createSubmission();
         } else {
             getQuizSolveDetails();
-            quizSubmissionId = quizzes.getStudentSubmissions().getId();
         }
     }
 
@@ -375,7 +376,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         if (activity.progress.isShowing())
             activity.progress.dismiss();
         checkQuestionHasAnswer(jsonObject);
-        startCountDown(quizQuestion.getDuration() * 60000);
+        if (mode == Constants.SOLVE_QUIZ)
+            startCountDown(quizQuestion.getDuration() * 60000);
         question = quizQuestion.getQuestions().get(index);
         displayQuestionsAndAnswers(index);
     }
