@@ -93,8 +93,12 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         getValueFromIntent();
         bindViews();
         setListeners();
-        if (mode == Constants.SOLVE_QUIZ)
+        if (mode == Constants.SOLVE_QUIZ) {
             getQuizQuestions();
+        } else {
+            question = quizQuestion.getQuestions().get(index);
+            displayQuestionsAndAnswers(index);
+        }
     }
 
     private void startCountDown(long duration) {
@@ -151,7 +155,9 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             mode = bundle.getInt(Constants.MODE);
             student = (Student) bundle.getSerializable(Constants.STUDENT);
             course = QuizzCourse.create(bundle.getString(Constants.KEY_COURSE_QUIZZES));
-
+            if (mode != Constants.SOLVE_QUIZ) {
+                quizQuestion = QuizQuestion.create(bundle.getString(Constants.KEY_QUIZ_QUESTION));
+            }
         }
     }
 
@@ -242,7 +248,11 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 break;
             case R.id.btn_next:
                 isSubmit = false;
-                submitAnswer();
+                if (mode == Constants.SOLVE_QUIZ) {
+                    nextPage();
+                } else {
+                    submitAnswer();
+                }
                 break;
             case R.id.btn_submit:
                 isSubmit = true;
@@ -301,7 +311,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     singleMultiSelectAnswerAdapter.type = SingleMultiSelectAnswerAdapter.TYPE.MATCH_ANSWERS;
                     break;
                 case Constants.TYPE_REORDER:
-                    setItemTouchHelper();
+                    if (mode == Constants.SOLVE_QUIZ)
+                        setItemTouchHelper();
                     singleMultiSelectAnswerAdapter.type = SingleMultiSelectAnswerAdapter.TYPE.REORDER_ANSWERS;
                     break;
 
@@ -572,7 +583,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             answers.get(i).setMatchIndex(i + 1);
         }
     }
-
 
     private void copyMatchMaps(HashMap<String, Answers> previousMap, HashMap<String, Answers> currentMap) {
         for (Map.Entry mapElement : currentMap.entrySet()) {
