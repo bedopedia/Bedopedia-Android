@@ -242,8 +242,8 @@ public class Constants {
     public static final String MODE = "mode";
     public static final int SOLVE_QUIZ = 0;
     public static final int VIEW_QUESTIONS = 1;
-    public static final int VIEW_ANSWERS = 2;
-
+    public static final int VIEW_CORRECT_ANSWERS = 2;
+    public static final int VIEW_STUDENT_ANSWERS = 3;
 
     public static final String KEY_QUIZ_QUESTION = "quiz_question";
     public static final String SCORE = "score";
