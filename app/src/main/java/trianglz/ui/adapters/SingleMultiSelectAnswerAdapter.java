@@ -79,7 +79,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        AnswersAttributes answersAttributes;
+        Answers answersAttributes;
 
         if (position == 0) {
             final QuestionViewHolder holder = (QuestionViewHolder) viewHolder;
@@ -118,34 +118,34 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     }
                 }
             } else {
-                ArrayList<AnswersAttributes> answersAttributesArrayList = question.getAnswersAttributes();
-                for (AnswersAttributes answersAttribute : question.getAnswersAttributes()) {
-                    matchesArrayList.add(answersAttribute.getMatch());
+                List<Answers> answersArrayList = question.getAnswers();
+                for (Answers answers : question.getAnswers()) {
+                    matchesArrayList.add(answers.getMatch());
                 }
-                if (position < answersAttributesArrayList.size() + 1) {
+                if (position < answersArrayList.size() + 1) {
                     final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
                     holder.setViews();
                     holder.matchQuestionNumberTextView.setText(position + "");
                     holder.matchAnswerEditText.setVisibility(View.GONE);
                     holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.white));
-                    holder.questionAnswerTextView.setHtml(answersAttributesArrayList.get(position - 1).getBody());
-                } else if (position > answersAttributesArrayList.size() + 1) {
+                    holder.questionAnswerTextView.setHtml(answersArrayList.get(position - 1).getBody());
+                } else if (position > answersArrayList.size() + 1) {
                     final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
                     holder.setViews();
                     String digits = "";
-                    for (int i = 0; i < answersAttributesArrayList.size(); i++) {
+                    for (int i = 0; i < answersArrayList.size(); i++) {
                         digits = digits + (i + 1);
                     }
-                    if (answersAttributesArrayList.size() < 10) {
+                    if (answersArrayList.size() < 10) {
                         holder.matchAnswerEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
                     }
                     holder.matchAnswerEditText.setKeyListener(DigitsKeyListener.getInstance(digits));
                     holder.matchAnswerEditText.setVisibility(View.VISIBLE);
                     holder.matchQuestionNumberTextView.setVisibility(View.GONE);
-                    String key = matchesArrayList.get(position - answersAttributesArrayList.size() - 2);
+                    String key = matchesArrayList.get(position - answersArrayList.size() - 2);
                     holder.questionAnswerTextView.setHtml(key);
                     if (mode == Constants.VIEW_CORRECT_ANSWERS) {
-                        holder.matchAnswerEditText.setText(mapMatchIndex(answersAttributesArrayList, key));
+                        holder.matchAnswerEditText.setText(mapMatchIndex(answersArrayList, key));
                     } else {
                         if (matchAnswersHashMap.containsKey(Jsoup.parse(key).text())) {
                             Answers answer = matchAnswersHashMap.get(Jsoup.parse(key).text());
@@ -160,7 +160,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
             holder.setViews();
             if (mode != Constants.SOLVE_QUIZ) {
-                answersAttributes = question.getAnswersAttributes().get(position - 2);
+                answersAttributes = question.getAnswers().get(position - 2);
                 holder.questionAnswerTextView.setHtml(answersAttributes.getBody());
                 if (mode == Constants.VIEW_CORRECT_ANSWERS) {
                     if (type.equals(TYPE.SINGLE_SELECTION)) {
@@ -179,7 +179,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                         }
                     } else if (type.equals(TYPE.REORDER_ANSWERS)) {
                         ArrayList<Object> objects = new ArrayList<>();
-                        objects.addAll(question.getAnswersAttributes());
+                        objects.addAll(question.getAnswers());
                         ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
                         if (sortMatchAnswers.get(position - 2) instanceof AnswersAttributes) {
                             AnswersAttributes answersAttribute = (AnswersAttributes) sortMatchAnswers.get(position - 2);
@@ -190,7 +190,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     if (questionsAnswerHashMap.containsKey(question.getId())) {
                         ArrayList<Answers> answers1 = questionsAnswerHashMap.get(question.getId());
                         for (int i = 0; i < answers1.size(); i++) {
-                            if (answers1.get(i).getId() == question.getAnswersAttributes().get(position - 2).getId() || answers1.get(i).getAnswerId() == question.getAnswers().get(position - 2).getId()) {
+                            if (answers1.get(i).getId() == question.getAnswers().get(position - 2).getId() || answers1.get(i).getAnswerId() == question.getAnswers().get(position - 2).getId()) {
                                 if (type.equals(TYPE.MULTI_SELECTION)) {
                                     holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
                                     holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
@@ -207,7 +207,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                             holder.radioButton.setChecked(false);
                         } else if (type.equals(TYPE.REORDER_ANSWERS)) {
                             ArrayList<Object> objects = new ArrayList<>();
-                            objects.addAll(question.getAnswersAttributes());
+                            objects.addAll(question.getAnswers());
                             ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
                             if (sortMatchAnswers.get(position - 2) instanceof AnswersAttributes) {
                                 AnswersAttributes answersAttribute = (AnswersAttributes) sortMatchAnswers.get(position - 2);
@@ -263,7 +263,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
         } else if (position != 1) {
             final TrueFalseAnswerViewHolder holder = (TrueFalseAnswerViewHolder) viewHolder;
             if (mode != Constants.SOLVE_QUIZ) {
-                answersAttributes = question.getAnswersAttributes().get(position - 2);
+                answersAttributes = question.getAnswers().get(position - 2);
                 if (mode == Constants.VIEW_CORRECT_ANSWERS) {
                     if (answersAttributes.isCorrect()) {
                         holder.trueRadioButton.setChecked(true);
@@ -291,7 +291,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         ArrayList<Answers> answers = new ArrayList<>();
-        ArrayList<AnswersAttributes> answersAttributes = new ArrayList<>();
         if (type == TYPE.MATCH_ANSWERS) {
             if (mode == Constants.SOLVE_QUIZ) {
                 answers = (ArrayList<Answers>) question.getAnswers();
@@ -303,10 +302,10 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     return TYPE_QUESTION_ANSWER;
                 }
             } else {
-                answersAttributes = question.getAnswersAttributes();
+                answers = (ArrayList<Answers>) question.getAnswers();
                 if (position == 0) {
                     return TYPE_QUESTION;
-                } else if (position == answersAttributes.size() + 1) {
+                } else if (position == answers.size() + 1) {
                     return TYPE_ANSWER_TEXT;
                 } else {
                     return TYPE_QUESTION_ANSWER;
@@ -337,9 +336,9 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                 }
             } else {
                 if (type.equals(TYPE.MATCH_ANSWERS)) {
-                    return (question.getAnswersAttributes().size() * 2) + 2;
+                    return (question.getAnswers().size() * 2) + 2;
                 } else {
-                    return question.getAnswersAttributes().size() + 2;
+                    return question.getAnswers().size() + 2;
                 }
             }
         } else {
@@ -589,7 +588,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
         }
     }
 
-    String mapMatchIndex(ArrayList<AnswersAttributes> answersAttributes, String match) {
+    String mapMatchIndex(List<Answers> answersAttributes, String match) {
         for (int i = 0; i < answersAttributes.size(); i++) {
             if (answersAttributes.get(i).getMatch().equals(match)) {
                 return (i + 1) + "";
