@@ -58,7 +58,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
     private Student student;
     private ShowQuizView showQuizView;
     private ImageView clockImageView;
-
+    private QuizQuestion quizQuestion;
     // grades variables
     private View quizGradeView, quizNotStartedView;
     private TextView gradeTextView, outOfTextView, noteTextview;
@@ -77,6 +77,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         getValueFromIntent();
         bindViews();
         setListeners();
+        showQuiz();
     }
 
     private void setListeners() {
@@ -212,21 +213,39 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                 openSolveQuizActivity(Constants.SOLVE_QUIZ);
                 break;
             case R.id.details_btn:
-                openQuizDetailsFragment();
+                openQuizDetailFragment();
                 break;
             case R.id.questions_btn:
                 openSolveQuizActivity(Constants.VIEW_QUESTIONS);
                 break;
             case R.id.answers_btn:
-                openSolveQuizActivity(Constants.VIEW_ANSWERS);
+                if (quizzes.getState().equals("running")) {
+                    if (quizzes.getStudentSubmissions() != null && quizzes.getStudentSubmissions().getIsSubmitted()) {
+                        openSolveQuizActivity(Constants.VIEW_STUDENT_ANSWERS);
+                    }
+                } else {
+                    openSolveQuizActivity(Constants.VIEW_CORRECT_ANSWERS);
+
+                }
                 break;
         }
     }
 
-    private void openQuizDetailsFragment() {
+    private void showQuiz() {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizQuestions(quizzes.getId());
         showQuizView.getQuizQuestions(url);
         activity.showLoadingDialog();
+    }
+
+    private void openQuizDetailFragment() {
+        QuizDetailsFragment quizDetailsFragment = new QuizDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.KEY_QUIZ_QUESTION, quizQuestion.toString());
+        quizDetailsFragment.setArguments(bundle);
+        getParentFragment().getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, quizDetailsFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
     private void openSolveQuizActivity(int mode) {
@@ -234,8 +253,9 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         Bundle bundle = new Bundle();
         bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
         bundle.putInt(Constants.MODE, mode);
-        bundle.putSerializable(Constants.STUDENT,student);
+        bundle.putSerializable(Constants.STUDENT, student);
         bundle.putString(Constants.KEY_COURSE_QUIZZES, course.toString());
+        bundle.putString(Constants.KEY_QUIZ_QUESTION, quizQuestion.toString());
         solveQuizFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, solveQuizFragment, "MenuFragments").
@@ -274,14 +294,8 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
     public void onGetQuizQuestionsSuccess(QuizQuestion quizQuestion) {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
-        QuizDetailsFragment quizDetailsFragment = new QuizDetailsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.KEY_QUIZ_QUESTION, quizQuestion.toString());
-        quizDetailsFragment.setArguments(bundle);
-        getParentFragment().getChildFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, quizDetailsFragment, "MenuFragments").
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                addToBackStack(null).commit();
+        this.quizQuestion = quizQuestion;
+
     }
 
     @Override
