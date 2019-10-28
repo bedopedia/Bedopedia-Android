@@ -363,14 +363,17 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     }
                     if (type.equals(TYPE.SINGLE_SELECTION)) {
                         ArrayList<Answers> singleAnswersAttributes = new ArrayList<>();
+                        question.getAnswers().get(getAdapterPosition() - 2).setCorrect(true);
                         singleAnswersAttributes.add(question.getAnswers().get(getAdapterPosition() - 2));
                         questionsAnswerHashMap.put(question.getId(), singleAnswersAttributes);
                     } else {
+                        question.getAnswers().get(getAdapterPosition() - 2).setCorrect(true);
                         answers.add(question.getAnswers().get(getAdapterPosition() - 2));
                         questionsAnswerHashMap.put(question.getId(), answers);
                     }
                 } else {
                     ArrayList<Answers> answersAttributes = new ArrayList<>();
+                    question.getAnswers().get(getAdapterPosition() - 2).setCorrect(true);
                     answersAttributes.add(question.getAnswers().get(getAdapterPosition() - 2));
                     questionsAnswerHashMap.put(question.getId(), answersAttributes);
                 }

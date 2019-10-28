@@ -335,21 +335,16 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void onPostAnswerSubmissionSuccess() {
+    public void onPostAnswerSubmissionSuccess(ArrayList<Answers> answers) {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
         if (question.getType().equals(Constants.TYPE_MATCH)) {
             copyMatchMaps(previousMatchAnswersHashMap, singleMultiSelectAnswerAdapter.matchAnswersHashMap);
         } else {
-            copyMaps(singleMultiSelectAnswerAdapter.previousAnswersHashMap, singleMultiSelectAnswerAdapter.questionsAnswerHashMap);
+            singleMultiSelectAnswerAdapter.previousAnswersHashMap.put(question.getId(), answers);
+            //  copyMaps(singleMultiSelectAnswerAdapter.previousAnswersHashMap, singleMultiSelectAnswerAdapter.questionsAnswerHashMap);
         }
-        if (isSubmit) {
-            countDownTimer.cancel();
-            QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment);
-            quizSubmittedDialog.show();
-        } else {
-            nextPage();
-        }
+        nextPage();
     }
 
     @Override
@@ -426,26 +421,37 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 submitSingleAnswer(answerSubmission);
             }
         } else {
-            if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(question.getId())) {
+            //           if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(question.getId())) {
+//                ArrayList<Answers> currentAnswers = new ArrayList<>();
+//                currentAnswers.addAll(singleMultiSelectAnswerAdapter.questionsAnswerHashMap.get(question.getId()));
+//                answerSubmission.answers.addAll(currentAnswers);
+
+            if (compareHashMaps(singleMultiSelectAnswerAdapter.previousAnswersHashMap, singleMultiSelectAnswerAdapter.questionsAnswerHashMap, question)) {
                 ArrayList<Answers> currentAnswers = new ArrayList<>();
                 currentAnswers.addAll(singleMultiSelectAnswerAdapter.questionsAnswerHashMap.get(question.getId()));
                 answerSubmission.answers.addAll(currentAnswers);
-                if (singleMultiSelectAnswerAdapter.previousAnswersHashMap.containsKey(question.getId())) {
-                    ArrayList<Answers> previousAnswers = new ArrayList<>();
-                    previousAnswers.addAll(singleMultiSelectAnswerAdapter.previousAnswersHashMap.get(question.getId()));
-                    if (currentAnswers.isEmpty()) {
-                        deleteSingleAnswer(question.getId(), quizSubmissionId);
-                    } else if (currentAnswers.equals(previousAnswers)) {
-                        nextPage();
-                    } else {
-                        fillAnswerSubmission(currentAnswers, answerSubmission);
-                    }
-                } else {
-                    fillAnswerSubmission(currentAnswers, answerSubmission);
-                }
+                fillAnswerSubmission(currentAnswers, answerSubmission);
             } else {
                 nextPage();
             }
+
+//
+//                if (singleMultiSelectAnswerAdapter.previousAnswersHashMap.containsKey(question.getId())) {
+//                    ArrayList<Answers> previousAnswers = new ArrayList<>();
+//                    previousAnswers.addAll(singleMultiSelectAnswerAdapter.previousAnswersHashMap.get(question.getId()));
+//                    if (currentAnswers.isEmpty()) {
+//                        deleteSingleAnswer(question.getId(), quizSubmissionId);
+//                    } else if (currentAnswers.equals(previousAnswers)) {
+//                        nextPage();
+//                    } else {
+//                        fillAnswerSubmission(currentAnswers, answerSubmission);
+//                    }
+//                } else {
+//                    fillAnswerSubmission(currentAnswers, answerSubmission);
+//                }
+//            } else {
+//                nextPage();
+//            }
         }
     }
 
@@ -486,10 +492,16 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     }
 
     private void nextPage() {
-        if (index < quizQuestion.getQuestions().size() - 1) {
-            index++;
-            question = quizQuestion.getQuestions().get(index);
-            displayQuestionsAndAnswers(index);
+        if (isSubmit) {
+            countDownTimer.cancel();
+            QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment);
+            quizSubmittedDialog.show();
+        } else {
+            if (index < quizQuestion.getQuestions().size() - 1) {
+                index++;
+                question = quizQuestion.getQuestions().get(index);
+                displayQuestionsAndAnswers(index);
+            }
         }
     }
 
@@ -528,8 +540,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                         }
                     }
                     singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), correctAnswers);
-                    singleMultiSelectAnswerAdapter.previousAnswersHashMap.put(question.getId(), correctAnswers);
-
+                    singleMultiSelectAnswerAdapter.previousAnswersHashMap.put(question.getId(), answers);
                 } else if (question.getType().equals(Constants.TYPE_MATCH)) {
                     setMatchIndex(question.getAnswers().get(0).getOptions());
                     fillMatchHashmap(question.getAnswers().get(0).getOptions(), answers);
@@ -548,18 +559,18 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private void fillAnswerSubmission(ArrayList<Answers> currentAnswers, AnswerSubmission answerSubmission) {
         if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) || question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE)) {
             ArrayList<Answers> correctAnswers = new ArrayList<>();
-            for (int i = 0; i < currentAnswers.size(); i++) {
-                currentAnswers.get(i).setCorrect(true);
+            for (int i = 0; i < question.getAnswers().size(); i++) {
+                question.getAnswers().get(i).setCorrect(false);
             }
-            for (int j = 0; j < question.getAnswers().size(); j++) {
-                for (int i = 0; i < currentAnswers.size(); i++) {
-                    if (question.getAnswers().get(j).getId() != currentAnswers.get(i).getId()) {
-                        Answers answer = question.getAnswers().get(j);
-                        answer.setCorrect(false);
-                        correctAnswers.add(answer);
+            correctAnswers.addAll(question.getAnswers());
+            for (int i = 0; i < currentAnswers.size(); i++) {
+                for (int j = 0; j < correctAnswers.size(); j++) {
+                    if (currentAnswers.get(i).getId() == correctAnswers.get(j).getId()) {
+                        correctAnswers.get(j).setCorrect(true);
                     }
                 }
             }
+            answerSubmission.answers.clear();
             answerSubmission.answers.addAll(correctAnswers);
         }
         answerSubmission.setQuestionId(question.getId());
@@ -601,5 +612,40 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             previousAnswer = answers;
             previousMap.put(match, previousAnswer);
         }
+    }
+
+    private Boolean compareHashMaps(HashMap<Integer, ArrayList<Answers>> previousAnswersHashMap, HashMap<Integer, ArrayList<Answers>> currentAnswersHashMap, Questions question) {
+        Boolean isToCreateAnswer = false;
+        if (currentAnswersHashMap.containsKey(question.getId())) {
+            if (previousAnswersHashMap.containsKey(question.getId())) {
+                ArrayList<Answers> currentAnswersArrayList = new ArrayList<>();
+                ArrayList<Answers> previousAnswersArrayList = new ArrayList<>();
+                currentAnswersArrayList.addAll(currentAnswersHashMap.get(question.getId()));
+                previousAnswersArrayList.addAll(previousAnswersHashMap.get(question.getId()));
+                if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) && currentAnswersArrayList.isEmpty()) {
+                    deleteSingleAnswer(question.getId(), quizSubmissionId);
+                } else {
+                    if (currentAnswersArrayList.size() == previousAnswersArrayList.size()) {
+                        for (int i = 0; i < currentAnswersArrayList.size(); i++) {
+                            for (int j = 0; j < previousAnswersArrayList.size(); j++) {
+                                if (currentAnswersArrayList.get(i).getId() == previousAnswersArrayList.get(j).getAnswerId()) {
+                                    if (question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE) || (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT)) || (question.getType().equals(Constants.TYPE_TRUE_OR_FALSE))) {
+                                        if (currentAnswersArrayList.get(i).isCorrect() != previousAnswersArrayList.get(j).isCorrect()) {
+                                            isToCreateAnswer = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        return isToCreateAnswer;
+                    } else {
+                        return true;
+                    }
+                }
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 }

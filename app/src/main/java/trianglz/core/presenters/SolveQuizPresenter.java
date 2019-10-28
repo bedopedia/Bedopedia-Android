@@ -2,6 +2,9 @@ package trianglz.core.presenters;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import trianglz.models.Answers;
 import trianglz.models.QuizQuestion;
 import trianglz.models.StudentSubmission;
 
@@ -14,7 +17,7 @@ public interface SolveQuizPresenter {
     void onCreateSubmissionFailure(String message, int errorCode);
     void onGetQuizSolveDetailsSuccess(QuizQuestion quizQuestion);
     void onGetQuizSolveDetailsFailure(String message, int errorCode);
-    void onPostAnswerSubmissionSuccess();
+    void onPostAnswerSubmissionSuccess(ArrayList<Answers> answers);
     void onPostAnswerSubmissionFailure(String message, int errorCode);
     void onGetAnswerSubmissionSuccess(JSONObject jsonObject);
     void onGetAnswerSubmissionFailure(String message, int errorCode);

@@ -3,13 +3,17 @@ package trianglz.core.views;
 import android.content.Context;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import trianglz.core.presenters.SolveQuizPresenter;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.AnswerSubmission;
+import trianglz.models.Answers;
 import trianglz.models.QuizQuestion;
 import trianglz.models.StudentSubmission;
 
@@ -61,7 +65,16 @@ public class SolveQuizView {
         UserManager.postAnswerSubmission(url, quizSubmissionId, answerSubmission, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
-                solveQuizPresenter.onPostAnswerSubmissionSuccess();
+                try {
+                    ArrayList<Answers> answers = new ArrayList<>();
+                    for (int i = 0; i < response.length(); i++) {
+                        Answers answer = Answers.create(response.get(i).toString());
+                        answers.add(answer);
+                    }
+                    solveQuizPresenter.onPostAnswerSubmissionSuccess(answers);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -85,8 +98,9 @@ public class SolveQuizView {
             }
         });
     }
-    public void deleteAnswerSubmission(String url, int questionId, int quizSubmissionId){
-        UserManager.deleteAnswerSubmission(url,questionId,quizSubmissionId , new ResponseListener() {
+
+    public void deleteAnswerSubmission(String url, int questionId, int quizSubmissionId) {
+        UserManager.deleteAnswerSubmission(url, questionId, quizSubmissionId, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 solveQuizPresenter.onDeleteAnswerSubmissionSuccess();
