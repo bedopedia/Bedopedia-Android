@@ -35,7 +35,7 @@ final class AlwaysListTypeAdapterFactory<E>
         // Resolving the list parameter type
         final Type elementType = resolveTypeArgument(typeToken.getType());
         @SuppressWarnings("unchecked") final TypeAdapter<E> elementTypeAdapter = (TypeAdapter<E>) gson.getAdapter(TypeToken.get(elementType));
-        final TypeAdapter<List<E>> defaultListAdapter = gson.getDelegateAdapter(this, (TypeToken<List<E>>) TypeToken.getParameterized(List.class, elementType));
+        @SuppressWarnings("unchecked")final TypeAdapter<List<E>> defaultListAdapter = gson.getDelegateAdapter(this, (TypeToken<List<E>>) TypeToken.getParameterized(List.class, elementType));
 
         // Note that the always-list type adapter is made null-safe, so we don't have to check nulls ourselves
         @SuppressWarnings("unchecked") final TypeAdapter<T> alwaysListTypeAdapter = (TypeAdapter<T>) new AlwaysListTypeAdapter<>(elementTypeAdapter, defaultListAdapter).nullSafe();
@@ -65,7 +65,11 @@ final class AlwaysListTypeAdapterFactory<E>
 
         @Override
         public void write(final JsonWriter out, final List<E> list) throws IOException {
-            defaultListAdapter.write(out, list);
+            out.beginArray();
+            for (E element : list) {
+                this.elementTypeAdapter.write(out, element);
+            }
+            out.endArray();
         }
 
 
