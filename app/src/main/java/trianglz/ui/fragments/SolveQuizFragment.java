@@ -162,7 +162,9 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             if (mode != Constants.SOLVE_QUIZ) {
                 quizQuestion = QuizQuestion.create(bundle.getString(Constants.KEY_QUIZ_QUESTION));
             }
-            quizSubmissionId = quizzes.getStudentSubmissions().getId();
+            if (quizzes.getStudentSubmissions() != null) {
+                quizSubmissionId = quizzes.getStudentSubmissions().getId();
+            }
         }
     }
 
