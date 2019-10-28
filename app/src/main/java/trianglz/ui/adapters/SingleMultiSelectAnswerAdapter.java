@@ -43,7 +43,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
 
     public HashMap<Integer, ArrayList<Answers>> questionsAnswerHashMap;
     public HashMap<String, Answers> matchAnswersHashMap;
-    public HashMap<Integer, ArrayList<Answers>> previousAnswersHashMap;
     public List<Answers> reorderAnswers;
     public static final int TYPE_QUESTION = 0;
     public static final int TYPE_ANSWER_TEXT = 1;
@@ -55,7 +54,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
         this.context = context;
         questionsAnswerHashMap = new HashMap<>();
         matchAnswersHashMap = new HashMap<>();
-        previousAnswersHashMap = new HashMap<>();
         reorderAnswers = new ArrayList<>();
         this.mode = mode;
     }
