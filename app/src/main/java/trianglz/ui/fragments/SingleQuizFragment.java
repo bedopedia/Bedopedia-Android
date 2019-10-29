@@ -77,7 +77,14 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         getValueFromIntent();
         bindViews();
         setListeners();
-        showQuiz();
+        if (quizzes.getState().equals("running")) {
+            if (quizzes.getStudentSubmissions() != null && quizzes.getStudentSubmissions().getIsSubmitted()) {
+                showQuiz();
+            }
+        } else {
+            showQuiz();
+        }
+
     }
 
     private void setListeners() {
@@ -254,7 +261,12 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         bundle.putInt(Constants.MODE, mode);
         bundle.putSerializable(Constants.STUDENT, student);
         bundle.putString(Constants.KEY_COURSE_QUIZZES, course.toString());
-        bundle.putString(Constants.KEY_QUIZ_QUESTION, quizQuestion.toString());
+        if (quizzes.getState().equals("running")) {
+            if (quizzes.getStudentSubmissions() != null && quizzes.getStudentSubmissions().getIsSubmitted()) {
+                bundle.putString(Constants.KEY_QUIZ_QUESTION, quizQuestion.toString()); }
+        } else {
+            bundle.putString(Constants.KEY_QUIZ_QUESTION, quizQuestion.toString());
+        }
         solveQuizFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, solveQuizFragment, "MenuFragments").
@@ -299,6 +311,8 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onGetQuizQuestionsFailure(String message, int errorCode) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
         activity.showErrorDialog(activity, errorCode, "");
     }
 }

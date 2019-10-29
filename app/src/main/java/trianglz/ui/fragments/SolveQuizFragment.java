@@ -98,9 +98,12 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         if (mode == Constants.SOLVE_QUIZ) {
             getQuizQuestions();
         } else {
-            question = quizQuestion.getQuestions().get(index);
-            getAnswerSubmission();
-            displayQuestionsAndAnswers(index);
+            if (mode == Constants.VIEW_STUDENT_ANSWERS) {
+                getAnswerSubmission();
+            } else {
+                question = quizQuestion.getQuestions().get(index);
+                displayQuestionsAndAnswers(index);
+            }
         }
     }
 
@@ -368,7 +371,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         if (activity.progress.isShowing())
             activity.progress.dismiss();
         if (question.getType().equals(Constants.TYPE_MATCH)) {
-            copyMatchMaps(previousMatchAnswersHashMap, singleMultiSelectAnswerAdapter.matchAnswersHashMap);
+            fillPreviousMatchMap(previousMatchAnswersHashMap, answers);
         } else {
             previousAnswersHashMap.put(question.getId(), answers);
         }
@@ -448,11 +451,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 submitSingleAnswer(answerSubmission);
             }
         } else if (question.getType().equals(Constants.TYPE_MATCH)) {
-            if (!previousMatchAnswersHashMap.isEmpty() && singleMultiSelectAnswerAdapter.matchAnswersHashMap.isEmpty()) {
-                deleteSingleAnswer(question.getId(), studentSubmission.getId());
-            } else if (previousMatchAnswersHashMap.equals(singleMultiSelectAnswerAdapter.matchAnswersHashMap)) {
-                nextPage();
-            } else {
+            if (compareMatchHashMaps(previousMatchAnswersHashMap, singleMultiSelectAnswerAdapter.matchAnswersHashMap)) {
                 for (Map.Entry mapElement : singleMultiSelectAnswerAdapter.matchAnswersHashMap.entrySet()) {
                     String match = (String) mapElement.getKey();
                     Answers value = ((Answers) mapElement.getValue());
@@ -461,6 +460,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 }
                 answerSubmission.setQuestionId(question.getId());
                 submitSingleAnswer(answerSubmission);
+            } else {
+                nextPage();
             }
         } else {
             if (compareHashMaps(previousAnswersHashMap, singleMultiSelectAnswerAdapter.questionsAnswerHashMap, question)) {
@@ -629,18 +630,17 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    private void copyMatchMaps(HashMap<String, Answers> previousMap, HashMap<String, Answers> currentMap) {
-        for (Map.Entry mapElement : currentMap.entrySet()) {
+    private void fillPreviousMatchMap(HashMap<String, Answers> previousMap, ArrayList<Answers> currentAnswers) {
+        for (Answers answer : currentAnswers) {
             Answers previousAnswer;
-            String match = (String) mapElement.getKey();
-            Answers answers = (Answers) mapElement.getValue();
-            previousAnswer = answers;
+            String match = answer.getMatch();
+            previousAnswer = answer;
             previousMap.put(match, previousAnswer);
         }
     }
 
-    private Boolean compareHashMaps(HashMap<Integer, ArrayList<Answers>> previousAnswersHashMap, HashMap<Integer, ArrayList<Answers>> currentAnswersHashMap, Questions question) {
-        Boolean isToCreateAnswer = false;
+    private boolean compareHashMaps(HashMap<Integer, ArrayList<Answers>> previousAnswersHashMap, HashMap<Integer, ArrayList<Answers>> currentAnswersHashMap, Questions question) {
+        boolean isToCreateAnswer = false;
         if (currentAnswersHashMap.containsKey(question.getId())) {
             if (previousAnswersHashMap.containsKey(question.getId())) {
                 ArrayList<Answers> currentAnswersArrayList = new ArrayList<>();
@@ -672,6 +672,40 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             }
         }
         return false;
+    }
+
+    private void copyMatchMaps(HashMap<String, Answers> previousMap, HashMap<String, Answers> currentMap) {
+        for (Map.Entry mapElement : currentMap.entrySet()) {
+            Answers previousAnswer;
+            String match = (String) mapElement.getKey();
+            Answers answers = (Answers) mapElement.getValue();
+            previousAnswer = answers;
+            previousMap.put(match, previousAnswer);
+        }
+    }
+
+    private boolean compareMatchHashMaps(HashMap<String, Answers> previousAnswersHashMap, HashMap<String, Answers> currentAnswersHashMap) {
+        boolean isToCreateAnswer = false;
+        Answers currentAnswer, previousAnswer;
+        if (!previousAnswersHashMap.isEmpty() && currentAnswersHashMap.isEmpty()) {
+            deleteSingleAnswer(question.getId(), studentSubmission.getId());
+        } else {
+            for (Map.Entry mapElement : currentAnswersHashMap.entrySet()) {
+                String match = (String) mapElement.getKey();
+                currentAnswer = (Answers) mapElement.getValue();
+                if (previousAnswersHashMap.containsKey(match)) {
+                    previousAnswer = previousAnswersHashMap.get(match);
+                    if (currentAnswer.getAnswerId() == previousAnswer.getId() || currentAnswer.getId() == previousAnswer.getId()|| currentAnswer.getId() == previousAnswer.getAnswerId()) {
+                        continue;
+                    } else {
+                        isToCreateAnswer = true;
+                    }
+                } else {
+                    isToCreateAnswer = true;
+                }
+            }
+        }
+        return isToCreateAnswer;
     }
 
     private long calculateTimerDuration(long quizDuration) {
