@@ -23,4 +23,6 @@ public interface SolveQuizPresenter {
     void onGetAnswerSubmissionFailure(String message, int errorCode);
     void onDeleteAnswerSubmissionSuccess();
     void onDeleteAnswerSubmissionFailure(String message, int errorCode);
+    void onSubmitQuizSuccess();
+    void onSubmitQuizFailure(String message, int errorCode);
 }

@@ -112,4 +112,17 @@ public class SolveQuizView {
             }
         });
     }
+
+    public void submitQuiz(String url, int submissionId) {
+        UserManager.submitQuiz(url, submissionId, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                solveQuizPresenter.onSubmitQuizSuccess();
+            }
+            @Override
+            public void onFailure(String message, int errorCode) {
+                solveQuizPresenter.onSubmitQuizFailure(message, errorCode);
+            }
+        });
+    }
 }

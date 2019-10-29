@@ -1108,4 +1108,28 @@ public class UserManager {
             }
         });
     }
+
+    public static void submitQuiz(String url, int submissionId, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject jsonObject = new JSONObject();
+        JSONObject rootJsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.KEY_ID, submissionId);
+            rootJsonObject.put(Constants.SUBMISSION, jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
 }
