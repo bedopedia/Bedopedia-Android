@@ -181,9 +181,9 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                         ArrayList<Object> objects = new ArrayList<>();
                         objects.addAll(question.getAnswers());
                         ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
-                        if (sortMatchAnswers.get(position - 2) instanceof AnswersAttributes) {
-                            AnswersAttributes answersAttribute = (AnswersAttributes) sortMatchAnswers.get(position - 2);
-                            holder.questionAnswerTextView.setHtml(answersAttribute.getBody());
+                        if (sortMatchAnswers.get(position - 2) instanceof Answers) {
+                            Answers answer = (Answers) sortMatchAnswers.get(position - 2);
+                            holder.questionAnswerTextView.setHtml(answer.getBody());
                         }
                     }
                 } else if (mode == Constants.VIEW_STUDENT_ANSWERS) {
@@ -205,14 +205,14 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                             holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_cool_grey_stroke));
                         } else if (type.equals(TYPE.SINGLE_SELECTION)) {
                             holder.radioButton.setChecked(false);
-                        } else if (type.equals(TYPE.REORDER_ANSWERS)) {
-                            ArrayList<Object> objects = new ArrayList<>();
-                            objects.addAll(question.getAnswers());
-                            ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
-                            if (sortMatchAnswers.get(position - 2) instanceof AnswersAttributes) {
-                                AnswersAttributes answersAttribute = (AnswersAttributes) sortMatchAnswers.get(position - 2);
-                                holder.questionAnswerTextView.setHtml(answersAttribute.getBody());
-                            }
+                        }
+                    } if (type.equals(TYPE.REORDER_ANSWERS)) {
+                        ArrayList<Object> objects = new ArrayList<>();
+                        objects.addAll(question.getAnswers());
+                        ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
+                        if (sortMatchAnswers.get(position - 2) instanceof Answers) {
+                            Answers answer = (Answers) sortMatchAnswers.get(position - 2);
+                            holder.questionAnswerTextView.setHtml(answer.getBody());
                         }
                     }
                 }
@@ -231,7 +231,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                             }
                             return;
                         }
-
                     }
                     if (type.equals(TYPE.MULTI_SELECTION)) {
                         holder.multiSelectionImageButton.setImageDrawable(null);
@@ -262,7 +261,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             }
         } else if (position != 1) {
             final TrueFalseAnswerViewHolder holder = (TrueFalseAnswerViewHolder) viewHolder;
-            if (mode != Constants.SOLVE_QUIZ) {
+            if (mode != Constants.SOLVE_QUIZ && mode != Constants.VIEW_STUDENT_ANSWERS) {
                 answersAttributes = question.getAnswers().get(position - 2);
                 if (mode == Constants.VIEW_CORRECT_ANSWERS) {
                     if (answersAttributes.isCorrect()) {
