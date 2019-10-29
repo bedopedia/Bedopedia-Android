@@ -236,4 +236,6 @@
     <string name="go_home">الرجوع للصفحة الرئيسية</string>
     <string name="true_answer">صحيح</string>
     <string name="false_answer">خاطئ</string>
+    <string name="complete_answer">برجاء إكمال الإجابة</string>
+
 </resources>

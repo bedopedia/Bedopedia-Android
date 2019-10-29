@@ -259,4 +259,5 @@
     <string name="go_home">Go to home</string>
     <string name="true_answer">True</string>
     <string name="false_answer">False</string>
+    <string name="complete_answer">Please complete your answer</string>
 </resources>
