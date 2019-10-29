@@ -1,10 +1,8 @@
 package trianglz.ui.adapters;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+
+import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +40,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         this.postDetailsInterface = postDetailsInterface;
 
     }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,14 +58,10 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         viewHolder.ownerTextView.setText(postDetail.getOwner().getNameWithTitle());
         String date = Util.getPostDate(postDetail.getCreatedAt(), context);
         viewHolder.dateTextView.setText(date);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            viewHolder.bodyTextView.setText(Html.fromHtml(postDetail.getContent(), Html.FROM_HTML_MODE_COMPACT));
-            viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
-        } else {
-            viewHolder.bodyTextView.setText(Html.fromHtml(postDetail.getContent()));
-        }
+        viewHolder.bodyTextView.setHtml(postDetail.getContent(),
+                new HtmlHttpImageGetter(viewHolder.bodyTextView));
         viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
-            // setting the attachments buttons
+        // setting the attachments buttons
         switch (postDetail.getUploadedFiles().length) {
             case 0:
                 viewHolder.buttonsLayout.setVisibility(View.GONE);
@@ -97,24 +95,30 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         }
         final ArrayList<UploadedObject> uploadedObjects = new ArrayList<>();
         uploadedObjects.addAll(Arrays.asList(postDetail.getUploadedFiles()));
-        if (viewHolder.firstButton.getVisibility() != View.GONE)  viewHolder.firstButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!uploadedObjects.isEmpty()) postDetailsInterface.onAttachmentClicked(uploadedObjects);
-            }
-        });
-        if (viewHolder.secondButton.getVisibility() != View.GONE)  viewHolder.secondButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!uploadedObjects.isEmpty()) postDetailsInterface.onAttachmentClicked(uploadedObjects);
-            }
-        });
-        if (viewHolder.thirdButton.getVisibility() != View.GONE) viewHolder.thirdButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!uploadedObjects.isEmpty()) postDetailsInterface.onAttachmentClicked(uploadedObjects);
-            }
-        });
+        if (viewHolder.firstButton.getVisibility() != View.GONE)
+            viewHolder.firstButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!uploadedObjects.isEmpty())
+                        postDetailsInterface.onAttachmentClicked(uploadedObjects);
+                }
+            });
+        if (viewHolder.secondButton.getVisibility() != View.GONE)
+            viewHolder.secondButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!uploadedObjects.isEmpty())
+                        postDetailsInterface.onAttachmentClicked(uploadedObjects);
+                }
+            });
+        if (viewHolder.thirdButton.getVisibility() != View.GONE)
+            viewHolder.thirdButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!uploadedObjects.isEmpty())
+                        postDetailsInterface.onAttachmentClicked(uploadedObjects);
+                }
+            });
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,9 +140,9 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private void setAvatarView(final AvatarView avatarView,final String name, String imageUrl) {
+    private void setAvatarView(final AvatarView avatarView, final String name, String imageUrl) {
         imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), "Path of Image");
-     }
+    }
 
     public void addData(ArrayList<PostDetails> mPostDetails, int page) {
         if (page == 1) postDetails.clear();
@@ -153,11 +157,13 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
 
     public class PostDetailsViewHolder extends RecyclerView.ViewHolder {
 
-         AvatarView avatarView;
-         TextView ownerTextView, dateTextView, bodyTextView;
-         Button firstButton, secondButton, thirdButton;
-         LinearLayout buttonsLayout;
-         PostDetailsViewHolder(@NonNull View itemView) {
+        AvatarView avatarView;
+        TextView ownerTextView, dateTextView;
+        HtmlTextView bodyTextView;
+        Button firstButton, secondButton, thirdButton;
+        LinearLayout buttonsLayout;
+
+        PostDetailsViewHolder(@NonNull View itemView) {
             super(itemView);
             avatarView = itemView.findViewById(R.id.iv_owner_image);
             ownerTextView = itemView.findViewById(R.id.tv_owner_name);
@@ -172,7 +178,9 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
 
     public interface PostDetailsInterface {
         void onAttachmentClicked(ArrayList<UploadedObject> uploadedObjects);
+
         void loadNextPage(int page);
+
         void onCardClicked(PostDetails postDetails);
     }
 }
