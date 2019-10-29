@@ -43,7 +43,7 @@ import trianglz.models.QuizQuestion;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Quizzes;
 import trianglz.models.Student;
-import trianglz.models.StudentSubmission;
+import trianglz.models.StudentSubmissions;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.SingleMultiSelectAnswerAdapter;
 import trianglz.utils.Constants;
@@ -72,7 +72,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private Student student;
     private QuizzCourse course;
     private Questions question;
-    private int quizSubmissionId;
+    private StudentSubmissions studentSubmission;
     private int mode; //0 solve, 1 view questions, 2 view correct answers, 3 view student answers
     private boolean isSubmit = false;
     private HashMap<String, Answers> previousMatchAnswersHashMap;
@@ -160,7 +160,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 quizQuestion = QuizQuestion.create(bundle.getString(Constants.KEY_QUIZ_QUESTION));
             }
             if (quizzes.getStudentSubmissions() != null) {
-                quizSubmissionId = quizzes.getStudentSubmissions().getId();
+                studentSubmission = quizzes.getStudentSubmissions();
             }
         }
     }
@@ -330,8 +330,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void onCreateSubmissionSuccess(StudentSubmission studentSubmission) {
-        quizSubmissionId = studentSubmission.getId();
+    public void onCreateSubmissionSuccess(StudentSubmissions studentSubmission) {
+        this.studentSubmission = studentSubmission;
         getQuizSolveDetails();
     }
 
@@ -441,7 +441,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             }
         } else if (question.getType().equals(Constants.TYPE_MATCH)) {
             if (!previousMatchAnswersHashMap.isEmpty() && singleMultiSelectAnswerAdapter.matchAnswersHashMap.isEmpty()) {
-                deleteSingleAnswer(question.getId(), quizSubmissionId);
+                deleteSingleAnswer(question.getId(), studentSubmission.getId());
             } else if (previousMatchAnswersHashMap.equals(singleMultiSelectAnswerAdapter.matchAnswersHashMap)) {
                 nextPage();
             } else {
@@ -479,14 +479,14 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     }
 
     private void getAnswerSubmission() {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnswerSubmission(quizSubmissionId);
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnswerSubmission(studentSubmission.getId());
         solveQuizView.getAnswerSubmission(url);
         activity.showLoadingDialog();
     }
 
     private void submitSingleAnswer(AnswerSubmission answerSubmission) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postAnswerSubmission();
-        solveQuizView.postAnswerSubmission(url, quizSubmissionId, answerSubmission);
+        solveQuizView.postAnswerSubmission(url, studentSubmission.getId(), answerSubmission);
         activity.showLoadingDialog();
     }
 
@@ -498,7 +498,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     private void submitQuiz() {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.submitQuiz();
-        solveQuizView.submitQuiz(url, quizSubmissionId);
+        solveQuizView.submitQuiz(url, studentSubmission.getId());
         activity.showLoadingDialog();
     }
 
@@ -640,7 +640,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 currentAnswersArrayList.addAll(currentAnswersHashMap.get(question.getId()));
                 previousAnswersArrayList.addAll(previousAnswersHashMap.get(question.getId()));
                 if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) && currentAnswersArrayList.isEmpty()) {
-                    deleteSingleAnswer(question.getId(), quizSubmissionId);
+                    deleteSingleAnswer(question.getId(), studentSubmission.getId());
                 } else {
                     if (currentAnswersArrayList.size() == previousAnswersArrayList.size() || question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE)) {
                         for (int i = 0; i < currentAnswersArrayList.size(); i++) {
