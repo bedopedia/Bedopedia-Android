@@ -77,7 +77,9 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         getValueFromIntent();
         bindViews();
         setListeners();
-        showQuiz();
+        if (quizzes.getStudentSubmissions() != null) {
+            showQuiz();
+        }
     }
 
     private void setListeners() {
@@ -255,7 +257,9 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         bundle.putInt(Constants.MODE, mode);
         bundle.putSerializable(Constants.STUDENT, student);
         bundle.putString(Constants.KEY_COURSE_QUIZZES, course.toString());
-        bundle.putString(Constants.KEY_QUIZ_QUESTION, quizQuestion.toString());
+        if (quizQuestion != null) {
+            bundle.putString(Constants.KEY_QUIZ_QUESTION, quizQuestion.toString());
+        }
         solveQuizFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, solveQuizFragment, "MenuFragments").
