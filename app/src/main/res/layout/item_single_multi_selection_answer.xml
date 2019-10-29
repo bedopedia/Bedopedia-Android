@@ -69,7 +69,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:orientation="horizontal">
 
         <org.sufficientlysecure.htmltextview.HtmlTextView
@@ -82,12 +83,7 @@
             android:textColor="@color/posts_black"
             android:textSize="16sp" />
 
-        <ImageView
-            android:id="@+id/answer_photo_iv"
-            android:src="@drawable/dragon"
-            android:padding="6dp"
-            android:layout_width="70dp"
-            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 
