@@ -261,7 +261,13 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 break;
             case R.id.btn_submit:
                 isSubmit = true;
-                submitAnswer();
+                boolean isValid = validateEmptyAnswers();
+                if (isValid) {
+                    submitAnswer();
+                } else {
+                    activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.complete_answer));
+                    displayQuestionsAndAnswers(index);
+                }
                 break;
         }
     }
@@ -669,12 +675,53 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     }
 
     private long calculateTimerDuration(long quizDuration) {
-        long durationLeft=0, timeElapsed;
+        long durationLeft = 0, timeElapsed;
         quizDuration = quizDuration * 60000; //minutes convert
         DateTime dateTime = new DateTime(studentSubmission.getCreatedAt());
         Calendar c = Calendar.getInstance();
         timeElapsed = c.getTimeInMillis() - dateTime.getMillis();
         durationLeft = quizDuration - timeElapsed;
         return durationLeft;
+    }
+
+    private boolean validateEmptyAnswers() {
+        boolean isValid = false;
+        for (int i = 0; i < quizQuestion.getQuestions().size(); i++) {
+            Questions questions = quizQuestion.getQuestions().get(i);
+            if (questions.getType().equals(Constants.TYPE_MATCH)) {
+                for (int j = 0; j < questions.getAnswers().get(0).getMatches().size(); j++) {
+                    String key = questions.getAnswers().get(0).getMatches().get(j);
+                    if (singleMultiSelectAnswerAdapter.matchAnswersHashMap.containsKey(Jsoup.parse(key).text())) {
+                        isValid = true;
+                    } else {
+                        index = i;
+                        question = quizQuestion.getQuestions().get(index);
+                        return false;
+                    }
+                }
+            } else {
+                if (!questions.getType().equals(Constants.TYPE_REORDER)) {
+                    if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(questions.getId())) {
+                        ArrayList<Answers> answers = singleMultiSelectAnswerAdapter.questionsAnswerHashMap.get(questions.getId());
+                        if (questions.getType().equals(Constants.TYPE_MULTIPLE_SELECT)) {
+                            if (answers.isEmpty()) {
+                                index = i;
+                                question = quizQuestion.getQuestions().get(index);
+                                return false;
+                            }
+                        } else {
+                            isValid = true;
+                        }
+                    } else {
+                        index = i;
+                        question = quizQuestion.getQuestions().get(index);
+                        return false;
+                    }
+                } else {
+                    isValid = true;
+                }
+            }
+        }
+        return isValid;
     }
 }
