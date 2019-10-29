@@ -186,4 +186,7 @@ public class ApiEndPoints {
     public static String deleteAnswerSubmission() {
         return "/api/answer_submissions/remove_answer_submission";
     }
+    public static String submitQuiz(){
+        return "/api/active_quizzes/submit_quiz";
+    }
 }
