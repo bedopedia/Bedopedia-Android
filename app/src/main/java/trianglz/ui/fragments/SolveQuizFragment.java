@@ -76,7 +76,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private int mode; //0 solve, 1 view questions, 2 view correct answers, 3 view student answers
     private boolean isSubmit = false;
     private HashMap<String, Answers> previousMatchAnswersHashMap;
-    public HashMap<Integer, ArrayList<Answers>> previousAnswersHashMap;
+    private HashMap<Integer, ArrayList<Answers>> previousAnswersHashMap;
 
     @Nullable
     @Override
@@ -109,11 +109,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             }
 
             public void onFinish() {
-                QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment);
-                quizSubmittedDialog.show();
-                countDownTimer.cancel();
+                // submitQuiz();
             }
-
         }.start();
     }
 
@@ -269,6 +266,9 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     void updateQuestionCounterTextViewAndNextBtn(int index) {
         String questionCountText = index + 1 + " " + activity.getResources().getString(R.string.out_of) + " " + quizQuestion.getQuestions().size();
+        if (quizQuestion.getQuestions().size() == 1) {
+            previousButton.setVisibility(View.INVISIBLE);
+        }
         if (index == quizQuestion.getQuestions().size() - 1) {
             previousButton.setText(activity.getResources().getString(R.string.previous));
             nextButton.setVisibility(View.GONE);
@@ -284,6 +284,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 questionCounterButton.setVisibility(View.GONE);
             }
         } else if (index == 0) {
+            questionCounterButton.setVisibility(View.GONE);
             questionCounterTextView.setVisibility(View.GONE);
             previousButton.setText(questionCountText);
             nextButton.setVisibility(View.VISIBLE);
@@ -377,9 +378,12 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     public void onGetAnswerSubmissionSuccess(JSONObject jsonObject) {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
-        checkQuestionHasAnswer(jsonObject);
-        if (mode == Constants.SOLVE_QUIZ)
+        if (mode == Constants.SOLVE_QUIZ) {
+            checkQuestionHasAnswer(jsonObject);
             startCountDown(quizQuestion.getDuration() * 60000);
+        } else if (mode == Constants.VIEW_STUDENT_ANSWERS) {
+            checkQuestionHasAnswer(jsonObject);
+        }
         question = quizQuestion.getQuestions().get(index);
         displayQuestionsAndAnswers(index);
     }
@@ -405,6 +409,20 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onDeleteAnswerSubmissionFailure(String message, int errorCode) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        activity.showErrorDialog(activity, errorCode, message);
+    }
+
+    @Override
+    public void onSubmitQuizSuccess() {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        showSubmissionDialog();
+    }
+
+    @Override
+    public void onSubmitQuizFailure(String message, int errorCode) {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
         activity.showErrorDialog(activity, errorCode, message);
@@ -478,6 +496,18 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         activity.showLoadingDialog();
     }
 
+    private void submitQuiz() {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.submitQuiz();
+        solveQuizView.submitQuiz(url, quizSubmissionId);
+        activity.showLoadingDialog();
+    }
+
+    private void showSubmissionDialog() {
+        QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment);
+        quizSubmittedDialog.show();
+        countDownTimer.cancel();
+    }
+
     private void setMatchReorder(List<Answers> answers) {
         for (int i = 0; i < answers.size(); i++) {
             answers.get(i).setMatch(Integer.toString(i + 1));
@@ -486,9 +516,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     private void nextPage() {
         if (isSubmit) {
-            countDownTimer.cancel();
-            QuizSubmittedDialog quizSubmittedDialog = new QuizSubmittedDialog(activity, fragment);
-            quizSubmittedDialog.show();
+            //todo validate empty answers
+            //submitQuiz();
         } else {
             if (index < quizQuestion.getQuestions().size() - 1) {
                 index++;
@@ -535,8 +564,13 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), correctAnswers);
                     previousAnswersHashMap.put(question.getId(), answers);
                 } else if (question.getType().equals(Constants.TYPE_MATCH)) {
-                    setMatchIndex(question.getAnswers().get(0).getOptions());
-                    fillMatchHashmap(question.getAnswers().get(0).getOptions(), answers);
+                    if (mode == Constants.SOLVE_QUIZ) {
+                        setMatchIndex(question.getAnswers().get(0).getOptions());
+                        fillMatchHashmap(question.getAnswers().get(0).getOptions(), answers);
+                    } else {
+                        setMatchIndex((ArrayList<Answers>) question.getAnswers());
+                        fillMatchHashmap((ArrayList<Answers>) question.getAnswers(), answers);
+                    }
 
                 } else {
                     singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);
