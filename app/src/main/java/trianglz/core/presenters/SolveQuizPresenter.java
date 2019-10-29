@@ -6,14 +6,14 @@ import java.util.ArrayList;
 
 import trianglz.models.Answers;
 import trianglz.models.QuizQuestion;
-import trianglz.models.StudentSubmission;
+import trianglz.models.StudentSubmissions;
 
 /**
  * Created by Farah A. Moniem on 17/10/2019.
  */
 public interface SolveQuizPresenter {
 
-    void onCreateSubmissionSuccess(StudentSubmission studentSubmission);
+    void onCreateSubmissionSuccess(StudentSubmissions studentSubmission);
     void onCreateSubmissionFailure(String message, int errorCode);
     void onGetQuizSolveDetailsSuccess(QuizQuestion quizQuestion);
     void onGetQuizSolveDetailsFailure(String message, int errorCode);

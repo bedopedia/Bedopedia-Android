@@ -16,6 +16,7 @@ import trianglz.models.AnswerSubmission;
 import trianglz.models.Answers;
 import trianglz.models.QuizQuestion;
 import trianglz.models.StudentSubmission;
+import trianglz.models.StudentSubmissions;
 
 /**
  * Created by Farah A. Moniem on 17/10/2019.
@@ -34,7 +35,7 @@ public class SolveQuizView {
         UserManager.createQuizSubmission(url, quizId, studentId, courseGroupId, score, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                StudentSubmission studentSubmission = StudentSubmission.create(response.toString());
+                StudentSubmissions studentSubmission = StudentSubmissions.create(response.toString());
                 solveQuizPresenter.onCreateSubmissionSuccess(studentSubmission);
             }
 
