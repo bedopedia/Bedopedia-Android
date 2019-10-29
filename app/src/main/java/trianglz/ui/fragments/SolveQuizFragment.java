@@ -16,12 +16,14 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -380,7 +382,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             activity.progress.dismiss();
         if (mode == Constants.SOLVE_QUIZ) {
             checkQuestionHasAnswer(jsonObject);
-            startCountDown(quizQuestion.getDuration() * 60000);
+            startCountDown(calculateTimerDuration(quizQuestion.getDuration()));
         } else if (mode == Constants.VIEW_STUDENT_ANSWERS) {
             checkQuestionHasAnswer(jsonObject);
         }
@@ -664,5 +666,15 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             }
         }
         return false;
+    }
+
+    private long calculateTimerDuration(long quizDuration) {
+        long durationLeft=0, timeElapsed;
+        quizDuration = quizDuration * 60000; //minutes convert
+        DateTime dateTime = new DateTime(studentSubmission.getCreatedAt());
+        Calendar c = Calendar.getInstance();
+        timeElapsed = c.getTimeInMillis() - dateTime.getMillis();
+        durationLeft = quizDuration - timeElapsed;
+        return durationLeft;
     }
 }
