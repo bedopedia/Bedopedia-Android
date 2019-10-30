@@ -13,4 +13,6 @@ public interface SplashPresenter {
     void onLoginFailure(String message,int code);
     void onGetStudentsHomeSuccess(ArrayList<Object> objectArrayList);
     void onGetStudentsHomeFailure(String message,int errorCode);
+    void updateTokenSuccess();
+    void updateTokenFailure();
 }
