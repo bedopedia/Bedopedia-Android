@@ -149,7 +149,11 @@ public class SessionManager {
     }
 
     public String getUserType() {
-        return mPreferences.getString(Constants.KEY_USER_TYPE, "");
+        try {
+            return mPreferences.getString(Constants.KEY_USER_TYPE, "");
+        } catch (ClassCastException exception) {
+            return "";
+        }
     }
 
 
@@ -161,9 +165,11 @@ public class SessionManager {
         ADMIN("admin"),
         ;
         private final String text;
+
         Actor(final String text) {
             this.text = text;
         }
+
         @Override
         public String toString() {
             return text;
