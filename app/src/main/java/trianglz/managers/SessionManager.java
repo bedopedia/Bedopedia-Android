@@ -149,7 +149,11 @@ public class SessionManager {
     }
 
     public String getUserType() {
-        return mPreferences.getString(Constants.KEY_USER_TYPE, "");
+        try {
+            return mPreferences.getString(Constants.KEY_USER_TYPE, "");
+        } catch (ClassCastException exception) {
+            return "";
+        }
     }
 
 
