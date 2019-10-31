@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         viewHolder.dateTextView.setText(date);
         viewHolder.bodyTextView.setHtml(postDetail.getContent(),
                 new HtmlHttpImageGetter(viewHolder.bodyTextView));
+        Linkify.addLinks(viewHolder.bodyTextView, Linkify.WEB_URLS);
         viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
         // setting the attachments buttons
         switch (postDetail.getUploadedFiles().length) {
