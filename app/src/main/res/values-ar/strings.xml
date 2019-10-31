@@ -237,5 +237,7 @@
     <string name="true_answer">صحيح</string>
     <string name="false_answer">خاطئ</string>
     <string name="complete_answer">برجاء إكمال الإجابة</string>
+    <string name="solve_now">اجب السؤال</string>
+    <string name="submit_quiz">ارسال</string>
 
 </resources>

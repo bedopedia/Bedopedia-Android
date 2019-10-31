@@ -259,5 +259,8 @@
     <string name="go_home">Go to home</string>
     <string name="true_answer">True</string>
     <string name="false_answer">False</string>
-    <string name="complete_answer">Please complete your answer</string>
+    <string name="complete_answer">Some answers are missing</string>
+    <string name="solve_now">Solve now</string>
+    <string name="submit_quiz">Submit quiz</string>
+
 </resources>
