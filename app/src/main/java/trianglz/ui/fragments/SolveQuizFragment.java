@@ -542,15 +542,10 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private void checkQuestionHasAnswer(JSONObject jsonObject) {
         ArrayList<Answers> answers = new ArrayList<>();
         for (Questions question : quizQuestion.getQuestions()) {
-            if (question.getType().equals(Constants.TYPE_REORDER)) {
-                setMatchReorder(question.getAnswers());
-                singleMultiSelectAnswerAdapter.reorderAnswers.clear();
-                singleMultiSelectAnswerAdapter.reorderAnswers.addAll(question.getAnswers());
-            }
             try {
                 if (jsonObject.has(Integer.toString(question.getId()))) {
                     JSONArray jsonArray = jsonObject.getJSONArray(Integer.toString(question.getId()));
-                    answers.clear();
+                    answers = new ArrayList<>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject answerObject = jsonArray.optJSONObject(i);
                         Answers answer = Answers.create(answerObject.toString());
@@ -558,42 +553,50 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                         answers.add(answer);
                     }
                 } else {
-                    answers.clear();
+                    answers = new ArrayList<>();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if (question.getType().equals(Constants.TYPE_REORDER)) {
-                for (int i = 0; i < question.getAnswers().size(); i++) {
-                    for (int k = 0; k < answers.size(); k++) {
-                        if (question.getAnswers().get(i).getId() == answers.get(k).getAnswerId()) {
-                            question.getAnswers().get(i).setMatch(answers.get(k).getMatch());
+            switch (question.getType()) {
+                case Constants.TYPE_REORDER:
+                    setMatchReorder(question.getAnswers());
+                    singleMultiSelectAnswerAdapter.reorderAnswers.clear();
+                    singleMultiSelectAnswerAdapter.reorderAnswers.addAll(question.getAnswers());
+                    for (int i = 0; i < question.getAnswers().size(); i++) {
+                        for (int k = 0; k < answers.size(); k++) {
+                            if (question.getAnswers().get(i).getId() == answers.get(k).getAnswerId()) {
+                                question.getAnswers().get(i).setMatch(answers.get(k).getMatch());
+                            }
                         }
                     }
-                }
-                singleMultiSelectAnswerAdapter.reorderAnswers.clear();
-                singleMultiSelectAnswerAdapter.reorderAnswers.addAll(question.getAnswers());
-            } else if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) || question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE)) {
-                ArrayList<Answers> correctAnswers = new ArrayList<>();
-                for (int i = 0; i < answers.size(); i++) {
-                    if (answers.get(i).isCorrect()) {
-                        correctAnswers.add(answers.get(i));
+                    singleMultiSelectAnswerAdapter.reorderAnswers.clear();
+                    singleMultiSelectAnswerAdapter.reorderAnswers.addAll(question.getAnswers());
+                    break;
+                case Constants.TYPE_MULTIPLE_SELECT:
+                case Constants.TYPE_MULTIPLE_CHOICE:
+                    ArrayList<Answers> correctAnswers = new ArrayList<>();
+                    for (int i = 0; i < answers.size(); i++) {
+                        if (answers.get(i).isCorrect()) {
+                            correctAnswers.add(answers.get(i));
+                        }
                     }
-                }
-                singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), correctAnswers);
-                previousAnswersHashMap.put(question.getId(), answers);
-            } else if (question.getType().equals(Constants.TYPE_MATCH)) {
-                if (mode == Constants.SOLVE_QUIZ) {
-                    setMatchIndex(question.getAnswers().get(0).getOptions());
-                    fillMatchHashmap(question.getAnswers().get(0).getOptions(), answers);
-                } else {
-                    setMatchIndex((ArrayList<Answers>) question.getAnswers());
-                    fillMatchHashmap((ArrayList<Answers>) question.getAnswers(), answers);
-                }
-
-            } else {
-                singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);
-                previousAnswersHashMap.put(question.getId(), answers);
+                    singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), correctAnswers);
+                    previousAnswersHashMap.put(question.getId(), answers);
+                    break;
+                case Constants.TYPE_MATCH:
+                    if (mode == Constants.SOLVE_QUIZ) {
+                        setMatchIndex(question.getAnswers().get(0).getOptions());
+                        fillMatchHashmap(question.getAnswers().get(0).getOptions(), answers);
+                    } else {
+                        setMatchIndex((ArrayList<Answers>) question.getAnswers());
+                        fillMatchHashmap((ArrayList<Answers>) question.getAnswers(), answers);
+                    }
+                    break;
+                default:
+                    singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);
+                    previousAnswersHashMap.put(question.getId(), answers);
+                    break;
             }
 
 
@@ -663,19 +666,30 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) && currentAnswersArrayList.isEmpty() && !previousMatchAnswersHashMap.isEmpty()) {
                     deleteSingleAnswer(question.getId(), studentSubmission.getId());
                 } else {
-
-                    for (int i = 0; i < currentAnswersArrayList.size(); i++) {
-                        for (int j = 0; j < previousAnswersArrayList.size(); j++) {
-                            if (currentAnswersArrayList.get(i).getAnswerId() == previousAnswersArrayList.get(j).getId() || currentAnswersArrayList.get(i).getId() == previousAnswersArrayList.get(j).getId() || currentAnswersArrayList.get(i).getId() == previousAnswersArrayList.get(j).getAnswerId()) {
-                                if (question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE) || (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT)) || (question.getType().equals(Constants.TYPE_TRUE_OR_FALSE))) {
-                                    if (currentAnswersArrayList.get(i).isCorrect() != previousAnswersArrayList.get(j).isCorrect()) {
-                                        isToCreateAnswer = true;
+                    if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT)) {
+                        for (int i = 0; i < previousAnswersArrayList.size(); i++) {
+                            if (!previousAnswersArrayList.get(i).isCorrect()) {
+                                previousAnswersArrayList.remove(i);
+                                i--;
+                            }
+                        }
+                    }
+                    if (previousAnswersArrayList.size() == currentAnswersArrayList.size() || question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE)) {
+                        for (int i = 0; i < currentAnswersArrayList.size(); i++) {
+                            for (int j = 0; j < previousAnswersArrayList.size(); j++) {
+                                if (currentAnswersArrayList.get(i).getAnswerId() == previousAnswersArrayList.get(j).getId() || currentAnswersArrayList.get(i).getId() == previousAnswersArrayList.get(j).getId() || currentAnswersArrayList.get(i).getId() == previousAnswersArrayList.get(j).getAnswerId()) {
+                                    if (question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE) || (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT)) || (question.getType().equals(Constants.TYPE_TRUE_OR_FALSE))) {
+                                        if (currentAnswersArrayList.get(i).isCorrect() != previousAnswersArrayList.get(j).isCorrect()) {
+                                            isToCreateAnswer = true;
+                                        }
                                     }
                                 }
                             }
                         }
+                        return isToCreateAnswer;
+                    } else {
+                        return true;
                     }
-                    return isToCreateAnswer;
                 }
             } else {
                 return true;
