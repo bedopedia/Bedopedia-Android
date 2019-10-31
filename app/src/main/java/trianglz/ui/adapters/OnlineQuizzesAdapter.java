@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,7 +32,7 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
     public OnlineQuizzesAdapter(Context context, OnlineQuizzesInterface onlineQuizzesInterface) {
         this.context = context;
         this.mDataList = new ArrayList<>();
-        this.anInterface =  onlineQuizzesInterface;
+        this.anInterface = onlineQuizzesInterface;
     }
 
     @Override
@@ -45,20 +46,26 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
     public void onBindViewHolder(Holder holder, final int position) {
         QuizzCourse quizzCourse = mDataList.get(position);
         holder.subjectNameTextView.setText(quizzCourse.getCourseName());
-        if(quizzCourse.getQuizName() != null && !quizzCourse.getQuizName().isEmpty()){
+        if (quizzCourse.getQuizName() != null && !quizzCourse.getQuizName().isEmpty()) {
             holder.assignmentNameTextView.setText(quizzCourse.getQuizName());
-        }else {
+        } else {
             holder.assignmentNameTextView.setText(context.getResources().getString(R.string.no_quiz));
         }
         holder.assignmentCountsTextView.setText(quizzCourse.getQuizzesCount() + "");
         IImageLoader imageLoader = new PicassoLoader();
-        imageLoader.loadImage(holder.courseAvatarView,new AvatarPlaceholderModified(quizzCourse.getCourseName()),"path of image");
+        imageLoader.loadImage(holder.courseAvatarView, new AvatarPlaceholderModified(quizzCourse.getCourseName()), "path of image");
         if (quizzCourse.getNextQuizDate() != null && !quizzCourse.getNextQuizDate().isEmpty()) {
+            holder.dateLinearLayout.setVisibility(View.VISIBLE);
             DateTime dateTime = new DateTime(quizzCourse.getNextQuizDate());
             if (dateTime.isBefore(DateTime.now())) {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dirt_brown,null));
+                holder.clockImageView.setImageResource(R.drawable.red_clock_icon);
+
             } else {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
+                holder.clockImageView.setImageResource(R.drawable.green_clock_icon);
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine,null));
             }
         } else {
             holder.dateLinearLayout.setVisibility(View.INVISIBLE);
@@ -87,6 +94,7 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
 
         public TextView subjectNameTextView, dateTextView,
                 assignmentNameTextView, dayTextView, monthTextView, assignmentCountsTextView;
+        private ImageView clockImageView;
         public IImageLoader imageLoader;
         private AvatarView courseAvatarView;
         private LinearLayout dateLinearLayout;
@@ -96,6 +104,7 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
             super(itemView);
             subjectNameTextView = itemView.findViewById(R.id.tv_course_name);
             dateTextView = itemView.findViewById(R.id.tv_date);
+            clockImageView = itemView.findViewById(R.id.date_icon);
             assignmentNameTextView = itemView.findViewById(R.id.tv_assignment_name);
             imageLoader = new PicassoLoader();
             courseAvatarView = itemView.findViewById(R.id.img_course);
@@ -104,7 +113,7 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
         }
     }
 
-    public interface OnlineQuizzesInterface{
+    public interface OnlineQuizzesInterface {
         void onItemClicked(QuizzCourse quizzCourse);
     }
 

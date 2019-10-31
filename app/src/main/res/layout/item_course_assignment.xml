@@ -95,6 +95,7 @@
         android:id="@+id/ll_date">
 
         <ImageView
+            android:id="@+id/date_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
