@@ -86,7 +86,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
         if (position == 0) {
             final QuestionViewHolder holder = (QuestionViewHolder) viewHolder;
             holder.questionTextView.setHtml(question.getBody(),
-                    new HtmlHttpImageGetter( holder.questionTextView));
+                    new HtmlHttpImageGetter(holder.questionTextView));
             Linkify.addLinks(holder.questionTextView, Linkify.WEB_URLS);
         } else if (type.equals(TYPE.MATCH_ANSWERS)) {
             if (mode == Constants.SOLVE_QUIZ) {
@@ -98,7 +98,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     holder.matchAnswerEditText.setVisibility(View.GONE);
                     holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.white));
                     holder.questionAnswerTextView.setHtml(answers.get(0).getOptions().get(position - 1).getBody(),
-                            new HtmlHttpImageGetter( holder.questionAnswerTextView));
+                            new HtmlHttpImageGetter(holder.questionAnswerTextView));
                     Linkify.addLinks(holder.questionAnswerTextView, Linkify.WEB_URLS);
 
                 } else if (position > answers.get(0).getOptions().size() + 1) {
@@ -117,7 +117,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     holder.matchQuestionNumberTextView.setVisibility(View.GONE);
                     String key = answers.get(0).getMatches().get(position - answers.get(0).getOptions().size() - 2);
                     holder.questionAnswerTextView.setHtml(key,
-                            new HtmlHttpImageGetter( holder.questionAnswerTextView));
+                            new HtmlHttpImageGetter(holder.questionAnswerTextView));
                     Linkify.addLinks(holder.questionAnswerTextView, Linkify.WEB_URLS);
                     if (matchAnswersHashMap.containsKey(Jsoup.parse(key).text())) {
                         Answers answer = matchAnswersHashMap.get(Jsoup.parse(key).text());
@@ -138,7 +138,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     holder.matchAnswerEditText.setVisibility(View.GONE);
                     holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.white));
                     holder.questionAnswerTextView.setHtml(answersArrayList.get(position - 1).getBody(),
-                            new HtmlHttpImageGetter( holder.questionAnswerTextView));
+                            new HtmlHttpImageGetter(holder.questionAnswerTextView));
                     Linkify.addLinks(holder.questionAnswerTextView, Linkify.WEB_URLS);
                 } else if (position > answersArrayList.size() + 1) {
                     final QuestionAnswerViewHolder holder = (QuestionAnswerViewHolder) viewHolder;
@@ -155,7 +155,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     holder.matchQuestionNumberTextView.setVisibility(View.GONE);
                     String key = matchesArrayList.get(position - answersArrayList.size() - 2);
                     holder.questionAnswerTextView.setHtml(key,
-                            new HtmlHttpImageGetter( holder.questionAnswerTextView));
+                            new HtmlHttpImageGetter(holder.questionAnswerTextView));
                     Linkify.addLinks(holder.questionAnswerTextView, Linkify.WEB_URLS);
                     if (mode == Constants.VIEW_CORRECT_ANSWERS) {
                         holder.matchAnswerEditText.setText(mapMatchIndex(answersArrayList, key));
@@ -175,7 +175,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             if (mode != Constants.SOLVE_QUIZ) {
                 answersAttributes = question.getAnswers().get(position - 2);
                 holder.questionAnswerTextView.setHtml(answersAttributes.getBody(),
-                        new HtmlHttpImageGetter( holder.questionAnswerTextView));
+                        new HtmlHttpImageGetter(holder.questionAnswerTextView));
                 Linkify.addLinks(holder.questionAnswerTextView, Linkify.WEB_URLS);
                 if (mode == Constants.VIEW_CORRECT_ANSWERS) {
                     if (type.equals(TYPE.SINGLE_SELECTION)) {
@@ -199,7 +199,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                         if (sortMatchAnswers.get(position - 2) instanceof Answers) {
                             Answers answer = (Answers) sortMatchAnswers.get(position - 2);
                             holder.questionAnswerTextView.setHtml(answer.getBody(),
-                                    new HtmlHttpImageGetter( holder.questionAnswerTextView));
+                                    new HtmlHttpImageGetter(holder.questionAnswerTextView));
                             Linkify.addLinks(holder.questionAnswerTextView, Linkify.WEB_URLS);
                         }
                     }
@@ -223,14 +223,15 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                         } else if (type.equals(TYPE.SINGLE_SELECTION)) {
                             holder.radioButton.setChecked(false);
                         }
-                    } if (type.equals(TYPE.REORDER_ANSWERS)) {
+                    }
+                    if (type.equals(TYPE.REORDER_ANSWERS)) {
                         ArrayList<Object> objects = new ArrayList<>();
                         objects.addAll(question.getAnswers());
                         ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
                         if (sortMatchAnswers.get(position - 2) instanceof Answers) {
                             Answers answer = (Answers) sortMatchAnswers.get(position - 2);
                             holder.questionAnswerTextView.setHtml(answer.getBody(),
-                                    new HtmlHttpImageGetter( holder.questionAnswerTextView));
+                                    new HtmlHttpImageGetter(holder.questionAnswerTextView));
                             Linkify.addLinks(holder.questionAnswerTextView, Linkify.WEB_URLS);
                         }
                     }
@@ -238,7 +239,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             } else {
                 ArrayList<Answers> answers = (ArrayList<Answers>) question.getAnswers();
                 holder.questionAnswerTextView.setHtml(answers.get(position - 2).getBody(),
-                        new HtmlHttpImageGetter( holder.questionAnswerTextView));
+                        new HtmlHttpImageGetter(holder.questionAnswerTextView));
                 Linkify.addLinks(holder.questionAnswerTextView, Linkify.WEB_URLS);
                 if (questionsAnswerHashMap.containsKey(question.getId())) {
                     ArrayList<Answers> answers1 = questionsAnswerHashMap.get(question.getId());
@@ -276,7 +277,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                         if (sortMatchAnswers.get(position - 2) instanceof Answers) {
                             Answers answer = (Answers) sortMatchAnswers.get(position - 2);
                             holder.questionAnswerTextView.setHtml(answer.getBody(),
-                                    new HtmlHttpImageGetter( holder.questionAnswerTextView));
+                                    new HtmlHttpImageGetter(holder.questionAnswerTextView));
                             Linkify.addLinks(holder.questionAnswerTextView, Linkify.WEB_URLS);
                         }
                     }
@@ -398,12 +399,12 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             matchAnswerEditText = itemView.findViewById(R.id.match_answer_et);
             matchQuestionNumberTextView = itemView.findViewById(R.id.question_number_tv);
             itemView.setOnClickListener(this);
-            radioButton.setOnClickListener(this);
             multiSelectionImageButton = itemView.findViewById(R.id.btn_multi_select);
+            radioButton.setEnabled(false);
+            radioButton.setClickable(false);
 
             if (mode != Constants.SOLVE_QUIZ) {
                 itemView.setClickable(false);
-                radioButton.setClickable(false);
                 radioButton.setChecked(false);
                 multiSelectionImageButton.setClickable(false);
                 multiSelectionImageButton.setFocusable(false);
@@ -543,9 +544,12 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             falseRadioButton.setClickable(false);
             falseRadioButton.setFocusable(false);
             falseRadioButton.setChecked(false);
+            falseRadioButton.setEnabled(false);
             trueRadioButton.setClickable(false);
             trueRadioButton.setFocusable(false);
             trueRadioButton.setChecked(false);
+            trueRadioButton.setEnabled(false);
+
             if (mode != Constants.SOLVE_QUIZ) {
                 trueLinearLayout.setClickable(false);
                 falseLinearLayout.setClickable(false);
