@@ -46,4 +46,16 @@ public class QuizzesDetailsView {
             }
         });
     }
+    public void submitQuiz(String url, int submissionId) {
+        UserManager.submitQuiz(url, submissionId, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                quizzesDetailsPresenter.onSubmitQuizSuccess();
+            }
+            @Override
+            public void onFailure(String message, int errorCode) {
+                quizzesDetailsPresenter.onSubmitQuizFailure(message, errorCode);
+            }
+        });
+    }
 }

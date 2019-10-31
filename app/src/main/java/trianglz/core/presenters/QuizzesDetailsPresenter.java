@@ -9,4 +9,6 @@ import trianglz.models.Quizzes;
 public interface QuizzesDetailsPresenter {
     void onGetQuizzesDetailsSuccess(ArrayList<Quizzes> quizzes, Meta meta);
     void onGetQuizzesDetailsFailure(String message, int errorCode);
+    void onSubmitQuizSuccess();
+    void onSubmitQuizFailure(String message, int errorCode);
 }
