@@ -44,12 +44,6 @@
                 android:textColor="@color/posts_black"
                 android:textSize="16sp" />
 
-            <ImageView
-                android:id="@+id/true_answer_photo_iv"
-                android:src="@drawable/dragon"
-                android:padding="6dp"
-                android:layout_width="70dp"
-                android:layout_height="match_parent" />
         </LinearLayout>
 
         <LinearLayout
