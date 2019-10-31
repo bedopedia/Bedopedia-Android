@@ -46,7 +46,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     public Boolean isCalling = false;
     public CustomRtlViewPager pager;
     private StudentMainPagerAdapter pagerAdapter;
-
+    private ErrorDialog errorDialogue;
     // header
     private ImageButton settingsBtn, addNewMessageButton, backBtn;
     private SettingsDialog settingsDialog;
@@ -269,8 +269,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onChangeLanguageClicked() {
-        ErrorDialog errorDialog = new ErrorDialog(this, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
-        errorDialog.show();
+        errorDialogue = new ErrorDialog(this, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
+        errorDialogue.show();
     }
 
     @Override
@@ -651,6 +651,11 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     @Override
     public void onConfirm() {
         changeLanguage();
+    }
+
+    @Override
+    public void onCancel() {
+        errorDialogue.dismiss();
     }
 
     public interface OnBackPressedInterface {
