@@ -45,7 +45,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
 
     public HashMap<Integer, ArrayList<Answers>> questionsAnswerHashMap;
     public HashMap<String, Answers> matchAnswersHashMap;
-    public List<Object> reorderAnswers;
     public static final int TYPE_QUESTION = 0;
     public static final int TYPE_ANSWER_TEXT = 1;
     public static final int TYPE_QUESTION_ANSWER = 2;
@@ -57,7 +56,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
         this.context = context;
         questionsAnswerHashMap = new HashMap<>();
         matchAnswersHashMap = new HashMap<>();
-        reorderAnswers = new ArrayList<>();
         matchesArrayList = new ArrayList<>();
         this.mode = mode;
     }
@@ -272,8 +270,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                         ArrayList<Object> sortMatchAnswers = sortMatchAnswers(objects);
                         question.answers.clear();
                         question.answers.addAll((List) sortMatchAnswers);
-                        reorderAnswers.clear();
-                        reorderAnswers.addAll((List) sortMatchAnswers);
                         if (sortMatchAnswers.get(position - 2) instanceof Answers) {
                             Answers answer = (Answers) sortMatchAnswers.get(position - 2);
                             holder.questionAnswerTextView.setHtml(answer.getBody(),
