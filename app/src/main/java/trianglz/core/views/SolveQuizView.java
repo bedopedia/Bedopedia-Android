@@ -7,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import trianglz.core.presenters.SolveQuizPresenter;
 import trianglz.managers.api.ArrayResponseListener;
@@ -15,7 +17,6 @@ import trianglz.managers.api.UserManager;
 import trianglz.models.AnswerSubmission;
 import trianglz.models.Answers;
 import trianglz.models.QuizQuestion;
-import trianglz.models.StudentSubmission;
 import trianglz.models.StudentSubmissions;
 
 /**
@@ -90,7 +91,23 @@ public class SolveQuizView {
         UserManager.getAnswerSubmission(url, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                solveQuizPresenter.onGetAnswerSubmissionSuccess(response);
+                HashMap<Integer, ArrayList<Answers>> answersSubmissionHashMap = new HashMap<>();
+                Iterator<String> keys = response.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    if (response.opt(key) instanceof JSONArray) {
+                        JSONArray jsonArray = response.optJSONArray(key);
+                        ArrayList<Answers> answers = new ArrayList<>();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject answerObject = jsonArray.optJSONObject(i);
+                            Answers answer = Answers.create(answerObject.toString());
+                            answer.setId(answer.getAnswerId());
+                            answers.add(answer);
+                        }
+                        answersSubmissionHashMap.put(Integer.parseInt(key), answers);
+                    }
+                }
+                solveQuizPresenter.onGetAnswerSubmissionSuccess(answersSubmissionHashMap);
             }
 
             @Override
@@ -120,6 +137,7 @@ public class SolveQuizView {
             public void onSuccess(JSONObject response) {
                 solveQuizPresenter.onSubmitQuizSuccess();
             }
+
             @Override
             public void onFailure(String message, int errorCode) {
                 solveQuizPresenter.onSubmitQuizFailure(message, errorCode);

@@ -17,9 +17,6 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 
 import org.joda.time.DateTime;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 
 import java.util.ArrayList;
@@ -77,6 +74,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private StudentSubmissions studentSubmission;
     private int mode; //0 solve, 1 view questions, 2 view correct answers, 3 view student answers
     private boolean isSubmit = false;
+    private ArrayList<Answers> previousReorderAnswers;
+    private HashMap<Integer, ArrayList<Answers>> answersSubmissionHashMap;
     private HashMap<String, Answers> previousMatchAnswersHashMap;
     private HashMap<Integer, ArrayList<Answers>> previousAnswersHashMap;
 
@@ -140,6 +139,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         recyclerView.setAdapter(singleMultiSelectAnswerAdapter);
         previousMatchAnswersHashMap = new HashMap<>();
         previousAnswersHashMap = new HashMap<>();
+        answersSubmissionHashMap = new HashMap<>();
+        previousReorderAnswers = new ArrayList<>();
         if (mode != Constants.SOLVE_QUIZ) {
             timerTextView.setVisibility(View.GONE);
         }
@@ -256,6 +257,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 if (index > 0) {
                     index--;
                     question = quizQuestion.getQuestions().get(index);
+                    checkQuestionHasAnswer(question.getId());
                 }
                 displayQuestionsAndAnswers(index);
                 break;
@@ -369,11 +371,15 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     public void onPostAnswerSubmissionSuccess(ArrayList<Answers> answers) {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
-        if (question.getType().equals(Constants.TYPE_MATCH)) {
-            fillPreviousMatchMap(previousMatchAnswersHashMap, answers);
-        } else {
-            previousAnswersHashMap.put(question.getId(), answers);
-        }
+//        if (question.getType().equals(Constants.TYPE_MATCH)) {
+//            fillPreviousMatchMap(previousMatchAnswersHashMap, answers);
+//        } else if (question.getType().equals(Constants.TYPE_REORDER)) {
+//            previousReorderAnswers.clear();
+//            previousReorderAnswers.addAll(answers);
+//        } else {
+//            previousAnswersHashMap.put(question.getId(), answers);
+//        }
+        answersSubmissionHashMap.put(question.getId(),answers);
         nextPage();
     }
 
@@ -385,16 +391,17 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void onGetAnswerSubmissionSuccess(JSONObject jsonObject) {
+    public void onGetAnswerSubmissionSuccess(HashMap<Integer, ArrayList<Answers>> answersSubmissionHashMap) {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
+        this.answersSubmissionHashMap = answersSubmissionHashMap;
+        question = quizQuestion.getQuestions().get(index);
         if (mode == Constants.SOLVE_QUIZ) {
-            checkQuestionHasAnswer(jsonObject);
+            checkQuestionHasAnswer(question.getId());
             startCountDown(calculateTimerDuration(quizQuestion.getDuration()));
         } else if (mode == Constants.VIEW_STUDENT_ANSWERS) {
-            checkQuestionHasAnswer(jsonObject);
+            checkQuestionHasAnswer(question.getId());
         }
-        question = quizQuestion.getQuestions().get(index);
         displayQuestionsAndAnswers(index);
     }
 
@@ -438,12 +445,12 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         AnswerSubmission answerSubmission = new AnswerSubmission();
         answerSubmission.answers = new ArrayList<>();
         if (question.getType().equals(Constants.TYPE_REORDER)) {
-            if (singleMultiSelectAnswerAdapter.reorderAnswers.equals(singleMultiSelectAnswerAdapter.question.getAnswers())) {
-                nextPage();
-            } else {
+            if (compareReorderArrayLists(previousReorderAnswers, (ArrayList<Answers>) question.getAnswers())) {
                 answerSubmission.answers.addAll(singleMultiSelectAnswerAdapter.question.getAnswers());
                 answerSubmission.setQuestionId(question.getId());
                 submitSingleAnswer(answerSubmission);
+            } else {
+                nextPage();
             }
         } else if (question.getType().equals(Constants.TYPE_MATCH)) {
             if (!previousMatchAnswersHashMap.isEmpty() && singleMultiSelectAnswerAdapter.matchAnswersHashMap.isEmpty()) {
@@ -525,7 +532,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         if (isSubmit) {
             boolean isValid = validateEmptyAnswers();
             if (isValid) {
-                //submitQuiz();
+                //    submitQuiz();
             } else {
                 activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.complete_answer));
                 displayQuestionsAndAnswers(index);
@@ -534,44 +541,34 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             if (index < quizQuestion.getQuestions().size() - 1) {
                 index++;
                 question = quizQuestion.getQuestions().get(index);
+                checkQuestionHasAnswer(question.getId());
                 displayQuestionsAndAnswers(index);
             }
         }
     }
 
-    private void checkQuestionHasAnswer(JSONObject jsonObject) {
+    private void checkQuestionHasAnswer(int questionId) {
         ArrayList<Answers> answers = new ArrayList<>();
-        for (Questions question : quizQuestion.getQuestions()) {
-            try {
-                if (jsonObject.has(Integer.toString(question.getId()))) {
-                    JSONArray jsonArray = jsonObject.getJSONArray(Integer.toString(question.getId()));
-                    answers = new ArrayList<>();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject answerObject = jsonArray.optJSONObject(i);
-                        Answers answer = Answers.create(answerObject.toString());
-                        answer.setId(answer.getAnswerId());
-                        answers.add(answer);
-                    }
-                } else {
-                    answers = new ArrayList<>();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        if(question.getType().equals(Constants.TYPE_REORDER)){
+            setMatchReorder(question.getAnswers());
+            previousReorderAnswers.clear();
+        }
+        if (answersSubmissionHashMap.containsKey(questionId)) {
+            answers.clear();
+            answers.addAll(answersSubmissionHashMap.get(questionId));
             switch (question.getType()) {
                 case Constants.TYPE_REORDER:
-                    setMatchReorder(question.getAnswers());
-                    singleMultiSelectAnswerAdapter.reorderAnswers.clear();
-                    singleMultiSelectAnswerAdapter.reorderAnswers.addAll(question.getAnswers());
-                    for (int i = 0; i < question.getAnswers().size(); i++) {
-                        for (int k = 0; k < answers.size(); k++) {
-                            if (question.getAnswers().get(i).getId() == answers.get(k).getAnswerId()) {
-                                question.getAnswers().get(i).setMatch(answers.get(k).getMatch());
+                    if (!answers.isEmpty()) {
+                        previousReorderAnswers.clear();
+                        previousReorderAnswers.addAll(answers);
+                        for (int i = 0; i < question.getAnswers().size(); i++) {
+                            for (int k = 0; k < answers.size(); k++) {
+                                if (question.getAnswers().get(i).getId() == answers.get(k).getAnswerId()) {
+                                    question.getAnswers().get(i).setMatch(answers.get(k).getMatch());
+                                }
                             }
                         }
                     }
-                    singleMultiSelectAnswerAdapter.reorderAnswers.clear();
-                    singleMultiSelectAnswerAdapter.reorderAnswers.addAll(question.getAnswers());
                     break;
                 case Constants.TYPE_MULTIPLE_SELECT:
                 case Constants.TYPE_MULTIPLE_CHOICE:
@@ -608,8 +605,10 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     }
                     break;
             }
-
-
+        } else {
+            previousReorderAnswers.clear();
+            previousMatchAnswersHashMap.clear();
+            previousAnswersHashMap.remove(question.getId());
         }
     }
 
@@ -729,6 +728,26 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             }
         }
         return isToCreateAnswer;
+    }
+
+    private boolean compareReorderArrayLists(ArrayList<Answers> previousReorderArrayList, ArrayList<Answers> currentReorderArrayList) {
+        boolean isToCreateSubmission = false;
+        if (previousReorderArrayList.size() == currentReorderArrayList.size()) {
+            for (int i = 0; i < currentReorderArrayList.size(); i++) {
+                for (int j = 0; j < previousReorderArrayList.size(); j++) {
+                    if (currentReorderArrayList.get(i).getAnswerId() == previousReorderArrayList.get(j).getId() || currentReorderArrayList.get(i).getId() == previousReorderArrayList.get(j).getId() || currentReorderArrayList.get(i).getId() == previousReorderArrayList.get(j).getAnswerId()) {
+                        if (currentReorderArrayList.get(i).getMatch().equals(previousReorderArrayList.get(j).getMatch())) {
+                            continue;
+                        } else {
+                            isToCreateSubmission = true;
+                        }
+                    }
+                }
+            }
+        } else {
+            return true;
+        }
+        return isToCreateSubmission;
     }
 
     private long calculateTimerDuration(long quizDuration) {
