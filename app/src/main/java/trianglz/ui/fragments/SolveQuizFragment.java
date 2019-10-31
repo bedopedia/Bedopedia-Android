@@ -581,8 +581,9 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                             correctAnswers.add(answers.get(i));
                         }
                     }
+                    if (!answers.isEmpty()) {
                     singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), correctAnswers);
-                    previousAnswersHashMap.put(question.getId(), answers);
+                    previousAnswersHashMap.put(question.getId(), answers);}
                     break;
                 case Constants.TYPE_MATCH:
                     if (mode == Constants.SOLVE_QUIZ) {
@@ -594,8 +595,10 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     }
                     break;
                 default:
-                    singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);
-                    previousAnswersHashMap.put(question.getId(), answers);
+                    if (!answers.isEmpty()) {
+                        singleMultiSelectAnswerAdapter.questionsAnswerHashMap.put(question.getId(), answers);
+                        previousAnswersHashMap.put(question.getId(), answers);
+                    }
                     break;
             }
 
