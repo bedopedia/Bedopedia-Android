@@ -28,6 +28,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import trianglz.components.CustomeLayoutManager;
+import trianglz.components.ErrorDialog;
 import trianglz.components.HideKeyboardOnTouch;
 import trianglz.components.QuizSubmittedDialog;
 import trianglz.components.TopItemDecoration;
@@ -51,7 +52,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 04/09/2019.
  */
-public class SolveQuizFragment extends Fragment implements View.OnClickListener, SolveQuizPresenter {
+public class SolveQuizFragment extends Fragment implements View.OnClickListener, SolveQuizPresenter, ErrorDialog.DialogConfirmationInterface {
     private StudentMainActivity activity;
     private View rootView;
 
@@ -72,6 +73,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private QuizzCourse course;
     private Questions question;
     private StudentSubmissions studentSubmission;
+    private ErrorDialog submissionConfirmationDialog;
     private int mode; //0 solve, 1 view questions, 2 view correct answers, 3 view student answers
     private boolean isSubmit = false;
     private ArrayList<Answers> previousReorderAnswers;
@@ -371,14 +373,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     public void onPostAnswerSubmissionSuccess(ArrayList<Answers> answers) {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
-//        if (question.getType().equals(Constants.TYPE_MATCH)) {
-//            fillPreviousMatchMap(previousMatchAnswersHashMap, answers);
-//        } else if (question.getType().equals(Constants.TYPE_REORDER)) {
-//            previousReorderAnswers.clear();
-//            previousReorderAnswers.addAll(answers);
-//        } else {
-//            previousAnswersHashMap.put(question.getId(), answers);
-//        }
         answersSubmissionHashMap.put(question.getId(),answers);
         nextPage();
     }
@@ -534,8 +528,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             if (isValid) {
                 //    submitQuiz();
             } else {
-                activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.complete_answer));
-                displayQuestionsAndAnswers(index);
+                submissionConfirmationDialog = new ErrorDialog(activity, activity.getResources().getString(R.string.complete_answer), ErrorDialog.DialogType.QUIZ_SUBMISSION, this);
+                submissionConfirmationDialog.show();
             }
         } else {
             if (index < quizQuestion.getQuestions().size() - 1) {
@@ -652,15 +646,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private void setMatchIndex(ArrayList<Answers> answers) {
         for (int i = 0; i < answers.size(); i++) {
             answers.get(i).setMatchIndex(i + 1);
-        }
-    }
-
-    private void fillPreviousMatchMap(HashMap<String, Answers> previousMap, ArrayList<Answers> currentAnswers) {
-        for (Answers answer : currentAnswers) {
-            Answers previousAnswer;
-            String match = answer.getMatch();
-            previousAnswer = answer;
-            previousMap.put(match, previousAnswer);
         }
     }
 
@@ -799,5 +784,16 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             }
         }
         return isValid;
+    }
+
+    @Override
+    public void onConfirm() {
+        //submit
+    }
+
+    @Override
+    public void onCancel() {
+        displayQuestionsAndAnswers(index);
+        submissionConfirmationDialog.dismiss();
     }
 }
