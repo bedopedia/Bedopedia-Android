@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 
 import org.joda.time.DateTime;
-import org.jsoup.Jsoup;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -629,6 +628,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     }
 
     private void fillMatchHashmap(ArrayList<Answers> options, ArrayList<Answers> answers) {
+        singleMultiSelectAnswerAdapter.matchAnswersHashMap.clear();
+        previousMatchAnswersHashMap.clear();
         if (!answers.isEmpty()) {
             for (int i = 0; i < answers.size(); i++) {
                 for (int j = 0; j < options.size(); j++) {
@@ -746,39 +747,13 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private boolean validateEmptyAnswers() {
         boolean isValid = false;
         for (int i = 0; i < quizQuestion.getQuestions().size(); i++) {
-            Questions questions = quizQuestion.getQuestions().get(i);
-            if (questions.getType().equals(Constants.TYPE_MATCH)) {
-                for (int j = 0; j < questions.getAnswers().get(0).getMatches().size(); j++) {
-                    String key = questions.getAnswers().get(0).getMatches().get(j);
-                    if (singleMultiSelectAnswerAdapter.matchAnswersHashMap.containsKey(Jsoup.parse(key).text())) {
-                        isValid = true;
-                    } else {
-                        index = i;
-                        question = quizQuestion.getQuestions().get(index);
-                        return false;
-                    }
-                }
+            Questions question = quizQuestion.getQuestions().get(i);
+            if (answersSubmissionHashMap.containsKey(question.getId())) {
+                isValid = true;
             } else {
-                if (!questions.getType().equals(Constants.TYPE_REORDER)) {
-                    if (singleMultiSelectAnswerAdapter.questionsAnswerHashMap.containsKey(questions.getId())) {
-                        ArrayList<Answers> answers = singleMultiSelectAnswerAdapter.questionsAnswerHashMap.get(questions.getId());
-                        if (questions.getType().equals(Constants.TYPE_MULTIPLE_SELECT)) {
-                            if (answers.isEmpty()) {
-                                index = i;
-                                question = quizQuestion.getQuestions().get(index);
-                                return false;
-                            }
-                        } else {
-                            isValid = true;
-                        }
-                    } else {
-                        index = i;
-                        question = quizQuestion.getQuestions().get(index);
-                        return false;
-                    }
-                } else {
-                    isValid = true;
-                }
+                index = i;
+                this.question = quizQuestion.getQuestions().get(index);
+                return false;
             }
         }
         return isValid;
