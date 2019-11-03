@@ -101,7 +101,7 @@ public class SolveQuizView {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject answerObject = jsonArray.optJSONObject(i);
                             Answers answer = Answers.create(answerObject.toString());
-                            answer.setId(answer.getAnswerId());
+                            answer.setId(answer.getId());
                             answers.add(answer);
                         }
                         answersSubmissionHashMap.put(Integer.parseInt(key), answers);
