@@ -524,6 +524,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private void nextPage() {
         if (isSubmit) {
             boolean isValid = validateEmptyAnswers();
+            checkQuestionHasAnswer(question.getId());
             if (isValid) {
                 //    submitQuiz();
             } else {
@@ -556,7 +557,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                         previousReorderAnswers.addAll(answers);
                         for (int i = 0; i < question.getAnswers().size(); i++) {
                             for (int k = 0; k < answers.size(); k++) {
-                                if (question.getAnswers().get(i).getId() == answers.get(k).getAnswerId()) {
+                                if (question.getAnswers().get(i).getId() == answers.get(k).getId()) {
                                     question.getAnswers().get(i).setMatch(answers.get(k).getMatch());
                                 }
                             }
@@ -602,6 +603,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             previousReorderAnswers.clear();
             previousMatchAnswersHashMap.clear();
             previousAnswersHashMap.remove(question.getId());
+            singleMultiSelectAnswerAdapter.questionsAnswerHashMap.remove(question.getId());
             singleMultiSelectAnswerAdapter.matchAnswersHashMap.clear();
         }
     }
@@ -633,7 +635,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         if (!answers.isEmpty()) {
             for (int i = 0; i < answers.size(); i++) {
                 for (int j = 0; j < options.size(); j++) {
-                    if (answers.get(i).getAnswerId() == options.get(j).getId()) {
+                    if (answers.get(i).getId() == options.get(j).getId()) {
                         singleMultiSelectAnswerAdapter.matchAnswersHashMap.put(answers.get(i).getMatch(), options.get(j));
                         previousMatchAnswersHashMap.put(answers.get(i).getMatch(), options.get(j));
                     }
@@ -651,12 +653,15 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private boolean compareHashMaps(HashMap<Integer, ArrayList<Answers>> previousAnswersHashMap, HashMap<Integer, ArrayList<Answers>> currentAnswersHashMap, Questions question) {
         boolean isToCreateAnswer = false;
         if (currentAnswersHashMap.containsKey(question.getId())) {
+            ArrayList<Answers> currentAnswersArrayList = new ArrayList<>();
+            currentAnswersArrayList.addAll(currentAnswersHashMap.get(question.getId()));
+            if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) && currentAnswersArrayList.isEmpty() && !previousAnswersHashMap.containsKey(question.getId())) {
+                return false;
+            }
             if (previousAnswersHashMap.containsKey(question.getId())) {
-                ArrayList<Answers> currentAnswersArrayList = new ArrayList<>();
                 ArrayList<Answers> previousAnswersArrayList = new ArrayList<>();
-                currentAnswersArrayList.addAll(currentAnswersHashMap.get(question.getId()));
                 previousAnswersArrayList.addAll(previousAnswersHashMap.get(question.getId()));
-                if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) && currentAnswersArrayList.isEmpty() && !previousMatchAnswersHashMap.isEmpty()) {
+                if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT) && currentAnswersArrayList.isEmpty() && !previousAnswersArrayList.isEmpty()) {
                     deleteSingleAnswer(question.getId(), studentSubmission.getId());
                 } else {
                     if (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT)) {
@@ -670,7 +675,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     if (previousAnswersArrayList.size() == currentAnswersArrayList.size() || question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE)) {
                         for (int i = 0; i < currentAnswersArrayList.size(); i++) {
                             for (int j = 0; j < previousAnswersArrayList.size(); j++) {
-                                if (currentAnswersArrayList.get(i).getAnswerId() == previousAnswersArrayList.get(j).getId() || currentAnswersArrayList.get(i).getId() == previousAnswersArrayList.get(j).getId() || currentAnswersArrayList.get(i).getId() == previousAnswersArrayList.get(j).getAnswerId()) {
+                                if (currentAnswersArrayList.get(i).getId() == previousAnswersArrayList.get(j).getId() ) {
                                     if (question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE) || (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT)) || (question.getType().equals(Constants.TYPE_TRUE_OR_FALSE))) {
                                         if (currentAnswersArrayList.get(i).isCorrect() != previousAnswersArrayList.get(j).isCorrect()) {
                                             isToCreateAnswer = true;
@@ -701,7 +706,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 currentAnswer = (Answers) mapElement.getValue();
                 if (previousAnswersHashMap.containsKey(match)) {
                     previousAnswer = previousAnswersHashMap.get(match);
-                    if (currentAnswer.getAnswerId() == previousAnswer.getId() || currentAnswer.getId() == previousAnswer.getId() || currentAnswer.getId() == previousAnswer.getAnswerId()) {
+                    if ( currentAnswer.getId() == previousAnswer.getId()) {
                         continue;
                     } else {
                         isToCreateAnswer = true;
@@ -719,7 +724,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         if (previousReorderArrayList.size() == currentReorderArrayList.size()) {
             for (int i = 0; i < currentReorderArrayList.size(); i++) {
                 for (int j = 0; j < previousReorderArrayList.size(); j++) {
-                    if (currentReorderArrayList.get(i).getAnswerId() == previousReorderArrayList.get(j).getId() || currentReorderArrayList.get(i).getId() == previousReorderArrayList.get(j).getId() || currentReorderArrayList.get(i).getId() == previousReorderArrayList.get(j).getAnswerId()) {
+                    if (currentReorderArrayList.get(i).getId() == previousReorderArrayList.get(j).getId()) {
                         if (currentReorderArrayList.get(i).getMatch().equals(previousReorderArrayList.get(j).getMatch())) {
                             continue;
                         } else {
