@@ -8,8 +8,8 @@
     android:clickable="true"
     android:focusable="true"
     android:background="@color/snow"
-    tools:context="trianglz.ui.fragments.QuizzesDetailsFragment">
-    >
+    tools:context="trianglz.ui.fragments.QuizDetailsFragment">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -69,14 +69,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"        android:padding="16dp"
-            >
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/quiz_name_tv"
