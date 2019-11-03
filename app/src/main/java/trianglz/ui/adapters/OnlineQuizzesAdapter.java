@@ -59,18 +59,19 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
             DateTime dateTime = new DateTime(quizzCourse.getNextQuizDate());
             if (dateTime.isBefore(DateTime.now())) {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
-                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dirt_brown,null));
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dirt_brown, null));
                 holder.clockImageView.setImageResource(R.drawable.red_clock_icon);
 
             } else {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
                 holder.clockImageView.setImageResource(R.drawable.green_clock_icon);
-                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine,null));
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine, null));
             }
+            holder.dateTextView.setText(Util.getPostDateAmPm(quizzCourse.getNextQuizDate(),context));
         } else {
             holder.dateLinearLayout.setVisibility(View.INVISIBLE);
         }
-        holder.dateTextView.setText(Util.getCourseDate(quizzCourse.getNextQuizDate()));
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
