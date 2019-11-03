@@ -373,7 +373,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     public void onPostAnswerSubmissionSuccess(ArrayList<Answers> answers) {
         if (activity.progress.isShowing())
             activity.progress.dismiss();
-        answersSubmissionHashMap.put(question.getId(),answers);
+        answersSubmissionHashMap.put(question.getId(), answers);
         nextPage();
     }
 
@@ -543,7 +543,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     private void checkQuestionHasAnswer(int questionId) {
         ArrayList<Answers> answers = new ArrayList<>();
-        if(question.getType().equals(Constants.TYPE_REORDER)){
+        if (question.getType().equals(Constants.TYPE_REORDER)) {
             setMatchReorder(question.getAnswers());
             previousReorderAnswers.clear();
         }
@@ -603,6 +603,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             previousReorderAnswers.clear();
             previousMatchAnswersHashMap.clear();
             previousAnswersHashMap.remove(question.getId());
+            singleMultiSelectAnswerAdapter.matchAnswersHashMap.clear();
         }
     }
 
@@ -637,9 +638,6 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     }
                 }
             }
-        } else {
-            singleMultiSelectAnswerAdapter.matchAnswersHashMap.clear();
-            previousMatchAnswersHashMap.clear();
         }
     }
 
