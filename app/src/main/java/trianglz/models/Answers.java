@@ -12,8 +12,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class Answers {
-
-	@SerializedName("id")
+	@SerializedName(value="id", alternate={"answer_id"})
 	private int id;
 	@SerializedName("question_id")
 	private int questionId;
@@ -33,8 +32,6 @@ public class Answers {
 	private String match;
 	@SerializedName("deleted_at")
 	private String deletedAt;
-	@SerializedName("answer_id")
-	private int answerId;
 	@SerializedName("quiz_submission_id")
 	private int quizSubmissionId;
     private int matchIndex = -1;
@@ -88,14 +85,6 @@ public class Answers {
 
 	public void setDeletedAt(String deletedAt) {
 		this.deletedAt = deletedAt;
-	}
-
-	public void setAnswerId(int answerId) {
-		this.answerId = answerId;
-	}
-
-	public int getAnswerId() {
-		return this.answerId;
 	}
 
 	public void setQuizSubmissionId(int quizSubmissionId) {
