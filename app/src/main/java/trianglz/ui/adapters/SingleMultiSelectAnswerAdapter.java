@@ -204,7 +204,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     if (questionsAnswerHashMap.containsKey(question.getId())) {
                         ArrayList<Answers> answers1 = questionsAnswerHashMap.get(question.getId());
                         for (int i = 0; i < answers1.size(); i++) {
-                            if (answers1.get(i).getId() == question.getAnswers().get(position - 2).getId() || answers1.get(i).getAnswerId() == question.getAnswers().get(position - 2).getId()) {
+                            if (answers1.get(i).getId() == question.getAnswers().get(position - 2).getId()) {
                                 if (type.equals(TYPE.MULTI_SELECTION)) {
                                     holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
                                     holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
@@ -241,7 +241,7 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                 if (questionsAnswerHashMap.containsKey(question.getId())) {
                     ArrayList<Answers> answers1 = questionsAnswerHashMap.get(question.getId());
                     for (int i = 0; i < answers1.size(); i++) {
-                        if (answers1.get(i).getId() == question.getAnswers().get(position - 2).getId() || answers1.get(i).getAnswerId() == question.getAnswers().get(position - 2).getId()) {
+                        if (answers1.get(i).getId() == question.getAnswers().get(position - 2).getId()) {
                             if (type.equals(TYPE.MULTI_SELECTION)) {
                                 holder.multiSelectionImageButton.setImageResource(R.drawable.ic_white_check);
                                 holder.multiSelectionImageButton.setBackground(context.getDrawable(R.drawable.curved_check_box_background_student));
