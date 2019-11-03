@@ -161,6 +161,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                     dateLinearLayout.setBackground(this.getResources().getDrawable(R.drawable.curved_red, null));
                     dateTextView.setTextColor(this.getResources().getColor(R.color.dirt_brown, null));
                     clockImageView.setImageDrawable(this.getResources().getDrawable(R.drawable.red_clock_icon, null));
+                    clockImageView.setVisibility(View.GONE);
                     dateTextView.setText(this.getResources().getString(R.string.solved));
                     buttonsLayout.setVisibility(View.VISIBLE);
                     gradeTextView.setText(quizzes.getStudentSubmissions().getScore() + "");
@@ -192,6 +193,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
                 if (quizzes.getStudentSubmissions() != null) {
                     quizGradeView.setVisibility(View.VISIBLE);
                     dateTextView.setText(this.getResources().getString(R.string.solved));
+                    clockImageView.setVisibility(View.GONE);
                     gradeTextView.setText(quizzes.getStudentSubmissions().getScore() + "");
                     outOfTextView.setText(getResources().getString(R.string.out_of) + " " + quizzes.getTotalScore() + "");
                     String feedBack = quizzes.getStudentSubmissions().getFeedback();
