@@ -80,7 +80,6 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Answers answersAttributes;
-
         if (position == 0) {
             final QuestionViewHolder holder = (QuestionViewHolder) viewHolder;
             holder.questionTextView.setHtml(question.getBody(),
@@ -117,8 +116,8 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     holder.questionAnswerTextView.setHtml(key,
                             new HtmlHttpImageGetter(holder.questionAnswerTextView));
                     Linkify.addLinks(holder.questionAnswerTextView, Linkify.WEB_URLS);
-                    if (matchAnswersHashMap.containsKey(Jsoup.parse(key).text())) {
-                        Answers answer = matchAnswersHashMap.get(Jsoup.parse(key).text());
+                    if (matchAnswersHashMap.containsKey(key)) {
+                        Answers answer = matchAnswersHashMap.get(key);
                         holder.matchAnswerEditText.setText(answer.getMatchIndex() + "");
                     } else {
                         holder.matchAnswerEditText.setText("");
@@ -158,8 +157,8 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                     if (mode == Constants.VIEW_CORRECT_ANSWERS) {
                         holder.matchAnswerEditText.setText(mapMatchIndex(answersArrayList, key));
                     } else {
-                        if (matchAnswersHashMap.containsKey(Jsoup.parse(key).text())) {
-                            Answers answer = matchAnswersHashMap.get(Jsoup.parse(key).text());
+                        if (matchAnswersHashMap.containsKey(key)) {
+                            Answers answer = matchAnswersHashMap.get(key);
                             holder.matchAnswerEditText.setText(answer.getMatchIndex() + "");
                         } else {
                             holder.matchAnswerEditText.setText("");
@@ -286,7 +285,9 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
                 if (mode == Constants.VIEW_CORRECT_ANSWERS) {
                     if (answersAttributes.isCorrect()) {
                         holder.trueRadioButton.setChecked(true);
+                        holder.falseRadioButton.setChecked(false);
                     } else {
+                        holder.trueRadioButton.setChecked(false);
                         holder.falseRadioButton.setChecked(true);
                     }
                 }
@@ -499,19 +500,21 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
 
         @Override
         public void afterTextChanged(Editable s) {
+
+            String match = getMatchWithTags(questionAnswerTextView.getText().toString());
             if (!matchAnswerEditText.getText().toString().isEmpty()) {
                 String answerText = matchAnswerEditText.getText().toString();
                 int index = Integer.parseInt(answerText);
                 if (index - 1 < question.getAnswers().get(0).getOptions().size() && index - 1 >= 0) {
                     Answers answer = question.getAnswers().get(0).getOptions().get(index - 1);
                     answer.setMatchIndex(index);
-                    answer.setMatch(questionAnswerTextView.getText().toString());
+                    answer.setMatch(match);
                     removeOldValue(matchAnswersHashMap, index, answer);
-                    matchAnswersHashMap.put(questionAnswerTextView.getText().toString(), answer);
+                    matchAnswersHashMap.put(match, answer);
                     printMap(matchAnswersHashMap);
                 }
             } else {
-                matchAnswersHashMap.remove(questionAnswerTextView.getText().toString());
+                matchAnswersHashMap.remove(match);
             }
         }
     }
@@ -639,11 +642,22 @@ public class SingleMultiSelectAnswerAdapter extends RecyclerView.Adapter {
             ArrayList<Answers> answers = (ArrayList<Answers>) question.getAnswers();
             ArrayList<String> optionsList = answers.get(0).getMatches();
             for (int i = 0; i < optionsList.size(); i++) {
-                if (Jsoup.parse(optionsList.get(i)).text().equals(key)) {
+                if (optionsList.get(i).equals(key)) {
                     int position = i + answers.get(0).getMatches().size() + 2;
                     notifyItemChanged(position);
                 }
             }
         }
+    }
+
+    String getMatchWithTags(String answer) {
+        String match;
+        for (int i = 0; i < question.getAnswers().get(0).getMatches().size(); i++) {
+            match = question.getAnswers().get(0).getMatches().get(i);
+            if (answer.equals(Jsoup.parse(match).text())) {
+                return match;
+            }
+        }
+        return "";
     }
 }
