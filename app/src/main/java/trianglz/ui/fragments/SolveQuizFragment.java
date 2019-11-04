@@ -75,6 +75,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private ErrorDialog submissionConfirmationDialog;
     private int mode; //0 solve, 1 view questions, 2 view correct answers, 3 view student answers
     private boolean isSubmit = false;
+    private CustomeLayoutManager customeLayoutManager;
     private ArrayList<Answers> previousReorderAnswers;
     private HashMap<Integer, ArrayList<Answers>> answersSubmissionHashMap;
     private HashMap<String, Answers> previousMatchAnswersHashMap;
@@ -114,7 +115,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             }
 
             public void onFinish() {
-                // submitQuiz();
+                 submitQuiz();
             }
         }.start();
     }
@@ -131,7 +132,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         questionCounterTextView = rootView.findViewById(R.id.question_counter_tv);
         subjectNameTextView.setText(quizzes.getName());
         solveQuizView = new SolveQuizView(activity, this);
-        CustomeLayoutManager customeLayoutManager = new CustomeLayoutManager(activity);
+        customeLayoutManager = new CustomeLayoutManager(activity);
         customeLayoutManager.setScrollEnabled(false);
         recyclerView.setLayoutManager(customeLayoutManager);
         recyclerView.setNestedScrollingEnabled(true);
@@ -153,6 +154,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         previousButton.setOnClickListener(this);
         nextButton.setOnClickListener(this);
         submitButton.setOnClickListener(this);
+        rootView.setOnTouchListener(new HideKeyboardOnTouch(activity));
         recyclerView.setOnTouchListener(new HideKeyboardOnTouch(activity));
     }
 
@@ -337,8 +339,10 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     break;
 
             }
-            recyclerView.scrollToPosition(0);
             singleMultiSelectAnswerAdapter.addData(question);
+            recyclerView.setFocusable(false);
+            customeLayoutManager.scrollToPositionWithOffset(0, 0);
+
         }
     }
 
@@ -526,7 +530,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             boolean isValid = validateEmptyAnswers();
             checkQuestionHasAnswer(question.getId());
             if (isValid) {
-                //    submitQuiz();
+                    submitQuiz();
             } else {
                 submissionConfirmationDialog = new ErrorDialog(activity, activity.getResources().getString(R.string.complete_answer), ErrorDialog.DialogType.QUIZ_SUBMISSION, this);
                 submissionConfirmationDialog.show();
@@ -766,7 +770,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onConfirm() {
-        //submit
+        submitQuiz();
     }
 
     @Override
