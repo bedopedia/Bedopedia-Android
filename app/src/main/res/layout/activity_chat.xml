@@ -35,6 +35,7 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:maxLines="1"
+            android:ellipsize="end"
             android:id="@+id/tv_chat_header"
             android:text="@string/new_message"/>
 

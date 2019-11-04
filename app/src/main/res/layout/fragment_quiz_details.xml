@@ -52,6 +52,8 @@
                     android:layout_centerHorizontal="true"
                     android:background="@android:color/transparent"
                     android:text="Pattern Quiz"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/greyish_brown"
                     android:textSize="24sp"
                     android:textStyle="bold" />

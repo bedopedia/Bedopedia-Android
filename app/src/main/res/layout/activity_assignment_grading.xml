@@ -54,6 +54,7 @@
                     android:background="@android:color/transparent"
                     android:text="Pattern Assignment"
                     android:maxLines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/greyish_brown"
                     android:textSize="24sp"
                     android:textStyle="bold" />
