@@ -71,6 +71,7 @@ public class ErrorDialog extends Dialog implements DialogInterface.OnShowListene
         } else if (dialogType == DialogType.QUIZ_SUBMISSION) {
             cancelButton.setVisibility(View.VISIBLE);
             cancelButton.setText(context.getResources().getString(R.string.solve_now));
+            cancelButton.setBackground(context.getResources().getDrawable(R.drawable.curved_jade_green_25, null));
             confirmButton.setText(context.getResources().getString(R.string.submit_quiz));
 
         } else {
