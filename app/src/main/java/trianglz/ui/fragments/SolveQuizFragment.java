@@ -16,10 +16,9 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
-import org.joda.time.DateTime;
-
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -114,7 +113,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             }
 
             public void onFinish() {
-                //submitQuiz();
+                submitQuiz();
             }
         }.start();
     }
@@ -529,7 +528,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             boolean isValid = validateEmptyAnswers();
             checkQuestionHasAnswer(question.getId());
             if (isValid) {
-                //  submitQuiz();
+                  submitQuiz();
             } else {
                 submissionConfirmationDialog = new ErrorDialog(activity, activity.getResources().getString(R.string.complete_answer), ErrorDialog.DialogType.QUIZ_SUBMISSION, this);
                 submissionConfirmationDialog.show();
@@ -745,8 +744,8 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
     private long calculateTimerDuration(long quizDuration) {
         long durationLeft = 0, timeElapsed;
         quizDuration = quizDuration * 60000; //minutes convert
-        DateTime dateTime = new DateTime(studentSubmission.getCreatedAt());
-        timeElapsed = System.currentTimeMillis() - dateTime.getMillis();
+        Date createdAtDate = Util.convertIsoToDate(studentSubmission.getCreatedAt());
+        timeElapsed = System.currentTimeMillis() - createdAtDate.getTime();
         if (timeElapsed > quizDuration) {
             return 0;
         } else {
@@ -772,7 +771,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onConfirm() {
-        //  submitQuiz();
+          submitQuiz();
     }
 
     @Override

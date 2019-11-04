@@ -500,4 +500,14 @@ public class Util {
             return R.color.jade_green;
         }
     }
+    public static Date convertIsoToDate(String iso){
+        SimpleDateFormat inputFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date date = null;
+        try {
+            date = inputFormatter.parse(iso);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
 }
