@@ -23,7 +23,6 @@ import com.squareup.picasso.Picasso;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -75,6 +74,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private SwipeRefreshLayout pullRefreshLayout;
     private int quizIndex = 0;
     private ArrayList<Quizzes> isToBeSubmittedQuizzes;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -332,10 +332,12 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 
     private void populateIsToSubmitArray() {
         for (int i = 0; i < quizzes.size(); i++) {
-            if (quizzes.get(i).getState().equals("running") && quizzes.get(i).getStudentSubmissions() != null) {
-                if (!quizzes.get(i).getStudentSubmissions().getIsSubmitted()) {
-                    if (calculateTimerDuration(quizzes.get(i).getDuration(), quizzes.get(i).getStudentSubmissions().getCreatedAt()) <= 0) {
-                        isToBeSubmittedQuizzes.add(quizzes.get(i));
+            if (quizzes.get(i).getId() % 2 == 0) {
+                if (quizzes.get(i).getState().equals("running") && quizzes.get(i).getStudentSubmissions() != null) {
+                    if (!quizzes.get(i).getStudentSubmissions().getIsSubmitted()) {
+                        if (calculateTimerDuration(quizzes.get(i).getDuration(), quizzes.get(i).getStudentSubmissions().getCreatedAt()) <= 0) {
+                            isToBeSubmittedQuizzes.add(quizzes.get(i));
+                        }
                     }
                 }
             }
@@ -346,9 +348,12 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         long durationLeft = 0, timeElapsed;
         quizDuration = quizDuration * 1000; //seconds convert
         DateTime dateTime = new DateTime(createdAt);
-        Calendar c = Calendar.getInstance();
-        timeElapsed = c.getTimeInMillis() - dateTime.getMillis();
-        durationLeft = quizDuration - timeElapsed;
-        return durationLeft;
+        timeElapsed = System.currentTimeMillis() - dateTime.getMillis();
+        if (timeElapsed > quizDuration) {
+            return 0;
+        } else {
+            durationLeft = quizDuration - timeElapsed;
+            return durationLeft;
+        }
     }
 }

@@ -2,6 +2,7 @@ package trianglz.ui.fragments;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,7 +20,6 @@ import com.skolera.skolera_android.R;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -115,7 +115,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             }
 
             public void onFinish() {
-                 submitQuiz();
+                //submitQuiz();
             }
         }.start();
     }
@@ -530,7 +530,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
             boolean isValid = validateEmptyAnswers();
             checkQuestionHasAnswer(question.getId());
             if (isValid) {
-                    submitQuiz();
+                //  submitQuiz();
             } else {
                 submissionConfirmationDialog = new ErrorDialog(activity, activity.getResources().getString(R.string.complete_answer), ErrorDialog.DialogType.QUIZ_SUBMISSION, this);
                 submissionConfirmationDialog.show();
@@ -679,7 +679,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                     if (previousAnswersArrayList.size() == currentAnswersArrayList.size() || question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE)) {
                         for (int i = 0; i < currentAnswersArrayList.size(); i++) {
                             for (int j = 0; j < previousAnswersArrayList.size(); j++) {
-                                if (currentAnswersArrayList.get(i).getId() == previousAnswersArrayList.get(j).getId() ) {
+                                if (currentAnswersArrayList.get(i).getId() == previousAnswersArrayList.get(j).getId()) {
                                     if (question.getType().equals(Constants.TYPE_MULTIPLE_CHOICE) || (question.getType().equals(Constants.TYPE_MULTIPLE_SELECT)) || (question.getType().equals(Constants.TYPE_TRUE_OR_FALSE))) {
                                         if (currentAnswersArrayList.get(i).isCorrect() != previousAnswersArrayList.get(j).isCorrect()) {
                                             isToCreateAnswer = true;
@@ -710,7 +710,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
                 currentAnswer = (Answers) mapElement.getValue();
                 if (previousAnswersHashMap.containsKey(match)) {
                     previousAnswer = previousAnswersHashMap.get(match);
-                    if ( currentAnswer.getId() == previousAnswer.getId()) {
+                    if (currentAnswer.getId() == previousAnswer.getId()) {
                         continue;
                     } else {
                         isToCreateAnswer = true;
@@ -747,10 +747,13 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
         long durationLeft = 0, timeElapsed;
         quizDuration = quizDuration * 60000; //minutes convert
         DateTime dateTime = new DateTime(studentSubmission.getCreatedAt());
-        Calendar c = Calendar.getInstance();
-        timeElapsed = c.getTimeInMillis() - dateTime.getMillis();
-        durationLeft = quizDuration - timeElapsed;
-        return durationLeft;
+        timeElapsed = System.currentTimeMillis() - dateTime.getMillis();
+        if (timeElapsed > quizDuration) {
+            return 0;
+        } else {
+            durationLeft = quizDuration - timeElapsed;
+            return durationLeft;
+        }
     }
 
     private boolean validateEmptyAnswers() {
@@ -770,7 +773,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onConfirm() {
-        submitQuiz();
+        //  submitQuiz();
     }
 
     @Override
