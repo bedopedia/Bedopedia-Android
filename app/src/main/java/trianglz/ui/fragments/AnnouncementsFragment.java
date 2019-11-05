@@ -93,6 +93,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
             }
         });
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -122,13 +123,13 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         String type;
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             type = "parent";
-        } else if(SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             type = "teacher";
-        }else if(SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
             type = "hod";
-        }else if(SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString())) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString())) {
             type = "admin";
-        }else  {
+        } else {
             type = "student";
         }
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(pageNumber, type, 20);
@@ -141,6 +142,9 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         if (activity.progress.isShowing()) {
             if (!activity.isCalling)
                 activity.progress.dismiss();
+        }
+        if (pageNumber == 1 && !adapter.mDataList.isEmpty()) {
+            adapter.mDataList.clear();
         }
         newIncomingNotificationData = announcementArrayList.size() != 0;
         adapter.addData(announcementArrayList, newIncomingNotificationData);
