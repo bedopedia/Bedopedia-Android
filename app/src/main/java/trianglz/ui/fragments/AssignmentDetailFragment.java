@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -58,13 +59,12 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     private int courseId;
     private String studentName;
     private CourseGroups courseGroups;
+    private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-//        activity.toolbarView.setVisibility(View.GONE);
-//        activity.headerLayout.setVisibility(View.GONE);
         rootView = inflater.inflate(R.layout.activity_assignment_detail, container, false);
         return rootView;
     }
@@ -75,13 +75,10 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         getValueFromIntent();
         bindViews();
         setListeners();
-   //     onBackPress();
     }
 
 
     private void getValueFromIntent() {
-//        isStudent = SessionManager.getInstance().getStudentAccount();
-//        isParent = SessionManager.getInstance().getUserType();
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             student = (Student) bundle.getSerializable(Constants.STUDENT);
@@ -109,7 +106,11 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(10, activity), false));
         assignmentsDetailView = new AssignmentsDetailView(activity, this);
-        adapter.addData(getArrayList(true));
+        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
+        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
+
+        showHidePlaceholder(getArrayList(true));
+
         headerTextView = rootView.findViewById(R.id.tv_header);
         headerTextView.setText(courseName);
 
@@ -118,6 +119,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         openButton = rootView.findViewById(R.id.btn_open);
         closedButton = rootView.findViewById(R.id.btn_closed);
         segmentedGroup.check(openButton.getId());
+
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
         } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
@@ -128,8 +130,8 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     }
 
     private ArrayList<AssignmentsDetail> getArrayList(boolean isOpen) {
-        if (assignmentsDetailArrayList.isEmpty()) return null;
         ArrayList<AssignmentsDetail> filteredDetails = new ArrayList<>();
+        if (assignmentsDetailArrayList.isEmpty()) return new ArrayList<>();
         for (AssignmentsDetail assignmentsDetail : assignmentsDetailArrayList) {
             if (assignmentsDetail.getState().equals("running")) {
                 if (isOpen) filteredDetails.add(assignmentsDetail);
@@ -153,17 +155,17 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_open:
-                adapter.addData(getArrayList(true));
+                showHidePlaceholder(getArrayList(true));
                 break;
             case R.id.btn_closed:
-                adapter.addData(getArrayList(false));
+                showHidePlaceholder(getArrayList(false));
                 break;
         }
     }
 
     @Override
     public void onItemClicked(AssignmentsDetail assignmentsDetail) {
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             AssignmentFragment assignmentFragment = new AssignmentFragment();
             Bundle bundle = new Bundle();
             if (courseId != 0) bundle.putInt(Constants.KEY_COURSE_ID, courseId);
@@ -183,7 +185,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             bundle.putInt(Constants.KEY_ASSIGNMENT_ID, assignmentsDetail.getId());
             gradingFragment.setArguments(bundle);
             getParentFragment().getChildFragmentManager().
-                    beginTransaction().add(R.id.course_root, gradingFragment,"CoursesFragments").
+                    beginTransaction().add(R.id.course_root, gradingFragment, "CoursesFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
 
@@ -198,5 +200,16 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             studentImageView.setVisibility(View.INVISIBLE);
         }
 
+    }
+
+    private void showHidePlaceholder(ArrayList<AssignmentsDetail> assignmentsDetails) {
+        if (assignmentsDetails.isEmpty()) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+            adapter.addData(assignmentsDetails);
+        }
     }
 }

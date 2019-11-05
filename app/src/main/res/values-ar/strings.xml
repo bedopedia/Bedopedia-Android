@@ -242,5 +242,6 @@
     <string name="notification_placeholder">You don\'t have any notifications for now</string>
     <string name="announcements_placeholder">You don\'t have any announcements for now</string>
     <string name="messages_placeholder">You don\'t have any messages for now</string>
+    <string name="assignments_placeholder">You don\'t have any assignments for now</string>
 
 </resources>
