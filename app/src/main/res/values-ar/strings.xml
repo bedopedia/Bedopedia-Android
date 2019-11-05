@@ -239,5 +239,6 @@
     <string name="complete_answer">برجاء إكمال الإجابة</string>
     <string name="solve_now">اجب السؤال</string>
     <string name="submit_quiz">ارسال</string>
+    <string name="notification_placeholder">You don\'t have any notifications for now</string>
 
 </resources>

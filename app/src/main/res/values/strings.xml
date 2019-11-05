@@ -262,5 +262,6 @@
     <string name="complete_answer">Some answers are missing</string>
     <string name="solve_now">Solve now</string>
     <string name="submit_quiz">Submit quiz</string>
+    <string name="notification_placeholder">You don\'t have any notifications for now</string>
 
 </resources>

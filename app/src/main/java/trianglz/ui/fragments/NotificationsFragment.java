@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.skolera.skolera_android.R;
 
@@ -40,6 +41,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
     private int pageNumber;
     private boolean newIncomingNotificationData;
     private SwipeRefreshLayout pullRefreshLayout;
+    private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     public NotificationsFragment() {
         // Required empty public constructor
@@ -72,6 +74,8 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         notificationsView = new NotificationsView(getActivity(), this);
+        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
+        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
     }
@@ -106,6 +110,13 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
             if (!activity.isCalling)
                 activity.progress.dismiss();
         }
+        if (pageNumber == 1 && notifications.isEmpty()) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+        }
         if (pageNumber == 1 && !adapter.notificationArrayList.isEmpty()) {
             adapter.notificationArrayList.clear();
         }
@@ -121,7 +132,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
             if (!activity.isCalling)
                 activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, errorCode,"");
+        activity.showErrorDialog(activity, errorCode, "");
 
     }
 
