@@ -116,13 +116,13 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         } else {
             listFrameLayout.setVisibility(View.VISIBLE);
             placeholderFrameLayout.setVisibility(View.GONE);
+            if (pageNumber == 1 && !adapter.notificationArrayList.isEmpty()) {
+                adapter.notificationArrayList.clear();
+            }
+            newIncomingNotificationData = notifications.size() != 0;
+            adapter.addData(notifications, newIncomingNotificationData);
+            pullRefreshLayout.setRefreshing(false);
         }
-        if (pageNumber == 1 && !adapter.notificationArrayList.isEmpty()) {
-            adapter.notificationArrayList.clear();
-        }
-        newIncomingNotificationData = notifications.size() != 0;
-        adapter.addData(notifications, newIncomingNotificationData);
-        pullRefreshLayout.setRefreshing(false);
 
     }
 
@@ -133,7 +133,10 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
                 activity.progress.dismiss();
         }
         activity.showErrorDialog(activity, errorCode, "");
-
+        if (pageNumber == 1) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

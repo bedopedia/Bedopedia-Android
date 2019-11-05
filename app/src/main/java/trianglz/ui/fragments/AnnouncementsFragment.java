@@ -147,20 +147,19 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
             if (!activity.isCalling)
                 activity.progress.dismiss();
         }
+        pullRefreshLayout.setRefreshing(false);
         if (pageNumber == 1 && announcementArrayList.isEmpty()) {
             listFrameLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
         } else {
             listFrameLayout.setVisibility(View.VISIBLE);
             placeholderFrameLayout.setVisibility(View.GONE);
+            if (pageNumber == 1 && !adapter.mDataList.isEmpty()) {
+                adapter.mDataList.clear();
+            }
+            newIncomingNotificationData = announcementArrayList.size() != 0;
+            adapter.addData(announcementArrayList, newIncomingNotificationData);
         }
-        if (pageNumber == 1 && !adapter.mDataList.isEmpty()) {
-            adapter.mDataList.clear();
-        }
-        newIncomingNotificationData = announcementArrayList.size() != 0;
-        adapter.addData(announcementArrayList, newIncomingNotificationData);
-        pullRefreshLayout.setRefreshing(false);
-
     }
 
     @Override
@@ -168,6 +167,10 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         if (activity.progress.isShowing()) {
             if (!activity.isCalling)
                 activity.progress.dismiss();
+        }
+        if (pageNumber == 1) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
         }
     }
 
