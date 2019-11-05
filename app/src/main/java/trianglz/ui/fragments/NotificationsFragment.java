@@ -106,6 +106,9 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
             if (!activity.isCalling)
                 activity.progress.dismiss();
         }
+        if (pageNumber == 1 && !adapter.notificationArrayList.isEmpty()) {
+            adapter.notificationArrayList.clear();
+        }
         newIncomingNotificationData = notifications.size() != 0;
         adapter.addData(notifications, newIncomingNotificationData);
         pullRefreshLayout.setRefreshing(false);
@@ -148,8 +151,6 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
 
     @Override
     public void onBackPressed() {
-//        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
-//        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             if (activity.pager.getCurrentItem() == 2) {
                 getActivity().finish();
