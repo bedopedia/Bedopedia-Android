@@ -66,6 +66,8 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         if (bundle != null) {
             student = (Student) bundle.getSerializable(Constants.STUDENT);
             this.postsResponses = (ArrayList<PostsResponse>) bundle.getSerializable(Constants.KEY_COURSE_GROUPS);
+        } else {
+            this.postsResponses = new ArrayList<>();
         }
 //        student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
 //        this.courseGroups = (ArrayList<CourseGroup>) getIntent().getBundleExtra(Constants.KEY_BUNDLE)

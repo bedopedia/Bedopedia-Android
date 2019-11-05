@@ -207,7 +207,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
         // new quizzes layout
         quizzesLayout = rootView.findViewById(R.id.layout_quizzes);
-
+        postsResponses = new ArrayList<>();
     }
 
     private void setListeners() {
