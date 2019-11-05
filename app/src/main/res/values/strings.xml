@@ -266,5 +266,6 @@
     <string name="announcements_placeholder">You don\'t have any announcements for now</string>
     <string name="messages_placeholder">You don\'t have any messages for now</string>
     <string name="assignments_placeholder">You don\'t have any assignments for now</string>
+    <string name="quizzes_placeholder">You don\'t have any online quizzes for now</string>
 
 </resources>

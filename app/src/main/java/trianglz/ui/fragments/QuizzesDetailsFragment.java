@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -73,6 +74,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private SwipeRefreshLayout pullRefreshLayout;
     private int quizIndex = 0;
     private ArrayList<Quizzes> isToBeSubmittedQuizzes;
+    private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     @Nullable
     @Override
@@ -134,7 +136,12 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         headerTextView = rootView.findViewById(R.id.tv_header);
         isToBeSubmittedQuizzes = new ArrayList<>();
         headerTextView.setText(courseName);
-        if (quizzes != null) adapter.addData(getArrayList(isOpen));
+
+        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
+        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
+
+
+        if (quizzes != null) showHidePlaceholder(getArrayList(isOpen));
 
         // radio button for segment control
         segmentedGroup = rootView.findViewById(R.id.segmented);
@@ -220,13 +227,13 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             case R.id.btn_open:
                 isOpen = true;
                 recyclerView.scrollToPosition(0);
-                adapter.addData(getArrayList(isOpen));
+                showHidePlaceholder(getArrayList(isOpen));
                 break;
             case R.id.btn_closed:
                 isOpen = false;
                 recyclerView.scrollToPosition(0);
-                adapter.addData(getArrayList(isOpen));
-                break;
+                showHidePlaceholder(getArrayList(isOpen));
+            break;
         }
     }
 
@@ -243,7 +250,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             if (activity.progress.isShowing()) {
                 activity.progress.dismiss();
             }
-            adapter.addData(getArrayList(isOpen));
+            showHidePlaceholder(getArrayList(isOpen));
         }
     }
 
@@ -357,4 +364,16 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             return durationLeft;
         }
     }
+
+    private void showHidePlaceholder(ArrayList<Quizzes> quizzes) {
+        if (quizzes.isEmpty()) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+            adapter.addData(quizzes);
+        }
+    }
+
 }
