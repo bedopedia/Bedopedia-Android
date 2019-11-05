@@ -127,7 +127,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         if (!activity.isCalling)
             activity.progress.dismiss();
         pullRefreshLayout.setRefreshing(false);
-        messageThreadArrayList.clear();
         if (messageThreadArrayList.isEmpty()) {
             listFrameLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
@@ -185,9 +184,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
                 beginTransaction().add(R.id.messages_root, newMessageFragment, "MessagesFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
-//        Intent intent = new Intent(getActivity(), NewMessageActivity.class);
-//        if (student != null) intent.putExtra(Constants.STUDENT, student.toString());
-//        startActivity(intent);
     }
 
     @Override
@@ -198,9 +194,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onBackPressed() {
-        //  Boolean isStudent = SessionManager.getInstance().getStudentAccount();
-        //  Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
-
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             if (activity.pager.getCurrentItem() == 1) {
                 getChildFragmentManager().popBackStack();
