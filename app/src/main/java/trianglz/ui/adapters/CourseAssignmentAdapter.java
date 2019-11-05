@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -57,10 +58,15 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         holder.assignmentCountsTextView.setText(courseAssignment.getAssignmentsCount() + "");
         setCourseImage("", courseAssignment.getCourseName(), holder);
         if(courseAssignment.getAssignmentState() != null){
+            holder.dateLinearLayout.setVisibility(View.VISIBLE);
             if (courseAssignment.getAssignmentState().equals("running")) {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
+                holder.clockImageView.setImageResource(R.drawable.green_clock_icon);
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine, null));
             } else {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dirt_brown, null));
+                holder.clockImageView.setImageResource(R.drawable.red_clock_icon);
             }
         }else {
             holder.dateLinearLayout.setVisibility(View.INVISIBLE);
@@ -92,12 +98,15 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         public IImageLoader imageLoader;
         private AvatarView courseAvatarView;
         private LinearLayout dateLinearLayout;
+        private ImageView clockImageView;
+
 
 
         public Holder(View itemView) {
             super(itemView);
             subjectNameTextView = itemView.findViewById(R.id.tv_course_name);
             dateTextView = itemView.findViewById(R.id.tv_date);
+            clockImageView = itemView.findViewById(R.id.date_icon);
             assignmentNameTextView = itemView.findViewById(R.id.tv_assignment_name);
             imageLoader = new PicassoLoader();
             courseAvatarView = itemView.findViewById(R.id.img_course);
