@@ -240,5 +240,6 @@
     <string name="solve_now">اجب السؤال</string>
     <string name="submit_quiz">ارسال</string>
     <string name="notification_placeholder">You don\'t have any notifications for now</string>
+    <string name="announcements_placeholder">You don\'t have any announcements for now</string>
 
 </resources>
