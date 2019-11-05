@@ -71,14 +71,15 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
             holder.assignmentNameTextView.setText(quizzes.getName());
         }
         if(quizzes.getState() != null){
+            holder.dateTextView.setVisibility(View.VISIBLE);
             if (quizzes.getState().equals("running")) {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
                 holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine,null));
-                holder.clockImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.green_clock_icon,null));
+                holder.clockImageView.setImageResource(R.drawable.green_clock_icon);
             } else {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
                 holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dirt_brown,null));
-                holder.clockImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.red_clock_icon,null));
+                holder.clockImageView.setImageResource(R.drawable.red_clock_icon);
             }
         }else {
             holder.dateTextView.setVisibility(View.INVISIBLE);

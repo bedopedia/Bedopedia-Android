@@ -52,6 +52,8 @@
                     android:layout_gravity="start"
                     android:layout_marginStart="9dp"
                     android:gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:layout_marginTop="2.5dp"
                     android:text="@string/assignments"
                     android:textSize="24sp" />

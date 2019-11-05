@@ -215,7 +215,7 @@
     <string name="cannot_select_file">Cannot select file</string>
 
     <string name="post">Post</string>
-    <string name="answer">Answer</string>
+    <string name="answer">Answers</string>
     <string name="full_day">Full Day</string>
     <string name="per_slot">Per slot</string>
     <string name="solve_quiz_now">Solve Quiz now</string>
@@ -254,4 +254,13 @@
     <string name="course_groups">Course Groups</string>
     <string name="no_objective">There Are No Lesson Objectives</string>
     <string name="restart_application">Are you sure you want to change the language to Arabic?</string>
+    <string name="quiz_submitted">Quiz has been submitted successfully</string>
+    <string name="see_grade">You will be able to see your grade in grades section</string>
+    <string name="go_home">Go to home</string>
+    <string name="true_answer">True</string>
+    <string name="false_answer">False</string>
+    <string name="complete_answer">Some answers are missing</string>
+    <string name="solve_now">Solve now</string>
+    <string name="submit_quiz">Submit quiz</string>
+
 </resources>

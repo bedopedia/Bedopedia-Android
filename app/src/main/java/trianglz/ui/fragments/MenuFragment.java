@@ -107,6 +107,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private ArrayList<JSONArray> attendanceList;
     private AppBarLayout appBarLayout;
 
+    private ErrorDialog errorDialogue;
 
     private LinearLayout parentLayout, teacherLayout;
     private Actor actor;
@@ -724,8 +725,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onChangeLanguageClicked() {
-        ErrorDialog errorDialog = new ErrorDialog(activity, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
-        errorDialog.show();
+        errorDialogue = new ErrorDialog(activity, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
+        errorDialogue.show();
     }
 
     @Override
@@ -913,6 +914,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     @Override
     public void onConfirm() {
         changeLanguage();
+
+    }
+
+    @Override
+    public void onCancel() {
 
     }
 }

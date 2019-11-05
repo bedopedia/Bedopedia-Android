@@ -54,6 +54,8 @@
         android:text="@string/select_a_course"
         android:textColor="@color/warm_grey"
         android:textSize="16sp"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:id="@+id/tv_header_subject"/>
 
     <View
@@ -70,6 +72,8 @@
         android:text="@string/select_teacher"
         android:textColor="@color/silver"
         android:textSize="16sp"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:id="@+id/tv_header_teacher"
         android:visibility="gone"/>
 

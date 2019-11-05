@@ -1,8 +1,7 @@
-package trianglz.ui;
+package trianglz.ui.activities;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,15 +11,11 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import trianglz.core.views.PostDetailsView;
 import trianglz.models.UploadedObject;
-import trianglz.ui.activities.SuperActivity;
 import trianglz.ui.adapters.AttachmentAdapter;
-import trianglz.ui.adapters.PostDetailsAdapter;
 import trianglz.utils.Constants;
 
 public class AttachmentsActivity extends SuperActivity implements AttachmentAdapter.AttachmentAdapterInterface {

@@ -5,10 +5,9 @@ package trianglz.models;//
 //  Created on August 01, 2019
 //
 
-import java.util.*;
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 public class AnswersAttributes {
 
@@ -25,7 +24,7 @@ public class AnswersAttributes {
 	@SerializedName("question_id")
 	private int questionId;
 	@SerializedName("match")
-	private Object match;
+	private String match;
 	@SerializedName("deleted_at")
 	private String deletedAt;
 
@@ -77,11 +76,11 @@ public class AnswersAttributes {
 		this.questionId = questionId;
 	}
 
-	public Object getMatch() {
+	public String getMatch() {
 		return match;
 	}
 
-	public void setMatch(Object match) {
+	public void setMatch(String match) {
 		this.match = match;
 	}
 

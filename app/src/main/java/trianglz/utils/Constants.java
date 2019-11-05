@@ -233,12 +233,27 @@ public class Constants {
 
     public static final String DELETE_ALL = "delete_all";
     public static final String KEY_IDS = "ids";
-    public static final String TYPE_MULTIPLE_SELECT ="MultipleSelect";
-    public static final String TYPE_MULTIPLE_CHOICE ="MultipleChoice";
-    public static final String TYPE_TRUE_OR_FALSE ="TrueOrFalse";
-    public static final String TYPE_MATCH ="Match";
-    public static final String TYPE_REORDER="Reorder";
+    public static final String TYPE_MULTIPLE_SELECT = "MultipleSelect";
+    public static final String TYPE_MULTIPLE_CHOICE = "MultipleChoice";
+    public static final String TYPE_TRUE_OR_FALSE = "TrueOrFalse";
+    public static final String TYPE_MATCH = "Match";
+    public static final String TYPE_REORDER = "Reorder";
 
-    public static final String KEY_QUIZ_QUESTION ="quiz_question" ;
+    public static final String MODE = "mode";
+    public static final int SOLVE_QUIZ = 0;
+    public static final int VIEW_QUESTIONS = 1;
+    public static final int VIEW_CORRECT_ANSWERS = 2;
+    public static final int VIEW_STUDENT_ANSWERS = 3;
+
+    public static final String KEY_QUIZ_QUESTION = "quiz_question";
+    public static final String SCORE = "score";
+    public static final String SUBMISSION = "submission";
+    public static final String KEY_ANSWER_ID="answer_id";
+    public static final String KEY_ANSWER_SUBMISSION="answer_submission";
+    public static final String KEY_IS_CORRECT="is_correct";
+    public static final String KEY_MATCH="match";
+    public static final String KEY_QUESTION_ID="question_id";
+    public static final String KEY_QUIZ_SUBMISSION_ID="quiz_submission_id";
+
 }
 

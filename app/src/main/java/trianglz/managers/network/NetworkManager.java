@@ -282,7 +282,45 @@ public class NetworkManager {
         }
 
     }
+    public static void delete(String url, JSONObject object, HashMap<String, String> headersValues , final HandleResponseListener handleResponseListener) {
+        if (object == null) {
+            AndroidNetworking.delete(url)
+                    .addHeaders(headersValues)
+                    .setPriority(Priority.HIGH)
+                    .build()
+                    .getAsJSONObject(new JSONObjectRequestListener() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            handleResponseListener.onSuccess(response);
+                        }
 
+                        @Override
+                        public void onError(ANError error) {
+                            handleResponseListener.onFailure(getErrorMessage(error), error.getErrorCode());
+                        }
+                    });
+
+        } else {
+            AndroidNetworking.delete(url)
+                    .addHeaders(headersValues)
+                    .addJSONObjectBody(object)
+                    .setPriority(Priority.HIGH)
+                    .build()
+                    .getAsJSONObject(new JSONObjectRequestListener() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            handleResponseListener.onSuccess(response);
+                        }
+
+                        @Override
+                        public void onError(ANError error) {
+                            handleResponseListener.onFailure(getErrorMessage(error), error.getErrorCode());
+                        }
+                    });
+
+        }
+
+    }
     public static void upload(String url, JSONObject jsonObject, File file, HashMap<String, String> headersValues, final HandleResponseListener handleResponseListener) {
         AndroidNetworking.upload(url)
                 .addHeaders(headersValues)

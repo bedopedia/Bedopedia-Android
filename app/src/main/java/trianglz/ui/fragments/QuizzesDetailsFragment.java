@@ -21,6 +21,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -32,6 +33,7 @@ import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.QuizzesDetailsPresenter;
 import trianglz.core.views.QuizzesDetailsView;
 import trianglz.managers.SessionManager;
+import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.CourseGroups;
 import trianglz.models.Meta;
 import trianglz.models.QuizzCourse;
@@ -69,6 +71,8 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private int totalPages;
     private boolean isOpen = true;
     private SwipeRefreshLayout pullRefreshLayout;
+    private int quizIndex = 0;
+    private ArrayList<Quizzes> isToBeSubmittedQuizzes;
 
     @Nullable
     @Override
@@ -128,7 +132,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(10, activity), false));
         headerTextView = rootView.findViewById(R.id.tv_header);
-
+        isToBeSubmittedQuizzes = new ArrayList<>();
         headerTextView.setText(courseName);
         if (quizzes != null) adapter.addData(getArrayList(isOpen));
 
@@ -228,14 +232,21 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onGetQuizzesDetailsSuccess(ArrayList<Quizzes> quizzes, Meta meta) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
         pullRefreshLayout.setRefreshing(false);
         this.quizzes.addAll(quizzes);
+        populateIsToSubmitArray();
         totalPages = meta.getTotalPages();
-        adapter.addData(getArrayList(isOpen));
+        populateIsToSubmitArray();
+        if (!isToBeSubmittedQuizzes.isEmpty()) {
+            submitQuizzes(isToBeSubmittedQuizzes.get(quizIndex).getStudentSubmissions().getId());
+        } else {
+            if (activity.progress.isShowing()) {
+                activity.progress.dismiss();
+            }
+            adapter.addData(getArrayList(isOpen));
+        }
     }
+
 
     @Override
     public void onGetQuizzesDetailsFailure(String message, int errorCode) {
@@ -243,6 +254,27 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             activity.progress.dismiss();
         }
         activity.showErrorDialog(activity, errorCode, "");
+
+    }
+
+    @Override
+    public void onSubmitQuizSuccess() {
+        quizIndex++;
+        if (quizIndex < isToBeSubmittedQuizzes.size()) {
+            submitQuizzes(isToBeSubmittedQuizzes.get(quizIndex).getStudentSubmissions().getId());
+        } else {
+            if (activity.progress.isShowing()) {
+                activity.progress.dismiss();
+            }
+            getQuizzes();
+        }
+    }
+
+    @Override
+    public void onSubmitQuizFailure(String message, int errorCode) {
+        if (activity.progress.isShowing()) {
+            activity.progress.dismiss();
+        }
 
     }
 
@@ -286,11 +318,43 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         }
     }
 
+    private void submitQuizzes(int submissionId) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.submitQuiz();
+        quizzesDetailsView.submitQuiz(url, submissionId);
+    }
+
     @Override
     public void onReachPosition() {
         page++;
         if (page <= totalPages) {
             getQuizzes();
+        }
+    }
+
+    private void populateIsToSubmitArray() {
+        isToBeSubmittedQuizzes.clear();
+        quizIndex = 0;
+        for (int i = 0; i < quizzes.size(); i++) {
+            if (quizzes.get(i).getState().equals("running") && quizzes.get(i).getStudentSubmissions() != null) {
+                if (!quizzes.get(i).getStudentSubmissions().getIsSubmitted()) {
+                    if (calculateTimerDuration(quizzes.get(i).getDuration(), quizzes.get(i).getStudentSubmissions().getCreatedAt()) <= 0) {
+                        isToBeSubmittedQuizzes.add(quizzes.get(i));
+                    }
+                }
+            }
+        }
+    }
+
+    private long calculateTimerDuration(long quizDuration, String createdAt) {
+        long durationLeft = 0, timeElapsed;
+        quizDuration = quizDuration * 1000; //seconds convert
+        Date createdAtDate = Util.convertIsoToDate(createdAt);
+        timeElapsed = System.currentTimeMillis() - createdAtDate.getTime();
+        if (timeElapsed > quizDuration) {
+            return 0;
+        } else {
+            durationLeft = quizDuration - timeElapsed;
+            return durationLeft;
         }
     }
 }

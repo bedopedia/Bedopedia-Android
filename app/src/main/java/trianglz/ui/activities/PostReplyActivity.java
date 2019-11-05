@@ -27,7 +27,6 @@ import trianglz.managers.SessionManager;
 import trianglz.models.PostDetails;
 import trianglz.models.Reply;
 import trianglz.models.UploadedObject;
-import trianglz.ui.AttachmentsActivity;
 import trianglz.ui.adapters.PostReplyAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;

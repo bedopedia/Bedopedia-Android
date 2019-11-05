@@ -18,6 +18,8 @@ import trianglz.managers.network.HandleArrayResponseListener;
 import trianglz.managers.network.HandleMultiPartResponseListener;
 import trianglz.managers.network.HandleResponseListener;
 import trianglz.managers.network.NetworkManager;
+import trianglz.models.AnswerSubmission;
+import trianglz.models.Answers;
 import trianglz.models.Feedback;
 import trianglz.models.GradeModel;
 import trianglz.utils.Constants;
@@ -979,6 +981,145 @@ public class UserManager {
     public static void getQuizQuestions(String url, ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
+
+    public static void createQuizSubmission(String url, int quizId, int studentId, int courseGroupId, int score, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject jsonObject = new JSONObject();
+        JSONObject rootJsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.KEY_QUIZ_ID, quizId);
+            jsonObject.put(Constants.KEY_STUDENT_ID, studentId);
+            jsonObject.put(Constants.KEY_COURSE_GROUP_ID, courseGroupId);
+            jsonObject.put(Constants.SCORE, score);
+            rootJsonObject.put(Constants.SUBMISSION, jsonObject);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
+    public static void getQuizSolveDetails(String url, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
+
+    public static void postAnswerSubmission(String url, int quizSubmissionId, AnswerSubmission answerSubmission, ArrayResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject rootJsonObject = new JSONObject();
+        JSONArray answerJsonArray = new JSONArray();
+        try {
+            for (Answers answers : answerSubmission.getAnswerSubmission()) {
+                JSONObject answerJsonObject = new JSONObject();
+                answerJsonObject.put(Constants.KEY_ANSWER_ID, answers.getId());
+                answerJsonObject.put(Constants.KEY_IS_CORRECT, answers.isCorrect());
+                answerJsonObject.put(Constants.KEY_MATCH, answers.getMatch());
+                answerJsonObject.put(Constants.KEY_QUESTION_ID, answers.getQuestionId());
+                answerJsonObject.put(Constants.KEY_QUIZ_SUBMISSION_ID, quizSubmissionId);
+                answerJsonArray.put(answerJsonObject);
+            }
+            rootJsonObject.put(Constants.KEY_ANSWER_SUBMISSION, answerJsonArray);
+            rootJsonObject.put(Constants.KEY_QUESTION_ID, answerSubmission.getQuestionId());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
+    public static void getAnswerSubmission(String url, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
+
+    public static void deleteAnswerSubmission(String url, int questionId, int quizSubmissionId, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.KEY_QUIZ_SUBMISSION_ID, quizSubmissionId);
+            jsonObject.put(Constants.KEY_QUESTION_ID, questionId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.delete(url, jsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
+
+    public static void submitQuiz(String url, int submissionId, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject jsonObject = new JSONObject();
+        JSONObject rootJsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.KEY_ID, submissionId);
+            rootJsonObject.put(Constants.SUBMISSION, jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 responseListener.onSuccess(response);

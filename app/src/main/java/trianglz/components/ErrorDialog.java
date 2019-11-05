@@ -68,6 +68,12 @@ public class ErrorDialog extends Dialog implements DialogInterface.OnShowListene
         contentTextView.setText(content);
         if (dialogType == DialogType.CONFIRMATION) {
             cancelButton.setVisibility(View.VISIBLE);
+        } else if (dialogType == DialogType.QUIZ_SUBMISSION) {
+            cancelButton.setVisibility(View.VISIBLE);
+            cancelButton.setText(context.getResources().getString(R.string.solve_now));
+            cancelButton.setBackground(context.getResources().getDrawable(R.drawable.curved_jade_green_25, null));
+            confirmButton.setText(context.getResources().getString(R.string.submit_quiz));
+
         } else {
             cancelButton.setVisibility(View.GONE);
         }
@@ -94,7 +100,7 @@ public class ErrorDialog extends Dialog implements DialogInterface.OnShowListene
                 }
                 break;
             case R.id.cancel_btn:
-                dismiss();
+                dialogConfirmationInterface.onCancel();
                 break;
         }
     }
@@ -105,10 +111,11 @@ public class ErrorDialog extends Dialog implements DialogInterface.OnShowListene
     }
 
     public enum DialogType {
-        CONFIRMATION, ERROR
+        CONFIRMATION, ERROR, QUIZ_SUBMISSION
     }
 
     public interface DialogConfirmationInterface {
         void onConfirm();
+        void onCancel();
     }
 }

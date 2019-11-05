@@ -166,4 +166,27 @@ public class ApiEndPoints {
     public static String getQuizQuestions(int quizId) {
         return "/api/quizzes/" + quizId;
     }
+
+    public static String createQuizSubmission() {
+        return "/api/active_quizzes/create_submission";
+    }
+
+    public static String getQuizSolveDetails(int quizId) {
+        return "/api/quizzes/" + quizId + "/quiz_solve_details";
+    }
+
+    public static String postAnswerSubmission() {
+        return "/api/answer_submissions";
+    }
+
+    public static String getAnswerSubmission(int submissionId) {
+        return "/api/answer_submissions?by_quiz_sumbission=" + submissionId;
+    }
+
+    public static String deleteAnswerSubmission() {
+        return "/api/answer_submissions/remove_answer_submission";
+    }
+    public static String submitQuiz(){
+        return "/api/active_quizzes/submit_quiz";
+    }
 }

@@ -7,6 +7,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+
+import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,12 +75,9 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             viewHolder.ownerTextview.setText(postDetail.getOwner().getNameWithTitle());
             String date = Util.getPostDate(postDetail.getCreatedAt(), context);
             viewHolder.dateTextView.setText(date);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                viewHolder.bodyTextView.setText(Html.fromHtml(postDetail.getContent(), Html.FROM_HTML_MODE_COMPACT));
-                viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
-            } else {
-                viewHolder.bodyTextView.setText(Html.fromHtml(postDetail.getContent()));
-            }
+            viewHolder.bodyTextView.setHtml(postDetail.getContent(),
+                    new HtmlHttpImageGetter(viewHolder.bodyTextView));
+            Linkify.addLinks(viewHolder.bodyTextView, Linkify.WEB_URLS);
             viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
             // setting the attachments buttons
             switch (postDetail.getUploadedFiles().length) {
@@ -195,7 +196,8 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
     public class PostReplyViewHolder extends RecyclerView.ViewHolder {
 
         public AvatarView avatarView;
-        public TextView ownerTextview, dateTextView, bodyTextView;
+        public TextView ownerTextview, dateTextView;
+        public HtmlTextView bodyTextView;
         public Button firstButton, secondButton, thirdButton;
         public LinearLayout buttonsLayout;
         public CardView cardView;

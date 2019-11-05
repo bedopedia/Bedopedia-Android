@@ -27,9 +27,9 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
         setContentView(R.layout.activity_splash);
         splashView = new SplashView(this, this);
         if (SessionManager.getInstance().getIsLoggedIn()) {
-            if(Util.isNetworkAvailable(this)){
-                splashView.login();
-            }else {
+            if (Util.isNetworkAvailable(this)) {
+                splashView.refreshFireBaseToken();
+            } else {
                 startSchoolCodeActivity();
             }
         } else {
@@ -63,10 +63,10 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     }
 
     private void openStudentDetailActivity(Actor actor) {
-        Intent intent = new Intent(this,StudentMainActivity.class);
+        Intent intent = new Intent(this, StudentMainActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_ACTOR,actor);
-        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        bundle.putSerializable(Constants.KEY_ACTOR, actor);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
         this.startActivity(intent);
     }
 
@@ -92,15 +92,15 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
 
     @Override
     public void onGetStudentsHomeSuccess(ArrayList<Object> dataObjectArrayList) {
-        if(dataObjectArrayList.size() >1){
+        if (dataObjectArrayList.size() > 1) {
             ArrayList<JSONArray> attendanceJsonArray = (ArrayList<JSONArray>) dataObjectArrayList.get(0);
             ArrayList<Student> studentArrayList = (ArrayList<Student>) dataObjectArrayList.get(1);
-            if(studentArrayList.size()> 0 && attendanceJsonArray.size() >0){
-                openStudentDetailActivity(studentArrayList.get(0),attendanceJsonArray.get(0));
-            }else {
+            if (studentArrayList.size() > 0 && attendanceJsonArray.size() > 0) {
+                openStudentDetailActivity(studentArrayList.get(0), attendanceJsonArray.get(0));
+            } else {
                 openSchoolLoginActivity();
             }
-        }else {
+        } else {
             openSchoolLoginActivity();
         }
         finish();
@@ -112,8 +112,19 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
         finish();
     }
 
+    @Override
+    public void updateTokenSuccess() {
 
-    private void openStudentDetailActivity(Student student,JSONArray studentAttendance) {
+    }
+
+    @Override
+    public void updateTokenFailure() {
+        startSchoolCodeActivity();
+        finish();
+    }
+
+
+    private void openStudentDetailActivity(Student student, JSONArray studentAttendance) {
         Intent intent = new Intent(this, StudentMainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);

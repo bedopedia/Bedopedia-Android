@@ -49,6 +49,8 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/behaviour_notes"
                     android:textSize="17sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:id="@+id/tv_subject_header" />
 
                 <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"

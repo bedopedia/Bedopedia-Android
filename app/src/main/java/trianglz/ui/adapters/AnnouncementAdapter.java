@@ -80,7 +80,6 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
 
     public void addData(List<Announcement> announcementList,boolean newIncomingNotificationData) {
         newData = newIncomingNotificationData;
-        mDataList.clear();
         if(newData){
             this.mDataList.addAll(announcementList);
             notifyDataSetChanged();

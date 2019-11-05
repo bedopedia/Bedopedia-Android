@@ -83,6 +83,11 @@ public class QuizDetailsFragment extends Fragment implements View.OnClickListene
         topicTextView.setText(quizQuestion.getUnit().getName());
         subtopicTextView.setText(quizQuestion.getChapter().getName());
         lessonTextView.setText(quizQuestion.getLesson().getName());
+
+        if(quizQuestion.getDescription().trim().isEmpty()){
+            quizDescriptionTextView.setVisibility(View.GONE);
+        }
+
         if (!quizQuestion.getObjectives().isEmpty()) {
             objectivesTextView.setText("");
             for (int i = 0; i < quizQuestion.getObjectives().size(); i++) {

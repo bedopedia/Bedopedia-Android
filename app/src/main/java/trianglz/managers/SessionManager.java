@@ -165,9 +165,11 @@ public class SessionManager {
         ADMIN("admin"),
         ;
         private final String text;
+
         Actor(final String text) {
             this.text = text;
         }
+
         @Override
         public String toString() {
             return text;

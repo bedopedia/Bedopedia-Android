@@ -26,6 +26,7 @@
             android:name="trianglz.ui.activities.StudentMainActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".MyFirebaseMessagingService">
@@ -35,7 +36,7 @@
         </service>
 
         <activity
-            android:name="trianglz.ui.AttachmentsActivity"
+            android:name="trianglz.ui.activities.AttachmentsActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

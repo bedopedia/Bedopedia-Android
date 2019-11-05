@@ -191,8 +191,8 @@
     <string name="cannot_select_file">لا يمكن اختيار الملف</string>
     <string name="clicking_button">بضغتك على زر + إضافة ملف سيضاف ملف جديد</string>
     <string name="post">نشر</string>
-    <string name="answer">Answer</string>
-    <string name="solve_quiz_now">Solve Quiz now</string>
+    <string name="answer">الاجابات</string>
+    <string name="solve_quiz_now">حل الاختبار الان</string>
     <string name="present">حاضر</string>
     <string name="something_went_wrong">حدث خطأ ما، برجاء المحاولة مرة اخرى</string>
     <string name="correct_dates">برجاء إدخال تواريخ صحيحة</string>
@@ -230,5 +230,14 @@
     <string name="course_groups">الصفوف</string>
     <string name="no_objective">لا يوجد اهداف</string>
     <string name="restart_application">هل أنت متأكد أنك تريد تغيير اللغة للإنجليزية؟</string>
+
+    <string name="quiz_submitted"> تم تسليم الاختبار بنجاح</string>
+    <string name="see_grade">You will be able to see your grade in grades section</string>
+    <string name="go_home">الرجوع للصفحة الرئيسية</string>
+    <string name="true_answer">صحيح</string>
+    <string name="false_answer">خاطئ</string>
+    <string name="complete_answer">برجاء إكمال الإجابة</string>
+    <string name="solve_now">اجب السؤال</string>
+    <string name="submit_quiz">ارسال</string>
 
 </resources>

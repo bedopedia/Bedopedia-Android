@@ -43,6 +43,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
     private SettingsDialog settingsDialog;
     private ImageButton settingsBtn;
     private ImageView redCircleImageView;
+    private ErrorDialog errorDialogue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,8 +157,8 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
 
     @Override
     public void onChangeLanguageClicked() {
-        ErrorDialog errorDialog = new ErrorDialog(this, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
-        errorDialog.show();
+        errorDialogue = new ErrorDialog(this, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
+        errorDialogue.show();
     }
 
     @Override
@@ -241,5 +242,10 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
     @Override
     public void onConfirm() {
         changeLanguage();
+    }
+
+    @Override
+    public void onCancel() {
+
     }
 }
