@@ -265,12 +265,15 @@
     <string name="notification_placeholder">You don\'t have any notifications for now</string>
     <string name="announcements_placeholder">You don\'t have any announcements for now</string>
     <string name="messages_placeholder">You don\'t have any messages for now</string>
-    <string name="assignments_placeholder">You don\'t have any assignments for now</string>
-    <string name="quizzes_placeholder">You don\'t have any online quizzes for now</string>
+    <string name="open_assignments_placeholder">You don\'t have any open assignments for now</string>
+    <string name="closed_assignments_placeholder">You don\'t have any open closed assignments for now</string>
+    <string name="open_quizzes_placeholder">You don\'t have any open online quizzes for now</string>
+    <string name="closed_quizzes_placeholder">You don\'t have any closed online quizzes for now</string>
     <string name="posts_placeholder">You don\'t have any posts for now</string>
     <string name="attendance_placeholder">You don\'t have any posts for now</string>
     <string name="weeklyplanner_placeholder">You don\'t have any weekly plans for now</string>
     <string name="courses_placeholder">You don\'t have any courses for now</string>
     <string name="grades_placeholder">You don\'t have any grades for now</string>
+    <string name="no_content">No content available</string>
 
 </resources>

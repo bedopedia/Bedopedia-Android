@@ -185,7 +185,7 @@
                 android:layout_gravity="center"
                 android:includeFontPadding="false"
                 android:textSize="16sp"
-                android:text="@string/quizzes_placeholder" />
+                android:text="@string/open_quizzes_placeholder" />
         </LinearLayout>
     </FrameLayout>
 

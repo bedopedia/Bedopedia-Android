@@ -177,6 +177,7 @@
                 android:src="@drawable/assignments_placeholder" />
 
             <TextView
+                android:id="@+id/placeholder_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -184,7 +185,7 @@
                 android:layout_gravity="center"
                 android:includeFontPadding="false"
                 android:textSize="16sp"
-                android:text="@string/assignments_placeholder" />
+                android:text="@string/open_assignments_placeholder" />
         </LinearLayout>
     </FrameLayout>
 

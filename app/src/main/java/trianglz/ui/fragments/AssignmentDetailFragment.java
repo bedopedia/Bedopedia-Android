@@ -53,7 +53,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     private AssignmentsDetailView assignmentsDetailView;
     private ArrayList<AssignmentsDetail> assignmentsDetailArrayList;
     private String courseName = "";
-    private TextView headerTextView;
+    private TextView headerTextView,placeholderTextView;
     private RadioButton openButton, closedButton;
     private SegmentedGroup segmentedGroup;
     private int courseId;
@@ -108,8 +108,8 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         assignmentsDetailView = new AssignmentsDetailView(activity, this);
         listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
-
-        showHidePlaceholder(getArrayList(true));
+        placeholderTextView = rootView.findViewById(R.id.placeholder_tv);
+        showHidePlaceholder(getArrayList(true),true);
 
         headerTextView = rootView.findViewById(R.id.tv_header);
         headerTextView.setText(courseName);
@@ -155,10 +155,10 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_open:
-                showHidePlaceholder(getArrayList(true));
+                showHidePlaceholder(getArrayList(true),true);
                 break;
             case R.id.btn_closed:
-                showHidePlaceholder(getArrayList(false));
+                showHidePlaceholder(getArrayList(false),false);
                 break;
         }
     }
@@ -166,16 +166,21 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     @Override
     public void onItemClicked(AssignmentsDetail assignmentsDetail) {
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            AssignmentFragment assignmentFragment = new AssignmentFragment();
-            Bundle bundle = new Bundle();
-            if (courseId != 0) bundle.putInt(Constants.KEY_COURSE_ID, courseId);
-            bundle.putString(Constants.KEY_STUDENT_NAME, studentName);
-            bundle.putString(Constants.KEY_ASSIGNMENT_DETAIL, assignmentsDetail.toString());
-            assignmentFragment.setArguments(bundle);
-            getParentFragment().getChildFragmentManager().
-                    beginTransaction().add(R.id.menu_fragment_root, assignmentFragment, "MenuFragments").
-                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                    addToBackStack(null).commit();
+            if ((assignmentsDetail.getDescription() == null || assignmentsDetail.getDescription().trim().isEmpty()) && assignmentsDetail.getUploadedFilesCount() == 0)
+            {
+                activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.no_content));
+            } else{
+                AssignmentFragment assignmentFragment = new AssignmentFragment();
+                Bundle bundle = new Bundle();
+                if (courseId != 0) bundle.putInt(Constants.KEY_COURSE_ID, courseId);
+                bundle.putString(Constants.KEY_STUDENT_NAME, studentName);
+                bundle.putString(Constants.KEY_ASSIGNMENT_DETAIL, assignmentsDetail.toString());
+                assignmentFragment.setArguments(bundle);
+                getParentFragment().getChildFragmentManager().
+                        beginTransaction().add(R.id.menu_fragment_root, assignmentFragment, "MenuFragments").
+                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                        addToBackStack(null).commit();
+            }
         } else {
             GradingFragment gradingFragment = new GradingFragment();
             Bundle bundle = new Bundle();
@@ -202,8 +207,13 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
 
     }
 
-    private void showHidePlaceholder(ArrayList<AssignmentsDetail> assignmentsDetails) {
+    private void showHidePlaceholder(ArrayList<AssignmentsDetail> assignmentsDetails, Boolean isOpen) {
         if (assignmentsDetails.isEmpty()) {
+            if(isOpen){
+                placeholderTextView.setText(activity.getResources().getString(R.string.open_assignments_placeholder));
+            }else{
+                placeholderTextView.setText(activity.getResources().getString(R.string.closed_assignments_placeholder));
+            }
             listFrameLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
         } else {
