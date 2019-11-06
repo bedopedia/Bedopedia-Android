@@ -60,7 +60,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private QuizzesDetailsAdapter adapter;
     private String courseName = "";
     private String courseGroupName = "";
-    private TextView headerTextView;
+    private TextView headerTextView, placeholderTextView;
     private RadioButton openButton, closedButton;
     private SegmentedGroup segmentedGroup;
     private QuizzCourse quizzCourse;
@@ -120,6 +120,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         backBtn = rootView.findViewById(R.id.btn_back);
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
+        placeholderTextView = rootView.findViewById(R.id.placeholder_tv);
         if (!teacherMode)
             setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
@@ -141,7 +142,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
 
 
-        if (quizzes != null) showHidePlaceholder(getArrayList(isOpen));
+        if (quizzes != null) showHidePlaceholder(getArrayList(isOpen), isOpen);
 
         // radio button for segment control
         segmentedGroup = rootView.findViewById(R.id.segmented);
@@ -227,13 +228,13 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             case R.id.btn_open:
                 isOpen = true;
                 recyclerView.scrollToPosition(0);
-                showHidePlaceholder(getArrayList(isOpen));
+                showHidePlaceholder(getArrayList(isOpen), isOpen);
                 break;
             case R.id.btn_closed:
                 isOpen = false;
                 recyclerView.scrollToPosition(0);
-                showHidePlaceholder(getArrayList(isOpen));
-            break;
+                showHidePlaceholder(getArrayList(isOpen), isOpen);
+                break;
         }
     }
 
@@ -250,7 +251,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             if (activity.progress.isShowing()) {
                 activity.progress.dismiss();
             }
-            showHidePlaceholder(getArrayList(isOpen));
+            showHidePlaceholder(getArrayList(isOpen), isOpen);
         }
     }
 
@@ -365,8 +366,13 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         }
     }
 
-    private void showHidePlaceholder(ArrayList<Quizzes> quizzes) {
+    private void showHidePlaceholder(ArrayList<Quizzes> quizzes, boolean isOpen) {
         if (quizzes.isEmpty()) {
+            if (isOpen) {
+                placeholderTextView.setText(activity.getResources().getString(R.string.open_assignments_placeholder));
+            } else {
+                placeholderTextView.setText(activity.getResources().getString(R.string.closed_assignments_placeholder));
+            }
             listFrameLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
         } else {

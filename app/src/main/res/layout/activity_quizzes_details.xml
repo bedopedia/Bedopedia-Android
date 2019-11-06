@@ -178,6 +178,7 @@
                 android:src="@drawable/quizzes_placeholder" />
 
             <TextView
+                android:id="@+id/placeholder_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
