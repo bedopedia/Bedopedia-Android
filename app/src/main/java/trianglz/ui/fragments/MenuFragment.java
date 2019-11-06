@@ -615,7 +615,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openWeeklyPlannerActivity() {
-        if (rootClass.getWeeklyPlans().size() > 0) {
             appBarLayout.setExpanded(true);
             WeeklyPlannerFragment weeklyPlannerFragment = new WeeklyPlannerFragment();
             Bundle bundle = new Bundle();
@@ -626,9 +625,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                     beginTransaction().add(R.id.menu_fragment_root, weeklyPlannerFragment, "MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
-        } else {
-            activity.showErrorDialog(activity, -3, getParentActivity().getResources().getString(R.string.there_is_no_weekly_planner));
-        }
     }
 
     private void openMessagesActivity() {
