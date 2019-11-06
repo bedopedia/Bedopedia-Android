@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.skolera.skolera_android.R;
@@ -43,6 +44,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     private ArrayList<PostsResponse> postsResponses;
     private IImageLoader imageLoader;
     private StudentMainActivity activity;
+    private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     @Nullable
     @Override
@@ -69,8 +71,6 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         } else {
             this.postsResponses = new ArrayList<>();
         }
-//        student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
-//        this.courseGroups = (ArrayList<CourseGroup>) getIntent().getBundleExtra(Constants.KEY_BUNDLE)
     }
 
     private void bindViews() {
@@ -79,13 +79,22 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         backBtn = rootView.findViewById(R.id.btn_back);
         studentImageView = rootView.findViewById(R.id.img_student);
         recyclerView = rootView.findViewById(R.id.recycler_view);
+        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
+        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         gradesAdapter = new GradesAdapter(activity, this);
         imageLoader = new PicassoLoader();
         String studentName = student.firstName + " " + student.lastName;
         setStudentImage(student.getAvatar(), studentName);
         recyclerView.setAdapter(gradesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-        gradesAdapter.addData(postsResponses);
+        if (postsResponses.isEmpty()) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+            gradesAdapter.addData(postsResponses);
+        }
     }
 
     private void setListeners() {
