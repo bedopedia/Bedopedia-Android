@@ -268,5 +268,6 @@
     <string name="assignments_placeholder">You don\'t have any assignments for now</string>
     <string name="quizzes_placeholder">You don\'t have any online quizzes for now</string>
     <string name="posts_placeholder">You don\'t have any posts for now</string>
+    <string name="attendance_placeholder">You don\'t have any posts for now</string>
 
 </resources>

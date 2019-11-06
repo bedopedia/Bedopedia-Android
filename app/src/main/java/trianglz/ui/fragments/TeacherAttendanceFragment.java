@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -66,6 +67,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     private TeacherAttendanceAdapter teacherAttendanceAdapter;
     private Button fullDayButton, perSlotButton, assignAllButton, assignSelectedButton;
     private SwipeRefreshLayout pullRefreshLayout;
+    private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -80,6 +82,8 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         getValuesFromIntent();
         bindViews();
         setListeners();
+        getDateInNumbers();
+        getFullDayAttendance();
     }
 
     private void getValuesFromIntent() {
@@ -110,8 +114,9 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         adapterTimeTableSlots = new ArrayList<>();
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
-        getDateInNumbers();
-        getFullDayAttendance();
+        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
+        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
+
     }
 
     private void setListeners() {
@@ -233,7 +238,13 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         pullRefreshLayout.setRefreshing(false);
         if (activity.progress.isShowing())
             activity.progress.dismiss();
-
+        if (attendance.getStudents().isEmpty()) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+        }
         if (attendance.getTimetableSlots() == null) {
             perSlot = false;
             teacherAttendanceAdapter.attendanceTimetableSlot = null;
@@ -264,6 +275,8 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     @Override
     public void onGetTeacherAttendanceFailure(String message, int code) {
         activity.showErrorDialog(activity, code, "");
+        listFrameLayout.setVisibility(View.GONE);
+        placeholderFrameLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
