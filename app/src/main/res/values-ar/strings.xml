@@ -239,5 +239,18 @@
     <string name="complete_answer">برجاء إكمال الإجابة</string>
     <string name="solve_now">اجب السؤال</string>
     <string name="submit_quiz">ارسال</string>
+    <string name="notification_placeholder">لا يوجد الإشعارات الآن</string>
+    <string name="announcements_placeholder">لا يوجد تنبيهات الآن</string>
+    <string name="messages_placeholder">لا يوجد رسائل الآن</string>
+    <string name="open_assignments_placeholder">لا يوجد واجبات جارية الآن</string>
+    <string name="closed_assignments_placeholder">لا يوجد واجبات منتهية الآن</string>
+    <string name="closed_quizzes_placeholder">لا يوجد اختبارات قصيرة منتهية الآن</string>
+    <string name="open_quizzes_placeholder">لا يوجد اختبارات قصيرة جارية الآن</string>
+    <string name="posts_placeholder">لا يوجد منشورات الآن</string>
+    <string name="attendance_placeholder">لا يوجد غياب الآن</string>
+    <string name="weeklyplanner_placeholder">لا يوجدالخطة الاسبوعية الآن</string>
+    <string name="courses_placeholder">لا يوجد مواد الآن</string>
+    <string name="grades_placeholder">لا يوجد درجات الآن</string>
+    <string name="no_content">لا يوجد محتوى</string>
 
 </resources>

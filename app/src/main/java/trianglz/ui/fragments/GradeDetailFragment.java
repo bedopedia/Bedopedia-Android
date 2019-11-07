@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -75,6 +76,8 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     private HashMap<String, Double> quizzesHashMap;
     private HashMap<String, Double> assignmentsHashMap;
     private HashMap<String, Double> gradeItemHashMap;
+    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private boolean isToShowPlaceHolder = true;
 
     @Nullable
     @Override
@@ -125,6 +128,8 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         gradeDetailView = new GradeDetailView(activity, this);
         subjectHeaderTextView = rootView.findViewById(R.id.tv_subject_header);
         subjectHeaderTextView.setText(courseGroup.getCourseName());
+        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
+        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         quizArrayList = new ArrayList<>();
         assignmentArrayList = new ArrayList<>();
         gradeItemArrayList = new ArrayList<>();
@@ -213,7 +218,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, errorCode,"");
+        activity.showErrorDialog(activity, errorCode, "");
 
     }
 
@@ -231,14 +236,26 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, errorCode,"");
+        activity.showErrorDialog(activity, errorCode, "");
     }
 
     @Override
     public void onGetSemestersSuccess(ArrayList<CourseGradingPeriods> courseGradingPeriodsArrayList) {
         setAdapterData(courseGradingPeriodsArrayList);
         activity.progress.dismiss();
-
+        if (allSemestersList.isEmpty()) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else if (gradeItemArrayList.isEmpty() && quizArrayList.isEmpty() && assignmentArrayList.isEmpty()) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else if(isToShowPlaceHolder){
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        }else {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -246,7 +263,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, errorCode,"");
+        activity.showErrorDialog(activity, errorCode, "");
 
     }
 
@@ -291,6 +308,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
             for (int quiz = 0; quiz < quizArrayList.size(); quiz++) {
                 if (Util.isDateInside(expandedSemesters.get(semester).startDate,
                         expandedSemesters.get(semester).endDate, quizArrayList.get(quiz).endDate)) {
+                    isToShowPlaceHolder = false;
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(semester));
                     if (isToAdd) {
                         isToAdd = false;
@@ -328,6 +346,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
             isToAdd = true;
             for (int j = 0; j < gradeItemArrayList.size(); j++) {
                 if (expandedSemesters.get(i).id == gradeItemArrayList.get(j).gradingPeriodId) {
+                    isToShowPlaceHolder = false;
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(i));
                     if (isToAdd) {
                         isToAdd = false;
@@ -366,6 +385,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
             for (int j = 0; j < assignmentArrayList.size(); j++) {
                 if (Util.isDateInside(expandedSemesters.get(i).startDate,
                         expandedSemesters.get(i).endDate, assignmentArrayList.get(j).endDate)) {
+                    isToShowPlaceHolder = false;
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(i));
                     if (isToAdd) {
                         isToAdd = false;

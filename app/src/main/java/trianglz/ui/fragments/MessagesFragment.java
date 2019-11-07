@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.skolera.skolera_android.R;
 
@@ -34,7 +35,7 @@ import trianglz.utils.Util;
  * A simple {@link Fragment} subclass.
  */
 public class MessagesFragment extends Fragment implements View.OnClickListener,
-        ContactTeacherPresenter, ContactTeacherAdapter.ContactTeacherAdapterInterface,StudentMainActivity.OnBackPressedInterface {
+        ContactTeacherPresenter, ContactTeacherAdapter.ContactTeacherAdapterInterface, StudentMainActivity.OnBackPressedInterface {
 
     // root view 
     private View rootView;
@@ -49,6 +50,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     private Actor actor;
     private boolean isOpeningThread = false;
     private SwipeRefreshLayout pullRefreshLayout;
+    private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     public MessagesFragment() {
         // Required empty public constructor
@@ -63,7 +65,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         activity = (StudentMainActivity) getActivity();
         bindViews();
         setListeners();
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             student = activity.getStudent();
         } else {
             actor = activity.getActor();
@@ -81,6 +83,8 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         messageThreadArrayList = new ArrayList<>();
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
+        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
+        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
     }
 
     private void setListeners() {
@@ -120,11 +124,18 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onGetMessagesSuccess(ArrayList<MessageThread> messageThreadArrayList) {
-        this.messageThreadArrayList = messageThreadArrayList;
-        contactTeacherAdapter.addData(messageThreadArrayList);
         if (!activity.isCalling)
             activity.progress.dismiss();
         pullRefreshLayout.setRefreshing(false);
+        if (messageThreadArrayList.isEmpty()) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+            this.messageThreadArrayList = messageThreadArrayList;
+            contactTeacherAdapter.addData(messageThreadArrayList);
+        }
 
     }
 
@@ -134,8 +145,9 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
             if (!activity.isCalling)
                 activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, errorCode,"");
-
+        activity.showErrorDialog(activity, errorCode, "");
+        listFrameLayout.setVisibility(View.GONE);
+        placeholderFrameLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -163,7 +175,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     }
 
     public void openNewMessageActivity() {
-        NewMessageFragment newMessageFragment= new NewMessageFragment();
+        NewMessageFragment newMessageFragment = new NewMessageFragment();
         Bundle bundle = new Bundle();
         if (student != null)
             bundle.putString(Constants.STUDENT, student.toString());
@@ -172,9 +184,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
                 beginTransaction().add(R.id.messages_root, newMessageFragment, "MessagesFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
-//        Intent intent = new Intent(getActivity(), NewMessageActivity.class);
-//        if (student != null) intent.putExtra(Constants.STUDENT, student.toString());
-//        startActivity(intent);
     }
 
     @Override
@@ -185,9 +194,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onBackPressed() {
-      //  Boolean isStudent = SessionManager.getInstance().getStudentAccount();
-      //  Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
-
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             if (activity.pager.getCurrentItem() == 1) {
                 getChildFragmentManager().popBackStack();
@@ -198,7 +204,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
             }
         } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             if (activity.pager.getCurrentItem() == 1) {
-                if(getChildFragmentManager().getFragments().size()==0){
+                if (getChildFragmentManager().getFragments().size() == 0) {
                     getActivity().finish();
                     return;
                 }

@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.skolera.skolera_android.R;
 
@@ -46,6 +47,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     private Actor actor;
     private boolean newIncomingNotificationData;
     private SwipeRefreshLayout pullRefreshLayout;
+    private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     public AnnouncementsFragment() {
         // Required empty public constructor
@@ -81,6 +83,8 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         announcementView = new AnnouncementView(getActivity(), this);
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
+        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
+        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
 
     }
 
@@ -93,6 +97,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
             }
         });
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -122,13 +127,13 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         String type;
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             type = "parent";
-        } else if(SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             type = "teacher";
-        }else if(SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
             type = "hod";
-        }else if(SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString())) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString())) {
             type = "admin";
-        }else  {
+        } else {
             type = "student";
         }
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(pageNumber, type, 20);
@@ -142,10 +147,19 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
             if (!activity.isCalling)
                 activity.progress.dismiss();
         }
-        newIncomingNotificationData = announcementArrayList.size() != 0;
-        adapter.addData(announcementArrayList, newIncomingNotificationData);
         pullRefreshLayout.setRefreshing(false);
-
+        if (pageNumber == 1 && announcementArrayList.isEmpty()) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+            if (pageNumber == 1 && !adapter.mDataList.isEmpty()) {
+                adapter.mDataList.clear();
+            }
+            newIncomingNotificationData = announcementArrayList.size() != 0;
+            adapter.addData(announcementArrayList, newIncomingNotificationData);
+        }
     }
 
     @Override
@@ -153,6 +167,10 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         if (activity.progress.isShowing()) {
             if (!activity.isCalling)
                 activity.progress.dismiss();
+        }
+        if (pageNumber == 1) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -166,12 +184,6 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
                 beginTransaction().add(R.id.announcement_root, announcementDetailFragment).
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
-//        Intent intent = new Intent(getActivity(), AnnouncementDetailActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.KEY_ANNOUNCEMENTS, announcement);
-//        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-//        startActivity(intent);
-
     }
 
 
@@ -186,8 +198,6 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-//        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
-//        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             if (activity.pager.getCurrentItem() == 3) {
                 getChildFragmentManager().popBackStack();

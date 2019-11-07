@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -65,11 +66,15 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
             holder.assignmentNameTextView.setText(assignmentsDetail.getName());
         }
         if (assignmentsDetail.getState() != null) {
+            holder.dateTextView.setVisibility(View.VISIBLE);
             if (assignmentsDetail.getState().equals("running")) {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
+                holder.clockImageView.setImageResource(R.drawable.green_clock_icon);
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine, null));
             } else {
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
-            }
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dirt_brown, null));
+                holder.clockImageView.setImageResource(R.drawable.red_clock_icon);}
         } else {
             holder.dateTextView.setVisibility(View.INVISIBLE);
         }
@@ -105,6 +110,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
         private AvatarView courseAvatarView;
         public LinearLayout dateLinearLayout;
         public CardView cardView;
+        public ImageView clockImageView;
 
         public Holder(View itemView) {
             super(itemView);
@@ -118,6 +124,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
             dateLinearLayout = itemView.findViewById(R.id.ll_date);
             publishedTextView = itemView.findViewById(R.id.tv_published);
             cardView = itemView.findViewById(R.id.card_view);
+            clockImageView = itemView.findViewById(R.id.date_icon);
         }
     }
 

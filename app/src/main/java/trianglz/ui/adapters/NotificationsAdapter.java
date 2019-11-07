@@ -23,7 +23,7 @@ import trianglz.models.Notification;
  */
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.NotificationsViewHolder> {
     private Context context;
-    private ArrayList<Notification> notificationArrayList;
+    public ArrayList<Notification> notificationArrayList;
     private AdapterPaginationInterface paginationInterface;
     private boolean newData;
 

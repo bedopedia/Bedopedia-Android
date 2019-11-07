@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -52,6 +53,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     private int courseId;
     private int lastPage = 0;
     private SwipeRefreshLayout pullRefreshLayout;
+    private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     private FloatingActionButton addPostFab;
     //  private boolean isStudent, isParent;
@@ -95,8 +97,10 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
             }
         });
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
-            addPostFab.setVisibility(View.VISIBLE);
+            addPostFab.show();
         }
+        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
+        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         courseNameTextView = rootView.findViewById(R.id.tv_course_name);
         courseNameTextView.setText(courseName);
         adapter = new PostDetailsAdapter(activity, this);
@@ -142,13 +146,27 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
         adapter.addData(postDetails, page);
         if (activity.progress.isShowing()) activity.progress.dismiss();
         pullRefreshLayout.setRefreshing(false);
+        if (page == 1 && postDetails.isEmpty()) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+        }
 
     }
 
     @Override
-    public void onGetPostDetailsFailure() {
+    public void onGetPostDetailsFailure(String message, int errorCode) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
-
+        activity.showErrorDialog(activity, errorCode, "");
+        if (lastPage == 1) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override

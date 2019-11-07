@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -62,6 +63,8 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
     private IImageLoader imageLoader;
     private ImageButton backButton;
     private Button seeMoreButton;
+    private FrameLayout listFrameLayout, placeholderFrameLayout;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         getValueFromIntent();
         bindViews();
         setListeners();
-   //     onBackPress();
+        //     onBackPress();
     }
 
     private void getValueFromIntent() {
@@ -89,6 +92,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         }
 
     }
+
     private void bindViews() {
         activity.headerLayout.setVisibility(View.GONE);
         activity.toolbarView.setVisibility(View.GONE);
@@ -99,8 +103,10 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         tabLayout = rootView.findViewById(R.id.tab_layout);
         viewPager = rootView.findViewById(R.id.viewpager);
         adapter = new WeeklyPlannerAdapter(activity.getSupportFragmentManager(), activity);
+        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
+        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         ArrayList<String> daysNameArrayList = getDaysNameArrayList();
-        adapter.addFragmentArrayList(getFragmentList(),daysNameArrayList);
+        adapter.addFragmentArrayList(getFragmentList(), daysNameArrayList);
         viewPager.setAdapter(adapter);
         tabLayout.setViewPager(viewPager);
         ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
@@ -115,6 +121,15 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         weeklyNoteHeaderTextView = rootView.findViewById(R.id.tv_header_weekly_note);
         weeklyNoteImageView = rootView.findViewById(R.id.img_weekly_note);
         weeklyNoteLinearLayout = rootView.findViewById(R.id.layout_weekly_note);
+        if (rootClass.getWeeklyPlans().size() > 0) {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+        } else {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        }
+
+
         if (rootClass != null) {
             if (rootClass.getWeeklyPlans().size() > 0) {
                 ArrayList<WeeklyNote> weeklyNoteArrayList = rootClass.getWeeklyPlans().get(0).getWeeklyNotes();
@@ -226,7 +241,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
 
     private HashMap<String, ArrayList<DailyNote>> getDaysOfDailyNotes(RootClass rootClass) {
         HashMap<String, ArrayList<DailyNote>> dailyNoteHashMap = new HashMap<>();
-        if(rootClass.getWeeklyPlans().size() > 0 ) {
+        if (rootClass.getWeeklyPlans().size() > 0) {
             ArrayList<DailyNote> dailyNoteArrayList = rootClass.getWeeklyPlans().get(0).getDailyNotes();
             for (int i = 0; i < dailyNoteArrayList.size(); i++) {
                 DailyNote dailyNote = dailyNoteArrayList.get(i);
@@ -282,13 +297,14 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         AnnouncementDetailFragment announcementDetailFragment = new AnnouncementDetailFragment();
         Bundle bundle = new Bundle();
         WeeklyNote weeklyNote = rootClass.getWeeklyPlans().get(0).getWeeklyNotes().get(0);
-        bundle.putSerializable(Constants.KEY_WEEKLY_NOTE,weeklyNote);
+        bundle.putSerializable(Constants.KEY_WEEKLY_NOTE, weeklyNote);
         announcementDetailFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, announcementDetailFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

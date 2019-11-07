@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -59,7 +60,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private QuizzesDetailsAdapter adapter;
     private String courseName = "";
     private String courseGroupName = "";
-    private TextView headerTextView;
+    private TextView headerTextView, placeholderTextView;
     private RadioButton openButton, closedButton;
     private SegmentedGroup segmentedGroup;
     private QuizzCourse quizzCourse;
@@ -73,6 +74,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private SwipeRefreshLayout pullRefreshLayout;
     private int quizIndex = 0;
     private ArrayList<Quizzes> isToBeSubmittedQuizzes;
+    private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     @Nullable
     @Override
@@ -118,6 +120,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         backBtn = rootView.findViewById(R.id.btn_back);
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
+        placeholderTextView = rootView.findViewById(R.id.placeholder_tv);
         if (!teacherMode)
             setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
@@ -134,7 +137,12 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         headerTextView = rootView.findViewById(R.id.tv_header);
         isToBeSubmittedQuizzes = new ArrayList<>();
         headerTextView.setText(courseName);
-        if (quizzes != null) adapter.addData(getArrayList(isOpen));
+
+        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
+        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
+
+
+        if (quizzes != null) showHidePlaceholder(getArrayList(isOpen), isOpen);
 
         // radio button for segment control
         segmentedGroup = rootView.findViewById(R.id.segmented);
@@ -220,12 +228,12 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             case R.id.btn_open:
                 isOpen = true;
                 recyclerView.scrollToPosition(0);
-                adapter.addData(getArrayList(isOpen));
+                showHidePlaceholder(getArrayList(isOpen), isOpen);
                 break;
             case R.id.btn_closed:
                 isOpen = false;
                 recyclerView.scrollToPosition(0);
-                adapter.addData(getArrayList(isOpen));
+                showHidePlaceholder(getArrayList(isOpen), isOpen);
                 break;
         }
     }
@@ -243,7 +251,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             if (activity.progress.isShowing()) {
                 activity.progress.dismiss();
             }
-            adapter.addData(getArrayList(isOpen));
+            showHidePlaceholder(getArrayList(isOpen), isOpen);
         }
     }
 
@@ -281,16 +289,16 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onItemClicked(Quizzes quizzes) {
         if (!teacherMode) {
-            SingleQuizFragment singleQuizFragment = new SingleQuizFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
-            bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
-            bundle.putString(Constants.STUDENT, student.toString());
-            singleQuizFragment.setArguments(bundle);
-            getParentFragment().getChildFragmentManager().
-                    beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment, "MenuFragments").
-                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                    addToBackStack(null).commit();
+//            SingleQuizFragment singleQuizFragment = new SingleQuizFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
+//            bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
+//            bundle.putString(Constants.STUDENT, student.toString());
+//            singleQuizFragment.setArguments(bundle);
+//            getParentFragment().getChildFragmentManager().
+//                    beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment, "MenuFragments").
+//                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+//                    addToBackStack(null).commit();
         } else {
             GradingFragment gradingFragment = new GradingFragment();
             Bundle bundle = new Bundle();
@@ -357,4 +365,21 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             return durationLeft;
         }
     }
+
+    private void showHidePlaceholder(ArrayList<Quizzes> quizzes, boolean isOpen) {
+        if (quizzes.isEmpty()) {
+            if (isOpen) {
+                placeholderTextView.setText(activity.getResources().getString(R.string.open_assignments_placeholder));
+            } else {
+                placeholderTextView.setText(activity.getResources().getString(R.string.closed_assignments_placeholder));
+            }
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+            adapter.addData(quizzes);
+        }
+    }
+
 }

@@ -10,6 +10,7 @@
     android:focusable="true"
     tools:context="trianglz.ui.activities.GradesActivity"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -47,20 +48,62 @@
             android:background="@android:color/transparent"
             android:src="@drawable/notify" />
     </RelativeLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="26dp"
-        android:textColor="@color/gunmetal"
-        android:textSize="16sp"
-        android:text="@string/subjects"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
-        android:background="#197a8993"
-        />
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/recycler_view"/>
 
+    <FrameLayout
+        android:id="@+id/recycler_view_layout"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="26dp"
+                android:textColor="@color/gunmetal"
+                android:textSize="16sp"
+                android:text="@string/subjects"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:background="#197a8993" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recycler_view" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/placeholder_layout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/grades_placeholder" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="24dp"
+                android:layout_gravity="center"
+                android:includeFontPadding="false"
+                android:textSize="16sp"
+                android:text="@string/courses_placeholder" />
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
