@@ -289,16 +289,16 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onItemClicked(Quizzes quizzes) {
         if (!teacherMode) {
-            SingleQuizFragment singleQuizFragment = new SingleQuizFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
-            bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
-            bundle.putString(Constants.STUDENT, student.toString());
-            singleQuizFragment.setArguments(bundle);
-            getParentFragment().getChildFragmentManager().
-                    beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment, "MenuFragments").
-                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                    addToBackStack(null).commit();
+//            SingleQuizFragment singleQuizFragment = new SingleQuizFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putString(Constants.KEY_QUIZZES, quizzes.toString());
+//            bundle.putString(Constants.KEY_COURSE_QUIZZES, quizzCourse.toString());
+//            bundle.putString(Constants.STUDENT, student.toString());
+//            singleQuizFragment.setArguments(bundle);
+//            getParentFragment().getChildFragmentManager().
+//                    beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment, "MenuFragments").
+//                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+//                    addToBackStack(null).commit();
         } else {
             GradingFragment gradingFragment = new GradingFragment();
             Bundle bundle = new Bundle();
