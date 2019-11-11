@@ -77,6 +77,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     private HashMap<String, Double> assignmentsHashMap;
     private HashMap<String, Double> gradeItemHashMap;
     private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private boolean isToShowPlaceHolder = true;
 
     @Nullable
     @Override
@@ -248,7 +249,10 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         } else if (gradeItemArrayList.isEmpty() && quizArrayList.isEmpty() && assignmentArrayList.isEmpty()) {
             listFrameLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
-        } else {
+        } else if(isToShowPlaceHolder){
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        }else {
             listFrameLayout.setVisibility(View.VISIBLE);
             placeholderFrameLayout.setVisibility(View.GONE);
         }
@@ -304,6 +308,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
             for (int quiz = 0; quiz < quizArrayList.size(); quiz++) {
                 if (Util.isDateInside(expandedSemesters.get(semester).startDate,
                         expandedSemesters.get(semester).endDate, quizArrayList.get(quiz).endDate)) {
+                    isToShowPlaceHolder = false;
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(semester));
                     if (isToAdd) {
                         isToAdd = false;
@@ -341,6 +346,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
             isToAdd = true;
             for (int j = 0; j < gradeItemArrayList.size(); j++) {
                 if (expandedSemesters.get(i).id == gradeItemArrayList.get(j).gradingPeriodId) {
+                    isToShowPlaceHolder = false;
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(i));
                     if (isToAdd) {
                         isToAdd = false;
@@ -379,6 +385,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
             for (int j = 0; j < assignmentArrayList.size(); j++) {
                 if (Util.isDateInside(expandedSemesters.get(i).startDate,
                         expandedSemesters.get(i).endDate, assignmentArrayList.get(j).endDate)) {
+                    isToShowPlaceHolder = false;
                     ArrayList<Object> objectArrayList = semesterHashMap.get(expandedSemesters.get(i));
                     if (isToAdd) {
                         isToAdd = false;
