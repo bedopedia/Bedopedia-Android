@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -39,7 +42,8 @@ public class AssignmentFragment extends Fragment implements AttachmentAdapter.At
     private StudentMainActivity activity;
     private View rootView;
     private AssignmentsDetail assignmentsDetail;
-    private TextView courseNameTextView, courseDescriptionTextView;
+    private TextView courseNameTextView;
+    private HtmlTextView courseDescriptionTextView;
     private RecyclerView recyclerView;
     private AttachmentAdapter adapter;
     private SingleAssignmentView singleAssignmentView;
@@ -52,8 +56,6 @@ public class AssignmentFragment extends Fragment implements AttachmentAdapter.At
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-//        activity.toolbarView.setVisibility(View.GONE);
-//        activity.headerLayout.setVisibility(View.GONE);
         rootView = inflater.inflate(R.layout.activity_assignment, container, false);
         return rootView;
     }
@@ -64,7 +66,6 @@ public class AssignmentFragment extends Fragment implements AttachmentAdapter.At
         ReadIntent();
         bindViews();
         setListeners();
-    //    onBackPress();
         activity.showLoadingDialog();
         singleAssignmentView.showAssignment(courseId, assignmentsDetail.getId());
     }
@@ -93,7 +94,8 @@ public class AssignmentFragment extends Fragment implements AttachmentAdapter.At
             cardView.setVisibility(View.GONE);
         } else {
             cardView.setVisibility(View.VISIBLE);
-            courseDescriptionTextView.setText(assignmentsDetail.getDescription());
+            courseDescriptionTextView.setHtml(assignmentsDetail.getDescription(),
+                    new HtmlHttpImageGetter(courseDescriptionTextView));
         }
         recyclerView = rootView.findViewById(R.id.recycler_view);
         adapter = new AttachmentAdapter(activity, this);
