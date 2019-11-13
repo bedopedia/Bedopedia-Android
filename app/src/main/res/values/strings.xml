@@ -275,5 +275,6 @@
     <string name="courses_placeholder">You don\'t have any courses for now</string>
     <string name="grades_placeholder">You don\'t have any grades for now</string>
     <string name="no_content">No content available</string>
+    <string name="no_description">No description available</string>
 
 </resources>

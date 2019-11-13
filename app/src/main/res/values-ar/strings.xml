@@ -253,6 +253,6 @@
     <string name="courses_placeholder">لا يوجد مواد الآن</string>
     <string name="grades_placeholder">لا يوجد درجات الآن</string>
     <string name="no_content">لا يوجد محتوى</string>
-    <string name="profile">Profile</string>
-
+    <string name="profile">الملف</string>
+    <string name="no_description">لا يوجد تفاصيل</string>
 </resources>
