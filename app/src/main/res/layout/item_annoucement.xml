@@ -48,7 +48,6 @@
             android:clickable="false"
             android:focusable="false"
             android:background="@color/transparent"
-            android:drawableEnd="@drawable/shape"
             android:textAlignment="textEnd"
             android:id="@+id/btn_date"
             android:textColor="@color/steel"

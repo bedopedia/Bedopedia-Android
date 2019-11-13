@@ -46,6 +46,7 @@
             <trianglz.components.LatoBoldTextView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
                 android:textColor="@color/red"
                 android:layout_gravity="center_vertical"
                 android:textAlignment="textStart"
@@ -54,14 +55,6 @@
                 android:gravity="start|center_vertical"
                 android:includeFontPadding="false" />
 
-            <ImageButton
-                android:id="@+id/btn_open"
-                android:layout_width="35dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/shape"
-                android:background="@color/transparent"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="11dp" />
 
         </LinearLayout>
 

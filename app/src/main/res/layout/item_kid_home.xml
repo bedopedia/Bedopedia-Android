@@ -86,23 +86,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <FrameLayout
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp">
 
-            <ImageButton
-                android:id="@+id/btn_open"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:background="@android:color/transparent"
-                android:scaleType="centerInside"
-                android:src="@drawable/shape"
-                android:focusable="false"
-                android:clickable="false"/>
-        </FrameLayout>
 
     </LinearLayout>
 

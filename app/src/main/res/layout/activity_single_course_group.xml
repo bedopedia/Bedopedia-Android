@@ -108,16 +108,6 @@
 
         </RelativeLayout>
 
-        <ImageButton
-            android:id="@+id/btn_attendance"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="7dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/shape"
-            android:focusable="false"
-            android:clickable="false"/>
 
     </LinearLayout>
     <View
@@ -179,16 +169,7 @@
 
         </RelativeLayout>
 
-        <ImageButton
-            android:id="@+id/btn_quizzes"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="7dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/shape"
-            android:focusable="false"
-            android:clickable="false"/>
+
 
     </LinearLayout>
     <View
@@ -250,16 +231,7 @@
 
         </RelativeLayout>
 
-        <ImageButton
-            android:id="@+id/btn_assignments"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="7dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/shape"
-            android:focusable="false"
-            android:clickable="false"/>
+
 
     </LinearLayout>
     <View
@@ -313,16 +285,7 @@
 
             </RelativeLayout>
 
-            <ImageButton
-                android:id="@+id/btn_posts"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="7dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/shape"
-                android:focusable="false"
-                android:clickable="false"/>
+
 
         </LinearLayout>
 
