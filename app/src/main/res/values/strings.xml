@@ -78,7 +78,7 @@
     <string name="timetable">Timetable</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="today">Today</string>
-
+    <string name="profile">Profile</string>
     <array name="weekdays_cust">
         <item>S</item>
         <item>M</item>
