@@ -381,6 +381,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     private void handleParentTabs(int tabNumber) {
         pager.setCurrentItem(tabNumber);
+        fourthTextView.setText(getResources().getString(R.string.profile));
         //  showHideToolBar(pagerAdapter.getItem(tabNumber));
         switch (tabNumber) {
             case 0:
@@ -421,7 +422,6 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
                 fourthTabImageView.setImageResource(R.drawable.ic_menu_selected_parent);
-                fourthTextView.setText(getResources().getString(R.string.profile));
 
                 firstTextView.setVisibility(View.GONE);
                 secondTextView.setVisibility(View.GONE);
@@ -496,6 +496,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         pager.setCurrentItem(tabNumber);
         // showHideToolBar(pagerAdapter.getItem(tabNumber));
         // text view content
+
         coursesTextView.setText(getResources().getString(R.string.courses));
         firstTextView.setText(getResources().getString(R.string.announcements));
         secondTextView.setText(getResources().getString(R.string.messages));
@@ -566,7 +567,6 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
                 fourthTabImageView.setImageResource(R.drawable.ic_menu_selected_teacher);
-                fourthTextView.setText(getResources().getString(R.string.profile));
 
                 coursesTextView.setVisibility(View.GONE);
                 firstTextView.setVisibility(View.GONE);

@@ -289,7 +289,7 @@
                     android:paddingStart="4dp"
                     android:autoSizeTextType="uniform"
                     android:gravity="center_horizontal"
-                    android:text="@string/menu"
+                    android:text="@string/profile"
                     android:textColor="@color/new_blue"
                     tools:targetApi="o" />
             </LinearLayout>
