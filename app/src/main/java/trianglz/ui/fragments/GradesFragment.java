@@ -25,11 +25,13 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.TopItemDecoration;
 import trianglz.models.PostsResponse;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.GradesAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 03/09/2019.
@@ -97,6 +99,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
             placeholderFrameLayout.setVisibility(View.GONE);
             gradesAdapter.addData(postsResponses);
         }
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
