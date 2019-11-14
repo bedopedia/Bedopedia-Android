@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +34,14 @@ import trianglz.utils.Constants;
 /**
  * Created by Farah A. Moniem on 03/09/2019.
  */
-public class GradesFragment extends Fragment implements GradesAdapter.GradesAdapterInterface, View.OnClickListener {
+public class GradesFragment extends Fragment implements GradesAdapter.GradesAdapterInterface {
 
     private View rootView;
     private ImageButton backBtn;
     private AvatarView studentImageView;
     private RecyclerView recyclerView;
     private GradesAdapter gradesAdapter;
+    private Toolbar toolbar;
     private Student student;
     private ArrayList<PostsResponse> postsResponses;
     private IImageLoader imageLoader;
@@ -59,7 +61,6 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         super.onActivityCreated(savedInstanceState);
         getValueFromIntent();
         bindViews();
-        setListeners();
     }
 
 
@@ -77,6 +78,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         activity.toolbarView.setVisibility(View.GONE);
         activity.headerLayout.setVisibility(View.GONE);
         backBtn = rootView.findViewById(R.id.btn_back);
+        toolbar = rootView.findViewById(R.id.toolbar);
         studentImageView = rootView.findViewById(R.id.img_student);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
@@ -95,11 +97,16 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
             placeholderFrameLayout.setVisibility(View.GONE);
             gradesAdapter.addData(postsResponses);
         }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.toolbarView.setVisibility(View.VISIBLE);
+                activity.headerLayout.setVisibility(View.VISIBLE);
+                getParentFragment().getChildFragmentManager().popBackStack();
+            }
+        });
     }
 
-    private void setListeners() {
-        backBtn.setOnClickListener(this);
-    }
 
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
@@ -128,16 +135,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_back:
-                activity.toolbarView.setVisibility(View.VISIBLE);
-                activity.headerLayout.setVisibility(View.VISIBLE);
-                getParentFragment().getChildFragmentManager().popBackStack();
-                break;
-        }
-    }
+
 
     @Override
     public void onSubjectSelected(int position) {
