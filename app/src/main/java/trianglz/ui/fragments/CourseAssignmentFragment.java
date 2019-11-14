@@ -24,6 +24,7 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.CourseAssignmentPresenter;
 import trianglz.core.views.CourseAssignmentView;
 import trianglz.managers.SessionManager;
@@ -88,6 +89,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         courseAssignmentAdapter = new CourseAssignmentAdapter(activity, this);
         recyclerView.setAdapter(courseAssignmentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         courseAssignmentView = new CourseAssignmentView(activity, this);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
     }
