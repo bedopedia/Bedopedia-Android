@@ -2,6 +2,7 @@ package trianglz.core.views;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -93,6 +94,7 @@ public class SplashView {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 String token = instanceIdResult.getToken();
+                Log.d("token", "onSuccess: "+token);
                 SessionManager.getInstance().setFireBaseToken(token);
                 updateToken();
 
