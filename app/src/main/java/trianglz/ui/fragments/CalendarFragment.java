@@ -38,6 +38,7 @@ import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.BottomItemDecoration;
 import trianglz.components.CircleTransform;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.CalendarEventsPresenter;
 import trianglz.core.presenters.FragmentCommunicationInterface;
 import trianglz.core.views.CalendarEventsView;
@@ -124,6 +125,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new BottomItemDecoration(66, false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         eventAdapter = new EventAdapter(activity, EventAdapter.EVENTSTATE.ALL);
         imageLoader = new PicassoLoader();
         studentImageView = rootView.findViewById(R.id.img_student);

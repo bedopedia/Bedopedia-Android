@@ -14,9 +14,11 @@ import com.skolera.skolera_android.R;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import trianglz.components.TopItemDecoration;
 import trianglz.models.UploadedObject;
 import trianglz.ui.adapters.AttachmentAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 public class AttachmentsActivity extends SuperActivity implements AttachmentAdapter.AttachmentAdapterInterface {
     private String subjectName;
@@ -47,6 +49,7 @@ public class AttachmentsActivity extends SuperActivity implements AttachmentAdap
             adapter = new AttachmentAdapter(this, this);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, this), false));
             adapter.addData(uploadedObjects);
     }
 

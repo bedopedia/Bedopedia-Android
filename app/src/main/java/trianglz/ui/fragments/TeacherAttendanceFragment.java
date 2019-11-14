@@ -28,6 +28,7 @@ import java.util.Map;
 
 import trianglz.components.ExcusedDialog;
 import trianglz.components.TakeAttendanceDialog;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.TeacherAttendancePresenter;
 import trianglz.core.views.TeacherAttendanceView;
 import trianglz.managers.SessionManager;
@@ -116,7 +117,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
-
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
     }
 
     private void setListeners() {

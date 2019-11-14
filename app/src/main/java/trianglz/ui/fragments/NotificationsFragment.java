@@ -15,6 +15,7 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.AdapterPaginationInterface;
 import trianglz.core.presenters.NotificationsPresenter;
 import trianglz.core.views.NotificationsView;
@@ -78,6 +79,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
     }
 
     private void setListeners() {

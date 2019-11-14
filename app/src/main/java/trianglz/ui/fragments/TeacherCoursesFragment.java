@@ -14,7 +14,7 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
-import trianglz.components.BottomItemDecoration;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.TeacherCoursesPresenter;
 import trianglz.core.views.TeacherCoursesView;
 import trianglz.managers.SessionManager;
@@ -62,7 +62,7 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
         recyclerView.setAdapter(teacherCoursesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(6, getParentActivity()), false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
     }
 
     // this method is to reduce the amount of calling getActivity()

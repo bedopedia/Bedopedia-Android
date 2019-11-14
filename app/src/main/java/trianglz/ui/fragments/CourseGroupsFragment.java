@@ -17,7 +17,7 @@ import com.skolera.skolera_android.R;
 
 import java.util.Arrays;
 
-import trianglz.components.BottomItemDecoration;
+import trianglz.components.TopItemDecoration;
 import trianglz.models.CourseGroups;
 import trianglz.models.TeacherCourse;
 import trianglz.ui.activities.StudentMainActivity;
@@ -71,7 +71,7 @@ public class CourseGroupsFragment extends Fragment implements TeacherCoursesAdap
         recyclerView.setAdapter(teacherCoursesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity,
                 LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(6, activity), false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         courseNameTextView.setText(teacherCourse.getName());
         teacherCoursesAdapter.addCourseGroups(Arrays.asList(teacherCourse.getCourseGroups()));
     }

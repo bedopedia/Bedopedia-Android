@@ -16,7 +16,7 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
-import trianglz.components.BottomItemDecoration;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.AnnouncementInterface;
 import trianglz.core.views.AnnouncementView;
 import trianglz.managers.SessionManager;
@@ -79,13 +79,12 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(6, getActivity()), false));
         announcementView = new AnnouncementView(getActivity(), this);
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
-
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
     }
 
     private void setListeners() {

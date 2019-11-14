@@ -38,10 +38,12 @@ import agency.tango.android.avatarview.views.AvatarView;
 import attendance.Attendance;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.TopItemDecoration;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.AttendanceAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 04/09/2019.
@@ -95,6 +97,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         presentDates = new ArrayList<>();
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         imageLoader = new PicassoLoader();
         studentImageView = rootView.findViewById(R.id.img_student);
         monthYearTextView = rootView.findViewById(R.id.tv_month_year_header);
