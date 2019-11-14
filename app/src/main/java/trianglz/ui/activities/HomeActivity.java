@@ -25,12 +25,14 @@ import java.util.ArrayList;
 import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
 import trianglz.components.SettingsDialog;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.HomePresenter;
 import trianglz.core.views.HomeView;
 import trianglz.managers.SessionManager;
 import trianglz.models.Student;
 import trianglz.ui.adapters.HomeAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 public class HomeActivity extends SuperActivity implements HomePresenter, View.OnClickListener,
         HomeAdapter.HomeAdapterInterface, SettingsDialog.SettingsDialogInterface, ErrorDialog.DialogConfirmationInterface {
@@ -67,6 +69,8 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         kidsAttendances = new ArrayList<>();
         settingsDialog = new SettingsDialog(this, R.style.BottomSheetDialog, this);
         settingsBtn = findViewById(R.id.btn_setting);
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, this), false));
+
     }
 
     private void setListeners() {

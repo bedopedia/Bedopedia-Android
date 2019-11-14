@@ -77,13 +77,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
                 homeAdapterInterface.onOpenStudentClicked(mDataList.get(position), position);
             }
         });
-
-        holder.openImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                homeAdapterInterface.onOpenStudentClicked(mDataList.get(position), position);
-            }
-        });
+//
+//        holder.openImageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                homeAdapterInterface.onOpenStudentClicked(mDataList.get(position), position);
+//            }
+//        });
 
         holder.assignmentsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
