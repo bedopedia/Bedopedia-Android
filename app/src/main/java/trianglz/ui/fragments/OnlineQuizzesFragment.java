@@ -27,6 +27,7 @@ import agency.tango.android.avatarview.views.AvatarView;
 import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.OnlineQuizzesPresenter;
 import trianglz.core.views.OnlineQuizzesView;
 import trianglz.models.AssignmentsDetail;
@@ -96,6 +97,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         onlineQuizzesView = new OnlineQuizzesView(activity, this);
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
     }
 
