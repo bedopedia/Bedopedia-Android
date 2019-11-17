@@ -93,4 +93,5 @@
     <color name="pine">#1e3b19</color>
     <color name="dirt_brown">#6c3e28</color>
     <color name="transparent_white">#80FFFFFF</color>
+    <color name="hint_color">#808080</color>
     </resources>

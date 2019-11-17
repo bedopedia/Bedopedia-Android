@@ -2,6 +2,9 @@ package trianglz.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Picasso;
@@ -39,6 +43,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     private ImageView schoolImageView;
     private ImageButton backBtn;
     private LinearLayout parentView;
+    private RoundCornerProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         schoolImageView = findViewById(R.id.img_school);
         backBtn = findViewById(R.id.btn_back);
         parentView = findViewById(R.id.parent_view);
+        progressBar = findViewById(R.id.progress_bar);
     }
 
     private void setListeners() {
@@ -66,6 +72,28 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         backBtn.setOnClickListener(this);
         parentView.setOnTouchListener(new HideKeyboardOnTouch(this));
         passwordEditText.setOnEditorActionListener(this);
+        passwordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d("count", "afterTextChanged: " + s.toString().trim().length());
+                if (s.toString().trim().length() > 6) {
+                    progressBar.setProgressColor(getResources().getColor(R.color.jade_green));
+                } else {
+                    progressBar.setProgressColor(getResources().getColor(R.color.pale_red));
+                }
+                progressBar.setProgress((10 * (float) s.length()) / 6);
+            }
+        });
     }
 
     @Override
@@ -122,6 +150,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     }
 
     private void showErrorMessage(MaterialEditText editText, String message) {
+        progressBar.setVisibility(View.GONE);
         editText.setError(message);
         editText.setUnderlineColor(getResources().getColor(R.color.pale_red));
         editText.setHideUnderline(false);

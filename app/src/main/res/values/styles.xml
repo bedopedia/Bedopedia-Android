@@ -93,6 +93,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowMinWidthMinor">100%</item>
     </style>
+
     <style name="QuizDialog" parent="AlertDialog.AppCompat">
         <item name="android:windowFrame">@null</item>
         <item name="android:background">@android:color/transparent</item>
@@ -118,6 +119,7 @@
         <item name="android:gravity">center</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
     <style name="ErrorDialog" parent="AlertDialog.AppCompat">
         <item name="android:background">@color/transparent</item>
         <item name="android:windowIsFloating">true</item>
@@ -131,4 +133,9 @@
         <item name="android:windowMinWidthMinor">100%</item>
     </style>
 
+    <style name="EditTextTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/transparent</item>
+        <item name="colorControlActivated">@color/jade_green</item>
+        <item name="colorControlHighlight">@color/transparent</item>
+    </style>
 </resources>
