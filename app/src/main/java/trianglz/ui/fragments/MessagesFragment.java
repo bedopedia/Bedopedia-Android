@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.skolera.skolera_android.R;
 
@@ -50,7 +50,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     private Actor actor;
     private boolean isOpeningThread = false;
     private SwipeRefreshLayout pullRefreshLayout;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private LinearLayout placeholderLinearLayout;
 
     public MessagesFragment() {
         // Required empty public constructor
@@ -83,8 +83,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         messageThreadArrayList = new ArrayList<>();
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
-        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
     }
 
     private void setListeners() {
@@ -128,11 +127,11 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
             activity.progress.dismiss();
         pullRefreshLayout.setRefreshing(false);
         if (messageThreadArrayList.isEmpty()) {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
             this.messageThreadArrayList = messageThreadArrayList;
             contactTeacherAdapter.addData(messageThreadArrayList);
         }
@@ -146,8 +145,8 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
                 activity.progress.dismiss();
         }
         activity.showErrorDialog(activity, errorCode, "");
-        listFrameLayout.setVisibility(View.GONE);
-        placeholderFrameLayout.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        placeholderLinearLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
