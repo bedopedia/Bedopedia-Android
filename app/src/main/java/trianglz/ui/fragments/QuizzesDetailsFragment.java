@@ -12,8 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -74,7 +74,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private SwipeRefreshLayout pullRefreshLayout;
     private int quizIndex = 0;
     private ArrayList<Quizzes> isToBeSubmittedQuizzes;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private LinearLayout placeholderLinearLayout;
 
     @Nullable
     @Override
@@ -138,8 +138,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         isToBeSubmittedQuizzes = new ArrayList<>();
         headerTextView.setText(courseName);
 
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
-        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
 
 
         if (quizzes != null) showHidePlaceholder(getArrayList(isOpen), isOpen);
@@ -173,6 +172,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
+                    pullRefreshLayout.setRefreshing(false);
                     getQuizzes();
                 }
             });
@@ -240,7 +240,6 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onGetQuizzesDetailsSuccess(ArrayList<Quizzes> quizzes, Meta meta) {
-        pullRefreshLayout.setRefreshing(false);
         this.quizzes.addAll(quizzes);
         populateIsToSubmitArray();
         totalPages = meta.getTotalPages();
@@ -373,11 +372,11 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             } else {
                 placeholderTextView.setText(activity.getResources().getString(R.string.closed_assignments_placeholder));
             }
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
             adapter.addData(quizzes);
         }
     }
