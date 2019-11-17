@@ -14,7 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -53,7 +53,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     private int courseId;
     private int lastPage = 0;
     private SwipeRefreshLayout pullRefreshLayout;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private LinearLayout placeholderLinearLayout;
 
     private FloatingActionButton addPostFab;
     //  private boolean isStudent, isParent;
@@ -99,8 +99,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             addPostFab.show();
         }
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
-        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
         courseNameTextView = rootView.findViewById(R.id.tv_course_name);
         courseNameTextView.setText(courseName);
         adapter = new PostDetailsAdapter(activity, this);
@@ -120,6 +119,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pullRefreshLayout.setRefreshing(false);
                 reloadEvents();
             }
         });
@@ -145,13 +145,12 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     public void onGetPostDetailsSuccess(ArrayList<PostDetails> postDetails, int page) {
         adapter.addData(postDetails, page);
         if (activity.progress.isShowing()) activity.progress.dismiss();
-        pullRefreshLayout.setRefreshing(false);
         if (page == 1 && postDetails.isEmpty()) {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
         }
 
     }
@@ -161,11 +160,11 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
         if (activity.progress.isShowing()) activity.progress.dismiss();
         activity.showErrorDialog(activity, errorCode, "");
         if (lastPage == 1) {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
         }
     }
 
