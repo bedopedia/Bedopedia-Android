@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -68,7 +68,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     private TeacherAttendanceAdapter teacherAttendanceAdapter;
     private Button fullDayButton, perSlotButton, assignAllButton, assignSelectedButton;
     private SwipeRefreshLayout pullRefreshLayout;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private LinearLayout placeholderFrameLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -115,7 +115,6 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         adapterTimeTableSlots = new ArrayList<>();
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
     }
@@ -129,6 +128,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pullRefreshLayout.setRefreshing(false);
                 if (perSlot) {
                     getPerSlotAttendance();
                 } else {
@@ -236,14 +236,13 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     public void onGetTeacherAttendanceSuccess(Attendance attendance) {
         createIds.clear();
         this.attendance = attendance;
-        pullRefreshLayout.setRefreshing(false);
         if (activity.progress.isShowing())
             activity.progress.dismiss();
         if (attendance.getStudents().isEmpty()) {
-            listFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
         } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
             placeholderFrameLayout.setVisibility(View.GONE);
         }
         if (attendance.getTimetableSlots() == null) {
@@ -276,7 +275,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     @Override
     public void onGetTeacherAttendanceFailure(String message, int code) {
         activity.showErrorDialog(activity, code, "");
-        listFrameLayout.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
         placeholderFrameLayout.setVisibility(View.VISIBLE);
     }
 
