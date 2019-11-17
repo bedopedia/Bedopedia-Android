@@ -47,7 +47,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     private Actor actor;
     private boolean newIncomingNotificationData;
     private SwipeRefreshLayout pullRefreshLayout;
-    private LinearLayout placeholderFrameLayout;
+    private LinearLayout placeholderLinearLayout;
 
     public AnnouncementsFragment() {
         // Required empty public constructor
@@ -82,7 +82,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         announcementView = new AnnouncementView(getActivity(), this);
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
-        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
     }
 
@@ -148,10 +148,10 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         }
         if (pageNumber == 1 && announcementArrayList.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.GONE);
             if (pageNumber == 1 && !adapter.mDataList.isEmpty()) {
                 adapter.mDataList.clear();
             }
@@ -168,7 +168,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         }
         if (pageNumber == 1) {
             recyclerView.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         }
     }
 

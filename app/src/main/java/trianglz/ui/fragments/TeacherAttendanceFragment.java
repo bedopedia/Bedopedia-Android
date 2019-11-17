@@ -68,7 +68,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     private TeacherAttendanceAdapter teacherAttendanceAdapter;
     private Button fullDayButton, perSlotButton, assignAllButton, assignSelectedButton;
     private SwipeRefreshLayout pullRefreshLayout;
-    private LinearLayout placeholderFrameLayout;
+    private LinearLayout placeholderLinearLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -115,7 +115,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         adapterTimeTableSlots = new ArrayList<>();
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
-        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
     }
 
@@ -240,10 +240,10 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             activity.progress.dismiss();
         if (attendance.getStudents().isEmpty()) {
             recyclerView.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.GONE);
         }
         if (attendance.getTimetableSlots() == null) {
             perSlot = false;
@@ -276,7 +276,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     public void onGetTeacherAttendanceFailure(String message, int code) {
         activity.showErrorDialog(activity, code, "");
         recyclerView.setVisibility(View.GONE);
-        placeholderFrameLayout.setVisibility(View.VISIBLE);
+        placeholderLinearLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
