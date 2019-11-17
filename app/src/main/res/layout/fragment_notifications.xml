@@ -6,53 +6,45 @@
     android:orientation="vertical"
     tools:context="trianglz.ui.fragments.NotificationsFragment">
 
-    <FrameLayout
-        android:id="@+id/recycler_view_layout"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/pullToRefresh"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:id="@+id/recycler_view_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="8dp" />
-        </android.support.v4.widget.SwipeRefreshLayout>
 
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/placeholder_layout"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
+            <LinearLayout
+                android:id="@+id/placeholder_layout"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/notification_placeholder" />
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:layout_marginTop="24dp"
-                android:layout_gravity="center"
-                android:includeFontPadding="false"
-                android:textSize="16sp"
-                android:text="@string/notification_placeholder" />
-        </LinearLayout>
-    </FrameLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/notification_placeholder" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="24dp"
+                    android:layout_gravity="center"
+                    android:includeFontPadding="false"
+                    android:textSize="16sp"
+                    android:text="@string/notification_placeholder" />
+            </LinearLayout>
+        </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
