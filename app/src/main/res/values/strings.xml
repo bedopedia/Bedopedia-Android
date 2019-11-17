@@ -266,7 +266,7 @@
     <string name="announcements_placeholder">You don\'t have any announcements for now</string>
     <string name="messages_placeholder">You don\'t have any messages for now</string>
     <string name="open_assignments_placeholder">You don\'t have any open assignments for now</string>
-    <string name="closed_assignments_placeholder">You don\'t have any open closed assignments for now</string>
+    <string name="closed_assignments_placeholder">You don\'t have any closed assignments for now</string>
     <string name="open_quizzes_placeholder">You don\'t have any open online quizzes for now</string>
     <string name="closed_quizzes_placeholder">You don\'t have any closed online quizzes for now</string>
     <string name="posts_placeholder">You don\'t have any posts for now</string>
