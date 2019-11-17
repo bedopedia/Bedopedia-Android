@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.skolera.skolera_android.R;
 
@@ -47,7 +47,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     private Actor actor;
     private boolean newIncomingNotificationData;
     private SwipeRefreshLayout pullRefreshLayout;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private LinearLayout placeholderFrameLayout;
 
     public AnnouncementsFragment() {
         // Required empty public constructor
@@ -82,7 +82,6 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         announcementView = new AnnouncementView(getActivity(), this);
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
     }
@@ -92,6 +91,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
             @Override
             public void onRefresh() {
                 activity.showLoadingDialog();
+                pullRefreshLayout.setRefreshing(false);
                 getAnnouncement(false);
             }
         });
@@ -146,12 +146,11 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
             if (!activity.isCalling)
                 activity.progress.dismiss();
         }
-        pullRefreshLayout.setRefreshing(false);
         if (pageNumber == 1 && announcementArrayList.isEmpty()) {
-            listFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
         } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
             placeholderFrameLayout.setVisibility(View.GONE);
             if (pageNumber == 1 && !adapter.mDataList.isEmpty()) {
                 adapter.mDataList.clear();
@@ -168,7 +167,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
                 activity.progress.dismiss();
         }
         if (pageNumber == 1) {
-            listFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
         }
     }
