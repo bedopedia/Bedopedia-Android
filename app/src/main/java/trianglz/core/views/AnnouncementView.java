@@ -13,14 +13,16 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Objects;
 
 import trianglz.core.presenters.AnnouncementInterface;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
-import trianglz.models.AnnouncementReceiver;
 import trianglz.models.Announcement;
+import trianglz.models.AnnouncementReceiver;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
@@ -33,7 +35,7 @@ public class AnnouncementView {
         this.announcementInterface = announcementInterface;
     }
 
-    public void getAnnouncement(String url){
+    public void getAnnouncement(String url) {
         UserManager.getAnnouncements(url, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -42,16 +44,16 @@ public class AnnouncementView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                announcementInterface.onGetAnnouncementFailure(message,errorCode);
+                announcementInterface.onGetAnnouncementFailure(message, errorCode);
 
             }
         });
     }
 
-    private ArrayList<Announcement> parseAnnouncementResponse(JSONObject response){
-        JSONArray announcementJsonArray  = response.optJSONArray(Constants.KEY_ANNOUNCEMENTS);
+    private ArrayList<Announcement> parseAnnouncementResponse(JSONObject response) {
+        JSONArray announcementJsonArray = response.optJSONArray(Constants.KEY_ANNOUNCEMENTS);
         ArrayList<Announcement> announcementArrayList = new ArrayList<>();
-        for(int i = 0; i< announcementJsonArray.length(); i++){
+        for (int i = 0; i < announcementJsonArray.length(); i++) {
             JSONObject announcementJsonObject = announcementJsonArray.optJSONObject(i);
             ArrayList<AnnouncementReceiver> announcementReceiverArrayList = new ArrayList<>();
             int id = announcementJsonObject.optInt(Constants.KEY_ID);
@@ -60,18 +62,19 @@ public class AnnouncementView {
             String endAt = announcementJsonObject.optString(Constants.KEY_END_AT);
             int adminId = announcementJsonObject.optInt(Constants.KEY_ADMIN_ID);
             String createdAt = announcementJsonObject.optString(Constants.KEY_CREATED_AT);
-            String imageUrl =  announcementJsonObject.optString(Constants.KEY_IMAGE_URL);
+            String imageUrl = announcementJsonObject.optString(Constants.KEY_IMAGE_URL);
             JSONArray announcementReceiversJsonArray = announcementJsonObject.optJSONArray(Constants.KEY_ANNOUNCEMENT_RECEIVERS);
-            for(int j= 0; j< announcementReceiversJsonArray.length(); j++){
+            for (int j = 0; j < announcementReceiversJsonArray.length(); j++) {
                 JSONObject announcementReceiverObject = announcementReceiversJsonArray.optJSONObject(j);
                 int annoucementReceiverId = announcementReceiverObject.optInt(Constants.KEY_ID);
                 int annoucenmentID = announcementReceiverObject.optInt(Constants.KEY_ANNOUCEMENT_ID);
-                String userType =  announcementReceiverObject.optString(Constants.KEY_USER_TYPE);
-                AnnouncementReceiver announcementReceiver = new AnnouncementReceiver(annoucementReceiverId,annoucenmentID,userType);
+                String userType = announcementReceiverObject.optString(Constants.KEY_USER_TYPE);
+                AnnouncementReceiver announcementReceiver = new AnnouncementReceiver(annoucementReceiverId, annoucenmentID, userType);
                 announcementReceiverArrayList.add(announcementReceiver);
             }
-            announcementArrayList.add( new Announcement(id,title,body,Util.getDate(endAt,context),Util.getDate(createdAt,context),adminId,imageUrl, announcementReceiverArrayList));
+            announcementArrayList.add(new Announcement(id, title, body, endAt, Util.getDate(createdAt, context), adminId, imageUrl, announcementReceiverArrayList));
         }
+        Collections.sort(announcementArrayList,new SortByDate());
         return announcementArrayList;
     }
 
@@ -91,5 +94,12 @@ public class AnnouncementView {
             return "Today";
         }
         return finalDate;
+    }
+
+    public static class SortByDate implements Comparator<Announcement> {
+        @Override
+        public int compare(Announcement a, Announcement b) {
+            return Util.convertStringToDate(a.endAt).compareTo(Util.convertStringToDate(b.endAt));
+        }
     }
 }

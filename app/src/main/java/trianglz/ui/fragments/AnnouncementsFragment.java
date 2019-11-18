@@ -208,8 +208,10 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
             }
         } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             if (activity.pager.getCurrentItem() == 0) {
-                getActivity().finish();
-                return;
+                if (getChildFragmentManager().getFragments().size() == 0) {
+                    getActivity().finish();
+                    return;
+                }
             }
             getChildFragmentManager().popBackStack();
             if (getChildFragmentManager().getFragments().size() == 1) {
