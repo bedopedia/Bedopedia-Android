@@ -198,7 +198,7 @@ public class Util {
 
 
     public static Date convertStringToDate(String dateString) {
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
         Date date = null;
         try {
             date = fmt.parse(dateString);
