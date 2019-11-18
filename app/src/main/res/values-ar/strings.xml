@@ -30,7 +30,7 @@
     <string name="password_is_empty">كلمة السر فارغة</string>
     <string name="email_is_empty">البريد الالكترونى فارغ</string>
     <string name="username_email">البريد الالكترونى/إسم المستخدم</string>
-    <string name="password_length_error">Password length should be more than 4 characters</string>
+    <string name="password_length_error">Password length should be more than 6 characters</string>
     <string name="code_is_empty">كود المدرسة فارغ</string>
     <string name="code_length_error">خطأ فى كود المدرسة</string>
     <string name="notifications">الإشعارات</string>
