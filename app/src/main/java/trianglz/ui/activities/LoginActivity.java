@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -45,6 +47,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     private ImageButton backBtn;
     private LinearLayout parentView;
     private View emailView;
+    private ImageButton showHidePasswordButton;
     private RoundCornerProgressBar progressBar;
 
     @Override
@@ -70,11 +73,13 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         emailErrorTextView = findViewById(R.id.email_error_tv);
         passwordErrorTextView = findViewById(R.id.password_error_tv);
         emailView = findViewById(R.id.email_view);
+        showHidePasswordButton = findViewById(R.id.show_hide_password_image_button);
     }
 
     private void setListeners() {
         loginBtn.setOnClickListener(this);
         backBtn.setOnClickListener(this);
+        showHidePasswordButton.setOnClickListener(this);
         parentView.setOnTouchListener(new HideKeyboardOnTouch(this));
         passwordEditText.setOnEditorActionListener(this);
         emailEditText.addTextChangedListener(new TextWatcher() {
@@ -135,6 +140,15 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
                 break;
             case R.id.btn_back:
                 onBackPressed();
+                break;
+            case R.id.show_hide_password_image_button:
+                if (passwordEditText.getTransformationMethod() instanceof PasswordTransformationMethod) {
+                    passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showHidePasswordButton.setImageResource(R.drawable.ic_unshow_password);
+                } else {
+                    passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showHidePasswordButton.setImageResource(R.drawable.ic_show_password);
+                }
                 break;
         }
     }
