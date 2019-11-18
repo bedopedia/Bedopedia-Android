@@ -3,7 +3,6 @@ package trianglz.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -91,7 +90,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
             @Override
             public void afterTextChanged(Editable s) {
-                DrawableCompat.setTint(emailView.getBackground(), ContextCompat.getColor(getApplicationContext(), R.color.white_four));
+                emailView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white_four));
                 emailErrorTextView.setVisibility(View.INVISIBLE);
             }
         });
@@ -144,16 +143,14 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     public boolean validate(String email, String password) {
         boolean valid = true;
         if (email.isEmpty()) {
-            showErrorMessage(getResources().getString(R.string.email_is_empty), emailErrorTextView);
+            showEmailErrorMessage(getResources().getString(R.string.email_is_empty), emailErrorTextView);
             valid = false;
         }
         if (password.isEmpty() || password.length() < 6) {
-            progressBar.setProgressColor(getResources().getColor(R.color.pale_red));
-            progressBar.setProgress(100);
             if (password.isEmpty()) {
-                showErrorMessage(getResources().getString(R.string.password_is_empty), passwordErrorTextView);
+                showPasswordErrorMessage(getResources().getString(R.string.password_is_empty), passwordErrorTextView);
             } else {
-                showErrorMessage(getResources().getString(R.string.password_length_error), passwordErrorTextView);
+                showPasswordErrorMessage(getResources().getString(R.string.password_length_error), passwordErrorTextView);
             }
             valid = false;
         }
@@ -175,10 +172,16 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     }
 
-    private void showErrorMessage(String message, TextView textView) {
+    private void showEmailErrorMessage(String message, TextView textView) {
         textView.setText(message);
-        if (textView.getId() == R.id.email_error_tv)
-            DrawableCompat.setTint(emailView.getBackground(), ContextCompat.getColor(this, R.color.pale_red));
+        emailView.setBackgroundColor(ContextCompat.getColor(this, R.color.pale_red));
+        textView.setVisibility(View.VISIBLE);
+    }
+
+    private void showPasswordErrorMessage(String message, TextView textView) {
+        textView.setText(message);
+        progressBar.setProgressColor(getResources().getColor(R.color.pale_red));
+        progressBar.setProgress(100);
         textView.setVisibility(View.VISIBLE);
     }
 
