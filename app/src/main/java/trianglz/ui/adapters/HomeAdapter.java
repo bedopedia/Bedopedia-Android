@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -54,8 +53,20 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
     public void onBindViewHolder(final KidsViewHolder holder, final int position) {
         final Student student = mDataList.get(position);
         if (position == mDataList.size() - 1) {
-            holder.lineView.setVisibility(View.GONE);
+          //  holder.lineView.setVisibility(View.GONE);
         }
+        boolean expanded = student.isExpanded();
+        // Set the visibility based on state
+
+//        if(position % 4 == 0){
+//            holder.itemLayout.setBackgroundColor(ContextCompat.getColor(context,R.color.color1));
+//        }else if(position % 4 == 1){
+//            holder.itemLayout.setBackgroundColor(ContextCompat.getColor(context,R.color.color2));
+//        }else if(position % 4 == 2){
+//            holder.itemLayout.setBackgroundColor(ContextCompat.getColor(context,R.color.color3));
+//        }else {
+//            holder.itemLayout.setBackgroundColor(ContextCompat.getColor(context,R.color.color4));
+//        }
         String name = student.firstName + " " + student.lastName;
         holder.studentName.setText(name);
         String imageUrl = student.getAvatar();
@@ -65,12 +76,26 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
         setStudentImage(imageUrl, holder, name);
         setAttendanceCircle(student.getTodayAttendance(), holder);
         holder.gradeTextView.setText(student.level);
-        String quizzes = String.valueOf(student.getTodayQuizzesCount()  + " " +context.getResources().getString(R.string.quizzes) );
+        String quizzes = String.valueOf(student.getTodayQuizzesCount());
         holder.quizzesTextView.setText(quizzes);
-        String assignments = String.valueOf(student.getTodayAssignmentsCount()  + " " +context.getResources().getString(R.string.assignments) );
+        String assignments = String.valueOf(student.getTodayAssignmentsCount());
         holder.assignmentsTextView.setText(assignments);
-        String events = String.valueOf(student.getTodayEventsCount()  + " " +context.getResources().getString(R.string.events) );
+        String events = String.valueOf(student.getTodayEventsCount());
         holder.eventsTextView.setText(events);
+
+      //  TransitionManager.beginDelayedTransition(holder.itemLayout);
+
+        if( student.isExpanded()){
+            holder.expandedLinearLayout.setVisibility(View.VISIBLE);
+            holder.stateTextView.setVisibility(View.VISIBLE);
+            holder.expandImageButton.setImageResource(R.drawable.ic_keyboard_arrow_up);
+        }else{
+            holder.expandedLinearLayout.setVisibility(View.GONE);
+            holder.stateTextView.setVisibility(View.GONE);
+            holder.expandImageButton.setImageResource(R.drawable.ic_keyboard_arrow_down);
+
+        }
+
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,50 +134,63 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
     public class KidsViewHolder extends RecyclerView.ViewHolder {
         public TextView studentName, gradeTextView, stateTextView, quizzesTextView,
                 assignmentsTextView, eventsTextView;
-        public ImageView stateImageView;
         public AvatarView studentImageView;
         public ImageButton openImageButton;
-        public View lineView;
+       // public View lineView;
         public IImageLoader imageLoader;
         public LinearLayout itemLayout;
-
+        public ImageButton expandImageButton;
+        public LinearLayout expandedLinearLayout;
         public KidsViewHolder(View itemView) {
             super(itemView);
             studentName = itemView.findViewById(R.id.tv_student_name);
             gradeTextView = itemView.findViewById(R.id.tv_grade);
             stateTextView = itemView.findViewById(R.id.tv_state_student);
             studentImageView = itemView.findViewById(R.id.img_student);
-            stateImageView = itemView.findViewById(R.id.img_state);
             openImageButton = itemView.findViewById(R.id.btn_open);
-            lineView = itemView.findViewById(R.id.view_line);
+            //lineView = itemView.findViewById(R.id.view_line);
             imageLoader = new PicassoLoader();
             quizzesTextView = itemView.findViewById(R.id.tv_quizzes);
             assignmentsTextView = itemView.findViewById(R.id.tv_assignment);
             eventsTextView = itemView.findViewById(R.id.tv_events);
             itemLayout = itemView.findViewById(R.id.layout_item);
+            expandImageButton = itemView.findViewById(R.id.expand_btn);
+            expandedLinearLayout = itemLayout.findViewById(R.id.expanded_layout);
+            expandImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean expanded = mDataList.get(getAdapterPosition()).isExpanded();
+                    // Change the state
+                    mDataList.get(getAdapterPosition()).setExpanded(!expanded);
+                    // Notify the adapter that item has changed
+                    notifyItemChanged(getAdapterPosition());
+
+                }
+            });
         }
+
     }
 
     public void setAttendanceCircle(String attendanceStatus, KidsViewHolder holder) {
         attendanceStatus = attendanceStatus.substring(0, 1).toUpperCase() + attendanceStatus.substring(1).toLowerCase();
         holder.stateTextView.setText(attendanceStatus);
-        if (attendanceStatus.equals("Present")) {
-            holder.stateImageView.setImageResource(R.drawable.attendance_circle_green);
-        } else if (attendanceStatus.equals("Not taken")) {
-            holder.stateImageView.setImageResource(R.drawable.attendance_circle_grey);
-        } else if (attendanceStatus.equals("Late")) {
-            holder.stateImageView.setImageResource(R.drawable.attendance_circle_yellow);
-        } else if (attendanceStatus.equals("Excused")) {
-            holder.stateImageView.setImageResource(R.drawable.attendance_circle_blue);
-        } else if (attendanceStatus.equals("Absent")) {
-            holder.stateImageView.setImageResource(R.drawable.attendance_circle_red);
-        }
+//        if (attendanceStatus.equals("Present")) {
+//            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.present_icon, null), null, null, null);
+//        } else if (attendanceStatus.equals("Not taken")) {
+//            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.attendance_circle_grey, null), null, null, null);
+//        } else if (attendanceStatus.equals("Late")) {
+//            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.late_icon, null), null, null, null);
+//        } else if (attendanceStatus.equals("Excused")) {
+//            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.excused_icon, null), null, null, null);
+//        } else if (attendanceStatus.equals("Absent")) {
+//            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.absent_icon, null), null, null, null);
+//        }
     }
 
     private void setStudentImage(String imageUrl, final KidsViewHolder holder, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
             holder.imageLoader = new PicassoLoader();
-            holder.imageLoader.loadImage(holder.studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+            holder.imageLoader.loadImage(holder.studentImageView,  new AvatarPlaceholderModified(name), "Path of Image");
         } else {
             holder.imageLoader = new PicassoLoader();
             holder.imageLoader.loadImage(holder.studentImageView, new AvatarPlaceholderModified(name), "Path of Image");

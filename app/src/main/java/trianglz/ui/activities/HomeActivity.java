@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -70,6 +71,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         settingsDialog = new SettingsDialog(this, R.style.BottomSheetDialog, this);
         settingsBtn = findViewById(R.id.btn_setting);
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, this), false));
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
     }
 
