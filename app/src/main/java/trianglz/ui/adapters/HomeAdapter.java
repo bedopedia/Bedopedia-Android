@@ -13,6 +13,8 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import net.cachapa.expandablelayout.ExpandableLayout;
+
 import java.util.ArrayList;
 
 import agency.tango.android.avatarview.IImageLoader;
@@ -22,6 +24,7 @@ import login.Services.ApiClient;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.models.Student;
+import trianglz.utils.Util;
 
 /**
  * Created by ${Aly} on 10/31/2018.
@@ -53,7 +56,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
     public void onBindViewHolder(final KidsViewHolder holder, final int position) {
         final Student student = mDataList.get(position);
         if (position == mDataList.size() - 1) {
-          //  holder.lineView.setVisibility(View.GONE);
+            //  holder.lineView.setVisibility(View.GONE);
         }
         boolean expanded = student.isExpanded();
         // Set the visibility based on state
@@ -83,17 +86,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
         String events = String.valueOf(student.getTodayEventsCount());
         holder.eventsTextView.setText(events);
 
-      //  TransitionManager.beginDelayedTransition(holder.itemLayout);
-
-        if( student.isExpanded()){
-            holder.expandedLinearLayout.setVisibility(View.VISIBLE);
-            holder.stateTextView.setVisibility(View.VISIBLE);
+        if (student.isExpanded()) {
+            holder.expandableLayout.expand();
             holder.expandImageButton.setImageResource(R.drawable.ic_keyboard_arrow_up);
-        }else{
-            holder.expandedLinearLayout.setVisibility(View.GONE);
-            holder.stateTextView.setVisibility(View.GONE);
+        } else {
+            holder.expandableLayout.collapse();
             holder.expandImageButton.setImageResource(R.drawable.ic_keyboard_arrow_down);
-
         }
 
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
@@ -102,14 +100,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
                 homeAdapterInterface.onOpenStudentClicked(mDataList.get(position), position);
             }
         });
-//
-//        holder.openImageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                homeAdapterInterface.onOpenStudentClicked(mDataList.get(position), position);
-//            }
-//        });
-
         holder.assignmentsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,11 +126,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
                 assignmentsTextView, eventsTextView;
         public AvatarView studentImageView;
         public ImageButton openImageButton;
-       // public View lineView;
+        // public View lineView;
         public IImageLoader imageLoader;
         public LinearLayout itemLayout;
         public ImageButton expandImageButton;
         public LinearLayout expandedLinearLayout;
+        public ExpandableLayout expandableLayout;
+
         public KidsViewHolder(View itemView) {
             super(itemView);
             studentName = itemView.findViewById(R.id.tv_student_name);
@@ -155,7 +147,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
             eventsTextView = itemView.findViewById(R.id.tv_events);
             itemLayout = itemView.findViewById(R.id.layout_item);
             expandImageButton = itemView.findViewById(R.id.expand_btn);
-            expandedLinearLayout = itemLayout.findViewById(R.id.expanded_layout);
+            expandableLayout = itemView.findViewById(R.id.expandable_layout);
+            Util.increaseButtonsHitArea(expandImageButton);
             expandImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -190,7 +183,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
     private void setStudentImage(String imageUrl, final KidsViewHolder holder, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
             holder.imageLoader = new PicassoLoader();
-            holder.imageLoader.loadImage(holder.studentImageView,  new AvatarPlaceholderModified(name), "Path of Image");
+            holder.imageLoader.loadImage(holder.studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
         } else {
             holder.imageLoader = new PicassoLoader();
             holder.imageLoader.loadImage(holder.studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
@@ -216,6 +209,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
 
     public interface HomeAdapterInterface {
         void onOpenStudentClicked(Student student, int position);
+
         void onAssignmentClicked(Student student);
     }
 

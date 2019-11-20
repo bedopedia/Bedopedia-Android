@@ -94,7 +94,7 @@ dependencies {
     implementation 'info.hoang8f:android-segmented:1.0.6'
     implementation 'org.sufficientlysecure:html-textview:3.7'
     implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
-
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
 
 }
 
