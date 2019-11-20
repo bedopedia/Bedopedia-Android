@@ -12,13 +12,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Picasso;
 
@@ -38,7 +38,7 @@ import trianglz.utils.Util;
 
 public class LoginActivity extends SuperActivity implements View.OnClickListener, LoginPresenter,
         TextView.OnEditorActionListener {
-    private EditText emailEditText, passwordEditText;
+    private MaterialEditText emailEditText, passwordEditText;
     private TextView emailErrorTextView, passwordErrorTextView;
     private Button loginBtn;
     private LoginView loginView;

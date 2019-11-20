@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="start"
     android:id="@+id/parent_view"
@@ -15,25 +16,24 @@
         android:layout_marginTop="94dp"
         android:src="@drawable/logo_2" />
 
-    <trianglz.components.SfproRegularTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="75dp"
-        android:text="@string/school_code" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_marginTop="75dp"
         android:id="@+id/et_school_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
         android:layout_marginStart="22dp"
         android:layout_marginEnd="24dp"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:maxLines="1"
         android:textAlignment="viewStart"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
         android:singleLine="true"
+        app:met_floatingLabelAnimating="true"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelTextSize="14sp"
+        app:met_floatingLabelTextColor="@color/jade_green"
         android:hint="@string/enter_school_code"
         android:imeOptions="actionDone"
         />
