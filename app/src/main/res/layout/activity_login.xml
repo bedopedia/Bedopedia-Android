@@ -67,7 +67,7 @@
         android:layout_marginStart="22dp"
         android:orientation="vertical">
 
-        <EditText
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -78,10 +78,12 @@
             android:maxLines="1"
             android:textAlignment="viewStart"
             android:singleLine="true"
-            android:theme="@style/EditTextTheme"
-            android:backgroundTint="@color/transparent"
             android:textColor="@color/black"
             android:textSize="16sp"
+            app:met_hideUnderline="true"
+            app:met_floatingLabel="highlight"
+            app:met_floatingLabelTextSize="14sp"
+            app:met_floatingLabelTextColor="@color/jade_green"
             android:hint="@string/username_email" />
 
         <View
@@ -118,7 +120,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/et_password"
                 android:layout_height="60dp"
                 android:layout_width="0dp"
@@ -133,8 +135,10 @@
                 android:textAlignment="viewStart"
                 android:drawablePadding="5dp"
                 android:hint="@string/password"
-                android:theme="@style/EditTextTheme"
-                android:backgroundTint="@color/transparent"
+                app:met_hideUnderline="true"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelTextSize="14sp"
+                app:met_floatingLabelTextColor="@color/jade_green"
                 android:imeOptions="actionDone" />
 
             <ImageButton
@@ -144,8 +148,7 @@
                 android:scaleType="centerCrop"
                 android:background="@color/transparent"
                 android:src="@drawable/ic_show_password"
-                android:layout_gravity="center_vertical"
-                 />
+                android:layout_gravity="center_vertical" />
         </LinearLayout>
 
         <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
