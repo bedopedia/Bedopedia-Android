@@ -3,6 +3,7 @@ package trianglz.utils;
 import android.Manifest;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
@@ -11,7 +12,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
+import android.view.TouchDelegate;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -509,5 +514,19 @@ public class Util {
             e.printStackTrace();
         }
         return date;
+    }
+    public static void increaseButtonsHitArea(ImageButton button) {
+        final View parent = (View) button.getParent();
+        parent.post(new Runnable() {
+            public void run() {
+                final Rect rect = new Rect();
+                button.getHitRect(rect);
+                rect.top -= 100;    // increase top hit area
+                rect.left -= 100;   // increase left hit area
+                rect.bottom += 100; // increase bottom hit area
+                rect.right += 100;  // increase right hit area
+                parent.setTouchDelegate(new TouchDelegate(rect, button));
+            }
+        });
     }
 }
