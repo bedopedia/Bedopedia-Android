@@ -102,7 +102,7 @@
     <string name="days">يوم</string>
     <string name="enter_email">ادخل اسم المستخدم</string>
     <string name="enter_password">ادخل كلمة السر</string>
-    <string name="enter_school_code">ادخل كود المدرسة</string>
+    <string name="enter_school_code">كود المدرسة</string>
     <string name="wrong_school_code">خطأ فى كود المدرسة</string>
 
 
