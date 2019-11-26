@@ -125,7 +125,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
         public TextView studentName, gradeTextView, stateTextView, quizzesTextView,
                 assignmentsTextView, eventsTextView;
         public AvatarView studentImageView;
-        public ImageButton openImageButton;
         // public View lineView;
         public IImageLoader imageLoader;
         public LinearLayout itemLayout;
@@ -139,7 +138,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
             gradeTextView = itemView.findViewById(R.id.tv_grade);
             stateTextView = itemView.findViewById(R.id.tv_state_student);
             studentImageView = itemView.findViewById(R.id.img_student);
-            openImageButton = itemView.findViewById(R.id.btn_open);
             //lineView = itemView.findViewById(R.id.view_line);
             imageLoader = new PicassoLoader();
             quizzesTextView = itemView.findViewById(R.id.tv_quizzes);
