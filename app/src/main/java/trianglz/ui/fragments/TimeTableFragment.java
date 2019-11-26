@@ -4,18 +4,16 @@ package trianglz.ui.fragments;
  * file modified by gemy
  */
 
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
@@ -27,7 +25,6 @@ import java.util.List;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.CustomRtlViewPager;
@@ -37,6 +34,7 @@ import trianglz.models.TimeTableSlot;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TimetableAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,8 +52,10 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     private ImageButton backBtn;
     private AvatarView studentImage;
     private Student student;
-    private RadioButton todayButton, tomorrowButton;
-    private SegmentedGroup segmentedGroup;
+    private TabLayout tabLayout;
+
+//    private RadioButton todayButton, tomorrowButton;
+//    private SegmentedGroup segmentedGroup;
 
     public TimeTableFragment() {
         // Required empty public constructor
@@ -85,29 +85,9 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     }
 
     private void setListeners() {
-        todayButton.setOnClickListener(this);
-        tomorrowButton.setOnClickListener(this);
+
         backBtn.setOnClickListener(this);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0) {
-                    segmentedGroup.check(todayButton.getId());
-                } else {
-                    segmentedGroup.check(tomorrowButton.getId());
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        tabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
@@ -138,32 +118,18 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     }
 
     private void bindViews() {
-        todayButton = rootView.findViewById(R.id.btn_today);
-        tomorrowButton = rootView.findViewById(R.id.btn_tomorrow);
+
         backBtn = rootView.findViewById(R.id.back_btn);
         studentImage = rootView.findViewById(R.id.img_student);
-        // radio button for segment control
-        segmentedGroup = rootView.findViewById(R.id.segmented);
-        segmentedGroup.check(todayButton.getId());
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
-        } else {
-            studentImage.setVisibility(View.INVISIBLE);
-            segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
-        }
+        tabLayout = rootView.findViewById(R.id.tab_layout);
+
+        tabLayout.setSelectedTabIndicatorColor(getActivity().getResources().getColor(Util.checkUserColor()));
+        tabLayout.setTabTextColors(getActivity().getResources().getColor(R.color.steel), getActivity().getResources().getColor(Util.checkUserColor()));
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_today:
-                mViewPager.setCurrentItem(0);
-                break;
-            case R.id.btn_tomorrow:
-                mViewPager.setCurrentItem(1);
-                break;
             case R.id.back_btn:
                 StudentMainActivity activity = (StudentMainActivity) getActivity();
                 activity.headerLayout.setVisibility(View.VISIBLE);
