@@ -1,9 +1,9 @@
 package trianglz.ui.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -27,7 +26,6 @@ import java.util.Date;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
@@ -61,8 +59,6 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private String courseName = "";
     private String courseGroupName = "";
     private TextView headerTextView, placeholderTextView;
-    private RadioButton openButton, closedButton;
-    private SegmentedGroup segmentedGroup;
     private QuizzCourse quizzCourse;
     private ArrayList<Quizzes> quizzes;
     private QuizzesDetailsView quizzesDetailsView;
@@ -75,6 +71,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private int quizIndex = 0;
     private ArrayList<Quizzes> isToBeSubmittedQuizzes;
     private LinearLayout placeholderLinearLayout;
+    private TabLayout tabLayout;
 
     @Nullable
     @Override
@@ -121,6 +118,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         placeholderTextView = rootView.findViewById(R.id.placeholder_tv);
+        tabLayout = rootView.findViewById(R.id.tab_layout);
         if (!teacherMode)
             setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
@@ -143,18 +141,8 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 
         if (quizzes != null) showHidePlaceholder(getArrayList(isOpen), isOpen);
 
-        // radio button for segment control
-        segmentedGroup = rootView.findViewById(R.id.segmented);
-        openButton = rootView.findViewById(R.id.btn_open);
-        closedButton = rootView.findViewById(R.id.btn_closed);
-        segmentedGroup.check(openButton.getId());
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
-        } else {
-            segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
-        }
+        tabLayout.setSelectedTabIndicatorColor(activity.getResources().getColor(Util.checkUserColor()));
+        tabLayout.setTabTextColors(activity.getResources().getColor(R.color.steel), activity.getResources().getColor(Util.checkUserColor()));
 
         if (!teacherMode) {
             quizzesDetailsView = new QuizzesDetailsView(activity, this);
@@ -166,8 +154,30 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
-        openButton.setOnClickListener(this);
-        closedButton.setOnClickListener(this);
+        tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                recyclerView.scrollToPosition(0);
+                if (tab.getPosition() == 0) {
+                    isOpen = true;
+                    showHidePlaceholder(getArrayList(isOpen), isOpen);
+                } else {
+                    isOpen = false;
+                    showHidePlaceholder(getArrayList(isOpen), isOpen);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         if (!teacherMode) {
             pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
@@ -224,16 +234,6 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         switch (view.getId()) {
             case R.id.btn_back:
                 getParentFragment().getChildFragmentManager().popBackStack();
-                break;
-            case R.id.btn_open:
-                isOpen = true;
-                recyclerView.scrollToPosition(0);
-                showHidePlaceholder(getArrayList(isOpen), isOpen);
-                break;
-            case R.id.btn_closed:
-                isOpen = false;
-                recyclerView.scrollToPosition(0);
-                showHidePlaceholder(getArrayList(isOpen), isOpen);
                 break;
         }
     }
