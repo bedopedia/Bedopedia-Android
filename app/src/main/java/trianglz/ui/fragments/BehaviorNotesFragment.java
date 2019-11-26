@@ -2,19 +2,16 @@ package trianglz.ui.fragments;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
@@ -25,11 +22,9 @@ import java.util.List;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.CustomRtlViewPager;
-import trianglz.managers.SessionManager;
 import trianglz.models.BehaviorNote;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
@@ -57,18 +52,12 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
     List<BehaviorNote> positiveNotesList;
     List<BehaviorNote> negativeNotesList;
     List<BehaviorNote> otherNoteList;
-    private TextView positiveTv;
-    private TextView negativeTv;
-    private TextView otherTv;
     private View rootView;
     private ImageButton backBtn;
     private Student student;
     private AvatarView studentImage;
     private IImageLoader imageLoader;
-
-    private SegmentedGroup segmentedGroup;
-
-    private RadioButton positiveButton, negativeButton, otherButton;
+    private TabLayout tabLayout;
 
     public BehaviorNotesFragment() {
         // Required empty public constructor
@@ -125,63 +114,46 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         mViewPager.setPagingEnabled(true);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(0);
-        positiveTv = rootView.findViewById(R.id.tv_positive);
-        negativeTv = rootView.findViewById(R.id.tv_negative);
-        otherTv = rootView.findViewById(R.id.tv_other);
         backBtn = rootView.findViewById(R.id.back_btn);
         studentImage = rootView.findViewById(R.id.img_student);
         imageLoader = new PicassoLoader();
         String name = student.firstName + " " + student.lastName;
         setStudentImage(student.getAvatar(), name);
-        setHeader();
+        //setHeader();
 
-        segmentedGroup = rootView.findViewById(R.id.segmented);
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
-        } else {
-            segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
-        }
+        tabLayout = rootView.findViewById(R.id.tab_layout);
 
-        // radio buttons
-        positiveButton = rootView.findViewById(R.id.btn_positive);
-        negativeButton = rootView.findViewById(R.id.btn_negative);
-        otherButton = rootView.findViewById(R.id.btn_other);
-        segmentedGroup.check(positiveButton.getId());
+        tabLayout.setSelectedTabIndicatorColor(getActivity().getResources().getColor(Util.checkUserColor()));
+        tabLayout.setTabTextColors(getActivity().getResources().getColor(R.color.steel), getActivity().getResources().getColor(Util.checkUserColor()));
+
     }
 
     private void setListeners() {
-        positiveTv.setOnClickListener(this);
-        negativeTv.setOnClickListener(this);
-        otherTv.setOnClickListener(this);
         backBtn.setOnClickListener(this);
-        positiveButton.setOnClickListener(this);
-        negativeButton.setOnClickListener(this);
-        otherButton.setOnClickListener(this);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0) {
-                    setTextBackgrounds(0);
-                } else if (position == 1) {
-                    setTextBackgrounds(1);
-                } else {
-                    setTextBackgrounds(2);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        tabLayout.setupWithViewPager(mViewPager);
+//        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                if (position == 0) {
+//                    setTextBackgrounds(0);
+//                } else if (position == 1) {
+//                    setTextBackgrounds(1);
+//                } else {
+//                    setTextBackgrounds(2);
+//                }
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
     }
 
     private void increaseButtonsHitArea() {
@@ -199,101 +171,80 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         });
     }
 
-    private void setHeader() {
-        if (Util.getLocale(getActivity()).equals("ar")) {
-            positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
-            otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
-            negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
-        } else {
-            setTextBackgrounds(1);
-            setTextBackgrounds(0);
-        }
-    }
+//    private void setHeader() {
+//        if (Util.getLocale(getActivity()).equals("ar")) {
+//            positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
+//            otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
+//            negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
+//        } else {
+//            setTextBackgrounds(1);
+//            setTextBackgrounds(0);
+//        }
+//    }
 
-    private void setTextBackgrounds(int pageNumber) {
-        if (Util.getLocale(getActivity()).equals("ar")) {
-            if (pageNumber == 0) {
-                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
-                positiveTv.setTextColor(getResources().getColor(R.color.white));
-                negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
-                negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
-                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
-                otherTv.setTextColor(getResources().getColor(R.color.jade_green));
-
-            } else if (pageNumber == 1) {
-                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
-                positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
-                negativeTv.setBackground(getResources().getDrawable(R.drawable.solid_green_background));
-                negativeTv.setTextColor(getResources().getColor(R.color.white));
-                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
-                otherTv.setTextColor(getResources().getColor(R.color.jade_green));
-            } else {
-                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
-                positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
-                negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
-                negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
-                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
-                otherTv.setTextColor(getResources().getColor(R.color.white));
-            }
-
-        } else {
-            if (pageNumber == 0) {
-                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
-                positiveTv.setTextColor(getResources().getColor(R.color.white));
-                negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
-                negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
-                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
-                otherTv.setTextColor(getResources().getColor(R.color.jade_green));
-
-            } else if (pageNumber == 1) {
-                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
-                positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
-                negativeTv.setBackground(getResources().getDrawable(R.drawable.solid_green_background));
-                negativeTv.setTextColor(getResources().getColor(R.color.white));
-                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
-                otherTv.setTextColor(getResources().getColor(R.color.jade_green));
-            } else {
-                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
-                positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
-                negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
-                negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
-                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
-                otherTv.setTextColor(getResources().getColor(R.color.white));
-            }
-        }
-
-    }
+//    private void setTextBackgrounds(int pageNumber) {
+//        if (Util.getLocale(getActivity()).equals("ar")) {
+//            if (pageNumber == 0) {
+//                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
+//                positiveTv.setTextColor(getResources().getColor(R.color.white));
+//                negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
+//                negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
+//                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
+//                otherTv.setTextColor(getResources().getColor(R.color.jade_green));
+//
+//            } else if (pageNumber == 1) {
+//                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
+//                positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
+//                negativeTv.setBackground(getResources().getDrawable(R.drawable.solid_green_background));
+//                negativeTv.setTextColor(getResources().getColor(R.color.white));
+//                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
+//                otherTv.setTextColor(getResources().getColor(R.color.jade_green));
+//            } else {
+//                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
+//                positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
+//                negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
+//                negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
+//                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
+//                otherTv.setTextColor(getResources().getColor(R.color.white));
+//            }
+//
+//        } else {
+//            if (pageNumber == 0) {
+//                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_left_green));
+//                positiveTv.setTextColor(getResources().getColor(R.color.white));
+//                negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
+//                negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
+//                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
+//                otherTv.setTextColor(getResources().getColor(R.color.jade_green));
+//
+//            } else if (pageNumber == 1) {
+//                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
+//                positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
+//                negativeTv.setBackground(getResources().getDrawable(R.drawable.solid_green_background));
+//                negativeTv.setTextColor(getResources().getColor(R.color.white));
+//                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_right_green));
+//                otherTv.setTextColor(getResources().getColor(R.color.jade_green));
+//            } else {
+//                positiveTv.setBackground(getResources().getDrawable(R.drawable.curved_stroke_left_green));
+//                positiveTv.setTextColor(getResources().getColor(R.color.jade_green));
+//                negativeTv.setBackground(getResources().getDrawable(R.drawable.stroke_green_background));
+//                negativeTv.setTextColor(getResources().getColor(R.color.jade_green));
+//                otherTv.setBackground(getResources().getDrawable(R.drawable.curved_solid_right_green));
+//                otherTv.setTextColor(getResources().getColor(R.color.white));
+//            }
+//        }
+//
+//    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_positive:
-                mViewPager.setCurrentItem(0);
-                setTextBackgrounds(0);
-                break;
-            case R.id.tv_negative:
-                mViewPager.setCurrentItem(1);
-                setTextBackgrounds(1);
-                break;
-            case R.id.tv_other:
-                mViewPager.setCurrentItem(2);
-                setTextBackgrounds(2);
-                break;
             case R.id.back_btn:
                 StudentMainActivity activity = (StudentMainActivity) getActivity();
                 activity.headerLayout.setVisibility(View.VISIBLE);
                 activity.toolbarView.setVisibility(View.VISIBLE);
                 activity.onBackPressed();
                 //    Objects.requireNonNull(getActivity()).onBackPressed();
-                break;
-            case R.id.btn_positive:
-                mViewPager.setCurrentItem(0);
-                break;
-            case R.id.btn_negative:
-                mViewPager.setCurrentItem(1);
-                break;
-            case R.id.btn_other:
-                mViewPager.setCurrentItem(2);
                 break;
         }
     }
