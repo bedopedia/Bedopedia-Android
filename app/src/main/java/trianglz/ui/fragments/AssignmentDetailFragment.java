@@ -1,9 +1,10 @@
 package trianglz.ui.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,12 +54,14 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     private AssignmentsDetailView assignmentsDetailView;
     private ArrayList<AssignmentsDetail> assignmentsDetailArrayList;
     private String courseName = "";
-    private TextView headerTextView,placeholderTextView;
+    private TextView headerTextView, placeholderTextView;
     private RadioButton openButton, closedButton;
     private SegmentedGroup segmentedGroup;
     private int courseId;
     private String studentName;
     private CourseGroups courseGroups;
+    private TabLayout tabLayout;
+    private TabItem openTabItem, closedTabItem;
     private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     @Nullable
@@ -109,7 +112,10 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         placeholderTextView = rootView.findViewById(R.id.placeholder_tv);
-        showHidePlaceholder(getArrayList(true),true);
+        tabLayout = rootView.findViewById(R.id.tab_layout);
+        openTabItem = rootView.findViewById(R.id.open_tab);
+        closedTabItem = rootView.findViewById(R.id.closed_tab);
+        showHidePlaceholder(getArrayList(true), true);
 
         headerTextView = rootView.findViewById(R.id.tv_header);
         headerTextView.setText(courseName);
@@ -119,14 +125,15 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         openButton = rootView.findViewById(R.id.btn_open);
         closedButton = rootView.findViewById(R.id.btn_closed);
         segmentedGroup.check(openButton.getId());
-
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
-        } else {
-            segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
-        }
+        tabLayout.setSelectedTabIndicatorColor(activity.getResources().getColor(Util.checkUserColor()));
+        tabLayout.setTabTextColors(activity.getResources().getColor(R.color.steel), activity.getResources().getColor(Util.checkUserColor()));
+//        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
+//            segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
+//        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+//            segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
+//        } else {
+//            segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
+//        }
     }
 
     private ArrayList<AssignmentsDetail> getArrayList(boolean isOpen) {
@@ -146,6 +153,25 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         backBtn.setOnClickListener(this);
         openButton.setOnClickListener(this);
         closedButton.setOnClickListener(this);
+        tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0)
+                    showHidePlaceholder(getArrayList(true), true);
+                else
+                    showHidePlaceholder(getArrayList(false), false);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
@@ -155,10 +181,10 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_open:
-                showHidePlaceholder(getArrayList(true),true);
+                showHidePlaceholder(getArrayList(true), true);
                 break;
             case R.id.btn_closed:
-                showHidePlaceholder(getArrayList(false),false);
+                showHidePlaceholder(getArrayList(false), false);
                 break;
         }
     }
@@ -166,10 +192,9 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     @Override
     public void onItemClicked(AssignmentsDetail assignmentsDetail) {
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            if ((assignmentsDetail.getDescription() == null || assignmentsDetail.getDescription().trim().isEmpty()) && assignmentsDetail.getUploadedFilesCount() == 0)
-            {
+            if ((assignmentsDetail.getDescription() == null || assignmentsDetail.getDescription().trim().isEmpty()) && assignmentsDetail.getUploadedFilesCount() == 0) {
                 activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.no_content));
-            } else{
+            } else {
                 AssignmentFragment assignmentFragment = new AssignmentFragment();
                 Bundle bundle = new Bundle();
                 if (courseId != 0) bundle.putInt(Constants.KEY_COURSE_ID, courseId);
@@ -209,9 +234,9 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
 
     private void showHidePlaceholder(ArrayList<AssignmentsDetail> assignmentsDetails, Boolean isOpen) {
         if (assignmentsDetails.isEmpty()) {
-            if(isOpen){
+            if (isOpen) {
                 placeholderTextView.setText(activity.getResources().getString(R.string.open_assignments_placeholder));
-            }else{
+            } else {
                 placeholderTextView.setText(activity.getResources().getString(R.string.closed_assignments_placeholder));
             }
             listFrameLayout.setVisibility(View.GONE);
