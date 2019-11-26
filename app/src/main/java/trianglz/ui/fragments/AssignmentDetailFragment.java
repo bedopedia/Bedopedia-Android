@@ -99,7 +99,6 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         imageLoader = new PicassoLoader();
         studentImageView = rootView.findViewById(R.id.img_student);
         backBtn = rootView.findViewById(R.id.btn_back);
-        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         adapter = new AssignmentDetailAdapter(activity, this, courseName);
         recyclerView.setAdapter(adapter);
@@ -117,7 +116,9 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
 
         tabLayout.setSelectedTabIndicatorColor(activity.getResources().getColor(Util.checkUserColor()));
         tabLayout.setTabTextColors(activity.getResources().getColor(R.color.steel), activity.getResources().getColor(Util.checkUserColor()));
-
+        if (!SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
+            setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+        }
     }
 
     private ArrayList<AssignmentsDetail> getArrayList(boolean isOpen) {
