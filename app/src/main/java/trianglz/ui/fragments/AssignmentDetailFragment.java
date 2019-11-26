@@ -3,7 +3,6 @@ package trianglz.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -14,18 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
+import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.AssignmentsDetailPresenter;
 import trianglz.core.views.AssignmentsDetailView;
@@ -55,13 +55,10 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     private ArrayList<AssignmentsDetail> assignmentsDetailArrayList;
     private String courseName = "";
     private TextView headerTextView, placeholderTextView;
-    private RadioButton openButton, closedButton;
-    private SegmentedGroup segmentedGroup;
     private int courseId;
     private String studentName;
     private CourseGroups courseGroups;
     private TabLayout tabLayout;
-    private TabItem openTabItem, closedTabItem;
     private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     @Nullable
@@ -102,7 +99,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         imageLoader = new PicassoLoader();
         studentImageView = rootView.findViewById(R.id.img_student);
         backBtn = rootView.findViewById(R.id.btn_back);
-        setStudentImage(studentName);
+        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         adapter = new AssignmentDetailAdapter(activity, this, courseName);
         recyclerView.setAdapter(adapter);
@@ -113,27 +110,14 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         placeholderTextView = rootView.findViewById(R.id.placeholder_tv);
         tabLayout = rootView.findViewById(R.id.tab_layout);
-        openTabItem = rootView.findViewById(R.id.open_tab);
-        closedTabItem = rootView.findViewById(R.id.closed_tab);
         showHidePlaceholder(getArrayList(true), true);
 
         headerTextView = rootView.findViewById(R.id.tv_header);
         headerTextView.setText(courseName);
 
-        // radio button for segment control
-        segmentedGroup = rootView.findViewById(R.id.segmented);
-        openButton = rootView.findViewById(R.id.btn_open);
-        closedButton = rootView.findViewById(R.id.btn_closed);
-        segmentedGroup.check(openButton.getId());
         tabLayout.setSelectedTabIndicatorColor(activity.getResources().getColor(Util.checkUserColor()));
         tabLayout.setTabTextColors(activity.getResources().getColor(R.color.steel), activity.getResources().getColor(Util.checkUserColor()));
-//        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-//            segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-//        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-//            segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
-//        } else {
-//            segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
-//        }
+
     }
 
     private ArrayList<AssignmentsDetail> getArrayList(boolean isOpen) {
@@ -151,8 +135,6 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
-        openButton.setOnClickListener(this);
-        closedButton.setOnClickListener(this);
         tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -179,12 +161,6 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_back:
                 getParentFragment().getChildFragmentManager().popBackStack();
-                break;
-            case R.id.btn_open:
-                showHidePlaceholder(getArrayList(true), true);
-                break;
-            case R.id.btn_closed:
-                showHidePlaceholder(getArrayList(false), false);
                 break;
         }
     }
@@ -222,14 +198,31 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    private void setStudentImage(String name) {
-        Bundle bundle = this.getArguments();
-        if (bundle.getBoolean(Constants.AVATAR, true)) {
+    private void setStudentImage(String imageUrl, final String name) {
+        if (imageUrl == null || imageUrl.equals("")) {
+            imageLoader = new PicassoLoader();
             imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
         } else {
-            studentImageView.setVisibility(View.INVISIBLE);
-        }
+            imageLoader = new PicassoLoader();
+            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+            Picasso.with(activity)
+                    .load(imageUrl)
+                    .fit()
+                    .noPlaceholder()
+                    .transform(new CircleTransform())
+                    .into(studentImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
+                        }
+
+                        @Override
+                        public void onError() {
+                            imageLoader = new PicassoLoader();
+                            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+                        }
+                    });
+        }
     }
 
     private void showHidePlaceholder(ArrayList<AssignmentsDetail> assignmentsDetails, Boolean isOpen) {
