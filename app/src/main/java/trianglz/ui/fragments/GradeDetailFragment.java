@@ -1,9 +1,9 @@
 package trianglz.ui.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -29,7 +28,6 @@ import java.util.List;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.core.presenters.GradeDetailPresenter;
@@ -69,8 +67,6 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     private ArrayList<GradeItem> gradeItemArrayList;
     private HashMap<CourseGradingPeriods, ArrayList<Object>> semesterHashMap;
     // add segmented group
-    private SegmentedGroup segmentedGroup;
-    private RadioButton allBtn, currentBtn;
     private ArrayList<Object> allSemestersList;
     private ArrayList<Object> currentSemester;
     private HashMap<String, Double> quizzesHashMap;
@@ -78,6 +74,8 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     private HashMap<String, Double> gradeItemHashMap;
     private FrameLayout listFrameLayout, placeholderFrameLayout;
     private boolean isToShowPlaceHolder = true;
+    private TabLayout tabLayout;
+
 
     @Nullable
     @Override
@@ -139,26 +137,35 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         quizzesHashMap = new HashMap<>();
         assignmentsHashMap = new HashMap<>();
         gradeItemHashMap = new HashMap<>();
+        tabLayout = rootView.findViewById(R.id.tab_layout);
 
-        segmentedGroup = rootView.findViewById(R.id.segmented);
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
-        } else {
-            segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
-        }
+        tabLayout.setSelectedTabIndicatorColor(activity.getResources().getColor(Util.checkUserColor()));
+        tabLayout.setTabTextColors(activity.getResources().getColor(R.color.steel), activity.getResources().getColor(Util.checkUserColor()));
 
-        // radio buttons
-        allBtn = rootView.findViewById(R.id.btn_all);
-        currentBtn = rootView.findViewById(R.id.btn_current);
-        segmentedGroup.check(allBtn.getId());
     }
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
-        allBtn.setOnClickListener(this);
-        currentBtn.setOnClickListener(this);
+        tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0)
+                    gradeDetailAdapter.addData(allSemestersList);
+                else
+                    gradeDetailAdapter.addData(currentSemester);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
     }
 
     private void setStudentImage() {
@@ -195,12 +202,6 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         switch (v.getId()) {
             case R.id.btn_back:
                 getParentFragment().getChildFragmentManager().popBackStack();
-                break;
-            case R.id.btn_all:
-                gradeDetailAdapter.addData(allSemestersList);
-                break;
-            case R.id.btn_current:
-                gradeDetailAdapter.addData(currentSemester);
                 break;
         }
     }
@@ -249,10 +250,10 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         } else if (gradeItemArrayList.isEmpty() && quizArrayList.isEmpty() && assignmentArrayList.isEmpty()) {
             listFrameLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
-        } else if(isToShowPlaceHolder){
+        } else if (isToShowPlaceHolder) {
             listFrameLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             listFrameLayout.setVisibility(View.VISIBLE);
             placeholderFrameLayout.setVisibility(View.GONE);
         }
