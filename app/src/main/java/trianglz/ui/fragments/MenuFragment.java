@@ -115,7 +115,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private SettingsDialog settingsDialog;
     private RootClass rootClass;
     private TextView weeklyPlannerTextView;
-
+    private View shimmerView,teacherShimmerView;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -135,8 +135,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
             if (Util.isNetworkAvailable(getParentActivity())) {
                 studentDetailView.getStudentCourses(courseUrl);
-                activity.isCalling = true;
-                getParentActivity().showLoadingDialog();
+                shimmerView.setVisibility(View.VISIBLE);
+                parentLayout.setVisibility(View.GONE);
+                appBarLayout.setVisibility(View.GONE);
             } else {
                 Util.showNoInternetConnectionDialog(getParentActivity());
             }
@@ -159,7 +160,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void bindViews() {
-
+        shimmerView = rootView.findViewById(R.id.view_shimmer);
+        teacherShimmerView = rootView.findViewById(R.id.view_teacher_shimmer);
         todaySlots = new ArrayList<>();
         tomorrowSlots = new ArrayList<>();
         positiveBehaviorNotes = new ArrayList<>();
@@ -240,15 +242,14 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private void setParentActorView() {
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             parentLayout.setVisibility(View.GONE);
-            teacherLayout.setVisibility(View.VISIBLE);
             actorName = actor.firstName + " " + actor.lastName;
             setStudentImage(actor.imageUrl, actorName);
             nameTextView.setText(actorName);
             levelTextView.setText(actor.actableType);
             String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/teachers/" + SessionManager.getInstance().getId() + "/timetable";
-            activity.isCalling = true;
             studentDetailView.getStudentTimeTable(timeTableUrl);
-            getParentActivity().showLoadingDialog();
+            appBarLayout.setVisibility(View.GONE);
+            teacherShimmerView.setVisibility(View.VISIBLE);
             String notificationText = SessionManager.getInstance().getNotficiationCounter() + " " + getParentActivity().getResources().getString(R.string.unread_notifications);
         } else {
             parentLayout.setVisibility(View.VISIBLE);
@@ -342,10 +343,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetStudentCourseGroupFailure(String message, int errorCode) {
-        activity.isCalling = false;
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
         activity.showErrorDialog(activity, errorCode, "");
 
     }
@@ -363,12 +360,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetStudentGradesFailure(String message, int errorCode) {
-        activity.isCalling = false;
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
         activity.showErrorDialog(activity, errorCode, "");
-
     }
 
     @Override
@@ -393,16 +385,14 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             String url = SessionManager.getInstance().getBaseUrl() + "/api/behavior_notes";
             studentDetailView.getStudentBehavioursNotes(url, student.getId() + "");
         } else {
-            getParentActivity().progress.dismiss();
+            teacherLayout.setVisibility(View.VISIBLE);
+            appBarLayout.setVisibility(View.VISIBLE);
+            teacherShimmerView.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onGetTimeTableFailure(String message, int errorCode) {
-        activity.isCalling = false;
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
         activity.showErrorDialog(activity, errorCode, "");
 
     }
@@ -429,13 +419,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetBehaviorNotesFailure(String message, int errorCode) {
-        activity.isCalling = false;
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
         activity.showErrorDialog(activity, errorCode, "");
-
-
     }
 
     @Override
@@ -449,17 +433,15 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         } else {
             //  weeklyPlannerTextView.setText(R.string.there_is_no_weekly_planner);
         }
-        if (getParentActivity().progress.isShowing())
-            getParentActivity().progress.dismiss();
+        shimmerView.setVisibility(View.GONE);
+        parentLayout.setVisibility(View.VISIBLE);
+        appBarLayout.setVisibility(View.VISIBLE);
+
 
     }
 
     @Override
     public void onGetWeeklyPlannerFailure(String message, int errorCode) {
-        activity.isCalling = false;
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
         activity.showErrorDialog(activity, errorCode, "");
     }
 
@@ -477,11 +459,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     public void onGetNotificationFailure(String message, int errorCode) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
         studentDetailView.getMessages(url, SessionManager.getInstance().getId());
-        if (!activity.isCalling) {
-            if (getParentActivity().progress.isShowing()) {
-                getParentActivity().progress.dismiss();
-            }
-        }
         activity.showErrorDialog(activity, errorCode, "");
 
     }
@@ -513,22 +490,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             body = StringEscapeUtils.unescapeJava(body);
         } else {
         }
-        if (!activity.isCalling) {
-            if (getParentActivity().progress.isShowing()) {
-                getParentActivity().progress.dismiss();
-            }
-        }
     }
 
     @Override
     public void onGetAnnouncementsFailure(String message, int errorCode) {
-        if (!activity.isCalling) {
-            if (getParentActivity().progress.isShowing()) {
-                getParentActivity().progress.dismiss();
-            }
-        }
         activity.showErrorDialog(activity, errorCode, "");
-
     }
 
 
@@ -615,16 +581,16 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openWeeklyPlannerActivity() {
-            appBarLayout.setExpanded(true);
-            WeeklyPlannerFragment weeklyPlannerFragment = new WeeklyPlannerFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, rootClass);
-            bundle.putSerializable(Constants.STUDENT, student);
-            weeklyPlannerFragment.setArguments(bundle);
-            getChildFragmentManager().
-                    beginTransaction().add(R.id.menu_fragment_root, weeklyPlannerFragment, "MenuFragments").
-                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                    addToBackStack(null).commit();
+        appBarLayout.setExpanded(true);
+        WeeklyPlannerFragment weeklyPlannerFragment = new WeeklyPlannerFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, rootClass);
+        bundle.putSerializable(Constants.STUDENT, student);
+        weeklyPlannerFragment.setArguments(bundle);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, weeklyPlannerFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
     private void openMessagesActivity() {
