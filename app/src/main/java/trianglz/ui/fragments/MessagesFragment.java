@@ -1,6 +1,7 @@
 package trianglz.ui.fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
@@ -51,6 +53,9 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     private boolean isOpeningThread = false;
     private SwipeRefreshLayout pullRefreshLayout;
     private LinearLayout placeholderLinearLayout;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     public MessagesFragment() {
         // Required empty public constructor
@@ -84,15 +89,20 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private void setListeners() {
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                activity.showLoadingDialog();
                 String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
                 contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
+                showSkeleton(true);
+                recyclerView.setVisibility(View.GONE);
             }
         });
     }
@@ -102,8 +112,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     public void onResume() {
         super.onResume();
         if (Util.isNetworkAvailable(getActivity())) {
-            if (!activity.isCalling)
-                activity.showLoadingDialog();
+            showSkeleton(true);
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
             contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
         } else {
@@ -123,8 +132,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onGetMessagesSuccess(ArrayList<MessageThread> messageThreadArrayList) {
-        if (!activity.isCalling)
-            activity.progress.dismiss();
+        showSkeleton(false);
         pullRefreshLayout.setRefreshing(false);
         if (messageThreadArrayList.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
@@ -140,10 +148,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onGetMessagesFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            if (!activity.isCalling)
-                activity.progress.dismiss();
-        }
         activity.showErrorDialog(activity, errorCode, "");
         recyclerView.setVisibility(View.GONE);
         placeholderLinearLayout.setVisibility(View.VISIBLE);
@@ -213,6 +217,27 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
                     activity.headerLayout.setVisibility(View.VISIBLE);
                 }
             }
+        }
+    }
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_row_layout, null);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
         }
     }
 }
