@@ -23,7 +23,6 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,18 +54,12 @@ import trianglz.core.views.StudentDetailView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
-import trianglz.models.Announcement;
 import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
-import trianglz.models.Message;
-import trianglz.models.MessageThread;
-import trianglz.models.Notification;
 import trianglz.models.PostsResponse;
 import trianglz.models.RootClass;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
-import trianglz.ui.activities.ContactTeacherActivity;
-import trianglz.ui.activities.NotificationsActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -90,7 +83,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private ArrayList<CourseGroup> courseGroups;
     private ArrayList<PostsResponse> postsResponses;
     private Student student;
-    private AvatarView studentImage;
     private ArrayList<Student> studentArrayList;
     private ArrayList<Attendance> attendanceArrayList;
     private TextView nameTextView, levelTextView, nextSlotTextView, studentGradeTextView,
@@ -115,7 +107,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private SettingsDialog settingsDialog;
     private RootClass rootClass;
     private TextView weeklyPlannerTextView;
-    private View shimmerView,teacherShimmerView;
+    private View shimmerView, teacherShimmerView;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -125,16 +117,17 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         rootView = inflater.inflate(R.layout.fragment_menu, container, false);
         activity = (StudentMainActivity) getActivity();
         bindViews();
         setListeners();
         setParentActorView();
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
             if (Util.isNetworkAvailable(getParentActivity())) {
-                studentDetailView.getStudentCourses(courseUrl);
+                // String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/grade_certificate";
+                //   studentDetailView.getStudentGrades(url, courseGroups);
+                postsView.getRecentPosts(student.getId());
                 shimmerView.setVisibility(View.VISIBLE);
                 parentLayout.setVisibility(View.GONE);
                 appBarLayout.setVisibility(View.GONE);
@@ -145,7 +138,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             checkVersionOnStore();
         }
         return rootView;
-
     }
 
 
@@ -228,12 +220,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (verticalOffset == 0) {
                     appBarView.setVisibility(View.GONE);
-                    //  appBarView.animate().alpha(0.0f);
-                    //    activity.toolbarView.setVisibility(View.VISIBLE);
                 } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
-//                    appBarView.animate().alpha(1.0f);
                     appBarView.setVisibility(View.VISIBLE);
-                    //  activity.toolbarView.setVisibility(View.GONE);
                 }
             }
         });
@@ -261,20 +249,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             levelTextView.setText(student.level);
         }
     }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        if (!SessionManager.getInstance().getUserType()) {
-//            if (Util.isNetworkAvailable(getParentActivity())) {
-//                getNotifications(false);
-//            } else {
-//                Util.showNoInternetConnectionDialog(getParentActivity());
-//            }
-//        }
-    }
-
 
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
@@ -331,21 +305,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     }
 
-    @Override
-    public void onGetStudentCourseGroupSuccess(ArrayList<CourseGroup> courseGroups) {
-        this.courseGroups = courseGroups;
-        // String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/grade_certificate";
-        //   studentDetailView.getStudentGrades(url, courseGroups);
-        postsView.getRecentPosts(student.getId());
-//        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
-//        studentDetailView.getStudentTimeTable(timeTableUrl);
-    }
-
-    @Override
-    public void onGetStudentCourseGroupFailure(String message, int errorCode) {
-        activity.showErrorDialog(activity, errorCode, "");
-
-    }
 
     @Override
     public void onGetStudentGradesSuccess(ArrayList<trianglz.models.CourseGroup> courseGroups, String totalGrade) {
@@ -436,67 +395,12 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         shimmerView.setVisibility(View.GONE);
         parentLayout.setVisibility(View.VISIBLE);
         appBarLayout.setVisibility(View.VISIBLE);
-
-
     }
 
     @Override
     public void onGetWeeklyPlannerFailure(String message, int errorCode) {
         activity.showErrorDialog(activity, errorCode, "");
     }
-
-    @Override
-    public void onGetNotificationSuccess(ArrayList<Notification> notificationArrayList) {
-        if (notificationArrayList.size() > 0) {
-            Notification notification = notificationArrayList.get(0);
-        } else {
-        }
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-        studentDetailView.getMessages(url, SessionManager.getInstance().getId());
-    }
-
-    @Override
-    public void onGetNotificationFailure(String message, int errorCode) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-        studentDetailView.getMessages(url, SessionManager.getInstance().getId());
-        activity.showErrorDialog(activity, errorCode, "");
-
-    }
-
-    @Override
-    public void onGetMessagesSuccess(ArrayList<MessageThread> messageArrayList, int unreadMessageCount) {
-        if (messageArrayList.size() > 0) {
-            MessageThread messageThread = messageArrayList.get(0);
-            if (messageThread.messageArrayList.size() > 0) {
-                Message latestMessage = messageThread.messageArrayList.get(0);
-                String body = android.text.Html.fromHtml(latestMessage.body).toString();
-                body = StringEscapeUtils.unescapeJava(body);
-            }
-        } else {
-        }
-    }
-
-    @Override
-    public void onGetMessagesFailure(String message, int errorCode) {
-        activity.showErrorDialog(activity, errorCode, "");
-    }
-
-
-    @Override
-    public void onGetAnnouncementsSuccess(ArrayList<Announcement> announcementArrayList) {
-        if (announcementArrayList.size() > 0) {
-            Announcement announcement = announcementArrayList.get(0);
-            String body = android.text.Html.fromHtml(announcement.body).toString();
-            body = StringEscapeUtils.unescapeJava(body);
-        } else {
-        }
-    }
-
-    @Override
-    public void onGetAnnouncementsFailure(String message, int errorCode) {
-        activity.showErrorDialog(activity, errorCode, "");
-    }
-
 
     @Override
     public void onClick(View view) {
@@ -519,21 +423,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             case R.id.layout_calendar:
                 openCalendarActivity();
                 break;
-            case R.id.btn_messages:
-                openMessagesActivity();
-                break;
-            case R.id.btn_notification:
-                openNotificationsActivity();
-                break;
-            case R.id.layout_notification:
-                openNotificationsActivity();
-                break;
-            case R.id.layout_messages:
-                openMessagesActivity();
-                break;
-            case R.id.layout_annoucment:
-                //   openAnnouncement();
-                break;
             case R.id.btn_setting:
                 settingsDialog.show();
                 break;
@@ -545,39 +434,44 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                     settingsDialog.show();
                 }
                 break;
-            case R.id.tv_assignment:
-                openAssignmentDetailActivity();
-                break;
             case R.id.layout_assignments:
                 openAssignmentDetailActivity();
                 break;
             case R.id.layout_posts:
                 appBarLayout.setExpanded(true);
-                PostsFragment postsFragment = new PostsFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.STUDENT, student);
-                bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
-                postsFragment.setArguments(bundle);
-                getChildFragmentManager().
-                        beginTransaction().add(R.id.menu_fragment_root, postsFragment, "MenuFragments").
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                        addToBackStack(null).commit();
+                openPostsActivity();
                 break;
             case R.id.layout_quizzes:
                 appBarLayout.setExpanded(true);
-                OnlineQuizzesFragment onlineQuizzesFragment = new OnlineQuizzesFragment();
-                Bundle bundleQuiz = new Bundle();
-                bundleQuiz.putString(Constants.STUDENT, student.toString());
-                onlineQuizzesFragment.setArguments(bundleQuiz);
-                getChildFragmentManager().
-                        beginTransaction().add(R.id.menu_fragment_root, onlineQuizzesFragment, "MenuFragments").
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                        addToBackStack(null).commit();
+                openQuizzesActivity();
                 break;
             case R.id.layout_timetable_teacher:
                 openTeacherTimeTableActivity();
                 break;
         }
+    }
+
+    private void openQuizzesActivity() {
+        OnlineQuizzesFragment onlineQuizzesFragment = new OnlineQuizzesFragment();
+        Bundle bundleQuiz = new Bundle();
+        bundleQuiz.putString(Constants.STUDENT, student.toString());
+        onlineQuizzesFragment.setArguments(bundleQuiz);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, onlineQuizzesFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+    }
+
+    private void openPostsActivity() {
+        PostsFragment postsFragment = new PostsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT, student);
+        bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
+        postsFragment.setArguments(bundle);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, postsFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
     private void openWeeklyPlannerActivity() {
@@ -591,18 +485,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 beginTransaction().add(R.id.menu_fragment_root, weeklyPlannerFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
-    }
-
-    private void openMessagesActivity() {
-        Intent intent = new Intent(getActivity(), ContactTeacherActivity.class);
-        Bundle bundle = new Bundle();
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            bundle.putSerializable(Constants.STUDENT, student);
-        } else {
-            bundle.putSerializable(Constants.KEY_ACTOR, actor);
-        }
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(intent);
     }
 
     private void openGradesActivity() {
@@ -679,11 +561,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 addToBackStack(null).commit();
     }
 
-
-    private void openNotificationsActivity() {
-        Intent myIntent = new Intent(getActivity(), NotificationsActivity.class);
-        startActivity(myIntent);
-    }
 
     @Override
     public void onChangeLanguageClicked() {
