@@ -15,7 +15,6 @@ import android.util.DisplayMetrics;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.karumi.dexter.Dexter;
@@ -505,7 +504,8 @@ public class Util {
             return R.color.jade_green;
         }
     }
-    public static Date convertIsoToDate(String iso){
+
+    public static Date convertIsoToDate(String iso) {
         SimpleDateFormat inputFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date date = null;
         try {
@@ -515,6 +515,7 @@ public class Util {
         }
         return date;
     }
+
     public static void increaseButtonsHitArea(ImageButton button) {
         final View parent = (View) button.getParent();
         parent.post(new Runnable() {
@@ -528,5 +529,18 @@ public class Util {
                 parent.setTouchDelegate(new TouchDelegate(rect, button));
             }
         });
+    }
+
+    public static int getSkeletonRowCount(Context context) {
+        int pxHeight = getDeviceHeight(context);
+        int skeletonRowHeight = (int) context.getResources()
+                .getDimension(R.dimen.skeleton_height); //converts to pixel
+        return (int) Math.ceil(pxHeight / skeletonRowHeight);
+    }
+
+    public static int getDeviceHeight(Context context) {
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        return metrics.heightPixels;
     }
 }

@@ -1,6 +1,7 @@
 package trianglz.ui.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
@@ -43,7 +45,9 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
     private boolean newIncomingNotificationData;
     private SwipeRefreshLayout pullRefreshLayout;
     private LinearLayout placeholderLinearLayout;
-
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
     public NotificationsFragment() {
         // Required empty public constructor
     }
@@ -61,7 +65,6 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         notificationsView.setAsSeen(url);
         if (Util.isNetworkAvailable(getActivity())) {
             getNotifications(false);
-            activity.showLoadingDialog();
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }
@@ -79,6 +82,11 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private void setListeners() {
@@ -87,18 +95,20 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
             public void onRefresh() {
                 pullRefreshLayout.setRefreshing(false);
                 getNotifications(false);
-                activity.showLoadingDialog();
+                showSkeleton(true);
+                recyclerView.setVisibility(View.GONE);
             }
         });
     }
 
     private void getNotifications(boolean pagination) {
         if (Util.isNetworkAvailable(getActivity())) {
-            activity.showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
                     SessionManager.getInstance().getUserId() + "/notifications";
             if (!pagination) {
                 pageNumber = 1;
+                showSkeleton(true);
+
             }
             notificationsView.getNotifications(url, pageNumber, 20);
         } else {
@@ -108,10 +118,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
 
     @Override
     public void onGetNotificationSuccess(ArrayList<Notification> notifications) {
-        if (activity.progress.isShowing()) {
-            if (!activity.isCalling)
-                activity.progress.dismiss();
-        }
+        showSkeleton(false);
         if (pageNumber == 1 && notifications.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             placeholderLinearLayout.setVisibility(View.VISIBLE);
@@ -158,10 +165,6 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
     @Override
     public void onStop() {
         super.onStop();
-        if (activity.progress.isShowing()) {
-            if (!activity.isCalling)
-                activity.progress.dismiss();
-        }
     }
 
     @Override
@@ -170,6 +173,27 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
             if (activity.pager.getCurrentItem() == 2) {
                 getActivity().finish();
             }
+        }
+    }
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_row_layout, null);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
         }
     }
 }
