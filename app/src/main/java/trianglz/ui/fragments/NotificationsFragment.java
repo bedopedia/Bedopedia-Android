@@ -96,6 +96,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
                 pullRefreshLayout.setRefreshing(false);
                 getNotifications(false);
                 showSkeleton(true);
+                placeholderLinearLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }
         });

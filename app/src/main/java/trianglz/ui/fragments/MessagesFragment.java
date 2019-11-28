@@ -102,6 +102,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
                 String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
                 contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
                 showSkeleton(true);
+                placeholderLinearLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }
         });

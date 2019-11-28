@@ -101,6 +101,8 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
             public void onRefresh() {
                 pullRefreshLayout.setRefreshing(false);
                 getAnnouncement(false);
+                placeholderLinearLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
             }
         });
     }
