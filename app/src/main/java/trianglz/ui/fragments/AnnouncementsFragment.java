@@ -1,6 +1,7 @@
 package trianglz.ui.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
@@ -48,6 +50,9 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     private boolean newIncomingNotificationData;
     private SwipeRefreshLayout pullRefreshLayout;
     private LinearLayout placeholderLinearLayout;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     public AnnouncementsFragment() {
         // Required empty public constructor
@@ -64,8 +69,8 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         setListeners();
         if (Util.isNetworkAvailable(getActivity())) {
             getAnnouncement(false);
-            if (!activity.isCalling)
-                activity.showLoadingDialog();
+//            if (!activity.isCalling)
+//                activity.showLoadingDialog();
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }
@@ -84,13 +89,16 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private void setListeners() {
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                activity.showLoadingDialog();
                 pullRefreshLayout.setRefreshing(false);
                 getAnnouncement(false);
             }
@@ -118,10 +126,9 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     }
 
     private void getAnnouncement(boolean pagination) {
-        if (!activity.isCalling)
-            activity.showLoadingDialog();
         if (!pagination) {
             pageNumber = 1;
+            showSkeleton(true);
         }
         String type;
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
@@ -142,10 +149,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onGetAnnouncementSuccess(ArrayList<Announcement> announcementArrayList) {
-        if (activity.progress.isShowing()) {
-            if (!activity.isCalling)
-                activity.progress.dismiss();
-        }
+        showSkeleton(false);
         if (pageNumber == 1 && announcementArrayList.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             placeholderLinearLayout.setVisibility(View.VISIBLE);
@@ -162,10 +166,7 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onGetAnnouncementFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            if (!activity.isCalling)
-                activity.progress.dismiss();
-        }
+       showSkeleton(false);
         if (pageNumber == 1) {
             recyclerView.setVisibility(View.GONE);
             placeholderLinearLayout.setVisibility(View.VISIBLE);
@@ -184,6 +185,27 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
                 addToBackStack(null).commit();
     }
 
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_row_layout, null);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onStop() {
