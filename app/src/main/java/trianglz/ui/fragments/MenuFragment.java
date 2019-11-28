@@ -41,22 +41,17 @@ import java.util.Set;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import attendance.Attendance;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
 import trianglz.components.SettingsDialog;
-import trianglz.core.presenters.PostsPresenter;
 import trianglz.core.presenters.StudentDetailPresenter;
-import trianglz.core.views.PostsView;
 import trianglz.core.views.StudentDetailView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
 import trianglz.models.BehaviorNote;
-import trianglz.models.CourseGroup;
-import trianglz.models.PostsResponse;
 import trianglz.models.RootClass;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
@@ -68,7 +63,7 @@ import trianglz.utils.Util;
  * A simple {@link Fragment} subclass.
  */
 public class MenuFragment extends Fragment implements StudentDetailPresenter,
-        View.OnClickListener, SettingsDialog.SettingsDialogInterface, StudentMainActivity.OnBackPressedInterface, PostsPresenter, ErrorDialog.DialogConfirmationInterface {
+        View.OnClickListener, SettingsDialog.SettingsDialogInterface, StudentMainActivity.OnBackPressedInterface, ErrorDialog.DialogConfirmationInterface {
 
     //fragment root view
     private View rootView;
@@ -80,27 +75,19 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private List<BehaviorNote> positiveBehaviorNotes;
     private List<BehaviorNote> negativeBehaviorNotes;
     private List<BehaviorNote> otherBehaviorNotes;
-    private ArrayList<CourseGroup> courseGroups;
-    private ArrayList<PostsResponse> postsResponses;
     private Student student;
-    private ArrayList<Student> studentArrayList;
-    private ArrayList<Attendance> attendanceArrayList;
     private TextView nameTextView, levelTextView, nextSlotTextView, studentGradeTextView,
             positiveCounterTextView, negativeCounterTextView, otherCounterTextView, attendanceTextView, teacherNextSlotTextView;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private String studentName = "";
     private StudentDetailView studentDetailView;
-    private PostsView postsView;
     private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout, weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout, teacherTimeTableLayout;
     private String attendance, nextSlot;
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
-    private ArrayList<JSONArray> attendanceList;
     private AppBarLayout appBarLayout;
-
     private ErrorDialog errorDialogue;
-
     private LinearLayout parentLayout, teacherLayout;
     private Actor actor;
     private String actorName = "";
@@ -125,9 +112,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         setParentActorView();
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             if (Util.isNetworkAvailable(getParentActivity())) {
-                // String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/grade_certificate";
-                //   studentDetailView.getStudentGrades(url, courseGroups);
-                postsView.getRecentPosts(student.getId());
+                String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
+                studentDetailView.getStudentTimeTable(timeTableUrl);
                 shimmerView.setVisibility(View.VISIBLE);
                 parentLayout.setVisibility(View.GONE);
                 appBarLayout.setVisibility(View.GONE);
@@ -159,8 +145,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         positiveBehaviorNotes = new ArrayList<>();
         negativeBehaviorNotes = new ArrayList<>();
         otherBehaviorNotes = new ArrayList<>();
-        courseGroups = new ArrayList<>();
-        studentArrayList = new ArrayList<>();
         appBarView = rootView.findViewById(R.id.appbar_view);
         appBarLayout = rootView.findViewById(R.id.app_bar_layout);
         nameTextView = rootView.findViewById(R.id.tv_name);
@@ -177,7 +161,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         calendarLayout = rootView.findViewById(R.id.layout_calendar);
         behaviourNotesLayout = rootView.findViewById(R.id.layout_behavior_notes);
         studentDetailView = new StudentDetailView(getParentActivity(), this);
-        postsView = new PostsView(activity, this);
         positiveCounterTextView = rootView.findViewById(R.id.tv_positive_counter);
         negativeCounterTextView = rootView.findViewById(R.id.tv_negative_counter);
         otherCounterTextView = rootView.findViewById(R.id.tv_other_counter);
@@ -201,7 +184,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
         // new quizzes layout
         quizzesLayout = rootView.findViewById(R.id.layout_quizzes);
-        postsResponses = new ArrayList<>();
     }
 
     private void setListeners() {
@@ -308,13 +290,12 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetStudentGradesSuccess(ArrayList<trianglz.models.CourseGroup> courseGroups, String totalGrade) {
-        activity.isCalling = true;
-        this.courseGroups = courseGroups;
-        totalGrade = getParentActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
-        //  studentGradeTextView.setVisibility(View.VISIBLE);
-        studentGradeTextView.setText(totalGrade);
-        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
-        studentDetailView.getStudentTimeTable(timeTableUrl);
+//        this.courseGroups = courseGroups;
+//        totalGrade = getParentActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
+//        //  studentGradeTextView.setVisibility(View.VISIBLE);
+//        studentGradeTextView.setText(totalGrade);
+//        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
+//        studentDetailView.getStudentTimeTable(timeTableUrl);
     }
 
     @Override
@@ -492,7 +473,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         GradesFragment gradesFragment = new GradesFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
-        bundle.putSerializable(Constants.KEY_COURSE_GROUPS, postsResponses);
         gradesFragment.setArguments(bundle);
         appBarLayout.setExpanded(true);
         getChildFragmentManager().
@@ -608,29 +588,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     }
 
-//    private void openAnnouncement() {
-//        Intent intent = new Intent(getActivity(), AnnouncementActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.KEY_ACTOR, actor);
-//        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-//        startActivity(intent);
-//    }
-//
-//
-//    private void getNotifications(boolean pagination) {
-//        if (!activity.isCalling) {
-//            getParentActivity().showLoadingDialog();
-//        }
-//        String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
-//                SessionManager.getInstance().getUserId() + "/notifications";
-//        studentDetailView.getNotifications(url, 1, 1);
-//    }
-//
-//    private void getAnnouncement() {
-//        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(1, actor.actableType, 1);
-//        studentDetailView.getAnnouncement(url);
-//    }
-
     private void checkVersionOnStore() {
         AppUpdater appUpdater = new AppUpdater(getParentActivity())
                 .setDisplay(Display.DIALOG)
@@ -701,8 +658,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onBackPressed() {
-//        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
-//        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             if (activity.pager.getCurrentItem() == 0) {
                 getChildFragmentManager().popBackStack();
@@ -732,22 +687,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 }
             }
         }
-    }
-
-    @Override
-    public void onGetPostsSuccess(ArrayList<PostsResponse> parsePostsResponse) {
-        this.postsResponses = parsePostsResponse;
-        activity.isCalling = true;
-//        totalGrade = getParentActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
-        //  studentGradeTextView.setVisibility(View.VISIBLE);
-        //      studentGradeTextView.setText(totalGrade);
-        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
-        studentDetailView.getStudentTimeTable(timeTableUrl);
-    }
-
-    @Override
-    public void onGetPostsFailure(String message, int errorCode) {
-
     }
 
     @Override

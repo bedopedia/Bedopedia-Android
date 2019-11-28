@@ -137,10 +137,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
 
     @Override
     public void onGetNotificationFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            if (!activity.isCalling)
-                activity.progress.dismiss();
-        }
+        showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
         if (pageNumber == 1) {
             recyclerView.setVisibility(View.GONE);

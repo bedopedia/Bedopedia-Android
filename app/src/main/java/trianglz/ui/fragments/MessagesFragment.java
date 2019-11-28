@@ -149,6 +149,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onGetMessagesFailure(String message, int errorCode) {
+        showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
         recyclerView.setVisibility(View.GONE);
         placeholderLinearLayout.setVisibility(View.VISIBLE);
