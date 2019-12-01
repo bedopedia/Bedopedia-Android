@@ -1,5 +1,6 @@
 package trianglz.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -51,6 +54,9 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
     private RecyclerView recyclerView;
     private CourseAssignmentAdapter courseAssignmentAdapter;
     private CourseAssignmentView courseAssignmentView;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     @Nullable
     @Override
@@ -92,6 +98,10 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         courseAssignmentView = new CourseAssignmentView(activity, this);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private void setListeners() {
@@ -99,6 +109,9 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                showSkeleton(true);
+                pullRefreshLayout.setRefreshing(false);
+                recyclerView.setVisibility(View.GONE);
                 getCourseAssignment();
             }
         });
@@ -133,7 +146,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
 
     private void getCourseAssignment() {
         if (Util.isNetworkAvailable(activity)) {
-            activity.showLoadingDialog();
+            showSkeleton(true);
             String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" +
                     student.getId() + "/course_groups_with_assignments_number";
             courseAssignmentView.getCourseAssignment(url);
@@ -155,60 +168,43 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onGetCourseAssignmentSuccess(ArrayList<CourseAssignment> courseAssignmentArrayList) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
+        showSkeleton(false);
+        recyclerView.setVisibility(View.VISIBLE);
         courseAssignmentAdapter.addData(courseAssignmentArrayList);
-        pullRefreshLayout.setRefreshing(false);
 
     }
 
     @Override
     public void onGetCourseAssignmentFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
+        showSkeleton(false);
+        recyclerView.setVisibility(View.VISIBLE);
         activity.showErrorDialog(activity, errorCode, "");
 
     }
 
     @Override
     public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList, CourseAssignment courseAssignment) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
-        openAssignmentDetailActivity(assignmentsDetailArrayList, courseAssignment);
 
     }
 
     @Override
     public void onGetAssignmentDetailFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
+        showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
 
     }
 
     @Override
     public void onItemClicked(CourseAssignment courseAssignment) {
-        if (Util.isNetworkAvailable(activity)) {
-            activity.showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
-                    courseAssignment.getCourseId() + "/assignments/";
-            courseAssignmentView.getAssinmentDetail(url, courseAssignment);
-        } else {
-            Util.showNoInternetConnectionDialog(activity);
-        }
+        openAssignmentDetailActivity(courseAssignment);
+
     }
 
-    private void openAssignmentDetailActivity(ArrayList<AssignmentsDetail> assignmentsDetailArrayList,
-                                              CourseAssignment courseAssignment) {
+    private void openAssignmentDetailActivity(CourseAssignment courseAssignment) {
         //  Intent intent = new Intent(this, AssignmentDetailActivity.class);
         AssignmentDetailFragment assignmentDetailFragment = new AssignmentDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.KEY_STUDENT_NAME, student.getFirstName() + " " + student.getLastName());
-        bundle.putSerializable(Constants.KEY_ASSIGNMENTS, assignmentsDetailArrayList);
         bundle.putSerializable(Constants.STUDENT, student);
         if (courseAssignment.getCourseName() != null) {
             bundle.putString(Constants.KEY_COURSE_NAME, courseAssignment.getCourseName());
@@ -216,11 +212,35 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
             bundle.putString(Constants.KEY_COURSE_NAME, "");
         }
         bundle.putInt(Constants.KEY_COURSE_ID, courseAssignment.getId());
+        bundle.putSerializable(Constants.KEY_COURSE_ASSIGNMENT, courseAssignment);
+
         assignmentDetailFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, assignmentDetailFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
+    }
+
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_row_layout, null);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
+        }
     }
 
 }
