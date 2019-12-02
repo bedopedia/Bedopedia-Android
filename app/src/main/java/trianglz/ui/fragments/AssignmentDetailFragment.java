@@ -31,6 +31,7 @@ import trianglz.core.presenters.AssignmentsDetailPresenter;
 import trianglz.core.views.AssignmentsDetailView;
 import trianglz.managers.SessionManager;
 import trianglz.models.AssignmentsDetail;
+import trianglz.models.CourseAssignment;
 import trianglz.models.CourseGroups;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
@@ -59,6 +60,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     private String studentName;
     private CourseGroups courseGroups;
     private TabLayout tabLayout;
+    private CourseAssignment courseAssignment;
     private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     @Nullable
@@ -75,6 +77,14 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         getValueFromIntent();
         bindViews();
         setListeners();
+        //todo if student
+        if (Util.isNetworkAvailable(activity)) {
+            String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
+                    courseId + "/assignments/";
+            assignmentsDetailView.getAssignmentDetail(url, courseAssignment);
+        } else {
+            Util.showNoInternetConnectionDialog(activity);
+        }
     }
 
 
@@ -87,9 +97,11 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             if (courseGroups != null) {
                 courseName = courseGroups.getCourseName();
                 courseId = courseGroups.getCourseId();
+                courseAssignment = null;
             } else {
                 courseName = bundle.getString(Constants.KEY_COURSE_NAME);
                 courseId = bundle.getInt(Constants.KEY_COURSE_ID, 0);
+                courseAssignment = (CourseAssignment) bundle.getSerializable(Constants.KEY_COURSE_ASSIGNMENT);
             }
         }
         studentName = bundle.getString(Constants.KEY_STUDENT_NAME);
@@ -97,6 +109,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
 
     private void bindViews() {
         imageLoader = new PicassoLoader();
+        assignmentsDetailArrayList = new ArrayList<>();
         studentImageView = rootView.findViewById(R.id.img_student);
         backBtn = rootView.findViewById(R.id.btn_back);
         recyclerView = rootView.findViewById(R.id.recycler_view);
@@ -109,7 +122,6 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         placeholderTextView = rootView.findViewById(R.id.placeholder_tv);
         tabLayout = rootView.findViewById(R.id.tab_layout);
-        showHidePlaceholder(getArrayList(true), true);
 
         headerTextView = rootView.findViewById(R.id.tv_header);
         headerTextView.setText(courseName);
@@ -240,5 +252,17 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             placeholderFrameLayout.setVisibility(View.GONE);
             adapter.addData(assignmentsDetails);
         }
+    }
+
+    @Override
+    public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList, CourseAssignment courseAssignment) {
+        this.assignmentsDetailArrayList = assignmentsDetailArrayList;
+        showHidePlaceholder(getArrayList(true), true);
+    }
+
+    @Override
+    public void onGetAssignmentDetailFailure(String message, int errorCode) {
+        showHidePlaceholder(getArrayList(true), true);
+        activity.showErrorDialog(activity, errorCode, "");
     }
 }
