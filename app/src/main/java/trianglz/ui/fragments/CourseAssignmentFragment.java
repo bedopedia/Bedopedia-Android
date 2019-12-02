@@ -211,7 +211,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         } else {
             bundle.putString(Constants.KEY_COURSE_NAME, "");
         }
-        bundle.putInt(Constants.KEY_COURSE_ID, courseAssignment.getId());
+        bundle.putInt(Constants.KEY_COURSE_ID, courseAssignment.getCourseId());
         bundle.putSerializable(Constants.KEY_COURSE_ASSIGNMENT, courseAssignment);
 
         assignmentDetailFragment.setArguments(bundle);
