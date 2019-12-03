@@ -6,13 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -60,8 +61,10 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     private String studentName;
     private CourseGroups courseGroups;
     private TabLayout tabLayout;
+    private LinearLayout placeholderLinearLayout;
+    private SwipeRefreshLayout pullRefreshLayout;
+
     private CourseAssignment courseAssignment;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
 
     @Nullable
     @Override
@@ -118,8 +121,6 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(10, activity), false));
         assignmentsDetailView = new AssignmentsDetailView(activity, this);
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
-        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         placeholderTextView = rootView.findViewById(R.id.placeholder_tv);
         tabLayout = rootView.findViewById(R.id.tab_layout);
 
@@ -131,6 +132,9 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         if (!SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         }
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
     }
 
     private ArrayList<AssignmentsDetail> getArrayList(boolean isOpen) {
@@ -165,6 +169,18 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullRefreshLayout.setRefreshing(false);
+                String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
+                        courseId + "/assignments/";
+                assignmentsDetailView.getAssignmentDetail(url, courseAssignment);
+//                showSkeleton(true);
+                placeholderLinearLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
             }
         });
     }
@@ -245,11 +261,11 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             } else {
                 placeholderTextView.setText(activity.getResources().getString(R.string.closed_assignments_placeholder));
             }
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderTextView.setVisibility(View.GONE);
             adapter.addData(assignmentsDetails);
         }
     }
