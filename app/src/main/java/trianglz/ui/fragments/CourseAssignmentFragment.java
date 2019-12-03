@@ -228,7 +228,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
             int skeletonRows = Util.getSkeletonRowCount(activity);
             for (int i = 0; i <= skeletonRows; i++) {
                 ViewGroup rowLayout = (ViewGroup) inflater
-                        .inflate(R.layout.skeleton_row_layout, null);
+                        .inflate(R.layout.skeleton_course_layout, null);
                 skeletonLayout.addView(rowLayout);
             }
             shimmer.setVisibility(View.VISIBLE);
