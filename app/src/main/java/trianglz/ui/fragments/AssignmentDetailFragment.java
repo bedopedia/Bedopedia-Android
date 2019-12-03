@@ -70,6 +70,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     private LinearLayout skeletonLayout;
     private ShimmerFrameLayout shimmer;
     private LayoutInflater inflater;
+    private boolean isCalling = false;
 
     @Nullable
     @Override
@@ -167,7 +168,8 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
                     isOpen = true;
                 else
                     isOpen = false;
-                showHidePlaceholder(getArrayList());
+                if (!isCalling)
+                    showHidePlaceholder(getArrayList());
             }
 
             @Override
@@ -278,6 +280,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList, CourseAssignment courseAssignment) {
+        isCalling = false;
         this.assignmentsDetailArrayList = assignmentsDetailArrayList;
         showHidePlaceholder(getArrayList());
         showSkeleton(false);
@@ -285,6 +288,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onGetAssignmentDetailFailure(String message, int errorCode) {
+        isCalling = false;
         showHidePlaceholder(getArrayList());
         activity.showErrorDialog(activity, errorCode, "");
         showSkeleton(false);
@@ -295,6 +299,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
                 courseId + "/assignments/";
         assignmentsDetailView.getAssignmentDetail(url, courseAssignment);
         showSkeleton(true);
+        isCalling = true;
     }
 
     public void showSkeleton(boolean show) {
