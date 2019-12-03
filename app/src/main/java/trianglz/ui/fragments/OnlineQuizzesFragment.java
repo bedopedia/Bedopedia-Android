@@ -1,5 +1,6 @@
 package trianglz.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,9 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -24,13 +25,11 @@ import java.util.ArrayList;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.OnlineQuizzesPresenter;
 import trianglz.core.views.OnlineQuizzesView;
-import trianglz.models.AssignmentsDetail;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
@@ -50,14 +49,12 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
     private Student student;
     private RecyclerView recyclerView;
     private OnlineQuizzesAdapter adapter;
-    private ArrayList<AssignmentsDetail> assignmentsDetailArrayList;
-    private String courseName = "";
-    private TextView headerTextView;
-    private RadioButton openButton, closedButton;
-    private SegmentedGroup segmentedGroup;
     // networking view
     private OnlineQuizzesView onlineQuizzesView;
     private SwipeRefreshLayout pullRefreshLayout;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     @Nullable
     @Override
@@ -73,8 +70,13 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         getValueFromIntent();
         bindViews();
         setListeners();
-        activity.showLoadingDialog();
+        getQuizzesCourses();
+    }
+
+    private void getQuizzesCourses() {
+        showSkeleton(true);
         onlineQuizzesView.getQuizzesCourses(student.getId());
+
     }
 
     private void getValueFromIntent() {
@@ -99,6 +101,10 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private void setStudentImage(String imageUrl, final String name) {
@@ -133,8 +139,10 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                activity.showLoadingDialog();
-                onlineQuizzesView.getQuizzesCourses(student.getId());
+                showSkeleton(true);
+                pullRefreshLayout.setRefreshing(false);
+                recyclerView.setVisibility(View.GONE);
+                getQuizzesCourses();
             }
         });
     }
@@ -153,20 +161,16 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onGetQuizzesCoursesSuccess(ArrayList<QuizzCourse> quizzCourses) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
+        showSkeleton(false);
+        recyclerView.setVisibility(View.VISIBLE);
         adapter.addData(quizzCourses);
-        pullRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onGetQuizzesCoursesFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
-        activity.showErrorDialog(activity, errorCode,"");
-
+        showSkeleton(false);
+        recyclerView.setVisibility(View.VISIBLE);
+        activity.showErrorDialog(activity, errorCode, "");
     }
 
 
@@ -185,5 +189,27 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
                 beginTransaction().add(R.id.menu_fragment_root, quizzesDetailsFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
+    }
+
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_course_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
+        }
     }
 }

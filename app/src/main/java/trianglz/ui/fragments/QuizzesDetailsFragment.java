@@ -1,5 +1,6 @@
 package trianglz.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -72,6 +74,10 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private ArrayList<Quizzes> isToBeSubmittedQuizzes;
     private LinearLayout placeholderLinearLayout;
     private TabLayout tabLayout;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
+    private boolean isCalling = false;
 
     @Nullable
     @Override
@@ -137,10 +143,6 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         headerTextView.setText(courseName);
 
         placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
-
-
-        if (quizzes != null) showHidePlaceholder(getArrayList(isOpen), isOpen);
-
         tabLayout.setSelectedTabIndicatorColor(activity.getResources().getColor(Util.checkUserColor()));
         tabLayout.setTabTextColors(activity.getResources().getColor(R.color.steel), activity.getResources().getColor(Util.checkUserColor()));
 
@@ -148,7 +150,10 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             quizzesDetailsView = new QuizzesDetailsView(activity, this);
             quizzes = new ArrayList<>();
         }
-
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
 
@@ -158,13 +163,13 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 recyclerView.scrollToPosition(0);
-                if (tab.getPosition() == 0) {
+                if (tab.getPosition() == 0)
                     isOpen = true;
-                    showHidePlaceholder(getArrayList(isOpen), isOpen);
-                } else {
+                else
                     isOpen = false;
-                    showHidePlaceholder(getArrayList(isOpen), isOpen);
-                }
+                if (!isCalling)
+                    showHidePlaceholder(getArrayList());
+
             }
 
             @Override
@@ -184,12 +189,14 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
                 public void onRefresh() {
                     pullRefreshLayout.setRefreshing(false);
                     getQuizzes();
+                    placeholderLinearLayout.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
                 }
             });
         }
     }
 
-    private ArrayList<Quizzes> getArrayList(boolean isOpen) {
+    private ArrayList<Quizzes> getArrayList() {
         if (quizzes.isEmpty()) return quizzes;
         ArrayList<Quizzes> filteredQuizzes = new ArrayList<>();
         for (Quizzes quiz : quizzes) {
@@ -243,23 +250,21 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         this.quizzes.addAll(quizzes);
         populateIsToSubmitArray();
         totalPages = meta.getTotalPages();
+        isCalling = false;
+        showSkeleton(false);
         populateIsToSubmitArray();
         if (!isToBeSubmittedQuizzes.isEmpty()) {
             submitQuizzes(isToBeSubmittedQuizzes.get(quizIndex).getStudentSubmissions().getId());
         } else {
-            if (activity.progress.isShowing()) {
-                activity.progress.dismiss();
-            }
-            showHidePlaceholder(getArrayList(isOpen), isOpen);
+            showHidePlaceholder(getArrayList());
         }
     }
 
 
     @Override
     public void onGetQuizzesDetailsFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
+        isCalling = false;
+        showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
 
     }
@@ -318,7 +323,9 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 
     private void getQuizzes() {
         if (Util.isNetworkAvailable(getActivity())) {
-            activity.showLoadingDialog();
+            if (page == 1)
+                showSkeleton(true);
+            isCalling = true;
             quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId(), page);
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
@@ -365,7 +372,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         }
     }
 
-    private void showHidePlaceholder(ArrayList<Quizzes> quizzes, boolean isOpen) {
+    private void showHidePlaceholder(ArrayList<Quizzes> quizzes) {
         if (quizzes.isEmpty()) {
             if (isOpen) {
                 placeholderTextView.setText(activity.getResources().getString(R.string.open_assignments_placeholder));
@@ -378,6 +385,28 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             recyclerView.setVisibility(View.VISIBLE);
             placeholderLinearLayout.setVisibility(View.GONE);
             adapter.addData(quizzes);
+        }
+    }
+
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_assignment_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
         }
     }
 
