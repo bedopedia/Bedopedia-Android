@@ -38,11 +38,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:background="@color/snow"
-            android:id="@+id/recycler_view"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/item_shimmer_layout" />
+
+            <android.support.v7.widget.RecyclerView
+                android:background="@color/snow"
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>
