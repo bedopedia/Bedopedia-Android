@@ -1,5 +1,6 @@
 package trianglz.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -63,8 +65,11 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     private TabLayout tabLayout;
     private LinearLayout placeholderLinearLayout;
     private SwipeRefreshLayout pullRefreshLayout;
-
+    private boolean isOpen = true;
     private CourseAssignment courseAssignment;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     @Nullable
     @Override
@@ -82,9 +87,8 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         setListeners();
         //todo if student
         if (Util.isNetworkAvailable(activity)) {
-            String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
-                    courseId + "/assignments/";
-            assignmentsDetailView.getAssignmentDetail(url, courseAssignment);
+            getAssignmentDetails();
+
         } else {
             Util.showNoInternetConnectionDialog(activity);
         }
@@ -135,9 +139,13 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    private ArrayList<AssignmentsDetail> getArrayList(boolean isOpen) {
+    private ArrayList<AssignmentsDetail> getArrayList() {
         ArrayList<AssignmentsDetail> filteredDetails = new ArrayList<>();
         if (assignmentsDetailArrayList.isEmpty()) return new ArrayList<>();
         for (AssignmentsDetail assignmentsDetail : assignmentsDetailArrayList) {
@@ -156,9 +164,10 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0)
-                    showHidePlaceholder(getArrayList(true), true);
+                    isOpen = true;
                 else
-                    showHidePlaceholder(getArrayList(false), false);
+                    isOpen = false;
+                showHidePlaceholder(getArrayList());
             }
 
             @Override
@@ -175,10 +184,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             @Override
             public void onRefresh() {
                 pullRefreshLayout.setRefreshing(false);
-                String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
-                        courseId + "/assignments/";
-                assignmentsDetailView.getAssignmentDetail(url, courseAssignment);
-//                showSkeleton(true);
+                getAssignmentDetails();
                 placeholderLinearLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }
@@ -254,7 +260,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    private void showHidePlaceholder(ArrayList<AssignmentsDetail> assignmentsDetails, Boolean isOpen) {
+    private void showHidePlaceholder(ArrayList<AssignmentsDetail> assignmentsDetails) {
         if (assignmentsDetails.isEmpty()) {
             if (isOpen) {
                 placeholderTextView.setText(activity.getResources().getString(R.string.open_assignments_placeholder));
@@ -273,12 +279,44 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     @Override
     public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList, CourseAssignment courseAssignment) {
         this.assignmentsDetailArrayList = assignmentsDetailArrayList;
-        showHidePlaceholder(getArrayList(true), true);
+        showHidePlaceholder(getArrayList());
+        showSkeleton(false);
     }
 
     @Override
     public void onGetAssignmentDetailFailure(String message, int errorCode) {
-        showHidePlaceholder(getArrayList(true), true);
+        showHidePlaceholder(getArrayList());
         activity.showErrorDialog(activity, errorCode, "");
+        showSkeleton(false);
     }
+
+    void getAssignmentDetails() {
+        String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
+                courseId + "/assignments/";
+        assignmentsDetailView.getAssignmentDetail(url, courseAssignment);
+        showSkeleton(true);
+    }
+
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_assignment_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
+        }
+    }
+
 }
