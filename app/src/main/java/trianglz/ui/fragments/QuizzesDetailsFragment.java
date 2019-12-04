@@ -95,7 +95,15 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         setListeners();
         if (!teacherMode) {
             getQuizzes();
+        } else {
+            getTeacherQuizzes();
         }
+    }
+
+    private void getTeacherQuizzes() {
+        quizzesDetailsView.getTeacherQuizzes(courseGroup.getId() + "");
+        showSkeleton(true);
+        isCalling = true;
     }
 
 
@@ -129,7 +137,6 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         if (teacherMode) {
-            pullRefreshLayout.setEnabled(false);
             adapter = new QuizzesDetailsAdapter(activity, this, courseGroupName);
         } else {
             adapter = new QuizzesDetailsAdapter(activity, this, courseName);
@@ -146,10 +153,9 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         tabLayout.setSelectedTabIndicatorColor(activity.getResources().getColor(Util.checkUserColor()));
         tabLayout.setTabTextColors(activity.getResources().getColor(R.color.steel), activity.getResources().getColor(Util.checkUserColor()));
 
-        if (!teacherMode) {
-            quizzesDetailsView = new QuizzesDetailsView(activity, this);
-            quizzes = new ArrayList<>();
-        }
+        quizzesDetailsView = new QuizzesDetailsView(activity, this);
+        quizzes = new ArrayList<>();
+
         skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
         shimmer = rootView.findViewById(R.id.shimmer_view_container);
         this.inflater = (LayoutInflater) getActivity()
@@ -169,7 +175,6 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
                     isOpen = false;
                 if (!isCalling)
                     showHidePlaceholder(getArrayList());
-
             }
 
             @Override
@@ -182,18 +187,19 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 
             }
         });
-
-        if (!teacherMode) {
-            pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    pullRefreshLayout.setRefreshing(false);
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullRefreshLayout.setRefreshing(false);
+                if (teacherMode)
+                    getTeacherQuizzes();
+                else
                     getQuizzes();
-                    placeholderLinearLayout.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.GONE);
-                }
-            });
-        }
+                placeholderLinearLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     private ArrayList<Quizzes> getArrayList() {
@@ -288,6 +294,21 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             activity.progress.dismiss();
         }
 
+    }
+
+    @Override
+    public void onGetTeacherQuizzesSuccess(ArrayList<Quizzes> quizzes) {
+        this.quizzes.addAll(quizzes);
+        isCalling = false;
+        showSkeleton(false);
+        showHidePlaceholder(getArrayList());
+    }
+
+    @Override
+    public void onGetTeacherQuizzesFailure(String message, int errorCode) {
+        isCalling = false;
+        showSkeleton(false);
+        activity.showErrorDialog(activity, errorCode, "");
     }
 
     @Override

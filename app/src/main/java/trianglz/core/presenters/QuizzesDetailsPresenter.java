@@ -11,4 +11,6 @@ public interface QuizzesDetailsPresenter {
     void onGetQuizzesDetailsFailure(String message, int errorCode);
     void onSubmitQuizSuccess();
     void onSubmitQuizFailure(String message, int errorCode);
+    void onGetTeacherQuizzesSuccess(ArrayList<Quizzes> quizzes);
+    void onGetTeacherQuizzesFailure(String message, int errorCode);
 }

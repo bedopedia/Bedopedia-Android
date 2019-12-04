@@ -14,12 +14,7 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
-import java.util.ArrayList;
-
-import trianglz.core.presenters.SingleCourseGroupPresenter;
-import trianglz.core.views.SingleCourseGroupView;
 import trianglz.models.CourseGroups;
-import trianglz.models.Quizzes;
 import trianglz.models.TeacherCourse;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.utils.Constants;
@@ -27,7 +22,7 @@ import trianglz.utils.Constants;
 /**
  * Created by Farah A. Moniem on 09/09/2019.
  */
-public class SingleCourseGroupFragment extends Fragment implements View.OnClickListener, SingleCourseGroupPresenter {
+public class SingleCourseGroupFragment extends Fragment implements View.OnClickListener {
 
     private StudentMainActivity activity;
     private View rootView;
@@ -36,7 +31,6 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
     private ImageButton backBtn;
     private TextView courseGroupName;
     private LinearLayout attendanceLayout, quizzesLayout, assignmentsLayout, postsLayout;
-    private SingleCourseGroupView singleCourseGroupView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,7 +75,6 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
 
         // assigning values
         courseGroupName.setText(courseGroup.getName());
-        singleCourseGroupView = new SingleCourseGroupView(activity, this);
     }
 
     private void openAssignmentDetailActivity() {
@@ -99,7 +92,18 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
     }
 
     private void openQuizzesDetailsActivity() {
-        singleCourseGroupView.getTeacherQuizzes(courseGroup.getId() + "");
+        QuizzesDetailsFragment quizzesDetailsFragment = new QuizzesDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Constants.KEY_TEACHERS, true);
+        bundle.putString(Constants.KEY_COURSE_NAME, teacherCourse.getName());
+        bundle.putString(Constants.KEY_COURSE_GROUP_NAME, courseGroup.getName());
+        bundle.putString(Constants.KEY_COURSE_GROUPS, courseGroup.toString());
+//        bundle.putParcelableArrayList(Constants.KEY_QUIZZES, quizzes);
+        quizzesDetailsFragment.setArguments(bundle);
+        getParentFragment().getChildFragmentManager().
+                beginTransaction().add(R.id.course_root, quizzesDetailsFragment, "CoursesFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
     private void openPostDetailsActivity() {
@@ -148,29 +152,5 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         }
     }
 
-
-    @Override
-    public void onGetTeacherQuizzesSuccess(ArrayList<Quizzes> quizzes) {
-        if (activity.progress.isShowing()) activity.progress.dismiss();
-        QuizzesDetailsFragment quizzesDetailsFragment = new QuizzesDetailsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(Constants.KEY_TEACHERS, true);
-        bundle.putString(Constants.KEY_COURSE_NAME, teacherCourse.getName());
-        bundle.putString(Constants.KEY_COURSE_GROUP_NAME, courseGroup.getName());
-        bundle.putString(Constants.KEY_COURSE_GROUPS, courseGroup.toString());
-        bundle.putParcelableArrayList(Constants.KEY_QUIZZES, quizzes);
-
-        quizzesDetailsFragment.setArguments(bundle);
-        getParentFragment().getChildFragmentManager().
-                beginTransaction().add(R.id.course_root, quizzesDetailsFragment, "CoursesFragments").
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                addToBackStack(null).commit();
-    }
-
-    @Override
-    public void onGetTeacherQuizzesFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) activity.progress.dismiss();
-
-    }
 }
 
