@@ -231,12 +231,16 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
                         .inflate(R.layout.skeleton_row_layout, null);
                 skeletonLayout.addView(rowLayout);
             }
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.GONE);
             shimmer.setVisibility(View.VISIBLE);
             shimmer.startShimmer();
             shimmer.showShimmer(true);
             skeletonLayout.setVisibility(View.VISIBLE);
             skeletonLayout.bringToFront();
         } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
             shimmer.stopShimmer();
             shimmer.hideShimmer();
             shimmer.setVisibility(View.GONE);
