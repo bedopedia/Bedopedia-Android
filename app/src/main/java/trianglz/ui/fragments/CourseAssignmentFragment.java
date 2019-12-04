@@ -31,7 +31,6 @@ import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.CourseAssignmentPresenter;
 import trianglz.core.views.CourseAssignmentView;
 import trianglz.managers.SessionManager;
-import trianglz.models.AssignmentsDetail;
 import trianglz.models.CourseAssignment;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
@@ -178,18 +177,6 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
     public void onGetCourseAssignmentFailure(String message, int errorCode) {
         showSkeleton(false);
         recyclerView.setVisibility(View.VISIBLE);
-        activity.showErrorDialog(activity, errorCode, "");
-
-    }
-
-    @Override
-    public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList, CourseAssignment courseAssignment) {
-
-    }
-
-    @Override
-    public void onGetAssignmentDetailFailure(String message, int errorCode) {
-        showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
 
     }

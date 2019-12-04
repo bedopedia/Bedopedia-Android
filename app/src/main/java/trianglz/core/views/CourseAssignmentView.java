@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import trianglz.core.presenters.CourseAssignmentPresenter;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.UserManager;
-import trianglz.models.Assignment;
-import trianglz.models.AssignmentsDetail;
 import trianglz.models.CourseAssignment;
 
 /**
@@ -49,23 +47,4 @@ public class CourseAssignmentView {
         });
     }
 
-    public void getAssinmentDetail(String url, final CourseAssignment courseAssignment) {
-        UserManager.getAssignmentDetail(url, new ArrayResponseListener() {
-            @Override
-
-            public void onSuccess(JSONArray response) {
-                ArrayList<AssignmentsDetail> assignmentsDetailArrayList = new ArrayList<>();
-                for (int i = 0; i < response.length(); i++) {
-                    AssignmentsDetail assignmentsDetail = gson.fromJson(response.optJSONObject(i).toString(), AssignmentsDetail.class);
-                    assignmentsDetailArrayList.add(assignmentsDetail);
-                }
-                presenter.onGetAssignmentDetailSuccess(assignmentsDetailArrayList,courseAssignment);
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-                presenter.onGetAssignmentDetailFailure(message, errorCode);
-            }
-        });
-    }
 }
