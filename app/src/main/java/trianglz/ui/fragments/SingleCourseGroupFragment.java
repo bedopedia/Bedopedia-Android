@@ -16,24 +16,18 @@ import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
-import trianglz.core.presenters.CourseAssignmentPresenter;
 import trianglz.core.presenters.SingleCourseGroupPresenter;
-import trianglz.core.views.CourseAssignmentView;
 import trianglz.core.views.SingleCourseGroupView;
-import trianglz.managers.SessionManager;
-import trianglz.models.AssignmentsDetail;
-import trianglz.models.CourseAssignment;
 import trianglz.models.CourseGroups;
 import trianglz.models.Quizzes;
 import trianglz.models.TeacherCourse;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.utils.Constants;
-import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 09/09/2019.
  */
-public class SingleCourseGroupFragment extends Fragment implements View.OnClickListener, CourseAssignmentPresenter, SingleCourseGroupPresenter {
+public class SingleCourseGroupFragment extends Fragment implements View.OnClickListener, SingleCourseGroupPresenter {
 
     private StudentMainActivity activity;
     private View rootView;
@@ -42,7 +36,6 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
     private ImageButton backBtn;
     private TextView courseGroupName;
     private LinearLayout attendanceLayout, quizzesLayout, assignmentsLayout, postsLayout;
-    private CourseAssignmentView courseAssignmentView;
     private SingleCourseGroupView singleCourseGroupView;
 
     @Override
@@ -88,19 +81,21 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
 
         // assigning values
         courseGroupName.setText(courseGroup.getName());
-        courseAssignmentView = new CourseAssignmentView(activity, this);
         singleCourseGroupView = new SingleCourseGroupView(activity, this);
     }
 
     private void openAssignmentDetailActivity() {
-        if (Util.isNetworkAvailable(activity)) {
-            activity.showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + "/api/courses/" +
-                    courseGroup.getCourseId() + "/assignments";
-            courseAssignmentView.getAssinmentDetail(url, null);
-        } else {
-            Util.showNoInternetConnectionDialog(activity);
-        }
+        AssignmentDetailFragment assignmentDetailFragment = new AssignmentDetailFragment();
+        Bundle bundle = new Bundle();
+        courseGroup.setCourseName(teacherCourse.getName());
+        bundle.putString(Constants.KEY_COURSE_GROUPS, courseGroup.toString());
+        bundle.putBoolean(Constants.AVATAR, false);
+        assignmentDetailFragment.setArguments(bundle);
+        getParentFragment().getChildFragmentManager().
+                beginTransaction().add(R.id.course_root, assignmentDetailFragment, "CoursesFragment").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+
     }
 
     private void openQuizzesDetailsActivity() {
@@ -111,7 +106,7 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         PostDetailFragment postDetailFragment = new PostDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Constants.KEY_COURSE_GROUP_ID, courseGroup.getId());
- //       bundle.putInt(Constants.KEY_COURSE_ID, courseGroup.getCourseId());
+        //       bundle.putInt(Constants.KEY_COURSE_ID, courseGroup.getCourseId());
         bundle.putInt(Constants.KEY_COURSE_ID, courseGroup.getId());
         bundle.putString(Constants.KEY_COURSE_NAME, teacherCourse.getName());
         postDetailFragment.setArguments(bundle);
@@ -142,11 +137,9 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
                 openTeacherAttendanceActivity();
                 break;
             case R.id.layout_quizzes:
-                activity.showLoadingDialog();
                 openQuizzesDetailsActivity();
                 break;
             case R.id.layout_assignments:
-                activity.showLoadingDialog();
                 openAssignmentDetailActivity();
                 break;
             case R.id.layout_posts:
@@ -155,40 +148,6 @@ public class SingleCourseGroupFragment extends Fragment implements View.OnClickL
         }
     }
 
-    @Override
-    public void onGetCourseAssignmentSuccess(ArrayList<CourseAssignment> courseAssignmentArrayList) {
-
-    }
-
-    @Override
-    public void onGetCourseAssignmentFailure(String message, int errorCode) {
-
-    }
-
-    @Override
-    public void onGetAssignmentDetailSuccess(ArrayList<AssignmentsDetail> assignmentsDetailArrayList, CourseAssignment courseAssignment) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
-
-        AssignmentDetailFragment assignmentDetailFragment = new AssignmentDetailFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_ASSIGNMENTS,assignmentsDetailArrayList);
-        courseGroup.setCourseName(teacherCourse.getName());
-        bundle.putString(Constants.KEY_COURSE_GROUPS,courseGroup.toString());
-        bundle.putBoolean(Constants.AVATAR, false);
-        assignmentDetailFragment.setArguments(bundle);
-        getParentFragment().getChildFragmentManager().
-                beginTransaction().add(R.id.course_root, assignmentDetailFragment, "CoursesFragment").
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                addToBackStack(null).commit();
-    }
-
-    @Override
-    public void onGetAssignmentDetailFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) activity.progress.dismiss();
-
-    }
 
     @Override
     public void onGetTeacherQuizzesSuccess(ArrayList<Quizzes> quizzes) {
