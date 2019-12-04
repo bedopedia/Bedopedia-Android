@@ -13,16 +13,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
         <include layout="@layout/skeleton_avatar_layout"/>
-        <include layout="@layout/skeleton_row_layout"/>
-        <include layout="@layout/skeleton_row_layout"/>
-        <include layout="@layout/skeleton_row_layout"/>
-        <include layout="@layout/skeleton_row_layout"/>
-        <include layout="@layout/skeleton_row_layout"/>
-        <include layout="@layout/skeleton_row_layout"/>
-        <include layout="@layout/skeleton_row_layout"/>
-        <include layout="@layout/skeleton_row_layout"/>
-        <include layout="@layout/skeleton_row_layout"/>
-
+        <include layout="@layout/skeleton_menu_row_layout"/>
+        <include layout="@layout/skeleton_menu_row_layout"/>
+        <include layout="@layout/skeleton_menu_row_layout"/>
+        <include layout="@layout/skeleton_menu_row_layout"/>
+        <include layout="@layout/skeleton_menu_row_layout"/>
+        <include layout="@layout/skeleton_menu_row_layout"/>
+        <include layout="@layout/skeleton_menu_row_layout"/>
+        <include layout="@layout/skeleton_menu_row_layout"/>
+        <include layout="@layout/skeleton_menu_row_layout"/>
     </LinearLayout>
 </com.facebook.shimmer.ShimmerFrameLayout>
 

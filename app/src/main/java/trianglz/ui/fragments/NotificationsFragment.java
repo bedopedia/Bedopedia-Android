@@ -180,7 +180,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
             int skeletonRows = Util.getSkeletonRowCount(activity);
             for (int i = 0; i <= skeletonRows; i++) {
                 ViewGroup rowLayout = (ViewGroup) inflater
-                        .inflate(R.layout.skeleton_row_layout, null);
+                        .inflate(R.layout.skeleton_row_layout, (ViewGroup) rootView, false);
                 skeletonLayout.addView(rowLayout);
             }
             shimmer.setVisibility(View.VISIBLE);
