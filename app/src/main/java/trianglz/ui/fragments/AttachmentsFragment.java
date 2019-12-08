@@ -76,6 +76,7 @@ public class AttachmentsFragment extends Fragment implements AttachmentAdapter.A
         courseNameTextView = rootView.findViewById(R.id.tv_course_name);
         courseNameTextView.setText(subjectName);
         adapter = new AttachmentAdapter(activity, this);
+        adapter.type = Constants.TYPE_ATTACHMENT;
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));

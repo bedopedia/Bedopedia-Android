@@ -31,11 +31,14 @@ import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.AssignmentsDetailPresenter;
+import trianglz.core.presenters.SingleAssignmentPresenter;
 import trianglz.core.views.AssignmentsDetailView;
+import trianglz.core.views.SingleAssignmentView;
 import trianglz.managers.SessionManager;
 import trianglz.models.AssignmentsDetail;
 import trianglz.models.CourseAssignment;
 import trianglz.models.CourseGroups;
+import trianglz.models.SingleAssignment;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.AssignmentDetailAdapter;
@@ -45,7 +48,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 04/09/2019.
  */
-public class AssignmentDetailFragment extends Fragment implements View.OnClickListener, AssignmentsDetailPresenter, AssignmentDetailAdapter.AssignmentDetailInterface {
+public class AssignmentDetailFragment extends Fragment implements View.OnClickListener, SingleAssignmentPresenter, AssignmentsDetailPresenter, AssignmentDetailAdapter.AssignmentDetailInterface {
 
     private StudentMainActivity activity;
     private View rootView;
@@ -71,6 +74,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     private ShimmerFrameLayout shimmer;
     private LayoutInflater inflater;
     private boolean isCalling = false;
+    private SingleAssignmentView singleAssignmentView;
 
     @Nullable
     @Override
@@ -126,6 +130,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(10, activity), false));
         assignmentsDetailView = new AssignmentsDetailView(activity, this);
+        singleAssignmentView = new SingleAssignmentView(activity, this);
         placeholderTextView = rootView.findViewById(R.id.placeholder_tv);
         tabLayout = rootView.findViewById(R.id.tab_layout);
 
@@ -144,6 +149,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         shimmer = rootView.findViewById(R.id.shimmer_view_container);
         this.inflater = (LayoutInflater) getActivity()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     private ArrayList<AssignmentsDetail> getArrayList() {
@@ -205,20 +211,9 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     @Override
     public void onItemClicked(AssignmentsDetail assignmentsDetail) {
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            if ((assignmentsDetail.getDescription() == null || assignmentsDetail.getDescription().trim().isEmpty()) && assignmentsDetail.getUploadedFilesCount() == 0) {
-                activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.no_content));
-            } else {
-                AssignmentFragment assignmentFragment = new AssignmentFragment();
-                Bundle bundle = new Bundle();
-                if (courseId != 0) bundle.putInt(Constants.KEY_COURSE_ID, courseId);
-                bundle.putString(Constants.KEY_STUDENT_NAME, studentName);
-                bundle.putString(Constants.KEY_ASSIGNMENT_DETAIL, assignmentsDetail.toString());
-                assignmentFragment.setArguments(bundle);
-                getParentFragment().getChildFragmentManager().
-                        beginTransaction().add(R.id.menu_fragment_root, assignmentFragment, "MenuFragments").
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                        addToBackStack(null).commit();
-            }
+            singleAssignmentView.showAssignment(courseId, assignmentsDetail.getId());
+            activity.showLoadingDialog();
+
         } else {
             GradingFragment gradingFragment = new GradingFragment();
             Bundle bundle = new Bundle();
@@ -324,4 +319,31 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         }
     }
 
+    @Override
+    public void onShowAssignmentSuccess(SingleAssignment singleAssignment) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        if ((singleAssignment.getContent() == null || singleAssignment.getContent().trim().isEmpty()) && singleAssignment.getUploadedFiles().length == 0) {
+            activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.no_content));
+        } else {
+            AssignmentFragment assignmentFragment = new AssignmentFragment();
+            Bundle bundle = new Bundle();
+            if (courseId != 0) bundle.putInt(Constants.KEY_COURSE_ID, courseId);
+            bundle.putString(Constants.KEY_STUDENT_NAME, studentName);
+            bundle.putString(Constants.KEY_ASSIGNMENT_DETAIL, singleAssignment.toString());
+            assignmentFragment.setArguments(bundle);
+            getParentFragment().getChildFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, assignmentFragment, "MenuFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+        }
+    }
+
+    @Override
+    public void onShowAssignmentFailure(String message, int errorCode) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        activity.showErrorDialog(activity, errorCode, "");
+
+    }
 }
