@@ -255,6 +255,7 @@ public class Constants {
     public static final String KEY_MATCH="match";
     public static final String KEY_QUESTION_ID="question_id";
     public static final String KEY_QUIZ_SUBMISSION_ID="quiz_submission_id";
-
+    public static final int TYPE_ASSIGNMENT = 0;
+    public static final int TYPE_ATTACHMENT = 1;
 }
 
