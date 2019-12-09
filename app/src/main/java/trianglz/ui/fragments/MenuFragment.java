@@ -567,7 +567,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
         LocalHelper.setLocale(getParentActivity(), languageCode);
         LocalHelper.getLanguage(getParentActivity());
-        restartApp();
+        new Handler().postDelayed(this::restartApp, 500);
     }
 
     public void restartApp() {
