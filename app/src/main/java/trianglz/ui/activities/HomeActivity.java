@@ -186,7 +186,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
 
         LocalHelper.setLocale(this, languageCode);
         LocalHelper.getLanguage(this);
-        restartApp();
+        new Handler().postDelayed(this::restartApp, 500);
     }
 
     public void restartApp() {
