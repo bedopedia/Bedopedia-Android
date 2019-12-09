@@ -292,7 +292,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
         LocalHelper.setLocale(this, languageCode);
         LocalHelper.getLanguage(this);
-        restartApp();
+        new Handler().postDelayed(this::restartApp, 500);
     }
 
     public void restartApp() {

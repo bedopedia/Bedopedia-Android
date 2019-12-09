@@ -744,7 +744,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
         LocalHelper.setLocale(getParentActivity(), languageCode);
         LocalHelper.getLanguage(getParentActivity());
-        restartApp();
+        new Handler().postDelayed(this::restartApp, 500);
     }
 
     public void restartApp() {
@@ -756,37 +756,10 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (getParentActivity() != null) {
             (this).getParentActivity().finish();
         }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Runtime.getRuntime().exit(0);
-            }
-        }, 0);
+        new Handler().postDelayed(() -> Runtime.getRuntime().exit(0), 0);
 
     }
 
-//    private void openAnnouncement() {
-//        Intent intent = new Intent(getActivity(), AnnouncementActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constants.KEY_ACTOR, actor);
-//        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-//        startActivity(intent);
-//    }
-//
-//
-//    private void getNotifications(boolean pagination) {
-//        if (!activity.isCalling) {
-//            getParentActivity().showLoadingDialog();
-//        }
-//        String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
-//                SessionManager.getInstance().getUserId() + "/notifications";
-//        studentDetailView.getNotifications(url, 1, 1);
-//    }
-//
-//    private void getAnnouncement() {
-//        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(1, actor.actableType, 1);
-//        studentDetailView.getAnnouncement(url);
-//    }
 
     private void checkVersionOnStore() {
         AppUpdater appUpdater = new AppUpdater(getParentActivity())
