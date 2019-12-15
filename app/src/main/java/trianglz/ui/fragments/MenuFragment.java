@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -46,8 +45,6 @@ import attendance.Attendance;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.ErrorDialog;
-import trianglz.components.LocalHelper;
-import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.PostsPresenter;
 import trianglz.core.presenters.StudentDetailPresenter;
 import trianglz.core.views.PostsView;
@@ -67,6 +64,7 @@ import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
 import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.NotificationsActivity;
+import trianglz.ui.activities.SettingsActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -75,7 +73,7 @@ import trianglz.utils.Util;
  * A simple {@link Fragment} subclass.
  */
 public class MenuFragment extends Fragment implements StudentDetailPresenter,
-        View.OnClickListener, SettingsDialog.SettingsDialogInterface, StudentMainActivity.OnBackPressedInterface, PostsPresenter, ErrorDialog.DialogConfirmationInterface {
+        View.OnClickListener, StudentMainActivity.OnBackPressedInterface, PostsPresenter {
 
     //fragment root view
     private View rootView;
@@ -112,7 +110,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private LinearLayout parentLayout, teacherLayout;
     private Actor actor;
     private String actorName = "";
-    private SettingsDialog settingsDialog;
     private RootClass rootClass;
     private TextView weeklyPlannerTextView;
 
@@ -192,7 +189,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         parentLayout = rootView.findViewById(R.id.layout_parent);
         teacherLayout = rootView.findViewById(R.id.layout_teacher);
         teacherTimeTableLayout = rootView.findViewById(R.id.layout_timetable_teacher);
-        settingsDialog = new SettingsDialog(getParentActivity(), R.style.BottomSheetDialog, this);
         weeklyPlannerTextView = rootView.findViewById(R.id.tv_weekly_planner);
 
         student = getParentActivity().getStudent();
@@ -569,15 +565,12 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 //   openAnnouncement();
                 break;
             case R.id.btn_setting:
-                settingsDialog.show();
+            case R.id.btn_setting_student:
+                Intent i = new Intent(activity, SettingsActivity.class);
+                startActivity(i);
                 break;
             case R.id.layout_weekly_planner:
                 openWeeklyPlannerActivity();
-                break;
-            case R.id.btn_setting_student:
-                if (!settingsDialog.isShowing()) {
-                    settingsDialog.show();
-                }
                 break;
             case R.id.tv_assignment:
                 openAssignmentDetailActivity();
@@ -719,48 +712,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         startActivity(myIntent);
     }
 
-    @Override
-    public void onChangeLanguageClicked() {
-        errorDialogue = new ErrorDialog(activity, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
-        errorDialogue.show();
-    }
-
-    @Override
-    public void onSignOutClicked() {
-        getParentActivity().logoutUser(getParentActivity());
-    }
-
-
-    private void changeLanguage() {
-        if (LocalHelper.getLanguage(getParentActivity()).equals("ar")) {
-            updateViews("en");
-        } else {
-            updateViews("ar");
-        }
-    }
-
-
-    private void updateViews(String languageCode) {
-
-        LocalHelper.setLocale(getParentActivity(), languageCode);
-        LocalHelper.getLanguage(getParentActivity());
-        new Handler().postDelayed(this::restartApp, 500);
-    }
-
-    public void restartApp() {
-        Intent intent = getParentActivity().getBaseContext().getPackageManager()
-                .getLaunchIntentForPackage(getParentActivity().getBaseContext().getPackageName());
-        if (intent != null)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        this.startActivity(intent);
-        if (getParentActivity() != null) {
-            (this).getParentActivity().finish();
-        }
-        new Handler().postDelayed(() -> Runtime.getRuntime().exit(0), 0);
-
-    }
-
-
     private void checkVersionOnStore() {
         AppUpdater appUpdater = new AppUpdater(getParentActivity())
                 .setDisplay(Display.DIALOG)
@@ -880,14 +831,4 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     }
 
-    @Override
-    public void onConfirm() {
-        changeLanguage();
-
-    }
-
-    @Override
-    public void onCancel() {
-
-    }
 }

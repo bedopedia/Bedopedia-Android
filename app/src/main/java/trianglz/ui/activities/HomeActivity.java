@@ -1,12 +1,10 @@
 package trianglz.ui.activities;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -22,9 +20,6 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-import trianglz.components.ErrorDialog;
-import trianglz.components.LocalHelper;
-import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.HomePresenter;
 import trianglz.core.views.HomeView;
 import trianglz.managers.SessionManager;
@@ -33,17 +28,15 @@ import trianglz.ui.adapters.HomeAdapter;
 import trianglz.utils.Constants;
 
 public class HomeActivity extends SuperActivity implements HomePresenter, View.OnClickListener,
-        HomeAdapter.HomeAdapterInterface, SettingsDialog.SettingsDialogInterface, ErrorDialog.DialogConfirmationInterface {
+        HomeAdapter.HomeAdapterInterface {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
     private String id;
     private HomeView homeView;
     private ImageButton notificationBtn;
     private ArrayList<JSONArray> kidsAttendances;
-    private SettingsDialog settingsDialog;
     private ImageButton settingsBtn;
     private ImageView redCircleImageView;
-    private ErrorDialog errorDialogue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +58,6 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         notificationBtn = findViewById(R.id.btn_notification);
         redCircleImageView = findViewById(R.id.img_red_circle);
         kidsAttendances = new ArrayList<>();
-        settingsDialog = new SettingsDialog(this, R.style.BottomSheetDialog, this);
         settingsBtn = findViewById(R.id.btn_setting);
     }
 
@@ -121,7 +113,8 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
                 openNotificationsActivity();
                 break;
             case R.id.btn_setting:
-                settingsDialog.show();
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivity(i);
                 break;
         }
     }
@@ -153,53 +146,6 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
     }
-
-
-    @Override
-    public void onChangeLanguageClicked() {
-        errorDialogue = new ErrorDialog(this, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
-        errorDialogue.show();
-    }
-
-    @Override
-    public void onSignOutClicked() {
-        logoutUser(this);
-    }
-
-
-    private void changeLanguage() {
-        if (LocalHelper.getLanguage(this).equals("ar")) {
-            updateViews("en");
-        } else {
-            updateViews("ar");
-        }
-    }
-
-
-    private void updateViews(String languageCode) {
-
-        LocalHelper.setLocale(this, languageCode);
-        LocalHelper.getLanguage(this);
-        new Handler().postDelayed(this::restartApp, 500);
-    }
-
-    public void restartApp() {
-        Intent intent = getBaseContext().getPackageManager()
-                .getLaunchIntentForPackage(getBaseContext().getPackageName());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        this.startActivity(intent);
-        if (this instanceof Activity) {
-            (this).finish();
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Runtime.getRuntime().exit(0);
-            }
-        }, 0);
-
-    }
-
 
     private void checkVersionOnStore() {
         AppUpdater appUpdater = new AppUpdater(this)
@@ -239,13 +185,4 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         }
     }
 
-    @Override
-    public void onConfirm() {
-        changeLanguage();
-    }
-
-    @Override
-    public void onCancel() {
-
-    }
 }

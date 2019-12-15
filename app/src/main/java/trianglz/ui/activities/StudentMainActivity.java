@@ -3,7 +3,6 @@ package trianglz.ui.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -22,7 +21,6 @@ import java.util.List;
 
 import trianglz.components.CustomRtlViewPager;
 import trianglz.components.ErrorDialog;
-import trianglz.components.LocalHelper;
 import trianglz.components.SettingsDialog;
 import trianglz.managers.SessionManager;
 import trianglz.models.Actor;
@@ -36,7 +34,7 @@ import trianglz.ui.fragments.TeacherCoursesFragment;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class StudentMainActivity extends SuperActivity implements View.OnClickListener, SettingsDialog.SettingsDialogInterface, ErrorDialog.DialogConfirmationInterface {
+public class StudentMainActivity extends SuperActivity implements View.OnClickListener {
 
     private LinearLayout coursesLayout, firstLayout, secondLayout, fourthLayout;
     private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView, redCircleImageView;
@@ -171,7 +169,6 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         headerLayout = findViewById(R.id.rl_header);
         settingsBtn = findViewById(R.id.btn_setting_student);
         addNewMessageButton = findViewById(R.id.btn_new_message);
-        settingsDialog = new SettingsDialog(this, R.style.BottomSheetDialog, this);
         addNewMessageButton.setVisibility(View.GONE);
         backBtn = findViewById(R.id.back_btn);
         backBtn.setVisibility(View.GONE);
@@ -266,50 +263,6 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         fragmentArrayList.add(notificationsFragment);
         return fragmentArrayList;
     }
-
-    @Override
-    public void onChangeLanguageClicked() {
-        errorDialogue = new ErrorDialog(this, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
-        errorDialogue.show();
-    }
-
-    @Override
-    public void onSignOutClicked() {
-        logoutUser(this);
-    }
-
-
-    private void changeLanguage() {
-        if (LocalHelper.getLanguage(this).equals("ar")) {
-            updateViews("en");
-        } else {
-            updateViews("ar");
-        }
-    }
-
-
-    private void updateViews(String languageCode) {
-
-        LocalHelper.setLocale(this, languageCode);
-        LocalHelper.getLanguage(this);
-        new Handler().postDelayed(this::restartApp, 500);
-    }
-
-    public void restartApp() {
-        Intent intent = this.getBaseContext().getPackageManager()
-                .getLaunchIntentForPackage(this.getBaseContext().getPackageName());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        this.startActivity(intent);
-        finish();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Runtime.getRuntime().exit(0);
-            }
-        }, 0);
-
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -351,7 +304,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 handleTabsClicking(pagerAdapter.getCount() - 1);
                 break;
             case R.id.btn_setting_student:
-                settingsDialog.show();
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivity(i);
                 break;
             case R.id.btn_new_message:
                 if (Util.isNetworkAvailable(this)) {
@@ -646,16 +600,6 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
-    }
-
-    @Override
-    public void onConfirm() {
-        changeLanguage();
-    }
-
-    @Override
-    public void onCancel() {
-        errorDialogue.dismiss();
     }
 
     public interface OnBackPressedInterface {
