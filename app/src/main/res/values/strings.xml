@@ -281,7 +281,8 @@
     <string name="change_password">Change password</string>
     <string name="share_app">Share App</string>
     <string name="rate_app">Rate App</string>
-    <string name="language_english">Language (English)</string>
-    <string name="language_arabic">Language (Arabic)</string>
+    <string name="language">Language (English)</string>
+    <string name="try_app_now">Try Skolera now!</string>
+    <string name="share_via">Share Skolera via</string>
 
 </resources>

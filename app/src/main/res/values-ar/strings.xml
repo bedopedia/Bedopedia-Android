@@ -258,6 +258,8 @@
     <string name="change_password">تغيير كلمة المرور</string>
     <string name="rate_app">قيم التطبيق</string>
     <string name="share_app">شارك التطبيق</string>
-    <string name="language_english">اللغة (الإنجليزية)</string>
-    <string name="language_arabic">اللغة (العربية)</string>
+    <string name="language">اللغة (العربية)</string>
+    <string name="try_app_now">أنصحك بإستخدام Skolera حمله الآن!</string>
+    <string name="share_via">مشاركة Skolera عبر</string>
+
 </resources>
