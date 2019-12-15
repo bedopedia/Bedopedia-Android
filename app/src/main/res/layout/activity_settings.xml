@@ -145,6 +145,19 @@
                     app:layout_constraintTop_toBottomOf="@id/iv_app_logo" />
 
             </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/white_four"
+                android:gravity="center_vertical"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:text="@string/profile"
+                android:textAllCaps="true"
+                android:textColor="@color/brownish_grey"
+                android:textSize="14sp" />
+
             <Button
                 android:id="@+id/btn_change_password"
                 style="?android:attr/borderlessButtonStyle"
@@ -161,6 +174,35 @@
                 android:textAllCaps="false"
                 android:textColor="@color/brownish_grey"
                 android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_sign_out"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:text="@string/sign_out"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/tomato"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/white_four"
+                android:gravity="center_vertical"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:text="@string/settings"
+                android:textAllCaps="true"
+                android:textColor="@color/brownish_grey"
+                android:textSize="14sp" />
+
             <Button
                 android:id="@+id/btn_share_app"
                 style="?android:attr/borderlessButtonStyle"
@@ -194,21 +236,6 @@
                 android:textColor="@color/brownish_grey"
                 android:textSize="15sp" />
 
-            <Button
-                android:id="@+id/btn_sign_out"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="1dp"
-                android:background="@color/white"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:paddingStart="22dp"
-                android:paddingEnd="22dp"
-                android:text="@string/sign_out"
-                android:textAlignment="textStart"
-                android:textAllCaps="false"
-                android:textColor="@color/tomato"
-                android:textSize="15sp" />
 
         </LinearLayout>
 

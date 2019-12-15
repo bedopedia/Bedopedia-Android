@@ -264,4 +264,7 @@
     <string name="old_password">كلمة السر الحالية</string>
     <string name="new_password">كلمة السر الجديدة</string>
     <string name="update">تعديل</string>
+    <string name="show">إظهار</string>
+    <string name="hide">إخفاء</string>
+    <string name="profile">الملف الشخصى</string>
 </resources>
