@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -26,7 +28,8 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
     private EditText oldPasswordEditText, newPasswordEditText;
     private Button updateButton;
     private ImageButton cancelButton;
-    private TextView oldPasswordShow, newPasswordShow;
+    private View oldPasswordErrorView, newPasswordErrorView;
+    private TextView oldPasswordShow, newPasswordShow, newPasswordError, oldPasswordError;
     private Context context;
     private DialogConfirmationInterface dialogConfirmationInterface;
 
@@ -52,6 +55,40 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
         newPasswordShow.setOnClickListener(this);
         oldPasswordShow.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
+        oldPasswordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                oldPasswordErrorView.setBackgroundColor(context.getResources().getColor(R.color.greyish));
+                oldPasswordError.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        newPasswordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                newPasswordErrorView.setBackgroundColor(context.getResources().getColor(R.color.greyish));
+                newPasswordError.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void bindViews() {
@@ -62,6 +99,10 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
         newPasswordShow = findViewById(R.id.btn_show_new_password);
         updateButton = findViewById(R.id.update_btn);
         cancelButton = findViewById(R.id.cancel_btn);
+        oldPasswordErrorView = findViewById(R.id.view_old_password);
+        newPasswordErrorView = findViewById(R.id.view_new_password);
+        oldPasswordError = findViewById(R.id.old_password_error_tv);
+        newPasswordError = findViewById(R.id.new_password_error_tv);
         oldPasswordShow.setTextColor(context.getResources().getColor(Util.checkUserColor()));
         newPasswordShow.setTextColor(context.getResources().getColor(Util.checkUserColor()));
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
@@ -104,8 +145,12 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
                 dismiss();
                 break;
             case R.id.update_btn:
-                dialogConfirmationInterface.onUpdate();
-                dismiss();
+                boolean newValid = validate(oldPasswordEditText.getText().toString(), oldPasswordError, oldPasswordErrorView);
+                boolean oldValid = validate(newPasswordEditText.getText().toString(), newPasswordError, newPasswordErrorView);
+                if (newValid && oldValid) {
+                    dialogConfirmationInterface.onUpdate();
+                    dismiss();
+                }
                 break;
         }
     }
@@ -117,5 +162,21 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
 
     public interface DialogConfirmationInterface {
         void onUpdate();
+    }
+
+    public boolean validate(String password, TextView textView, View view) {
+        boolean valid = true;
+        if (password.isEmpty() || password.length() < 5) {
+            textView.setVisibility(View.VISIBLE);
+            if (password.isEmpty()) {
+                view.setBackgroundColor(context.getResources().getColor(R.color.tomato));
+                textView.setText(context.getResources().getString(R.string.password_is_empty));
+            } else {
+                view.setBackgroundColor(context.getResources().getColor(R.color.tomato));
+                textView.setText(context.getResources().getString(R.string.password_length_error));
+            }
+            valid = false;
+        }
+        return valid;
     }
 }
