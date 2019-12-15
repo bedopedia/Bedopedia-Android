@@ -1132,4 +1132,31 @@ public class UserManager {
             }
         });
     }
+
+    public static void changePassword(String url, String currentPassword, int userId, String newPassword, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject rootJsonObject = new JSONObject();
+        JSONObject userJsonObject = new JSONObject();
+        try {
+            userJsonObject.put(Constants.KEY_CURRENT_PASSWORD, currentPassword);
+            userJsonObject.put(Constants.KEY_ID, userId);
+            userJsonObject.put(Constants.KEY_PASSWORD, newPassword);
+            userJsonObject.put(Constants.KEY_PASSWORD_CONFIRMATION, newPassword);
+            userJsonObject.put(Constants.KEY_RESET_PASSWORD, true);
+            rootJsonObject.put(Constants.USER, userJsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.put(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
 }
