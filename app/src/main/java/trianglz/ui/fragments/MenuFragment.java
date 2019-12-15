@@ -131,7 +131,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
             if (Util.isNetworkAvailable(getParentActivity())) {
-                studentDetailView.getStudentCourses(courseUrl);
+                postsView.getRecentPosts(student.getId());
                 activity.isCalling = true;
                 getParentActivity().showLoadingDialog();
             } else {
