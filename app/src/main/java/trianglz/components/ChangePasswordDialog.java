@@ -145,10 +145,10 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
                 dismiss();
                 break;
             case R.id.update_btn:
-                boolean newValid = validate(oldPasswordEditText.getText().toString(), oldPasswordError, oldPasswordErrorView);
-                boolean oldValid = validate(newPasswordEditText.getText().toString(), newPasswordError, newPasswordErrorView);
+                boolean oldValid = validate(oldPasswordEditText.getText().toString(), oldPasswordError, oldPasswordErrorView);
+                boolean newValid = validate(newPasswordEditText.getText().toString(), newPasswordError, newPasswordErrorView);
                 if (newValid && oldValid) {
-                    dialogConfirmationInterface.onUpdate();
+                    dialogConfirmationInterface.onUpdate(oldPasswordEditText.getText().toString(), newPasswordEditText.getText().toString());
                     dismiss();
                 }
                 break;
@@ -161,7 +161,7 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
     }
 
     public interface DialogConfirmationInterface {
-        void onUpdate();
+        void onUpdate(String oldPassword, String newPassword);
     }
 
     public boolean validate(String password, TextView textView, View view) {
