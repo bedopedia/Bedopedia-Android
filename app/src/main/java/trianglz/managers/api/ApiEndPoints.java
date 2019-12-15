@@ -186,7 +186,12 @@ public class ApiEndPoints {
     public static String deleteAnswerSubmission() {
         return "/api/answer_submissions/remove_answer_submission";
     }
-    public static String submitQuiz(){
+
+    public static String submitQuiz() {
         return "/api/active_quizzes/submit_quiz";
+    }
+
+    public static String changePassword(int userId) {
+        return "/api/users/${" + userId + "}";
     }
 }
