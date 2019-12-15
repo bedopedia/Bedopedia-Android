@@ -192,6 +192,6 @@ public class ApiEndPoints {
     }
 
     public static String changePassword(int userId) {
-        return "/api/users/${" + userId + "}";
+        return "/api/users/" + userId;
     }
 }
