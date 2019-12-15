@@ -261,5 +261,7 @@
     <string name="language">اللغة (العربية)</string>
     <string name="try_app_now">أنصحك بإستخدام Skolera حمله الآن!</string>
     <string name="share_via">مشاركة Skolera عبر</string>
-
+    <string name="old_password">كلمة السر الحالية</string>
+    <string name="new_password">كلمة السر الجديدة</string>
+    <string name="update">تعديل</string>
 </resources>
