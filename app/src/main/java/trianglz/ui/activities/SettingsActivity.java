@@ -18,13 +18,18 @@ import com.skolera.skolera_android.R;
 import trianglz.components.ChangePasswordDialog;
 import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
+import trianglz.core.presenters.SettingsPresenter;
+import trianglz.core.views.SettingsView;
+import trianglz.managers.SessionManager;
+import trianglz.managers.api.ApiEndPoints;
 
-public class SettingsActivity extends SuperActivity implements View.OnClickListener, ErrorDialog.DialogConfirmationInterface, ChangePasswordDialog.DialogConfirmationInterface {
+public class SettingsActivity extends SuperActivity implements View.OnClickListener, ErrorDialog.DialogConfirmationInterface, ChangePasswordDialog.DialogConfirmationInterface, SettingsPresenter {
 
     private ConstraintLayout changeLanguageConstraintLayout;
     private ErrorDialog errorDialogue;
     private TextView versionTextView;
     private ImageButton backImageButton;
+    private SettingsView settingsView;
     private Button changePasswordButton, shareAppButton, rateAppButton, signOutButton;
 
     @Override
@@ -43,6 +48,7 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
         shareAppButton = findViewById(R.id.btn_share_app);
         rateAppButton = findViewById(R.id.btn_rate_app);
         signOutButton = findViewById(R.id.btn_sign_out);
+        settingsView = new SettingsView(this, this);
         String version = "";
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -155,8 +161,29 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void onUpdate() {
 
+    @Override
+    public void onUpdate(String oldPassword, String newPassword) {
+        changePassword(oldPassword, newPassword);
+    }
+
+    @Override
+    public void onPasswordChangedSuccess() {
+        if (progress.isShowing())
+            progress.dismiss();
+    }
+
+    @Override
+    public void onPasswordChangedFailure(String message, int errorCode) {
+        if (progress.isShowing())
+            progress.dismiss();
+        showErrorDialog(this, -3, message);
+    }
+
+    void changePassword(String oldPassword, String newPassword) {
+        int userId = Integer.parseInt(SessionManager.getInstance().getUserId());
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.changePassword(userId);
+        settingsView.changePassword(url, oldPassword, userId, newPassword);
+        showLoadingDialog();
     }
 }
