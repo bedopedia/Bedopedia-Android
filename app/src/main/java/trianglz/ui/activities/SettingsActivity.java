@@ -15,10 +15,11 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import trianglz.components.ChangePasswordDialog;
 import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
 
-public class SettingsActivity extends SuperActivity implements View.OnClickListener, ErrorDialog.DialogConfirmationInterface {
+public class SettingsActivity extends SuperActivity implements View.OnClickListener, ErrorDialog.DialogConfirmationInterface, ChangePasswordDialog.DialogConfirmationInterface {
 
     private ConstraintLayout changeLanguageConstraintLayout;
     private ErrorDialog errorDialogue;
@@ -77,6 +78,8 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
                 errorDialogue.show();
                 break;
             case R.id.btn_change_password:
+                ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this, this);
+                changePasswordDialog.show();
                 break;
             case R.id.btn_share_app:
                 shareApp();
@@ -150,5 +153,10 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
                     Uri.parse("http://play.google.com/store/apps/details?id="
                             + getPackageName())));
         }
+    }
+
+    @Override
+    public void onUpdate() {
+
     }
 }
