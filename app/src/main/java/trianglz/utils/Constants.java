@@ -255,7 +255,7 @@ public class Constants {
     public static final String KEY_QUESTION_ID="question_id";
     public static final String KEY_QUIZ_SUBMISSION_ID="quiz_submission_id";
     public static final String KEY_CURRENT_PASSWORD="current_password";
-    public static final String KEY_PASSWORD_CONFIRMATION ="current_password";
+    public static final String KEY_PASSWORD_CONFIRMATION ="password_confirmation";
     public static final String KEY_RESET_PASSWORD ="reset_password";
 }
 
