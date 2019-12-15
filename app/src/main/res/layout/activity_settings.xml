@@ -75,7 +75,7 @@
             android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/btn_change_language"
+                android:id="@+id/layout_change_language"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="1dp"
@@ -86,7 +86,7 @@
                     android:id="@+id/tv_language"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/language_english"
+                    android:text="@string/language"
                     android:textColor="@color/brownish_grey"
                     android:textSize="15.4sp"
                     android:layout_marginStart="22dp"
@@ -136,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:text="Version 1.1.1"
+                    android:text="@string/version"
                     android:textColor="@color/greyish_brown"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -145,20 +145,6 @@
                     app:layout_constraintTop_toBottomOf="@id/iv_app_logo" />
 
             </android.support.constraint.ConstraintLayout>
-
-            <!--            <TextView-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="30dp"-->
-            <!--                android:background="@color/white_four"-->
-            <!--                android:gravity="center_vertical"-->
-            <!--                android:paddingStart="22dp"-->
-            <!--                android:paddingEnd="22dp"-->
-            <!--                android:text="@string/profile"-->
-            <!--                android:textAllCaps="true"-->
-            <!--                android:textColor="@color/brownish_grey"-->
-            <!--                android:textSize="14sp" />-->
-
-
             <Button
                 android:id="@+id/btn_change_password"
                 style="?android:attr/borderlessButtonStyle"
