@@ -68,8 +68,8 @@ public class LoginView {
         String id = data.optString("actable_id");
         Boolean passwordChanged = data.optBoolean("password_changed");
         int unSeenNotification = data.optInt("unseen_notifications");
+        SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
         if (passwordChanged) {
-            SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
             String userType = data.optString(Constants.KEY_USER_TYPE);
             if (userType.equals("parent")) {
                 SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
