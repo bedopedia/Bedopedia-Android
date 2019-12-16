@@ -128,6 +128,10 @@ public class SessionManager {
         return mPreferences.getString(Constants.KEY_PASSWORD, "");
     }
 
+    public void setPassword(String password) {
+        mEditor.putString(Constants.KEY_PASSWORD, password);
+    }
+
     public void logoutUser() {
         mEditor.clear();
         mEditor.commit();
