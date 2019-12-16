@@ -267,4 +267,6 @@
     <string name="show">إظهار</string>
     <string name="hide">إخفاء</string>
     <string name="profile">الملف الشخصى</string>
+    <string name="choose_new_password">برجاء اختيار كلمة مرور جديدة</string>
+
 </resources>
