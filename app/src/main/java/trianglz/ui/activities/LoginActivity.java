@@ -49,8 +49,6 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         bindViews();
         setListeners();
         getDataFromIntent();
-        ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this, this, getResources().getString(R.string.choose_new_password));
-        changePasswordDialog.show();
     }
 
     private void bindViews() {
