@@ -29,16 +29,18 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
     private Button updateButton;
     private ImageButton cancelButton;
     private View oldPasswordErrorView, newPasswordErrorView;
-    private TextView oldPasswordShow, newPasswordShow, newPasswordError, oldPasswordError;
+    private TextView oldPasswordShow, newPasswordShow, newPasswordError, oldPasswordError, dialogTitleTextView;
     private Context context;
+    private String dialogTitle;
     private DialogConfirmationInterface dialogConfirmationInterface;
 
 
-    public ChangePasswordDialog(@NonNull Context context, DialogConfirmationInterface dialogConfirmationInterface) {
+    public ChangePasswordDialog(@NonNull Context context, DialogConfirmationInterface dialogConfirmationInterface, String dialogTitle) {
         super(context, R.style.ErrorDialog);
         View view = getLayoutInflater().inflate(R.layout.change_password_dialog, null);
         setContentView(view);
         this.context = context;
+        this.dialogTitle = dialogTitle;
         this.dialogConfirmationInterface = dialogConfirmationInterface;
     }
 
@@ -103,6 +105,8 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
         newPasswordErrorView = findViewById(R.id.view_new_password);
         oldPasswordError = findViewById(R.id.old_password_error_tv);
         newPasswordError = findViewById(R.id.new_password_error_tv);
+        dialogTitleTextView = findViewById(R.id.dialog_title_tv);
+        dialogTitleTextView.setText(dialogTitle);
         oldPasswordShow.setTextColor(context.getResources().getColor(Util.checkUserColor()));
         newPasswordShow.setTextColor(context.getResources().getColor(Util.checkUserColor()));
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
