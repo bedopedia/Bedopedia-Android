@@ -49,6 +49,8 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         bindViews();
         setListeners();
         getDataFromIntent();
+        ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this, this, getResources().getString(R.string.choose_new_password));
+        changePasswordDialog.show();
     }
 
     private void bindViews() {
@@ -61,6 +63,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         schoolImageView = findViewById(R.id.img_school);
         backBtn = findViewById(R.id.btn_back);
         parentView = findViewById(R.id.parent_view);
+
     }
 
     private void setListeners() {
@@ -157,7 +160,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         if (errorCode == 401) {
             showErrorDialog(this, -3, getResources().getString(R.string.wrong_username_or_password));
         } else if (errorCode == 406) {
-            ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this,this);
+            ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this, this, getResources().getString(R.string.choose_new_password));
             changePasswordDialog.show();
         } else {
             showErrorDialog(this, errorCode, "");

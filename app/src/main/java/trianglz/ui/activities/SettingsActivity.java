@@ -84,7 +84,7 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
                 errorDialogue.show();
                 break;
             case R.id.btn_change_password:
-                ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this, this);
+                ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this, this, getResources().getString(R.string.change_password));
                 changePasswordDialog.show();
                 break;
             case R.id.btn_share_app:
