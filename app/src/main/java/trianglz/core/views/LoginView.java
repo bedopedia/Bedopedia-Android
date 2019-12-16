@@ -66,46 +66,51 @@ public class LoginView {
         String username = data.optString("username");
         String userId = data.optString("id");
         String id = data.optString("actable_id");
+        Boolean passwordChanged = data.optBoolean("password_changed");
         int unSeenNotification = data.optInt("unseen_notifications");
-        SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
-        String userType = data.optString(Constants.KEY_USER_TYPE);
-        if (userType.equals("parent")) {
-            SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
-            refreshFireBaseToken();
-            loginPresenter.onLoginSuccess();
-        } else if (userType.equals("student")) {
-            SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);
-            int parentId = data.optInt(Constants.PARENT_ID);
-            refreshFireBaseToken();
-            String url = SessionManager.getInstance().getBaseUrl() + "/api/parents/" + parentId + "/children";
-            getStudents(url, id + "",id);
-        } else if(userType.equals("teacher")) {
-            SessionManager.getInstance().setUserType(SessionManager.Actor.TEACHER);
-            String firstName = data.optString("firstname");
-            String lastName = data.optString("lastname");
-            String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);
-            String avtarUrl = data.optString(Constants.KEY_AVATER_URL);
-            Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
-            refreshFireBaseToken();
-            loginPresenter.onLoginSuccess(actor);
-        }else if(userType.equals("hod")){
-            SessionManager.getInstance().setUserType(SessionManager.Actor.HOD);
-            String firstName = data.optString("firstname");
-            String lastName = data.optString("lastname");
-            String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);
-            String avtarUrl = data.optString(Constants.KEY_AVATER_URL);
-            Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
-            refreshFireBaseToken();
-            loginPresenter.onLoginSuccess(actor);
-        }else if(userType.equals("admin")) {
-            SessionManager.getInstance().setUserType(SessionManager.Actor.ADMIN);
-            String firstName = data.optString("firstname");
-            String lastName = data.optString("lastname");
-            String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);
-            String avtarUrl = data.optString(Constants.KEY_AVATER_URL);
-            Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
-            refreshFireBaseToken();
-            loginPresenter.onLoginSuccess(actor);
+        if (passwordChanged) {
+            SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
+            String userType = data.optString(Constants.KEY_USER_TYPE);
+            if (userType.equals("parent")) {
+                SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
+                refreshFireBaseToken();
+                loginPresenter.onLoginSuccess();
+            } else if (userType.equals("student")) {
+                SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);
+                int parentId = data.optInt(Constants.PARENT_ID);
+                refreshFireBaseToken();
+                String url = SessionManager.getInstance().getBaseUrl() + "/api/parents/" + parentId + "/children";
+                getStudents(url, id + "", id);
+            } else if (userType.equals("teacher")) {
+                SessionManager.getInstance().setUserType(SessionManager.Actor.TEACHER);
+                String firstName = data.optString("firstname");
+                String lastName = data.optString("lastname");
+                String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);
+                String avtarUrl = data.optString(Constants.KEY_AVATER_URL);
+                Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+                refreshFireBaseToken();
+                loginPresenter.onLoginSuccess(actor);
+            } else if (userType.equals("hod")) {
+                SessionManager.getInstance().setUserType(SessionManager.Actor.HOD);
+                String firstName = data.optString("firstname");
+                String lastName = data.optString("lastname");
+                String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);
+                String avtarUrl = data.optString(Constants.KEY_AVATER_URL);
+                Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+                refreshFireBaseToken();
+                loginPresenter.onLoginSuccess(actor);
+            } else if (userType.equals("admin")) {
+                SessionManager.getInstance().setUserType(SessionManager.Actor.ADMIN);
+                String firstName = data.optString("firstname");
+                String lastName = data.optString("lastname");
+                String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);
+                String avtarUrl = data.optString(Constants.KEY_AVATER_URL);
+                Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+                refreshFireBaseToken();
+                loginPresenter.onLoginSuccess(actor);
+            }
+        } else {
+            loginPresenter.onLoginFailure("",406);
         }
     }
 
@@ -140,7 +145,7 @@ public class LoginView {
             @Override
             public void onSuccess(JSONArray responseArray) {
                 refreshFireBaseToken();
-                loginPresenter.onGetStudentsHomeSuccess(parseStudentResponse(responseArray,id));
+                loginPresenter.onGetStudentsHomeSuccess(parseStudentResponse(responseArray, id));
             }
 
             @Override
@@ -150,7 +155,7 @@ public class LoginView {
         });
     }
 
-    private ArrayList<Object> parseStudentResponse(JSONArray response,String id) {
+    private ArrayList<Object> parseStudentResponse(JSONArray response, String id) {
         ArrayList<Object> objectArrayList = new ArrayList<>();
         ArrayList<JSONArray> kidsAttendances = new ArrayList<>();
         ArrayList<trianglz.models.Student> myKids = new ArrayList<>();
@@ -171,13 +176,27 @@ public class LoginView {
                         studentData.optString("section_name"),
                         studentData.optString("stage_name"),
                         studentData.optJSONObject("today_workload_status"),
-                        0, studentData.optInt("user_id"),null, null));
+                        0, studentData.optInt("user_id"), null, null));
                 objectArrayList.add(kidsAttendances);
                 objectArrayList.add(myKids);
             }
 
         }
         return objectArrayList;
+
+    }
+    public void changePassword(String url, String currentPassword, int userId, String newPassword) {
+        UserManager.changePassword(url, currentPassword, userId, newPassword, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                loginPresenter.onPasswordChangedSuccess(newPassword);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                loginPresenter.onPasswordChangedFailure(message, errorCode);
+            }
+        });
 
     }
 

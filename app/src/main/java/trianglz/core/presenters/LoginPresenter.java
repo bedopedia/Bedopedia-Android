@@ -13,4 +13,6 @@ public interface LoginPresenter {
     void onLoginFailure(String message,int code);
     void onGetStudentsHomeSuccess(ArrayList<Object> objectArrayList);
     void onGetStudentsHomeFailure(String message,int errorCode);
+    void onPasswordChangedSuccess(String newPassword);
+    void onPasswordChangedFailure(String message, int errorCode);
 }
