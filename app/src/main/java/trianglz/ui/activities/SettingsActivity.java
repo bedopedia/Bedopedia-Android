@@ -163,21 +163,22 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
 
 
     @Override
-    public void onUpdate(String oldPassword, String newPassword) {
+    public void onUpdatePassword(String oldPassword, String newPassword) {
         changePassword(oldPassword, newPassword);
     }
 
     @Override
-    public void onPasswordChangedSuccess() {
+    public void onPasswordChangedSuccess(String newPassword) {
         if (progress.isShowing())
             progress.dismiss();
+        SessionManager.getInstance().setPassword(newPassword);
     }
 
     @Override
     public void onPasswordChangedFailure(String message, int errorCode) {
         if (progress.isShowing())
             progress.dismiss();
-        showErrorDialog(this, -3, message);
+        showErrorDialog(this, errorCode, "");
     }
 
     void changePassword(String oldPassword, String newPassword) {

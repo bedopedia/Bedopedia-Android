@@ -24,7 +24,7 @@ public class SettingsView {
         UserManager.changePassword(url, currentPassword, userId, newPassword, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                settingsPresenter.onPasswordChangedSuccess();
+                settingsPresenter.onPasswordChangedSuccess(newPassword);
             }
 
             @Override
