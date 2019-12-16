@@ -19,10 +19,12 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+import trianglz.components.ChangePasswordDialog;
 import trianglz.components.HideKeyboardOnTouch;
 import trianglz.core.presenters.LoginPresenter;
 import trianglz.core.views.LoginView;
 import trianglz.managers.SessionManager;
+import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
 import trianglz.models.School;
 import trianglz.models.Student;
@@ -30,7 +32,7 @@ import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
 public class LoginActivity extends SuperActivity implements View.OnClickListener, LoginPresenter,
-        TextView.OnEditorActionListener {
+        TextView.OnEditorActionListener, ChangePasswordDialog.DialogConfirmationInterface {
     private MaterialEditText emailEditText;
     private MaterialEditText passwordEditText;
     private Button loginBtn;
@@ -154,6 +156,9 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         }
         if (errorCode == 401) {
             showErrorDialog(this, -3, getResources().getString(R.string.wrong_username_or_password));
+        } else if (errorCode == 406) {
+            ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this,this);
+            changePasswordDialog.show();
         } else {
             showErrorDialog(this, errorCode, "");
         }
@@ -232,5 +237,31 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         bundle.putSerializable(Constants.KEY_ATTENDANCE, studentAttendance.toString());
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
+    }
+
+    @Override
+    public void onUpdatePassword(String oldPassword, String newPassword) {
+        changePassword(oldPassword, newPassword);
+    }
+
+    @Override
+    public void onPasswordChangedSuccess(String newPassword) {
+        if (progress.isShowing())
+            progress.dismiss();
+        SessionManager.getInstance().setPassword(newPassword);
+    }
+
+    @Override
+    public void onPasswordChangedFailure(String message, int errorCode) {
+        if (progress.isShowing())
+            progress.dismiss();
+        showErrorDialog(this, errorCode, "");
+    }
+
+    void changePassword(String oldPassword, String newPassword) {
+        int userId = Integer.parseInt(SessionManager.getInstance().getUserId());
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.changePassword(userId);
+        loginView.changePassword(url, oldPassword, userId, newPassword);
+        showLoadingDialog();
     }
 }
