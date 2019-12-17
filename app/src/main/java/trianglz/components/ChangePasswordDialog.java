@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import java.util.HashMap;
+
 import trianglz.managers.SessionManager;
 import trianglz.utils.Util;
 
@@ -32,8 +34,9 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
     private TextView oldPasswordShow, newPasswordShow, newPasswordError, oldPasswordError, dialogTitleTextView;
     private Context context;
     private String dialogTitle;
+    public int userId;
     private DialogConfirmationInterface dialogConfirmationInterface;
-
+    public HashMap<String, String> headerHashMap;
 
     public ChangePasswordDialog(@NonNull Context context, DialogConfirmationInterface dialogConfirmationInterface, String dialogTitle) {
         super(context, R.style.ErrorDialog);
@@ -136,7 +139,7 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
                 boolean oldValid = validate(oldPasswordEditText.getText().toString(), oldPasswordError, oldPasswordErrorView);
                 boolean newValid = validate(newPasswordEditText.getText().toString(), newPasswordError, newPasswordErrorView);
                 if (newValid && oldValid) {
-                    dialogConfirmationInterface.onUpdatePassword(oldPasswordEditText.getText().toString(), newPasswordEditText.getText().toString());
+                    dialogConfirmationInterface.onUpdatePassword(oldPasswordEditText.getText().toString(), newPasswordEditText.getText().toString(), headerHashMap, userId);
                     dismiss();
                 }
                 break;
@@ -149,7 +152,7 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
     }
 
     public interface DialogConfirmationInterface {
-        void onUpdatePassword(String oldPassword, String newPassword);
+        void onUpdatePassword(String oldPassword, String newPassword, HashMap<String, String> headerHashMap, int userId);
     }
 
     private void showHidePassword(EditText editText, TextView textView) {
