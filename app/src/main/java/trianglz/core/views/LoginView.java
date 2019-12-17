@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import trianglz.core.presenters.LoginPresenter;
 import trianglz.managers.SessionManager;
@@ -110,7 +111,7 @@ public class LoginView {
                 loginPresenter.onLoginSuccess(actor);
             }
         } else {
-            loginPresenter.onLoginFailure("",406);
+            loginPresenter.onLoginFailure("", 406);
         }
     }
 
@@ -185,8 +186,9 @@ public class LoginView {
         return objectArrayList;
 
     }
-    public void changePassword(String url, String currentPassword, int userId, String newPassword) {
-        UserManager.changePassword(url, currentPassword, userId, newPassword, new ResponseListener() {
+
+    public void changePassword(String url, String currentPassword, int userId, String newPassword, HashMap<String, String> headerHashMap) {
+        UserManager.changePassword(url, currentPassword, userId, newPassword, headerHashMap, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 loginPresenter.onPasswordChangedSuccess(newPassword);

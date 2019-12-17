@@ -1133,8 +1133,7 @@ public class UserManager {
         });
     }
 
-    public static void changePassword(String url, String currentPassword, int userId, String newPassword, ResponseListener responseListener) {
-        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+    public static void changePassword(String url, String currentPassword, int userId, String newPassword, HashMap<String, String> headerHashMap, ResponseListener responseListener) {
         JSONObject rootJsonObject = new JSONObject();
         JSONObject userJsonObject = new JSONObject();
         try {

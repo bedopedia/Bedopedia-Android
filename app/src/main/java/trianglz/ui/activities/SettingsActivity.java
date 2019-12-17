@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import java.util.HashMap;
+
 import trianglz.components.ChangePasswordDialog;
 import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
@@ -163,7 +165,7 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
 
 
     @Override
-    public void onUpdatePassword(String oldPassword, String newPassword) {
+    public void onUpdatePassword(String oldPassword, String newPassword, HashMap<String, String> headerHashMap, int userId) {
         changePassword(oldPassword, newPassword);
     }
 
@@ -187,4 +189,6 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
         settingsView.changePassword(url, oldPassword, userId, newPassword);
         showLoadingDialog();
     }
+
+
 }

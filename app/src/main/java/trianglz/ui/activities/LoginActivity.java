@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import trianglz.components.ChangePasswordDialog;
 import trianglz.components.HideKeyboardOnTouch;
@@ -160,6 +161,9 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         } else if (errorCode == 406) {
             ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this, this, getResources().getString(R.string.choose_new_password));
             changePasswordDialog.show();
+            changePasswordDialog.headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+            changePasswordDialog.userId = Integer.parseInt(SessionManager.getInstance().getUserId());
+            SessionManager.getInstance().logoutUser();
         } else {
             showErrorDialog(this, errorCode, "");
         }
@@ -241,9 +245,10 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     }
 
     @Override
-    public void onUpdatePassword(String oldPassword, String newPassword) {
-        changePassword(oldPassword, newPassword);
+    public void onUpdatePassword(String oldPassword, String newPassword, HashMap<String, String> headerHashMap, int userId) {
+        changePassword(oldPassword, newPassword, headerHashMap, userId);
     }
+
 
     @Override
     public void onPasswordChangedSuccess(String newPassword) {
@@ -259,10 +264,11 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         showErrorDialog(this, errorCode, "");
     }
 
-    void changePassword(String oldPassword, String newPassword) {
-        int userId = Integer.parseInt(SessionManager.getInstance().getUserId());
+    void changePassword(String oldPassword, String newPassword, HashMap<String, String> headerHashMap, int userId) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.changePassword(userId);
-        loginView.changePassword(url, oldPassword, userId, newPassword);
+        loginView.changePassword(url, oldPassword, userId, newPassword, headerHashMap);
         showLoadingDialog();
     }
+
+
 }

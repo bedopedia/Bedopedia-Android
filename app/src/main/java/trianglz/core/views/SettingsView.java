@@ -5,6 +5,7 @@ import android.content.Context;
 import org.json.JSONObject;
 
 import trianglz.core.presenters.SettingsPresenter;
+import trianglz.managers.SessionManager;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 
@@ -21,7 +22,7 @@ public class SettingsView {
     }
 
     public void changePassword(String url, String currentPassword, int userId, String newPassword) {
-        UserManager.changePassword(url, currentPassword, userId, newPassword, new ResponseListener() {
+        UserManager.changePassword(url, currentPassword, userId, newPassword, SessionManager.getInstance().getHeaderHashMap(), new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 settingsPresenter.onPasswordChangedSuccess(newPassword);
