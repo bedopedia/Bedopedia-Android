@@ -124,26 +124,10 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_show_old_password:
-                if (oldPasswordEditText.getTransformationMethod() instanceof PasswordTransformationMethod) {
-                    oldPasswordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    oldPasswordShow.setText(context.getResources().getString(R.string.hide));
-                    oldPasswordShow.setTextColor(context.getResources().getColor(R.color.warm_grey));
-                } else {
-                    oldPasswordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    oldPasswordShow.setText(context.getResources().getString(R.string.show));
-                    oldPasswordShow.setTextColor(context.getResources().getColor(Util.checkUserColor()));
-                }
+                showHidePassword(oldPasswordEditText, oldPasswordShow);
                 break;
             case R.id.btn_show_new_password:
-                if (newPasswordEditText.getTransformationMethod() instanceof PasswordTransformationMethod) {
-                    newPasswordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    newPasswordShow.setText(context.getResources().getString(R.string.hide));
-                    newPasswordShow.setTextColor(context.getResources().getColor(R.color.warm_grey));
-                } else {
-                    newPasswordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    newPasswordShow.setText(context.getResources().getString(R.string.show));
-                    newPasswordShow.setTextColor(context.getResources().getColor(Util.checkUserColor()));
-                }
+                showHidePassword(newPasswordEditText, newPasswordShow);
                 break;
             case R.id.cancel_btn:
                 dismiss();
@@ -166,6 +150,19 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
 
     public interface DialogConfirmationInterface {
         void onUpdatePassword(String oldPassword, String newPassword);
+    }
+
+    private void showHidePassword(EditText editText, TextView textView) {
+        if (editText.getTransformationMethod() instanceof PasswordTransformationMethod) {
+            editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            textView.setText(context.getResources().getString(R.string.hide));
+            textView.setTextColor(context.getResources().getColor(R.color.warm_grey));
+        } else {
+            editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            textView.setText(context.getResources().getString(R.string.show));
+            textView.setTextColor(context.getResources().getColor(Util.checkUserColor()));
+        }
+        editText.setSelection(editText.length());
     }
 
     public boolean validate(String password, TextView textView, View view) {
