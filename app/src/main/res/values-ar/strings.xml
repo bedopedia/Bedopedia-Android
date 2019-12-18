@@ -261,12 +261,13 @@
     <string name="language">اللغة (العربية)</string>
     <string name="try_app_now">أنصحك بإستخدام Skolera حمله الآن!</string>
     <string name="share_via">مشاركة Skolera عبر</string>
-    <string name="old_password">كلمة السر الحالية</string>
-    <string name="new_password">كلمة السر الجديدة</string>
+    <string name="old_password">كلمة المرور الحالية</string>
+    <string name="new_password">كلمة المرور الجديدة</string>
     <string name="update">تعديل</string>
     <string name="show">إظهار</string>
     <string name="hide">إخفاء</string>
     <string name="profile">الملف الشخصى</string>
     <string name="choose_new_password">برجاء اختيار كلمة مرور جديدة</string>
-
+    <string name="confirm_new_password">تأكيد كلمة المرور الجديدة</string>
+    <string name="not_same_password">كلمة المرور والتأكيد لا تتطابق</string>
 </resources>

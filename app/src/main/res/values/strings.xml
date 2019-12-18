@@ -286,10 +286,11 @@
     <string name="share_via">Share Skolera via</string>
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>
+    <string name="confirm_new_password">Confirm new password</string>
     <string name="update">Update</string>
     <string name="show">Show</string>
     <string name="hide">Hide</string>
     <string name="profile">Profile</string>
     <string name="choose_new_password">Please choose a new password</string>
-
+    <string name="not_same_password">The password and confirmation do not match</string>
     </resources>
