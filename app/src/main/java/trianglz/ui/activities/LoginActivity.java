@@ -163,6 +163,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
             changePasswordDialog.show();
             changePasswordDialog.headerHashMap = SessionManager.getInstance().getHeaderHashMap();
             changePasswordDialog.userId = Integer.parseInt(SessionManager.getInstance().getUserId());
+            changePasswordDialog.setOldPasswordValue(passwordEditText.getText().toString());
             SessionManager.getInstance().logoutUser();
         } else {
             showErrorDialog(this, errorCode, "");
