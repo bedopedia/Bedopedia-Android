@@ -27,11 +27,11 @@ import trianglz.utils.Util;
  */
 public class ChangePasswordDialog extends Dialog implements DialogInterface.OnShowListener, View.OnClickListener {
 
-    private EditText oldPasswordEditText, newPasswordEditText;
+    private EditText oldPasswordEditText, newPasswordEditText, confirmNewPasswordEditText;
     private Button updateButton;
     private ImageButton cancelButton;
-    private View oldPasswordErrorView, newPasswordErrorView;
-    private TextView oldPasswordShow, newPasswordShow, newPasswordError, oldPasswordError, dialogTitleTextView;
+    private View oldPasswordErrorView, newPasswordErrorView, confirmNewPasswordErrorView;
+    private TextView oldPasswordShow, newPasswordShow, confirmNewPasswordShow, oldPasswordError, newPasswordError, confirmNewPasswordError, dialogTitleTextView;
     private Context context;
     private String dialogTitle;
     public int userId;
@@ -59,6 +59,7 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
         updateButton.setOnClickListener(this);
         newPasswordShow.setOnClickListener(this);
         oldPasswordShow.setOnClickListener(this);
+        confirmNewPasswordShow.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
         oldPasswordEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -100,18 +101,23 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
         getWindow().setDimAmount((float) 0.3);
         oldPasswordEditText = findViewById(R.id.et_old_password);
         newPasswordEditText = findViewById(R.id.et_new_password);
+        confirmNewPasswordEditText = findViewById(R.id.et_confirm_new_password);
         oldPasswordShow = findViewById(R.id.btn_show_old_password);
         newPasswordShow = findViewById(R.id.btn_show_new_password);
+        confirmNewPasswordShow = findViewById(R.id.btn_show_confirm_new_password);
         updateButton = findViewById(R.id.update_btn);
         cancelButton = findViewById(R.id.cancel_btn);
         oldPasswordErrorView = findViewById(R.id.view_old_password);
         newPasswordErrorView = findViewById(R.id.view_new_password);
+        confirmNewPasswordErrorView = findViewById(R.id.view_confirm_password);
         oldPasswordError = findViewById(R.id.old_password_error_tv);
         newPasswordError = findViewById(R.id.new_password_error_tv);
+        confirmNewPasswordError = findViewById(R.id.confirm_password_error_tv);
         dialogTitleTextView = findViewById(R.id.dialog_title_tv);
         dialogTitleTextView.setText(dialogTitle);
         oldPasswordShow.setTextColor(context.getResources().getColor(Util.checkUserColor()));
         newPasswordShow.setTextColor(context.getResources().getColor(Util.checkUserColor()));
+        confirmNewPasswordShow.setTextColor(context.getResources().getColor(Util.checkUserColor()));
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             updateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_salmon_25dp, null));
         } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
@@ -132,19 +138,21 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
             case R.id.btn_show_new_password:
                 showHidePassword(newPasswordEditText, newPasswordShow);
                 break;
+            case R.id.btn_show_confirm_new_password:
+                showHidePassword(confirmNewPasswordEditText, confirmNewPasswordShow);
+                break;
             case R.id.cancel_btn:
                 dismiss();
                 break;
             case R.id.update_btn:
-                boolean oldValid = validate(oldPasswordEditText.getText().toString(), oldPasswordError, oldPasswordErrorView);
-                boolean newValid = validate(newPasswordEditText.getText().toString(), newPasswordError, newPasswordErrorView);
-                if (newValid && oldValid) {
+                if (validateFields()) {
                     dialogConfirmationInterface.onUpdatePassword(oldPasswordEditText.getText().toString(), newPasswordEditText.getText().toString(), headerHashMap, userId);
                     dismiss();
                 }
                 break;
         }
     }
+
 
     @Override
     public void onShow(DialogInterface dialog) {
@@ -168,7 +176,11 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
         editText.setSelection(editText.length());
     }
 
-    public boolean validate(String password, TextView textView, View view) {
+    public void setOldPasswordValue(String oldPasswordValue) {
+        oldPasswordEditText.setText(oldPasswordValue);
+    }
+
+    private boolean validate(String password, TextView textView, View view) {
         boolean valid = true;
         if (password.isEmpty() || password.length() < 5) {
             textView.setVisibility(View.VISIBLE);
@@ -179,6 +191,27 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
                 view.setBackgroundColor(context.getResources().getColor(R.color.tomato));
                 textView.setText(context.getResources().getString(R.string.password_length_error));
             }
+            valid = false;
+        }
+        return valid;
+    }
+
+    private boolean validateFields() {
+        boolean confirmNewMatch = false;
+        boolean oldValid = validate(oldPasswordEditText.getText().toString(), oldPasswordError, oldPasswordErrorView);
+        boolean newValid = validate(newPasswordEditText.getText().toString(), newPasswordError, newPasswordErrorView);
+        boolean confirmNewValid = validate(confirmNewPasswordEditText.getText().toString(), confirmNewPasswordError, confirmNewPasswordErrorView);
+        if (oldValid && newValid && confirmNewValid) {
+            confirmNewMatch = validateNewPassword(newPasswordEditText.getText().toString(), confirmNewPasswordEditText.getText().toString(), confirmNewPasswordError, confirmNewPasswordErrorView);
+        }
+        return oldValid && newValid && confirmNewValid && confirmNewMatch;
+    }
+
+    private boolean validateNewPassword(String newPassword, String confirmNewPassword, TextView textView, View view) {
+        boolean valid = true;
+        if (!newPassword.equals(confirmNewPassword)) {
+            view.setBackgroundColor(context.getResources().getColor(R.color.tomato));
+            textView.setText(context.getResources().getString(R.string.not_same_password));
             valid = false;
         }
         return valid;
