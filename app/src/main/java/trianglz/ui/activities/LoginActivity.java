@@ -41,6 +41,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     private School school;
     private ImageView schoolImageView;
     private ImageButton backBtn;
+    private String baseUrl;
     private LinearLayout parentView;
 
     @Override
@@ -62,6 +63,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         schoolImageView = findViewById(R.id.img_school);
         backBtn = findViewById(R.id.btn_back);
         parentView = findViewById(R.id.parent_view);
+        baseUrl = SessionManager.getInstance().getBaseUrl();
 
     }
 
@@ -262,11 +264,11 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     public void onPasswordChangedFailure(String message, int errorCode) {
         if (progress.isShowing())
             progress.dismiss();
-        showErrorDialog(this, errorCode, "");
+        showErrorDialog(this, -3, message);
     }
 
     void changePassword(String oldPassword, String newPassword, HashMap<String, String> headerHashMap, int userId) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.changePassword(userId);
+        String url = baseUrl + ApiEndPoints.changePassword(userId);
         loginView.changePassword(url, oldPassword, userId, newPassword, headerHashMap);
         showLoadingDialog();
     }

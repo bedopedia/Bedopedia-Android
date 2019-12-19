@@ -361,7 +361,12 @@ public class NetworkManager {
                 return "";
             }
             JSONObject errorBody = new JSONObject(anError.getErrorBody());
-            message = errorBody.optString(Constants.KEY_MESSAGE);
+            if(errorBody.has(Constants.KEY_REASONS)){
+                JSONArray jsonArray = errorBody.optJSONArray(Constants.KEY_REASONS);
+                message = jsonArray.optString(0);
+            }else{
+                message = errorBody.optString(Constants.KEY_MESSAGE);
+            }
             return message;
         } catch (JSONException e) {
             e.printStackTrace();

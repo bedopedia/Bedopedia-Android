@@ -180,7 +180,7 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
     public void onPasswordChangedFailure(String message, int errorCode) {
         if (progress.isShowing())
             progress.dismiss();
-        showErrorDialog(this, errorCode, "");
+        showErrorDialog(this, -3, message);
     }
 
     void changePassword(String oldPassword, String newPassword) {
