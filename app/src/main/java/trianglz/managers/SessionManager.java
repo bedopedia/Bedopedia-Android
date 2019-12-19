@@ -134,7 +134,7 @@ public class SessionManager {
 
     public void logoutUser() {
         mEditor.clear();
-        mEditor.commit();
+        mEditor.apply();
     }
 
     public void setNotificationCounterToZero() {
