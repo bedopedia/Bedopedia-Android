@@ -258,6 +258,8 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         if (progress.isShowing())
             progress.dismiss();
         SessionManager.getInstance().setPassword(newPassword);
+        passwordEditText.setText("");
+        emailEditText.setText("");
     }
 
     @Override
