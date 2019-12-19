@@ -95,6 +95,23 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
 
             }
         });
+        confirmNewPasswordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                confirmNewPasswordErrorView.setBackgroundColor(context.getResources().getColor(R.color.greyish));
+                confirmNewPasswordError.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void bindViews() {
@@ -210,6 +227,7 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
     private boolean validateNewPassword(String newPassword, String confirmNewPassword, TextView textView, View view) {
         boolean valid = true;
         if (!newPassword.equals(confirmNewPassword)) {
+            textView.setVisibility(View.VISIBLE);
             view.setBackgroundColor(context.getResources().getColor(R.color.tomato));
             textView.setText(context.getResources().getString(R.string.not_same_password));
             valid = false;
