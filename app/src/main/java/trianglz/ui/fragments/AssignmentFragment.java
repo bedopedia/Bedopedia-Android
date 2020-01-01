@@ -17,13 +17,13 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import trianglz.components.TopItemDecoration;
-import trianglz.core.presenters.SingleAssignmentPresenter;
-import trianglz.core.views.SingleAssignmentView;
-import trianglz.models.AssignmentsDetail;
 import trianglz.models.SingleAssignment;
 import trianglz.models.UploadedObject;
 import trianglz.ui.activities.StudentMainActivity;
@@ -34,17 +34,15 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 04/09/2019.
  */
-public class AssignmentFragment extends Fragment implements AttachmentAdapter.AttachmentAdapterInterface, SingleAssignmentPresenter, View.OnClickListener {
+public class AssignmentFragment extends Fragment implements AttachmentAdapter.AttachmentAdapterInterface, View.OnClickListener {
 
     private StudentMainActivity activity;
     private View rootView;
-    private AssignmentsDetail assignmentsDetail;
-    private TextView courseNameTextView, courseDescriptionTextView;
+    private TextView courseNameTextView;
+    private HtmlTextView courseDescriptionTextView;
     private RecyclerView recyclerView;
     private AttachmentAdapter adapter;
-    private SingleAssignmentView singleAssignmentView;
-    private int courseId;
-    private String studentName;
+    private SingleAssignment singleAssignment;
     private CardView cardView;
     private ImageButton backBtn;
 
@@ -52,8 +50,6 @@ public class AssignmentFragment extends Fragment implements AttachmentAdapter.At
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-//        activity.toolbarView.setVisibility(View.GONE);
-//        activity.headerLayout.setVisibility(View.GONE);
         rootView = inflater.inflate(R.layout.activity_assignment, container, false);
         return rootView;
     }
@@ -61,46 +57,43 @@ public class AssignmentFragment extends Fragment implements AttachmentAdapter.At
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ReadIntent();
+        readIntent();
         bindViews();
         setListeners();
-    //    onBackPress();
-        activity.showLoadingDialog();
-        singleAssignmentView.showAssignment(courseId, assignmentsDetail.getId());
     }
 
 
-    private void ReadIntent() {
+    private void readIntent() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            assignmentsDetail = AssignmentsDetail.create(bundle.getString(Constants.KEY_ASSIGNMENT_DETAIL));
-            courseId = bundle.getInt(Constants.KEY_COURSE_ID, 0);
-            studentName = bundle.getString(Constants.KEY_STUDENT_NAME);
+            singleAssignment = SingleAssignment.create(bundle.getString(Constants.KEY_ASSIGNMENT_DETAIL));
         }
     }
 
     private void bindViews() {
         backBtn = rootView.findViewById(R.id.btn_back);
         courseNameTextView = rootView.findViewById(R.id.tv_course_name);
-        courseDescriptionTextView = rootView.findViewById(R.id.tv_course_description);
-        cardView = rootView.findViewById(R.id.card_view);
-        if (assignmentsDetail.getName() == null || assignmentsDetail.getName().isEmpty()) {
+        if (singleAssignment.getName() == null || singleAssignment.getName().isEmpty()) {
             courseNameTextView.setText(getResources().getString(R.string.assignments));
         } else {
-            courseNameTextView.setText(assignmentsDetail.getName());
+            courseNameTextView.setText(singleAssignment.getName());
         }
-        if (assignmentsDetail.getDescription() == null || assignmentsDetail.getDescription().isEmpty()) {
+        cardView = rootView.findViewById(R.id.card_view);
+        courseDescriptionTextView = rootView.findViewById(R.id.tv_course_description);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
+        if (singleAssignment.getContent() == null || singleAssignment.getContent().isEmpty()) {
             cardView.setVisibility(View.GONE);
         } else {
             cardView.setVisibility(View.VISIBLE);
-            courseDescriptionTextView.setText(assignmentsDetail.getDescription());
+            courseDescriptionTextView.setHtml(singleAssignment.getContent(), new HtmlHttpImageGetter(courseDescriptionTextView
+            ));
         }
-        recyclerView = rootView.findViewById(R.id.recycler_view);
         adapter = new AttachmentAdapter(activity, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16, activity), false));
-        singleAssignmentView = new SingleAssignmentView(activity, this);
+        ArrayList<UploadedObject> uploadedObjects = new ArrayList<>(Arrays.asList(singleAssignment.getUploadedFiles()));
+        adapter.addData(uploadedObjects);
     }
 
     private void setListeners() {
@@ -114,25 +107,6 @@ public class AssignmentFragment extends Fragment implements AttachmentAdapter.At
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
         }
-    }
-
-    @Override
-    public void onShowAssignmentSuccess(SingleAssignment singleAssignment) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
-        ArrayList<UploadedObject> uploadedObjects = new ArrayList<>(Arrays.asList(singleAssignment.getUploadedFiles()));
-        adapter.addData(uploadedObjects);
-    }
-
-    @Override
-    public void onShowAssignmentFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
-        activity.showErrorDialog(activity, errorCode,"");
-
-
     }
 
     @Override
