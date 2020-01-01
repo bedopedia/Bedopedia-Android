@@ -27,10 +27,13 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.AssignmentsDetailPresenter;
+import trianglz.core.presenters.SingleAssignmentPresenter;
 import trianglz.core.views.AssignmentsDetailView;
+import trianglz.core.views.SingleAssignmentView;
 import trianglz.managers.SessionManager;
 import trianglz.models.AssignmentsDetail;
 import trianglz.models.CourseGroups;
+import trianglz.models.SingleAssignment;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.AssignmentDetailAdapter;
@@ -40,7 +43,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 04/09/2019.
  */
-public class AssignmentDetailFragment extends Fragment implements View.OnClickListener, AssignmentsDetailPresenter, AssignmentDetailAdapter.AssignmentDetailInterface {
+public class AssignmentDetailFragment extends Fragment implements View.OnClickListener, AssignmentsDetailPresenter, SingleAssignmentPresenter, AssignmentDetailAdapter.AssignmentDetailInterface {
 
     private StudentMainActivity activity;
     private View rootView;
@@ -53,13 +56,14 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     private AssignmentsDetailView assignmentsDetailView;
     private ArrayList<AssignmentsDetail> assignmentsDetailArrayList;
     private String courseName = "";
-    private TextView headerTextView,placeholderTextView;
+    private TextView headerTextView, placeholderTextView;
     private RadioButton openButton, closedButton;
     private SegmentedGroup segmentedGroup;
     private int courseId;
     private String studentName;
     private CourseGroups courseGroups;
     private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private SingleAssignmentView singleAssignmentView;
 
     @Nullable
     @Override
@@ -109,7 +113,8 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         placeholderTextView = rootView.findViewById(R.id.placeholder_tv);
-        showHidePlaceholder(getArrayList(true),true);
+        singleAssignmentView = new SingleAssignmentView(activity, this);
+        showHidePlaceholder(getArrayList(true), true);
 
         headerTextView = rootView.findViewById(R.id.tv_header);
         headerTextView.setText(courseName);
@@ -155,10 +160,10 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_open:
-                showHidePlaceholder(getArrayList(true),true);
+                showHidePlaceholder(getArrayList(true), true);
                 break;
             case R.id.btn_closed:
-                showHidePlaceholder(getArrayList(false),false);
+                showHidePlaceholder(getArrayList(false), false);
                 break;
         }
     }
@@ -166,21 +171,8 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     @Override
     public void onItemClicked(AssignmentsDetail assignmentsDetail) {
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            if ((assignmentsDetail.getDescription() == null || assignmentsDetail.getDescription().trim().isEmpty()) && assignmentsDetail.getUploadedFilesCount() == 0)
-            {
-                activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.no_content));
-            } else{
-                AssignmentFragment assignmentFragment = new AssignmentFragment();
-                Bundle bundle = new Bundle();
-                if (courseId != 0) bundle.putInt(Constants.KEY_COURSE_ID, courseId);
-                bundle.putString(Constants.KEY_STUDENT_NAME, studentName);
-                bundle.putString(Constants.KEY_ASSIGNMENT_DETAIL, assignmentsDetail.toString());
-                assignmentFragment.setArguments(bundle);
-                getParentFragment().getChildFragmentManager().
-                        beginTransaction().add(R.id.menu_fragment_root, assignmentFragment, "MenuFragments").
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                        addToBackStack(null).commit();
-            }
+            singleAssignmentView.showAssignment(courseId, assignmentsDetail.getId());
+            activity.showLoadingDialog();
         } else {
             GradingFragment gradingFragment = new GradingFragment();
             Bundle bundle = new Bundle();
@@ -209,9 +201,9 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
 
     private void showHidePlaceholder(ArrayList<AssignmentsDetail> assignmentsDetails, Boolean isOpen) {
         if (assignmentsDetails.isEmpty()) {
-            if(isOpen){
+            if (isOpen) {
                 placeholderTextView.setText(activity.getResources().getString(R.string.open_assignments_placeholder));
-            }else{
+            } else {
                 placeholderTextView.setText(activity.getResources().getString(R.string.closed_assignments_placeholder));
             }
             listFrameLayout.setVisibility(View.GONE);
@@ -221,5 +213,33 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             placeholderFrameLayout.setVisibility(View.GONE);
             adapter.addData(assignmentsDetails);
         }
+    }
+
+    @Override
+    public void onShowAssignmentSuccess(SingleAssignment singleAssignment) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        if ((singleAssignment.getContent() == null || singleAssignment.getContent().trim().isEmpty()) && singleAssignment.getUploadedFiles().length == 0) {
+            activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.no_content));
+        } else {
+            AssignmentFragment assignmentFragment = new AssignmentFragment();
+            Bundle bundle = new Bundle();
+            if (courseId != 0) bundle.putInt(Constants.KEY_COURSE_ID, courseId);
+            bundle.putString(Constants.KEY_STUDENT_NAME, studentName);
+            bundle.putString(Constants.KEY_ASSIGNMENT_DETAIL, singleAssignment.toString());
+            assignmentFragment.setArguments(bundle);
+            getParentFragment().getChildFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, assignmentFragment, "MenuFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+        }
+    }
+
+    @Override
+    public void onShowAssignmentFailure(String message, int errorCode) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        activity.showErrorDialog(activity, errorCode, "");
+
     }
 }
