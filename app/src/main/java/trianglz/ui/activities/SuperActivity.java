@@ -1,10 +1,16 @@
 package trianglz.ui.activities;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.skolera.skolera_android.R;
 
 import trianglz.components.ErrorDialog;
@@ -25,8 +31,14 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
         superView = new SuperView(this, this);
         progress = new LoadingDialog(this, R.style.LoadingDialog);
         progress.setCancelable(false);
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkVersionOnStore();
+    }
 
     public void showLoadingDialog() {
       //  progress.setTitle(R.string.LoadDialogueTitle);
@@ -61,5 +73,33 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocalHelper.onAttach(base, "en"));
+    }
+
+    private void checkVersionOnStore() {
+        AppUpdater appUpdater = new AppUpdater(this)
+                .setDisplay(Display.DIALOG)
+                .showEvery(1)
+                .setUpdateFrom(UpdateFrom.GOOGLE_PLAY)
+                .setTitleOnUpdateAvailable(getResources().getString(R.string.update_is_available))
+                .setContentOnUpdateAvailable(getResources().getString(R.string.check_latest_version))
+                .setButtonDoNotShowAgain("")
+                .setButtonDismiss("")
+                .setButtonUpdate(getResources().getString(R.string.update_now))
+                .setButtonUpdateClickListener((dialogInterface, i) -> openStore())
+                .setCancelable(false);
+        appUpdater.start();
+    }
+
+
+    private void openStore() {
+        try {
+            Uri uri = Uri.parse("market://details?id=" + getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id="
+                            + getPackageName())));
+        }
     }
 }

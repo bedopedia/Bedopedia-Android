@@ -137,8 +137,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             } else {
                 Util.showNoInternetConnectionDialog(getParentActivity());
             }
-        } else {
-            checkVersionOnStore();
         }
         return rootView;
 
@@ -710,44 +708,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private void openNotificationsActivity() {
         Intent myIntent = new Intent(getActivity(), NotificationsActivity.class);
         startActivity(myIntent);
-    }
-
-    private void checkVersionOnStore() {
-        AppUpdater appUpdater = new AppUpdater(getParentActivity())
-                .setDisplay(Display.DIALOG)
-                .showEvery(1)
-                .setUpdateFrom(UpdateFrom.GOOGLE_PLAY)
-                .setTitleOnUpdateAvailable(getParentActivity().getResources().getString(R.string.update_is_available))
-                .setContentOnUpdateAvailable(getParentActivity().getResources().getString(R.string.check_latest_version))
-                .setButtonUpdate(getParentActivity().getResources().getString(R.string.cancel))
-                .setButtonUpdateClickListener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                })
-                .setButtonDismiss("")
-                .setButtonDoNotShowAgain(getParentActivity().getResources().getString(R.string.update_now))
-                .setButtonDoNotShowAgainClickListener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        openStore();
-                    }
-                })
-                .setCancelable(false); // Dialog could not be;
-        appUpdater.start();
-    }
-
-    private void openStore() {
-        try {
-            Uri uri = Uri.parse("market://details?id=" + getParentActivity().getPackageName());
-            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(goToMarket);
-        } catch (ActivityNotFoundException e) {
-            startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id="
-                            + getParentActivity().getPackageName())));
-        }
     }
 
     private void openAssignmentDetailActivity() {
