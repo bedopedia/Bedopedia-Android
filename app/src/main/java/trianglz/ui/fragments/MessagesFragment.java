@@ -23,6 +23,7 @@ import trianglz.core.views.ContactTeacherView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
+import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.models.Student;
 import trianglz.ui.activities.ChatActivity;
@@ -151,12 +152,27 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
+    public void onGetSingleThreadSuccess(ArrayList<Message> messages,int position) {
+        //todo call get messages
+        MessageThread messageThread = contactTeacherAdapter.mDataList.get(position);
+        messageThread.messageArrayList.clear();
+        messageThread.messageArrayList.addAll(messages);
+        openChatActivity(messageThread);
+    }
+
+    @Override
+    public void onGetSingleThreadFailure(String message, int errorCode) {
+        activity.showErrorDialog(activity, errorCode, "");
+    }
+
+    @Override
     public void onThreadClicked(int position) {
         if (!isOpeningThread) {
             if (Util.isNetworkAvailable(getActivity())) {
                 isOpeningThread = true;
                 MessageThread messageThread = contactTeacherAdapter.mDataList.get(position);
-                openChatActivity(messageThread);
+                String url = SessionManager.getInstance().getBaseUrl() +ApiEndPoints.getSingleThread(messageThread.id);
+                contactTeacherView.getSingleThread(url,position);
             } else {
                 Util.showNoInternetConnectionDialog(getActivity());
             }

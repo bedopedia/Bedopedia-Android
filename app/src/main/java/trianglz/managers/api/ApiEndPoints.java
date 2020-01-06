@@ -15,8 +15,8 @@ public class ApiEndPoints {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/student_grade";
     }
 
-    public static String studentGradeBook(int courseId, int courseGroupId) {
-        return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/student_grade_book";
+    public static String studentGradeBook(int courseId, int courseGroupId, int studentId) {
+        return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/student_grade_book?student_id=" + studentId;
     }
 
     public static String showAssignment(int courseId, int assignmentId) {
@@ -93,6 +93,10 @@ public class ApiEndPoints {
 
     public static String getThreads() {
         return "/api/threads";
+    }
+
+    public static String getSingleThread(int threadId) {
+        return "/api/threads/" + threadId + "/messages";
     }
 
     public static String getCourseGroups(int studentId) {

@@ -186,6 +186,8 @@ public class Constants {
 
     public static final String KEY_IS_STUDENT_ACCOUNT = "isStudentAccount";
     public static final String KEY_UPLOADED_OBJECTS = "uploaded_objects";
+    public static final String KEY_UPLOADED_FILES = "uploaded_files";
+
     public static final String POST_DETAILS = "post_details";
     public static final String CONTENT = "content";
     public static final String POST_ID = "post_id";
@@ -258,6 +260,8 @@ public class Constants {
     public static final String KEY_PASSWORD_CONFIRMATION ="password_confirmation";
     public static final String KEY_RESET_PASSWORD ="reset_password";
     public static final String KEY_REASONS ="reasons";
+
+    public static final String KEY_SENDER_DATA="sender_data";
 
 }
 

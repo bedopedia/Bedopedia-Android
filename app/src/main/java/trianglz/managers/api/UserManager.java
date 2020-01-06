@@ -327,6 +327,7 @@ public class UserManager {
 
     public static void getStudentGradeBook(String url, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        headerHashMap.put("Accept","application/vnd.skolera.v1");
         HashMap<String, String> paramsHashMap = new HashMap<>();
         NetworkManager.getWithParameter(url, paramsHashMap, headerHashMap, new HandleResponseListener() {
             @Override
@@ -375,7 +376,20 @@ public class UserManager {
             }
         });
     }
-
+    public static void getSingleThread(String url, final ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String, String> paramsHashMap = new HashMap<>();
+        NetworkManager.getWithParameter(url, paramsHashMap, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
     public static void getCourseGroups(String url, final ArrayResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
