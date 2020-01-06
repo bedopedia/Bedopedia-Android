@@ -14,9 +14,9 @@ public class Quiz {
     public String feedBack;
     public  String endDate;
     public String averageGrade = "";
-    public boolean hideGrade = false;
+    public int hideGrade ;
 
-    public Quiz(int id, String name, double totalScore, double total, double grade, String gradeView, String feedBack, String endDate,boolean hideGrade) {
+    public Quiz(int id, String name, double totalScore, double total, double grade, String gradeView, String feedBack, String endDate,int hideGrade) {
         this.id = id;
         this.name = name;
         this.totalScore = totalScore;

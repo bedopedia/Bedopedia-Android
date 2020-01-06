@@ -66,7 +66,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             DetailViewHolder detailViewHolder = ((DetailViewHolder) holder);
             Assignment assignment = (Assignment) mDataList.get(position);
             detailViewHolder.classWorkTextView.setText(assignment.name);
-            if (assignment.hideGrade) {
+            if (assignment.hideGrade == 0) {
                 detailViewHolder.markTextView.setText("****");
             } else {
                 String marketTextView = assignment.grade + "/" + assignment.total;
@@ -83,7 +83,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             DetailViewHolder detailViewHolder = ((DetailViewHolder) holder);
             Quiz quiz = (Quiz) mDataList.get(position);
             detailViewHolder.classWorkTextView.setText(quiz.name);
-            if (quiz.hideGrade) {
+            if (quiz.hideGrade == 0) {
                 detailViewHolder.markTextView.setText("****");
             } else {
                 detailViewHolder.markTextView.setText(quiz.grade + "/" + quiz.total);

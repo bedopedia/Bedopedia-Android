@@ -97,7 +97,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
             activity.showLoadingDialog();
 
             String courseGradePeriodUrl = SessionManager.getInstance().getBaseUrl() +
-                    ApiEndPoints.studentGradeBook(courseGroup.getCourseId(), courseGroup.getId());
+                    ApiEndPoints.studentGradeBook(courseGroup.getCourseId(), courseGroup.getId(), student.getId());
             gradeDetailView.getStudentGradeBook(courseGradePeriodUrl, student.getId());
 //            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(), courseGroup.getId());
 //            gradeDetailView.getAverageGrade(url, student.getId() + "");
@@ -249,10 +249,10 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         } else if (gradeItemArrayList.isEmpty() && quizArrayList.isEmpty() && assignmentArrayList.isEmpty()) {
             listFrameLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
-        } else if(isToShowPlaceHolder){
+        } else if (isToShowPlaceHolder) {
             listFrameLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             listFrameLayout.setVisibility(View.VISIBLE);
             placeholderFrameLayout.setVisibility(View.GONE);
         }
