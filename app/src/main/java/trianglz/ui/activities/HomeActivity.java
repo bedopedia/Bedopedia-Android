@@ -46,7 +46,6 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         setListeners();
         getStudentsHome();
         homeView.refreshFireBaseToken();
-        checkVersionOnStore();
     }
 
     private void bindViews() {
@@ -147,42 +146,6 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         startActivity(intent);
     }
 
-    private void checkVersionOnStore() {
-        AppUpdater appUpdater = new AppUpdater(this)
-                .setDisplay(Display.DIALOG)
-                .showEvery(1)
-                .setUpdateFrom(UpdateFrom.GOOGLE_PLAY)
-                .setTitleOnUpdateAvailable(getResources().getString(R.string.update_is_available))
-                .setContentOnUpdateAvailable(getResources().getString(R.string.check_latest_version))
-                .setButtonUpdate(getResources().getString(R.string.cancel))
-                .setButtonUpdateClickListener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                })
-                .setButtonDismiss("")
-                .setButtonDoNotShowAgain(getResources().getString(R.string.update_now))
-                .setButtonDoNotShowAgainClickListener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        openStore();
-                    }
-                })
-                .setCancelable(false); // Dialog could not be;
-        appUpdater.start();
-    }
-
-    private void openStore() {
-        try {
-            Uri uri = Uri.parse("market://details?id=" + getPackageName());
-            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(goToMarket);
-        } catch (ActivityNotFoundException e) {
-            startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id="
-                            + getPackageName())));
-        }
-    }
 
 }
