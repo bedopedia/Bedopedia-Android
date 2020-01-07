@@ -83,22 +83,11 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
                 .setUpdateFrom(UpdateFrom.GOOGLE_PLAY)
                 .setTitleOnUpdateAvailable(getResources().getString(R.string.update_is_available))
                 .setContentOnUpdateAvailable(getResources().getString(R.string.check_latest_version))
-                .setButtonUpdate(getResources().getString(R.string.cancel))
-                .setButtonUpdateClickListener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                })
+                .setButtonDoNotShowAgain("")
                 .setButtonDismiss("")
-                .setButtonDoNotShowAgain(getResources().getString(R.string.update_now))
-                .setButtonDoNotShowAgainClickListener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        openStore();
-                    }
-                })
-                .setCancelable(false); // Dialog could not be;
+                .setButtonUpdate(getResources().getString(R.string.update_now))
+                .setButtonUpdateClickListener((dialogInterface, i) -> openStore())
+                .setCancelable(false);
         appUpdater.start();
     }
 
