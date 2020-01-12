@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Picasso;
+import com.stfalcon.frescoimageviewer.ImageViewer;
+
+import java.util.ArrayList;
 
 import trianglz.models.Announcement;
 import trianglz.models.WeeklyNote;
@@ -104,6 +107,21 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
                     .centerCrop()
                     .fit()
                     .into(announcementImageView);
+            announcementImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ArrayList<String> images = new ArrayList<>();
+                    images.add(announcement.imageUrl);
+                    new ImageViewer.Builder<>(activity, images)
+                            .setStartPosition(0)
+                            .hideStatusBar(false)
+                            .allowZooming(true)
+                            .allowSwipeToDismiss(true)
+                            .setBackgroundColorRes((R.color.black))
+                            .show();
+                }
+            });
+
         }else {
             announcementImageView.setVisibility(View.GONE);
         }

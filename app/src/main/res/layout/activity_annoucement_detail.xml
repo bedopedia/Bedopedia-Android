@@ -44,8 +44,7 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:includeFontPadding="false"
-            android:textAlignment="center"
-            />
+            android:textAlignment="center" />
 
     </RelativeLayout>
 
@@ -55,20 +54,15 @@
         android:layout_gravity="bottom"
         android:background="#e5e5e5" />
 
-
-     <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="170dp"
-                android:id="@+id/img_annoucement"
-                android:visibility="gone"/>
-
-
-
-     <WebView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/web_view"
-                    />
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/img_annoucement"
+        android:visibility="gone" />
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/web_view" />
 
 </LinearLayout>
