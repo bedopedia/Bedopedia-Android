@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Picasso;
+import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -66,6 +67,22 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
                     .transform(new RoundCornersTransformation((int) Util.convertDpToPixel(5,context),0))
                     .fit()
                     .into(holder.announcementImage);
+
+            holder.announcementImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ArrayList<String> images = new ArrayList<>();
+                    images.add(announcement.imageUrl);
+                    new ImageViewer.Builder<>(context, images)
+                            .setStartPosition(0)
+                            .hideStatusBar(false)
+                            .allowZooming(true)
+                            .allowSwipeToDismiss(true)
+                            .setBackgroundColorRes((R.color.black))
+                            .show();
+                }
+            });
+
         }else {
             holder.announcementImage.setVisibility(View.INVISIBLE);
 
