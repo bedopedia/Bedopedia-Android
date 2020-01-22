@@ -96,6 +96,7 @@ public class ErrorDialog extends Dialog implements DialogInterface.OnShowListene
                     dialogConfirmationInterface.onConfirm();
                     dismiss();
                 } else {
+                    dialogConfirmationInterface.onConfirm();
                     dismiss();
                 }
                 break;

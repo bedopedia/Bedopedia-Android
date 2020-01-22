@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import agency.tango.android.avatarview.views.AvatarView;
 import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.ErrorDialog;
 import trianglz.core.presenters.GradeDetailPresenter;
 import trianglz.core.views.GradeDetailView;
 import trianglz.managers.SessionManager;
@@ -51,7 +53,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 03/09/2019.
  */
-public class GradeDetailFragment extends Fragment implements View.OnClickListener, GradeDetailPresenter {
+public class GradeDetailFragment extends Fragment implements View.OnClickListener, GradeDetailPresenter, ErrorDialog.DialogConfirmationInterface {
 
     private View rootView;
     private StudentMainActivity activity;
@@ -78,6 +80,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     private HashMap<String, Double> gradeItemHashMap;
     private FrameLayout listFrameLayout, placeholderFrameLayout;
     private boolean isToShowPlaceHolder = true;
+    private ErrorDialog mErrorDialog;
 
     @Nullable
     @Override
@@ -218,7 +221,6 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, errorCode, "");
 
     }
 
@@ -236,7 +238,11 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         if (activity.progress.isShowing()) {
             activity.progress.dismiss();
         }
-        activity.showErrorDialog(activity, errorCode, "");
+        if (errorCode == 403) {
+            mErrorDialog = new ErrorDialog(activity, getResources().getString(R.string.un_authorized), ErrorDialog.DialogType.ERROR, this);
+            mErrorDialog.show();
+        } else
+            activity.showErrorDialog(activity, errorCode, "");
     }
 
     @Override
@@ -249,10 +255,10 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         } else if (gradeItemArrayList.isEmpty() && quizArrayList.isEmpty() && assignmentArrayList.isEmpty()) {
             listFrameLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
-        } else if(isToShowPlaceHolder){
+        } else if (isToShowPlaceHolder) {
             listFrameLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             listFrameLayout.setVisibility(View.VISIBLE);
             placeholderFrameLayout.setVisibility(View.GONE);
         }
@@ -502,5 +508,18 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
                 gradeItemArrayList.get(i).averageGrade = df.format(gradeItemHashMap.get(gradeItemArrayList.get(i).id + ""));
             }
         }
+    }
+
+    @Override
+    public void onConfirm() {
+        Log.d("", "onConfirm: ");
+        getParentFragment().getChildFragmentManager().popBackStack();
+
+    }
+
+    @Override
+    public void onCancel() {
+        Log.d("", "onConfirm: ");
+
     }
 }

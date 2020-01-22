@@ -270,4 +270,6 @@
     <string name="choose_new_password">برجاء اختيار كلمة مرور جديدة</string>
     <string name="confirm_new_password">تأكيد كلمة المرور الجديدة</string>
     <string name="not_same_password">كلمة المرور والتأكيد لا تتطابق</string>
+    <string name="un_authorized">نأسف, غير مسموح بالدخول للصفحة</string>
+
 </resources>

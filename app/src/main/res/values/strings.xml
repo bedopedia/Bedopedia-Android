@@ -293,4 +293,5 @@
     <string name="profile">Profile</string>
     <string name="choose_new_password">Please choose a new password</string>
     <string name="not_same_password">The password and confirmation do not match</string>
+    <string name="un_authorized">Sorry, but you\'re unauthorized to this page</string>
     </resources>
