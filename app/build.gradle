@@ -8,8 +8,8 @@ android {
         applicationId "com.skolera.skolera_android"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 28
-        versionName "2.3.8"
+        versionCode 29
+        versionName "2.3.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
