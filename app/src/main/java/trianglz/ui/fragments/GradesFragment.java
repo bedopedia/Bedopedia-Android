@@ -69,14 +69,12 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             student = (Student) bundle.getSerializable(Constants.STUDENT);
-//            this.postsResponses = (ArrayList<PostsResponse>) bundle.getSerializable(Constants.KEY_COURSE_GROUPS);
-        } else {
-//            this.postsResponses = new ArrayList<>();
         }
     }
 
     private void bindViews() {
         gradesView = new GradesView(getActivity(), this);
+        if (!activity.progress.isShowing()) activity.progress.show();
         gradesView.getGradesCourses(student.userId);
         activity.toolbarView.setVisibility(View.GONE);
         activity.headerLayout.setVisibility(View.GONE);
@@ -91,14 +89,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         setStudentImage(student.getAvatar(), studentName);
         recyclerView.setAdapter(gradesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-//        if (postsResponses.isEmpty()) {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
-//        } else {
-//            listFrameLayout.setVisibility(View.VISIBLE);
-//            placeholderFrameLayout.setVisibility(View.GONE);
-//            gradesAdapter.addData(postsResponses);
-//        }
+
     }
 
     private void setListeners() {
@@ -163,11 +154,23 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
 
     @Override
     public void onGetGradesCoursesSuccess(ArrayList<PostsResponse> arrayList) {
+        if (activity.progress.isShowing()) activity.progress.dismiss();
+        if (arrayList.isEmpty()) {
+            listFrameLayout.setVisibility(View.GONE);
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            listFrameLayout.setVisibility(View.VISIBLE);
+            placeholderFrameLayout.setVisibility(View.GONE);
+            gradesAdapter.addData(arrayList);
 
+        }
     }
 
     @Override
     public void onGetGradesCoursesFailure(String message, int errorCode) {
-
+        if (activity.progress.isShowing()) activity.progress.dismiss();
+        activity.showErrorDialog(activity, errorCode,"");
+        listFrameLayout.setVisibility(View.GONE);
+        placeholderFrameLayout.setVisibility(View.VISIBLE);
     }
 }
