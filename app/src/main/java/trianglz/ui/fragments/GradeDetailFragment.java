@@ -37,7 +37,6 @@ import trianglz.components.ErrorDialog;
 import trianglz.core.presenters.GradeDetailPresenter;
 import trianglz.core.views.GradeDetailView;
 import trianglz.managers.SessionManager;
-import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Assignment;
 import trianglz.models.CourseGradingPeriods;
 import trianglz.models.GradeHeader;
@@ -99,11 +98,6 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
 
-            String courseGradePeriodUrl = SessionManager.getInstance().getBaseUrl() +
-                    ApiEndPoints.studentGradeBook(courseGroup.getCourseId(), courseGroup.getId());
-            gradeDetailView.getStudentGradeBook(courseGradePeriodUrl, student.getId());
-//            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(), courseGroup.getId());
-//            gradeDetailView.getAverageGrade(url, student.getId() + "");
         } else {
             Util.showNoInternetConnectionDialog(activity);
         }
@@ -208,70 +202,6 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    @Override
-    public void onGetAverageGradesSuccess(HashMap<String, Double> quizzesHashMap, HashMap<String, Double> assignmentsHashMap, HashMap<String, Double> gradeItemHashMap) {
-        this.quizzesHashMap = quizzesHashMap;
-        this.assignmentsHashMap = assignmentsHashMap;
-        this.gradeItemHashMap = gradeItemHashMap;
-
-    }
-
-    @Override
-    public void onGetAverageGradeFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
-
-    }
-
-    @Override
-    public void onGetStudentGradeBookSuccess(ArrayList<Assignment> assignmentArrayList, ArrayList<Quiz> quizArrayList, ArrayList<GradeItem> gradeItemArrayList) {
-        this.assignmentArrayList = assignmentArrayList;
-        this.quizArrayList = quizArrayList;
-        this.gradeItemArrayList = gradeItemArrayList;
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSemesters();
-        gradeDetailView.getSemesters(url, courseGroup.getCourseId() + "");
-    }
-
-    @Override
-    public void onGetStudentGradeBookFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
-        if (errorCode == 403) {
-            mErrorDialog = new ErrorDialog(activity, getResources().getString(R.string.un_authorized), ErrorDialog.DialogType.ERROR, this);
-            mErrorDialog.show();
-        } else
-            activity.showErrorDialog(activity, errorCode, "");
-    }
-
-    @Override
-    public void onGetSemestersSuccess(ArrayList<CourseGradingPeriods> courseGradingPeriodsArrayList) {
-        setAdapterData(courseGradingPeriodsArrayList);
-        activity.progress.dismiss();
-        if (allSemestersList.isEmpty()) {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
-        } else if (gradeItemArrayList.isEmpty() && quizArrayList.isEmpty() && assignmentArrayList.isEmpty()) {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
-        } else if (isToShowPlaceHolder) {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
-        } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onGetSemesterFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
-        activity.showErrorDialog(activity, errorCode, "");
-
-    }
 
     private void setAdapterData(ArrayList<CourseGradingPeriods> courseGradingPeriodsArrayList) {
         ArrayList<CourseGradingPeriods> allSemesterArrayList = handleSemesters(courseGradingPeriodsArrayList);
