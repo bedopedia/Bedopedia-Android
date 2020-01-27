@@ -135,8 +135,8 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     }
 
     @Override
-    public void onSubjectSelected(int position) {
-//        openGradeDetailFragment(postsResponses.get(position));
+    public void onSubjectSelected(PostsResponse postsResponse) {
+        openGradeDetailFragment(postsResponse);
     }
 
     private void openGradeDetailFragment(PostsResponse postsResponse) {

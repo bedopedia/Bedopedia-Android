@@ -55,12 +55,7 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
 //        }
 
         holder.subjectNameTextView.setText(courseGroup.getCourseName());
-        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gradesAdapterInterface.onSubjectSelected(position);
-            }
-        });
+        holder.itemLayout.setOnClickListener(view -> gradesAdapterInterface.onSubjectSelected(mDataList.get(position)));
 
         setSubjectName(courseGroup.getCourseName(), getSubjectNameForPlaceHolder(courseGroup.getCourseName()), holder);
     }
@@ -94,7 +89,7 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
     }
 
     public interface GradesAdapterInterface {
-        void onSubjectSelected(int position);
+        void onSubjectSelected(PostsResponse postsResponse);
     }
 
 
