@@ -14,9 +14,9 @@ public class Assignment {
      public String feedBack;
      public String endDate;
      public String averageGrade = "";
-     public boolean hideGrade = false;
+     public int hideGrade ;
 
-    public Assignment(int id, String name, double total, double grade, String gradeView,String feedBack,String endDate,boolean hideGrade) {
+    public Assignment(int id, String name, double total, double grade, String gradeView,String feedBack,String endDate,int hideGrade) {
         this.id = id;
         this.name = name;
         this.total = total;
