@@ -1,10 +1,7 @@
 package trianglz.ui.fragments;
 
 
-import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
@@ -15,9 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.javiersantos.appupdater.AppUpdater;
-import com.github.javiersantos.appupdater.enums.Display;
-import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -162,6 +156,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         otherBehaviorNotes = new ArrayList<>();
         courseGroups = new ArrayList<>();
         studentArrayList = new ArrayList<>();
+        nextSlot = "";
         appBarView = rootView.findViewById(R.id.appbar_view);
         appBarLayout = rootView.findViewById(R.id.app_bar_layout);
         nameTextView = rootView.findViewById(R.id.tv_name);
@@ -789,7 +784,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetPostsFailure(String message, int errorCode) {
-
+        activity.isCalling = false;
+        if (getParentActivity().progress.isShowing()) {
+            getParentActivity().progress.dismiss();
+        }
+        activity.showErrorDialog(activity, errorCode, "");
     }
 
 }

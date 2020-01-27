@@ -121,7 +121,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         weeklyNoteHeaderTextView = rootView.findViewById(R.id.tv_header_weekly_note);
         weeklyNoteImageView = rootView.findViewById(R.id.img_weekly_note);
         weeklyNoteLinearLayout = rootView.findViewById(R.id.layout_weekly_note);
-        if (rootClass.getWeeklyPlans().size() > 0) {
+        if (rootClass != null && rootClass.getWeeklyPlans().size() > 0) {
             listFrameLayout.setVisibility(View.VISIBLE);
             placeholderFrameLayout.setVisibility(View.GONE);
         } else {
@@ -241,24 +241,26 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
 
     private HashMap<String, ArrayList<DailyNote>> getDaysOfDailyNotes(RootClass rootClass) {
         HashMap<String, ArrayList<DailyNote>> dailyNoteHashMap = new HashMap<>();
-        if (rootClass.getWeeklyPlans().size() > 0) {
-            ArrayList<DailyNote> dailyNoteArrayList = rootClass.getWeeklyPlans().get(0).getDailyNotes();
-            for (int i = 0; i < dailyNoteArrayList.size(); i++) {
-                DailyNote dailyNote = dailyNoteArrayList.get(i);
-                String dayName = Util.getDayName(dailyNote.getDate());
-                if (!dayName.isEmpty()) {
-                    if (dailyNoteHashMap.containsKey(dayName)) {
-                        ArrayList<DailyNote> dailyNotes = dailyNoteHashMap.get(dayName);
-                        dailyNotes.add(dailyNote);
-                        dailyNoteHashMap.put(dayName, dailyNotes);
-                    } else {
-                        ArrayList<DailyNote> dailyNotes = new ArrayList<>();
-                        dailyNotes.add(dailyNote);
-                        dailyNoteHashMap.put(dayName, dailyNotes);
+        if (rootClass != null) {
+            if (rootClass.getWeeklyPlans().size() > 0) {
+                ArrayList<DailyNote> dailyNoteArrayList = rootClass.getWeeklyPlans().get(0).getDailyNotes();
+                for (int i = 0; i < dailyNoteArrayList.size(); i++) {
+                    DailyNote dailyNote = dailyNoteArrayList.get(i);
+                    String dayName = Util.getDayName(dailyNote.getDate());
+                    if (!dayName.isEmpty()) {
+                        if (dailyNoteHashMap.containsKey(dayName)) {
+                            ArrayList<DailyNote> dailyNotes = dailyNoteHashMap.get(dayName);
+                            dailyNotes.add(dailyNote);
+                            dailyNoteHashMap.put(dayName, dailyNotes);
+                        } else {
+                            ArrayList<DailyNote> dailyNotes = new ArrayList<>();
+                            dailyNotes.add(dailyNote);
+                            dailyNoteHashMap.put(dayName, dailyNotes);
+                        }
+
                     }
 
                 }
-
             }
         }
         return dailyNoteHashMap;
