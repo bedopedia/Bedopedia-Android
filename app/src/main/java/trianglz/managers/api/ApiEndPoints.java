@@ -23,6 +23,9 @@ public class ApiEndPoints {
         return "/api/courses/" + courseId + "/assignments/" + assignmentId;
     }
 
+    public static String gradesCourses(int studentId) {
+        return "/api/students/" + studentId + "/course_groups_short_list";
+    }
     public static String getAssignmentSubmissions(int courseId, int courseGroupId, int assignmentId) {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/assignments/" + assignmentId + "/submissions";
     }

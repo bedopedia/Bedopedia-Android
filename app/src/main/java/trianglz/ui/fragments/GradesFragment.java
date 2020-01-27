@@ -17,13 +17,13 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.core.presenters.GradesPresenter;
+import trianglz.core.views.GradesView;
 import trianglz.models.PostsResponse;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
@@ -33,7 +33,7 @@ import trianglz.utils.Constants;
 /**
  * Created by Farah A. Moniem on 03/09/2019.
  */
-public class GradesFragment extends Fragment implements GradesAdapter.GradesAdapterInterface, View.OnClickListener {
+public class GradesFragment extends Fragment implements GradesAdapter.GradesAdapterInterface, View.OnClickListener, GradesPresenter {
 
     private View rootView;
     private ImageButton backBtn;
@@ -41,8 +41,8 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     private RecyclerView recyclerView;
     private GradesAdapter gradesAdapter;
     private Student student;
-    private ArrayList<PostsResponse> postsResponses;
     private IImageLoader imageLoader;
+    private GradesView gradesView;
     private StudentMainActivity activity;
     private FrameLayout listFrameLayout, placeholderFrameLayout;
 
@@ -67,13 +67,15 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             student = (Student) bundle.getSerializable(Constants.STUDENT);
-            this.postsResponses = (ArrayList<PostsResponse>) bundle.getSerializable(Constants.KEY_COURSE_GROUPS);
+//            this.postsResponses = (ArrayList<PostsResponse>) bundle.getSerializable(Constants.KEY_COURSE_GROUPS);
         } else {
-            this.postsResponses = new ArrayList<>();
+//            this.postsResponses = new ArrayList<>();
         }
     }
 
     private void bindViews() {
+        gradesView = new GradesView(getActivity(), this);
+        gradesView.getGradesCourses(student.userId);
         activity.toolbarView.setVisibility(View.GONE);
         activity.headerLayout.setVisibility(View.GONE);
         backBtn = rootView.findViewById(R.id.btn_back);
@@ -87,14 +89,14 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         setStudentImage(student.getAvatar(), studentName);
         recyclerView.setAdapter(gradesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-        if (postsResponses.isEmpty()) {
+//        if (postsResponses.isEmpty()) {
             listFrameLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
-        } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
-            gradesAdapter.addData(postsResponses);
-        }
+//        } else {
+//            listFrameLayout.setVisibility(View.VISIBLE);
+//            placeholderFrameLayout.setVisibility(View.GONE);
+//            gradesAdapter.addData(postsResponses);
+//        }
     }
 
     private void setListeners() {
@@ -141,8 +143,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
 
     @Override
     public void onSubjectSelected(int position) {
-        openGradeDetailFragment(postsResponses.get(position));
-
+//        openGradeDetailFragment(postsResponses.get(position));
     }
 
     private void openGradeDetailFragment(PostsResponse postsResponse) {
@@ -158,4 +159,13 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
                 addToBackStack(null).commit();
     }
 
+    @Override
+    public void onGetGradesCoursesSuccess() {
+
+    }
+
+    @Override
+    public void onGetGradesCoursesFailure(String message, int errorCode) {
+
+    }
 }
