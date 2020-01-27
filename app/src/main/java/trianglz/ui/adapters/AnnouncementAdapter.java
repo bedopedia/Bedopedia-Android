@@ -66,6 +66,8 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
                     .transform(new RoundCornersTransformation((int) Util.convertDpToPixel(5,context),0))
                     .fit()
                     .into(holder.announcementImage);
+
+
         }else {
             holder.announcementImage.setVisibility(View.INVISIBLE);
 

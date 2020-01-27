@@ -710,6 +710,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         startActivity(myIntent);
     }
 
+
     private void openAssignmentDetailActivity() {
         CourseAssignmentFragment courseAssignmentFragment = new CourseAssignmentFragment();
         Bundle bundle = new Bundle();

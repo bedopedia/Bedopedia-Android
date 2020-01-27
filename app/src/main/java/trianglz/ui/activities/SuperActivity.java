@@ -31,8 +31,8 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
         superView = new SuperView(this, this);
         progress = new LoadingDialog(this, R.style.LoadingDialog);
         progress.setCancelable(false);
-
     }
+
 
     @Override
     protected void onResume() {
@@ -75,6 +75,7 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
         super.attachBaseContext(LocalHelper.onAttach(base, "en"));
     }
 
+
     private void checkVersionOnStore() {
         AppUpdater appUpdater = new AppUpdater(this)
                 .setDisplay(Display.DIALOG)
@@ -89,7 +90,6 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
                 .setCancelable(false);
         appUpdater.start();
     }
-
 
     private void openStore() {
         try {

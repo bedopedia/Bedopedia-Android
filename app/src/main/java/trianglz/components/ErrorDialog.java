@@ -100,7 +100,9 @@ public class ErrorDialog extends Dialog implements DialogInterface.OnShowListene
                 }
                 break;
             case R.id.cancel_btn:
-                dialogConfirmationInterface.onCancel();
+                if(dialogConfirmationInterface != null){
+                    dialogConfirmationInterface.onCancel();
+                }
                 break;
         }
     }

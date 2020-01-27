@@ -327,7 +327,7 @@ public class UserManager {
 
     public static void getStudentGradeBook(String url, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
-        headerHashMap.put("Accept","application/vnd.skolera.v1");
+//        headerHashMap.put("Accept","application/vnd.skolera.v1");
         HashMap<String, String> paramsHashMap = new HashMap<>();
         NetworkManager.getWithParameter(url, paramsHashMap, headerHashMap, new HandleResponseListener() {
             @Override

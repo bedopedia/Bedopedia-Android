@@ -72,7 +72,7 @@ public class AnnouncementView {
                 AnnouncementReceiver announcementReceiver = new AnnouncementReceiver(annoucementReceiverId, annoucenmentID, userType);
                 announcementReceiverArrayList.add(announcementReceiver);
             }
-            announcementArrayList.add(new Announcement(id, title, body, endAt, Util.getDate(createdAt, context), adminId, imageUrl, announcementReceiverArrayList));
+            announcementArrayList.add(new Announcement(id, title, body, endAt, Util.getAnnouncementDate(createdAt, context), adminId, imageUrl, announcementReceiverArrayList));
         }
         Collections.sort(announcementArrayList,new SortByDate());
         return announcementArrayList;
