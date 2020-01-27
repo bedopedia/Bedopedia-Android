@@ -30,6 +30,10 @@ public class ApiEndPoints {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/assignments/" + assignmentId + "/submissions";
     }
 
+    public static String gradesDetails(int courseId, int courseGroupId, int studentId) {
+        return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/" +
+                "grade_book_items/grades?student_id=" + studentId;
+    }
     public static String postAssignmentGrade(int courseId, int courseGroupId, int assignmentId) {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/assignments/" + assignmentId + "/student_grade";
     }
