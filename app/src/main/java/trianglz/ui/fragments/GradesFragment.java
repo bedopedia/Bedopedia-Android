@@ -17,6 +17,8 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
@@ -160,7 +162,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     }
 
     @Override
-    public void onGetGradesCoursesSuccess() {
+    public void onGetGradesCoursesSuccess(ArrayList<PostsResponse> arrayList) {
 
     }
 
