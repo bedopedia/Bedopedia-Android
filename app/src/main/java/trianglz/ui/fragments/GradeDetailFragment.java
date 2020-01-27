@@ -100,7 +100,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
             activity.showLoadingDialog();
 
             String courseGradePeriodUrl = SessionManager.getInstance().getBaseUrl() +
-                    ApiEndPoints.studentGradeBook(courseGroup.getCourseId(), courseGroup.getId(), student.getId());
+                    ApiEndPoints.studentGradeBook(courseGroup.getCourseId(), courseGroup.getId());
             gradeDetailView.getStudentGradeBook(courseGradePeriodUrl, student.getId());
 //            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.averageGradeEndPoint(courseGroup.getCourseId(), courseGroup.getId());
 //            gradeDetailView.getAverageGrade(url, student.getId() + "");
