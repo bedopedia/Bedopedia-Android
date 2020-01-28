@@ -70,19 +70,19 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 GradeItems grade = (GradeItems) item;
                 detailViewHolder.classWorkTextView.setText(grade.name);
                 detailViewHolder.markTextView.setText(String.format(context.getString(R.string.mark),
-                        String.valueOf(grade.grade),
+                        String.valueOf(grade.gradeView),
                         String.valueOf(grade.total)));
             } else if (item instanceof Quizzes) {
                 Quizzes grade = (Quizzes) item;
                 detailViewHolder.classWorkTextView.setText(grade.getName());
                 detailViewHolder.markTextView.setText(String.format(context.getString(R.string.mark),
-                        String.valueOf(grade.getGrade()),
+                        String.valueOf(grade.getGradeView()),
                         String.valueOf(grade.getTotal())));
             } else {
                 Assignments grade = (Assignments) item;
                 detailViewHolder.classWorkTextView.setText(grade.name);
                 detailViewHolder.markTextView.setText(String.format(context.getString(R.string.mark),
-                        String.valueOf(grade.grade),
+                        String.valueOf(grade.gradeView),
                         String.valueOf(grade.total)));
             }
         }
