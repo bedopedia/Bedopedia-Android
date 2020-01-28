@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 
 import trianglz.models.Assignments;
@@ -25,6 +27,7 @@ import trianglz.models.SubGradingPeriod;
  */
 public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Object> mDataList;
+    private ArrayList<GradingPeriod> parentArray;
     private Context context;
 
 
@@ -110,15 +113,30 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void addData(GradesDetailsResponse gradesDetailsResponse) {
         mDataList.clear();
-        mDataList.addAll(sortGradingPeriodsArray(gradesDetailsResponse.gradingPeriods));
+        parentArray = gradesDetailsResponse.gradingPeriods;
+        mDataList.addAll(sortGradingPeriodsArray(parentArray, false));
         notifyDataSetChanged();
     }
 
-    private ArrayList<Object> sortGradingPeriodsArray(ArrayList<GradingPeriod> gradingPeriods) {
+    public void filterData(boolean currentSemester) {
+        mDataList.clear();
+        mDataList.addAll(sortGradingPeriodsArray(parentArray, currentSemester));
+        notifyDataSetChanged();
+    }
+
+    private ArrayList<Object> sortGradingPeriodsArray(ArrayList<GradingPeriod> gradingPeriods, boolean currentSemester) {
         ArrayList<Object> array = new ArrayList<>();
         for (GradingPeriod gradingPeriod : gradingPeriods) {
-            array.add(getGradeHeader(gradingPeriod.name, GradeHeader.HeaderType.SEMESTER));
-
+            if (currentSemester) {
+                DateTime startDate, endDate, now;
+                startDate = new DateTime(gradingPeriod.startDate);
+                endDate = new DateTime(gradingPeriod.endDate);
+                now = new DateTime();
+                if (now.isBefore(startDate) || now.isAfter(endDate)) {
+                    continue;
+                }
+            }
+            if (!currentSemester) array.add(getGradeHeader(gradingPeriod.name, GradeHeader.HeaderType.SEMESTER));
             if (gradingPeriod.assignments.size() != 0) {
                 array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE));
                 array.addAll(gradingPeriod.assignments);

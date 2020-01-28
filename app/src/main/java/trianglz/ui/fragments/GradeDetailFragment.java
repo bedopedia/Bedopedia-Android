@@ -163,10 +163,10 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.btn_all:
-//                gradeDetailAdapter.addData(allSemestersList);
+                gradeDetailAdapter.filterData(false);
                 break;
             case R.id.btn_current:
-//                gradeDetailAdapter.addData(currentSemester);
+                gradeDetailAdapter.filterData(true);
                 break;
         }
     }
