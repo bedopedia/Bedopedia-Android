@@ -30,6 +30,7 @@ import trianglz.components.ErrorDialog;
 import trianglz.core.presenters.GradeDetailPresenter;
 import trianglz.core.views.GradeDetailView;
 import trianglz.managers.SessionManager;
+import trianglz.models.GradesDetailsResponse;
 import trianglz.models.PostsResponse;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
@@ -187,7 +188,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onGetGradesDetailsSuccess() {
+    public void onGetGradesDetailsSuccess(GradesDetailsResponse gradesDetailsResponse) {
         activity.progress.dismiss();
     }
 

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import trianglz.core.presenters.GradeDetailPresenter;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.GradesDetailsResponse;
 
 /**
  * Created by ${Aly} on 11/7/2018.
@@ -26,7 +27,7 @@ public class GradeDetailView {
         UserManager.getGradesDetails(studentId, courseId, courseGroupId, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                presenter.onGetGradesDetailsSuccess();
+                presenter.onGetGradesDetailsSuccess(GradesDetailsResponse.create(response.toString()));
             }
 
             @Override
