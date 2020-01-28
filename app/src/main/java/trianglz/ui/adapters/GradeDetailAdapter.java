@@ -118,32 +118,33 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ArrayList<Object> array = new ArrayList<>();
         for (GradingPeriod gradingPeriod : gradingPeriods) {
             array.add(getGradeHeader(gradingPeriod.name, GradeHeader.HeaderType.SEMESTER));
-            if (gradingPeriod.gradeItems.size() != 0) {
-                array.add(getGradeHeader("Grade items", GradeHeader.HeaderType.GRADE));
-                array.addAll(gradingPeriod.gradeItems);
+
+            if (gradingPeriod.assignments.size() != 0) {
+                array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE));
+                array.addAll(gradingPeriod.assignments);
             }
             if (gradingPeriod.quizzes.size() != 0) {
                 array.add(getGradeHeader("Quizzes", GradeHeader.HeaderType.GRADE));
                 array.addAll(gradingPeriod.quizzes);
             }
-            if (gradingPeriod.assignments.size() != 0) {
-                array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE));
-                array.addAll(gradingPeriod.assignments);
+            if (gradingPeriod.gradeItems.size() != 0) {
+                array.add(getGradeHeader("Grade items", GradeHeader.HeaderType.GRADE));
+                array.addAll(gradingPeriod.gradeItems);
             }
             if (gradingPeriod.subGradingPeriods.size() != 0) {
                 for (SubGradingPeriod subGradingPeriod : gradingPeriod.subGradingPeriods) {
                     array.add(getGradeHeader(subGradingPeriod.name, GradeHeader.HeaderType.SEMESTER));
-                    if (subGradingPeriod.gradeItems.size() != 0) {
-                        array.add(getGradeHeader("Grade items", GradeHeader.HeaderType.GRADE));
-                        array.addAll(subGradingPeriod.gradeItems);
+                    if (subGradingPeriod.assignments.size() != 0) {
+                        array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE));
+                        array.addAll(subGradingPeriod.assignments);
                     }
                     if (subGradingPeriod.quizzes.size() != 0) {
                         array.add(getGradeHeader("Quizzes", GradeHeader.HeaderType.GRADE));
                         array.addAll(subGradingPeriod.quizzes);
                     }
-                    if (subGradingPeriod.assignments.size() != 0) {
-                        array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE));
-                        array.addAll(subGradingPeriod.assignments);
+                    if (subGradingPeriod.gradeItems.size() != 0) {
+                        array.add(getGradeHeader("Grade items", GradeHeader.HeaderType.GRADE));
+                        array.addAll(subGradingPeriod.gradeItems);
                     }
                 }
             }
