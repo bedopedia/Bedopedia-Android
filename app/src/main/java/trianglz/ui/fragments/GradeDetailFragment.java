@@ -189,6 +189,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onGetGradesDetailsSuccess(GradesDetailsResponse gradesDetailsResponse) {
+        gradeDetailAdapter.addData(gradesDetailsResponse);
         activity.progress.dismiss();
     }
 

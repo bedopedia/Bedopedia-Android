@@ -169,6 +169,7 @@
     <string name="online_quizzes">Online Quizzes</string>
     <string name="quiz_not_started_yet">Quiz not started yet</string>
     <string name="grade_is">Grade is</string>
+    <string name="mark">%1$s / %2$s</string>
     <string name="keep_up_the_good_work">Keep up the good work</string>
     <string name="no_quiz">No active quizzes currently</string>
     <string name="published">Published</string>
