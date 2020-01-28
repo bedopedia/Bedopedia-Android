@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class SubGradingPeriod {
 
     @SerializedName("id")
@@ -15,11 +17,11 @@ public class SubGradingPeriod {
     @SerializedName("end_date")
     public String endDate;
     @SerializedName("grade_items")
-    public GradeItems[] gradeItems;
+    public ArrayList<GradeItems> gradeItems;
     @SerializedName("quizzes")
-    public Quizzes[] quizzes;
+    public ArrayList<Quizzes> quizzes;
     @SerializedName("assignments")
-    public Assignments[] assignments;
+    public ArrayList<Assignments> assignments;
     
     public static SubGradingPeriod create(String json) {
         Gson gson = new GsonBuilder().create();
