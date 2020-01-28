@@ -41,7 +41,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 03/09/2019.
  */
-public class GradeDetailFragment extends Fragment implements View.OnClickListener, GradeDetailPresenter, ErrorDialog.DialogConfirmationInterface {
+public class GradeDetailFragment extends Fragment implements View.OnClickListener, GradeDetailPresenter, ErrorDialog.DialogConfirmationInterface, GradeDetailAdapter.GradeDetailsAdapterInterface {
 
     private View rootView;
     private StudentMainActivity activity;
@@ -92,7 +92,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
 
     private void bindViews() {
         recyclerView = rootView.findViewById(R.id.recycler_view);
-        gradeDetailAdapter = new GradeDetailAdapter(activity);
+        gradeDetailAdapter = new GradeDetailAdapter(activity,this);
         recyclerView.setAdapter(gradeDetailAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         studentImageView = rootView.findViewById(R.id.img_student);
@@ -195,6 +195,21 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onGetGradesDetailsFailure(String message, int errorCode) {
+        placeholderFrameLayout.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
         activity.progress.dismiss();
+        activity.showErrorDialog(activity, errorCode,"");
+
+    }
+
+    @Override
+    public void arrayStatus(boolean isEmpty) {
+        if (isEmpty) {
+            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            placeholderFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 }

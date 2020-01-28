@@ -29,15 +29,17 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private ArrayList<Object> mDataList;
     private ArrayList<GradingPeriod> parentArray;
     private Context context;
+    private GradeDetailsAdapterInterface gradeDetailsAdapterInterface;
 
 
     private static final int TYPE_SEMESTER_QUARTER_HEADER = 0;
     private static final int TYPE_GRADE_HEADER = 2;
     private static final int TYPE_GRADE = 1;
 
-    public GradeDetailAdapter(Context context) {
+    public GradeDetailAdapter(Context context, GradeDetailsAdapterInterface gradeDetailsAdapterInterface) {
         this.context = context;
         mDataList = new ArrayList<>();
+        this.gradeDetailsAdapterInterface = gradeDetailsAdapterInterface;
 
     }
 
@@ -167,6 +169,11 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             }
         }
+        if (array.isEmpty()) {
+            gradeDetailsAdapterInterface.arrayStatus(true);
+        } else {
+            gradeDetailsAdapterInterface.arrayStatus(false);
+        }
         return array;
     }
 
@@ -207,5 +214,9 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             averageGradeTextView = itemView.findViewById(R.id.tv_avg_grade);
             stateTextView = itemView.findViewById(R.id.tv_state);
         }
+    }
+
+    public interface GradeDetailsAdapterInterface {
+        void arrayStatus(boolean isEmpty);
     }
 }
