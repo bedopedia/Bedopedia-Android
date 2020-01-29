@@ -39,6 +39,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public GradeDetailAdapter(Context context, GradeDetailsAdapterInterface gradeDetailsAdapterInterface) {
         this.context = context;
         mDataList = new ArrayList<>();
+        parentArray= new ArrayList<>();
         this.gradeDetailsAdapterInterface = gradeDetailsAdapterInterface;
 
     }
