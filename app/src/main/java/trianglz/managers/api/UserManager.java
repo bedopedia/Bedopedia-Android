@@ -97,6 +97,7 @@ public class UserManager {
     public static void getGradesCourses(int studentId, final ArrayResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.gradesCourses(studentId);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        String headerMap = Util.convertHeaderMapToBulk(headerHashMap);
         HashMap<String, String> paramsHashMap = new HashMap<>();
         NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override

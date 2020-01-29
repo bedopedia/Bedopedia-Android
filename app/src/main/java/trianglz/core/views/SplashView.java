@@ -153,18 +153,7 @@ public class SplashView {
             String studentId = studentData.optString("id");
             if (id.equals(studentId)) {
                 kidsAttendances.add(attenobdances);
-                myKids.add(new Student(Integer.parseInt(studentData.optString("id")),
-                        studentData.optString("firstname"),
-                        studentData.optString("lastname"),
-                        studentData.optString("gender"),
-                        studentData.optString("email"),
-                        studentData.optString("avatar_url"),
-                        studentData.optString("user_type"),
-                        studentData.optString("level_name"),
-                        studentData.optString("section_name"),
-                        studentData.optString("stage_name"),
-                        studentData.optJSONObject("today_workload_status"),
-                        0, studentData.optInt("user_id"), null, null));
+                myKids.add(Student.create(studentData.toString()));
                 objectArrayList.add(kidsAttendances);
                 objectArrayList.add(myKids);
             }

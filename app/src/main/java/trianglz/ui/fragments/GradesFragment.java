@@ -75,7 +75,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     private void bindViews() {
         gradesView = new GradesView(getActivity(), this);
         if (!activity.progress.isShowing()) activity.progress.show();
-        gradesView.getGradesCourses(student.userId);
+        gradesView.getGradesCourses(student.actableId);
         activity.toolbarView.setVisibility(View.GONE);
         activity.headerLayout.setVisibility(View.GONE);
         backBtn = rootView.findViewById(R.id.btn_back);

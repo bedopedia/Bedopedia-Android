@@ -27,11 +27,14 @@ public class User  implements Serializable {
     @SerializedName("avatar_url")
     private String avatar;
 
+    @SerializedName("email")
     private String email;
+    @SerializedName("phone")
+    private String phone;
+
     private Date createdAt;
     private Date updatedAt;
     private Date dateOfBirth;
-    private String phone;
     private String mobile;
     private String middleName;
 
