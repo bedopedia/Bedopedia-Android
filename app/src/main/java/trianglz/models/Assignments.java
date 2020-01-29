@@ -22,7 +22,7 @@ public class Assignments {
 	@SerializedName("total")
 	public int total;
 	@SerializedName("grade")
-	public int grade;
+	public double grade;
 	@SerializedName("status")
 	public int status;
 	@SerializedName("hide_grade")

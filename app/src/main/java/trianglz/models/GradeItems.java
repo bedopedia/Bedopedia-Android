@@ -24,7 +24,7 @@ public class GradeItems {
 	@SerializedName("total")
 	public int total;
 	@SerializedName("grade")
-	public int grade;
+	public double grade;
 	@SerializedName("status")
 	public int status;
 	@SerializedName("grade_view")

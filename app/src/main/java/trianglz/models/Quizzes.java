@@ -67,7 +67,7 @@ public class Quizzes implements Parcelable {
     @SerializedName("total")
     private int total;
     @SerializedName("grade")
-    private int grade;
+    private double grade;
     @SerializedName("hide_grade")
     private int hideGrade;
     @SerializedName("grade_view")
@@ -105,11 +105,11 @@ public class Quizzes implements Parcelable {
         return this.total;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(double grade) {
         this.grade = grade;
     }
 
-    public int getGrade() {
+    public double getGrade() {
         return this.grade;
     }
 
