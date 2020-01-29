@@ -75,7 +75,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         setListeners();
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
-            gradeDetailView.getGradesDetails(student.userId, courseGroup.getCourseId(), courseGroup.getId());
+            gradeDetailView.getGradesDetails(student.actableId, courseGroup.getCourseId(), courseGroup.getId());
         } else {
             Util.showNoInternetConnectionDialog(activity);
         }
