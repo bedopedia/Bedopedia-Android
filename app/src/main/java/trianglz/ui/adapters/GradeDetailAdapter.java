@@ -139,7 +139,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     continue;
                 }
             }
-            if (!currentSemester) array.add(getGradeHeader(gradingPeriod.name, GradeHeader.HeaderType.SEMESTER));
+            array.add(getGradeHeader(gradingPeriod.name, GradeHeader.HeaderType.SEMESTER));
             if (gradingPeriod.assignments != null && gradingPeriod.assignments.size() != 0) {
                 array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE));
                 array.addAll(gradingPeriod.assignments);
@@ -154,6 +154,15 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
             if (gradingPeriod.subGradingPeriods != null && gradingPeriod.subGradingPeriods.size() != 0) {
                 for (SubGradingPeriod subGradingPeriod : gradingPeriod.subGradingPeriods) {
+                    if (currentSemester) {
+                        DateTime startDate, endDate, now;
+                        startDate = new DateTime(subGradingPeriod.startDate);
+                        endDate = new DateTime(subGradingPeriod.endDate);
+                        now = new DateTime();
+                        if (now.isBefore(startDate) || now.isAfter(endDate)) {
+                            continue;
+                        }
+                    }
                     array.add(getGradeHeader(subGradingPeriod.name, GradeHeader.HeaderType.SEMESTER));
                     if (subGradingPeriod.assignments != null && subGradingPeriod.assignments.size() != 0) {
                         array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE));
@@ -173,7 +182,13 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (array.isEmpty()) {
             gradeDetailsAdapterInterface.arrayStatus(true);
         } else {
-            gradeDetailsAdapterInterface.arrayStatus(false);
+            for (Object object : array) {
+                if (!(object instanceof GradeHeader)) {
+                    gradeDetailsAdapterInterface.arrayStatus(false);
+                    return array;
+                }
+            }
+            gradeDetailsAdapterInterface.arrayStatus(true);
         }
         return array;
     }
