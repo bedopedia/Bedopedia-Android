@@ -21,6 +21,7 @@ import trianglz.models.GradesDetailsResponse;
 import trianglz.models.GradingPeriod;
 import trianglz.models.Quizzes;
 import trianglz.models.SubGradingPeriod;
+import trianglz.utils.Util;
 
 /**
  * Created by ${Aly} on 11/7/2018.
@@ -76,19 +77,19 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 GradeItems grade = (GradeItems) item;
                 detailViewHolder.classWorkTextView.setText(grade.name);
                 detailViewHolder.markTextView.setText(String.format(context.getString(R.string.mark),
-                        String.valueOf(grade.gradeView),
+                        Util.removeZeroDecimal(grade.gradeView),
                         String.valueOf(grade.total)));
             } else if (item instanceof Quizzes) {
                 Quizzes grade = (Quizzes) item;
                 detailViewHolder.classWorkTextView.setText(grade.getName());
                 detailViewHolder.markTextView.setText(String.format(context.getString(R.string.mark),
-                        String.valueOf(grade.getGradeView()),
+                        Util.removeZeroDecimal(grade.getGradeView()),
                         String.valueOf(grade.getTotal())));
             } else {
                 Assignments grade = (Assignments) item;
                 detailViewHolder.classWorkTextView.setText(grade.name);
                 detailViewHolder.markTextView.setText(String.format(context.getString(R.string.mark),
-                        String.valueOf(grade.gradeView),
+                        Util.removeZeroDecimal(grade.gradeView),
                         String.valueOf(grade.total)));
             }
         }
