@@ -71,7 +71,7 @@ public class Quizzes implements Parcelable {
     @SerializedName("hide_grade")
     private int hideGrade;
     @SerializedName("grade_view")
-    private int gradeView;
+    private String gradeView;
 
     public void setStatus(String status) {
         this.status = status;
@@ -121,11 +121,11 @@ public class Quizzes implements Parcelable {
         return this.hideGrade;
     }
 
-    public void setGradeView(int gradeView) {
+    public void setGradeView(String gradeView) {
         this.gradeView = gradeView;
     }
 
-    public int getGradeView() {
+    public String getGradeView() {
         return this.gradeView;
     }
 
