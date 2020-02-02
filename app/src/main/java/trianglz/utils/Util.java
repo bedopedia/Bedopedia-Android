@@ -486,7 +486,7 @@ public class Util {
         if (string != null && !string.isEmpty() && string.contains(".0")) {
             return string.replace(".0", "");
         } else {
-            return "";
+            return string;
         }
     }
     public static String getAssigmentDetailEndDateMonth(String endDate, Context context) {

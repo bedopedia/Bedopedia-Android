@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -76,25 +77,35 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (item instanceof GradeItems) {
                 GradeItems grade = (GradeItems) item;
                 detailViewHolder.classWorkTextView.setText(grade.name);
-                detailViewHolder.markTextView.setText(String.format(context.getString(R.string.mark),
-                        Util.removeZeroDecimal(grade.gradeView),
-                        String.valueOf(grade.total)));
+                detailViewHolder.markTextView.setText(getMarkText(grade.gradeView, grade.total));
             } else if (item instanceof Quizzes) {
                 Quizzes grade = (Quizzes) item;
                 detailViewHolder.classWorkTextView.setText(grade.getName());
-                detailViewHolder.markTextView.setText(String.format(context.getString(R.string.mark),
-                        Util.removeZeroDecimal(grade.getGradeView()),
-                        String.valueOf(grade.getTotal())));
+                detailViewHolder.markTextView.setText(getMarkText(grade.getGradeView(), grade.getTotal()));
             } else {
                 Assignments grade = (Assignments) item;
                 detailViewHolder.classWorkTextView.setText(grade.name);
-                detailViewHolder.markTextView.setText(String.format(context.getString(R.string.mark),
-                        Util.removeZeroDecimal(grade.gradeView),
-                        String.valueOf(grade.total)));
+                detailViewHolder.markTextView.setText(getMarkText(grade.gradeView, grade.total));
             }
         }
     }
 
+    private String getMarkText(String gradeView, int total) {
+        if (hideTotalGrade(gradeView)) {
+            return gradeView;
+        } else {
+            return String.format(context.getString(R.string.mark),
+                    Util.removeZeroDecimal(gradeView),
+                    String.valueOf(total));
+        }
+    }
+    /**
+     * @param string grade view to check if we should hide the total grade
+     */
+    private boolean hideTotalGrade(String string) {
+        if (string == null) return false;
+        return !NumberUtils.isParsable(string) && !string.contains("*");
+    }
     @Override
     public int getItemCount() {
         return mDataList.size();
