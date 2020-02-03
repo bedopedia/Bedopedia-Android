@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
-public class Quizzes implements Parcelable {
+public class Quizzes extends StudentGradeModel implements Parcelable {
 
 	@SerializedName("id")
 	private int id;
@@ -64,14 +64,8 @@ public class Quizzes implements Parcelable {
     private int gradingPeriodId;
     @SerializedName("type")
     private String type;
-    @SerializedName("total")
-    private int total;
-    @SerializedName("grade")
-    private double grade;
     @SerializedName("hide_grade")
     private int hideGrade;
-    @SerializedName("grade_view")
-    private String gradeView;
 
     public void setStatus(String status) {
         this.status = status;

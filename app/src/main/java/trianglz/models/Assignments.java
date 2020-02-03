@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
-public class Assignments {
+public class Assignments extends StudentGradeModel {
 
 	@SerializedName("id")
 	public int id;
@@ -19,17 +19,11 @@ public class Assignments {
 	public int gradingPeriodId;
 	@SerializedName("type")
 	public String type;
-	@SerializedName("total")
-	public int total;
-	@SerializedName("grade")
-	public double grade;
 	@SerializedName("status")
 	public int status;
 	@SerializedName("hide_grade")
 	public int hideGrade;
-	@SerializedName("grade_view")
-	public String gradeView;
-	
+
 
 	public static Assignments create(String json) {
 		Gson gson = new GsonBuilder().create();
