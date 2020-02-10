@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,10 +28,12 @@ import trianglz.utils.Util;
 public class HomeView {
     private Context context;
     private HomePresenter presenter;
+    private Gson gson ;
 
     public HomeView(Context context, HomePresenter presenter) {
         this.context = context;
         this.presenter = presenter;
+        this.gson = new Gson();
     }
 
     public void getStudents(String url, String id) {
@@ -66,7 +69,8 @@ public class HomeView {
                     studentData.optString("section_name"),
                     studentData.optString("stage_name"),
                     studentData.optJSONObject("today_workload_status"),
-                    0,studentData.optInt("user_id"), null, null));
+                    0,studentData.optInt("user_id"), null, null,
+                    Integer.parseInt(studentData.optString("actable_id"))));
         }
         objectArrayList.add(kidsAttendances);
         objectArrayList.add(myKids);

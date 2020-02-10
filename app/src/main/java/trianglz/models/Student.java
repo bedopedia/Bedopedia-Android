@@ -112,8 +112,9 @@ public class Student extends trianglz.models.User {
         courses = new ArrayList<Course>();
     }
 
-    public Student(int id, String firstName, String lastName, String gender, String email, String avatar, String userType, String level, String section, String stage, JSONObject todayWorkLoad, int bedoPoints, int userId, Parent parent, ArrayList<Course> courses) {
-        super(id, firstName, lastName, gender, email, avatar, userType);
+    public Student(int id, String firstName, String lastName, String gender, String email, String avatar,
+                   String userType, String level, String section, String stage, JSONObject todayWorkLoad, int bedoPoints, int userId, Parent parent, ArrayList<Course> courses,int actableId) {
+        super(id, firstName, lastName, gender, email, avatar,userType);
         this.level = level;
         this.section = section;
         this.stage = stage;
@@ -121,6 +122,7 @@ public class Student extends trianglz.models.User {
         this.userId = userId;
         this.parent = parent;
         this.courses = courses;
+        this.actableId = actableId;
         this.setTodayWorkLoad(todayWorkLoad);
 
     }
