@@ -1,15 +1,21 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-
+ext.versionMajor = 2
+ext.versionMinor = 3
+ext.versionPatch = 9
+ext.versionClassifier = null
+ext.isSnapshot = false
+ext.minimumSdkVersion = 23
 
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.skolera.skolera_android"
-        minSdkVersion 23
         targetSdkVersion 28
         versionCode 29
-        versionName "2.3.9"
+        minSdkVersion project.ext.minimumSdkVersion
+        versionCode generateVersionCode()
+        versionName generateVersionName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -36,7 +42,21 @@ android {
         targetCompatibility = '1.8'
     }
 }
+private String generateVersionName() {
+    String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+    if (ext.versionClassifier == null && ext.isSnapshot) {
+        ext.versionClassifier = "SNAPSHOT"
+    }
 
+    if (ext.versionClassifier != null) {
+        versionName += "-" + ext.versionClassifier
+    }
+    return versionName;
+}
+
+private Integer generateVersionCode() {
+    return ext.minimumSdkVersion * 10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
+}
 dependencies {
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
