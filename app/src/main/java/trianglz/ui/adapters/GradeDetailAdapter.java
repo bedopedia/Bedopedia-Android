@@ -3,7 +3,6 @@ package trianglz.ui.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,43 +10,49 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.joda.time.DateTime;
 
-import trianglz.models.Assignment;
-import trianglz.models.CourseGradingPeriods;
+import java.util.ArrayList;
+
+import trianglz.models.Assignments;
 import trianglz.models.GradeHeader;
-import trianglz.models.GradeItem;
-import trianglz.models.Quiz;
+import trianglz.models.GradeItems;
+import trianglz.models.GradesDetailsResponse;
+import trianglz.models.GradingPeriod;
+import trianglz.models.Quizzes;
+import trianglz.models.SubGradingPeriod;
+import trianglz.utils.Util;
 
 /**
  * Created by ${Aly} on 11/7/2018.
  */
 public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-
-    private static final int TYPE_QUARTER = 1;
-    private static final int TYPE_HEADER = 2;
-    private static final int TYPE_DETAIL = 3;
-
-
-    public List<Object> mDataList;
+    private ArrayList<Object> mDataList;
+    private ArrayList<GradingPeriod> parentArray;
     private Context context;
+    private GradeDetailsAdapterInterface gradeDetailsAdapterInterface;
 
 
-    public GradeDetailAdapter(Context context) {
+    private static final int TYPE_SEMESTER_QUARTER_HEADER = 0;
+    private static final int TYPE_GRADE_HEADER = 2;
+    private static final int TYPE_GRADE = 1;
+
+    public GradeDetailAdapter(Context context, GradeDetailsAdapterInterface gradeDetailsAdapterInterface) {
         this.context = context;
-        this.mDataList = new ArrayList<>();
+        mDataList = new ArrayList<>();
+        parentArray= new ArrayList<>();
+        this.gradeDetailsAdapterInterface = gradeDetailsAdapterInterface;
 
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_QUARTER) {
+        if (viewType == TYPE_SEMESTER_QUARTER_HEADER) {
             View view = LayoutInflater.from(context).inflate(R.layout.item_quarter, parent, false);
             return new QuarterViewHolder(view);
-        } else if (viewType == TYPE_HEADER) {
+        } else if (viewType == TYPE_GRADE_HEADER) {
             View view = LayoutInflater.from(context).inflate(R.layout.item_header, parent, false);
             return new HeaderViewHolder(view);
         } else {
@@ -58,77 +63,49 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        if (mDataList.get(position) instanceof CourseGradingPeriods) {
-            CourseGradingPeriods courseGradingPeriods = (CourseGradingPeriods) mDataList.get(position);
-            QuarterViewHolder quarterViewHolder = ((QuarterViewHolder) holder);
-            quarterViewHolder.quarterTextView.setText(courseGradingPeriods.name);
-        } else if (mDataList.get(position) instanceof Assignment) {
-            DetailViewHolder detailViewHolder = ((DetailViewHolder) holder);
-            Assignment assignment = (Assignment) mDataList.get(position);
-            detailViewHolder.classWorkTextView.setText(assignment.name);
-            if (assignment.hideGrade) {
-                detailViewHolder.markTextView.setText("****");
-            } else {
-                String marketTextView = assignment.grade + "/" + assignment.total;
-                detailViewHolder.markTextView.setText(marketTextView);
-            }
-            if (assignment.averageGrade.isEmpty()) {
-                assignment.averageGrade = "0";
-            }
-            String averageGrade = context.getResources().getString(R.string.average_grade_is)
-                    + " " + assignment.averageGrade + "";
-            detailViewHolder.averageGradeTextView.setText(averageGrade);
-
-        } else if (mDataList.get(position) instanceof Quiz) {
-            DetailViewHolder detailViewHolder = ((DetailViewHolder) holder);
-            Quiz quiz = (Quiz) mDataList.get(position);
-            detailViewHolder.classWorkTextView.setText(quiz.name);
-            if (quiz.hideGrade) {
-                detailViewHolder.markTextView.setText("****");
-            } else {
-                detailViewHolder.markTextView.setText(quiz.grade + "/" + quiz.total);
-            }
-            if (quiz.averageGrade.isEmpty()) {
-                quiz.averageGrade = "0";
-            }
-
-            String averageGrade = context.getResources().getString(R.string.average_grade_is)
-                    + " " + quiz.averageGrade + "";
-            detailViewHolder.averageGradeTextView.setText(averageGrade);
-
-        } else if (mDataList.get(position) instanceof GradeItem) {
-            DetailViewHolder detailViewHolder = ((DetailViewHolder) holder);
-            GradeItem gradeItem = (GradeItem) mDataList.get(position);
-            detailViewHolder.classWorkTextView.setText(gradeItem.name);
-
-            if (gradeItem.averageGrade.isEmpty()) {
-                gradeItem.averageGrade = "0";
-            }
-            if (gradeItem.hideGrade) {
-                detailViewHolder.markTextView.setText("****");
-            } else {
-                detailViewHolder.markTextView.setText(gradeItem.grade + "/" + gradeItem.total);
-            }
-            String averageGrade = context.getResources().getString(R.string.average_grade_is)
-                    + " " + gradeItem.averageGrade + "";
-            detailViewHolder.averageGradeTextView.setText(averageGrade);
-        } else {
-            HeaderViewHolder headerViewHolder = ((HeaderViewHolder) holder);
-            GradeHeader gradeHeader = ((GradeHeader) mDataList.get(position));
+        Object item = mDataList.get(position);
+        if (getItemViewType(position) == TYPE_SEMESTER_QUARTER_HEADER) {
+            QuarterViewHolder quarterViewHolder = (QuarterViewHolder) holder;
+            GradeHeader gradeHeader = (GradeHeader) item;
+            quarterViewHolder.quarterTextView.setText(gradeHeader.header);
+        } else if (getItemViewType(position) == TYPE_GRADE_HEADER) {
+            HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+            GradeHeader gradeHeader = (GradeHeader) item;
             headerViewHolder.headerTextView.setText(gradeHeader.header);
-            if (gradeHeader.publish) {
-                headerViewHolder.headerGradeTextView.setVisibility(View.VISIBLE);
-                String studentMark = getColoredSpanned(gradeHeader.sumOfStudentMarks + "", "#28bb4e");
-                String totalSum = getColoredSpanned("/" + gradeHeader.totalSummtion, "#52616b");
-                String average = studentMark + totalSum;
-                headerViewHolder.headerGradeTextView.setText(Html.fromHtml(average));
+        } else {
+            DetailViewHolder detailViewHolder = (DetailViewHolder) holder;
+            if (item instanceof GradeItems) {
+                GradeItems grade = (GradeItems) item;
+                detailViewHolder.classWorkTextView.setText(grade.name);
+                detailViewHolder.markTextView.setText(getMarkText(grade.gradeView, grade.total));
+            } else if (item instanceof Quizzes) {
+                Quizzes grade = (Quizzes) item;
+                detailViewHolder.classWorkTextView.setText(grade.getName());
+                detailViewHolder.markTextView.setText(getMarkText(grade.getGradeView(), grade.getTotal()));
             } else {
-                headerViewHolder.headerGradeTextView.setVisibility(View.INVISIBLE);
+                Assignments grade = (Assignments) item;
+                detailViewHolder.classWorkTextView.setText(grade.name);
+                detailViewHolder.markTextView.setText(getMarkText(grade.gradeView, grade.total));
             }
-
         }
     }
 
+    private String getMarkText(String gradeView, int total) {
+        if (hideTotalGrade(gradeView)) {
+            return gradeView;
+        } else {
+            return String.format(context.getString(R.string.mark),
+                    Util.removeZeroDecimal(gradeView),
+                    String.valueOf(total));
+        }
+    }
+    /**
+     * @param string grade view to check if we should hide the total grade
+     */
+    private boolean hideTotalGrade(String string) {
+        if (string == null) return false;
+        return !NumberUtils.isParsable(string) && !string.contains("*");
+    }
     @Override
     public int getItemCount() {
         return mDataList.size();
@@ -136,21 +113,103 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (mDataList.get(position) instanceof CourseGradingPeriods) {
-            return TYPE_QUARTER;
-        } else if (mDataList.get(position) instanceof Assignment ||
-                mDataList.get(position) instanceof Quiz ||
-                mDataList.get(position) instanceof GradeItem) {
-            return TYPE_DETAIL;
+        Object item = mDataList.get(position);
+        if (item instanceof GradeHeader) {
+            GradeHeader gradeHeader = (GradeHeader) item;
+            if (gradeHeader.headerType == GradeHeader.HeaderType.SEMESTER) {
+                return TYPE_SEMESTER_QUARTER_HEADER;
+            } else {
+                return TYPE_GRADE_HEADER;
+            }
         } else {
-            return TYPE_HEADER;
+            return TYPE_GRADE;
         }
     }
 
-    public void addData(ArrayList<Object> objectArrayList) {
+    public void addData(GradesDetailsResponse gradesDetailsResponse) {
         mDataList.clear();
-        mDataList.addAll(objectArrayList);
+        parentArray = gradesDetailsResponse.gradingPeriods;
+        mDataList.addAll(sortGradingPeriodsArray(parentArray, false));
         notifyDataSetChanged();
+    }
+
+    public void filterData(boolean currentSemester) {
+        mDataList.clear();
+        mDataList.addAll(sortGradingPeriodsArray(parentArray, currentSemester));
+        notifyDataSetChanged();
+    }
+
+    private ArrayList<Object> sortGradingPeriodsArray(ArrayList<GradingPeriod> gradingPeriods, boolean currentSemester) {
+        ArrayList<Object> array = new ArrayList<>();
+        for (GradingPeriod gradingPeriod : gradingPeriods) {
+            if (currentSemester) {
+                DateTime startDate, endDate, now;
+                startDate = new DateTime(gradingPeriod.startDate);
+                endDate = new DateTime(gradingPeriod.endDate);
+                now = new DateTime();
+                if (now.isBefore(startDate) || now.isAfter(endDate)) {
+                    continue;
+                }
+            }
+            array.add(getGradeHeader(gradingPeriod.name, GradeHeader.HeaderType.SEMESTER));
+            if (gradingPeriod.assignments != null && gradingPeriod.assignments.size() != 0) {
+                array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE));
+                array.addAll(gradingPeriod.assignments);
+            }
+            if (gradingPeriod.quizzes != null && gradingPeriod.quizzes.size() != 0) {
+                array.add(getGradeHeader("Quizzes", GradeHeader.HeaderType.GRADE));
+                array.addAll(gradingPeriod.quizzes);
+            }
+            if (gradingPeriod.gradeItems != null && gradingPeriod.gradeItems.size() != 0) {
+                array.add(getGradeHeader("Grade items", GradeHeader.HeaderType.GRADE));
+                array.addAll(gradingPeriod.gradeItems);
+            }
+            if (gradingPeriod.subGradingPeriods != null && gradingPeriod.subGradingPeriods.size() != 0) {
+                for (SubGradingPeriod subGradingPeriod : gradingPeriod.subGradingPeriods) {
+                    if (currentSemester) {
+                        DateTime startDate, endDate, now;
+                        startDate = new DateTime(subGradingPeriod.startDate);
+                        endDate = new DateTime(subGradingPeriod.endDate);
+                        now = new DateTime();
+                        if (now.isBefore(startDate) || now.isAfter(endDate)) {
+                            continue;
+                        }
+                    }
+                    array.add(getGradeHeader(subGradingPeriod.name, GradeHeader.HeaderType.SEMESTER));
+                    if (subGradingPeriod.assignments != null && subGradingPeriod.assignments.size() != 0) {
+                        array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE));
+                        array.addAll(subGradingPeriod.assignments);
+                    }
+                    if (subGradingPeriod.quizzes != null && subGradingPeriod.quizzes.size() != 0) {
+                        array.add(getGradeHeader("Quizzes", GradeHeader.HeaderType.GRADE));
+                        array.addAll(subGradingPeriod.quizzes);
+                    }
+                    if (subGradingPeriod.gradeItems != null && subGradingPeriod.gradeItems.size() != 0) {
+                        array.add(getGradeHeader("Grade items", GradeHeader.HeaderType.GRADE));
+                        array.addAll(subGradingPeriod.gradeItems);
+                    }
+                }
+            }
+        }
+        if (array.isEmpty()) {
+            gradeDetailsAdapterInterface.arrayStatus(true);
+        } else {
+            for (Object object : array) {
+                if (!(object instanceof GradeHeader)) {
+                    gradeDetailsAdapterInterface.arrayStatus(false);
+                    return array;
+                }
+            }
+            gradeDetailsAdapterInterface.arrayStatus(true);
+        }
+        return array;
+    }
+
+    private GradeHeader getGradeHeader(String name, GradeHeader.HeaderType headerType) {
+        GradeHeader gradeHeader = new GradeHeader();
+        gradeHeader.header = name;
+        gradeHeader.headerType = headerType;
+        return gradeHeader;
     }
 
     public class QuarterViewHolder extends RecyclerView.ViewHolder {
@@ -185,9 +244,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    private String getColoredSpanned(String text, String color) {
-        String input = "<font color=" + color + ">" + text + "</font>";
-        return input;
+    public interface GradeDetailsAdapterInterface {
+        void arrayStatus(boolean isEmpty);
     }
-
 }

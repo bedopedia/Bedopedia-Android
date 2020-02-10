@@ -36,6 +36,66 @@ public class Student extends trianglz.models.User {
     public int userId;
     @SerializedName("courses")
     public ArrayList<Course> courses;
+    @SerializedName("username")
+    public String username;
+    @SerializedName("thumb_url")
+    public String thumbUrl;
+    @SerializedName("dateofbirth")
+    public String dateofbirth;
+    @SerializedName("country")
+    public String country;
+    @SerializedName("city")
+    public String city;
+    @SerializedName("home_address")
+    public String homeAddress;
+    @SerializedName("password")
+    public String password;
+    @SerializedName("is_active")
+    public boolean isActive;
+    @SerializedName("last_sign_in_at")
+    public String lastSignInAt;
+    @SerializedName("name")
+    public String name;
+    @SerializedName("child_id")
+    public int childId;
+    @SerializedName("middlename")
+    public String middlename;
+    @SerializedName("secondary_phone")
+    public String secondaryPhone;
+    @SerializedName("secondary_address")
+    public String secondaryAddress;
+    @SerializedName("locale")
+    public String locale;
+    @SerializedName("actable_id")
+    public int actableId;
+    @SerializedName("actable_type")
+    public String actableType;
+    @SerializedName("unseen_notifications")
+    public int unseenNotifications;
+    @SerializedName("school_name")
+    public String schoolName;
+    @SerializedName("realtime_ip")
+    public String realtimeIp;
+    @SerializedName("password_changed")
+    public boolean passwordChanged;
+    @SerializedName("parent_id")
+    public int parentId;
+    @SerializedName("level_name")
+    public String levelName;
+    @SerializedName("section_name")
+    public String sectionName;
+    @SerializedName("level_id")
+    public int levelId;
+    @SerializedName("stage_name")
+    public String stageName;
+    @SerializedName("code")
+    public String code;
+    @SerializedName("parent_name")
+    public String parentName;
+    @SerializedName("parent_user_id")
+    public int parentUserId;
+    @SerializedName("attendances")
+    public Attendances[] attendances;
 
     public Student() {
         super();

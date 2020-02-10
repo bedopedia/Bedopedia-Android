@@ -5,6 +5,7 @@
     android:layout_height="36dp"
     android:orientation="horizontal"
     android:paddingStart="16dp"
+    android:background="#E8E9ED"
     android:paddingEnd="16dp"
     android:gravity="center_vertical">
 
@@ -12,9 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="24dp"
         android:id="@+id/tv_quarter"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|start"
+        android:textAlignment="viewStart"
         android:textSize="16sp"
-        android:textColor="@color/gunmetal"
+        android:textColor="@color/black"
         android:text="Quarter 1"
         android:layout_marginEnd="5dp"
         android:maxLines="1"

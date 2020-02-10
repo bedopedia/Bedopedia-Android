@@ -482,6 +482,13 @@ public class Util {
         return headers.toString();
     }
 
+    public static String removeZeroDecimal(String string) {
+        if (string != null && !string.isEmpty() && string.contains(".0")) {
+            return string.replace(".0", "");
+        } else {
+            return string;
+        }
+    }
     public static String getAssigmentDetailEndDateMonth(String endDate, Context context) {
         if (endDate == null || endDate.isEmpty()) {
             return "";

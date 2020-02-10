@@ -9,7 +9,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class PostsResponse implements Serializable {
 
@@ -84,5 +88,20 @@ public class PostsResponse implements Serializable {
 		Gson gson = new GsonBuilder().create();
 		return gson.toJson(this);
 	}
-
+	public static ArrayList<PostsResponse> getArrayList(String string) {
+		if (string == null || string.isEmpty()) return new ArrayList<PostsResponse>();
+		ArrayList<PostsResponse> arrayList = new ArrayList<>();
+		JSONArray jsonArray = null;
+		try {
+			jsonArray = new JSONArray(string);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		if (jsonArray != null) {
+			for (int i = 0; i < jsonArray.length(); i++) {
+				arrayList.add(PostsResponse.create(jsonArray.opt(i).toString()));
+			}
+		}
+		return arrayList;
+	}
 }

@@ -94,6 +94,41 @@ public class UserManager {
         });
     }
 
+    public static void getGradesCourses(int studentId, final ArrayResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.gradesCourses(studentId);
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        String headerMap = Util.convertHeaderMapToBulk(headerHashMap);
+        HashMap<String, String> paramsHashMap = new HashMap<>();
+        NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
+    public static void getGradesDetails(int studentId, int courseId, int courseGroupId, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.gradesDetails(courseId, courseGroupId, studentId);
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        headerHashMap.put("Mobile-Version", "application/vnd.skolera.v1");
+        HashMap<String, String> paramsHashMap = new HashMap<>();
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
     public static void getTeacherCourses(String teacherId, final ArrayResponseListener arrayResponseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getTeacherCourses(teacherId);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();

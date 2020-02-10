@@ -9,7 +9,6 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import agency.tango.android.avatarview.AvatarPlaceholder;
 import trianglz.utils.Util;
@@ -118,6 +117,10 @@ public class  AvatarPlaceholderModified extends AvatarPlaceholder {
             if (nameArray.length > 1) {
                 String first = nameArray[0];
                 String last = nameArray[nameArray.length - 1];
+                if (last.charAt(0) == '(') {
+                    last = "";
+                    if (nameArray.length > 2 && nameArray[1] != null && !nameArray[1].isEmpty()) last = nameArray[1];
+                }
                 if (first.length() > 0 && last.length() > 0) {
                     return first.substring(0, 1).toUpperCase() +
                             last.substring(0, 1).toUpperCase();

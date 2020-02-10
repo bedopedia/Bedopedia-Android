@@ -80,7 +80,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private List<BehaviorNote> negativeBehaviorNotes;
     private List<BehaviorNote> otherBehaviorNotes;
     private ArrayList<CourseGroup> courseGroups;
-    private ArrayList<PostsResponse> postsResponses;
     private Student student;
     private AvatarView studentImage;
     private ArrayList<Student> studentArrayList;
@@ -125,7 +124,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
             if (Util.isNetworkAvailable(getParentActivity())) {
-                postsView.getRecentPosts(student.getId());
+                String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
+                studentDetailView.getStudentTimeTable(timeTableUrl);
+                //
                 activity.isCalling = true;
                 getParentActivity().showLoadingDialog();
             } else {
@@ -196,7 +197,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
         // new quizzes layout
         quizzesLayout = rootView.findViewById(R.id.layout_quizzes);
-        postsResponses = new ArrayList<>();
     }
 
     private void setListeners() {
@@ -630,7 +630,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         GradesFragment gradesFragment = new GradesFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
-        bundle.putSerializable(Constants.KEY_COURSE_GROUPS, postsResponses);
+//        bundle.putSerializable(Constants.KEY_COURSE_GROUPS, postsResponses);
         gradesFragment.setArguments(bundle);
         appBarLayout.setExpanded(true);
         getChildFragmentManager().
@@ -773,13 +773,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetPostsSuccess(ArrayList<PostsResponse> parsePostsResponse) {
-        this.postsResponses = parsePostsResponse;
-        activity.isCalling = true;
-//        totalGrade = getParentActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
-        //  studentGradeTextView.setVisibility(View.VISIBLE);
-        //      studentGradeTextView.setText(totalGrade);
-        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
-        studentDetailView.getStudentTimeTable(timeTableUrl);
+//        this.postsResponses = parsePostsResponse;
+//        activity.isCalling = true;
+////        totalGrade = getParentActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
+//        //  studentGradeTextView.setVisibility(View.VISIBLE);
+//        //      studentGradeTextView.setText(totalGrade);
+//        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
+//        studentDetailView.getStudentTimeTable(timeTableUrl);
     }
 
     @Override

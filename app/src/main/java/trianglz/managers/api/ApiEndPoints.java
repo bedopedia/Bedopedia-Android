@@ -23,10 +23,17 @@ public class ApiEndPoints {
         return "/api/courses/" + courseId + "/assignments/" + assignmentId;
     }
 
+    public static String gradesCourses(int studentId) {
+        return "/api/students/" + studentId + "/course_groups_short_list";
+    }
     public static String getAssignmentSubmissions(int courseId, int courseGroupId, int assignmentId) {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/assignments/" + assignmentId + "/submissions";
     }
 
+    public static String gradesDetails(int courseId, int courseGroupId, int studentId) {
+        return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/" +
+                "grade_book_items/grades?student_id=" + studentId;
+    }
     public static String postAssignmentGrade(int courseId, int courseGroupId, int assignmentId) {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/assignments/" + assignmentId + "/student_grade";
     }
