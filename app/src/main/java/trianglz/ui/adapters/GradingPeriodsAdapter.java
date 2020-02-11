@@ -40,31 +40,30 @@ public class GradingPeriodsAdapter extends RecyclerView.Adapter<GradingPeriodsAd
 
     @Override
     public void onBindViewHolder(final Holder holder, final int position) {
+        holder.teacherCountTextView.setVisibility(View.GONE);
         if (type == Period.SEMESTER) {
             GradingPeriod gradingPeriod = (GradingPeriod) mDataList.get(position);
             String teacherCount = "";
             if (gradingPeriod.subGradingPeriods.size() > 1) {
-                teacherCount = (gradingPeriod .subGradingPeriods.size() + " " +
-                        context.getResources().getString(R.string.quarters));
+//                teacherCount = (gradingPeriod .subGradingPeriods.size() + " " +
+//                        context.getResources().getString(R.string.quarters));
             } else {
-                teacherCount = (gradingPeriod.subGradingPeriods.size() + " " +
-                        context.getResources().getString(R.string.quarters));
+//                teacherCount = (gradingPeriod.subGradingPeriods.size() + " " +
+//                        context.getResources().getString(R.string.quarters));
             }
-            holder.teacherCountTextView.setVisibility(View.VISIBLE);
-            holder.teacherCountTextView.setText(teacherCount);
             holder.subjectNameTextView.setText(gradingPeriod.name.trim());
-            holder.itemLayout.setOnClickListener(view -> {
+            holder.itemView.setOnClickListener(view -> {
                 if (type.equals(Period.QUARTER)) {
-                    gradingPeriodsInterface.onQuarterSelected(holder.getAdapterPosition());
+                    gradingPeriodsInterface.onQuarterSelected(position);
                 } else {
-                    gradingPeriodsInterface.onSemesterSelected(holder.getAdapterPosition());
+                    gradingPeriodsInterface.onSemesterSelected(position);
                 }
 
             });
         } else {
+            holder.itemView.setOnClickListener(view -> gradingPeriodsInterface.onQuarterSelected(position));
             SubGradingPeriod subGradingPeriod = (SubGradingPeriod) mDataList.get(position);
             holder.subjectNameTextView.setText(subGradingPeriod.name);
-            holder.teacherCountTextView.setVisibility(View.GONE);
         }
 
 
