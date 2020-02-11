@@ -102,7 +102,11 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
         }
     }
     @Override
-    public void onSemesterSelected(int position) {
+    public void onSemesterSelected(int position, boolean noQuarters) {
+        if (noQuarters) {
+            Toast.makeText(getActivity(), "semester but no quarters", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (gradingPeriodsAdapter.type.equals(GradingPeriodsAdapter.Period.SEMESTER)) {
             if (((GradingPeriod) gradingPeriodsAdapter.mDataList.get(position)).name.equals(selectSemesterTextView.getText().toString())) {
                 gradingPeriodsAdapter.subjectName = "";

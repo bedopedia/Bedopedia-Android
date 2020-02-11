@@ -43,23 +43,12 @@ public class GradingPeriodsAdapter extends RecyclerView.Adapter<GradingPeriodsAd
         holder.teacherCountTextView.setVisibility(View.GONE);
         if (type == Period.SEMESTER) {
             GradingPeriod gradingPeriod = (GradingPeriod) mDataList.get(position);
-            String teacherCount = "";
             if (gradingPeriod.subGradingPeriods.size() > 1) {
-//                teacherCount = (gradingPeriod .subGradingPeriods.size() + " " +
-//                        context.getResources().getString(R.string.quarters));
+                 holder.itemView.setOnClickListener(view -> gradingPeriodsInterface.onSemesterSelected(position,false));
             } else {
-//                teacherCount = (gradingPeriod.subGradingPeriods.size() + " " +
-//                        context.getResources().getString(R.string.quarters));
+                holder.itemView.setOnClickListener(view -> gradingPeriodsInterface.onSemesterSelected(position, true));
             }
             holder.subjectNameTextView.setText(gradingPeriod.name.trim());
-            holder.itemView.setOnClickListener(view -> {
-                if (type.equals(Period.QUARTER)) {
-                    gradingPeriodsInterface.onQuarterSelected(position);
-                } else {
-                    gradingPeriodsInterface.onSemesterSelected(position);
-                }
-
-            });
         } else {
             holder.itemView.setOnClickListener(view -> gradingPeriodsInterface.onQuarterSelected(position));
             SubGradingPeriod subGradingPeriod = (SubGradingPeriod) mDataList.get(position);
@@ -96,7 +85,7 @@ public class GradingPeriodsAdapter extends RecyclerView.Adapter<GradingPeriodsAd
     }
 
     public interface GradingPeriodsInterface {
-        void onSemesterSelected(int position);
+        void onSemesterSelected(int position, boolean noQuarters);
 
         void onQuarterSelected(int position);
     }
