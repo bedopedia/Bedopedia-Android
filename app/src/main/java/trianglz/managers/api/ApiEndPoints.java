@@ -34,6 +34,10 @@ public class ApiEndPoints {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/" +
                 "grade_book_items/grades?student_id=" + studentId;
     }
+
+    public static String gradingPeriods(int courseId) {
+        return "/api/grading_periods/course_grading_periods?course_id=" + courseId;
+    }
     public static String postAssignmentGrade(int courseId, int courseGroupId, int assignmentId) {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/assignments/" + assignmentId + "/student_grade";
     }
