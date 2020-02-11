@@ -47,10 +47,54 @@
             android:background="@android:color/transparent"
             android:src="@drawable/notify" />
     </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/recycler_view" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="#e5e5e5" />
+
+    <trianglz.components.SfproRegularTextView
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:text="@string/select_a_semester"
+        android:textColor="@color/warm_grey"
+        android:textSize="16sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:id="@+id/tv_header_semester"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e5e5e5" />
+
+    <trianglz.components.SfproRegularTextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:text="@string/select_quarter"
+        android:textColor="@color/silver"
+        android:textSize="16sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        tools:visibility="visible"
+        android:id="@+id/tv_header_quarter"
+        android:visibility="gone"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e5e5e5" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recycler_view" />
 
     <FrameLayout
         android:id="@+id/placeholder_layout"

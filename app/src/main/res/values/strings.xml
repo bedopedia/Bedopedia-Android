@@ -296,4 +296,6 @@
     <string name="not_same_password">The password and confirmation do not match</string>
     <string name="un_authorized">Sorry, but you\'re unauthorized to this page</string>
     <string name="semesters">Semesters</string>
+    <string name="select_a_semester">Select a semester</string>
+    <string name="select_quarter">Quarter</string>
 </resources>
