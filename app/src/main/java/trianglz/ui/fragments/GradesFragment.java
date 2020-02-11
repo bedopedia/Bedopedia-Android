@@ -136,20 +136,21 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
 
     @Override
     public void onSubjectSelected(PostsResponse postsResponse) {
-        openGradeDetailFragment(postsResponse);
+        openSelectGradingPeriodFragment(postsResponse);
     }
 
-    private void openGradeDetailFragment(PostsResponse postsResponse) {
+    private void openSelectGradingPeriodFragment(PostsResponse postsResponse) {
 
-        GradeDetailFragment gradeDetailFragment = new GradeDetailFragment();
+        SelectPeriodFragment selectPeriodFragment = new SelectPeriodFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_COURSE_GROUPS, postsResponse);
         bundle.putSerializable(Constants.STUDENT, student);
-        gradeDetailFragment.setArguments(bundle);
+        selectPeriodFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, gradeDetailFragment, "MenuFragments").
+                beginTransaction().add(R.id.menu_fragment_root, selectPeriodFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
+
     }
 
     @Override
