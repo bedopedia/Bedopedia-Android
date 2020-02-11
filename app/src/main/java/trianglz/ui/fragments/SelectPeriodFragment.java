@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import trianglz.core.views.SelectPeriodView;
 import trianglz.models.GradingPeriod;
 import trianglz.models.PostsResponse;
 import trianglz.models.Student;
+import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.GradingPeriodsAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -48,6 +51,8 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     private GradingPeriod selectedGradingPeriod;
     private TextView selectSemesterTextView, selectQuarterTextView;
     private ImageButton backBtn;
+    private FrameLayout placeHolderLayout;
+    private LinearLayout contentLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,6 +84,8 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
         selectQuarterTextView = rootView.findViewById(R.id.tv_header_quarter);
         backBtn = rootView.findViewById(R.id.btn_back);
         studentImageView = rootView.findViewById(R.id.img_student);
+        placeHolderLayout = rootView.findViewById(R.id.placeholder_layout);
+        contentLayout = rootView.findViewById(R.id.content_layout);
         gradingPeriodsAdapter = new GradingPeriodsAdapter(getActivity(), this, GradingPeriodsAdapter.Period.SEMESTER);
         recyclerView.setAdapter(gradingPeriodsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -115,13 +122,26 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     }
     @Override
     public void onGetGradingPeriodsSuccess(ArrayList<GradingPeriod> gradingPeriods) {
-        gradingPeriodsArray.addAll(gradingPeriods);
-        gradingPeriodsAdapter.addData(gradingPeriodsArray, GradingPeriodsAdapter.Period.SEMESTER);
+        if (!gradingPeriods.isEmpty()) {
+            gradingPeriodsArray.addAll(gradingPeriods);
+            gradingPeriodsAdapter.addData(gradingPeriodsArray, GradingPeriodsAdapter.Period.SEMESTER);
+            contentLayout.setVisibility(View.VISIBLE);
+            placeHolderLayout.setVisibility(View.GONE);
+        } else {
+            contentLayout.setVisibility(View.GONE);
+            placeHolderLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onGetGradingPeriodsFailure(String message, int errorCode) {
-
+        StudentMainActivity activity = (StudentMainActivity) getActivity();
+        if (activity != null) {
+            if (activity.progress.isShowing()) activity.progress.dismiss();
+            activity.showErrorDialog(activity, errorCode,"");
+        }
+        contentLayout.setVisibility(View.GONE);
+        placeHolderLayout.setVisibility(View.VISIBLE);
     }
     @Override
     public void onClick(View view) {
