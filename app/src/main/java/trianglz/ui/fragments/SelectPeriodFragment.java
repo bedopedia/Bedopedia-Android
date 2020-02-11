@@ -53,14 +53,17 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     private ImageButton backBtn;
     private FrameLayout placeHolderLayout;
     private LinearLayout contentLayout;
+    private StudentMainActivity activity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        activity = (StudentMainActivity) getActivity();
         View rootView = inflater.inflate(R.layout.fragment_select_period, container, false);
         getValueFromIntent();
         bindViews(rootView);
         setListeners();
+        if (!activity.progress.isShowing()) activity.progress.show();
         selectPeriodView.getGradingPeriods(courseGroup.getCourseId());
         return rootView;
     }
@@ -122,6 +125,7 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     }
     @Override
     public void onGetGradingPeriodsSuccess(ArrayList<GradingPeriod> gradingPeriods) {
+        if (activity.progress.isShowing()) activity.progress.dismiss();
         if (!gradingPeriods.isEmpty()) {
             gradingPeriodsArray.addAll(gradingPeriods);
             gradingPeriodsAdapter.addData(gradingPeriodsArray, GradingPeriodsAdapter.Period.SEMESTER);
@@ -135,11 +139,8 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
 
     @Override
     public void onGetGradingPeriodsFailure(String message, int errorCode) {
-        StudentMainActivity activity = (StudentMainActivity) getActivity();
-        if (activity != null) {
-            if (activity.progress.isShowing()) activity.progress.dismiss();
-            activity.showErrorDialog(activity, errorCode,"");
-        }
+        if (activity.progress.isShowing()) activity.progress.dismiss();
+        activity.showErrorDialog(activity, errorCode,"");
         contentLayout.setVisibility(View.GONE);
         placeHolderLayout.setVisibility(View.VISIBLE);
     }
