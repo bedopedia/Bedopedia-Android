@@ -50,8 +50,9 @@ public class GradingPeriodsAdapter extends RecyclerView.Adapter<GradingPeriodsAd
                 teacherCount = (gradingPeriod.subGradingPeriods.size() + " " +
                         context.getResources().getString(R.string.quarters));
             }
+            holder.teacherCountTextView.setVisibility(View.VISIBLE);
             holder.teacherCountTextView.setText(teacherCount);
-            holder.subjectNameTextView.setText(gradingPeriod.name);
+            holder.subjectNameTextView.setText(gradingPeriod.name.trim());
             holder.itemLayout.setOnClickListener(view -> {
                 if (type.equals(Period.QUARTER)) {
                     gradingPeriodsInterface.onQuarterSelected(holder.getAdapterPosition());
@@ -63,7 +64,7 @@ public class GradingPeriodsAdapter extends RecyclerView.Adapter<GradingPeriodsAd
         } else {
             SubGradingPeriod subGradingPeriod = (SubGradingPeriod) mDataList.get(position);
             holder.subjectNameTextView.setText(subGradingPeriod.name);
-            holder.teacherCountTextView.setText(subjectName);
+            holder.teacherCountTextView.setVisibility(View.GONE);
         }
 
 
