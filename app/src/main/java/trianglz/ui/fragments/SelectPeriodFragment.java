@@ -8,13 +8,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import agency.tango.android.avatarview.IImageLoader;
+import agency.tango.android.avatarview.loader.PicassoLoader;
+import agency.tango.android.avatarview.views.AvatarView;
+import trianglz.components.AvatarPlaceholderModified;
+import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.SelectPeriodPresenter;
 import trianglz.core.views.SelectPeriodView;
@@ -35,8 +43,11 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     private GradingPeriodsAdapter gradingPeriodsAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Object> gradingPeriodsArray;
+    private AvatarView studentImageView;
+    private IImageLoader imageLoader;
     private GradingPeriod selectedGradingPeriod;
     private TextView selectSemesterTextView, selectQuarterTextView;
+    private ImageButton backBtn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,6 +61,7 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     }
 
     private void setListeners() {
+        backBtn.setOnClickListener(this);
         selectSemesterTextView.setOnClickListener(this);
     }
 
@@ -65,13 +77,42 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
         recyclerView = rootView.findViewById (R.id.recycler_view);
         selectSemesterTextView = rootView.findViewById(R.id.tv_header_semester);
         selectQuarterTextView = rootView.findViewById(R.id.tv_header_quarter);
+        backBtn = rootView.findViewById(R.id.btn_back);
+        studentImageView = rootView.findViewById(R.id.img_student);
         gradingPeriodsAdapter = new GradingPeriodsAdapter(getActivity(), this, GradingPeriodsAdapter.Period.SEMESTER);
         recyclerView.setAdapter(gradingPeriodsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, getActivity()), false));
         selectPeriodView = new SelectPeriodView(this);
+        String studentName = student.firstName + " " + student.lastName;
+        setStudentImage(student.getAvatar(), studentName);
     }
+    private void setStudentImage(String imageUrl, final String name) {
+        if (imageUrl == null || imageUrl.equals("")) {
+            imageLoader = new PicassoLoader();
+            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+        } else {
+            imageLoader = new PicassoLoader();
+            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+            Picasso.with(getActivity())
+                    .load(imageUrl)
+                    .fit()
+                    .noPlaceholder()
+                    .transform(new CircleTransform())
+                    .into(studentImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
+                        }
+
+                        @Override
+                        public void onError() {
+                            imageLoader = new PicassoLoader();
+                            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+                        }
+                    });
+        }
+    }
     @Override
     public void onGetGradingPeriodsSuccess(ArrayList<GradingPeriod> gradingPeriods) {
         gradingPeriodsArray.addAll(gradingPeriods);
@@ -86,9 +127,7 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
-//                activity.headerLayout.setVisibility(View.VISIBLE);
-//                activity.toolbarView.setVisibility(View.VISIBLE);
-//                getParentFragment().getChildFragmentManager().popBackStack();
+                if (getParentFragment() != null) getParentFragment().getChildFragmentManager().popBackStack();
                 break;
             case R.id.tv_header_semester:
                 if (selectSemesterTextView.getText().toString() != getResources().getString(R.string.select_a_semester)) {
