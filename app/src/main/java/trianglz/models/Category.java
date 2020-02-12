@@ -43,19 +43,19 @@ public class Category implements Serializable {
 	@SerializedName("quizzes_grade")
 	public int quizzesGrade;
 	@SerializedName("quizzes")
-	public Object[] quizzes;
+	public ArrayList<Quizzes> quizzes;
 	@SerializedName("assignments_total")
 	public int assignmentsTotal;
 	@SerializedName("assignments_grade")
 	public int assignmentsGrade;
 	@SerializedName("assignments")
-	public Object[] assignments;
+	public ArrayList<Assignments> assignments;
 	@SerializedName("grade_items_total")
 	public int gradeItemsTotal;
 	@SerializedName("grade_items_grade")
 	public int gradeItemsGrade;
 	@SerializedName("grade_items")
-	public Object[] gradeItems;
+	public ArrayList<GradeItems> gradeItems;
 	@SerializedName("grade_view")
 	public String gradeView;
 	@SerializedName("percentage")

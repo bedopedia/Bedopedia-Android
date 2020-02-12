@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Subcategory {
     @SerializedName("id")
     public int id;
@@ -22,19 +24,19 @@ public class Subcategory {
     @SerializedName("quizzes_grade")
     public int quizzesGrade;
     @SerializedName("quizzes")
-    public Quizzes[] quizzes;
+    public ArrayList<Quizzes> quizzes;
     @SerializedName("assignments_total")
     public int assignmentsTotal;
     @SerializedName("assignments_grade")
     public int assignmentsGrade;
     @SerializedName("assignments")
-    public Assignments[] assignments;
+    public ArrayList<Assignments> assignments;
     @SerializedName("grade_items_total")
     public int gradeItemsTotal;
     @SerializedName("grade_items_grade")
     public int gradeItemsGrade;
     @SerializedName("grade_items")
-    public GradeItems[] gradeItems;
+    public ArrayList<GradeItems> gradeItems;
     @SerializedName("percentage")
     public double percentage;
     @SerializedName("grade_view")
