@@ -49,6 +49,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     private RecyclerView recyclerView;
     private GradeDetailAdapter gradeDetailAdapter;
     private Student student;
+    private int gradingPeriodId;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private ImageButton backBtn;
@@ -87,6 +88,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         if (bundle != null) {
             courseGroup = (PostsResponse) bundle.getSerializable(Constants.KEY_COURSE_GROUPS);
             student = (Student) bundle.getSerializable(Constants.STUDENT);
+            gradingPeriodId = (int) bundle.getSerializable(Constants.KEY_GRADING_PERIOD_ID);
         }
     }
 
