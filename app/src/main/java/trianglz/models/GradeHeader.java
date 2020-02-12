@@ -12,6 +12,6 @@ public class GradeHeader {
     public boolean publish;
 
     public enum HeaderType {
-        SEMESTER, GRADE
+        CATEGORY, SUBCATEGORY, GRADE
     }
 }
