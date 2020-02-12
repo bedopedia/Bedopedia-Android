@@ -112,8 +112,8 @@ public class UserManager {
         });
     }
 
-    public static void getGradesDetails(int studentId, int courseId, int courseGroupId, final ResponseListener responseListener) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.gradesDetails(courseId, courseGroupId, studentId);
+    public static void getGradesDetails(int studentId, int courseId, int courseGroupId,int gradingPeriodId, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.gradesDetails(courseId, courseGroupId, studentId, gradingPeriodId);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         headerHashMap.put("Mobile-Version", "application/vnd.skolera.v1");
         HashMap<String, String> paramsHashMap = new HashMap<>();

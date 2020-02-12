@@ -23,8 +23,8 @@ public class GradeDetailView {
     }
 
 
-    public void getGradesDetails(int studentId, int courseId, int courseGroupId) {
-        UserManager.getGradesDetails(studentId, courseId, courseGroupId, new ResponseListener() {
+    public void getGradesDetails(int studentId, int courseId, int courseGroupId, int gradingPeriodId) {
+        UserManager.getGradesDetails(studentId, courseId, courseGroupId, gradingPeriodId, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 presenter.onGetGradesDetailsSuccess(GradesDetailsResponse.create(response.toString()));
