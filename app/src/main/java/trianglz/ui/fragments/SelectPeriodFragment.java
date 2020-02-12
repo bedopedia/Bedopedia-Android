@@ -3,6 +3,7 @@ package trianglz.ui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -165,6 +166,7 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     public void onSemesterSelected(int position, boolean noQuarters) {
         if (noQuarters) {
             Toast.makeText(getActivity(), "semester but no quarters", Toast.LENGTH_SHORT).show();
+            openGradeDetailsFragment();
             return;
         }
         if (gradingPeriodsAdapter.type.equals(GradingPeriodsAdapter.Period.SEMESTER)) {
@@ -191,5 +193,18 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     @Override
     public void onQuarterSelected(int position) {
         Toast.makeText(getActivity(), "quarter clicked", Toast.LENGTH_SHORT).show();
+        openGradeDetailsFragment();
+    }
+
+    private void openGradeDetailsFragment() {
+        GradeDetailFragment gradeDetailFragment = new GradeDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroup);
+        bundle.putSerializable(Constants.STUDENT, student);
+        gradeDetailFragment.setArguments(bundle);
+        getParentFragment().getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, gradeDetailFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 }
