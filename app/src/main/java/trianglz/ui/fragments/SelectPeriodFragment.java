@@ -13,7 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
@@ -166,7 +165,6 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     @Override
     public void onSemesterSelected(int position, boolean noQuarters, GradingPeriod gradingPeriod) {
         if (noQuarters) {
-            Toast.makeText(getActivity(), "semester but no quarters", Toast.LENGTH_SHORT).show();
             openGradeDetailsFragment(gradingPeriod.id);
             return;
         }
@@ -193,7 +191,6 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
 
     @Override
     public void onQuarterSelected(int position, SubGradingPeriod subGradingPeriod) {
-        Toast.makeText(getActivity(), "quarter clicked", Toast.LENGTH_SHORT).show();
         openGradeDetailsFragment(subGradingPeriod.id);
     }
 
