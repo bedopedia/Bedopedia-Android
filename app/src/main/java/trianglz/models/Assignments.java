@@ -23,6 +23,20 @@ public class Assignments extends StudentGradeModel {
 	public int status;
 	@SerializedName("hide_grade")
 	public int hideGrade;
+	@SerializedName("category_id")
+	private int categoryId;
+	@SerializedName("due_date")
+	private String dueDate;
+	@SerializedName("total")
+	private int total;
+	@SerializedName("grade")
+	private int grade;
+	@SerializedName("feedback_content")
+	private Object feedbackContent;
+	@SerializedName("feedback_id")
+	private Object feedbackId;
+	@SerializedName("grade_view")
+	private String gradeView;
 
 
 	public static Assignments create(String json) {

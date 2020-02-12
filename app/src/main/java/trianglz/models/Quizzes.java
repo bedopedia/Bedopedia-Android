@@ -66,6 +66,20 @@ public class Quizzes extends StudentGradeModel implements Parcelable {
     private String type;
     @SerializedName("hide_grade")
     private int hideGrade;
+    @SerializedName("category_id")
+    public int categoryId;
+    @SerializedName("total")
+    public int total;
+    @SerializedName("grade")
+    public int grade;
+    @SerializedName("feedback_content")
+    public Object feedbackContent;
+    @SerializedName("feedback_id")
+    public Object feedbackId;
+    @SerializedName("due_date")
+    public String dueDate;
+    @SerializedName("grade_view")
+    public String gradeView;
 
     public void setStatus(String status) {
         this.status = status;
@@ -97,14 +111,6 @@ public class Quizzes extends StudentGradeModel implements Parcelable {
 
     public int getTotal() {
         return this.total;
-    }
-
-    public void setGrade(double grade) {
-        this.grade = grade;
-    }
-
-    public double getGrade() {
-        return this.grade;
     }
 
     public void setHideGrade(int hideGrade) {
