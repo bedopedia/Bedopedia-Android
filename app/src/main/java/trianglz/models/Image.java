@@ -12,15 +12,7 @@ import com.google.gson.annotations.SerializedName;
 public class Image {
 
 	@SerializedName("url")
-	private String url;
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public Object getUrl() {
-		return this.url;
-	}
+	public String url;
 
 
 	public static Image create(String json) {

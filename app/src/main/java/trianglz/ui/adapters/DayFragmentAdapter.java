@@ -48,15 +48,10 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
     @Override
     public void onBindViewHolder(@NonNull final Holder holder, int position) {
         PlannerSubject plannerSubject = mDataList.get(position);
-        holder.subjectNameTextView.setText(plannerSubject.getTitle());
+        holder.subjectNameTextView.setText(plannerSubject.title);
         holder.gradeTextView.setVisibility(View.GONE);
-        setSubjectName(null,getSubjectNameForPlaceHolder(plannerSubject.getTitle()),holder);
-        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dayFragmentAdapterInterface.onItemClicked(mDataList.get(holder.getAdapterPosition()));
-            }
-        });
+        setSubjectName(null,getSubjectNameForPlaceHolder(plannerSubject.title),holder);
+        holder.itemLayout.setOnClickListener(view -> dayFragmentAdapterInterface.onItemClicked(mDataList.get(holder.getAdapterPosition())));
     }
 
 

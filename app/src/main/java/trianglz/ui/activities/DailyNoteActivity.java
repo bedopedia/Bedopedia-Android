@@ -62,7 +62,7 @@ public class DailyNoteActivity extends SuperActivity implements View.OnClickList
         recyclerView.addItemDecoration(new TopItemDecoration((int)Util.convertDpToPixel(16,this),false));
         recyclerView.addItemDecoration(new BottomItemDecoration((int)Util.convertDpToPixel(16,this),false));
         dailyNoteNameTextView = findViewById(R.id.tv_name);
-        dailyNoteNameTextView.setText(plannerSubject.getTitle());
+        dailyNoteNameTextView.setText(plannerSubject.title);
     }
 
     private void setListeners(){

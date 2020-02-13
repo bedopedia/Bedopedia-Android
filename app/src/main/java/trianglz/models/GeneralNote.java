@@ -2,21 +2,23 @@ package trianglz.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class GeneralNote {
+import java.io.Serializable;
+
+public class GeneralNote implements Serializable {
 
     @SerializedName("id")
-    private int id;
+    public int id;
     @SerializedName("title")
-    private String title;
+    public String title;
     @SerializedName("description")
-    private String description;
+    public String description;
     @SerializedName("weekly_plan_id")
-    private int weeklyPlanId;
+    public int weeklyPlanId;
     @SerializedName("created_at")
-    private String createdAt;
+    public String createdAt;
     @SerializedName("updated_at")
-    private String updatedAt;
+    public String updatedAt;
     @SerializedName("image")
-    private Image image;
+    public Image image;
 
 }

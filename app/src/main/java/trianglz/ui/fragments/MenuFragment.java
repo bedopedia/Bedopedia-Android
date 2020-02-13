@@ -430,12 +430,12 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     public void onGetWeeklyPlannerSuccess(WeeklyPlannerResponse weeklyPlannerResponse) {
         activity.isCalling = false;
         this.weeklyPlannerResponse = weeklyPlannerResponse;
-        if (weeklyPlannerResponse.getWeeklyPlans().size() > 0) {
+        if (weeklyPlannerResponse.weeklyPlans.size() > 0) {
             weeklyPlannerTextView.setVisibility(View.VISIBLE);
-            weeklyPlannerTextView.setText(Util.getWeeklPlannerText(weeklyPlannerResponse.getWeeklyPlans().get(0).getStartDate(),
-                    weeklyPlannerResponse.getWeeklyPlans().get(0).getEndDate(), getParentActivity()));
+            weeklyPlannerTextView.setText(Util.getWeeklPlannerText(weeklyPlannerResponse.weeklyPlans.get(0).startDate,
+                    weeklyPlannerResponse.weeklyPlans.get(0).endDate, getParentActivity()));
         } else {
-            //  weeklyPlannerTextView.setText(R.string.there_is_no_weekly_planner);
+              weeklyPlannerTextView.setText(R.string.there_is_no_weekly_planner);
         }
         if (getParentActivity().progress.isShowing())
             getParentActivity().progress.dismiss();

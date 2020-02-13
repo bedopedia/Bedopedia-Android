@@ -34,8 +34,8 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
         if (position == 0) {
             holder.dailyNoteImageView.setImageResource((R.drawable.ic_class_work));
             holder.headerTextView.setText(context.getResources().getString(R.string.class_work));
-            if (!plannerSubject.getClassWork().isEmpty() && !plannerSubject.getClassWork().equals("null")) {
-                holder.contentTextView.setText(Html.fromHtml(plannerSubject.getClassWork()));
+            if (!plannerSubject.classWork.isEmpty() && !plannerSubject.classWork.equals("null")) {
+                holder.contentTextView.setText(Html.fromHtml(plannerSubject.classWork));
             } else {
                 holder.contentTextView.setText(context.getResources().getString(R.string.there_is_no)
                         + " " + context.getResources().getString(R.string.class_work));
@@ -43,8 +43,8 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
         } else if (position == 1) {
             holder.dailyNoteImageView.setImageResource((R.drawable.ic_home_work));
             holder.headerTextView.setText(context.getResources().getString(R.string.homework));
-            if (!plannerSubject.getHomework().isEmpty() && !plannerSubject.getHomework().equals("null")) {
-                holder.contentTextView.setText(Html.fromHtml(plannerSubject.getHomework()));
+            if (!plannerSubject.homework.isEmpty() && !plannerSubject.homework.equals("null")) {
+                holder.contentTextView.setText(Html.fromHtml(plannerSubject.homework));
             } else {
                 holder.contentTextView.setText(context.getResources().getString(R.string.there_is_no)
                         + " " + context.getResources().getString(R.string.homework));
@@ -52,8 +52,8 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
         } else {
             holder.dailyNoteImageView.setImageResource((R.drawable.ic_activity));
             holder.headerTextView.setText(context.getResources().getString(R.string.activity));
-            if (!plannerSubject.getActivities().isEmpty() && !plannerSubject.getActivities().equals("null")) {
-                holder.contentTextView.setText(Html.fromHtml(plannerSubject.getActivities()));
+            if (!plannerSubject.activities.isEmpty() && !plannerSubject.activities.equals("null")) {
+                holder.contentTextView.setText(Html.fromHtml(plannerSubject.activities));
             } else {
                 holder.contentTextView.setText(context.getResources().getString(R.string.there_is_no)
                         + " " + context.getResources().getString(R.string.activity));
