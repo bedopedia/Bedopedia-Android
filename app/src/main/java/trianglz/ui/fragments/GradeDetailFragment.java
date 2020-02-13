@@ -30,7 +30,7 @@ import trianglz.components.ErrorDialog;
 import trianglz.core.presenters.GradeDetailPresenter;
 import trianglz.core.views.GradeDetailView;
 import trianglz.managers.SessionManager;
-import trianglz.models.GradesDetailsResponse;
+import trianglz.models.GradeBook;
 import trianglz.models.PostsResponse;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
@@ -49,6 +49,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     private RecyclerView recyclerView;
     private GradeDetailAdapter gradeDetailAdapter;
     private Student student;
+    private int gradingPeriodId;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private ImageButton backBtn;
@@ -75,7 +76,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         setListeners();
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
-            gradeDetailView.getGradesDetails(student.actableId, courseGroup.getCourseId(), courseGroup.getId());
+            gradeDetailView.getGradesDetails(student.actableId, courseGroup.getCourseId(), courseGroup.getId(), gradingPeriodId);
         } else {
             Util.showNoInternetConnectionDialog(activity);
         }
@@ -87,6 +88,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         if (bundle != null) {
             courseGroup = (PostsResponse) bundle.getSerializable(Constants.KEY_COURSE_GROUPS);
             student = (Student) bundle.getSerializable(Constants.STUDENT);
+            gradingPeriodId = (int) bundle.getSerializable(Constants.KEY_GRADING_PERIOD_ID);
         }
     }
 
@@ -188,8 +190,8 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onGetGradesDetailsSuccess(GradesDetailsResponse gradesDetailsResponse) {
-        gradeDetailAdapter.addData(gradesDetailsResponse);
+    public void onGetGradesDetailsSuccess(GradeBook gradeBook) {
+        gradeDetailAdapter.addData(gradeBook);
         activity.progress.dismiss();
     }
 

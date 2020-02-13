@@ -23,6 +23,12 @@ public class GradeItems extends StudentGradeModel {
 	public String type;
 	@SerializedName("status")
 	public int status;
+	@SerializedName("category_id")
+	public int categoryId;
+	@SerializedName("feedback_content")
+	public Object feedbackContent;
+	@SerializedName("feedback_id")
+	public Object feedbackId;
 
 
 	public static GradeItems create(String json) {

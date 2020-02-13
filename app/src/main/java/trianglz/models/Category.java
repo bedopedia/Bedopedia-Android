@@ -5,11 +5,12 @@ package trianglz.models;//
 //  Created on July 24, 2019
 //
 
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Category implements Serializable {
 
@@ -32,7 +33,36 @@ public class Category implements Serializable {
 	@SerializedName("parent_id")
 	private int parentId;
 	@SerializedName("numeric")
-	private boolean numeric;
+	public boolean numeric;
+	@SerializedName("total")
+	public int total;
+	@SerializedName("grade")
+	public String grade;
+	@SerializedName("quizzes_total")
+	public int quizzesTotal;
+	@SerializedName("quizzes_grade")
+	public int quizzesGrade;
+	@SerializedName("quizzes")
+	public ArrayList<Quizzes> quizzes;
+	@SerializedName("assignments_total")
+	public int assignmentsTotal;
+	@SerializedName("assignments_grade")
+	public int assignmentsGrade;
+	@SerializedName("assignments")
+	public ArrayList<Assignments> assignments;
+	@SerializedName("grade_items_total")
+	public int gradeItemsTotal;
+	@SerializedName("grade_items_grade")
+	public int gradeItemsGrade;
+	@SerializedName("grade_items")
+	public ArrayList<GradeItems> gradeItems;
+	@SerializedName("grade_view")
+	public String gradeView;
+	@SerializedName("percentage")
+	public double percentage;
+	@SerializedName("sub_categories")
+	public ArrayList<Subcategory> subCategories;
+
 
 	public void setId(int id) {
 		this.id = id;

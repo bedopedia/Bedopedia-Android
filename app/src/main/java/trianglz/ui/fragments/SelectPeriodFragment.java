@@ -13,7 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
@@ -32,6 +31,7 @@ import trianglz.core.views.SelectPeriodView;
 import trianglz.models.GradingPeriod;
 import trianglz.models.PostsResponse;
 import trianglz.models.Student;
+import trianglz.models.SubGradingPeriod;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.GradingPeriodsAdapter;
 import trianglz.utils.Constants;
@@ -163,10 +163,9 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
         }
     }
     @Override
-    public void onSemesterSelected(int position, boolean noQuarters) {
+    public void onSemesterSelected(int position, boolean noQuarters, GradingPeriod gradingPeriod) {
         if (noQuarters) {
-            Toast.makeText(getActivity(), "semester but no quarters", Toast.LENGTH_SHORT).show();
-            openGradeDetailsFragment();
+            openGradeDetailsFragment(gradingPeriod.id);
             return;
         }
         if (gradingPeriodsAdapter.type.equals(GradingPeriodsAdapter.Period.SEMESTER)) {
@@ -191,16 +190,16 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     }
 
     @Override
-    public void onQuarterSelected(int position) {
-        Toast.makeText(getActivity(), "quarter clicked", Toast.LENGTH_SHORT).show();
-        openGradeDetailsFragment();
+    public void onQuarterSelected(int position, SubGradingPeriod subGradingPeriod) {
+        openGradeDetailsFragment(subGradingPeriod.id);
     }
 
-    private void openGradeDetailsFragment() {
+    private void openGradeDetailsFragment(int gradingPeriodId) {
         GradeDetailFragment gradeDetailFragment = new GradeDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroup);
         bundle.putSerializable(Constants.STUDENT, student);
+        bundle.putSerializable(Constants.KEY_GRADING_PERIOD_ID, gradingPeriodId);
         gradeDetailFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, gradeDetailFragment, "MenuFragments").

@@ -44,14 +44,14 @@ public class GradingPeriodsAdapter extends RecyclerView.Adapter<GradingPeriodsAd
         if (type == Period.SEMESTER) {
             GradingPeriod gradingPeriod = (GradingPeriod) mDataList.get(position);
             if (gradingPeriod.subGradingPeriods.size() > 1) {
-                 holder.itemView.setOnClickListener(view -> gradingPeriodsInterface.onSemesterSelected(position,false));
+                holder.itemView.setOnClickListener(view -> gradingPeriodsInterface.onSemesterSelected(position, false, gradingPeriod));
             } else {
-                holder.itemView.setOnClickListener(view -> gradingPeriodsInterface.onSemesterSelected(position, true));
+                holder.itemView.setOnClickListener(view -> gradingPeriodsInterface.onSemesterSelected(position, true, gradingPeriod));
             }
             holder.subjectNameTextView.setText(gradingPeriod.name.trim());
         } else {
-            holder.itemView.setOnClickListener(view -> gradingPeriodsInterface.onQuarterSelected(position));
             SubGradingPeriod subGradingPeriod = (SubGradingPeriod) mDataList.get(position);
+            holder.itemView.setOnClickListener(view -> gradingPeriodsInterface.onQuarterSelected(position, subGradingPeriod));
             holder.subjectNameTextView.setText(subGradingPeriod.name);
         }
 
@@ -85,9 +85,9 @@ public class GradingPeriodsAdapter extends RecyclerView.Adapter<GradingPeriodsAd
     }
 
     public interface GradingPeriodsInterface {
-        void onSemesterSelected(int position, boolean noQuarters);
+        void onSemesterSelected(int position, boolean noQuarters, GradingPeriod gradingPeriod);
 
-        void onQuarterSelected(int position);
+        void onQuarterSelected(int position, SubGradingPeriod subGradingPeriod);
     }
 
     public enum Period {
