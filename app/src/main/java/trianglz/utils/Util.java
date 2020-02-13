@@ -211,7 +211,12 @@ public class Util {
         return finalData;
     }
 
-
+    public static String getWeeklyPlannerDate(Date date, Context context) {
+        String finalData = "";
+        SimpleDateFormat fmtOut = new SimpleDateFormat("yyyy-MM-dd", new Locale(getLocale(context)));
+        finalData = fmtOut.format(date);
+        return finalData;
+    }
     public static Date convertStringToDate(String dateString) {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
         Date date = null;
@@ -364,6 +369,33 @@ public class Util {
         });
     }
 
+    public static String getDayByNumber(int number) {
+        String string = "";
+        switch (number) {
+            case 1:
+                string = "Saturday";
+                break;
+            case 2:
+                string = "Sunday";
+                break;
+            case 3:
+                string = "Monday";
+                break;
+            case 4:
+                string = "Tuesday";
+                break;
+            case 5:
+                string = "Wednesday";
+                break;
+            case 6:
+                string = "Thursday";
+                break;
+            case 7:
+                string = "Friday";
+                break;
+        }
+        return string;
+    }
 
     public static String getDayName(String dateString) {
         String dayName = "";
