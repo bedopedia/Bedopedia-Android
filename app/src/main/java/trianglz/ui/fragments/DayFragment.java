@@ -15,8 +15,8 @@ import com.skolera.skolera_android.R;
 import java.util.Objects;
 
 import trianglz.components.CustomeLayoutManager;
-import trianglz.models.DailyNote;
 import trianglz.models.Day;
+import trianglz.models.PlannerSubject;
 import trianglz.models.Student;
 import trianglz.ui.activities.DailyNoteActivity;
 import trianglz.ui.adapters.DayFragmentAdapter;
@@ -61,20 +61,20 @@ public class DayFragment extends Fragment implements DayFragmentAdapter.DayFragm
         customeLayoutManager.setScrollEnabled(false);
         recyclerView.setLayoutManager(customeLayoutManager);
         recyclerView.setNestedScrollingEnabled(true);
-        adapter.addData(day.dailyNoteArrayList);
+        adapter.addData(day.plannerSubjectArrayList);
     }
 
-    private void openDailyNoteActivity(DailyNote dailyNote){
+    private void openDailyNoteActivity(PlannerSubject plannerSubject){
         Intent intent = new Intent(getActivity(),DailyNoteActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_DAILY_NOTE,dailyNote);
+        bundle.putSerializable(Constants.KEY_DAILY_NOTE, plannerSubject);
         bundle.putSerializable(Constants.STUDENT,student);
         intent.putExtra(Constants.KEY_BUNDLE,bundle);
         getActivity().startActivity(intent);
     }
 
     @Override
-    public void onItemClicked(DailyNote dailyNote) {
-        openDailyNoteActivity(dailyNote);
+    public void onItemClicked(PlannerSubject plannerSubject) {
+        openDailyNoteActivity(plannerSubject);
     }
 }

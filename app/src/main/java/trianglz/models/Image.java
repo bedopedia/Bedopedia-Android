@@ -5,17 +5,16 @@ package trianglz.models;//
 //  Created on July 30, 2019
 //
 
-import java.util.*;
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 public class Image {
 
 	@SerializedName("url")
-	private Object url;
+	private String url;
 
-	public void setUrl(Object url) {
+	public void setUrl(String url) {
 		this.url = url;
 	}
 

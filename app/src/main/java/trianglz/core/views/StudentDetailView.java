@@ -36,9 +36,9 @@ import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.models.Notification;
 import trianglz.models.Participant;
-import trianglz.models.RootClass;
 import trianglz.models.TimeTableSlot;
 import trianglz.models.User;
+import trianglz.models.WeeklyPlannerResponse;
 import trianglz.utils.Constants;
 
 /**
@@ -467,9 +467,9 @@ public class StudentDetailView {
 
         return messageThreadArrayList;
     }
-        private RootClass parseWeeklyPlannerRespone(JSONObject jsonObject){
-            RootClass rootClass = new RootClass(jsonObject);
-            return rootClass;
+        private WeeklyPlannerResponse parseWeeklyPlannerRespone(JSONObject jsonObject){
+            WeeklyPlannerResponse weeklyPlannerResponse = new WeeklyPlannerResponse(jsonObject);
+            return weeklyPlannerResponse;
         }
 
 }

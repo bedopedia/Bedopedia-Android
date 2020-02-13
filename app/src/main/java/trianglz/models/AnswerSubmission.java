@@ -1,7 +1,7 @@
 package trianglz.models;
 
 //
-//  RootClass.java
+//  WeeklyPlannerResponse.java
 //
 //  Generated using https://jsonmaster.github.io
 //  Created on October 21, 2019
@@ -37,9 +37,9 @@ public class AnswerSubmission {
     }
 
 
-    public static RootClass create(String json) {
+    public static WeeklyPlannerResponse create(String json) {
         Gson gson = new GsonBuilder().create();
-        return gson.fromJson(json, RootClass.class);
+        return gson.fromJson(json, WeeklyPlannerResponse.class);
     }
 
     public String toString() {

@@ -53,9 +53,9 @@ import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.models.Notification;
 import trianglz.models.PostsResponse;
-import trianglz.models.RootClass;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
+import trianglz.models.WeeklyPlannerResponse;
 import trianglz.ui.activities.ContactTeacherActivity;
 import trianglz.ui.activities.NotificationsActivity;
 import trianglz.ui.activities.SettingsActivity;
@@ -103,7 +103,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private LinearLayout parentLayout, teacherLayout;
     private Actor actor;
     private String actorName = "";
-    private RootClass rootClass;
+    private WeeklyPlannerResponse weeklyPlannerResponse;
     private TextView weeklyPlannerTextView;
 
 
@@ -427,13 +427,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     @Override
-    public void onGetWeeklyPlannerSuccess(RootClass rootClass) {
+    public void onGetWeeklyPlannerSuccess(WeeklyPlannerResponse weeklyPlannerResponse) {
         activity.isCalling = false;
-        this.rootClass = rootClass;
-        if (rootClass.getWeeklyPlans().size() > 0) {
+        this.weeklyPlannerResponse = weeklyPlannerResponse;
+        if (weeklyPlannerResponse.getWeeklyPlans().size() > 0) {
             weeklyPlannerTextView.setVisibility(View.VISIBLE);
-            weeklyPlannerTextView.setText(Util.getWeeklPlannerText(rootClass.getWeeklyPlans().get(0).getStartDate(),
-                    rootClass.getWeeklyPlans().get(0).getEndDate(), getParentActivity()));
+            weeklyPlannerTextView.setText(Util.getWeeklPlannerText(weeklyPlannerResponse.getWeeklyPlans().get(0).getStartDate(),
+                    weeklyPlannerResponse.getWeeklyPlans().get(0).getEndDate(), getParentActivity()));
         } else {
             //  weeklyPlannerTextView.setText(R.string.there_is_no_weekly_planner);
         }
@@ -603,7 +603,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             appBarLayout.setExpanded(true);
             WeeklyPlannerFragment weeklyPlannerFragment = new WeeklyPlannerFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, rootClass);
+            bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, weeklyPlannerResponse);
             bundle.putSerializable(Constants.STUDENT, student);
             weeklyPlannerFragment.setArguments(bundle);
             getChildFragmentManager().

@@ -1,13 +1,13 @@
 package trianglz.models;//
-//  RootClass.java
+//  WeeklyPlannerResponse.java
 //
 //  Generated using https://jsonmaster.github.io
 //  Created on August 05, 2019
 //
 
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 public class GradeModel {
 

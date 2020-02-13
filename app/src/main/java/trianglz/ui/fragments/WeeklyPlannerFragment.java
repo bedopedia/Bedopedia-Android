@@ -32,11 +32,11 @@ import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.CustomRtlViewPager;
-import trianglz.models.DailyNote;
 import trianglz.models.Day;
-import trianglz.models.RootClass;
+import trianglz.models.PlannerSubject;
 import trianglz.models.Student;
 import trianglz.models.WeeklyNote;
+import trianglz.models.WeeklyPlannerResponse;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.WeeklyPlannerAdapter;
 import trianglz.utils.Constants;
@@ -54,8 +54,8 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
     private CustomRtlViewPager viewPager;
     private WeeklyPlannerAdapter adapter;
     private DayFragment fragment;
-    private RootClass rootClass;
-    private HashMap<String, ArrayList<DailyNote>> dailyNoteHashMap;
+    private WeeklyPlannerResponse weeklyPlannerResponse;
+    private HashMap<String, ArrayList<PlannerSubject>> dailyNoteHashMap;
     private TextView weeklyNoteHeaderTextView, weeklyNoteContentTextView;
     private ImageView weeklyNoteImageView;
     private AvatarView studentImageView;
@@ -85,9 +85,9 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            rootClass = (RootClass) bundle.getSerializable(Constants.KEY_WEEKLY_PLANER);
+            weeklyPlannerResponse = (WeeklyPlannerResponse) bundle.getSerializable(Constants.KEY_WEEKLY_PLANER);
             student = (Student) bundle.getSerializable(Constants.STUDENT);
-            this.dailyNoteHashMap = getDaysOfDailyNotes(rootClass);
+            this.dailyNoteHashMap = getDaysOfDailyNotes(weeklyPlannerResponse);
             imageLoader = new PicassoLoader();
         }
 
@@ -121,7 +121,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         weeklyNoteHeaderTextView = rootView.findViewById(R.id.tv_header_weekly_note);
         weeklyNoteImageView = rootView.findViewById(R.id.img_weekly_note);
         weeklyNoteLinearLayout = rootView.findViewById(R.id.layout_weekly_note);
-        if (rootClass != null && rootClass.getWeeklyPlans().size() > 0) {
+        if (weeklyPlannerResponse != null && weeklyPlannerResponse.getWeeklyPlans().size() > 0) {
             listFrameLayout.setVisibility(View.VISIBLE);
             placeholderFrameLayout.setVisibility(View.GONE);
         } else {
@@ -130,9 +130,9 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         }
 
 
-        if (rootClass != null) {
-            if (rootClass.getWeeklyPlans().size() > 0) {
-                ArrayList<WeeklyNote> weeklyNoteArrayList = rootClass.getWeeklyPlans().get(0).getWeeklyNotes();
+        if (weeklyPlannerResponse != null) {
+            if (weeklyPlannerResponse.getWeeklyPlans().size() > 0) {
+                ArrayList<WeeklyNote> weeklyNoteArrayList = weeklyPlannerResponse.getWeeklyPlans().get(0).getWeeklyNotes();
                 if (weeklyNoteArrayList.size() > 0) {
                     WeeklyNote weeklyNote = weeklyNoteArrayList.get(0);
                     weeklyNoteHeaderTextView.setText(Html.fromHtml(weeklyNote.getTitle()));
@@ -239,23 +239,23 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
     }
 
 
-    private HashMap<String, ArrayList<DailyNote>> getDaysOfDailyNotes(RootClass rootClass) {
-        HashMap<String, ArrayList<DailyNote>> dailyNoteHashMap = new HashMap<>();
-        if (rootClass != null) {
-            if (rootClass.getWeeklyPlans().size() > 0) {
-                ArrayList<DailyNote> dailyNoteArrayList = rootClass.getWeeklyPlans().get(0).getDailyNotes();
-                for (int i = 0; i < dailyNoteArrayList.size(); i++) {
-                    DailyNote dailyNote = dailyNoteArrayList.get(i);
-                    String dayName = Util.getDayName(dailyNote.getDate());
+    private HashMap<String, ArrayList<PlannerSubject>> getDaysOfDailyNotes(WeeklyPlannerResponse weeklyPlannerResponse) {
+        HashMap<String, ArrayList<PlannerSubject>> dailyNoteHashMap = new HashMap<>();
+        if (weeklyPlannerResponse != null) {
+            if (weeklyPlannerResponse.getWeeklyPlans().size() > 0) {
+                ArrayList<PlannerSubject> plannerSubjectArrayList = weeklyPlannerResponse.getWeeklyPlans().get(0).getDailyNotes();
+                for (int i = 0; i < plannerSubjectArrayList.size(); i++) {
+                    PlannerSubject plannerSubject = plannerSubjectArrayList.get(i);
+                    String dayName = Util.getDayName(plannerSubject.getDate());
                     if (!dayName.isEmpty()) {
                         if (dailyNoteHashMap.containsKey(dayName)) {
-                            ArrayList<DailyNote> dailyNotes = dailyNoteHashMap.get(dayName);
-                            dailyNotes.add(dailyNote);
-                            dailyNoteHashMap.put(dayName, dailyNotes);
+                            ArrayList<PlannerSubject> plannerSubjects = dailyNoteHashMap.get(dayName);
+                            plannerSubjects.add(plannerSubject);
+                            dailyNoteHashMap.put(dayName, plannerSubjects);
                         } else {
-                            ArrayList<DailyNote> dailyNotes = new ArrayList<>();
-                            dailyNotes.add(dailyNote);
-                            dailyNoteHashMap.put(dayName, dailyNotes);
+                            ArrayList<PlannerSubject> plannerSubjects = new ArrayList<>();
+                            plannerSubjects.add(plannerSubject);
+                            dailyNoteHashMap.put(dayName, plannerSubjects);
                         }
 
                     }
@@ -298,7 +298,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
     private void openWeeklyNoteActivity() {
         AnnouncementDetailFragment announcementDetailFragment = new AnnouncementDetailFragment();
         Bundle bundle = new Bundle();
-        WeeklyNote weeklyNote = rootClass.getWeeklyPlans().get(0).getWeeklyNotes().get(0);
+        WeeklyNote weeklyNote = weeklyPlannerResponse.getWeeklyPlans().get(0).getWeeklyNotes().get(0);
         bundle.putSerializable(Constants.KEY_WEEKLY_NOTE, weeklyNote);
         announcementDetailFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
