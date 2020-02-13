@@ -14,6 +14,7 @@ public class WeeklyPlan implements Serializable {
     public String endDate;
     @SerializedName("general_note")
     public GeneralNote generalNote;
+    @SerializedName("dailyNotes")
     public DailyNotes dailyNotes;
 
 

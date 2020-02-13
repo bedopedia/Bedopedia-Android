@@ -40,7 +40,6 @@ import trianglz.models.WeeklyPlannerResponse;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.WeeklyPlannerAdapter;
 import trianglz.utils.Constants;
-import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 09/09/2019.
@@ -250,23 +249,10 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         HashMap<String, ArrayList<PlannerSubject>> dailyNoteHashMap = new HashMap<>();
         if (weeklyPlannerResponse != null) {
             if (weeklyPlannerResponse.weeklyPlans.size() > 0) {
-                ArrayList<PlannerSubject> plannerSubjectArrayList = weeklyPlannerResponse.weeklyPlans.get(0).dailyNotes.days.get(0).plannerSubjectArrayList;
-                for (int i = 0; i < plannerSubjectArrayList.size(); i++) {
-                    PlannerSubject plannerSubject = plannerSubjectArrayList.get(i);
-                    String dayName = Util.getDayName(plannerSubject.date);
-                    if (!dayName.isEmpty()) {
-                        if (dailyNoteHashMap.containsKey(dayName)) {
-                            ArrayList<PlannerSubject> plannerSubjects = dailyNoteHashMap.get(dayName);
-                            plannerSubjects.add(plannerSubject);
-                            dailyNoteHashMap.put(dayName, plannerSubjects);
-                        } else {
-                            ArrayList<PlannerSubject> plannerSubjects = new ArrayList<>();
-                            plannerSubjects.add(plannerSubject);
-                            dailyNoteHashMap.put(dayName, plannerSubjects);
-                        }
-
-                    }
-
+                ArrayList<Day> days = weeklyPlannerResponse.weeklyPlans.get(0).dailyNotes.days;
+                for (int i = 0; i < days.size(); i++) {
+                    String dayName = days.get(i).day;
+                    dailyNoteHashMap.put(dayName, days.get(i).plannerSubjectArrayList);
                 }
             }
         }

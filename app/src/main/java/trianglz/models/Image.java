@@ -9,7 +9,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
-public class Image {
+import java.io.Serializable;
+
+public class Image implements Serializable {
 
 	@SerializedName("url")
 	public String url;

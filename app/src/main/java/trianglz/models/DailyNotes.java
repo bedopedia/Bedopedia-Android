@@ -1,8 +1,12 @@
 package trianglz.models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DailyNotes {
+public class DailyNotes implements Serializable {
+    @SerializedName("days")
     public ArrayList<Day> days;
 
 }
