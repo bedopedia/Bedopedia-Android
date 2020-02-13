@@ -411,8 +411,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
         Date date = new Date();
         String currentDate = (dateFormat.format(date));
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getWeeklyPlanerUrl(currentDate);
-        studentDetailView.getWeeklyPlanner(url);
+        studentDetailView.getWeeklyPlanner();
 
     }
 

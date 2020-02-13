@@ -118,8 +118,8 @@ public class StudentDetailView {
     }
 
 
-    public void getWeeklyPlanner(String url){
-        UserManager.getWeeklyPlanner(url, new ResponseListener() {
+    public void getWeeklyPlanner(){
+        UserManager.getWeeklyPlanner(new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 studentDetailPresenter.onGetWeeklyPlannerSuccess(parseWeeklyPlannerRespone(response));
@@ -127,7 +127,7 @@ public class StudentDetailView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                studentDetailPresenter.onGetMessagesFailure(message, errorCode);
+                studentDetailPresenter.onGetWeeklyPlannerFailure(message, errorCode);
             }
         });
 

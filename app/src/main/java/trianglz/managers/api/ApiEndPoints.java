@@ -37,6 +37,10 @@ public class ApiEndPoints {
                 "/grade_book_items/student?grading_period_id=" + gradingPeriodId + "&student_id=" + studentId;
     }
 
+    public static String weeklyPlanner() {
+        return "/api//weekly_plans?mobile=true";
+    }
+
     public static String gradingPeriods(int courseId) {
         return "/api/grading_periods/course_grading_periods?course_id=" + courseId;
     }
@@ -141,10 +145,6 @@ public class ApiEndPoints {
 
     public static String getSetReadThreadUrl() {
         return "/api/thread_participants/bulk_mark_as_read";
-    }
-
-    public static String getWeeklyPlanerUrl(String date) {
-        return "/api/weekly_plans?search_by_date=" + date;
     }
 
     public static String getEvents(int userId, String type, String endDate, String startDate) {
