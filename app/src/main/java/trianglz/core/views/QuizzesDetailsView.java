@@ -13,6 +13,7 @@ import trianglz.core.presenters.QuizzesDetailsPresenter;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Meta;
+import trianglz.models.QuizQuestion;
 import trianglz.models.Quizzes;
 import trianglz.utils.Constants;
 
@@ -55,6 +56,20 @@ public class QuizzesDetailsView {
             @Override
             public void onFailure(String message, int errorCode) {
                 quizzesDetailsPresenter.onSubmitQuizFailure(message, errorCode);
+            }
+        });
+    }
+    public void getQuizQuestions(String url){
+        UserManager.getQuizQuestions(url, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                QuizQuestion quizQuestion = QuizQuestion.create(response.toString());
+                quizzesDetailsPresenter.onGetQuizQuestionsSuccess(quizQuestion);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                quizzesDetailsPresenter.onGetQuizQuestionsFailure(message, errorCode);
             }
         });
     }

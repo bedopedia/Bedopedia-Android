@@ -37,6 +37,7 @@ import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.CourseGroups;
 import trianglz.models.Meta;
+import trianglz.models.QuizQuestion;
 import trianglz.models.QuizzCourse;
 import trianglz.models.Quizzes;
 import trianglz.models.Student;
@@ -75,6 +76,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private int quizIndex = 0;
     private ArrayList<Quizzes> isToBeSubmittedQuizzes;
     private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private QuizQuestion quizQuestion;
 
     @Nullable
     @Override
@@ -287,6 +289,21 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     }
 
     @Override
+    public void onGetQuizQuestionsSuccess(QuizQuestion quizQuestion) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        this.quizQuestion = quizQuestion;
+        openQuizDetailFragment();
+    }
+
+    @Override
+    public void onGetQuizQuestionsFailure(String message, int errorCode) {
+        if (activity.progress.isShowing())
+            activity.progress.dismiss();
+        activity.showErrorDialog(activity, errorCode, "");
+    }
+
+    @Override
     public void onItemClicked(Quizzes quizzes) {
         if (!teacherMode) {
 //            SingleQuizFragment singleQuizFragment = new SingleQuizFragment();
@@ -299,6 +316,9 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 //                    beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment, "MenuFragments").
 //                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
 //                    addToBackStack(null).commit();
+                String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizQuestions(quizzes.getId());
+                quizzesDetailsView.getQuizQuestions(url);
+                activity.showLoadingDialog();
         } else {
             GradingFragment gradingFragment = new GradingFragment();
             Bundle bundle = new Bundle();
@@ -381,5 +401,14 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             adapter.addData(quizzes);
         }
     }
-
+    private void openQuizDetailFragment() {
+        QuizDetailsFragment quizDetailsFragment = new QuizDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.KEY_QUIZ_QUESTION, quizQuestion.toString());
+        quizDetailsFragment.setArguments(bundle);
+        getParentFragment().getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, quizDetailsFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+    }
 }

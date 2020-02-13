@@ -73,10 +73,12 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
         if(quizzes.getState() != null){
             holder.dateTextView.setVisibility(View.VISIBLE);
             if (quizzes.getState().equals("running")) {
+                holder.itemView.setOnClickListener(null);
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
                 holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine,null));
                 holder.clockImageView.setImageResource(R.drawable.green_clock_icon);
             } else {
+                holder.itemView.setOnClickListener(view -> anInterface.onItemClicked(quizzes));
                 holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
                 holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dirt_brown,null));
                 holder.clockImageView.setImageResource(R.drawable.red_clock_icon);
@@ -87,13 +89,6 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
 
         String published = context.getString(R.string.published) + " " + Util.getPostDate(dateTime.toString(), context);
         holder.publishedTextView.setText(published);
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                anInterface.onItemClicked(quizzes);
-            }
-        });
     }
 
     @Override
