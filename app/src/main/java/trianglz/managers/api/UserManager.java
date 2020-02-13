@@ -1207,4 +1207,21 @@ public class UserManager {
             }
         });
     }
+
+    public static void getGradingPeriods(int courseID, final ArrayResponseListener arrayResponseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.gradingPeriods(courseID);
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String, String> paramsHashMap = new HashMap<>();
+        NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                arrayResponseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                arrayResponseListener.onFailure(message, errorCode);
+            }
+        });
+    }
 }

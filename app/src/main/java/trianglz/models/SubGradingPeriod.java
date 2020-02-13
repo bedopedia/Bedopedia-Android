@@ -22,6 +22,24 @@ public class SubGradingPeriod {
     public ArrayList<Quizzes> quizzes;
     @SerializedName("assignments")
     public ArrayList<Assignments> assignments;
+    @SerializedName("created_at")
+    private String createdAt;
+    @SerializedName("updated_at")
+    private String updatedAt;
+    @SerializedName("level_id")
+    private String levelId;
+    @SerializedName("academic_term_id")
+    private String academicTermId;
+    @SerializedName("deleted_at")
+    private String deletedAt;
+    @SerializedName("weight")
+    private Object weight;
+    @SerializedName("parent_id")
+    private int parentId;
+    @SerializedName("lock")
+    private boolean lock;
+    @SerializedName("publish")
+    private boolean publish;
     
     public static SubGradingPeriod create(String json) {
         Gson gson = new GsonBuilder().create();
