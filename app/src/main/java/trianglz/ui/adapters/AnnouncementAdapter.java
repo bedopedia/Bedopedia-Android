@@ -52,7 +52,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         body = StringEscapeUtils.unescapeJava(body);
         holder.contentTextView.setText(body);
         holder.announcementHeaderTextView.setText(announcement.title);
-        holder.dateBtn.setText(announcement.createdAt);
+        holder.dateBtn.setText(announcement.endAt);
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

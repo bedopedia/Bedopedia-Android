@@ -171,7 +171,7 @@ public class Util {
         Date date = null;
         try {
             date = fmt.parse(messageTime);
-            SimpleDateFormat fmtOut = new SimpleDateFormat("hh:mm aa", new Locale(getLocale(context)));
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy", new Locale(getLocale(context)));
             finalData = fmtOut.format(date);
 
         } catch (ParseException e) {
