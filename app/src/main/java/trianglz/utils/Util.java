@@ -371,7 +371,7 @@ public class Util {
 
     public static String getDayByNumber(int number) {
         String string = "";
-        switch (number) {
+        switch (number + 1) {
             case 1:
                 string = "Saturday";
                 break;

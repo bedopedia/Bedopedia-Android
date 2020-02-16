@@ -509,7 +509,7 @@ public class StudentDetailView {
         ArrayList<DayWithDate> dayWithDates = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.SATURDAY);
-        for (int i = 1; i < 8; i++) {
+        for (int i = 0; i < 7; i++) {
             DayWithDate dayWithDate = new DayWithDate();
             calendar.set(Calendar.DAY_OF_WEEK, i);
             dayWithDate.date = (Util.getWeeklyPlannerDate(calendar.getTime(), context));
