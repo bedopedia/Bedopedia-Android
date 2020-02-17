@@ -68,8 +68,14 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             GradeHeader gradeHeader = (GradeHeader) item;
             if (gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY) {
                 quarterViewHolder.itemView.setBackgroundResource(R.color.category);
-            } else {
+            } else if (gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY) {
                 quarterViewHolder.itemView.setBackgroundResource(R.color.subcategory);
+            } else if (gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY_TOTAL) {
+                quarterViewHolder.itemView.setBackgroundResource(R.color.subcategory_total);
+            } else if (gradeHeader.headerType == GradeHeader.HeaderType.TOTAL) {
+                quarterViewHolder.itemView.setBackgroundResource(R.color.total);
+            } else if (gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY_TOTAL) {
+                quarterViewHolder.itemView.setBackgroundResource(R.color.category);
             }
             quarterViewHolder.gradeTextview.setText(gradeHeader.gradeText);
             quarterViewHolder.quarterTextView.setText(gradeHeader.header);
@@ -121,7 +127,11 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         Object item = mDataList.get(position);
         if (item instanceof GradeHeader) {
             GradeHeader gradeHeader = (GradeHeader) item;
-            if (gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY || gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY) {
+            if (gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY ||
+                    gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY ||
+                    gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY_TOTAL ||
+                    gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY_TOTAL ||
+                    gradeHeader.headerType == GradeHeader.HeaderType.TOTAL) {
                 return TYPE_SEMESTER_QUARTER_HEADER;
             } else {
                 return TYPE_GRADE_HEADER;
@@ -134,17 +144,18 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void addData(GradeBook gradeBook) {
         mDataList.clear();
         parentArray = gradeBook.categories;
-        mDataList.addAll(sortGradingPeriodsArray(parentArray, false));
+        mDataList.addAll(sortGradingPeriodsArray(gradeBook, false));
         notifyDataSetChanged();
     }
 
     public void filterData(boolean currentSemester) {
-        mDataList.clear();
-        mDataList.addAll(sortGradingPeriodsArray(parentArray, currentSemester));
-        notifyDataSetChanged();
+//        mDataList.clear();
+//        mDataList.addAll(sortGradingPeriodsArray(parentArray, currentSemester));
+//        notifyDataSetChanged();
     }
 
-    private ArrayList<Object> sortGradingPeriodsArray(ArrayList<Category> categories, boolean currentSemester) {
+    private ArrayList<Object> sortGradingPeriodsArray(GradeBook gradeBook, boolean currentSemester) {
+        ArrayList<Category> categories = gradeBook.categories;
         ArrayList<Object> array = new ArrayList<>();
         for (Category category : categories) {
 //            if (currentSemester) {
@@ -156,7 +167,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //                    continue;
 //                }
 //            }
-            array.add(getGradeHeader(category.getName(), GradeHeader.HeaderType.CATEGORY,category.gradeView + " / " + category.total));
+            array.add(getGradeHeader(category.getName(), GradeHeader.HeaderType.CATEGORY,category.gradeView + " / " + category.getWeight()));
             if (category.assignments != null && category.assignments.size() != 0) {
                 array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE,"" ));
                 array.addAll(category.assignments);
@@ -180,7 +191,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //                            continue;
 //                        }
 //                    }
-                    array.add(getGradeHeader(subcategory.name, GradeHeader.HeaderType.SUBCATEGORY, subcategory.gradeView + " / " + subcategory.total));
+                    array.add(getGradeHeader(subcategory.name, GradeHeader.HeaderType.SUBCATEGORY, subcategory.gradeView + " / " + subcategory.weight));
                     if (subcategory.assignments != null && subcategory.assignments.size() != 0) {
                         array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE,""));
                         array.addAll(subcategory.assignments);
@@ -193,8 +204,17 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         array.add(getGradeHeader("Grade items", GradeHeader.HeaderType.GRADE,""));
                         array.addAll(subcategory.gradeItems);
                     }
+                    array.add(getGradeHeader(context.getString(R.string.total),
+                            GradeHeader.HeaderType.SUBCATEGORY_TOTAL,subcategory.grade + " / " + subcategory.total));
                 }
             }
+            array.add(getGradeHeader(context.getString(R.string.total),
+                    GradeHeader.HeaderType.CATEGORY_TOTAL, category.grade + " / " + category.total));
+        }
+        array.add(getGradeHeader(context.getString(R.string.total), GradeHeader.HeaderType.TOTAL, gradeBook.grade + " %"));
+        array.add(getGradeHeader(context.getString(R.string.letter_scale), GradeHeader.HeaderType.TOTAL, gradeBook.letterScale));
+        if (!gradeBook.gpaScale.contains("--")) {
+            array.add(getGradeHeader(context.getString(R.string.letter_scale), GradeHeader.HeaderType.TOTAL, gradeBook.gpaScale));
         }
         if (array.isEmpty()) {
             gradeDetailsAdapterInterface.arrayStatus(true);

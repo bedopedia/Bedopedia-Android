@@ -94,7 +94,9 @@
     <color name="dirt_brown">#6c3e28</color>
     <color name="transparent_white">#80FFFFFF</color>
     <color name="warm_grey_four">#9b9b9b</color>
-    <color name="category">#BDBDBD</color>
-    <color name="subcategory">#E0E0E0</color>
+    <color name="category">#F2F9FF</color>
+    <color name="subcategory">#CEE8FF</color>
+    <color name="subcategory_total">#E0E0E0</color>
+    <color name="total">#F8F8F8</color>
 
 </resources>
