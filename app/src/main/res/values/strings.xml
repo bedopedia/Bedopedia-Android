@@ -295,11 +295,12 @@
     <string name="choose_new_password">Please choose a new password</string>
     <string name="not_same_password">The password and confirmation do not match</string>
     <string name="un_authorized">Sorry, but you\'re unauthorized to this page</string>
-    <string name="semesters">Semesters</string>
+    <string name="semesters">Periods</string>
     <string name="select_a_semester">Select a period</string>
     <string name="select_quarter">Select a quarter</string>
     <string name="total">Total</string>
     <string name="category_total">Category total</string>
     <string name="total_percent">Total(%)</string>
     <string name="letter_scale">Letter scale</string>
+    <string name="gpa">GPA</string>
 </resources>

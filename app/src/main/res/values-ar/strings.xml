@@ -272,4 +272,8 @@
     <string name="not_same_password">كلمة المرور والتأكيد لا تتطابق</string>
     <string name="un_authorized">نأسف, غير مسموح بالدخول للصفحة</string>
     <string name="mark">%1$s / %2$s</string>
+    <string name="total">مجموع</string>
+    <string name="category_total">مجموع الفئة</string>
+    <string name="total_percent">(%)المجموع</string>
+    <string name="semesters">Periods</string>
 </resources>
