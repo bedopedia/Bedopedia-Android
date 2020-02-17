@@ -35,6 +35,8 @@
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:text="@string/semesters"
+            android:textAlignment="viewStart"
+            android:gravity="start"
             android:textColor="@color/greyish_brown"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -57,18 +59,19 @@
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="gone"
+        tools:visibility="visible"
         android:orientation="vertical">
 
     <trianglz.components.SfproRegularTextView
         android:layout_width="match_parent"
         android:layout_height="49dp"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|start"
         android:paddingEnd="15dp"
         android:paddingStart="15dp"
         android:text="@string/select_a_semester"
         android:textColor="@color/warm_grey"
         android:textSize="16sp"
+        android:textAlignment="viewStart"
         android:maxLines="1"
         android:ellipsize="end"
         android:id="@+id/tv_header_semester"/>
@@ -81,11 +84,12 @@
     <trianglz.components.SfproRegularTextView
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|start"
         android:paddingEnd="15dp"
         android:paddingStart="15dp"
         android:text="@string/select_quarter"
         android:textColor="@color/silver"
+        android:textAlignment="viewStart"
         android:textSize="16sp"
         android:maxLines="1"
         android:ellipsize="end"
@@ -107,7 +111,7 @@
         android:id="@+id/placeholder_layout"
         android:layout_width="match_parent"
         android:visibility="gone"
-        tools:visibility="visible"
+        tools:visibility="gone"
         android:layout_height="match_parent">
 
         <LinearLayout
