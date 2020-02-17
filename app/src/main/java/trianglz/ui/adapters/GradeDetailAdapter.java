@@ -211,7 +211,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             array.add(getGradeHeader(context.getString(R.string.total),
                     GradeHeader.HeaderType.CATEGORY_TOTAL, category.grade + " / " + category.total));
         }
-        array.add(getGradeHeader(context.getString(R.string.total), GradeHeader.HeaderType.TOTAL, gradeBook.grade + " %"));
+        array.add(getGradeHeader(context.getString(R.string.total_percent), GradeHeader.HeaderType.TOTAL, gradeBook.grade + " %"));
         array.add(getGradeHeader(context.getString(R.string.letter_scale), GradeHeader.HeaderType.TOTAL, gradeBook.letterScale));
         if (!gradeBook.gpaScale.contains("--")) {
             array.add(getGradeHeader(context.getString(R.string.letter_scale), GradeHeader.HeaderType.TOTAL, gradeBook.gpaScale));
