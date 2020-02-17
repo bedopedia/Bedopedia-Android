@@ -167,7 +167,8 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //                    continue;
 //                }
 //            }
-            array.add(getGradeHeader(category.getName(), GradeHeader.HeaderType.CATEGORY,category.gradeView + " / " + category.getWeight()));
+            array.add(getGradeHeader(category.getName(), GradeHeader.HeaderType.CATEGORY,
+                    getGradeString(category.gradeView, String.valueOf(category.getWeight()))));
             if (category.assignments != null && category.assignments.size() != 0) {
                 array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE,"" ));
                 array.addAll(category.assignments);
@@ -191,7 +192,8 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //                            continue;
 //                        }
 //                    }
-                    array.add(getGradeHeader(subcategory.name, GradeHeader.HeaderType.SUBCATEGORY, subcategory.gradeView + " / " + subcategory.weight));
+                    array.add(getGradeHeader(subcategory.name, GradeHeader.HeaderType.SUBCATEGORY,
+                            getGradeString(subcategory.gradeView, String.valueOf(subcategory.weight))));
                     if (subcategory.assignments != null && subcategory.assignments.size() != 0) {
                         array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE,""));
                         array.addAll(subcategory.assignments);
@@ -205,11 +207,13 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         array.addAll(subcategory.gradeItems);
                     }
                     array.add(getGradeHeader(context.getString(R.string.total),
-                            GradeHeader.HeaderType.SUBCATEGORY_TOTAL,subcategory.grade + " / " + subcategory.total));
+                            GradeHeader.HeaderType.SUBCATEGORY_TOTAL,
+                            getGradeString(subcategory.grade, String.valueOf(subcategory.total))));
                 }
             }
-            array.add(getGradeHeader(context.getString(R.string.total),
-                    GradeHeader.HeaderType.CATEGORY_TOTAL, category.grade + " / " + category.total));
+            array.add(getGradeHeader(context.getString(R.string.category_total),
+                    GradeHeader.HeaderType.CATEGORY_TOTAL,
+                    getGradeString(category.grade, String.valueOf(category.total))));
         }
         array.add(getGradeHeader(context.getString(R.string.total_percent), GradeHeader.HeaderType.TOTAL, gradeBook.grade + " %"));
         array.add(getGradeHeader(context.getString(R.string.letter_scale), GradeHeader.HeaderType.TOTAL, gradeBook.letterScale));
@@ -230,6 +234,16 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return array;
     }
 
+    private String getGradeString(String grade, String total) {
+        if (grade.toLowerCase().contains("n")) {
+            return grade;
+        }
+        if (grade.contains(".0")) {
+            grade = grade.replace(".0", "");
+        }
+        return grade + "/" + total;
+
+    }
     private GradeHeader getGradeHeader(String name, GradeHeader.HeaderType headerType, String gradeText) {
         GradeHeader gradeHeader = new GradeHeader();
         gradeHeader.header = name;
