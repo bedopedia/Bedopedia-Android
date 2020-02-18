@@ -400,6 +400,7 @@ public class UserManager {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
         paramsHashMap.put(Constants.KEY_USER_ID, id);
+        String header = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.getWithParameter(url, paramsHashMap, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {

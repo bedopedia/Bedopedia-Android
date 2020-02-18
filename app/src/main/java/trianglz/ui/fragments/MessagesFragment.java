@@ -164,11 +164,13 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         messageThread.messageArrayList.clear();
         messageThread.messageArrayList.addAll(messages);
         openChatActivity(messageThread);
+        isOpeningThread = false;
     }
 
     @Override
     public void onGetSingleThreadFailure(String message, int errorCode) {
         activity.showErrorDialog(activity, errorCode, "");
+        isOpeningThread = false;
     }
 
     @Override
