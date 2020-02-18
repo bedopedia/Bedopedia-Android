@@ -8,7 +8,7 @@ public class StudentGradeModel {
     @SerializedName("total")
     public int total;
     @SerializedName("grade")
-    public double grade;
+    public String grade;
     @SerializedName("grade_view")
     public String gradeView;
 
