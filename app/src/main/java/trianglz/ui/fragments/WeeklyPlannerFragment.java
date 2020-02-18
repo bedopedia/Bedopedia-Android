@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.duolingo.open.rtlviewpager.RtlViewPager;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
@@ -31,7 +32,6 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
-import trianglz.components.CustomRtlViewPager;
 import trianglz.models.Day;
 import trianglz.models.GeneralNote;
 import trianglz.models.PlannerSubject;
@@ -50,7 +50,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
     private StudentMainActivity activity;
     public Student student;
     private SmartTabLayout tabLayout;
-    private CustomRtlViewPager viewPager;
+    private RtlViewPager viewPager;
     private WeeklyPlannerAdapter adapter;
     private DayFragment fragment;
     private WeeklyPlannerResponse weeklyPlannerResponse;
@@ -62,7 +62,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
     private IImageLoader imageLoader;
     private ImageButton backButton;
     private Button seeMoreButton;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private FrameLayout placeholderFrameLayout, pagerFramLayout;
 
     @Nullable
     @Override
@@ -102,7 +102,6 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         tabLayout = rootView.findViewById(R.id.tab_layout);
         viewPager = rootView.findViewById(R.id.viewpager);
         adapter = new WeeklyPlannerAdapter(getChildFragmentManager(), activity);
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         ArrayList<String> daysNameArrayList = getDaysNameArrayList();
         adapter.addFragmentArrayList(getFragmentList(), daysNameArrayList);
@@ -120,11 +119,16 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         weeklyNoteHeaderTextView = rootView.findViewById(R.id.tv_header_weekly_note);
         weeklyNoteImageView = rootView.findViewById(R.id.img_weekly_note);
         weeklyNoteLinearLayout = rootView.findViewById(R.id.layout_weekly_note);
+        pagerFramLayout = rootView.findViewById(R.id.pager_frame_layout);
         if (weeklyPlannerResponse != null && weeklyPlannerResponse.weeklyPlans.size() > 0) {
-            listFrameLayout.setVisibility(View.VISIBLE);
+            pagerFramLayout.setVisibility(View.VISIBLE);
+            weeklyNoteLinearLayout.setVisibility(View.VISIBLE);
+            tabLayout.setVisibility(View.VISIBLE);
             placeholderFrameLayout.setVisibility(View.GONE);
         } else {
-            listFrameLayout.setVisibility(View.GONE);
+            pagerFramLayout.setVisibility(View.GONE);
+            weeklyNoteLinearLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
             placeholderFrameLayout.setVisibility(View.VISIBLE);
         }
 

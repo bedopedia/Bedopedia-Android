@@ -93,6 +93,7 @@
                         android:layout_marginBottom="2dp"
                         android:gravity="center_horizontal"
                         android:includeFontPadding="false"
+                        tools:text="aklsdjfkljdsf"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:textColor="@color/greyish_brown"
