@@ -2,7 +2,6 @@ package trianglz.ui.activities;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +24,7 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
     public LoadingDialog progress;
     private SuperView superView;
     public ErrorDialog errorDialog;
+    public boolean enableVersionCheck = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +37,7 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
     @Override
     protected void onResume() {
         super.onResume();
-        checkVersionOnStore();
+        if (enableVersionCheck) checkVersionOnStore();
     }
 
     public void showLoadingDialog() {
