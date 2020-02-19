@@ -120,16 +120,12 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         weeklyNoteImageView = rootView.findViewById(R.id.img_weekly_note);
         weeklyNoteLinearLayout = rootView.findViewById(R.id.layout_weekly_note);
         pagerFramLayout = rootView.findViewById(R.id.pager_frame_layout);
-        if (weeklyPlannerResponse != null && weeklyPlannerResponse.weeklyPlans.size() > 0) {
-            pagerFramLayout.setVisibility(View.VISIBLE);
-            weeklyNoteLinearLayout.setVisibility(View.VISIBLE);
-            tabLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+        if (weeklyPlannerResponse != null && weeklyPlannerResponse.weeklyPlans.size() > 0 &&
+                weeklyPlannerResponse.weeklyPlans.get(0).dailyNotes != null &&
+                weeklyPlannerResponse.weeklyPlans.get(0).dailyNotes.days.size() != 0) {
+            hidePlaceHolder();
         } else {
-            pagerFramLayout.setVisibility(View.GONE);
-            weeklyNoteLinearLayout.setVisibility(View.GONE);
-            tabLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            showPlaceHolder();
         }
 
 
@@ -160,6 +156,20 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         }
         backButton = rootView.findViewById(R.id.btn_back);
         seeMoreButton = rootView.findViewById(R.id.btn_see_more);
+    }
+
+    private void hidePlaceHolder() {
+        pagerFramLayout.setVisibility(View.VISIBLE);
+        weeklyNoteLinearLayout.setVisibility(View.VISIBLE);
+        tabLayout.setVisibility(View.VISIBLE);
+        placeholderFrameLayout.setVisibility(View.GONE);
+    }
+
+    private void showPlaceHolder() {
+        pagerFramLayout.setVisibility(View.GONE);
+        weeklyNoteLinearLayout.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.GONE);
+        placeholderFrameLayout.setVisibility(View.VISIBLE);
     }
 
     private void setListeners() {
@@ -253,6 +263,10 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         HashMap<String, ArrayList<PlannerSubject>> dailyNoteHashMap = new HashMap<>();
         if (weeklyPlannerResponse != null) {
             if (weeklyPlannerResponse.weeklyPlans.size() > 0) {
+                if (weeklyPlannerResponse.weeklyPlans.get(0).dailyNotes == null ||
+                        weeklyPlannerResponse.weeklyPlans.get(0).dailyNotes.days.size() == 0) {
+                    return dailyNoteHashMap;
+                }
                 ArrayList<Day> days = weeklyPlannerResponse.weeklyPlans.get(0).dailyNotes.days;
                 for (int i = 0; i < days.size(); i++) {
                     String dayName = days.get(i).day;
