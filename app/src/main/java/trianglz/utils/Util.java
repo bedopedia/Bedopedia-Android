@@ -44,6 +44,7 @@ import trianglz.components.DexterPermissionErrorListener;
 import trianglz.components.ErrorDialog;
 import trianglz.components.MimeTypeInterface;
 import trianglz.components.OnImageSelectedListener;
+import trianglz.managers.App;
 import trianglz.managers.SessionManager;
 import trianglz.models.Message;
 
@@ -166,7 +167,7 @@ public class Util {
 
     public static String getAnnouncementDate(String messageTime, Context context) {
         String finalData = "";
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale(getLocale(context)));
 
         Date date = null;
         try {
@@ -218,7 +219,7 @@ public class Util {
         return finalData;
     }
     public static Date convertStringToDate(String dateString) {
-        SimpleDateFormat fmt = new SimpleDateFormat("dd MMM yyyy", new Locale("en"));
+        SimpleDateFormat fmt = new SimpleDateFormat("dd MMM yyyy", new Locale(getLocale(App.getInstance().getBaseContext())));
         Date date = null;
         try {
             date = fmt.parse(dateString);

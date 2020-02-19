@@ -303,4 +303,5 @@
     <string name="total_percent">Total(%)</string>
     <string name="letter_scale">Letter scale</string>
     <string name="gpa">GPA</string>
+    <string name="minutes">%1$s Minutes</string>
 </resources>
