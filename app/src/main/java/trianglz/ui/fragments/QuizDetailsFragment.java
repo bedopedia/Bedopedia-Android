@@ -77,7 +77,7 @@ public class QuizDetailsFragment extends Fragment implements View.OnClickListene
         quizDescriptionTextView.setText(quizQuestion.getDescription());
         publishDateTextView.setText(dateConverter(quizQuestion.getStartDate()));
         dueDateTextView.setText(dateConverter(quizQuestion.getEndDate()));
-        durationTextView.setText(String.valueOf(quizQuestion.getDuration()));
+        durationTextView.setText(String.format(getString(R.string.minutes),String.valueOf(quizQuestion.getDuration())));
         totalScoreTextView.setText(String.valueOf(quizQuestion.getTotalScore()));
         bloomsTextView.setText(Arrays.toString(quizQuestion.getBlooms()).replaceAll("\\[|\\]", ""));
         topicTextView.setText(quizQuestion.getUnit().getName());
