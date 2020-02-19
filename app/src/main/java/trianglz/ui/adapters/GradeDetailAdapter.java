@@ -238,7 +238,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (grade.toLowerCase().contains("n")) {
             return grade;
         }
-        if (grade.contains(".0")) {
+        if (grade.contains(".0") && grade.lastIndexOf("0") == (grade.length() - 1)) {
             grade = grade.replace(".0", "");
         }
         return grade + "/" + total;
