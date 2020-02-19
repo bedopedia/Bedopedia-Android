@@ -214,7 +214,7 @@ public class Util {
 
     public static String getWeeklyPlannerDate(Date date, Context context) {
         String finalData = "";
-        SimpleDateFormat fmtOut = new SimpleDateFormat("yyyy-MM-dd", new Locale(getLocale(context)));
+        SimpleDateFormat fmtOut = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
         finalData = fmtOut.format(date);
         return finalData;
     }
@@ -372,27 +372,28 @@ public class Util {
 
     public static String getDayByNumber(int number) {
         String string = "";
+        Context context = App.getInstance().getBaseContext();
         switch (number + 1) {
             case 1:
-                string = "Saturday";
+                string = context.getString(R.string.weekly_saturday);
                 break;
             case 2:
-                string = "Sunday";
+                string = context.getString(R.string.weekly_sunday);
                 break;
             case 3:
-                string = "Monday";
+                string = context.getString(R.string.weekly_monday);
                 break;
             case 4:
-                string = "Tuesday";
+                string = context.getString(R.string.weekly_tuesday);
                 break;
             case 5:
-                string = "Wednesday";
+                string = context.getString(R.string.weekly_wednesday);
                 break;
             case 6:
-                string = "Thursday";
+                string = context.getString(R.string.weekly_thursday);
                 break;
             case 7:
-                string = "Friday";
+                string = context.getString(R.string.weekly_friday);
                 break;
         }
         return string;
