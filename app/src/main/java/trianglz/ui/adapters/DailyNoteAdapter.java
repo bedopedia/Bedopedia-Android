@@ -2,10 +2,10 @@ package trianglz.ui.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,28 +35,28 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
             holder.dailyNoteImageView.setImageResource((R.drawable.ic_class_work));
             holder.headerTextView.setText(context.getResources().getString(R.string.class_work));
             if (!plannerSubject.classWork.isEmpty() && !plannerSubject.classWork.equals("null")) {
-                holder.contentTextView.setText(Html.fromHtml(plannerSubject.classWork));
+                holder.contentWebView.loadData((plannerSubject.classWork), "text/html", "UTF-8");
             } else {
-                holder.contentTextView.setText(context.getResources().getString(R.string.there_is_no)
-                        + " " + context.getResources().getString(R.string.class_work));
+                holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no)
+                        + " " + context.getResources().getString(R.string.class_work), "text/html", "UTF-8");
             }
         } else if (position == 1) {
             holder.dailyNoteImageView.setImageResource((R.drawable.ic_home_work));
             holder.headerTextView.setText(context.getResources().getString(R.string.homework));
             if (!plannerSubject.homework.isEmpty() && !plannerSubject.homework.equals("null")) {
-                holder.contentTextView.setText(Html.fromHtml(plannerSubject.homework));
+                holder.contentWebView.loadData((plannerSubject.homework), "text/html", "UTF-8");
             } else {
-                holder.contentTextView.setText(context.getResources().getString(R.string.there_is_no)
-                        + " " + context.getResources().getString(R.string.homework));
+                holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no)
+                        + " " + context.getResources().getString(R.string.homework), "text/html", "UTF-8");
             }
         } else {
             holder.dailyNoteImageView.setImageResource((R.drawable.ic_activity));
             holder.headerTextView.setText(context.getResources().getString(R.string.activity));
             if (!plannerSubject.activities.isEmpty() && !plannerSubject.activities.equals("null")) {
-                holder.contentTextView.setText(Html.fromHtml(plannerSubject.activities));
+                holder.contentWebView.loadData((plannerSubject.activities), "text/html", "UTF-8");
             } else {
-                holder.contentTextView.setText(context.getResources().getString(R.string.there_is_no)
-                        + " " + context.getResources().getString(R.string.activity));
+                holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no)
+                        + " " + context.getResources().getString(R.string.activity), "text/html", "UTF-8");
             }
         }
     }
@@ -70,14 +70,17 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
 
     public static class Holder extends RecyclerView.ViewHolder {
 
-        public TextView headerTextView, dateTextView, contentTextView;
+        public TextView headerTextView, dateTextView;
+        public WebView contentWebView;
         public ImageView dailyNoteImageView;
 
         public Holder(View itemView) {
             super(itemView);
             headerTextView = itemView.findViewById(R.id.tv_header);
             dateTextView = itemView.findViewById(R.id.tv_date);
-            contentTextView = itemView.findViewById(R.id.tv_content);
+            contentWebView = itemView.findViewById(R.id.tv_content);
+            contentWebView.setVerticalScrollBarEnabled(true);
+            contentWebView.setHorizontalScrollBarEnabled(true);
             dailyNoteImageView = itemView.findViewById(R.id.img_daily_note);
         }
     }

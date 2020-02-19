@@ -511,6 +511,7 @@ public class UserManager {
     public static void getQuizzesDetails(int studentId, int courseId, int page, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizzesDetails(studentId, courseId, page);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        String hashStr = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {

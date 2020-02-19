@@ -60,8 +60,10 @@
         android:layout_height="1dp"
         android:background="@color/pale_grey"/>
 
-
-    <trianglz.components.SfuiRegularTextView
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <WebView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,8 +71,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="16dp"
+        android:nestedScrollingEnabled="true"
         android:textColor="@color/brownish_grey"
-        android:minHeight="30dp" />
-
+        android:minHeight="60dp" />
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>
