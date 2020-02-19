@@ -25,6 +25,7 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        enableVersionCheck = false;
         splashView = new SplashView(this, this);
         if (SessionManager.getInstance().getIsLoggedIn()) {
             if (Util.isNetworkAvailable(this)) {

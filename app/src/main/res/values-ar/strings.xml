@@ -276,4 +276,5 @@
     <string name="category_total">مجموع الفئة</string>
     <string name="total_percent">(%)المجموع</string>
     <string name="semesters">Periods</string>
+    <string name="minutes">%1$s دقائق</string>
 </resources>
