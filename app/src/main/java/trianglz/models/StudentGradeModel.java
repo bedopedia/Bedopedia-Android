@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class StudentGradeModel {
     @SerializedName("total")
-    public int total;
+    public double total;
     @SerializedName("grade")
     public double grade;
     @SerializedName("grade_view")

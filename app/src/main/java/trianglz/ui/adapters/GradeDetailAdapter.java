@@ -101,13 +101,13 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    private String getMarkText(String gradeView, int total) {
+    private String getMarkText(String gradeView, double total) {
         if (hideTotalGrade(gradeView)) {
             return gradeView;
         } else {
             return String.format(context.getString(R.string.mark),
                     Util.removeZeroDecimal(gradeView),
-                    String.valueOf(total));
+                    Util.removeZeroDecimal(String.valueOf(total)));
         }
     }
     /**
@@ -240,6 +240,9 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
         if (grade.contains(".0") && grade.lastIndexOf("0") == (grade.length() - 1)) {
             grade = grade.replace(".0", "");
+        }
+        if (total.contains(".0") && total.lastIndexOf("0") == (total.length() - 1)) {
+            total = total.replace(".0", "");
         }
         return grade + "/" + total;
 

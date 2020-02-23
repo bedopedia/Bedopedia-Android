@@ -35,23 +35,23 @@ public class Category implements Serializable {
 	@SerializedName("numeric")
 	public boolean numeric;
 	@SerializedName("total")
-	public int total;
+	public double total;
 	@SerializedName("grade")
 	public String grade;
 	@SerializedName("quizzes_total")
-	public int quizzesTotal;
+	public double quizzesTotal;
 	@SerializedName("quizzes_grade")
 	public int quizzesGrade;
 	@SerializedName("quizzes")
 	public ArrayList<Quizzes> quizzes;
 	@SerializedName("assignments_total")
-	public int assignmentsTotal;
+	public double assignmentsTotal;
 	@SerializedName("assignments_grade")
 	public int assignmentsGrade;
 	@SerializedName("assignments")
 	public ArrayList<Assignments> assignments;
 	@SerializedName("grade_items_total")
-	public int gradeItemsTotal;
+	public double gradeItemsTotal;
 	@SerializedName("grade_items_grade")
 	public int gradeItemsGrade;
 	@SerializedName("grade_items")
