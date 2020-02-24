@@ -208,7 +208,8 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     private void getEvents() {
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getEvents(student.userId, "user", end, start);
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getEvents(Integer.valueOf(SessionManager.getInstance().getUserId()),
+                    "user", end, start);
             calendarEventsView.getEvents(url);
             Log.i("TAG", "getEvents: " + url);
         } else {
