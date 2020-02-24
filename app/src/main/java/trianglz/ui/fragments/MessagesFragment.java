@@ -71,6 +71,10 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         } else {
             actor = activity.getActor();
         }
+        if (!activity.isCalling)
+            activity.showLoadingDialog();
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
+        contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
         return rootView;
     }
 
@@ -104,10 +108,12 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     public void onResume() {
         super.onResume();
         if (Util.isNetworkAvailable(getActivity())) {
-            if (!activity.isCalling)
+            if (((StudentMainActivity) getActivity()).pager.getCurrentItem() == 1) {
+                if (!activity.isCalling)
                 activity.showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-            contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
+                contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
+            }
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }
@@ -158,11 +164,13 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         messageThread.messageArrayList.clear();
         messageThread.messageArrayList.addAll(messages);
         openChatActivity(messageThread);
+        isOpeningThread = false;
     }
 
     @Override
     public void onGetSingleThreadFailure(String message, int errorCode) {
         activity.showErrorDialog(activity, errorCode, "");
+        isOpeningThread = false;
     }
 
     @Override

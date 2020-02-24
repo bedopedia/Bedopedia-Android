@@ -181,6 +181,7 @@ public class Constants {
     public static final String KEY_THREADS_IDS = "thread_ids";
     public static final String KEY_WEEKLY_PLANER = "weeklyPlaner";
     public static final String KEY_DAILY_NOTE = "dailyNote";
+    public static final String KEY_DAILY_NOTEs = "daily_notes";
     public static final String KEY_WEEKLY_NOTE = "weeklyNote";
     public static final String KEY_HIDE_GRADE = "hide_grade";
 
@@ -263,5 +264,6 @@ public class Constants {
 
     public static final String KEY_SENDER_DATA="sender_data";
 
+    public static final String KEY_WEEKLY_PLAN = "weekly_plan";
 }
 

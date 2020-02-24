@@ -19,7 +19,7 @@ import com.stfalcon.frescoimageviewer.ImageViewer;
 import java.util.ArrayList;
 
 import trianglz.models.Announcement;
-import trianglz.models.WeeklyNote;
+import trianglz.models.GeneralNote;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.utils.Constants;
 
@@ -34,7 +34,7 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
     private Announcement announcement;
     private ImageView announcementImageView;
     private WebView webView;
-    private WeeklyNote weeklyNote;
+    private GeneralNote generalNote;
 
     @Nullable
     @Override
@@ -58,7 +58,7 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
         if (bundle != null) {
             announcement = (Announcement) bundle.getSerializable(Constants.KEY_ANNOUNCEMENTS);
             if (announcement == null) {
-                weeklyNote = (WeeklyNote) bundle.getSerializable(Constants.KEY_WEEKLY_NOTE);
+                generalNote = (GeneralNote) bundle.getSerializable(Constants.KEY_WEEKLY_NOTE);
             }
         }
     }
@@ -79,11 +79,11 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
 
 
     private void setWeeklyNote() {
-        headerTextView.setText(weeklyNote.getTitle());
-        if(weeklyNote.getImageUrl() != null && !weeklyNote.getImageUrl().isEmpty() && !weeklyNote.getImageUrl().equals("null")){
+        headerTextView.setText(generalNote.title);
+        if(generalNote.image.url != null && !generalNote.image.url.isEmpty() && !generalNote.image.url.equals("null")){
             announcementImageView.setVisibility(View.VISIBLE);
             Picasso.with(activity)
-                    .load(weeklyNote.getImageUrl())
+                    .load(generalNote.image.url)
                     .centerCrop()
                     .fit()
                     .into(announcementImageView);
@@ -91,7 +91,7 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
             announcementImageView.setVisibility(View.GONE);
         }
         webView = rootView.findViewById(R.id.web_view);
-        webView.loadData(weeklyNote.getDescription(), "text/html", null);
+        webView.loadData(generalNote.description, "text/html", null);
     }
 
     private void setListeners(){

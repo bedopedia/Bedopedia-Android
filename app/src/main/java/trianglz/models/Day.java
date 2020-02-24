@@ -1,15 +1,13 @@
 package trianglz.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Day implements Serializable {
+    @SerializedName("day")
     public String day;
-    public ArrayList<DailyNote> dailyNoteArrayList;
-
-    public Day(String day, ArrayList<DailyNote> dailyNoteArrayList) {
-        this.day = day;
-        this.dailyNoteArrayList = dailyNoteArrayList;
-    }
+    @SerializedName("plannerSubjectArray")
+    public ArrayList<PlannerSubject> plannerSubjectArrayList;
 }

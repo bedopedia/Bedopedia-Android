@@ -21,7 +21,6 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
-import trianglz.components.CircleTransform;
 import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.utils.Util;
@@ -54,7 +53,7 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
     public void onBindViewHolder(final Holder holder, final int position) {
         MessageThread messageThread = mDataList.get(position);
         String name  = "";
-        String[] nameArray = messageThread.otherNames.split(" ");
+        String[] nameArray = messageThread.name.split(" ");
         if(nameArray.length>1){
             String first  = nameArray[0];
             String last = nameArray[nameArray.length-1];

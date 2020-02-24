@@ -119,9 +119,9 @@ public class Event {
     }
 
 
-    public static RootClass create(String json) {
+    public static WeeklyPlannerResponse create(String json) {
         Gson gson = new GsonBuilder().create();
-        return gson.fromJson(json, RootClass.class);
+        return gson.fromJson(json, WeeklyPlannerResponse.class);
     }
 
     public String toString() {

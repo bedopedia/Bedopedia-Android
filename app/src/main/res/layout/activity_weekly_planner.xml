@@ -1,218 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:focusable="true"
-    android:clickable="true"
     android:background="@color/snow"
-    tools:context="trianglz.ui.activities.WeeklyPlannerActivity">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="2dp"
-        app:contentInsetEnd="0dp"
-        app:contentInsetLeft="0dp"
-        app:contentInsetRight="0dp"
-        app:contentInsetStart="0dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:gravity="center_vertical"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp">
-
-                <ImageButton
-                    android:id="@+id/btn_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:padding="10dp"
-                    android:src="@drawable/chevron_left" />
-
-                <trianglz.components.SfproBoldTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:text="@string/weekly_planner"
-                    android:textColor="@color/greyish_brown"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <agency.tango.android.avatarview.views.AvatarView
-                    android:id="@+id/img_student"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/notify" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/silver" />
-        </LinearLayout>
-
-
-    </android.support.v7.widget.Toolbar>
-
-    <FrameLayout
-        android:id="@+id/recycler_view_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/snow">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="vertical"
-                    android:background="@drawable/round_white_background"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:elevation="4dp"
-                    android:layout_marginBottom="24dp"
-                    android:id="@+id/layout_weekly_note">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="146dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/logo"
-                        android:id="@+id/img_weekly_note" />
-
-                    <trianglz.components.SfuiSemiBoldTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginTop="12dp"
-                        android:text="General Activities"
-                        android:textColor="@color/greyish_brown"
-                        android:textSize="18sp"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:id="@+id/tv_header_weekly_note" />
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <trianglz.components.SfuiRegularTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:maxLines="4"
-                            android:layout_marginStart="12dp"
-                            android:layout_marginEnd="12dp"
-                            android:layout_marginBottom="35dp"
-                            android:id="@+id/tv_content_weekly_note" />
-
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="53dp"
-                            android:layout_gravity="bottom"
-                            android:background="@drawable/gradient_weekly_planner_background" />
-
-                        <trianglz.components.SfuiMediumButton
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_gravity="bottom|center"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:text="@string/see_more"
-                            android:gravity="center"
-                            android:visibility="visible"
-                            android:paddingTop="5dp"
-                            android:background="@color/transparent"
-                            android:textAllCaps="false"
-                            android:textColor="@color/greyish_brown"
-                            android:id="@+id/btn_see_more" />
-                    </FrameLayout>
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:orientation="vertical">
-
-                    <com.ogaclejapan.smarttablayout.SmartTabLayout
-                        android:id="@+id/tab_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        app:stl_indicatorAlwaysInCenter="false"
-                        app:stl_indicatorWithoutPadding="false"
-                        app:stl_indicatorInFront="true"
-                        app:stl_indicatorInterpolation="smart"
-                        app:stl_indicatorGravity="bottom"
-                        app:stl_indicatorColor="@color/jade_green"
-                        app:stl_indicatorThickness="4dp"
-                        app:stl_indicatorWidth="auto"
-                        app:stl_indicatorCornerRadius="2dp"
-                        app:stl_overlineColor="#4D000000"
-                        app:stl_overlineThickness="0dp"
-                        app:stl_underlineColor="#b9b9b9"
-                        app:stl_underlineThickness="1dp"
-                        app:stl_dividerColor="@color/white"
-                        app:stl_dividerThickness="0dp"
-                        app:stl_defaultTabBackground="?attr/selectableItemBackground"
-                        app:stl_defaultTabTextAllCaps="false"
-                        app:stl_defaultTabTextColor="@drawable/custom_tab"
-                        app:stl_defaultTabTextSize="16sp"
-                        app:stl_defaultTabTextHorizontalPadding="16dp"
-                        app:stl_defaultTabTextMinWidth="0dp"
-                        app:stl_distributeEvenly="false"
-                        app:stl_clickable="true"
-                        app:stl_titleOffset="24dp"
-                        app:stl_drawDecorationAfterTab="false" />
-
-                    <trianglz.components.CustomRtlViewPager
-                        android:id="@+id/viewpager"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-        </android.support.v4.widget.NestedScrollView>
-    </FrameLayout>
-
+    tools:context="trianglz.ui.fragments.WeeklyPlannerFragment">
     <FrameLayout
         android:id="@+id/placeholder_layout"
         android:layout_width="match_parent"
-        android:visibility="visible"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:visibility="gone">
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -229,13 +30,210 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:layout_marginTop="24dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="24dp"
                 android:includeFontPadding="false"
-                android:textSize="16sp"
-                android:text="@string/weeklyplanner_placeholder" />
+                android:text="@string/weeklyplanner_placeholder"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </LinearLayout>
     </FrameLayout>
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/snow">
 
-</LinearLayout>
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="@android:color/transparent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
+
+            <LinearLayout
+                android:id="@+id/layout_weekly_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="70dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/round_white_background"
+                android:elevation="0dp"
+                android:orientation="vertical"
+                app:layout_collapseMode="pin">
+
+                <ImageView
+                    android:id="@+id/img_weekly_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="146dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/logo" />
+
+                <trianglz.components.SfuiSemiBoldTextView
+                    android:id="@+id/tv_header_weekly_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="General Activities"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="18sp" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <trianglz.components.SfuiRegularTextView
+                        android:id="@+id/tv_content_weekly_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="35dp"
+                        android:maxLines="4" />
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="53dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/gradient_weekly_planner_background" />
+
+                    <trianglz.components.SfuiMediumButton
+                        android:id="@+id/btn_see_more"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="bottom|center"
+                        android:background="@color/transparent"
+                        android:gravity="center"
+                        android:paddingTop="5dp"
+                        android:text="@string/see_more"
+                        android:textAllCaps="false"
+                        android:textColor="@color/greyish_brown"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:background="@color/snow"
+                android:elevation="2dp"
+                app:contentInsetEnd="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetRight="0dp"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp">
+
+                        <ImageButton
+                            android:id="@+id/btn_back"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:background="@android:color/transparent"
+                            android:padding="10dp"
+                            android:src="@drawable/chevron_left" />
+
+                        <trianglz.components.SfproBoldTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:background="@android:color/transparent"
+                            android:text="@string/weekly_planner"
+                            android:textColor="@color/greyish_brown"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <agency.tango.android.avatarview.views.AvatarView
+                            android:id="@+id/img_student"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/notify" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/silver" />
+                </LinearLayout>
+
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <com.ogaclejapan.smarttablayout.SmartTabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:stl_clickable="true"
+            app:stl_defaultTabBackground="?attr/selectableItemBackground"
+            app:stl_defaultTabTextAllCaps="false"
+            app:stl_defaultTabTextColor="@drawable/custom_tab"
+            app:stl_defaultTabTextHorizontalPadding="16dp"
+            app:stl_defaultTabTextMinWidth="0dp"
+            app:stl_defaultTabTextSize="16sp"
+            app:stl_distributeEvenly="false"
+            app:stl_dividerColor="@color/white"
+            app:stl_dividerThickness="0dp"
+            app:stl_drawDecorationAfterTab="false"
+            app:stl_indicatorAlwaysInCenter="false"
+            app:stl_indicatorColor="@color/jade_green"
+            app:stl_indicatorCornerRadius="2dp"
+            app:stl_indicatorGravity="bottom"
+            app:stl_indicatorInFront="true"
+            app:stl_indicatorInterpolation="smart"
+            app:stl_indicatorThickness="4dp"
+            app:stl_indicatorWidth="auto"
+            app:stl_indicatorWithoutPadding="false"
+            app:stl_overlineColor="#4D000000"
+            app:stl_overlineThickness="0dp"
+            app:stl_titleOffset="24dp"
+            app:stl_underlineColor="#b9b9b9"
+            app:stl_underlineThickness="1dp" />
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        android:id="@+id/pager_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.duolingo.open.rtlviewpager.RtlViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

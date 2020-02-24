@@ -212,7 +212,12 @@ public class Util {
         return finalData;
     }
 
-
+    public static String getWeeklyPlannerDate(Date date, Context context) {
+        String finalData = "";
+        SimpleDateFormat fmtOut = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
+        finalData = fmtOut.format(date);
+        return finalData;
+    }
     public static Date convertStringToDate(String dateString) {
         SimpleDateFormat fmt = new SimpleDateFormat("dd MMM yyyy", new Locale(getLocale(App.getInstance().getBaseContext())));
         Date date = null;
@@ -365,6 +370,34 @@ public class Util {
         });
     }
 
+    public static String getDayByNumber(int number) {
+        String string = "";
+        Context context = App.getInstance().getBaseContext();
+        switch (number + 1) {
+            case 1:
+                string = context.getString(R.string.weekly_saturday);
+                break;
+            case 2:
+                string = context.getString(R.string.weekly_sunday);
+                break;
+            case 3:
+                string = context.getString(R.string.weekly_monday);
+                break;
+            case 4:
+                string = context.getString(R.string.weekly_tuesday);
+                break;
+            case 5:
+                string = context.getString(R.string.weekly_wednesday);
+                break;
+            case 6:
+                string = context.getString(R.string.weekly_thursday);
+                break;
+            case 7:
+                string = context.getString(R.string.weekly_friday);
+                break;
+        }
+        return string;
+    }
 
     public static String getDayName(String dateString) {
         String dayName = "";

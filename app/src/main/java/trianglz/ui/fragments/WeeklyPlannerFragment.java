@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.duolingo.open.rtlviewpager.RtlViewPager;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
@@ -31,16 +32,14 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
-import trianglz.components.CustomRtlViewPager;
-import trianglz.models.DailyNote;
 import trianglz.models.Day;
-import trianglz.models.RootClass;
+import trianglz.models.GeneralNote;
+import trianglz.models.PlannerSubject;
 import trianglz.models.Student;
-import trianglz.models.WeeklyNote;
+import trianglz.models.WeeklyPlannerResponse;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.WeeklyPlannerAdapter;
 import trianglz.utils.Constants;
-import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 09/09/2019.
@@ -51,11 +50,11 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
     private StudentMainActivity activity;
     public Student student;
     private SmartTabLayout tabLayout;
-    private CustomRtlViewPager viewPager;
+    private RtlViewPager viewPager;
     private WeeklyPlannerAdapter adapter;
     private DayFragment fragment;
-    private RootClass rootClass;
-    private HashMap<String, ArrayList<DailyNote>> dailyNoteHashMap;
+    private WeeklyPlannerResponse weeklyPlannerResponse;
+    private HashMap<String, ArrayList<PlannerSubject>> dailyNoteHashMap;
     private TextView weeklyNoteHeaderTextView, weeklyNoteContentTextView;
     private ImageView weeklyNoteImageView;
     private AvatarView studentImageView;
@@ -63,7 +62,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
     private IImageLoader imageLoader;
     private ImageButton backButton;
     private Button seeMoreButton;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private FrameLayout placeholderFrameLayout, pagerFramLayout;
 
     @Nullable
     @Override
@@ -85,9 +84,9 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            rootClass = (RootClass) bundle.getSerializable(Constants.KEY_WEEKLY_PLANER);
+            weeklyPlannerResponse = (WeeklyPlannerResponse) bundle.getSerializable(Constants.KEY_WEEKLY_PLANER);
             student = (Student) bundle.getSerializable(Constants.STUDENT);
-            this.dailyNoteHashMap = getDaysOfDailyNotes(rootClass);
+            this.dailyNoteHashMap = getDaysOfDailyNotes(weeklyPlannerResponse);
             imageLoader = new PicassoLoader();
         }
 
@@ -102,8 +101,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         }
         tabLayout = rootView.findViewById(R.id.tab_layout);
         viewPager = rootView.findViewById(R.id.viewpager);
-        adapter = new WeeklyPlannerAdapter(activity.getSupportFragmentManager(), activity);
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
+        adapter = new WeeklyPlannerAdapter(getChildFragmentManager(), activity);
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
         ArrayList<String> daysNameArrayList = getDaysNameArrayList();
         adapter.addFragmentArrayList(getFragmentList(), daysNameArrayList);
@@ -121,26 +119,26 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         weeklyNoteHeaderTextView = rootView.findViewById(R.id.tv_header_weekly_note);
         weeklyNoteImageView = rootView.findViewById(R.id.img_weekly_note);
         weeklyNoteLinearLayout = rootView.findViewById(R.id.layout_weekly_note);
-        if (rootClass != null && rootClass.getWeeklyPlans().size() > 0) {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+        pagerFramLayout = rootView.findViewById(R.id.pager_frame_layout);
+        if (weeklyPlannerResponse != null && weeklyPlannerResponse.weeklyPlans.size() > 0 &&
+                weeklyPlannerResponse.weeklyPlans.get(0).dailyNotes != null &&
+                weeklyPlannerResponse.weeklyPlans.get(0).dailyNotes.days.size() != 0) {
+            hidePlaceHolder();
         } else {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            showPlaceHolder();
         }
 
 
-        if (rootClass != null) {
-            if (rootClass.getWeeklyPlans().size() > 0) {
-                ArrayList<WeeklyNote> weeklyNoteArrayList = rootClass.getWeeklyPlans().get(0).getWeeklyNotes();
-                if (weeklyNoteArrayList.size() > 0) {
-                    WeeklyNote weeklyNote = weeklyNoteArrayList.get(0);
-                    weeklyNoteHeaderTextView.setText(Html.fromHtml(weeklyNote.getTitle()));
-                    weeklyNoteContentTextView.setText(Html.fromHtml(weeklyNote.getDescription()));
-                    if (weeklyNote.getImageUrl() != null && !weeklyNote.getImageUrl().isEmpty() && !weeklyNote.getImageUrl().equals("null")) {
+        if (weeklyPlannerResponse != null) {
+            if (weeklyPlannerResponse.weeklyPlans.size() > 0) {
+                GeneralNote generalNote = weeklyPlannerResponse.weeklyPlans.get(0).generalNote;
+                if (generalNote != null) {
+                    weeklyNoteHeaderTextView.setText(Html.fromHtml(generalNote.title));
+                    weeklyNoteContentTextView.setText(Html.fromHtml(generalNote.description));
+                    if (generalNote.image.url != null && !generalNote.image.url.isEmpty() && !generalNote.image.url.equals("null")) {
                         weeklyNoteImageView.setVisibility(View.VISIBLE);
                         Picasso.with(activity)
-                                .load(weeklyNote.getImageUrl())
+                                .load(generalNote.image.url)
                                 .centerCrop()
                                 .fit()
                                 .into(weeklyNoteImageView);
@@ -160,6 +158,20 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         seeMoreButton = rootView.findViewById(R.id.btn_see_more);
     }
 
+    private void hidePlaceHolder() {
+        pagerFramLayout.setVisibility(View.VISIBLE);
+        weeklyNoteLinearLayout.setVisibility(View.VISIBLE);
+        tabLayout.setVisibility(View.VISIBLE);
+        placeholderFrameLayout.setVisibility(View.GONE);
+    }
+
+    private void showPlaceHolder() {
+        pagerFramLayout.setVisibility(View.GONE);
+        weeklyNoteLinearLayout.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.GONE);
+        placeholderFrameLayout.setVisibility(View.VISIBLE);
+    }
+
     private void setListeners() {
         backButton.setOnClickListener(this);
         seeMoreButton.setOnClickListener(this);
@@ -167,52 +179,62 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
 
     private ArrayList<Fragment> getFragmentList() {
         ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+        if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_saturday))) {
+            Day day = new Day();
+            day.day = getResources().getString(R.string.weekly_saturday);
+            day.plannerSubjectArrayList = dailyNoteHashMap.get(getResources().getString(R.string.weekly_saturday));
+            fragmentArrayList.add(DayFragment.newInstance(day, student));
+        }
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_sunday))) {
-            Day day = new Day(getResources().getString(R.string.weekly_sunday)
-                    , dailyNoteHashMap.get(getResources().getString(R.string.weekly_sunday)));
+            Day day = new Day();
+            day.day = getResources().getString(R.string.weekly_sunday);
+            day.plannerSubjectArrayList = dailyNoteHashMap.get(getResources().getString(R.string.weekly_sunday));
             fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_monday))) {
-            Day day = new Day(getResources().getString(R.string.weekly_monday)
-                    , dailyNoteHashMap.get(getResources().getString(R.string.weekly_monday)));
+            Day day = new Day();
+            day.day = getResources().getString(R.string.weekly_monday);
+            day.plannerSubjectArrayList = dailyNoteHashMap.get(getResources().getString(R.string.weekly_monday));
             fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_tuesday))) {
-            Day day = new Day(getResources().getString(R.string.weekly_tuesday)
-                    , dailyNoteHashMap.get(getResources().getString(R.string.weekly_tuesday)));
+            Day day = new Day();
+            day.day = getResources().getString(R.string.weekly_tuesday);
+            day.plannerSubjectArrayList = dailyNoteHashMap.get(getResources().getString(R.string.weekly_tuesday));
             fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_wednesday))) {
-            Day day = new Day(getResources().getString(R.string.weekly_wednesday)
-                    , dailyNoteHashMap.get(getResources().getString(R.string.weekly_wednesday)));
+            Day day = new Day();
+            day.day = getResources().getString(R.string.weekly_wednesday);
+            day.plannerSubjectArrayList = dailyNoteHashMap.get(getResources().getString(R.string.weekly_wednesday));
             fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_thursday))) {
-            Day day = new Day(getResources().getString(R.string.weekly_thursday)
-                    , dailyNoteHashMap.get(getResources().getString(R.string.weekly_thursday)));
+            Day day = new Day();
+            day.day = getResources().getString(R.string.weekly_thursday);
+            day.plannerSubjectArrayList = dailyNoteHashMap.get(getResources().getString(R.string.weekly_thursday));
             fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
 
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_friday))) {
-            Day day = new Day(getResources().getString(R.string.weekly_friday)
-                    , dailyNoteHashMap.get(getResources().getString(R.string.weekly_friday)));
+            Day day = new Day();
+            day.day = getResources().getString(R.string.weekly_friday);
+            day.plannerSubjectArrayList = dailyNoteHashMap.get(getResources().getString(R.string.weekly_friday));
             fragmentArrayList.add(DayFragment.newInstance(day, student));
         }
 
-        if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_saturday))) {
-            Day day = new Day(getResources().getString(R.string.weekly_saturday)
-                    , dailyNoteHashMap.get(getResources().getString(R.string.weekly_saturday)));
-            fragmentArrayList.add(DayFragment.newInstance(day, student));
-        }
         return fragmentArrayList;
     }
 
     private ArrayList<String> getDaysNameArrayList() {
         ArrayList<String> daysNameStringArrayList = new ArrayList<>();
+        if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_saturday))) {
+            daysNameStringArrayList.add(getResources().getString(R.string.weekly_saturday));
+        }
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_sunday))) {
             daysNameStringArrayList.add(getResources().getString(R.string.weekly_sunday));
         }
@@ -231,35 +253,24 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_friday))) {
             daysNameStringArrayList.add(getResources().getString(R.string.weekly_friday));
         }
-        if (dailyNoteHashMap.containsKey(getResources().getString(R.string.weekly_saturday))) {
-            daysNameStringArrayList.add(getResources().getString(R.string.weekly_saturday));
-        }
+
 
         return daysNameStringArrayList;
     }
 
 
-    private HashMap<String, ArrayList<DailyNote>> getDaysOfDailyNotes(RootClass rootClass) {
-        HashMap<String, ArrayList<DailyNote>> dailyNoteHashMap = new HashMap<>();
-        if (rootClass != null) {
-            if (rootClass.getWeeklyPlans().size() > 0) {
-                ArrayList<DailyNote> dailyNoteArrayList = rootClass.getWeeklyPlans().get(0).getDailyNotes();
-                for (int i = 0; i < dailyNoteArrayList.size(); i++) {
-                    DailyNote dailyNote = dailyNoteArrayList.get(i);
-                    String dayName = Util.getDayName(dailyNote.getDate());
-                    if (!dayName.isEmpty()) {
-                        if (dailyNoteHashMap.containsKey(dayName)) {
-                            ArrayList<DailyNote> dailyNotes = dailyNoteHashMap.get(dayName);
-                            dailyNotes.add(dailyNote);
-                            dailyNoteHashMap.put(dayName, dailyNotes);
-                        } else {
-                            ArrayList<DailyNote> dailyNotes = new ArrayList<>();
-                            dailyNotes.add(dailyNote);
-                            dailyNoteHashMap.put(dayName, dailyNotes);
-                        }
-
-                    }
-
+    private HashMap<String, ArrayList<PlannerSubject>> getDaysOfDailyNotes(WeeklyPlannerResponse weeklyPlannerResponse) {
+        HashMap<String, ArrayList<PlannerSubject>> dailyNoteHashMap = new HashMap<>();
+        if (weeklyPlannerResponse != null) {
+            if (weeklyPlannerResponse.weeklyPlans.size() > 0) {
+                if (weeklyPlannerResponse.weeklyPlans.get(0).dailyNotes == null ||
+                        weeklyPlannerResponse.weeklyPlans.get(0).dailyNotes.days.size() == 0) {
+                    return dailyNoteHashMap;
+                }
+                ArrayList<Day> days = weeklyPlannerResponse.weeklyPlans.get(0).dailyNotes.days;
+                for (int i = 0; i < days.size(); i++) {
+                    String dayName = days.get(i).day;
+                    dailyNoteHashMap.put(dayName, days.get(i).plannerSubjectArrayList);
                 }
             }
         }
@@ -298,8 +309,8 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
     private void openWeeklyNoteActivity() {
         AnnouncementDetailFragment announcementDetailFragment = new AnnouncementDetailFragment();
         Bundle bundle = new Bundle();
-        WeeklyNote weeklyNote = rootClass.getWeeklyPlans().get(0).getWeeklyNotes().get(0);
-        bundle.putSerializable(Constants.KEY_WEEKLY_NOTE, weeklyNote);
+        GeneralNote generalNote = weeklyPlannerResponse.weeklyPlans.get(0).generalNote;
+        bundle.putSerializable(Constants.KEY_WEEKLY_NOTE, generalNote);
         announcementDetailFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, announcementDetailFragment, "MenuFragments").

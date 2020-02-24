@@ -2,27 +2,24 @@ package trianglz.ui.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import trianglz.models.DailyNote;
+import trianglz.models.PlannerSubject;
 
 public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Holder> {
     public Context context;
-    private DailyNote dailyNote;
+    private PlannerSubject plannerSubject;
 
-    public DailyNoteAdapter(Context context,DailyNote dailyNote) {
+    public DailyNoteAdapter(Context context, PlannerSubject plannerSubject) {
         this.context = context;
-        this.dailyNote = dailyNote;
+        this.plannerSubject = plannerSubject;
     }
 
     @Override
@@ -37,29 +34,29 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
         if (position == 0) {
             holder.dailyNoteImageView.setImageResource((R.drawable.ic_class_work));
             holder.headerTextView.setText(context.getResources().getString(R.string.class_work));
-            if (!dailyNote.getClassWork().isEmpty() && !dailyNote.getClassWork().equals("null")) {
-                holder.contentTextView.setText(Html.fromHtml(dailyNote.getClassWork()));
+            if (!plannerSubject.classWork.isEmpty() && !plannerSubject.classWork.equals("null")) {
+                holder.contentWebView.loadData((plannerSubject.classWork), "text/html", "UTF-8");
             } else {
-                holder.contentTextView.setText(context.getResources().getString(R.string.there_is_no)
-                        + " " + context.getResources().getString(R.string.class_work));
+                holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no)
+                        + " " + context.getResources().getString(R.string.class_work), "text/html", "UTF-8");
             }
         } else if (position == 1) {
             holder.dailyNoteImageView.setImageResource((R.drawable.ic_home_work));
             holder.headerTextView.setText(context.getResources().getString(R.string.homework));
-            if (!dailyNote.getHomework().isEmpty() && !dailyNote.getHomework().equals("null")) {
-                holder.contentTextView.setText(Html.fromHtml(dailyNote.getHomework()));
+            if (!plannerSubject.homework.isEmpty() && !plannerSubject.homework.equals("null")) {
+                holder.contentWebView.loadData((plannerSubject.homework), "text/html", "UTF-8");
             } else {
-                holder.contentTextView.setText(context.getResources().getString(R.string.there_is_no)
-                        + " " + context.getResources().getString(R.string.homework));
+                holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no)
+                        + " " + context.getResources().getString(R.string.homework), "text/html", "UTF-8");
             }
         } else {
             holder.dailyNoteImageView.setImageResource((R.drawable.ic_activity));
             holder.headerTextView.setText(context.getResources().getString(R.string.activity));
-            if (!dailyNote.getActivities().isEmpty() && !dailyNote.getActivities().equals("null")) {
-                holder.contentTextView.setText(Html.fromHtml(dailyNote.getActivities()));
+            if (!plannerSubject.activities.isEmpty() && !plannerSubject.activities.equals("null")) {
+                holder.contentWebView.loadData((plannerSubject.activities), "text/html", "UTF-8");
             } else {
-                holder.contentTextView.setText(context.getResources().getString(R.string.there_is_no)
-                        + " " + context.getResources().getString(R.string.activity));
+                holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no)
+                        + " " + context.getResources().getString(R.string.activity), "text/html", "UTF-8");
             }
         }
     }
@@ -73,14 +70,17 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
 
     public static class Holder extends RecyclerView.ViewHolder {
 
-        public TextView headerTextView, dateTextView, contentTextView;
+        public TextView headerTextView, dateTextView;
+        public WebView contentWebView;
         public ImageView dailyNoteImageView;
 
         public Holder(View itemView) {
             super(itemView);
             headerTextView = itemView.findViewById(R.id.tv_header);
             dateTextView = itemView.findViewById(R.id.tv_date);
-            contentTextView = itemView.findViewById(R.id.tv_content);
+            contentWebView = itemView.findViewById(R.id.tv_content);
+            contentWebView.setVerticalScrollBarEnabled(true);
+            contentWebView.setHorizontalScrollBarEnabled(true);
             dailyNoteImageView = itemView.findViewById(R.id.img_daily_note);
         }
     }

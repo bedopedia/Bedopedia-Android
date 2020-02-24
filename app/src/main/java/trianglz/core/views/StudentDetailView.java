@@ -32,14 +32,19 @@ import trianglz.models.Announcement;
 import trianglz.models.AnnouncementReceiver;
 import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
+import trianglz.models.DailyNotes;
+import trianglz.models.Day;
 import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.models.Notification;
 import trianglz.models.Participant;
-import trianglz.models.RootClass;
+import trianglz.models.PlannerSubject;
 import trianglz.models.TimeTableSlot;
 import trianglz.models.User;
+import trianglz.models.WeeklyPlan;
+import trianglz.models.WeeklyPlannerResponse;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * Created by ${Aly} on 11/4/2018.
@@ -118,16 +123,16 @@ public class StudentDetailView {
     }
 
 
-    public void getWeeklyPlanner(String url){
-        UserManager.getWeeklyPlanner(url, new ResponseListener() {
+    public void getWeeklyPlanner(){
+        UserManager.getWeeklyPlanner(new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                studentDetailPresenter.onGetWeeklyPlannerSuccess(parseWeeklyPlannerRespone(response));
+                studentDetailPresenter.onGetWeeklyPlannerSuccess(parseWeeklyPlannerResponse(response));
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                studentDetailPresenter.onGetMessagesFailure(message, errorCode);
+                studentDetailPresenter.onGetWeeklyPlannerFailure(message, errorCode);
             }
         });
 
@@ -467,9 +472,55 @@ public class StudentDetailView {
 
         return messageThreadArrayList;
     }
-        private RootClass parseWeeklyPlannerRespone(JSONObject jsonObject){
-            RootClass rootClass = new RootClass(jsonObject);
-            return rootClass;
+        private WeeklyPlannerResponse parseWeeklyPlannerResponse(JSONObject jsonObject){
+            WeeklyPlannerResponse weeklyPlannerResponse = WeeklyPlannerResponse.create(jsonObject.toString());
+            JSONArray weeklyPlans = jsonObject.optJSONArray(Constants.KEY_WEEKLY_PLAN);
+            for (int i = 0; i < weeklyPlans.length(); i++) {
+                JSONObject weeklyPlan = weeklyPlans.optJSONObject(i);
+                JSONObject dailyNotes = weeklyPlan.optJSONObject(Constants.KEY_DAILY_NOTEs);
+                ArrayList<Day> days = new ArrayList<>();
+                for (DayWithDate dayWithDate: getCurrentWeekArray()) {
+                    JSONArray day = dailyNotes.optJSONArray(dayWithDate.date);
+                    ArrayList<PlannerSubject> plannerSubjects = new ArrayList<>();
+                    if (day != null) {
+                        for (int k = 0; k < day.length(); k++) {
+                            plannerSubjects.add(PlannerSubject.create(day.opt(k).toString()));
+                        }
+                    }
+                    if (!plannerSubjects.isEmpty()) {
+                        Day dayToAdd = new Day();
+                        dayToAdd.day = dayWithDate.name;
+                        dayToAdd.plannerSubjectArrayList = new ArrayList<>(plannerSubjects);
+                        days.add(dayToAdd);
+                    }
+                }
+                if (!days.isEmpty()) {
+                    WeeklyPlan weeklyPlan1 = weeklyPlannerResponse.weeklyPlans.get(i);
+                    weeklyPlan1.dailyNotes = new DailyNotes();
+                    weeklyPlan1.dailyNotes.days = new ArrayList<>(days);
+                    weeklyPlannerResponse.weeklyPlans.remove(i);
+                    weeklyPlannerResponse.weeklyPlans.add(weeklyPlan1);
+                }
+            }
+            return weeklyPlannerResponse;
         }
 
+    private ArrayList<DayWithDate> getCurrentWeekArray() {
+        ArrayList<DayWithDate> dayWithDates = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.SATURDAY);
+        for (int i = 0; i < 7; i++) {
+            DayWithDate dayWithDate = new DayWithDate();
+            calendar.set(Calendar.DAY_OF_WEEK, i);
+            dayWithDate.date = (Util.getWeeklyPlannerDate(calendar.getTime(), context));
+            dayWithDate.name = Util.getDayByNumber(i);
+            dayWithDates.add(dayWithDate);
+        }
+        return dayWithDates;
+    }
+
+    private class DayWithDate {
+        public String name;
+        public String date;
+    }
 }

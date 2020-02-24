@@ -328,7 +328,8 @@ public class UserManager {
     }
 
 
-    public static void getWeeklyPlanner(String url, final ResponseListener responseListener) {
+    public static void getWeeklyPlanner(final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.weeklyPlanner();
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
             @Override
@@ -401,6 +402,7 @@ public class UserManager {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
         paramsHashMap.put(Constants.KEY_USER_ID, id);
+        String header = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.getWithParameter(url, paramsHashMap, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -511,6 +513,7 @@ public class UserManager {
     public static void getQuizzesDetails(int studentId, int courseId, int page, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizzesDetails(studentId, courseId, page);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        String hashStr = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
