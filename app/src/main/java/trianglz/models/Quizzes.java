@@ -103,7 +103,7 @@ public class Quizzes extends StudentGradeModel implements Parcelable {
         this.total = total;
     }
 
-    public int getTotal() {
+    public double getTotal() {
         return this.total;
     }
 

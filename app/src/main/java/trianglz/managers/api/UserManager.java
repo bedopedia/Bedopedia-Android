@@ -206,6 +206,7 @@ public class UserManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        String headerString = Util.convertHeaderMapToBulk(hashMap);
         NetworkManager.put(url, params, hashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -224,6 +225,7 @@ public class UserManager {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
         paramsHashMap.put(Constants.PARENT_ID, id);
+        String headerMap = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
