@@ -21,7 +21,7 @@ public class Questions {
     @SerializedName("difficulty")
     private String difficulty;
     @SerializedName("score")
-    private int score;
+    private double score;
 //    @SerializedName("answers_attributes")
 //    private ArrayList<Answers> answersAttributes;
     @SerializedName("correction_style")
@@ -68,11 +68,11 @@ public class Questions {
         return this.difficulty;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 
-    public int getScore() {
+    public double getScore() {
         return this.score;
     }
 
