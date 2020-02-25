@@ -168,13 +168,13 @@ public class Util {
     public static String getAnnouncementDate(String messageTime, Context context) {
         String finalData = "";
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale(getLocale(context)));
-
-        Date date = null;
+        fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date date;
         try {
             date = fmt.parse(messageTime);
             SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy", new Locale(getLocale(context)));
+            fmtOut.setTimeZone(TimeZone.getDefault());
             finalData = fmtOut.format(date);
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
