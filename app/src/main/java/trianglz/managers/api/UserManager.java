@@ -713,6 +713,7 @@ public class UserManager {
     public static void getEvents(String url, final ArrayResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
+        String header = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -924,6 +925,7 @@ public class UserManager {
 
     public static void getTeacherAttendance(String url, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        String header = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
