@@ -133,6 +133,7 @@ public class SessionManager {
     }
 
     public void logoutUser() {
+        setUserType(Actor.HOD);
         mEditor.clear();
         mEditor.apply();
     }
