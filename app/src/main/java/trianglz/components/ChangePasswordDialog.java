@@ -19,9 +19,6 @@ import com.skolera.skolera_android.R;
 
 import java.util.HashMap;
 
-import trianglz.managers.SessionManager;
-import trianglz.utils.Util;
-
 /**
  * Created by Farah A. Moniem on 15/12/2019.
  */
@@ -132,18 +129,18 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
         confirmNewPasswordError = findViewById(R.id.confirm_password_error_tv);
         dialogTitleTextView = findViewById(R.id.dialog_title_tv);
         dialogTitleTextView.setText(dialogTitle);
-        oldPasswordShow.setTextColor(context.getResources().getColor(Util.checkUserColor()));
-        newPasswordShow.setTextColor(context.getResources().getColor(Util.checkUserColor()));
-        confirmNewPasswordShow.setTextColor(context.getResources().getColor(Util.checkUserColor()));
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            updateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_salmon_25dp, null));
-        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            updateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_turquoise_25, null));
-        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
-            updateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_cerulean_blue, null));
-        } else {
+        oldPasswordShow.setTextColor(context.getColor(R.color.jade_green));
+        newPasswordShow.setTextColor(context.getColor(R.color.jade_green));
+        confirmNewPasswordShow.setTextColor(context.getColor(R.color.jade_green));
+//        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
+//            updateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_salmon_25dp, null));
+//        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+//            updateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_turquoise_25, null));
+//        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
+//            updateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_cerulean_blue, null));
+//        } else {
             updateButton.setBackground(context.getResources().getDrawable(R.drawable.curved_jade_green_25, null));
-        }
+//        }
     }
 
     @Override
@@ -188,7 +185,7 @@ public class ChangePasswordDialog extends Dialog implements DialogInterface.OnSh
         } else {
             editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
             textView.setText(context.getResources().getString(R.string.show));
-            textView.setTextColor(context.getResources().getColor(Util.checkUserColor()));
+            textView.setTextColor(context.getColor(R.color.jade_green));
         }
         editText.setSelection(editText.length());
     }
