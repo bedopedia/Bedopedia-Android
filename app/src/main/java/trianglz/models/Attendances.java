@@ -15,7 +15,7 @@ public class Attendances implements Serializable {
     @SerializedName("id")
     private int id;
     @SerializedName("date")
-    private long date;
+    private String date;
     @SerializedName("comment")
     private String comment;
     @SerializedName("status")
@@ -26,6 +26,12 @@ public class Attendances implements Serializable {
     private int studentId;
     @SerializedName("student")
     private Student student;
+    @SerializedName("created_at")
+    public String createdAt;
+    @SerializedName("updated_at")
+    public String updatedAt;
+    @SerializedName("deleted_at")
+    public String deletedAt;
 
     public void setId(int id) {
         this.id = id;
@@ -35,11 +41,11 @@ public class Attendances implements Serializable {
         return this.id;
     }
 
-    public void setDate(long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public long getDate() {
+    public String getDate() {
         return this.date;
     }
 

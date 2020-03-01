@@ -264,6 +264,7 @@ public class Constants {
 
     public static final String KEY_SENDER_DATA="sender_data";
 
+    public static final String MOBILE_API = "mobile_api";
     public static final String KEY_WEEKLY_PLAN = "weekly_plan";
 }
 
