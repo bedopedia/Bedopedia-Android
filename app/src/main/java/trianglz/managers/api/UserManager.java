@@ -59,11 +59,12 @@ public class UserManager {
             }
             jsonObject.put(Constants.KEY_PASSWORD, password);
             jsonObject.put(Constants.KEY_MOBILE, true);
+            jsonObject.put(Constants.MOBILE_API, true);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        String header = Util.convertHeaderMapToBulk(hashMap);
         NetworkManager.postLogin(url + "", jsonObject, hashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {

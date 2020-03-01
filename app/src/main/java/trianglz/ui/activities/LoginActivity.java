@@ -17,7 +17,6 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import trianglz.components.ChangePasswordDialog;
@@ -173,20 +172,14 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     }
 
     @Override
-    public void onGetStudentsHomeSuccess(ArrayList<Object> dataObjectArrayList) {
+    public void onGetStudentsHomeSuccess(Student student, JSONArray attendanceJsonArray) {
         String url = school.schoolUrl + "/api/auth/sign_in";
         SessionManager.getInstance().setloginValues(url, emailEditText.getText().toString(),
                 passwordEditText.getText().toString());
         if (progress.isShowing()) {
             progress.dismiss();
         }
-        if (dataObjectArrayList.size() > 1) {
-            ArrayList<JSONArray> attendanceJsonArray = (ArrayList<JSONArray>) dataObjectArrayList.get(0);
-            ArrayList<Student> studentArrayList = (ArrayList<Student>) dataObjectArrayList.get(1);
-            if (studentArrayList.size() > 0 && attendanceJsonArray.size() > 0) {
-                openStudentDetailActivity(studentArrayList.get(0), attendanceJsonArray.get(0));
-            }
-        }
+        openStudentDetailActivity(student, attendanceJsonArray);
 
 
     }
