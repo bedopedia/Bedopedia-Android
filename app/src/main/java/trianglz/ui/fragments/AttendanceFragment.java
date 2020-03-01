@@ -19,6 +19,7 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,7 +139,12 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
             attendanceJsonArray = new JSONArray(attendance);
             for (int i = 0; i < attendanceJsonArray.length(); i++) {
                 JSONObject day = attendanceJsonArray.optJSONObject(i);
-                Date date = Util.getAttendanceDate(day.optString(Constants.KEY_DATE), activity);
+                Date date = new Date();
+                if (NumberUtils.isParsable(day.optString(Constants.KEY_DATE))) {
+                    date.setTime(day.optLong(Constants.KEY_DATE));
+                } else {
+                    date = Util.getAttendanceDate(day.optString(Constants.KEY_DATE), activity);
+                }
                 switch (day.optString(Constants.KEY_STATUS)) {
                     case Constants.KEY_LATE:
                         if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
