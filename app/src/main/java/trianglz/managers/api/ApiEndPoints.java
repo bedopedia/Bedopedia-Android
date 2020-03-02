@@ -172,6 +172,9 @@ public class ApiEndPoints {
         return "/api/course_groups/" + courseGroupId + "/attendances?by_slots=" + day + "%2F" + month + "%2F" + year;
     }
 
+    public static String getProfile(int userId) {
+        return  "/api/users/" + userId + "/getProfile";
+    }
     public static String createBatchAttendance() {
         return "/api/attendances/batch_create";
     }

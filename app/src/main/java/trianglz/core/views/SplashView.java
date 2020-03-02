@@ -64,9 +64,8 @@ public class SplashView {
             splashPresenter.onLoginSuccess();
         } else if (userType.equals("student")) {
             SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);
-            int parentId = response.optInt(Constants.PARENT_ID);
-            String url = SessionManager.getInstance().getBaseUrl() + "/api/parents/" + parentId + "/children";
-            getStudents(url, id + "", id);
+            splashPresenter.onGetStudentsHomeSuccess(Student.create(response.toString()),
+                    response.optJSONArray(Constants.KEY_ATTENDANCES));
         } else if (userType.equals("teacher")) {
             SessionManager.getInstance().setUserType(SessionManager.Actor.TEACHER);
             String firstName = response.optString("firstname");
@@ -75,8 +74,16 @@ public class SplashView {
             String avtarUrl = response.optString(Constants.KEY_AVATER_URL);
             Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
             splashPresenter.onLoginSuccess(actor);
-        } else {
+        } else if (userType.equals("hod")) {
             SessionManager.getInstance().setUserType(SessionManager.Actor.HOD);
+            String firstName = response.optString("firstname");
+            String lastName = response.optString("lastname");
+            String actableType = response.optString(Constants.KEY_ACTABLE_TYPE);
+            String avtarUrl = response.optString(Constants.KEY_AVATER_URL);
+            Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+            splashPresenter.onLoginSuccess(actor);
+        } else if (userType.equals("admin")){
+            SessionManager.getInstance().setUserType(SessionManager.Actor.ADMIN);
             String firstName = response.optString("firstname");
             String lastName = response.optString("lastname");
             String actableType = response.optString(Constants.KEY_ACTABLE_TYPE);
@@ -115,7 +122,7 @@ public class SplashView {
         UserManager.updateToken(url, token, locale, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                parseLoginResponse(response);
+                getProfile();
             }
 
             @Override
@@ -127,13 +134,26 @@ public class SplashView {
 
     }
 
+    private void getProfile() {
+        UserManager.getProfile(Integer.parseInt(SessionManager.getInstance().getUserId()), new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                parseLoginResponse(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                splashPresenter.onLoginFailure(message, errorCode);
+            }
+        });
+    }
 
     public void getStudents(String url, final String id, final String studentId) {
         UserManager.getStudentsHome(url, id, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray responseArray) {
                // refreshFireBaseToken();
-                splashPresenter.onGetStudentsHomeSuccess(parseStudentResponse(responseArray, id));
+                splashPresenter.onGetStudentsHomeSuccess(null, null);
             }
 
             @Override

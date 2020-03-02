@@ -8,8 +8,6 @@ import com.skolera.skolera_android.R;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
-
 import trianglz.core.presenters.SplashPresenter;
 import trianglz.core.views.SplashView;
 import trianglz.managers.SessionManager;
@@ -92,19 +90,12 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     }
 
     @Override
-    public void onGetStudentsHomeSuccess(ArrayList<Object> dataObjectArrayList) {
-        if (dataObjectArrayList.size() > 1) {
-            ArrayList<JSONArray> attendanceJsonArray = (ArrayList<JSONArray>) dataObjectArrayList.get(0);
-            ArrayList<Student> studentArrayList = (ArrayList<Student>) dataObjectArrayList.get(1);
-            if (studentArrayList.size() > 0 && attendanceJsonArray.size() > 0) {
-                openStudentDetailActivity(studentArrayList.get(0), attendanceJsonArray.get(0));
-            } else {
-                openSchoolLoginActivity();
-            }
+    public void onGetStudentsHomeSuccess(Student student, JSONArray attendanceArray) {
+        if (student != null && attendanceArray.length() > 0) {
+            openStudentDetailActivity(student, attendanceArray);
         } else {
             openSchoolLoginActivity();
         }
-        finish();
     }
 
     @Override

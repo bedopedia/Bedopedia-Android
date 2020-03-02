@@ -773,6 +773,23 @@ public class UserManager {
 
     }
 
+    public static void getProfile(int userId, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() +
+                ApiEndPoints.getProfile(userId);
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        String header = Util.convertHeaderMapToBulk(headerHashMap);
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
     public static void getAssignmentSubmissions(int courseId, int courseGroupId, int assignmentId, final ArrayResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() +
                 ApiEndPoints.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
