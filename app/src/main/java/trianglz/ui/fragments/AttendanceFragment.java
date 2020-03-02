@@ -19,6 +19,7 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +43,7 @@ import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.AttendanceAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 04/09/2019.
@@ -138,27 +140,36 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
             for (int i = 0; i < attendanceJsonArray.length(); i++) {
                 JSONObject day = attendanceJsonArray.optJSONObject(i);
                 Date date = new Date();
-                date.setTime(day.optLong(Constants.KEY_DATE));
-                if (day.optString(Constants.KEY_STATUS).equals(Constants.KEY_LATE)) {
-                    if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
-                        lateDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
-                    else
-                        lateDates.add(new Attendance(date, ""));
-                } else if (day.optString(Constants.KEY_STATUS).equals(Constants.KEY_ABSENT)) {
-                    if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
-                        absentDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
-                    else
-                        absentDates.add(new Attendance(date, ""));
-                } else if (day.optString(Constants.KEY_STATUS).equals(Constants.KEY_EXCUSED)) {
-                    if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
-                        excusedDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
-                    else
-                        excusedDates.add(new Attendance(date, ""));
-                } else if (day.optString(Constants.KEY_STATUS).equals("present")) {
-                    if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
-                        presentDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
-                    else
-                        presentDates.add(new Attendance(date, ""));
+                if (NumberUtils.isParsable(day.optString(Constants.KEY_DATE))) {
+                    date.setTime(day.optLong(Constants.KEY_DATE));
+                } else {
+                    date = Util.getAttendanceDate(day.optString(Constants.KEY_DATE), activity);
+                }
+                switch (day.optString(Constants.KEY_STATUS)) {
+                    case Constants.KEY_LATE:
+                        if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
+                            lateDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
+                        else
+                            lateDates.add(new Attendance(date, ""));
+                        break;
+                    case Constants.KEY_ABSENT:
+                        if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
+                            absentDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
+                        else
+                            absentDates.add(new Attendance(date, ""));
+                        break;
+                    case Constants.KEY_EXCUSED:
+                        if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
+                            excusedDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
+                        else
+                            excusedDates.add(new Attendance(date, ""));
+                        break;
+                    case "present":
+                        if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
+                            presentDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
+                        else
+                            presentDates.add(new Attendance(date, ""));
+                        break;
                 }
             }
 

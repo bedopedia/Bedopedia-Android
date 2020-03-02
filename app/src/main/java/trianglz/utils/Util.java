@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
@@ -217,6 +218,17 @@ public class Util {
         SimpleDateFormat fmtOut = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
         finalData = fmtOut.format(date);
         return finalData;
+    }
+
+    @Nullable
+    public static Date getAttendanceDate(String string, Context context) {
+        SimpleDateFormat formatIn = new SimpleDateFormat("yyyy-MM-dd", new Locale(getLocale(context)));
+        try {
+            return formatIn.parse(string);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     public static Date convertStringToDate(String dateString) {
         SimpleDateFormat fmt = new SimpleDateFormat("dd MMM yyyy", new Locale(getLocale(App.getInstance().getBaseContext())));
