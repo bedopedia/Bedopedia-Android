@@ -197,7 +197,10 @@ public class Student extends trianglz.models.User {
 
     public static Student create(String json) {
         Gson gson = new GsonBuilder().create();
-        return gson.fromJson(json, Student.class);
+        Student student = gson.fromJson(json, Student.class);
+        student.userId = student.getId();
+        if (student.actableId == 0 ) student.actableId = student.childId;
+        return student;
     }
 
     public String toString() {

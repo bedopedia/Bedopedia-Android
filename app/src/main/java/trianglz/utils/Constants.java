@@ -134,7 +134,7 @@ public class Constants {
     public static final String KEY_TOTAL_GRADE = "total_grade";
     public static final String KEY_THUMB_URL = "thumb_url";
     public static final String KEY_NAME_WITH_TITLE = "name_with_title";
-    public static final String KEY_ACTABLE_ID = "actable_id";
+    public static final String KEY_ACTABLE_ID = "child_id";
     public static final String KEY_TEACHERS = "teachers";
     public static final String KEY_SECTION_ID = "section_id";
     public static final String KEY_IS_DELETED = "is_deleted";

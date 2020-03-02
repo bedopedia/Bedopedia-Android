@@ -55,7 +55,7 @@ public class SplashView {
     private void parseLoginResponse(JSONObject response) {
         String username = response.optString("username");
         String userId = response.optString("id");
-        String id = response.optString("actable_id");
+        String id = response.optString("child_id");
         int unSeenNotification = response.optInt("unseen_notifications");
         SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
         String userType = response.optString(Constants.KEY_USER_TYPE);

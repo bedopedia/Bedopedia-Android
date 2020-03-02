@@ -62,11 +62,11 @@ public class LoginView {
     private void parseLoginResponse(JSONObject response) {
         String username = response.optString("username");
         String userId = response.optString("id");
-        String id = response.optString("actable_id");
+        String id = response.optString("child_id");
         Boolean passwordChanged = response.optBoolean("password_changed");
         int unSeenNotification = response.optInt("unseen_notifications");
         SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
-        if (passwordChanged) {
+//        if (passwordChanged) {
             String userType = response.optString(Constants.KEY_USER_TYPE);
             if (userType.equals("parent")) {
                 SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
@@ -107,9 +107,10 @@ public class LoginView {
                 refreshFireBaseToken();
                 loginPresenter.onLoginSuccess(actor);
             }
-        } else {
-            loginPresenter.onLoginFailure("", 406);
-        }
+//        }
+//        } else {
+//            loginPresenter.onLoginFailure("", 406);
+//        }
     }
 
     public void updateToken() {
