@@ -2,8 +2,6 @@ package trianglz.core.views;
 
 import android.content.Context;
 
-import com.google.gson.JsonObject;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,7 +11,6 @@ import trianglz.core.presenters.NewMessagePresenter;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Course;
-import trianglz.models.CourseGroup;
 import trianglz.models.Stage;
 import trianglz.models.Subject;
 import trianglz.models.Teacher;
@@ -97,7 +94,7 @@ public class NewMessageView {
         ArrayList<Teacher> teacherArrayList = new ArrayList<>();
         for(int i = 0 ; i <teacherJsonArray.length(); i++){
             JSONObject teacherJsonObject = teacherJsonArray.optJSONObject(i);
-            int actableId = teacherJsonObject.optInt(Constants.KEY_ACTABLE_ID);
+            int actableId = teacherJsonObject.optInt(Constants.KEY_CHILD_ID);
             String avatarUrl = teacherJsonObject.optString(Constants.KEY_AVATER_URL);
             String firstName = teacherJsonObject.optString(Constants.KEY_FIRST_NAME);
             String gender = teacherJsonObject.optString(Constants.KEY_GENDER);
