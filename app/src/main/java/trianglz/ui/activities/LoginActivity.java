@@ -208,8 +208,6 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     public void onLoginSuccess(Actor actor) {
         openStudentDetailActivity(actor);
         String url = school.schoolUrl + "/api/auth/sign_in";
-        SessionManager.getInstance().setloginValues(url, emailEditText.getText().toString(),
-                passwordEditText.getText().toString());
     }
 
     @Override
@@ -218,9 +216,6 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             openHomeActivity();
         }
-        String url = school.schoolUrl + "/api/auth/sign_in";
-        SessionManager.getInstance().setloginValues(url, emailEditText.getText().toString(),
-                passwordEditText.getText().toString());
     }
 
     @Override
@@ -244,9 +239,6 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     @Override
     public void onGetStudentsHomeSuccess(Student student, JSONArray attendanceJsonArray) {
-        String url = school.schoolUrl + "/api/auth/sign_in";
-        SessionManager.getInstance().setloginValues(url, emailEditText.getText().toString(),
-                passwordEditText.getText().toString());
         if (progress.isShowing()) {
             progress.dismiss();
         }

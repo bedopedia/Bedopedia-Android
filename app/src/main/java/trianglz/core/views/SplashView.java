@@ -35,24 +35,6 @@ public class SplashView {
         this.splashPresenter = splashPresenter;
     }
 
-    public void login() {
-        String schoolUrl = SessionManager.getInstance().getSchoolUrl();
-        String email = SessionManager.getInstance().getEmail();
-        String password = SessionManager.getInstance().getPassword();
-        UserManager.login(schoolUrl, email, password, new ResponseListener() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                parseLoginResponse(response);
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-                splashPresenter.onLoginFailure(message, errorCode);
-            }
-        });
-    }
-
-
     private void parseLoginResponse(JSONObject response) {
         String username = response.optString("username");
         String userId = response.optString("id");
