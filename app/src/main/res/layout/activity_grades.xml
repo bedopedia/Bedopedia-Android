@@ -30,9 +30,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="17dp"
             android:src="@drawable/profile_pic"
-            android:layout_gravity="end"
-            app:av_border_color="@color/jade_green"
-            app:av_border_width="1.5dp" />
+            android:layout_gravity="end" />
     </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.SwipeRefreshLayout
