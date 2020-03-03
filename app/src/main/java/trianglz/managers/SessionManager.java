@@ -51,7 +51,7 @@ public class SessionManager {
         mEditor.putString(this.userId, userId);
         mEditor.putString(this.id, id);
         mEditor.putInt(this.unSeenNotification, unSeenNotficationCounter);
-        mEditor.commit();
+        mEditor.apply();
     }
 
     public void setHeadersValue(String accessToken, String tokenType, String clientCode, String uid) {
@@ -60,13 +60,13 @@ public class SessionManager {
         mEditor.putString(this.clientCode, clientCode);
         mEditor.putString(this.uid, uid);
         mEditor.putBoolean(Constants.KEY_IS_LOGGED_IN, true);
-        mEditor.commit();
+        mEditor.apply();
 
     }
 
     public void setFireBaseToken(String token) {
         mEditor.putString(tokenKey, token);
-        mEditor.commit();
+        mEditor.apply();
     }
 
 
@@ -97,7 +97,7 @@ public class SessionManager {
 
     public void setBaseUrl(String url) {
         mEditor.putString(Constants.KEY_BASE_URL, url);
-        mEditor.commit();
+        mEditor.apply();
     }
 
     public String getBaseUrl() {
@@ -118,14 +118,14 @@ public class SessionManager {
     }
 
     public void logoutUser() {
-        setUserType(Actor.HOD);
+        setUserType(null);
         mEditor.clear();
         mEditor.apply();
     }
 
     public void setNotificationCounterToZero() {
         mEditor.putInt(this.unSeenNotification, 0);
-        mEditor.commit();
+        mEditor.apply();
     }
 
     public int getNotficiationCounter() {
@@ -134,8 +134,13 @@ public class SessionManager {
 
 
     public void setUserType(Actor actor) {
+        if (actor == null) {
+            mEditor.putString(Constants.KEY_USER_TYPE, "");
+            mEditor.apply();
+            return;
+        }
         mEditor.putString(Constants.KEY_USER_TYPE, actor.text);
-        mEditor.commit();
+        mEditor.apply();
     }
 
     public String getUserType() {

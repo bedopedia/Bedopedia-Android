@@ -45,7 +45,7 @@ public class LoadingDialog extends Dialog {
     public void onBackPressed() {
     }
 
-    private void setIndicatorColor() {
+    public void setIndicatorColor() {
         Log.d(SessionManager.getInstance().getUserType() + "  ", "setIndicatorColor: ");
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             avLoadingIndicatorView.setIndicatorColor(mContext.getResources().getColor(R.color.salmon));
