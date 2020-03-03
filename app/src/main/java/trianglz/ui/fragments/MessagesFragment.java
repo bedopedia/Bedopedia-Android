@@ -121,7 +121,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
             showSkeleton(true);
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
                 contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
-            }
+
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }

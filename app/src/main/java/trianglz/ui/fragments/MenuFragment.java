@@ -1,8 +1,12 @@
 package trianglz.ui.fragments;
 
 
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +16,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -39,24 +46,14 @@ import trianglz.components.CircleTransform;
 import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
 import trianglz.components.SettingsDialog;
-import trianglz.core.presenters.PostsPresenter;
 import trianglz.core.presenters.StudentDetailPresenter;
 import trianglz.core.views.StudentDetailView;
 import trianglz.managers.SessionManager;
-import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
 import trianglz.models.BehaviorNote;
-import trianglz.models.RootClass;
-import trianglz.models.CourseGroup;
-import trianglz.models.Message;
-import trianglz.models.MessageThread;
-import trianglz.models.Notification;
-import trianglz.models.PostsResponse;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
 import trianglz.models.WeeklyPlannerResponse;
-import trianglz.ui.activities.ContactTeacherActivity;
-import trianglz.ui.activities.NotificationsActivity;
 import trianglz.ui.activities.SettingsActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.utils.Constants;
@@ -66,8 +63,8 @@ import trianglz.utils.Util;
  * A simple {@link Fragment} subclass.
  */
 public class MenuFragment extends Fragment implements StudentDetailPresenter,
-        StudentMainActivity.OnBackPressedInterface, PostsPresenter,
-        View.OnClickListener, SettingsDialog.SettingsDialogInterface, StudentMainActivity.OnBackPressedInterface, ErrorDialog.DialogConfirmationInterface {
+        StudentMainActivity.OnBackPressedInterface,
+        View.OnClickListener, SettingsDialog.SettingsDialogInterface, ErrorDialog.DialogConfirmationInterface {
 
     //fragment root view
     private View rootView;

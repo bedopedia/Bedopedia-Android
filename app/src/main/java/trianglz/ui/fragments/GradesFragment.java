@@ -28,6 +28,7 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.GradesPresenter;
 import trianglz.core.views.GradesView;
 import trianglz.models.PostsResponse;
@@ -72,7 +73,6 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         bindViews();
         setListeners();
         showSkeleton(true);
-        postsView.getRecentPosts(student.getId());
     }
 
 
@@ -122,12 +122,10 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
             public void onRefresh() {
                 showSkeleton(true);
                 pullRefreshLayout.setRefreshing(false);
-                postsView.getRecentPosts(student.getId());
                 placeholderLinearLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }
         });
-        backBtn.setOnClickListener(this);
     }
 
     private void setStudentImage(String imageUrl, final String name) {
@@ -181,11 +179,11 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     public void onGetGradesCoursesSuccess(ArrayList<PostsResponse> arrayList) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
         if (arrayList.isEmpty()) {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
             gradesAdapter.addData(arrayList);
 
         }
@@ -194,9 +192,8 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     @Override
     public void onGetGradesCoursesFailure(String message, int errorCode) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
+        showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
-        listFrameLayout.setVisibility(View.GONE);
-        placeholderFrameLayout.setVisibility(View.VISIBLE);
     }
 
     public void showSkeleton(boolean show) {

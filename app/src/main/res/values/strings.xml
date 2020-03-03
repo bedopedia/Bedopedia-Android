@@ -1,13 +1,4 @@
 <resources>
-    <array name="weekdays_cust">
-        <item>S</item>
-        <item>M</item>
-        <item>T</item>
-        <item>W</item>
-        <item>T</item>
-        <item>F</item>
-        <item>S</item>
-    </array>
     <string name="app_name" translatable="false">Skolera</string>
     <string name="title_activity_message_thread" translatable="false">Message_thread</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
@@ -301,7 +292,6 @@
     <string name="update">Update</string>
     <string name="show">Show</string>
     <string name="hide">Hide</string>
-    <string name="profile">Profile</string>
     <string name="choose_new_password">Please choose a new password</string>
     <string name="not_same_password">The password and confirmation do not match</string>
     <string name="un_authorized">Sorry, but you\'re unauthorized to this page</string>

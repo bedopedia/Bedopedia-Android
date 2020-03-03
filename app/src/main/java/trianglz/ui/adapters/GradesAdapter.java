@@ -58,7 +58,7 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gradesAdapterInterface.onSubjectSelected(position);
+                gradesAdapterInterface.onSubjectSelected(courseGroup);
             }
         });
 

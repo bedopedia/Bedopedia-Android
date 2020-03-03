@@ -28,6 +28,8 @@ import trianglz.core.presenters.StudentDetailPresenter;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.Announcement;
+import trianglz.models.AnnouncementReceiver;
 import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
 import trianglz.models.DailyNotes;
@@ -35,6 +37,7 @@ import trianglz.models.Day;
 import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.models.Notification;
+import trianglz.models.Participant;
 import trianglz.models.PlannerSubject;
 import trianglz.models.TimeTableSlot;
 import trianglz.models.User;
@@ -121,37 +124,6 @@ public class StudentDetailView {
     }
 
 
-    public void getNotifications(String url, int pageNumber, int numberPerPage) {
-        UserManager.getNotifications(url, pageNumber, numberPerPage+"", new ResponseListener() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                studentDetailPresenter.onGetNotificationSuccess(parseNotificationResponse(response));
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-                studentDetailPresenter.onGetNotificationFailure(message,errorCode);
-            }
-        });
-    }
-
-
-    public void getAnnouncement(String url){
-        UserManager.getAnnouncements(url,new ResponseListener() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                studentDetailPresenter.onGetAnnouncementsSuccess(parseAnnouncementResponse(response));
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-                studentDetailPresenter.onGetAnnouncementsFailure(message,errorCode);
-
-                studentDetailPresenter.onGetWeeklyPlannerFailure(message, errorCode);
-            }
-        });
-
-    }
 
     private ArrayList<trianglz.models.CourseGroup> parseStudentCourseResponse(JSONArray responseArray) {
         ArrayList<trianglz.models.CourseGroup> courseGroups = new ArrayList<>();

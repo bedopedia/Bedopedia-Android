@@ -3,7 +3,6 @@ package trianglz.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +26,6 @@ import trianglz.components.CircleTransform;
 import trianglz.components.ErrorDialog;
 import trianglz.core.presenters.GradeDetailPresenter;
 import trianglz.core.views.GradeDetailView;
-import trianglz.managers.SessionManager;
 import trianglz.models.GradeBook;
 import trianglz.models.PostsResponse;
 import trianglz.models.Student;
@@ -55,8 +53,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     private TextView subjectHeaderTextView;
     private FrameLayout listFrameLayout, placeholderFrameLayout;
     // add segmented group
-    private SegmentedGroup segmentedGroup;
-    private RadioButton allBtn, currentBtn;
+
 
     @Nullable
     @Override
@@ -106,33 +103,10 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
         placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
 
-        tabLayout.setSelectedTabIndicatorColor(activity.getResources().getColor(Util.checkUserColor()));
-        tabLayout.setTabTextColors(activity.getResources().getColor(R.color.steel), activity.getResources().getColor(Util.checkUserColor()));
-
     }
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
-        tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0)
-                    gradeDetailAdapter.addData(allSemestersList);
-                else
-                    gradeDetailAdapter.addData(currentSemester);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
     }
 
     private void setStudentImage() {
