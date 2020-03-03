@@ -265,9 +265,11 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
                 placeholderTextView.setText(activity.getResources().getString(R.string.closed_assignments_placeholder));
             }
             recyclerView.setVisibility(View.GONE);
+            placeholderTextView.setVisibility(View.VISIBLE);
             placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
             placeholderTextView.setVisibility(View.GONE);
             adapter.addData(assignmentsDetails);
         }

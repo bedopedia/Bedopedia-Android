@@ -433,6 +433,8 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
                         .inflate(R.layout.skeleton_teacher_attendance_layout, (ViewGroup) rootView, false);
                 skeletonLayout.addView(rowLayout);
             }
+            placeholderLinearLayout.setVisibility(View.GONE);
+
             recyclerView.setVisibility(View.GONE);
             shimmer.setVisibility(View.VISIBLE);
             shimmer.startShimmer();

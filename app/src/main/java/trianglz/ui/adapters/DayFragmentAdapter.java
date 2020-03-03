@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -51,7 +50,7 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
         holder.subjectNameTextView.setText(plannerSubject.title);
         holder.gradeTextView.setVisibility(View.GONE);
         setSubjectName(null,getSubjectNameForPlaceHolder(plannerSubject.title),holder);
-        holder.itemLayout.setOnClickListener(view -> dayFragmentAdapterInterface.onItemClicked(mDataList.get(holder.getAdapterPosition())));
+        holder.itemView.setOnClickListener(view -> dayFragmentAdapterInterface.onItemClicked(mDataList.get(holder.getAdapterPosition())));
     }
 
 
@@ -70,7 +69,6 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
 
         private TextView subjectNameTextView,gradeTextView;
         private AvatarView subjectImageView;
-        private LinearLayout itemLayout;
         public IImageLoader imageLoader;
 
         private Holder(View itemView) {
@@ -78,7 +76,6 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
             gradeTextView = itemView.findViewById(R.id.tv_grade);
             subjectNameTextView = itemView.findViewById(R.id.tv_subject_name);
             subjectImageView = itemView.findViewById(R.id.img_subject);
-            itemLayout = itemView.findViewById(R.id.item_layout);
             imageLoader = new PicassoLoader();
         }
     }

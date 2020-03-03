@@ -25,7 +25,6 @@ import java.util.ArrayList;
 
 import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
-import trianglz.components.SettingsDialog;
 import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.HomePresenter;
 import trianglz.core.views.HomeView;
@@ -36,14 +35,13 @@ import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
 public class HomeActivity extends SuperActivity implements HomePresenter, View.OnClickListener,
-        HomeAdapter.HomeAdapterInterface, SettingsDialog.SettingsDialogInterface, ErrorDialog.DialogConfirmationInterface {
+        HomeAdapter.HomeAdapterInterface, ErrorDialog.DialogConfirmationInterface {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
     private String id;
     private HomeView homeView;
     private ImageButton notificationBtn;
     private ArrayList<JSONArray> kidsAttendances;
-    private SettingsDialog settingsDialog;
     private ImageButton settingsBtn;
     private ImageView redCircleImageView;
     private ErrorDialog errorDialogue;
@@ -68,7 +66,6 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         notificationBtn = findViewById(R.id.btn_notification);
         redCircleImageView = findViewById(R.id.img_red_circle);
         kidsAttendances = new ArrayList<>();
-        settingsDialog = new SettingsDialog(this, R.style.BottomSheetDialog, this);
         settingsBtn = findViewById(R.id.btn_setting);
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, this), false));
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -127,7 +124,8 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
                 openNotificationsActivity();
                 break;
             case R.id.btn_setting:
-                settingsDialog.show();
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivity(i);
                 break;
         }
     }
@@ -159,19 +157,6 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
     }
-
-
-    @Override
-    public void onChangeLanguageClicked() {
-        errorDialogue = new ErrorDialog(this, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
-        errorDialogue.show();
-    }
-
-    @Override
-    public void onSignOutClicked() {
-        logoutUser(this);
-    }
-
 
     private void changeLanguage() {
         if (LocalHelper.getLanguage(this).equals("ar")) {

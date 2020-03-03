@@ -116,7 +116,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 studentDetailView.getStudentTimeTable(timeTableUrl);
                 //
                 activity.isCalling = true;
-                getParentActivity().showLoadingDialog();
                 shimmerView.setVisibility(View.VISIBLE);
                 parentLayout.setVisibility(View.GONE);
                 appBarLayout.setVisibility(View.GONE);

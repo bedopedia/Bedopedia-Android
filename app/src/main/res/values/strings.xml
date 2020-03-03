@@ -272,7 +272,7 @@
     <string name="open_quizzes_placeholder">You don\'t have any open online quizzes for now</string>
     <string name="closed_quizzes_placeholder">You don\'t have any closed online quizzes for now</string>
     <string name="posts_placeholder">You don\'t have any posts for now</string>
-    <string name="attendance_placeholder">You don\'t have any posts for now</string>
+    <string name="attendance_placeholder">You don\'t have any attendances for now</string>
     <string name="weeklyplanner_placeholder">You don\'t have any weekly plans for now</string>
     <string name="courses_placeholder">You don\'t have any courses for now</string>
     <string name="grades_placeholder">You don\'t have any grades for now</string>

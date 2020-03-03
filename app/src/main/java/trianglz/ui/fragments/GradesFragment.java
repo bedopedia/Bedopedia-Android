@@ -178,6 +178,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     @Override
     public void onGetGradesCoursesSuccess(ArrayList<PostsResponse> arrayList) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
+        showSkeleton(false);
         if (arrayList.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             placeholderLinearLayout.setVisibility(View.VISIBLE);

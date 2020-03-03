@@ -76,8 +76,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         } else {
             actor = activity.getActor();
         }
-        if (!activity.isCalling)
-            activity.showLoadingDialog();
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
         contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
         return rootView;
