@@ -24,7 +24,7 @@ public class TimetableAdapter extends FragmentPagerAdapter {
     List<TimeTableSlot> todaySlots;
     final String ThuKey = "Thu";
 
-    public TimetableAdapter(FragmentManager fm, List<TimeTableSlot> tomorrowSlots , List<TimeTableSlot> todaySlots){
+    public TimetableAdapter(FragmentManager fm, List<TimeTableSlot> tomorrowSlots, List<TimeTableSlot> todaySlots) {
         super(fm);
         this.tomorrowSlots = tomorrowSlots;
         this.todaySlots = todaySlots;
@@ -35,7 +35,7 @@ public class TimetableAdapter extends FragmentPagerAdapter {
 
         Fragment newCreatedFragment = null;
 
-        if(position == 0){
+        if (position == 0) {
             newCreatedFragment = TodayFragment.newInstance(todaySlots);
         } else {
             newCreatedFragment = TomorrowFragment.newInstance(tomorrowSlots);
@@ -56,22 +56,24 @@ public class TimetableAdapter extends FragmentPagerAdapter {
         Date date = calendar.getTime();
 
         String today = new SimpleDateFormat("EEE", Locale.ENGLISH).format(date.getTime());
-        String todayNumber =  new SimpleDateFormat("dd", Locale.ENGLISH).format(date.getTime());
+        String todayNumber = new SimpleDateFormat("dd", Locale.ENGLISH).format(date.getTime());
 
-        if (today.equals(ThuKey)){
-            calendar.add( Calendar.DATE, 3 );
-        } else{
-            calendar.add( Calendar.DATE, 1 );
+        if (today.equals(ThuKey)) {
+            calendar.add(Calendar.DATE, 3);
+        } else {
+            calendar.add(Calendar.DATE, 1);
         }
 
         date = calendar.getTime();
         String tomorrow = new SimpleDateFormat("EEE", Locale.ENGLISH).format(date.getTime());
-        String tomorrowNumber =  new SimpleDateFormat("dd", Locale.ENGLISH).format(date.getTime());
+        String tomorrowNumber = new SimpleDateFormat("dd", Locale.ENGLISH).format(date.getTime());
         today = today.toLowerCase();
         tomorrow = tomorrow.toLowerCase();
 
-        if(position == 0)
-            return todayNumber + " " + today + " - Today";
-        return tomorrowNumber + " " + tomorrow + " - Tomorrow";
+        if (position == 0)
+//            return todayNumber + " " + today + " - Today";
+//        return tomorrowNumber + " " + tomorrow + " - Tomorrow";
+            return "Today";
+        return "Tomorrow";
     }
 }

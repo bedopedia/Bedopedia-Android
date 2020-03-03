@@ -1,127 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/snow"
-    android:paddingTop="22dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="13dp"
+    android:layout_marginEnd="13dp"
+    android:id="@+id/card_view"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="3dp"
+    android:layout_marginBottom="8dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:orientation="horizontal"
-        android:layout_marginBottom="2dp">
-
-        <agency.tango.android.avatarview.views.AvatarView
-
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/img_course" />
-
-        <trianglz.components.RobotoRegularTextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:textSize="16sp"
-            android:text="sakjdjdsakjadsk"
-            android:textColor="@color/black"
-            android:gravity="center_vertical|start"
-            android:textAlignment="viewStart"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:layout_marginEnd="5dp"
-            android:id="@+id/tv_course_name"
-            android:includeFontPadding="false" />
-
-        <trianglz.components.LatoBoldTextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:textColor="@color/red"
-            android:layout_gravity="center_vertical"
-            android:textAlignment="textStart"
-            android:text="+100"
-            android:id="@+id/tv_assignment_count"
-            android:gravity="start|center_vertical"
-            android:includeFontPadding="false" />
-
-        <ImageButton
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/shape"
-            android:background="@color/transparent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="11dp" />
-
-    </LinearLayout>
-
-    <trianglz.components.RobotoMediumTextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:includeFontPadding="false"
-        android:text="Pattern"
-        android:textColor="@color/black"
-        android:textAlignment="viewStart"
-        android:gravity="start"
-        android:textSize="14sp"
-        android:layout_marginStart="72dp"
-        android:layout_marginEnd="46dp"
-        tools:text="Pattern assignment"
-        android:layout_marginBottom="8dp"
-        android:id="@+id/tv_assignment_name" />
+        android:background="@color/snow"
+        android:paddingTop="22dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:background="@drawable/curved_light_sage"
-        android:layout_marginStart="72dp"
-        android:layout_marginEnd="46dp"
-        android:layout_marginBottom="14dp"
-        android:text="sadkjksljsadlkjasdlkjasdlasjd"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:drawableStart="@drawable/timetable"
-        android:drawablePadding="4dp"
-        android:textAllCaps="false"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:id="@+id/ll_date">
-
-        <ImageView
-            android:id="@+id/date_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_clock"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="5dp" />
-
-        <trianglz.components.SfproRegularTextView
-            android:id="@+id/tv_date"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
+            android:layout_height="35dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="2dp">
+
+            <agency.tango.android.avatarview.views.AvatarView
+
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/img_course" />
+
+            <trianglz.components.RobotoRegularTextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textSize="16sp"
+                android:text="sakjdjdsakjadsk"
+                android:textColor="@color/black"
+                android:gravity="center_vertical|start"
+                android:textAlignment="viewStart"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginEnd="5dp"
+                android:id="@+id/tv_course_name"
+                android:includeFontPadding="false" />
+
+            <trianglz.components.LatoBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginEnd="35dp"
+                android:textColor="@color/red"
+                android:layout_gravity="center_vertical"
+                android:textAlignment="textStart"
+                android:text="+100"
+                android:id="@+id/tv_assignment_count"
+                android:gravity="start|center_vertical"
+                android:includeFontPadding="false" />
+
+
+        </LinearLayout>
+
+        <trianglz.components.RobotoMediumTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:maxLines="1"
-            android:layout_gravity="start"
-            android:singleLine="true"
-            android:text="sjkldajkljsadlkjsdaklsjda"
+            android:text="Pattern"
             android:textColor="@color/black"
-            android:textSize="12sp" />
+            android:textAlignment="viewStart"
+            android:gravity="start"
+            android:textSize="14sp"
+            android:layout_marginStart="72dp"
+            android:layout_marginEnd="46dp"
+            tools:text="Pattern assignment"
+            android:layout_marginBottom="8dp"
+            android:id="@+id/tv_assignment_name" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:background="@drawable/curved_light_sage"
+            android:layout_marginStart="72dp"
+            android:layout_marginEnd="46dp"
+            android:layout_marginBottom="14dp"
+            android:text="sadkjksljsadlkjasdlkjasdlasjd"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:drawableStart="@drawable/timetable"
+            android:drawablePadding="4dp"
+            android:textAllCaps="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:id="@+id/ll_date">
+
+            <ImageView
+                android:id="@+id/date_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_clock"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="5dp" />
+
+            <trianglz.components.SfproRegularTextView
+                android:id="@+id/tv_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:layout_gravity="start"
+                android:singleLine="true"
+                android:text="sjkldajkljsadlkjsdaklsjda"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="360dp"
-        android:layout_height="0.5dp"
-        android:layout_marginStart="72dp"
-        android:background="@color/silver" />
-</LinearLayout>
+</android.support.v7.widget.CardView>

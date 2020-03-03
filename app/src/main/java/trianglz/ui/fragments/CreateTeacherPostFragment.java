@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import trianglz.components.HideKeyboardOnTouch;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.AttachFileToTeacherPostPresenter;
 import trianglz.core.presenters.CreateTeacherPostPresenter;
 import trianglz.core.presenters.FragmentCommunicationInterface;
@@ -97,6 +98,7 @@ public class CreateTeacherPostFragment extends Fragment implements AttachFileToT
         adapter = new TeacherAttachmentAdapter(activity, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
     }
 
     private void setListeners() {

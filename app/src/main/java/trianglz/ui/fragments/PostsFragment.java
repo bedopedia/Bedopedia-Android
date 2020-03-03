@@ -1,5 +1,6 @@
 package trianglz.ui.fragments;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -25,6 +28,7 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.PostsPresenter;
 import trianglz.core.views.PostsView;
 import trianglz.models.PostsResponse;
@@ -51,6 +55,9 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
     private Toolbar toolbar;
     private int studentId;
     private SwipeRefreshLayout pullRefreshLayout;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,10 +73,9 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
         getValuesFromIntent();
         bindViews();
         setListeners();
-        activity.showLoadingDialog();
+        getRecentPosts();
         setStudentImage(student.getAvatar(), studentName);
     }
-
 
 
     private void getValuesFromIntent() {
@@ -79,7 +85,6 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
             studentName = student.firstName + " " + student.lastName;
             postsView = new PostsView(activity, this);
             studentId = bundle.getInt(Constants.KEY_STUDENT_ID, 150);
-            postsView.getRecentPosts(bundle.getInt(Constants.KEY_STUDENT_ID, 150));
         }
     }
 
@@ -104,17 +109,29 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private void setListeners() {
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                activity.showLoadingDialog();
-                postsView.getRecentPosts(studentId);
+                getRecentPosts();
+                pullRefreshLayout.setRefreshing(false);
+
             }
         });
     }
+
+    private void getRecentPosts() {
+        showSkeleton(true);
+        postsView.getRecentPosts(studentId);
+    }
+
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();
@@ -145,15 +162,14 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
 
     @Override
     public void onGetPostsSuccess(ArrayList<PostsResponse> parsePostsResponse) {
-        if (activity.progress.isShowing()) activity.progress.dismiss();
+        showSkeleton(false);
         adapter.addData(parsePostsResponse);
-        pullRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onGetPostsFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) activity.progress.dismiss();
-        activity.showErrorDialog(activity, errorCode,"");
+        showSkeleton(false);
+        activity.showErrorDialog(activity, errorCode, "");
     }
 
     @Override
@@ -167,5 +183,29 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
                 beginTransaction().add(R.id.menu_fragment_root, postDetailFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
+    }
+
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_course_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            recyclerView.setVisibility(View.GONE);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            recyclerView.setVisibility(View.VISIBLE);
+            shimmer.setVisibility(View.GONE);
+        }
     }
 }

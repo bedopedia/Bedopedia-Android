@@ -1,18 +1,22 @@
 package trianglz.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -31,22 +35,27 @@ import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.GradesAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 03/09/2019.
  */
-public class GradesFragment extends Fragment implements GradesAdapter.GradesAdapterInterface, View.OnClickListener, GradesPresenter {
+public class GradesFragment extends Fragment implements GradesAdapter.GradesAdapterInterface, GradesPresenter {
 
     private View rootView;
     private ImageButton backBtn;
     private AvatarView studentImageView;
     private RecyclerView recyclerView;
     private GradesAdapter gradesAdapter;
+    private Toolbar toolbar;
     private Student student;
+    private SwipeRefreshLayout pullRefreshLayout;
     private IImageLoader imageLoader;
     private GradesView gradesView;
     private StudentMainActivity activity;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private LinearLayout skeletonLayout, placeholderLinearLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     @Nullable
     @Override
@@ -62,6 +71,8 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         getValueFromIntent();
         bindViews();
         setListeners();
+        showSkeleton(true);
+        postsView.getRecentPosts(student.getId());
     }
 
 
@@ -79,20 +90,43 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         activity.toolbarView.setVisibility(View.GONE);
         activity.headerLayout.setVisibility(View.GONE);
         backBtn = rootView.findViewById(R.id.btn_back);
+        toolbar = rootView.findViewById(R.id.toolbar);
         studentImageView = rootView.findViewById(R.id.img_student);
         recyclerView = rootView.findViewById(R.id.recycler_view);
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
-        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
         gradesAdapter = new GradesAdapter(activity, this);
         imageLoader = new PicassoLoader();
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         String studentName = student.firstName + " " + student.lastName;
         setStudentImage(student.getAvatar(), studentName);
         recyclerView.setAdapter(gradesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.toolbarView.setVisibility(View.VISIBLE);
+                activity.headerLayout.setVisibility(View.VISIBLE);
+                getParentFragment().getChildFragmentManager().popBackStack();
+            }
+        });
     }
-
     private void setListeners() {
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showSkeleton(true);
+                pullRefreshLayout.setRefreshing(false);
+                postsView.getRecentPosts(student.getId());
+                placeholderLinearLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+            }
+        });
         backBtn.setOnClickListener(this);
     }
 
@@ -123,16 +157,6 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_back:
-                activity.toolbarView.setVisibility(View.VISIBLE);
-                activity.headerLayout.setVisibility(View.VISIBLE);
-                getParentFragment().getChildFragmentManager().popBackStack();
-                break;
-        }
-    }
 
     @Override
     public void onSubjectSelected(PostsResponse postsResponse) {
@@ -170,8 +194,30 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     @Override
     public void onGetGradesCoursesFailure(String message, int errorCode) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
-        activity.showErrorDialog(activity, errorCode,"");
+        activity.showErrorDialog(activity, errorCode, "");
         listFrameLayout.setVisibility(View.GONE);
         placeholderFrameLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_row_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
+        }
     }
 }

@@ -16,7 +16,6 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,19 +34,19 @@ import java.util.Set;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import attendance.Attendance;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.ErrorDialog;
+import trianglz.components.LocalHelper;
+import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.PostsPresenter;
 import trianglz.core.presenters.StudentDetailPresenter;
-import trianglz.core.views.PostsView;
 import trianglz.core.views.StudentDetailView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
-import trianglz.models.Announcement;
 import trianglz.models.BehaviorNote;
+import trianglz.models.RootClass;
 import trianglz.models.CourseGroup;
 import trianglz.models.Message;
 import trianglz.models.MessageThread;
@@ -67,7 +66,8 @@ import trianglz.utils.Util;
  * A simple {@link Fragment} subclass.
  */
 public class MenuFragment extends Fragment implements StudentDetailPresenter,
-        View.OnClickListener, StudentMainActivity.OnBackPressedInterface, PostsPresenter {
+        StudentMainActivity.OnBackPressedInterface, PostsPresenter,
+        View.OnClickListener, SettingsDialog.SettingsDialogInterface, StudentMainActivity.OnBackPressedInterface, ErrorDialog.DialogConfirmationInterface {
 
     //fragment root view
     private View rootView;
@@ -79,33 +79,25 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private List<BehaviorNote> positiveBehaviorNotes;
     private List<BehaviorNote> negativeBehaviorNotes;
     private List<BehaviorNote> otherBehaviorNotes;
-    private ArrayList<CourseGroup> courseGroups;
     private Student student;
-    private AvatarView studentImage;
-    private ArrayList<Student> studentArrayList;
-    private ArrayList<Attendance> attendanceArrayList;
     private TextView nameTextView, levelTextView, nextSlotTextView, studentGradeTextView,
             positiveCounterTextView, negativeCounterTextView, otherCounterTextView, attendanceTextView, teacherNextSlotTextView;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private String studentName = "";
     private StudentDetailView studentDetailView;
-    private PostsView postsView;
     private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout, weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout, teacherTimeTableLayout;
     private String attendance, nextSlot;
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
-    private ArrayList<JSONArray> attendanceList;
     private AppBarLayout appBarLayout;
-
     private ErrorDialog errorDialogue;
-
     private LinearLayout parentLayout, teacherLayout;
     private Actor actor;
     private String actorName = "";
     private WeeklyPlannerResponse weeklyPlannerResponse;
     private TextView weeklyPlannerTextView;
-
+    private View shimmerView, teacherShimmerView;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -115,26 +107,27 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         rootView = inflater.inflate(R.layout.fragment_menu, container, false);
         activity = (StudentMainActivity) getActivity();
         bindViews();
         setListeners();
         setParentActorView();
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
             if (Util.isNetworkAvailable(getParentActivity())) {
                 String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
                 studentDetailView.getStudentTimeTable(timeTableUrl);
                 //
                 activity.isCalling = true;
                 getParentActivity().showLoadingDialog();
+                shimmerView.setVisibility(View.VISIBLE);
+                parentLayout.setVisibility(View.GONE);
+                appBarLayout.setVisibility(View.GONE);
             } else {
                 Util.showNoInternetConnectionDialog(getParentActivity());
             }
         }
         return rootView;
-
     }
 
 
@@ -149,14 +142,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void bindViews() {
-
+        shimmerView = rootView.findViewById(R.id.view_shimmer);
+        teacherShimmerView = rootView.findViewById(R.id.view_teacher_shimmer);
         todaySlots = new ArrayList<>();
         tomorrowSlots = new ArrayList<>();
         positiveBehaviorNotes = new ArrayList<>();
         negativeBehaviorNotes = new ArrayList<>();
         otherBehaviorNotes = new ArrayList<>();
-        courseGroups = new ArrayList<>();
-        studentArrayList = new ArrayList<>();
         nextSlot = "";
         appBarView = rootView.findViewById(R.id.appbar_view);
         appBarLayout = rootView.findViewById(R.id.app_bar_layout);
@@ -174,7 +166,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         calendarLayout = rootView.findViewById(R.id.layout_calendar);
         behaviourNotesLayout = rootView.findViewById(R.id.layout_behavior_notes);
         studentDetailView = new StudentDetailView(getParentActivity(), this);
-        postsView = new PostsView(activity, this);
         positiveCounterTextView = rootView.findViewById(R.id.tv_positive_counter);
         negativeCounterTextView = rootView.findViewById(R.id.tv_negative_counter);
         otherCounterTextView = rootView.findViewById(R.id.tv_other_counter);
@@ -215,12 +206,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (verticalOffset == 0) {
                     appBarView.setVisibility(View.GONE);
-                    //  appBarView.animate().alpha(0.0f);
-                    //    activity.toolbarView.setVisibility(View.VISIBLE);
                 } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
-//                    appBarView.animate().alpha(1.0f);
                     appBarView.setVisibility(View.VISIBLE);
-                    //  activity.toolbarView.setVisibility(View.GONE);
                 }
             }
         });
@@ -229,15 +216,14 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private void setParentActorView() {
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             parentLayout.setVisibility(View.GONE);
-            teacherLayout.setVisibility(View.VISIBLE);
             actorName = actor.firstName + " " + actor.lastName;
             setStudentImage(actor.imageUrl, actorName);
             nameTextView.setText(actorName);
             levelTextView.setText(actor.actableType);
             String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/teachers/" + SessionManager.getInstance().getId() + "/timetable";
-            activity.isCalling = true;
             studentDetailView.getStudentTimeTable(timeTableUrl);
-            getParentActivity().showLoadingDialog();
+            appBarLayout.setVisibility(View.GONE);
+            teacherShimmerView.setVisibility(View.VISIBLE);
             String notificationText = SessionManager.getInstance().getNotficiationCounter() + " " + getParentActivity().getResources().getString(R.string.unread_notifications);
         } else {
             parentLayout.setVisibility(View.VISIBLE);
@@ -249,20 +235,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             levelTextView.setText(student.level);
         }
     }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        if (!SessionManager.getInstance().getUserType()) {
-//            if (Util.isNetworkAvailable(getParentActivity())) {
-//                getNotifications(false);
-//            } else {
-//                Util.showNoInternetConnectionDialog(getParentActivity());
-//            }
-//        }
-    }
-
 
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
@@ -319,45 +291,20 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     }
 
+
     @Override
-    public void onGetStudentCourseGroupSuccess(ArrayList<CourseGroup> courseGroups) {
-        this.courseGroups = courseGroups;
-        // String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/grade_certificate";
-        //   studentDetailView.getStudentGrades(url, courseGroups);
-        postsView.getRecentPosts(student.getId());
+    public void onGetStudentGradesSuccess(ArrayList<trianglz.models.CourseGroup> courseGroups, String totalGrade) {
+//        this.courseGroups = courseGroups;
+//        totalGrade = getParentActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
+//        //  studentGradeTextView.setVisibility(View.VISIBLE);
+//        studentGradeTextView.setText(totalGrade);
 //        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
 //        studentDetailView.getStudentTimeTable(timeTableUrl);
     }
 
     @Override
-    public void onGetStudentCourseGroupFailure(String message, int errorCode) {
-        activity.isCalling = false;
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
-        activity.showErrorDialog(activity, errorCode, "");
-
-    }
-
-    @Override
-    public void onGetStudentGradesSuccess(ArrayList<trianglz.models.CourseGroup> courseGroups, String totalGrade) {
-        activity.isCalling = true;
-        this.courseGroups = courseGroups;
-        totalGrade = getParentActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
-        //  studentGradeTextView.setVisibility(View.VISIBLE);
-        studentGradeTextView.setText(totalGrade);
-        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
-        studentDetailView.getStudentTimeTable(timeTableUrl);
-    }
-
-    @Override
     public void onGetStudentGradesFailure(String message, int errorCode) {
-        activity.isCalling = false;
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
         activity.showErrorDialog(activity, errorCode, "");
-
     }
 
     @Override
@@ -382,16 +329,14 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             String url = SessionManager.getInstance().getBaseUrl() + "/api/behavior_notes";
             studentDetailView.getStudentBehavioursNotes(url, student.getId() + "");
         } else {
-            getParentActivity().progress.dismiss();
+            teacherLayout.setVisibility(View.VISIBLE);
+            appBarLayout.setVisibility(View.VISIBLE);
+            teacherShimmerView.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onGetTimeTableFailure(String message, int errorCode) {
-        activity.isCalling = false;
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
         activity.showErrorDialog(activity, errorCode, "");
 
     }
@@ -417,13 +362,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onGetBehaviorNotesFailure(String message, int errorCode) {
-        activity.isCalling = false;
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
         activity.showErrorDialog(activity, errorCode, "");
-
-
     }
 
     @Override
@@ -437,88 +376,15 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         } else {
               weeklyPlannerTextView.setText(R.string.there_is_no_weekly_planner);
         }
-        if (getParentActivity().progress.isShowing())
-            getParentActivity().progress.dismiss();
-
+        shimmerView.setVisibility(View.GONE);
+        parentLayout.setVisibility(View.VISIBLE);
+        appBarLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onGetWeeklyPlannerFailure(String message, int errorCode) {
-        activity.isCalling = false;
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
         activity.showErrorDialog(activity, errorCode, "");
     }
-
-    @Override
-    public void onGetNotificationSuccess(ArrayList<Notification> notificationArrayList) {
-        if (notificationArrayList.size() > 0) {
-            Notification notification = notificationArrayList.get(0);
-        } else {
-        }
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-        studentDetailView.getMessages(url, SessionManager.getInstance().getId());
-    }
-
-    @Override
-    public void onGetNotificationFailure(String message, int errorCode) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-        studentDetailView.getMessages(url, SessionManager.getInstance().getId());
-        if (!activity.isCalling) {
-            if (getParentActivity().progress.isShowing()) {
-                getParentActivity().progress.dismiss();
-            }
-        }
-        activity.showErrorDialog(activity, errorCode, "");
-
-    }
-
-    @Override
-    public void onGetMessagesSuccess(ArrayList<MessageThread> messageArrayList, int unreadMessageCount) {
-        if (messageArrayList.size() > 0) {
-            MessageThread messageThread = messageArrayList.get(0);
-            if (messageThread.messageArrayList.size() > 0) {
-                Message latestMessage = messageThread.messageArrayList.get(0);
-                String body = android.text.Html.fromHtml(latestMessage.body).toString();
-                body = StringEscapeUtils.unescapeJava(body);
-            }
-        } else {
-        }
-    }
-
-    @Override
-    public void onGetMessagesFailure(String message, int errorCode) {
-        activity.showErrorDialog(activity, errorCode, "");
-    }
-
-
-    @Override
-    public void onGetAnnouncementsSuccess(ArrayList<Announcement> announcementArrayList) {
-        if (announcementArrayList.size() > 0) {
-            Announcement announcement = announcementArrayList.get(0);
-            String body = android.text.Html.fromHtml(announcement.body).toString();
-            body = StringEscapeUtils.unescapeJava(body);
-        } else {
-        }
-        if (!activity.isCalling) {
-            if (getParentActivity().progress.isShowing()) {
-                getParentActivity().progress.dismiss();
-            }
-        }
-    }
-
-    @Override
-    public void onGetAnnouncementsFailure(String message, int errorCode) {
-        if (!activity.isCalling) {
-            if (getParentActivity().progress.isShowing()) {
-                getParentActivity().progress.dismiss();
-            }
-        }
-        activity.showErrorDialog(activity, errorCode, "");
-
-    }
-
 
     @Override
     public void onClick(View view) {
@@ -541,21 +407,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             case R.id.layout_calendar:
                 openCalendarActivity();
                 break;
-            case R.id.btn_messages:
-                openMessagesActivity();
-                break;
-            case R.id.btn_notification:
-                openNotificationsActivity();
-                break;
-            case R.id.layout_notification:
-                openNotificationsActivity();
-                break;
-            case R.id.layout_messages:
-                openMessagesActivity();
-                break;
-            case R.id.layout_annoucment:
-                //   openAnnouncement();
-                break;
             case R.id.btn_setting:
             case R.id.btn_setting_student:
                 Intent i = new Intent(activity, SettingsActivity.class);
@@ -572,31 +423,39 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 break;
             case R.id.layout_posts:
                 appBarLayout.setExpanded(true);
-                PostsFragment postsFragment = new PostsFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.STUDENT, student);
-                bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
-                postsFragment.setArguments(bundle);
-                getChildFragmentManager().
-                        beginTransaction().add(R.id.menu_fragment_root, postsFragment, "MenuFragments").
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                        addToBackStack(null).commit();
+                openPostsActivity();
                 break;
             case R.id.layout_quizzes:
                 appBarLayout.setExpanded(true);
-                OnlineQuizzesFragment onlineQuizzesFragment = new OnlineQuizzesFragment();
-                Bundle bundleQuiz = new Bundle();
-                bundleQuiz.putString(Constants.STUDENT, student.toString());
-                onlineQuizzesFragment.setArguments(bundleQuiz);
-                getChildFragmentManager().
-                        beginTransaction().add(R.id.menu_fragment_root, onlineQuizzesFragment, "MenuFragments").
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                        addToBackStack(null).commit();
+                openQuizzesActivity();
                 break;
             case R.id.layout_timetable_teacher:
                 openTeacherTimeTableActivity();
                 break;
         }
+    }
+
+    private void openQuizzesActivity() {
+        OnlineQuizzesFragment onlineQuizzesFragment = new OnlineQuizzesFragment();
+        Bundle bundleQuiz = new Bundle();
+        bundleQuiz.putString(Constants.STUDENT, student.toString());
+        onlineQuizzesFragment.setArguments(bundleQuiz);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, onlineQuizzesFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+    }
+
+    private void openPostsActivity() {
+        PostsFragment postsFragment = new PostsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT, student);
+        bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
+        postsFragment.setArguments(bundle);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, postsFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
     private void openWeeklyPlannerActivity() {
@@ -612,24 +471,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                     addToBackStack(null).commit();
     }
 
-    private void openMessagesActivity() {
-        Intent intent = new Intent(getActivity(), ContactTeacherActivity.class);
-        Bundle bundle = new Bundle();
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            bundle.putSerializable(Constants.STUDENT, student);
-        } else {
-            bundle.putSerializable(Constants.KEY_ACTOR, actor);
-        }
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(intent);
-    }
-
     private void openGradesActivity() {
 
         GradesFragment gradesFragment = new GradesFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
-//        bundle.putSerializable(Constants.KEY_COURSE_GROUPS, postsResponses);
         gradesFragment.setArguments(bundle);
         appBarLayout.setExpanded(true);
         getChildFragmentManager().
@@ -699,11 +545,89 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
 
-    private void openNotificationsActivity() {
-        Intent myIntent = new Intent(getActivity(), NotificationsActivity.class);
-        startActivity(myIntent);
+    @Override
+    public void onChangeLanguageClicked() {
+        errorDialogue = new ErrorDialog(activity, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
+        errorDialogue.show();
     }
 
+    @Override
+    public void onSignOutClicked() {
+        getParentActivity().logoutUser(getParentActivity());
+    }
+
+
+    private void changeLanguage() {
+        if (LocalHelper.getLanguage(getParentActivity()).equals("ar")) {
+            updateViews("en");
+        } else {
+            updateViews("ar");
+        }
+    }
+
+
+    private void updateViews(String languageCode) {
+
+        LocalHelper.setLocale(getParentActivity(), languageCode);
+        LocalHelper.getLanguage(getParentActivity());
+        new Handler().postDelayed(this::restartApp, 500);
+    }
+
+    public void restartApp() {
+        Intent intent = getParentActivity().getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getParentActivity().getBaseContext().getPackageName());
+        if (intent != null)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
+        if (getParentActivity() != null) {
+            (this).getParentActivity().finish();
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Runtime.getRuntime().exit(0);
+            }
+        }, 0);
+
+    }
+
+    private void checkVersionOnStore() {
+        AppUpdater appUpdater = new AppUpdater(getParentActivity())
+                .setDisplay(Display.DIALOG)
+                .showEvery(1)
+                .setUpdateFrom(UpdateFrom.GOOGLE_PLAY)
+                .setTitleOnUpdateAvailable(getParentActivity().getResources().getString(R.string.update_is_available))
+                .setContentOnUpdateAvailable(getParentActivity().getResources().getString(R.string.check_latest_version))
+                .setButtonUpdate(getParentActivity().getResources().getString(R.string.cancel))
+                .setButtonUpdateClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setButtonDismiss("")
+                .setButtonDoNotShowAgain(getParentActivity().getResources().getString(R.string.update_now))
+                .setButtonDoNotShowAgainClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        openStore();
+                    }
+                })
+                .setCancelable(false); // Dialog could not be;
+        appUpdater.start();
+    }
+
+    private void openStore() {
+        try {
+            Uri uri = Uri.parse("market://details?id=" + getParentActivity().getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id="
+                            + getParentActivity().getPackageName())));
+        }
+    }
 
     private void openAssignmentDetailActivity() {
         CourseAssignmentFragment courseAssignmentFragment = new CourseAssignmentFragment();
@@ -737,8 +661,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onBackPressed() {
-//        Boolean isStudent = SessionManager.getInstance().getStudentAccount();
-//        Boolean isParent = SessionManager.getInstance().getUserType() && !isStudent;
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             if (activity.pager.getCurrentItem() == 0) {
                 getChildFragmentManager().popBackStack();
@@ -771,23 +693,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     @Override
-    public void onGetPostsSuccess(ArrayList<PostsResponse> parsePostsResponse) {
-//        this.postsResponses = parsePostsResponse;
-//        activity.isCalling = true;
-////        totalGrade = getParentActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
-//        //  studentGradeTextView.setVisibility(View.VISIBLE);
-//        //      studentGradeTextView.setText(totalGrade);
-//        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
-//        studentDetailView.getStudentTimeTable(timeTableUrl);
+    public void onConfirm() {
+        changeLanguage();
+
     }
 
     @Override
-    public void onGetPostsFailure(String message, int errorCode) {
-        activity.isCalling = false;
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
-        activity.showErrorDialog(activity, errorCode, "");
-    }
+    public void onCancel() {
 
+    }
 }

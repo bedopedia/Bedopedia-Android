@@ -64,7 +64,7 @@
     <string name="enter_valid_email">Enter valid email</string>
     <string name="password_is_empty">Password is empty</string>
     <string name="email_is_empty">Email is empty</string>
-    <string name="password_length_error">Password length should be more than 4 characters</string>
+    <string name="password_length_error">Password length should be more than 6 characters</string>
     <string name="code_is_empty">Code is empty</string>
     <string name="code_length_error">Code length error</string>
     <string name="notifications">Notifications</string>
@@ -88,6 +88,16 @@
     <string name="tomorrow">Tomorrow</string>
 
     <string name="today">Today</string>
+    <string name="profile">Profile</string>
+    <array name="weekdays_cust">
+        <item>S</item>
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+    </array>
     <string name="w" translatable="false">W</string>
     <string name="excused">Excused</string>
     <string name="late">Late</string>
@@ -125,9 +135,9 @@
     <string name="update_now">Update now</string>
     <string name="enter_email">Enter user name</string>
     <string name="enter_password">Enter password</string>
-    <string name="enter_school_code">Enter school code</string>
+    <string name="enter_school_code">School code</string>
     <string name="wrong_school_code">Wrong school code</string>
-
+    <string name="username_email">Username/Email</string>
     <string name="announcement">Announcement</string>
     <string name="unread_notifications">Unread Notifications</string>
     <string name="there_is_no_announcements">There is no announcements</string>
@@ -267,7 +277,7 @@
     <string name="announcements_placeholder">You don\'t have any announcements for now</string>
     <string name="messages_placeholder">You don\'t have any messages for now</string>
     <string name="open_assignments_placeholder">You don\'t have any open assignments for now</string>
-    <string name="closed_assignments_placeholder">You don\'t have any open closed assignments for now</string>
+    <string name="closed_assignments_placeholder">You don\'t have any closed assignments for now</string>
     <string name="open_quizzes_placeholder">You don\'t have any open online quizzes for now</string>
     <string name="closed_quizzes_placeholder">You don\'t have any closed online quizzes for now</string>
     <string name="posts_placeholder">You don\'t have any posts for now</string>
@@ -304,4 +314,6 @@
     <string name="letter_scale">Letter scale</string>
     <string name="gpa">GPA</string>
     <string name="minutes">%1$s Minutes</string>
+    <string name="no_description">No description available</string>
+
 </resources>

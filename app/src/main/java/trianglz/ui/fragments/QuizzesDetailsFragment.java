@@ -1,9 +1,10 @@
 package trianglz.ui.fragments;
 
-import android.graphics.Color;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,11 +13,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -27,7 +28,6 @@ import java.util.Date;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
@@ -62,8 +62,6 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private String courseName = "";
     private String courseGroupName = "";
     private TextView headerTextView, placeholderTextView;
-    private RadioButton openButton, closedButton;
-    private SegmentedGroup segmentedGroup;
     private QuizzCourse quizzCourse;
     private ArrayList<Quizzes> quizzes;
     private QuizzesDetailsView quizzesDetailsView;
@@ -75,7 +73,12 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private SwipeRefreshLayout pullRefreshLayout;
     private int quizIndex = 0;
     private ArrayList<Quizzes> isToBeSubmittedQuizzes;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private LinearLayout placeholderLinearLayout;
+    private TabLayout tabLayout;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
+    private boolean isCalling = false;
     private QuizQuestion quizQuestion;
 
     @Nullable
@@ -94,7 +97,15 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         setListeners();
         if (!teacherMode) {
             getQuizzes();
+        } else {
+            getTeacherQuizzes();
         }
+    }
+
+    private void getTeacherQuizzes() {
+        quizzesDetailsView.getTeacherQuizzes(courseGroup.getId() + "");
+        showSkeleton(true);
+        isCalling = true;
     }
 
 
@@ -123,11 +134,11 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         placeholderTextView = rootView.findViewById(R.id.placeholder_tv);
+        tabLayout = rootView.findViewById(R.id.tab_layout);
         if (!teacherMode)
             setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         if (teacherMode) {
-            pullRefreshLayout.setEnabled(false);
             adapter = new QuizzesDetailsAdapter(activity, this, courseGroupName);
         } else {
             adapter = new QuizzesDetailsAdapter(activity, this, courseName);
@@ -140,48 +151,60 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         isToBeSubmittedQuizzes = new ArrayList<>();
         headerTextView.setText(courseName);
 
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
-        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
+        tabLayout.setSelectedTabIndicatorColor(activity.getResources().getColor(Util.checkUserColor()));
+        tabLayout.setTabTextColors(activity.getResources().getColor(R.color.steel), activity.getResources().getColor(Util.checkUserColor()));
 
+        quizzesDetailsView = new QuizzesDetailsView(activity, this);
+        quizzes = new ArrayList<>();
 
-        if (quizzes != null) showHidePlaceholder(getArrayList(isOpen), isOpen);
-
-        // radio button for segment control
-        segmentedGroup = rootView.findViewById(R.id.segmented);
-        openButton = rootView.findViewById(R.id.btn_open);
-        closedButton = rootView.findViewById(R.id.btn_closed);
-        segmentedGroup.check(openButton.getId());
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-            segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
-        } else {
-            segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
-        }
-
-        if (!teacherMode) {
-            quizzesDetailsView = new QuizzesDetailsView(activity, this);
-            quizzes = new ArrayList<>();
-        }
-
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
-        openButton.setOnClickListener(this);
-        closedButton.setOnClickListener(this);
-        if (!teacherMode) {
-            pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                recyclerView.scrollToPosition(0);
+                if (tab.getPosition() == 0)
+                    isOpen = true;
+                else
+                    isOpen = false;
+                if (!isCalling)
+                    showHidePlaceholder(getArrayList());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullRefreshLayout.setRefreshing(false);
+                if (teacherMode)
+                    getTeacherQuizzes();
+                else
                     getQuizzes();
-                }
-            });
-        }
+                placeholderLinearLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+            }
+        });
+
     }
 
-    private ArrayList<Quizzes> getArrayList(boolean isOpen) {
+    private ArrayList<Quizzes> getArrayList() {
         if (quizzes.isEmpty()) return quizzes;
         ArrayList<Quizzes> filteredQuizzes = new ArrayList<>();
         for (Quizzes quiz : quizzes) {
@@ -227,42 +250,29 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             case R.id.btn_back:
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
-            case R.id.btn_open:
-                isOpen = true;
-                recyclerView.scrollToPosition(0);
-                showHidePlaceholder(getArrayList(isOpen), isOpen);
-                break;
-            case R.id.btn_closed:
-                isOpen = false;
-                recyclerView.scrollToPosition(0);
-                showHidePlaceholder(getArrayList(isOpen), isOpen);
-                break;
         }
     }
 
     @Override
     public void onGetQuizzesDetailsSuccess(ArrayList<Quizzes> quizzes, Meta meta) {
-        pullRefreshLayout.setRefreshing(false);
         this.quizzes.addAll(quizzes);
         populateIsToSubmitArray();
         totalPages = meta.getTotalPages();
+        isCalling = false;
+        showSkeleton(false);
         populateIsToSubmitArray();
         if (!isToBeSubmittedQuizzes.isEmpty()) {
             submitQuizzes(isToBeSubmittedQuizzes.get(quizIndex).getStudentSubmissions().getId());
         } else {
-            if (activity.progress.isShowing()) {
-                activity.progress.dismiss();
-            }
-            showHidePlaceholder(getArrayList(isOpen), isOpen);
+            showHidePlaceholder(getArrayList());
         }
     }
 
 
     @Override
     public void onGetQuizzesDetailsFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
+        isCalling = false;
+        showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
 
     }
@@ -304,6 +314,21 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     }
 
     @Override
+    public void onGetTeacherQuizzesSuccess(ArrayList<Quizzes> quizzes) {
+        this.quizzes.addAll(quizzes);
+        isCalling = false;
+        showSkeleton(false);
+        showHidePlaceholder(getArrayList());
+    }
+
+    @Override
+    public void onGetTeacherQuizzesFailure(String message, int errorCode) {
+        isCalling = false;
+        showSkeleton(false);
+        activity.showErrorDialog(activity, errorCode, "");
+    }
+
+    @Override
     public void onItemClicked(Quizzes quizzes) {
         if (!teacherMode) {
 //            SingleQuizFragment singleQuizFragment = new SingleQuizFragment();
@@ -339,7 +364,9 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 
     private void getQuizzes() {
         if (Util.isNetworkAvailable(getActivity())) {
-            activity.showLoadingDialog();
+            if (page == 1)
+                showSkeleton(true);
+            isCalling = true;
             quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId(), page);
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
@@ -386,21 +413,44 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         }
     }
 
-    private void showHidePlaceholder(ArrayList<Quizzes> quizzes, boolean isOpen) {
+    private void showHidePlaceholder(ArrayList<Quizzes> quizzes) {
         if (quizzes.isEmpty()) {
             if (isOpen) {
                 placeholderTextView.setText(activity.getResources().getString(R.string.open_assignments_placeholder));
             } else {
                 placeholderTextView.setText(activity.getResources().getString(R.string.closed_assignments_placeholder));
             }
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
             adapter.addData(quizzes);
         }
     }
+
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_assignment_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
+        }
+    }
+
     private void openQuizDetailFragment() {
         QuizDetailsFragment quizDetailsFragment = new QuizDetailsFragment();
         Bundle bundle = new Bundle();

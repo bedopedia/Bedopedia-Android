@@ -57,10 +57,11 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Ho
         int day = cal.get(Calendar.DAY_OF_MONTH);
         holder.dayNumberTextView.setText(day + "");
         holder.monthTextView.setText(months[month].substring(0, 3));
-        if (attendanceItem.getComment() != null)
+        if (attendanceItem.getComment() != null && !attendanceItem.getComment().trim().isEmpty()) {
             holder.commentTextView.setText(attendanceItem.getComment());
-        else
-            holder.commentTextView.setText("");
+        } else {
+            holder.commentTextView.setText(context.getResources().getString(R.string.no_description));
+        }
     }
 
     @Override

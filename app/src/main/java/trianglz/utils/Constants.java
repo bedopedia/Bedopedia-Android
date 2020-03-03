@@ -216,6 +216,7 @@ public class Constants {
     public static final String KEY_SUBSCRIBER_TYPE = "subscriber_type";
     public static final String KEY_SUBSCRIBER_ID = "subscriber_id";
     public static final String KEY_CANCEL = "cancel";
+    public static final String KEY_COURSE_ASSIGNMENT = "course_assignment";
 
     public static final String KEY_POSTABLE_TYPE = "postable_type";
     public static final String KEY_POSTABLE_ID = "postable_id";
@@ -266,5 +267,7 @@ public class Constants {
 
     public static final String MOBILE_API = "mobile_api";
     public static final String KEY_WEEKLY_PLAN = "weekly_plan";
+    public static final int TYPE_ASSIGNMENT = 0;
+    public static final int TYPE_ATTACHMENT = 1;
 }
 

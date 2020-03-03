@@ -1,5 +1,6 @@
 package trianglz.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,10 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 
 import java.text.SimpleDateFormat;
@@ -28,6 +30,7 @@ import java.util.Map;
 
 import trianglz.components.ExcusedDialog;
 import trianglz.components.TakeAttendanceDialog;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.TeacherAttendancePresenter;
 import trianglz.core.views.TeacherAttendanceView;
 import trianglz.managers.SessionManager;
@@ -67,7 +70,10 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     private TeacherAttendanceAdapter teacherAttendanceAdapter;
     private Button fullDayButton, perSlotButton, assignAllButton, assignSelectedButton;
     private SwipeRefreshLayout pullRefreshLayout;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private LinearLayout placeholderLinearLayout;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -114,9 +120,12 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         adapterTimeTableSlots = new ArrayList<>();
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
-        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
-
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private void setListeners() {
@@ -128,6 +137,9 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pullRefreshLayout.setRefreshing(false);
+                recyclerView.setVisibility(View.GONE);
+                placeholderLinearLayout.setVisibility(View.GONE);
                 if (perSlot) {
                     getPerSlotAttendance();
                 } else {
@@ -156,13 +168,13 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     private void getPerSlotAttendance() {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getPerSlotAttendance(courseGroupId, day, month, year);
         teacherAttendanceView.getFullDayTeacherAttendance(url);
-        activity.showLoadingDialog();
+        showSkeleton(true);
     }
 
     private void getFullDayAttendance() {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getFullDayAttendance(courseGroupId, day, month, year, day, month, year);
         teacherAttendanceView.getFullDayTeacherAttendance(url);
-        activity.showLoadingDialog();
+        showSkeleton(true);
     }
 
     private void getDateInNumbers() {
@@ -235,15 +247,13 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     public void onGetTeacherAttendanceSuccess(Attendance attendance) {
         createIds.clear();
         this.attendance = attendance;
-        pullRefreshLayout.setRefreshing(false);
-        if (activity.progress.isShowing())
-            activity.progress.dismiss();
+        showSkeleton(false);
         if (attendance.getStudents().isEmpty()) {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
         }
         if (attendance.getTimetableSlots() == null) {
             perSlot = false;
@@ -275,14 +285,13 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     @Override
     public void onGetTeacherAttendanceFailure(String message, int code) {
         activity.showErrorDialog(activity, code, "");
-        listFrameLayout.setVisibility(View.GONE);
-        placeholderFrameLayout.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        placeholderLinearLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onBatchAttendanceCreatedSuccess() {
-        if (activity.progress.isShowing())
-            activity.progress.dismiss();
+        showSkeleton(false);
         if (perSlot) {
             getPerSlotAttendance();
         } else {
@@ -292,15 +301,13 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onBatchAttendanceCreatedFailure(String message, int code) {
-        if (activity.progress.isShowing())
-            activity.progress.dismiss();
+        showSkeleton(false);
         activity.showErrorDialog(activity, code, "");
     }
 
     @Override
     public void onBatchAttendanceDeletedSuccess() {
-        if (activity.progress.isShowing())
-            activity.progress.dismiss();
+        showSkeleton(false);
         if (perSlot) {
             getPerSlotAttendance();
         } else {
@@ -310,8 +317,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onBatchAttendanceDeletedFailure(String message, int code) {
-        if (activity.progress.isShowing())
-            activity.progress.dismiss();
+        showSkeleton(false);
         if (perSlot) {
             getPerSlotAttendance();
         } else {
@@ -332,7 +338,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         } else {
             teacherAttendanceView.createBatchAttendance(url, date, comment, Constants.TYPE_EXCUSED, studentIds);
         }
-        activity.showLoadingDialog();
+        showSkeleton(true);
     }
 
     @Override
@@ -390,10 +396,10 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createBatchAttendance();
             if (perSlot) {
                 teacherAttendanceView.createBatchAttendance(url, date, "", status, createIds, attendanceTimetableSlot.getId());
-                activity.showLoadingDialog();
+                showSkeleton(true);
             } else {
                 teacherAttendanceView.createBatchAttendance(url, date, "", status, createIds);
-                activity.showLoadingDialog();
+                showSkeleton(true);
             }
         }
     }
@@ -402,7 +408,7 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.deleteBatchAttendance();
         if (!attendancesIds.isEmpty()) {
             teacherAttendanceView.deleteBatchAttendance(url, attendancesIds);
-            activity.showLoadingDialog();
+            showSkeleton(true);
         }
     }
 
@@ -417,5 +423,28 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
             }
         }
     }
+
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_teacher_attendance_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            recyclerView.setVisibility(View.GONE);
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
+        }
+    }
+
 }
 

@@ -7,7 +7,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -92,7 +91,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
         public AvatarView subjectImageView;
         public TextView subjectTextView;
         public TextView counterTextView;
-        public ImageButton openBtn;
         public TextView nameTextview;
         public TextView descriptionTextView;
 
@@ -101,7 +99,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
             subjectImageView = itemView.findViewById(R.id.iv_post_img);
             subjectTextView = itemView.findViewById(R.id.tv_subject);
             counterTextView = itemView.findViewById(R.id.tv_number);
-            openBtn = itemView.findViewById(R.id.btn_open);
             nameTextview = itemView.findViewById(R.id.tv_name);
             descriptionTextView = itemView.findViewById(R.id.tv_description);
             rootView = itemView.findViewById(R.id.ll_root);

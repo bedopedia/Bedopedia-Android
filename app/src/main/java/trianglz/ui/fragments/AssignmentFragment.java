@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,9 +15,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
-
-import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
-import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,16 +30,14 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 04/09/2019.
  */
-public class AssignmentFragment extends Fragment implements AttachmentAdapter.AttachmentAdapterInterface, View.OnClickListener {
+public class AssignmentFragment extends Fragment implements AttachmentAdapter.AttachmentAdapterInterface,  View.OnClickListener {
 
     private StudentMainActivity activity;
     private View rootView;
     private TextView courseNameTextView;
-    private HtmlTextView courseDescriptionTextView;
     private RecyclerView recyclerView;
     private AttachmentAdapter adapter;
     private SingleAssignment singleAssignment;
-    private CardView cardView;
     private ImageButton backBtn;
 
     @Nullable
@@ -78,17 +72,15 @@ public class AssignmentFragment extends Fragment implements AttachmentAdapter.At
         } else {
             courseNameTextView.setText(singleAssignment.getName());
         }
-        cardView = rootView.findViewById(R.id.card_view);
-        courseDescriptionTextView = rootView.findViewById(R.id.tv_course_description);
+
         recyclerView = rootView.findViewById(R.id.recycler_view);
-        if (singleAssignment.getContent() == null || singleAssignment.getContent().isEmpty()) {
-            cardView.setVisibility(View.GONE);
-        } else {
-            cardView.setVisibility(View.VISIBLE);
-            courseDescriptionTextView.setHtml(singleAssignment.getContent(), new HtmlHttpImageGetter(courseDescriptionTextView
-            ));
-        }
         adapter = new AttachmentAdapter(activity, this);
+        adapter.type = Constants.TYPE_ASSIGNMENT;
+        if (singleAssignment.getContent() == null || singleAssignment.getContent().isEmpty()) {
+            adapter.assignmentDescription = "";
+        } else {
+            adapter.assignmentDescription = singleAssignment.getContent();
+        }
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(16, activity), false));

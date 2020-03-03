@@ -1,6 +1,7 @@
 package trianglz.ui.fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
@@ -51,7 +53,10 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     private Actor actor;
     private boolean isOpeningThread = false;
     private SwipeRefreshLayout pullRefreshLayout;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private LinearLayout placeholderLinearLayout;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     public MessagesFragment() {
         // Required empty public constructor
@@ -88,17 +93,22 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         messageThreadArrayList = new ArrayList<>();
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
-        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private void setListeners() {
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                activity.showLoadingDialog();
                 String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
                 contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
+                showSkeleton(true);
+                placeholderLinearLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
             }
         });
     }
@@ -108,9 +118,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     public void onResume() {
         super.onResume();
         if (Util.isNetworkAvailable(getActivity())) {
-            if (((StudentMainActivity) getActivity()).pager.getCurrentItem() == 1) {
-                if (!activity.isCalling)
-                activity.showLoadingDialog();
+            showSkeleton(true);
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
                 contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
             }
@@ -131,15 +139,14 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onGetMessagesSuccess(ArrayList<MessageThread> messageThreadArrayList) {
-        if (!activity.isCalling)
-            activity.progress.dismiss();
+        showSkeleton(false);
         pullRefreshLayout.setRefreshing(false);
         if (messageThreadArrayList.isEmpty()) {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
             this.messageThreadArrayList = messageThreadArrayList;
             contactTeacherAdapter.addData(messageThreadArrayList);
         }
@@ -148,13 +155,10 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onGetMessagesFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            if (!activity.isCalling)
-                activity.progress.dismiss();
-        }
+        showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
-        listFrameLayout.setVisibility(View.GONE);
-        placeholderFrameLayout.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        placeholderLinearLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -238,6 +242,31 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
                     activity.headerLayout.setVisibility(View.VISIBLE);
                 }
             }
+        }
+    }
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_row_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.GONE);
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
         }
     }
 }

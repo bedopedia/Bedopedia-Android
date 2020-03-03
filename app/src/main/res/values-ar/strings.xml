@@ -29,7 +29,8 @@
     <string name="enter_valid_email">ادخل بريد الكترونى صحيح</string>
     <string name="password_is_empty">كلمة السر فارغة</string>
     <string name="email_is_empty">البريد الالكترونى فارغ</string>
-    <string name="password_length_error">Password length should be more than 4 characters</string>
+    <string name="username_email">البريد الالكترونى/إسم المستخدم</string>
+    <string name="password_length_error">Password length should be more than 6 characters</string>
     <string name="code_is_empty">كود المدرسة فارغ</string>
     <string name="code_length_error">خطأ فى كود المدرسة</string>
     <string name="notifications">الإشعارات</string>
@@ -101,7 +102,7 @@
     <string name="days">يوم</string>
     <string name="enter_email">ادخل اسم المستخدم</string>
     <string name="enter_password">ادخل كلمة السر</string>
-    <string name="enter_school_code">ادخل كود المدرسة</string>
+    <string name="enter_school_code">كود المدرسة</string>
     <string name="wrong_school_code">خطأ فى كود المدرسة</string>
 
 
@@ -277,4 +278,6 @@
     <string name="total_percent">(%)المجموع</string>
     <string name="semesters">Periods</string>
     <string name="minutes">%1$s دقائق</string>
+    <string name="profile">الملف</string>
+    <string name="no_description">لا يوجد تفاصيل</string>
 </resources>

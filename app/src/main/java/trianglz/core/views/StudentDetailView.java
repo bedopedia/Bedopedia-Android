@@ -28,8 +28,6 @@ import trianglz.core.presenters.StudentDetailPresenter;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
-import trianglz.models.Announcement;
-import trianglz.models.AnnouncementReceiver;
 import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
 import trianglz.models.DailyNotes;
@@ -37,7 +35,6 @@ import trianglz.models.Day;
 import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.models.Notification;
-import trianglz.models.Participant;
 import trianglz.models.PlannerSubject;
 import trianglz.models.TimeTableSlot;
 import trianglz.models.User;
@@ -58,21 +55,6 @@ public class StudentDetailView {
         this.studentDetailPresenter = studentDetailPresenter;
     }
 
-
-    public void getStudentCourses(String url) {
-        UserManager.getStudentCourse(url, new ArrayResponseListener() {
-            @Override
-            public void onSuccess(JSONArray responseArray) {
-                studentDetailPresenter.onGetStudentCourseGroupSuccess(parseStudentCourseResponse(responseArray));
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-                studentDetailPresenter.onGetStudentCourseGroupFailure(message, errorCode);
-
-            }
-        });
-    }
 
 
     public void getStudentGrades(String url, final ArrayList<CourseGroup> courseGroups) {
@@ -165,27 +147,11 @@ public class StudentDetailView {
             public void onFailure(String message, int errorCode) {
                 studentDetailPresenter.onGetAnnouncementsFailure(message,errorCode);
 
+                studentDetailPresenter.onGetWeeklyPlannerFailure(message, errorCode);
             }
         });
+
     }
-
-
-    public void getMessages(String url, String id) {
-        UserManager.getMessages(url, id, new ResponseListener() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                int unreadMessageCount = response.optInt(Constants.KEY_UNREAD_MESSAGE_COUNT);
-                studentDetailPresenter.onGetMessagesSuccess(parseGetMessagesResponse(response),unreadMessageCount);
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-                studentDetailPresenter.onGetMessagesFailure(message,errorCode);
-
-            }
-        });
-    }
-
 
     private ArrayList<trianglz.models.CourseGroup> parseStudentCourseResponse(JSONArray responseArray) {
         ArrayList<trianglz.models.CourseGroup> courseGroups = new ArrayList<>();

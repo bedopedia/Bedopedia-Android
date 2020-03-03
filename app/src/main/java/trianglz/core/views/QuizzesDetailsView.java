@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import trianglz.core.presenters.QuizzesDetailsPresenter;
+import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Meta;
@@ -27,18 +28,19 @@ public class QuizzesDetailsView {
         this.context = context;
         this.quizzesDetailsPresenter = quizzesDetailsPresenter;
     }
-    public void getQuizzesDetails(int studentId, int courseId,int page) {
+
+    public void getQuizzesDetails(int studentId, int courseId, int page) {
         UserManager.getQuizzesDetails(studentId, courseId, page, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 JSONArray jsonArray = response.optJSONArray(Constants.KEY_QUIZZES);
                 JSONObject metaJsonObject = response.optJSONObject(Constants.KEY_META);
-                Meta meta= new Meta(metaJsonObject);
+                Meta meta = new Meta(metaJsonObject);
                 ArrayList<Quizzes> quizzes = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     quizzes.add(Quizzes.create(jsonArray.optString(i)));
                 }
-                quizzesDetailsPresenter.onGetQuizzesDetailsSuccess(quizzes,meta);
+                quizzesDetailsPresenter.onGetQuizzesDetailsSuccess(quizzes, meta);
             }
 
             @Override
@@ -47,15 +49,35 @@ public class QuizzesDetailsView {
             }
         });
     }
+
     public void submitQuiz(String url, int submissionId) {
         UserManager.submitQuiz(url, submissionId, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 quizzesDetailsPresenter.onSubmitQuizSuccess();
             }
+
             @Override
             public void onFailure(String message, int errorCode) {
                 quizzesDetailsPresenter.onSubmitQuizFailure(message, errorCode);
+            }
+        });
+    }
+
+    public void getTeacherQuizzes(String courseGroupId) {
+        UserManager.getTeacherQuizzes(courseGroupId, new ArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray responseArray) {
+                ArrayList<Quizzes> quizzes = new ArrayList<>();
+                for (int i = 0; i < responseArray.length(); i++) {
+                    quizzes.add(Quizzes.create(responseArray.opt(i).toString()));
+                }
+                quizzesDetailsPresenter.onGetTeacherQuizzesSuccess(quizzes);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                quizzesDetailsPresenter.onGetTeacherQuizzesFailure(message, errorCode);
             }
         });
     }

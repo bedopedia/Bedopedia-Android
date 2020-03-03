@@ -19,10 +19,12 @@ import com.skolera.skolera_android.R;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import trianglz.components.TopItemDecoration;
 import trianglz.models.UploadedObject;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.AttachmentAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * Created by Farah A. Moniem on 08/09/2019.
@@ -74,8 +76,10 @@ public class AttachmentsFragment extends Fragment implements AttachmentAdapter.A
         courseNameTextView = rootView.findViewById(R.id.tv_course_name);
         courseNameTextView.setText(subjectName);
         adapter = new AttachmentAdapter(activity, this);
+        adapter.type = Constants.TYPE_ATTACHMENT;
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         adapter.addData(uploadedObjects);
     }
 

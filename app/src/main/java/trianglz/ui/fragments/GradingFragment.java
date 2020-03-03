@@ -1,5 +1,6 @@
 package trianglz.ui.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,14 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
 import trianglz.components.GradeFeedbackDialog;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.GradingPresenter;
 import trianglz.core.views.GradingView;
 import trianglz.managers.SessionManager;
@@ -50,7 +54,9 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     private String feedBack;
     private TextView headerTextView;
     private SwipeRefreshLayout pullRefreshLayout;
-
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     @Nullable
     @Override
@@ -67,6 +73,7 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
         bindViews();
         setListeners();
         fetchData();
+        showSkeleton(true);
     }
 
 
@@ -106,9 +113,14 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
                 headerTextView.setText(getResources().getString(R.string.quiz));
             }
         }
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
+
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
-
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     void setListeners() {
@@ -116,7 +128,9 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pullRefreshLayout.setRefreshing(false);
                 fetchData();
+                showSkeleton(true);
             }
         });
     }
@@ -160,13 +174,14 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onGetAssignmentSubmissionsSuccess(ArrayList<StudentSubmission> submissions) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
-        pullRefreshLayout.setRefreshing(false);
+        showSkeleton(false);
         adapter.addData(submissions);
     }
 
     @Override
     public void onGetAssignmentSubmissionsFailure(String message, int errorCode) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
+        showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
     }
 
@@ -201,6 +216,7 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onGetQuizzesSubmissionsSuccess(ArrayList<StudentSubmission> studentSubmissions) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
+        showSkeleton(false);
         adapter.setIsQuizzes();
         adapter.addData(studentSubmissions);
         pullRefreshLayout.setRefreshing(false);
@@ -265,7 +281,6 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     }
 
     private void fetchData() {
-        if (!activity.progress.isShowing()) activity.showLoadingDialog();
         if (isAssignmentsGrading) {
             if (courseId != -1 && courseGroupId != -1 && assignmentId != -1) {
                 gradingView.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
@@ -275,6 +290,30 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
                 gradingView.getQuizzesSubmissions(quizId, courseGroupId);
             }
 
+        }
+    }
+
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_grading_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            recyclerView.setVisibility(View.GONE);
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
         }
     }
 }

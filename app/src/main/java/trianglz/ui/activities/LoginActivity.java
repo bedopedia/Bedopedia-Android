@@ -2,6 +2,12 @@ package trianglz.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -11,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Picasso;
@@ -33,8 +40,8 @@ import trianglz.utils.Util;
 
 public class LoginActivity extends SuperActivity implements View.OnClickListener, LoginPresenter,
         TextView.OnEditorActionListener, ChangePasswordDialog.DialogConfirmationInterface {
-    private MaterialEditText emailEditText;
-    private MaterialEditText passwordEditText;
+    private MaterialEditText emailEditText, passwordEditText;
+    private TextView emailErrorTextView, passwordErrorTextView;
     private Button loginBtn;
     private LoginView loginView;
     private School school;
@@ -42,6 +49,9 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     private ImageButton backBtn;
     private String baseUrl;
     private LinearLayout parentView;
+    private View emailView;
+    private ImageButton showHidePasswordButton;
+    private RoundCornerProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +74,59 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         parentView = findViewById(R.id.parent_view);
         baseUrl = SessionManager.getInstance().getBaseUrl();
 
+        progressBar = findViewById(R.id.progress_bar);
+        emailErrorTextView = findViewById(R.id.email_error_tv);
+        passwordErrorTextView = findViewById(R.id.password_error_tv);
+        emailView = findViewById(R.id.email_view);
+        showHidePasswordButton = findViewById(R.id.show_hide_password_image_button);
     }
 
     private void setListeners() {
         loginBtn.setOnClickListener(this);
         backBtn.setOnClickListener(this);
+        showHidePasswordButton.setOnClickListener(this);
         parentView.setOnTouchListener(new HideKeyboardOnTouch(this));
         passwordEditText.setOnEditorActionListener(this);
+        emailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                emailView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white_four));
+                emailErrorTextView.setVisibility(View.INVISIBLE);
+            }
+        });
+        passwordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                passwordErrorTextView.setVisibility(View.INVISIBLE);
+                progressBar.setProgressColor(getResources().getColor(R.color.jade_green));
+                Log.d("count", "afterTextChanged: " + s.toString().trim().length());
+                if (s.toString().trim().length() > 6) {
+                    progressBar.setProgress(100);
+                } else {
+                    progressBar.setProgress((10 * (float) s.length()) / 6);
+                }
+            }
+        });
     }
 
     @Override
@@ -90,6 +146,15 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
             case R.id.btn_back:
                 onBackPressed();
                 break;
+            case R.id.show_hide_password_image_button:
+                if (passwordEditText.getTransformationMethod() instanceof PasswordTransformationMethod) {
+                    passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showHidePasswordButton.setImageResource(R.drawable.ic_unshow_password);
+                } else {
+                    passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showHidePasswordButton.setImageResource(R.drawable.ic_show_password);
+                }
+                break;
         }
     }
 
@@ -97,14 +162,14 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     public boolean validate(String email, String password) {
         boolean valid = true;
         if (email.isEmpty()) {
-            showErrorMessage(emailEditText, getResources().getString(R.string.email_is_empty));
+            showEmailErrorMessage(getResources().getString(R.string.email_is_empty), emailErrorTextView);
             valid = false;
         }
-        if (password.isEmpty() || password.length() < 4) {
+        if (password.isEmpty() || password.length() < 6) {
             if (password.isEmpty()) {
-                showErrorMessage(passwordEditText, getResources().getString(R.string.password_is_empty));
+                showPasswordErrorMessage(getResources().getString(R.string.password_is_empty), passwordErrorTextView);
             } else {
-                showErrorMessage(passwordEditText, getResources().getString(R.string.password_length_error));
+                showPasswordErrorMessage(getResources().getString(R.string.password_length_error), passwordErrorTextView);
             }
             valid = false;
         }
@@ -126,11 +191,17 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     }
 
-    private void showErrorMessage(MaterialEditText editText, String message) {
-        editText.setError(message);
-        editText.setUnderlineColor(getResources().getColor(R.color.pale_red));
-        editText.setHideUnderline(false);
-        editText.setErrorColor(getResources().getColor(R.color.tomato));
+    private void showEmailErrorMessage(String message, TextView textView) {
+        textView.setText(message);
+        emailView.setBackgroundColor(ContextCompat.getColor(this, R.color.pale_red));
+        textView.setVisibility(View.VISIBLE);
+    }
+
+    private void showPasswordErrorMessage(String message, TextView textView) {
+        textView.setText(message);
+        progressBar.setProgressColor(getResources().getColor(R.color.pale_red));
+        progressBar.setProgress(100);
+        textView.setVisibility(View.VISIBLE);
     }
 
     @Override

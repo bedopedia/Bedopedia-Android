@@ -1,6 +1,7 @@
 package trianglz.ui.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,12 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
-import trianglz.components.BottomItemDecoration;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.TeacherCoursesPresenter;
 import trianglz.core.views.TeacherCoursesView;
 import trianglz.managers.SessionManager;
@@ -35,7 +38,9 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
     private StudentMainActivity activity;
     private RecyclerView recyclerView;
     private TeacherCoursesAdapter teacherCoursesAdapter;
-
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     public TeacherCoursesFragment() {
         // Required empty public constructor
@@ -49,7 +54,7 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
         rootView = inflater.inflate(R.layout.fragment_teacher_courses, container, false);
         activity = (StudentMainActivity) getActivity();
         bindViews();
-        getParentActivity().showLoadingDialog();
+        showSkeleton(true);
         teacherCoursesView.getTeacherCourses(SessionManager.getInstance().getId());
         return rootView;
     }
@@ -62,7 +67,11 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
         recyclerView.setAdapter(teacherCoursesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(6, getParentActivity()), false));
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     // this method is to reduce the amount of calling getActivity()
@@ -77,17 +86,14 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
 
     @Override
     public void onGetTeacherCoursesSuccess(ArrayList<TeacherCourse> teacherCourses) {
-        if (!getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
+        showSkeleton(false);
         teacherCoursesAdapter.addData(teacherCourses);
     }
 
     @Override
     public void onGetTeacherCoursesFailure(String message, int errorCode) {
-        if (!getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
+        showSkeleton(false);
+        activity.showErrorDialog(activity, errorCode, "");
     }
 
     @Override
@@ -101,9 +107,6 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
                     beginTransaction().add(R.id.course_root, courseGroupsFragment, "CoursesFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
-//            Intent intent = new Intent(getParentActivity(), CourseGroupsActivity.class);
-//            intent.putExtra(Constants.TEACHER_COURSE, teacherCourse.toString());
-//            startActivity(intent);
         }
     }
 
@@ -114,12 +117,35 @@ public class TeacherCoursesFragment extends Fragment implements TeacherCoursesPr
 
     @Override
     public void onBackPressed() {
-        if (activity.pager.getCurrentItem() == 0){
+        if (activity.pager.getCurrentItem() == 0) {
             getChildFragmentManager().popBackStack();
-            if(getChildFragmentManager().getFragments().size()==1){
+            if (getChildFragmentManager().getFragments().size() == 1) {
                 activity.toolbarView.setVisibility(View.VISIBLE);
                 activity.headerLayout.setVisibility(View.VISIBLE);
             }
         }
     }
+
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_row_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
+        }
+    }
+
 }

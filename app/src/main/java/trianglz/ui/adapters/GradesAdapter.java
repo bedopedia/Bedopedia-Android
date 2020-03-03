@@ -1,11 +1,11 @@
 package trianglz.ui.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -55,7 +55,12 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
 //        }
 
         holder.subjectNameTextView.setText(courseGroup.getCourseName());
-        holder.itemLayout.setOnClickListener(view -> gradesAdapterInterface.onSubjectSelected(mDataList.get(position)));
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gradesAdapterInterface.onSubjectSelected(position);
+            }
+        });
 
         setSubjectName(courseGroup.getCourseName(), getSubjectNameForPlaceHolder(courseGroup.getCourseName()), holder);
     }
@@ -75,7 +80,7 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
 
         public TextView subjectNameTextView, gradeTextView;
         public AvatarView subjectImageView;
-        public LinearLayout itemLayout;
+        public CardView cardView;
         public IImageLoader imageLoader;
 
         public Holder(View itemView) {
@@ -83,7 +88,7 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
             subjectNameTextView = itemView.findViewById(R.id.tv_subject_name);
             gradeTextView = itemView.findViewById(R.id.tv_grade);
             subjectImageView = itemView.findViewById(R.id.img_subject);
-            itemLayout = itemView.findViewById(R.id.item_layout);
+            cardView = itemView.findViewById(R.id.card_view);
             imageLoader = new PicassoLoader();
         }
     }

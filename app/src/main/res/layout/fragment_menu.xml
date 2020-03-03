@@ -111,6 +111,7 @@
                         android:paddingEnd="10dp"
                         android:textColor="@color/steel"
                         android:textSize="14sp" />
+
                     <View
                         android:visibility="gone"
                         android:id="@+id/appbar_view"
@@ -133,6 +134,11 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <include
+                layout="@layout/menu_skeleton_shimmer_layout"
+                android:visibility="gone"
+                android:id="@+id/view_shimmer" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -200,16 +206,6 @@
 
                         </RelativeLayout>
 
-                        <ImageButton
-                            android:id="@+id/btn_grade"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="7dp"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/shape"
-                            android:focusable="false"
-                            android:clickable="false" />
 
                     </LinearLayout>
 
@@ -272,16 +268,6 @@
 
                     </RelativeLayout>
 
-                    <ImageButton
-                        android:id="@+id/btn_assignments"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="7dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/shape"
-                        android:focusable="false"
-                        android:clickable="false" />
 
                 </LinearLayout>
 
@@ -342,16 +328,6 @@
 
                     </RelativeLayout>
 
-                    <ImageButton
-                        android:id="@+id/btn_quizzes"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="7dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/shape"
-                        android:focusable="false"
-                        android:clickable="false" />
 
                 </LinearLayout>
 
@@ -425,6 +401,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="8dp"
                                 android:indeterminate="false"
+                                android:layout_marginEnd="40dp"
                                 android:progress="50"
                                 android:visibility="visible"
                                 app:backgroundColor="@color/white_two"
@@ -434,16 +411,6 @@
 
                     </RelativeLayout>
 
-                    <ImageButton
-                        android:id="@+id/btn_attendance"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="7dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/shape"
-                        android:focusable="false"
-                        android:clickable="false" />
 
                 </LinearLayout>
 
@@ -554,16 +521,6 @@
 
                         </RelativeLayout>
 
-                        <ImageButton
-                            android:id="@+id/btn_behavior_notes"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="7dp"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/shape"
-                            android:focusable="false"
-                            android:clickable="false" />
 
                     </LinearLayout>
 
@@ -619,16 +576,6 @@
 
                         </RelativeLayout>
 
-                        <ImageButton
-                            android:id="@+id/btn_calendar"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="7dp"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/shape"
-                            android:focusable="false"
-                            android:clickable="false" />
 
                     </LinearLayout>
 
@@ -683,17 +630,6 @@
 
 
                         </RelativeLayout>
-
-                        <ImageButton
-                            android:id="@+id/btn_posts"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="7dp"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/shape"
-                            android:focusable="false"
-                            android:clickable="false" />
 
                     </LinearLayout>
 
@@ -757,16 +693,6 @@
 
                     </RelativeLayout>
 
-                    <ImageButton
-                        android:id="@+id/btn_time_table"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="7dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/shape"
-                        android:focusable="false"
-                        android:clickable="false" />
 
                 </LinearLayout>
 
@@ -827,16 +753,6 @@
 
                     </RelativeLayout>
 
-                    <ImageButton
-                        android:id="@+id/btn_weekly_planner"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="7dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/shape"
-                        android:focusable="false"
-                        android:clickable="false" />
 
                 </LinearLayout>
 
@@ -846,6 +762,10 @@
                     android:background="@color/black_10" />
             </LinearLayout>
 
+            <include
+                layout="@layout/teacher_skeleton_shimmer_layout"
+                android:visibility="gone"
+                android:id="@+id/view_teacher_shimmer" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -907,18 +827,6 @@
                             android:textAlignment="viewStart" />
 
                     </RelativeLayout>
-
-                    <ImageButton
-                        android:id="@+id/btn_time_table_teacher"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="7dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/shape"
-                        android:focusable="false"
-                        android:clickable="false" />
-
                 </LinearLayout>
 
             </LinearLayout>

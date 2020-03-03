@@ -97,6 +97,16 @@ public class Student extends trianglz.models.User {
     @SerializedName("attendances")
     public Attendances[] attendances;
 
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
+
+    private boolean expanded;
+
     public Student() {
         super();
         this.level = "";

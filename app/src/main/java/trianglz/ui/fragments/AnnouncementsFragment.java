@@ -1,6 +1,7 @@
 package trianglz.ui.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,13 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
-import trianglz.components.BottomItemDecoration;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.AnnouncementInterface;
 import trianglz.core.views.AnnouncementView;
 import trianglz.managers.SessionManager;
@@ -47,7 +49,10 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     private Actor actor;
     private boolean newIncomingNotificationData;
     private SwipeRefreshLayout pullRefreshLayout;
-    private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private LinearLayout placeholderLinearLayout;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     public AnnouncementsFragment() {
         // Required empty public constructor
@@ -64,8 +69,8 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         setListeners();
         if (Util.isNetworkAvailable(getActivity())) {
             getAnnouncement(false);
-            if (!activity.isCalling)
-                activity.showLoadingDialog();
+//            if (!activity.isCalling)
+//                activity.showLoadingDialog();
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }
@@ -79,21 +84,25 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(6, getActivity()), false));
         announcementView = new AnnouncementView(getActivity(), this);
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
-        listFrameLayout = rootView.findViewById(R.id.recycler_view_layout);
-        placeholderFrameLayout = rootView.findViewById(R.id.placeholder_layout);
-
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private void setListeners() {
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                activity.showLoadingDialog();
+                pullRefreshLayout.setRefreshing(false);
                 getAnnouncement(false);
+                placeholderLinearLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
             }
         });
     }
@@ -119,10 +128,9 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     }
 
     private void getAnnouncement(boolean pagination) {
-        if (!activity.isCalling)
-            activity.showLoadingDialog();
         if (!pagination) {
             pageNumber = 1;
+            showSkeleton(true);
         }
         String type;
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
@@ -143,17 +151,13 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onGetAnnouncementSuccess(ArrayList<Announcement> announcementArrayList) {
-        if (activity.progress.isShowing()) {
-            if (!activity.isCalling)
-                activity.progress.dismiss();
-        }
-        pullRefreshLayout.setRefreshing(false);
+        showSkeleton(false);
         if (pageNumber == 1 && announcementArrayList.isEmpty()) {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
-            listFrameLayout.setVisibility(View.VISIBLE);
-            placeholderFrameLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
             if (pageNumber == 1 && !adapter.mDataList.isEmpty()) {
                 adapter.mDataList.clear();
             }
@@ -164,13 +168,10 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onGetAnnouncementFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            if (!activity.isCalling)
-                activity.progress.dismiss();
-        }
+       showSkeleton(false);
         if (pageNumber == 1) {
-            listFrameLayout.setVisibility(View.GONE);
-            placeholderFrameLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -186,6 +187,27 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
                 addToBackStack(null).commit();
     }
 
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_row_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onStop() {

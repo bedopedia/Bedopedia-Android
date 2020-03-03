@@ -335,6 +335,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     private void handleParentTabs(int tabNumber) {
         pager.setCurrentItem(tabNumber);
+        fourthTextView.setText(getResources().getString(R.string.profile));
         //  showHideToolBar(pagerAdapter.getItem(tabNumber));
         switch (tabNumber) {
             case 0:
@@ -387,7 +388,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private void handleStudentTabs(int tabNumber) {
         pager.setCurrentItem(tabNumber);
         // text view content
-        firstTextView.setText(getResources().getString(R.string.home));
+        firstTextView.setText(getResources().getString(R.string.profile));
         secondTextView.setText(getResources().getString(R.string.messages));
         thirdTextView.setText(getResources().getString(R.string.notifications));
         fourthTextView.setText(getResources().getString(R.string.announcements));
@@ -449,6 +450,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         pager.setCurrentItem(tabNumber);
         // showHideToolBar(pagerAdapter.getItem(tabNumber));
         // text view content
+
         coursesTextView.setText(getResources().getString(R.string.courses));
         firstTextView.setText(getResources().getString(R.string.announcements));
         secondTextView.setText(getResources().getString(R.string.messages));
