@@ -3,9 +3,11 @@ package trianglz.components;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
@@ -16,13 +18,13 @@ import trianglz.utils.Util;
 /**
  * Created by ${Aly} on 10/31/2018.
  */
-public class  AvatarPlaceholderModified extends AvatarPlaceholder {
+public class AvatarPlaceholderModified extends AvatarPlaceholder {
 
     public static final String DEFAULT_PLACEHOLDER_STRING = "-";
     private static final String DEFAULT_PLACEHOLDER_COLOR = "#4cc21e58";
     public static final int DEFAULT_TEXT_SIZE_PERCENTAGE = 33;
 
-    private static final String [] COLORS = {"#4c000000"};
+    private static final String[] COLORS = {"#4c000000"};
 
     private Paint textPaint;
     private Paint backgroundPaint;
@@ -61,7 +63,8 @@ public class  AvatarPlaceholderModified extends AvatarPlaceholder {
         backgroundPaint.setAntiAlias(true);
         backgroundPaint.setStyle(Paint.Style.FILL);
         backgroundPaint.clearShadowLayer();
-        backgroundPaint.setColor(Color.parseColor("#28bb4e"));
+        backgroundPaint.setShader(new LinearGradient(0, 0, 0, 200, Color.parseColor("#ff25e1f6"), Color.parseColor("#11de93"), Shader.TileMode.CLAMP));
+//        backgroundPaint.setColor(Color.parseColor("#28bb4e"));
     }
 
     @Override
@@ -112,14 +115,15 @@ public class  AvatarPlaceholderModified extends AvatarPlaceholder {
     }
 
     private String convertNameToAvatarText(String name) {
-        if(name != null) {
+        if (name != null) {
             String[] nameArray = name.split(" ");
             if (nameArray.length > 1) {
                 String first = nameArray[0];
                 String last = nameArray[nameArray.length - 1];
                 if (last.charAt(0) == '(') {
                     last = "";
-                    if (nameArray.length > 2 && nameArray[1] != null && !nameArray[1].isEmpty()) last = nameArray[1];
+                    if (nameArray.length > 2 && nameArray[1] != null && !nameArray[1].isEmpty())
+                        last = nameArray[1];
                 }
                 if (first.length() > 0 && last.length() > 0) {
                     return first.substring(0, 1).toUpperCase() +
@@ -135,7 +139,7 @@ public class  AvatarPlaceholderModified extends AvatarPlaceholder {
                 String first = nameArray[0];
                 return first.substring(0, 1).toUpperCase();
             }
-        }else {
+        } else {
             return "";
         }
 
