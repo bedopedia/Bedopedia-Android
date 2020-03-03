@@ -132,6 +132,7 @@
                 android:paddingEnd="5dp"
                 android:singleLine="true"
                 android:maxLines="1"
+                android:text="asdasd123A!"
                 android:textAlignment="viewStart"
                 android:drawablePadding="5dp"
                 android:hint="@string/password"

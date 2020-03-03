@@ -63,8 +63,7 @@
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/notify" />
+                    android:background="@android:color/transparent" />
             </RelativeLayout>
 
             <View
