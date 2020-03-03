@@ -9,7 +9,7 @@ import trianglz.models.Student;
  * Created by ${Aly} on 11/14/2018.
  */
 public interface SplashPresenter {
-    void onLoginSuccess();
+    void onParentLoginSuccess();
     void onLoginSuccess(Actor actor);
     void onLoginFailure(String message,int code);
     void onGetStudentsHomeSuccess(Student student, JSONArray attendanceArray);

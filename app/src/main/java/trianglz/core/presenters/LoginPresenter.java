@@ -10,7 +10,7 @@ import trianglz.models.Student;
  */
 public interface LoginPresenter {
     void onLoginSuccess(Actor actor);
-    void onLoginSuccess();
+    void onParentLoginSuccess();
     void onLoginFailure(String message,int code);
     void onGetStudentsHomeSuccess(Student student, JSONArray attendanceJsonArray);
     void onGetStudentsHomeFailure(String message,int errorCode);

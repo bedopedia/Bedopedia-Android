@@ -68,18 +68,21 @@ public class LoginView {
         SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
 //        if (passwordChanged) {
             String userType = response.optString(Constants.KEY_USER_TYPE);
-            if (userType.equals("parent")) {
+        switch (userType) {
+            case "parent":
                 SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
                 refreshFireBaseToken();
-                loginPresenter.onLoginSuccess();
-            } else if (userType.equals("student")) {
+                loginPresenter.onParentLoginSuccess();
+                break;
+            case "student":
                 SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);
                 int parentId = response.optInt(Constants.PARENT_ID);
                 refreshFireBaseToken();
                 String url = SessionManager.getInstance().getBaseUrl() + "/api/parents/" + parentId + "/children";
                 loginPresenter.onGetStudentsHomeSuccess(Student.create(response.toString()),
                         response.optJSONArray(Constants.KEY_ATTENDANCES));
-            } else if (userType.equals("teacher")) {
+                break;
+            case "teacher": {
                 SessionManager.getInstance().setUserType(SessionManager.Actor.TEACHER);
                 String firstName = response.optString("firstname");
                 String lastName = response.optString("lastname");
@@ -88,7 +91,9 @@ public class LoginView {
                 Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
                 refreshFireBaseToken();
                 loginPresenter.onLoginSuccess(actor);
-            } else if (userType.equals("hod")) {
+                break;
+            }
+            case "hod": {
                 SessionManager.getInstance().setUserType(SessionManager.Actor.HOD);
                 String firstName = response.optString("firstname");
                 String lastName = response.optString("lastname");
@@ -97,7 +102,9 @@ public class LoginView {
                 Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
                 refreshFireBaseToken();
                 loginPresenter.onLoginSuccess(actor);
-            } else if (userType.equals("admin")) {
+                break;
+            }
+            case "admin": {
                 SessionManager.getInstance().setUserType(SessionManager.Actor.ADMIN);
                 String firstName = response.optString("firstname");
                 String lastName = response.optString("lastname");
@@ -106,7 +113,9 @@ public class LoginView {
                 Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
                 refreshFireBaseToken();
                 loginPresenter.onLoginSuccess(actor);
+                break;
             }
+        }
 //        }
 //        } else {
 //            loginPresenter.onLoginFailure("", 406);
