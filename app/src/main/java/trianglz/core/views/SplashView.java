@@ -49,7 +49,7 @@ public class SplashView {
                 break;
             case "student":
                 SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);
-                splashPresenter.onGetStudentsHomeSuccess(Student.create(response.toString()),
+                splashPresenter.onStudentLoginSuccess(Student.create(response.toString()),
                         response.optJSONArray(Constants.KEY_ATTENDANCES));
                 break;
             case "teacher": {
@@ -146,7 +146,7 @@ public class SplashView {
             @Override
             public void onSuccess(JSONArray responseArray) {
                // refreshFireBaseToken();
-                splashPresenter.onGetStudentsHomeSuccess(null, null);
+                splashPresenter.onStudentLoginSuccess(null, null);
             }
 
             @Override

@@ -238,7 +238,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     }
 
     @Override
-    public void onGetStudentsHomeSuccess(Student student, JSONArray attendanceJsonArray) {
+    public void onStudentLoginSuccess(Student student, JSONArray attendanceJsonArray) {
         if (progress.isShowing()) {
             progress.dismiss();
         }

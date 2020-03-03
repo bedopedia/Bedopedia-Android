@@ -12,7 +12,7 @@ public interface SplashPresenter {
     void onParentLoginSuccess();
     void onLoginSuccess(Actor actor);
     void onLoginFailure(String message,int code);
-    void onGetStudentsHomeSuccess(Student student, JSONArray attendanceArray);
+    void onStudentLoginSuccess(Student student, JSONArray attendanceArray);
     void onGetStudentsHomeFailure(String message,int errorCode);
     void updateTokenSuccess();
     void updateTokenFailure();

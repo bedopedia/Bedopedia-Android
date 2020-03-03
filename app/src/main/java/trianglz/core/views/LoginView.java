@@ -79,7 +79,7 @@ public class LoginView {
                 int parentId = response.optInt(Constants.PARENT_ID);
                 refreshFireBaseToken();
                 String url = SessionManager.getInstance().getBaseUrl() + "/api/parents/" + parentId + "/children";
-                loginPresenter.onGetStudentsHomeSuccess(Student.create(response.toString()),
+                loginPresenter.onStudentLoginSuccess(Student.create(response.toString()),
                         response.optJSONArray(Constants.KEY_ATTENDANCES));
                 break;
             case "teacher": {
