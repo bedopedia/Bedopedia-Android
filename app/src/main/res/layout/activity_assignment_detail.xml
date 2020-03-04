@@ -73,7 +73,7 @@
                 app:tabRippleColor="@color/transparent"
                 app:tabSelectedTextColor="@color/jade_green"
                 app:tabIndicatorColor="@color/jade_green"
-                app:tabTextColor="@color/steel"
+                app:tabTextColor="@color/greyish_brown"
                 app:tabTextAppearance="@style/TabStyle">
 
                 <android.support.design.widget.TabItem
