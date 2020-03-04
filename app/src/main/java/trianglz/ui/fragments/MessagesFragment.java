@@ -105,6 +105,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
                 String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
                 contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
                 showSkeleton(true);
+                pullRefreshLayout.setRefreshing(false);
                 placeholderLinearLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }
@@ -138,7 +139,6 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onGetMessagesSuccess(ArrayList<MessageThread> messageThreadArrayList) {
         showSkeleton(false);
-        pullRefreshLayout.setRefreshing(false);
         if (messageThreadArrayList.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             placeholderLinearLayout.setVisibility(View.VISIBLE);
