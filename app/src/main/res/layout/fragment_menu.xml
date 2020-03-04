@@ -53,7 +53,7 @@
                     android:textSize="14sp"
                     android:visibility="gone" />
 
-                <trianglz.components.SfproRegularButton
+                <TextView
                     android:id="@+id/btn_messages"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -85,7 +85,7 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
-                    <trianglz.components.SfproBoldTextView
+                    <TextView
                         android:id="@+id/tv_name"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -99,7 +99,7 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <trianglz.components.SfproRegularTextView
+                    <TextView
                         android:id="@+id/tv_level"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -178,7 +178,7 @@
                             android:paddingEnd="8dp"
                             android:paddingBottom="13dp">
 
-                            <trianglz.components.SfuiSemiBoldTextView
+                            <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="22dp"
                                 android:layout_alignParentTop="true"
@@ -191,7 +191,7 @@
                                 android:textSize="18sp"
                                 android:textAlignment="viewStart" />
 
-                            <trianglz.components.SfproRegularTextView
+                            <TextView
                                 android:id="@+id/tv_grade"
                                 android:layout_width="match_parent"
                                 android:layout_height="20dp"
@@ -239,7 +239,7 @@
                         android:gravity="center_vertical"
                         android:paddingEnd="8dp">
 
-                        <trianglz.components.SfuiSemiBoldTextView
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="22dp"
                             android:layout_alignParentTop="true"
@@ -253,7 +253,7 @@
                             android:textSize="18sp"
                             android:textAlignment="viewStart" />
 
-                        <trianglz.components.SfproRegularTextView
+                        <TextView
                             android:id="@+id/tv_assignments"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
@@ -299,7 +299,7 @@
                         android:gravity="center_vertical"
                         android:paddingEnd="8dp">
 
-                        <trianglz.components.SfuiSemiBoldTextView
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="22dp"
                             android:layout_alignParentTop="true"
@@ -313,7 +313,7 @@
                             android:textSize="18sp"
                             android:textAlignment="viewStart" />
 
-                        <trianglz.components.SfproRegularTextView
+                        <TextView
                             android:id="@+id/tv_quizzes"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
@@ -360,7 +360,7 @@
                         android:paddingEnd="1dp"
                         android:paddingBottom="13dp">
 
-                        <trianglz.components.SfuiSemiBoldTextView
+                        <TextView
                             android:text="@string/attendance"
                             android:layout_width="match_parent"
                             android:layout_height="22dp"
@@ -380,7 +380,7 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
-                            <trianglz.components.SfproRegularTextView
+                            <TextView
                                 android:id="@+id/tv_attendance"
                                 android:layout_width="0dp"
                                 android:layout_height="20dp"
@@ -448,7 +448,7 @@
                             android:paddingEnd="8dp"
                             android:paddingBottom="10dp">
 
-                            <trianglz.components.SfuiSemiBoldTextView
+                            <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="22dp"
                                 android:layout_alignParentTop="true"
@@ -472,7 +472,7 @@
                                     android:layout_height="match_parent"
                                     android:src="@drawable/positive_icon" />
 
-                                <trianglz.components.SfproRegularTextView
+                                <TextView
                                     android:id="@+id/tv_positive_counter"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
@@ -488,7 +488,7 @@
                                     android:layout_height="match_parent"
                                     android:src="@drawable/negative_icon" />
 
-                                <trianglz.components.SfproRegularTextView
+                                <TextView
                                     android:id="@+id/tv_negative_counter"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
@@ -505,7 +505,7 @@
                                     android:layout_height="match_parent"
                                     android:src="@drawable/other" />
 
-                                <trianglz.components.SfproRegularTextView
+                                <TextView
                                     android:id="@+id/tv_other_counter"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
@@ -561,7 +561,7 @@
                             android:paddingEnd="8dp"
                             android:paddingBottom="13dp">
 
-                            <trianglz.components.SfuiSemiBoldTextView
+                            <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="22dp"
                                 android:layout_alignParentTop="true"
@@ -616,7 +616,7 @@
                             android:paddingEnd="8dp"
                             android:paddingBottom="13dp">
 
-                            <trianglz.components.SfuiSemiBoldTextView
+                            <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="22dp"
                                 android:layout_alignParentTop="true"
@@ -665,7 +665,7 @@
                         android:gravity="center_vertical"
                         android:paddingEnd="8dp">
 
-                        <trianglz.components.SfuiSemiBoldTextView
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="22dp"
                             android:layout_alignParentTop="true"
@@ -678,7 +678,7 @@
                             android:textSize="18sp"
                             android:textAlignment="viewStart" />
 
-                        <trianglz.components.SfproRegularTextView
+                        <TextView
                             android:id="@+id/tv_time_table"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
@@ -727,7 +727,7 @@
                         android:paddingEnd="8dp"
                         android:paddingBottom="13dp">
 
-                        <trianglz.components.SfuiSemiBoldTextView
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="22dp"
                             android:layout_alignParentTop="true"
@@ -739,7 +739,7 @@
                             android:textColor="@color/greyish_brown"
                             android:textSize="18sp" />
 
-                        <trianglz.components.SfproRegularTextView
+                        <TextView
                             android:id="@+id/tv_weekly_planner"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
@@ -799,7 +799,7 @@
                         android:gravity="center_vertical"
                         android:paddingEnd="8dp">
 
-                        <trianglz.components.SfuiSemiBoldTextView
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="22dp"
                             android:layout_alignParentTop="true"
@@ -813,7 +813,7 @@
                             android:textSize="18sp"
                             android:textAlignment="viewStart" />
 
-                        <trianglz.components.SfproRegularTextView
+                        <TextView
                             android:id="@+id/tv_time_table_teacher"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
