@@ -75,25 +75,26 @@
                 android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
+                android:gravity="center"
                 app:contentInsetStart="0dp"
                 app:contentInsetLeft="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_height="62dp"
+                    android:gravity="center_vertical"
                     android:orientation="vertical">
 
                     <trianglz.components.SfproBoldTextView
                         android:id="@+id/tv_name"
                         android:layout_width="match_parent"
-                        android:layout_height="26dp"
-                        android:layout_marginBottom="2dp"
-                        android:gravity="center_horizontal"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:paddingVertical="2dp"
+                        android:gravity="center"
                         android:includeFontPadding="false"
-                        tools:text="aklsdjfkljdsf"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
+                        tools:text="Farida Ahmed Alaa"
+                        android:paddingHorizontal="10dp"
                         android:textColor="@color/greyish_brown"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -101,12 +102,14 @@
                     <trianglz.components.SfproRegularTextView
                         android:id="@+id/tv_level"
                         android:layout_width="match_parent"
-                        android:layout_height="20dp"
-                        android:layout_marginBottom="15dp"
-                        android:gravity="center_horizontal"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:paddingVertical="8dp"
+                        android:gravity="center"
                         android:includeFontPadding="false"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
+                        android:paddingHorizontal="10dp"
+                        tools:visibility="gone"
+                        tools:text="year 7"
                         android:textColor="@color/steel"
                         android:textSize="14sp" />
 
