@@ -61,6 +61,8 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
         }
         if (quizzes.getEndDate() != null) {
             holder.dateTextView.setText(Util.getPostDateAmPm(quizzes.getEndDate(), context));
+            holder.dueTimeTextView.setText(Util.getTimeAm(quizzes.getEndDate(), context));
+
         }
 
         if (quizzes.getEndDate() != null) {
@@ -74,7 +76,7 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
             holder.dateTextView.setVisibility(View.VISIBLE);
             if (quizzes.getState().equals("running")) {
                 holder.itemView.setOnClickListener(null);
-//                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.color.transparent_light_sage, null));
                 holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine, null));
                 holder.clockImageView.setImageResource(R.drawable.green_clock_icon);
 
