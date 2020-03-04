@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -95,7 +97,7 @@ public class Student extends trianglz.models.User {
     @SerializedName("parent_user_id")
     public int parentUserId;
     @SerializedName("attendances")
-    public Attendances[] attendances;
+    public ArrayList<Attendances> attendances;
 
     public boolean isExpanded() {
         return expanded;
@@ -217,7 +219,29 @@ public class Student extends trianglz.models.User {
         Gson gson = new GsonBuilder().create();
         return gson.toJson(this);
     }
+    public static JSONArray getJsonArray(ArrayList<Student> arrayList) {
+        JSONArray jsonArray = new JSONArray();
+        for (Student object : arrayList) {
+            jsonArray.put(object.toString());
+        }
+        return jsonArray;
+    }
 
+    public static ArrayList<Student> getArrayList(String string) {
+        ArrayList<Student> arrayList = new ArrayList<>();
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = new JSONArray(string);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                arrayList.add(Student.create(jsonArray.opt(i).toString()));
+            }
+        }
+        return arrayList;
+    }
 }
 
 

@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import trianglz.components.ChangePasswordDialog;
@@ -221,10 +222,10 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     }
 
     @Override
-    public void onParentLoginSuccess() {
+    public void onParentLoginSuccess(ArrayList<Student> students) {
         progress.dismiss();
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            openHomeActivity();
+            openHomeActivity(students);
         }
     }
 
@@ -270,8 +271,9 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     }
 
 
-    private void openHomeActivity() {
+    private void openHomeActivity(ArrayList<Student> students) {
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra(Constants.CHILDREN, Student.getJsonArray(students).toString());
         this.startActivity(intent);
     }
 
