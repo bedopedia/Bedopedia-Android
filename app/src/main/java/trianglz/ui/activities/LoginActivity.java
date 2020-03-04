@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -39,7 +38,7 @@ import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
 public class LoginActivity extends SuperActivity implements View.OnClickListener, LoginPresenter,
-        TextView.OnEditorActionListener, ChangePasswordDialog.DialogConfirmationInterface {
+        ChangePasswordDialog.DialogConfirmationInterface {
     private MaterialEditText emailEditText, passwordEditText;
     private TextView emailErrorTextView, passwordErrorTextView;
     private Button loginBtn;
@@ -86,7 +85,6 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         backBtn.setOnClickListener(this);
         showHidePasswordButton.setOnClickListener(this);
         parentView.setOnTouchListener(new HideKeyboardOnTouch(this));
-        passwordEditText.setOnEditorActionListener(this);
         emailEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -127,21 +125,21 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
                 }
             }
         });
+        passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                login();
+                handled = true;
+            }
+            return handled;
+        });
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                if (Util.isNetworkAvailable(this)) {
-                    if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
-                        super.showLoadingDialog();
-                        String url = school.schoolUrl + "/api/auth/sign_in";
-                        loginView.login(url, emailEditText.getText().toString(), passwordEditText.getText().toString(), school.schoolUrl);
-                    }
-                } else {
-                    showErrorDialog(this, -3, getResources().getString(R.string.no_internet_connection));
-                }
+                login();
                 break;
             case R.id.btn_back:
                 onBackPressed();
@@ -155,6 +153,18 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
                     showHidePasswordButton.setImageResource(R.drawable.ic_show_password);
                 }
                 break;
+        }
+    }
+
+    private void login() {
+        if (Util.isNetworkAvailable(this)) {
+            if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
+                super.showLoadingDialog();
+                String url = school.schoolUrl + "/api/auth/sign_in";
+                loginView.login(url, emailEditText.getText().toString(), passwordEditText.getText().toString(), school.schoolUrl);
+            }
+        } else {
+            showErrorDialog(this, -3, getResources().getString(R.string.no_internet_connection));
         }
     }
 
@@ -273,26 +283,6 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         this.startActivity(intent);
     }
 
-    @Override
-    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == EditorInfo.IME_ACTION_DONE) {
-            switch (textView.getId()) {
-                case R.id.et_password:
-                    if (Util.isNetworkAvailable(this)) {
-                        if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
-                            super.showLoadingDialog();
-                            String url = school.schoolUrl + "/api/auth/sign_in";
-                            loginView.login(url, emailEditText.getText().toString(), passwordEditText.getText().toString(), school.schoolUrl);
-                        }
-                    } else {
-                        showErrorDialog(this, -3, getResources().getString(R.string.no_internet_connection));
-                    }
-                    break;
-
-            }
-        }
-        return false;
-    }
 
     private void openStudentDetailActivity(Student student, JSONArray studentAttendance) {
         Intent intent = new Intent(this, StudentMainActivity.class);
