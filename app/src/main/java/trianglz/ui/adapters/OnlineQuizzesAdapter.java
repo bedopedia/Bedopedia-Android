@@ -58,14 +58,14 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
             holder.dateLinearLayout.setVisibility(View.VISIBLE);
             DateTime dateTime = new DateTime(quizzCourse.getNextQuizDate());
             if (dateTime.isBefore(DateTime.now())) {
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
-                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dirt_brown, null));
-                holder.clockImageView.setImageResource(R.drawable.red_clock_icon);
+//                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.red, null));
+                holder.clockImageView.setImageResource(R.drawable.ic_clock_red);
 
             } else {
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
-                holder.clockImageView.setImageResource(R.drawable.green_clock_icon);
-                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine, null));
+//                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
+                holder.clockImageView.setImageResource(R.drawable.ic_clock_green);
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
             }
             holder.dateTextView.setText(Util.getPostDateAmPm(quizzCourse.getNextQuizDate(),context));
         } else {

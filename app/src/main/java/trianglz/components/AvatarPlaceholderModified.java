@@ -63,7 +63,7 @@ public class AvatarPlaceholderModified extends AvatarPlaceholder {
         backgroundPaint.setAntiAlias(true);
         backgroundPaint.setStyle(Paint.Style.FILL);
         backgroundPaint.clearShadowLayer();
-        backgroundPaint.setShader(new LinearGradient(0, 0, 0, 200, Color.parseColor("#ff25e1f6"), Color.parseColor("#11de93"), Shader.TileMode.CLAMP));
+        backgroundPaint.setShader(new LinearGradient(0, 0, 0, 175, Color.parseColor("#ff25e1f6"), Color.parseColor("#11de93"), Shader.TileMode.CLAMP));
 //        backgroundPaint.setColor(Color.parseColor("#28bb4e"));
     }
 
