@@ -60,16 +60,16 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         if(courseAssignment.getAssignmentState() != null){
             holder.dateLinearLayout.setVisibility(View.VISIBLE);
             if (courseAssignment.getAssignmentState().equals("running")) {
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
-                holder.clockImageView.setImageResource(R.drawable.green_clock_icon);
-                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine, null));
+//                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
+                holder.clockImageView.setImageResource(R.drawable.ic_clock_green);
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
             } else {
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
-                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dirt_brown, null));
-                holder.clockImageView.setImageResource(R.drawable.red_clock_icon);
+//                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.red, null));
+                holder.clockImageView.setImageResource(R.drawable.ic_clock_red);
             }
         }else {
-            holder.dateLinearLayout.setVisibility(View.INVISIBLE);
+            holder.dateLinearLayout.setVisibility(View.GONE);
         }
         holder.dateTextView.setText(Util.getCourseDate(courseAssignment.getNextAssignmentDate()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
