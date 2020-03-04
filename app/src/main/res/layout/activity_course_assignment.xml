@@ -44,16 +44,16 @@
                     android:padding="10dp"
                     android:src="@drawable/chevron_left" />
 
-                <trianglz.components.SfproBoldTextView
+                <TextView
+                    style="@style/RobotoMediumStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="32dp"
                     android:background="@android:color/transparent"
                     android:text="@string/assignments"
-                    android:textColor="@color/greyish_brown"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
                 <agency.tango.android.avatarview.views.AvatarView
                     android:id="@+id/img_student"
@@ -61,8 +61,7 @@
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/notify" />
+                    android:background="@android:color/transparent" />
             </RelativeLayout>
 
             <View

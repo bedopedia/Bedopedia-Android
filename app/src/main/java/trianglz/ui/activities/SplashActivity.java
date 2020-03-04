@@ -70,7 +70,7 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     }
 
     @Override
-    public void onLoginSuccess() {
+    public void onParentLoginSuccess() {
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             openHomeActivity();
         }
@@ -90,7 +90,7 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     }
 
     @Override
-    public void onGetStudentsHomeSuccess(Student student, JSONArray attendanceArray) {
+    public void onStudentLoginSuccess(Student student, JSONArray attendanceArray) {
         if (student != null && attendanceArray.length() > 0) {
             openStudentDetailActivity(student, attendanceArray);
         } else {

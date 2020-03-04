@@ -99,5 +99,6 @@
     <color name="subcategory">#CEE8FF</color>
     <color name="subcategory_total">#E0E0E0</color>
     <color name="total">#F8F8F8</color>
+    <color name="medium_grey">#676767</color>
 
 </resources>

@@ -30,6 +30,7 @@
         android:textAlignment="viewStart"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
+        android:text="heroku"
         android:singleLine="true"
         app:met_floatingLabelAnimating="true"
         app:met_floatingLabel="highlight"

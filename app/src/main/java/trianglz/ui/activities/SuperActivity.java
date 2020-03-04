@@ -44,6 +44,7 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
       //  progress.setTitle(R.string.LoadDialogueTitle);
         //     progress.setMessage(getString(R.string.LoadDialogueBody));
         progress.show();
+        progress.setIndicatorColor();
     }
 
     public void logoutUser(Context context) {

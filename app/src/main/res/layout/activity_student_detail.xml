@@ -154,9 +154,7 @@
             android:layout_centerInParent="true"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/profile_pic"
-            app:av_border_color="@color/jade_green"
-            app:av_border_width="1.5dp" />
+            android:src="@drawable/profile_pic" />
 
         <Button
             android:layout_width="wrap_content"

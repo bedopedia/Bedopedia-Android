@@ -35,24 +35,6 @@ public class SplashView {
         this.splashPresenter = splashPresenter;
     }
 
-    public void login() {
-        String schoolUrl = SessionManager.getInstance().getSchoolUrl();
-        String email = SessionManager.getInstance().getEmail();
-        String password = SessionManager.getInstance().getPassword();
-        UserManager.login(schoolUrl, email, password, new ResponseListener() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                parseLoginResponse(response);
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-                splashPresenter.onLoginFailure(message, errorCode);
-            }
-        });
-    }
-
-
     private void parseLoginResponse(JSONObject response) {
         String username = response.optString("username");
         String userId = response.optString("id");
@@ -60,37 +42,46 @@ public class SplashView {
         int unSeenNotification = response.optInt("unseen_notifications");
         SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
         String userType = response.optString(Constants.KEY_USER_TYPE);
-        if (userType.equals("parent")) {
-            SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
-            splashPresenter.onLoginSuccess();
-        } else if (userType.equals("student")) {
-            SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);
-            splashPresenter.onGetStudentsHomeSuccess(Student.create(response.toString()),
-                    response.optJSONArray(Constants.KEY_ATTENDANCES));
-        } else if (userType.equals("teacher")) {
-            SessionManager.getInstance().setUserType(SessionManager.Actor.TEACHER);
-            String firstName = response.optString("firstname");
-            String lastName = response.optString("lastname");
-            String actableType = response.optString(Constants.KEY_ACTABLE_TYPE);
-            String avtarUrl = response.optString(Constants.KEY_AVATER_URL);
-            Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
-            splashPresenter.onLoginSuccess(actor);
-        } else if (userType.equals("hod")) {
-            SessionManager.getInstance().setUserType(SessionManager.Actor.HOD);
-            String firstName = response.optString("firstname");
-            String lastName = response.optString("lastname");
-            String actableType = response.optString(Constants.KEY_ACTABLE_TYPE);
-            String avtarUrl = response.optString(Constants.KEY_AVATER_URL);
-            Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
-            splashPresenter.onLoginSuccess(actor);
-        } else if (userType.equals("admin")){
-            SessionManager.getInstance().setUserType(SessionManager.Actor.ADMIN);
-            String firstName = response.optString("firstname");
-            String lastName = response.optString("lastname");
-            String actableType = response.optString(Constants.KEY_ACTABLE_TYPE);
-            String avtarUrl = response.optString(Constants.KEY_AVATER_URL);
-            Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
-            splashPresenter.onLoginSuccess(actor);
+        switch (userType) {
+            case "parent":
+                SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
+                splashPresenter.onParentLoginSuccess();
+                break;
+            case "student":
+                SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);
+                splashPresenter.onStudentLoginSuccess(Student.create(response.toString()),
+                        response.optJSONArray(Constants.KEY_ATTENDANCES));
+                break;
+            case "teacher": {
+                SessionManager.getInstance().setUserType(SessionManager.Actor.TEACHER);
+                String firstName = response.optString("firstname");
+                String lastName = response.optString("lastname");
+                String actableType = response.optString(Constants.KEY_ACTABLE_TYPE);
+                String avtarUrl = response.optString(Constants.KEY_AVATER_URL);
+                Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+                splashPresenter.onLoginSuccess(actor);
+                break;
+            }
+            case "hod": {
+                SessionManager.getInstance().setUserType(SessionManager.Actor.HOD);
+                String firstName = response.optString("firstname");
+                String lastName = response.optString("lastname");
+                String actableType = response.optString(Constants.KEY_ACTABLE_TYPE);
+                String avtarUrl = response.optString(Constants.KEY_AVATER_URL);
+                Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+                splashPresenter.onLoginSuccess(actor);
+                break;
+            }
+            case "admin": {
+                SessionManager.getInstance().setUserType(SessionManager.Actor.ADMIN);
+                String firstName = response.optString("firstname");
+                String lastName = response.optString("lastname");
+                String actableType = response.optString(Constants.KEY_ACTABLE_TYPE);
+                String avtarUrl = response.optString(Constants.KEY_AVATER_URL);
+                Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+                splashPresenter.onLoginSuccess(actor);
+                break;
+            }
         }
 
     }
@@ -155,7 +146,7 @@ public class SplashView {
             @Override
             public void onSuccess(JSONArray responseArray) {
                // refreshFireBaseToken();
-                splashPresenter.onGetStudentsHomeSuccess(null, null);
+                splashPresenter.onStudentLoginSuccess(null, null);
             }
 
             @Override

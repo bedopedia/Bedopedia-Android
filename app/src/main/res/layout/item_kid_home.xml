@@ -25,8 +25,7 @@
             android:layout_height="50dp"
             android:layout_marginEnd="10dp"
             android:src="@drawable/profile_pic"
-            app:av_border_color="@color/jade_green"
-            app:av_border_width="1.5dp" />
+           />
 
         <LinearLayout
             android:layout_width="0dp"

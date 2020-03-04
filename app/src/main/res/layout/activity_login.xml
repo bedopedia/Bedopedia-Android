@@ -23,36 +23,13 @@
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:foreground="@drawable/round_ripple_25"
             android:background="@android:color/transparent"
             android:src="@drawable/chevron_left" />
 
-        <trianglz.components.SfproRegularButton
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:text="@string/forget_your_password"
-            android:textAllCaps="false"
-            android:textColor="@color/steel"
-            android:textSize="15sp"
-            android:visibility="invisible" />
-
-
     </RelativeLayout>
 
-    <!--    <agency.tango.android.avatarview.views.AvatarView-->
-    <!--        android:id="@+id/img_school"-->
-    <!--        android:layout_width="80dp"-->
-    <!--        android:layout_height="80dp"-->
-    <!--        android:layout_gravity="center_horizontal|bottom"-->
-    <!--        android:layout_marginBottom="-40dp"-->
-    <!--        android:src="@drawable/logo_icon"-->
-    <!--        android:layout_marginStart="20dp"-->
-    <!--        android:layout_marginEnd="20dp"-->
-    <!--        app:av_border_color="@color/jade_green"-->
-    <!--        app:av_border_width="1.5dp" />-->
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_school"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -77,6 +54,7 @@
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:textAlignment="viewStart"
+            android:nextFocusDown="@id/et_password"
             android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -132,6 +110,7 @@
                 android:paddingEnd="5dp"
                 android:singleLine="true"
                 android:maxLines="1"
+                android:text="asdasd123A!"
                 android:textAlignment="viewStart"
                 android:drawablePadding="5dp"
                 android:hint="@string/password"
@@ -143,12 +122,13 @@
 
             <ImageButton
                 android:id="@+id/show_hide_password_image_button"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginBottom="4dp"
                 android:scaleType="centerCrop"
                 android:background="@color/transparent"
                 android:src="@drawable/ic_show_password"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="bottom" />
         </LinearLayout>
 
         <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
