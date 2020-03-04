@@ -83,7 +83,7 @@
     <color name="navy">#00172a</color>
     <color name="warm_grey2">#959595</color>
     <color name="white_four">#e3e3e3</color>
-    <color name="very_light_pink">#ffe0df</color>
+    <color name="very_light_pink">#49ffe0df</color>
     <color name="light_tan_two">#fae8bc</color>
     <color name="powder_blue">#bbdefa</color>
     <color name="boring_green">#66bb6a</color>
@@ -99,5 +99,7 @@
     <color name="subcategory">#CEE8FF</color>
     <color name="subcategory_total">#E0E0E0</color>
     <color name="total">#F8F8F8</color>
+    <color name="transparent_light_sage">#49D2EFCD</color>
+    <color name="transparent_red">#B0d91b16</color>
 
 </resources>
