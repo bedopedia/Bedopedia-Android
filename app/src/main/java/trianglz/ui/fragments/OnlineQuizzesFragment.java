@@ -52,9 +52,10 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
     // networking view
     private OnlineQuizzesView onlineQuizzesView;
     private SwipeRefreshLayout pullRefreshLayout;
-    private LinearLayout skeletonLayout;
+    private LinearLayout skeletonLayout, placeholderLinearLayout;
     private ShimmerFrameLayout shimmer;
     private LayoutInflater inflater;
+    private ArrayList<QuizzCourse> quizzCourses;
 
     @Nullable
     @Override
@@ -90,6 +91,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         activity.toolbarView.setVisibility(View.GONE);
         activity.headerLayout.setVisibility(View.GONE);
         imageLoader = new PicassoLoader();
+        quizzCourses = new ArrayList<>();
         studentImageView = rootView.findViewById(R.id.img_student);
         backBtn = rootView.findViewById(R.id.btn_back);
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
@@ -103,6 +105,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
         shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
         this.inflater = (LayoutInflater) getActivity()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -142,6 +145,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
                 showSkeleton(true);
                 pullRefreshLayout.setRefreshing(false);
                 recyclerView.setVisibility(View.GONE);
+                placeholderLinearLayout.setVisibility(View.GONE);
                 getQuizzesCourses();
             }
         });
@@ -162,14 +166,14 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
     @Override
     public void onGetQuizzesCoursesSuccess(ArrayList<QuizzCourse> quizzCourses) {
         showSkeleton(false);
-        recyclerView.setVisibility(View.VISIBLE);
-        adapter.addData(quizzCourses);
+        showHidePlaceholder(quizzCourses);
     }
 
     @Override
     public void onGetQuizzesCoursesFailure(String message, int errorCode) {
         showSkeleton(false);
-        recyclerView.setVisibility(View.VISIBLE);
+        this.quizzCourses = new ArrayList<>();
+        showHidePlaceholder(quizzCourses);
         activity.showErrorDialog(activity, errorCode, "");
     }
 
@@ -210,6 +214,17 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
             shimmer.stopShimmer();
             shimmer.hideShimmer();
             shimmer.setVisibility(View.GONE);
+        }
+    }
+
+    private void showHidePlaceholder(ArrayList<QuizzCourse> quizzCourses) {
+        if (quizzCourses.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
+            adapter.addData(quizzCourses);
         }
     }
 }
