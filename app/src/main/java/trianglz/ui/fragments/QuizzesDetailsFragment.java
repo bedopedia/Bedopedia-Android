@@ -272,6 +272,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onGetQuizzesDetailsFailure(String message, int errorCode) {
         isCalling = false;
+        quizzes = new ArrayList<>();
         showHidePlaceholder(quizzes);
         showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
