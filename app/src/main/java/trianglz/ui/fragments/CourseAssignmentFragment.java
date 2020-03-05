@@ -53,9 +53,11 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
     private RecyclerView recyclerView;
     private CourseAssignmentAdapter courseAssignmentAdapter;
     private CourseAssignmentView courseAssignmentView;
-    private LinearLayout skeletonLayout;
+    private LinearLayout skeletonLayout, placeholderLinearLayout;
+    ;
     private ShimmerFrameLayout shimmer;
     private LayoutInflater inflater;
+    private ArrayList<CourseAssignment> courseAssignmentArrayList;
 
     @Nullable
     @Override
@@ -99,6 +101,9 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
         shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
+        courseAssignmentArrayList = new ArrayList<>();
+
         this.inflater = (LayoutInflater) getActivity()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -111,6 +116,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
                 showSkeleton(true);
                 pullRefreshLayout.setRefreshing(false);
                 recyclerView.setVisibility(View.GONE);
+                placeholderLinearLayout.setVisibility(View.GONE);
                 getCourseAssignment();
             }
         });
@@ -168,16 +174,16 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
     @Override
     public void onGetCourseAssignmentSuccess(ArrayList<CourseAssignment> courseAssignmentArrayList) {
         showSkeleton(false);
-        recyclerView.setVisibility(View.VISIBLE);
-        courseAssignmentAdapter.addData(courseAssignmentArrayList);
-
+        this.courseAssignmentArrayList = courseAssignmentArrayList;
+        showHidePlaceholder(courseAssignmentArrayList);
     }
 
     @Override
     public void onGetCourseAssignmentFailure(String message, int errorCode) {
         showSkeleton(false);
-        recyclerView.setVisibility(View.VISIBLE);
         activity.showErrorDialog(activity, errorCode, "");
+        this.courseAssignmentArrayList = new ArrayList<>();
+        showHidePlaceholder(courseAssignmentArrayList);
 
     }
 
@@ -230,4 +236,14 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         }
     }
 
+    private void showHidePlaceholder(ArrayList<CourseAssignment> assignmentsDetails) {
+        if (assignmentsDetails.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
+            courseAssignmentAdapter.addData(assignmentsDetails);
+        }
+    }
 }
