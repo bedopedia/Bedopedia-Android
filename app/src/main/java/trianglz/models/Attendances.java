@@ -57,7 +57,7 @@ public class Attendances implements Serializable {
         this.comment = comment;
     }
 
-    public Object getComment() {
+    public String getComment() {
         return this.comment;
     }
 

@@ -41,6 +41,7 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
     private ImageButton settingsBtn;
     private ImageView redCircleImageView;
     private ArrayList<Student> students;
+    private boolean canSelect = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,7 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
         } else {
             redCircleImageView.setVisibility(View.GONE);
         }
+        canSelect = true;
     }
 
     @Override
@@ -120,7 +122,7 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
 
     @Override
     public void onOpenStudentClicked(Student student, int position) {
-        openStudentDetailActivity(student);
+        if (canSelect) openStudentDetailActivity(student);
     }
 
     @Override
@@ -133,11 +135,9 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
     }
 
     private void openStudentDetailActivity(Student student) {
+        canSelect = false;
         Intent intent = new Intent(this, StudentMainActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT, student);
-        bundle.putSerializable(Constants.KEY_ATTENDANCE, new ArrayList<>(student.attendances).toString());
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        intent.putExtra(Constants.STUDENT, student.toString());
         startActivity(intent);
     }
 

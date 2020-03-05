@@ -287,10 +287,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     private void openStudentDetailActivity(Student student, JSONArray studentAttendance) {
         Intent intent = new Intent(this, StudentMainActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT, student);
-        bundle.putSerializable(Constants.KEY_ATTENDANCE, studentAttendance.toString());
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        intent.putExtra(Constants.STUDENT, student.toString());
         startActivity(intent);
     }
 
