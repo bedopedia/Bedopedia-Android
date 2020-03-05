@@ -44,7 +44,6 @@ import trianglz.core.presenters.StudentDetailPresenter;
 import trianglz.core.views.StudentDetailView;
 import trianglz.managers.SessionManager;
 import trianglz.models.Actor;
-import trianglz.models.Attendances;
 import trianglz.models.BehaviorNote;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
@@ -79,7 +78,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private String studentName = "";
     private StudentDetailView studentDetailView;
     private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout, weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout, teacherTimeTableLayout;
-    private ArrayList<Attendances> attendance;
     private String nextSlot;
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
@@ -108,8 +106,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         setParentActorView();
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             if (Util.isNetworkAvailable(getParentActivity())) {
-                String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
+                String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.childId + "/timetable";
                 studentDetailView.getStudentTimeTable(timeTableUrl);
+                studentDetailView.getAttendanceCount(student.childId);
                 //
                 activity.isCalling = true;
                 shimmerView.setVisibility(View.VISIBLE);
@@ -170,7 +169,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
         student = getParentActivity().getStudent();
         actor = getParentActivity().getActor();
-        attendance = getParentActivity().getAttendance();
 
         // new assignments layout
         assignmentsLayout = rootView.findViewById(R.id.layout_assignments);
@@ -689,6 +687,16 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
     @Override
     public void onCancel() {
+
+    }
+
+    @Override
+    public void onGetAttendanceCountSuccess() {
+
+    }
+
+    @Override
+    public void onGetAttendanceCountFailure(String message, int errorCode) {
 
     }
 }

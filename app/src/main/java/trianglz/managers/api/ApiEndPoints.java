@@ -214,4 +214,8 @@ public class ApiEndPoints {
     public static String changePassword(int userId) {
         return "/api/users/" + userId;
     }
+
+    public static String getAttendanceCount(int studentId) {
+        return "/api/attendances/percentage?by_student=" + studentId;
+    }
 }

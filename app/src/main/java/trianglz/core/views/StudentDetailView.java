@@ -461,4 +461,18 @@ public class StudentDetailView {
         public String name;
         public String date;
     }
+
+    public void getAttendanceCount(int studentId) {
+        UserManager.getAttendanceCount(studentId, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                studentDetailPresenter.onGetAttendanceCountSuccess();
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                studentDetailPresenter.onGetAttendanceCountFailure(message, errorCode);
+            }
+        });
+    }
 }
