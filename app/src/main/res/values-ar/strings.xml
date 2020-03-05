@@ -279,4 +279,5 @@
     <string name="semesters">Periods</string>
     <string name="minutes">%1$s دقائق</string>
     <string name="no_description">لا يوجد تفاصيل</string>
+    <string name="no_posts">لا يوجد منشورات الآن</string>
 </resources>
