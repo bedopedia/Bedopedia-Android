@@ -274,8 +274,9 @@
     <string name="posts_placeholder">You don\'t have any posts for now</string>
     <string name="attendance_placeholder">You don\'t have any attendances for now</string>
     <string name="weeklyplanner_placeholder">You don\'t have any weekly plans for now</string>
-    <string name="courses_placeholder">You don\'t have any courses for now</string>
+    <string name="courses_placeholder">You don\'t have any registered courses for now</string>
     <string name="grades_placeholder">You don\'t have any grades for now</string>
+
     <string name="no_content">No content available</string>
     <string name="settings">Settings</string>
     <string name="change">Change</string>

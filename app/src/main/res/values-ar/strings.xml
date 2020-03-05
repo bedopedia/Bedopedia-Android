@@ -250,7 +250,7 @@
     <string name="posts_placeholder">لا يوجد منشورات الآن</string>
     <string name="attendance_placeholder">لا يوجد غياب الآن</string>
     <string name="weeklyplanner_placeholder">لا يوجد الخطة الاسبوعية الآن</string>
-    <string name="courses_placeholder">لا يوجد مواد الآن</string>
+    <string name="courses_placeholder">لا يوجد مواد مسجلة الآن</string>
     <string name="grades_placeholder">لا يوجد درجات الآن</string>
     <string name="no_content">لا يوجد محتوى</string>
     <string name="settings">الإعدادات</string>
