@@ -2,8 +2,6 @@ package trianglz.core.presenters;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
-
 import trianglz.models.Actor;
 import trianglz.models.Student;
 
@@ -12,7 +10,7 @@ import trianglz.models.Student;
  */
 public interface LoginPresenter {
     void onLoginSuccess(Actor actor);
-    void onParentLoginSuccess(ArrayList<Student> students);
+    void onParentLoginSuccess(JSONArray students);
     void onLoginFailure(String message,int code);
     void onStudentLoginSuccess(Student student, JSONArray attendanceJsonArray);
     void onGetStudentsHomeFailure(String message,int errorCode);

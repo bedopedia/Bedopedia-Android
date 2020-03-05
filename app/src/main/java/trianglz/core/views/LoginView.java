@@ -9,7 +9,6 @@ import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import trianglz.core.presenters.LoginPresenter;
@@ -73,8 +72,7 @@ public class LoginView {
             case "parent":
                 SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
                 refreshFireBaseToken();
-                ArrayList<Student> students = Student.getArrayList(response.optJSONArray(Constants.CHILDREN).toString());
-                loginPresenter.onParentLoginSuccess(students);
+                loginPresenter.onParentLoginSuccess(response.optJSONArray(Constants.CHILDREN));
                 break;
             case "student":
                 SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);

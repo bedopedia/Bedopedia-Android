@@ -45,8 +45,7 @@ public class SplashView {
         switch (userType) {
             case "parent":
                 SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
-                ArrayList<Student> students = Student.getArrayList(response.optJSONArray(Constants.CHILDREN).toString());
-                splashPresenter.onParentLoginSuccess(students);
+                splashPresenter.onParentLoginSuccess(response.optJSONArray(Constants.CHILDREN));
                 break;
             case "student":
                 SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);
