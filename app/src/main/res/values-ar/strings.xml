@@ -279,4 +279,5 @@
     <string name="semesters">Periods</string>
     <string name="minutes">%1$s دقائق</string>
     <string name="no_description">لا يوجد تفاصيل</string>
+    <string name="present_out_of">حاضر %1$s أيام من %2$s يوم</string>
 </resources>

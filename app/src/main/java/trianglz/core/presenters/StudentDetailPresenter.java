@@ -25,7 +25,7 @@ public interface StudentDetailPresenter {
     void onGetWeeklyPlannerSuccess(WeeklyPlannerResponse weeklyPlannerResponse);
     void onGetWeeklyPlannerFailure(String message, int code);
 
-    void onGetAttendanceCountSuccess();
+    void onGetAttendanceCountSuccess(double total, double presentCount, double percentage);
     void onGetAttendanceCountFailure (String message, int errorCode);
 
 }

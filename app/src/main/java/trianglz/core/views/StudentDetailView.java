@@ -466,7 +466,11 @@ public class StudentDetailView {
         UserManager.getAttendanceCount(studentId, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                studentDetailPresenter.onGetAttendanceCountSuccess();
+                double total, presentCount, percentage;
+                total = response.optDouble(Constants.KEY_TOTAL);
+                presentCount = response.optDouble(Constants.PRESENT_COUNT);
+                percentage = response.optDouble(Constants.PERCENTAGE);
+                studentDetailPresenter.onGetAttendanceCountSuccess(total, presentCount, percentage);
             }
 
             @Override

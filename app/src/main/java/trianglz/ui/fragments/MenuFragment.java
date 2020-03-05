@@ -77,7 +77,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private IImageLoader imageLoader;
     private String studentName = "";
     private StudentDetailView studentDetailView;
-    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout, weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout, teacherTimeTableLayout;
+    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout,
+            weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout,
+            teacherTimeTableLayout, layoutAttendanceData;
     private String nextSlot;
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
@@ -166,7 +168,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         teacherLayout = rootView.findViewById(R.id.layout_teacher);
         teacherTimeTableLayout = rootView.findViewById(R.id.layout_timetable_teacher);
         weeklyPlannerTextView = rootView.findViewById(R.id.tv_weekly_planner);
-
+        layoutAttendanceData = rootView.findViewById(R.id.layout_attendance_data);
         student = getParentActivity().getStudent();
         actor = getParentActivity().getActor();
 
@@ -219,7 +221,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             parentLayout.setVisibility(View.VISIBLE);
             teacherLayout.setVisibility(View.GONE);
             studentName = student.firstName + " " + student.lastName;
-//            setAttendance();
             setStudentImage(student.getAvatar(), studentName);
             nameTextView.setText(studentName);
             levelTextView.setText(student.level);
@@ -252,33 +253,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                     });
         }
     }
-
-//    private void setAttendance() {
-//        try {
-//            Set<Date> attendanceDates = new HashSet<>();
-//            absentDays = 0;
-//            for (Attendances attendance : attendance) {
-//                Date date = new Date();
-//                date.setTime(attendance.getDate());
-//                if (!attendanceDates.contains(date)) {
-//                    if (day.optString(Constants.KEY_STATUS).equals(Constants.KEY_ABSENT))
-//                        absentDays++;
-//                }
-//                attendanceDates.add(date);
-//            }
-//            if (attendanceDates.size() != 0)
-//                progressBar.setProgress(((attendanceDates.size() - absentDays) * 100) / attendanceDates.size());
-//            String attendance = getParentActivity().getResources().getString(R.string.attend) + " " + (
-//                    attendanceDates.size() - absentDays) +
-//                    " " + getParentActivity().getResources().getString(R.string.out) + " " + attendanceDates.size() + " " +
-//                    getParentActivity().getResources().getString(R.string.days);
-//            attendanceTextView.setText(attendance);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
-
 
     @Override
     public void onGetStudentGradesSuccess(ArrayList<trianglz.models.CourseGroup> courseGroups, String totalGrade) {
@@ -691,12 +665,15 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     @Override
-    public void onGetAttendanceCountSuccess() {
-
+    public void onGetAttendanceCountSuccess(double total, double presentCount, double percentage) {
+        layoutAttendanceData.setVisibility(View.VISIBLE);
+        progressBar.setProgress((int) Math.round(percentage));
+        attendanceTextView.setText(String.format(getString(R.string.present_out_of), Util.removeZeroDecimal(String.valueOf(presentCount)),
+                Util.removeZeroDecimal(String.valueOf(total))));
     }
 
     @Override
     public void onGetAttendanceCountFailure(String message, int errorCode) {
-
+        layoutAttendanceData.setVisibility(View.GONE);
     }
 }
