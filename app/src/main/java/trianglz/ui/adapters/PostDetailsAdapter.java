@@ -8,7 +8,7 @@ import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -59,62 +59,93 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         viewHolder.ownerTextView.setText(postDetail.getOwner().getNameWithTitle());
         String date = Util.getPostDate(postDetail.getCreatedAt(), context);
         viewHolder.dateTextView.setText(date);
-        viewHolder.bodyTextView.setHtml(postDetail.getContent(),
-                new HtmlHttpImageGetter(viewHolder.bodyTextView));
-        Linkify.addLinks(viewHolder.bodyTextView, Linkify.WEB_URLS);
-        viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        if (postDetail.getContent().isEmpty() && postDetail.getUploadedFiles().length == 0) {
+            viewHolder.bodyTextView.setTextColor(context.getResources().getColor(R.color.greyish_brown, null));
+            viewHolder.bodyTextView.setText(context.getResources().getString(R.string.no_content));
+        } else {
+            if (!postDetail.getContent().isEmpty()) {
+                viewHolder.bodyTextView.setVisibility(View.VISIBLE);
+                viewHolder.bodyTextView.setTextColor(context.getResources().getColor(R.color.black, null));
+                viewHolder.bodyTextView.setHtml(postDetail.getContent(),
+                        new HtmlHttpImageGetter(viewHolder.bodyTextView));
+                Linkify.addLinks(viewHolder.bodyTextView, Linkify.WEB_URLS);
+                viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
+            } else {
+                viewHolder.bodyTextView.setVisibility(View.GONE);
+            }
+        }
         // setting the attachments buttons
         switch (postDetail.getUploadedFiles().length) {
             case 0:
+                viewHolder.view.setVisibility(View.GONE);
                 viewHolder.buttonsLayout.setVisibility(View.GONE);
-                viewHolder.firstButton.setVisibility(View.GONE);
-                viewHolder.secondButton.setVisibility(View.GONE);
-                viewHolder.thirdButton.setVisibility(View.GONE);
                 break;
             case 1:
-                viewHolder.firstButton.setText(postDetail.getUploadedFiles()[0].getName());
+                viewHolder.view.setVisibility(View.VISIBLE);
+                viewHolder.firstTextView.setText(postDetail.getUploadedFiles()[0].getName());
+                viewHolder.firstSizeTextView.setText(Util.humanReadableByteCountBin(postDetail.getUploadedFiles()[0].getFileSize()));
+                viewHolder.view.setVisibility(View.VISIBLE);
                 viewHolder.buttonsLayout.setVisibility(View.VISIBLE);
-                viewHolder.firstButton.setVisibility(View.VISIBLE);
-                viewHolder.secondButton.setVisibility(View.GONE);
-                viewHolder.thirdButton.setVisibility(View.GONE);
+                viewHolder.firstLinearLayout.setVisibility(View.VISIBLE);
+
+                viewHolder.secondLinearLayout.setVisibility(View.GONE);
+                viewHolder.thirdLinearLayout.setVisibility(View.GONE);
+
+                viewHolder.imageView2.setVisibility(View.GONE);
+                viewHolder.imageView3.setVisibility(View.GONE);
                 break;
             case 2:
-                viewHolder.firstButton.setText(postDetail.getUploadedFiles()[0].getName());
-                viewHolder.secondButton.setText(postDetail.getUploadedFiles()[1].getName());
+                viewHolder.view.setVisibility(View.VISIBLE);
+
+                viewHolder.firstTextView.setText(postDetail.getUploadedFiles()[0].getName());
+                viewHolder.firstSizeTextView.setText(Util.humanReadableByteCountBin(postDetail.getUploadedFiles()[0].getFileSize()));
+                viewHolder.secondTextView.setText(postDetail.getUploadedFiles()[1].getName());
+                viewHolder.secondSizeTextView.setText(Util.humanReadableByteCountBin(postDetail.getUploadedFiles()[1].getFileSize()));
+
                 viewHolder.buttonsLayout.setVisibility(View.VISIBLE);
-                viewHolder.firstButton.setVisibility(View.VISIBLE);
-                viewHolder.secondButton.setVisibility(View.VISIBLE);
-                viewHolder.thirdButton.setVisibility(View.GONE);
+
+                viewHolder.buttonsLayout.setVisibility(View.VISIBLE);
+                viewHolder.firstLinearLayout.setVisibility(View.VISIBLE);
+                viewHolder.secondLinearLayout.setVisibility(View.VISIBLE);
+
+                viewHolder.thirdLinearLayout.setVisibility(View.GONE);
+                viewHolder.imageView2.setVisibility(View.VISIBLE);
+                viewHolder.imageView3.setVisibility(View.GONE);
                 break;
             default:
-                viewHolder.firstButton.setText(postDetail.getUploadedFiles()[0].getName());
-                viewHolder.secondButton.setText(postDetail.getUploadedFiles()[1].getName());
-                viewHolder.thirdButton.setText("+" + (postDetail.getUploadedFiles().length - 2));
+                viewHolder.view.setVisibility(View.VISIBLE);
+                viewHolder.firstTextView.setText(postDetail.getUploadedFiles()[0].getName());
+                viewHolder.secondTextView.setText(postDetail.getUploadedFiles()[1].getName());
+                viewHolder.thirdTextView.setText("+" + (postDetail.getUploadedFiles().length - 2));
+
                 viewHolder.buttonsLayout.setVisibility(View.VISIBLE);
-                viewHolder.firstButton.setVisibility(View.VISIBLE);
-                viewHolder.secondButton.setVisibility(View.VISIBLE);
-                viewHolder.thirdButton.setVisibility(View.VISIBLE);
+                viewHolder.firstLinearLayout.setVisibility(View.VISIBLE);
+                viewHolder.secondLinearLayout.setVisibility(View.VISIBLE);
+                viewHolder.thirdLinearLayout.setVisibility(View.VISIBLE);
+                viewHolder.imageView3.setVisibility(View.VISIBLE);
+                viewHolder.thirdSizeTextView.setVisibility(View.VISIBLE);
+
         }
         final ArrayList<UploadedObject> uploadedObjects = new ArrayList<>();
         uploadedObjects.addAll(Arrays.asList(postDetail.getUploadedFiles()));
-        if (viewHolder.firstButton.getVisibility() != View.GONE)
-            viewHolder.firstButton.setOnClickListener(new View.OnClickListener() {
+        if (viewHolder.firstTextView.getVisibility() != View.GONE)
+            viewHolder.firstTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (!uploadedObjects.isEmpty())
                         postDetailsInterface.onAttachmentClicked(uploadedObjects);
                 }
             });
-        if (viewHolder.secondButton.getVisibility() != View.GONE)
-            viewHolder.secondButton.setOnClickListener(new View.OnClickListener() {
+        if (viewHolder.secondTextView.getVisibility() != View.GONE)
+            viewHolder.secondTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (!uploadedObjects.isEmpty())
                         postDetailsInterface.onAttachmentClicked(uploadedObjects);
                 }
             });
-        if (viewHolder.thirdButton.getVisibility() != View.GONE)
-            viewHolder.thirdButton.setOnClickListener(new View.OnClickListener() {
+        if (viewHolder.thirdTextView.getVisibility() != View.GONE)
+            viewHolder.thirdTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (!uploadedObjects.isEmpty())
@@ -143,7 +174,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
     }
 
     private void setAvatarView(final AvatarView avatarView, final String name, String imageUrl) {
-        imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), "Path of Image");
+        imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), imageUrl);
     }
 
     public void addData(ArrayList<PostDetails> mPostDetails, int page) {
@@ -162,8 +193,10 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         AvatarView avatarView;
         TextView ownerTextView, dateTextView;
         HtmlTextView bodyTextView;
-        Button firstButton, secondButton, thirdButton;
-        LinearLayout buttonsLayout;
+        TextView firstTextView, secondTextView, thirdTextView, firstSizeTextView, secondSizeTextView, thirdSizeTextView;
+        LinearLayout buttonsLayout, firstLinearLayout, secondLinearLayout, thirdLinearLayout;
+        ImageView imageView1, imageView2, imageView3;
+        View view;
 
         PostDetailsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -171,10 +204,26 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
             ownerTextView = itemView.findViewById(R.id.tv_owner_name);
             dateTextView = itemView.findViewById(R.id.tv_date);
             bodyTextView = itemView.findViewById(R.id.tv_body);
-            firstButton = itemView.findViewById(R.id.btn_first_attachment);
-            secondButton = itemView.findViewById(R.id.btn_second_attachment);
-            thirdButton = itemView.findViewById(R.id.btn_third_attachment);
+            firstTextView = itemView.findViewById(R.id.btn_first_attachment);
+            secondTextView = itemView.findViewById(R.id.btn_second_attachment);
+            thirdTextView = itemView.findViewById(R.id.btn_third_attachment);
+
+            firstLinearLayout = itemView.findViewById(R.id.first_attachment_layout);
+            secondLinearLayout = itemView.findViewById(R.id.second_attachment_layout);
+            thirdLinearLayout = itemView.findViewById(R.id.third_attachment_layout);
+
+            firstSizeTextView = itemView.findViewById(R.id.file_size_tv_1);
+            secondSizeTextView = itemView.findViewById(R.id.file_size_tv_2);
+            thirdSizeTextView = itemView.findViewById(R.id.file_size_tv_3);
+            imageView1 = itemView.findViewById(R.id.image_1);
+            imageView2 = itemView.findViewById(R.id.image_2);
+            imageView3 = itemView.findViewById(R.id.image_3);
+
+
             buttonsLayout = itemView.findViewById(R.id.ll_three_buttons);
+
+            view = itemView.findViewById(R.id.view);
+
         }
     }
 
