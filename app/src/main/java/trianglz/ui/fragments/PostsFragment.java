@@ -1,7 +1,6 @@
 package trianglz.ui.fragments;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -55,14 +55,15 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
     private Toolbar toolbar;
     private int studentId;
     private SwipeRefreshLayout pullRefreshLayout;
-    private LinearLayout skeletonLayout;
+    private LinearLayout skeletonLayout, placeholderLinearLayout;
     private ShimmerFrameLayout shimmer;
     private LayoutInflater inflater;
+    private ImageButton backButton;
+    private ArrayList<PostsResponse> parsePostsResponse;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
-
         rootView = inflater.inflate(R.layout.activity_posts, container, false);
         return rootView;
     }
@@ -92,17 +93,10 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
         activity.toolbarView.setVisibility(View.GONE);
         activity.headerLayout.setVisibility(View.GONE);
         toolbar = rootView.findViewById(R.id.toolbar);
+        this.parsePostsResponse = new ArrayList<>();
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
         studentImageView = rootView.findViewById(R.id.img_student);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    activity.toolbarView.setVisibility(View.VISIBLE);
-                    activity.headerLayout.setVisibility(View.VISIBLE);
-                    getParentFragment().getChildFragmentManager().popBackStack();
-                }
-            });
-        }
+        backButton = rootView.findViewById(R.id.btn_back);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         adapter = new PostsAdapter(activity, this);
         recyclerView.setAdapter(adapter);
@@ -117,13 +111,16 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
     }
 
     private void setListeners() {
-        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getRecentPosts();
-                pullRefreshLayout.setRefreshing(false);
-
-            }
+        pullRefreshLayout.setOnRefreshListener(() -> {
+            getRecentPosts();
+            pullRefreshLayout.setRefreshing(false);
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.GONE);
+        });
+        backButton.setOnClickListener(v -> {
+            activity.toolbarView.setVisibility(View.VISIBLE);
+            activity.headerLayout.setVisibility(View.VISIBLE);
+            getParentFragment().getChildFragmentManager().popBackStack();
         });
     }
 
@@ -163,13 +160,16 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
     @Override
     public void onGetPostsSuccess(ArrayList<PostsResponse> parsePostsResponse) {
         showSkeleton(false);
-        adapter.addData(parsePostsResponse);
+        this.parsePostsResponse = parsePostsResponse;
+        showHidePlaceholder(parsePostsResponse);
     }
 
     @Override
     public void onGetPostsFailure(String message, int errorCode) {
         showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
+        this.parsePostsResponse = new ArrayList<>();
+        showHidePlaceholder(parsePostsResponse);
     }
 
     @Override
@@ -206,6 +206,17 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
             shimmer.hideShimmer();
             recyclerView.setVisibility(View.VISIBLE);
             shimmer.setVisibility(View.GONE);
+        }
+    }
+
+    private void showHidePlaceholder(ArrayList<PostsResponse> parsePostsResponse) {
+        if (parsePostsResponse.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
+            adapter.addData(parsePostsResponse);
         }
     }
 }
