@@ -57,7 +57,7 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
         imageLoader = new PicassoLoader();
         setAvatarView(viewHolder.avatarView, postDetail.getOwner().getNameWithTitle(), imageUrl);
         viewHolder.ownerTextView.setText(postDetail.getOwner().getNameWithTitle());
-        String date = Util.getPostDate(postDetail.getCreatedAt(), context);
+        String date = Util.getTimeAndDate(postDetail.getCreatedAt(), context);
         viewHolder.dateTextView.setText(date);
         if (postDetail.getContent().isEmpty() && postDetail.getUploadedFiles().length == 0) {
             viewHolder.bodyTextView.setTextColor(context.getResources().getColor(R.color.greyish_brown, null));

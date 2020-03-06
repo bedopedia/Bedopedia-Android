@@ -100,7 +100,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
             }
         });
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
-            addPostFab.hide();
+            addPostFab.show();
         }
         placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
         courseNameTextView = rootView.findViewById(R.id.tv_course_name);
