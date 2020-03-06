@@ -1,10 +1,12 @@
 package trianglz.ui.activities;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -38,7 +40,7 @@ import trianglz.utils.Util;
 public class StudentMainActivity extends SuperActivity implements View.OnClickListener {
 
     private LinearLayout coursesLayout, firstLayout, secondLayout, fourthLayout;
-    private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView, redCircleImageView;
+    private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView, notificationBadgeImageView;
     private TextView coursesTextView, firstTextView, secondTextView, thirdTextView, fourthTextView;
     private FrameLayout thirdLayout;
     public View toolbarView;
@@ -155,7 +157,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         secondTabImageView = findViewById(R.id.iv_messages);
         thirdTabImageView = findViewById(R.id.iv_notifcations);
         fourthTabImageView = findViewById(R.id.iv_menu);
-        redCircleImageView = findViewById(R.id.img_red_circle);
+        notificationBadgeImageView = findViewById(R.id.img_red_circle);
 
         // text views
         firstTextView = findViewById(R.id.tv_announcements);
@@ -395,6 +397,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         fourthTextView.setText(getResources().getString(R.string.announcements));
         // text view text color
         int color = Color.parseColor("#fd8268");
+        notificationBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.salmon), android.graphics.PorterDuff.Mode.MULTIPLY);
         firstTextView.setTextColor(color);
         secondTextView.setTextColor(color);
         thirdTextView.setTextColor(color);
@@ -544,6 +547,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         firstTextView.setTextColor(color);
         secondTextView.setTextColor(color);
         thirdTextView.setTextColor(color);
+        notificationBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.cerulean_blue), android.graphics.PorterDuff.Mode.MULTIPLY);
+
         switch (tabNumber) {
             case 0:
                 firstTabImageView.setImageResource(R.drawable.ic_announcment_selected_teacher);
@@ -637,9 +642,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     private void notificationCheck() {
         if (SessionManager.getInstance().getNotficiationCounter() > 0) {
-            redCircleImageView.setVisibility(View.VISIBLE);
+            notificationBadgeImageView.setVisibility(View.VISIBLE);
         } else {
-            redCircleImageView.setVisibility(View.GONE);
+            notificationBadgeImageView.setVisibility(View.GONE);
         }
     }
 }

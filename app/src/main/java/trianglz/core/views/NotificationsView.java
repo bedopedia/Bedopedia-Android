@@ -23,6 +23,7 @@ import retrofit2.http.Url;
 import trianglz.core.presenters.NotificationsPresenter;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
+import trianglz.models.Meta;
 import trianglz.models.Notification;
 import trianglz.models.User;
 import trianglz.utils.Constants;
@@ -44,7 +45,8 @@ public class NotificationsView {
         UserManager.getNotifications(url, pageNumber, numberPerPage+"",new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                presenter.onGetNotificationSuccess(parseNotificationResponse(response));
+                Meta meta = new Meta(response.optJSONObject(Constants.KEY_META));
+                presenter.onGetNotificationSuccess(parseNotificationResponse(response),meta);
             }
 
             @Override

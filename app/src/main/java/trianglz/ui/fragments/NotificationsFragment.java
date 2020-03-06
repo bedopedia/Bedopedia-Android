@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import trianglz.core.presenters.NotificationsPresenter;
 import trianglz.core.views.NotificationsView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
+import trianglz.models.Meta;
 import trianglz.models.Notification;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.NotificationsAdapter;
@@ -41,13 +43,14 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
     private RecyclerView recyclerView;
     private NotificationsAdapter adapter;
     private NotificationsView notificationsView;
-    private int pageNumber;
-    private boolean newIncomingNotificationData;
+    private int nextPage = -1;
+    private int totalPages = -1;
     private SwipeRefreshLayout pullRefreshLayout;
     private LinearLayout placeholderLinearLayout;
     private LinearLayout skeletonLayout;
     private ShimmerFrameLayout shimmer;
     private LayoutInflater inflater;
+    private String url;
     public NotificationsFragment() {
         // Required empty public constructor
     }
@@ -64,7 +67,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.setAsSeen(SessionManager.getInstance().getUserId());
         notificationsView.setAsSeen(url);
         if (Util.isNetworkAvailable(getActivity())) {
-            getNotifications(false);
+            getNotifications();
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }
@@ -72,7 +75,8 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
     }
 
     private void bindViews() {
-        pageNumber = 1;
+        url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
+                SessionManager.getInstance().getUserId() + "/notifications";
         recyclerView = rootView.findViewById(R.id.recycler_view);
         adapter = new NotificationsAdapter(getActivity(), this);
         recyclerView.setAdapter(adapter);
@@ -94,52 +98,51 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
             @Override
             public void onRefresh() {
                 pullRefreshLayout.setRefreshing(false);
-                getNotifications(false);
-                showSkeleton(true);
+                nextPage = -1;
+                getNotifications();
                 placeholderLinearLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }
         });
     }
 
-    private void getNotifications(boolean pagination) {
+    private void getNotifications() {
         if (Util.isNetworkAvailable(getActivity())) {
-            String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
-                    SessionManager.getInstance().getUserId() + "/notifications";
-            if (!pagination) {
-                pageNumber = 1;
+            if(nextPage == -1){
                 showSkeleton(true);
-
+                notificationsView.getNotifications(url,1,20);
+            }else {
+                notificationsView.getNotifications(url, nextPage, 20);
             }
-            notificationsView.getNotifications(url, pageNumber, 20);
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }
     }
 
     @Override
-    public void onGetNotificationSuccess(ArrayList<Notification> notifications) {
+    public void onGetNotificationSuccess(ArrayList<Notification> notifications, Meta meta) {
         showSkeleton(false);
-        if (pageNumber == 1 && notifications.isEmpty()) {
+        if (meta.getTotalCount() == 0) {
             recyclerView.setVisibility(View.GONE);
             placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {
+
             recyclerView.setVisibility(View.VISIBLE);
             placeholderLinearLayout.setVisibility(View.GONE);
-            if (pageNumber == 1 && !adapter.notificationArrayList.isEmpty()) {
+            nextPage =  meta.getNextPage();
+            if(meta.getCurrentPage() == 1){
                 adapter.notificationArrayList.clear();
+                adapter.totalCount = meta.getTotalCount();
             }
-            newIncomingNotificationData = notifications.size() != 0;
-            adapter.addData(notifications, newIncomingNotificationData);
+            adapter.addData(notifications);
         }
-
     }
 
     @Override
     public void onGetNotificationFailure(String message, int errorCode) {
         showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
-        if (pageNumber == 1) {
+        if (nextPage == -1) {
             recyclerView.setVisibility(View.GONE);
             placeholderLinearLayout.setVisibility(View.VISIBLE);
         }
@@ -156,8 +159,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
 
     @Override
     public void onReachPosition() {
-        pageNumber++;
-        getNotifications(true);
+        getNotifications();
     }
 
     @Override
