@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import trianglz.models.UploadedObject;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 public class AttachmentAdapter extends RecyclerView.Adapter {
 
@@ -82,7 +83,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter {
             viewHolder.fileNameTextView.setText(uploadedObject.getName());
             DateTime dateTime = new DateTime(uploadedObject.getCreatedAt());
             String date = dateTime.toLocalDate().toString();
-            viewHolder.dateAddedTextView.setText(date);
+            viewHolder.dateAddedTextView.setText(Util.humanReadableByteCountBin(uploadedObject.getFileSize()));
             setAttachmentImage(viewHolder.fileType, uploadedObject.getExtension());
             viewHolder.rootView.setOnClickListener(view -> attachmentAdapterInterface.onAttachmentClicked(uploadedObject.getUrl()));
 
