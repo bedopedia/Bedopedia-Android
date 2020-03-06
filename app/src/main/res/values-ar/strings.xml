@@ -281,5 +281,6 @@
     <string name="no_description">لا يوجد تفاصيل</string>
     <string name="no_posts">لا يوجد منشورات الآن</string>
     <string name="more">المزيد</string>
+    <string name="comments">التعليقات</string>
 
 </resources>
