@@ -286,6 +286,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     @Override
     public void onGetAssignmentDetailFailure(String message, int errorCode) {
         isCalling = false;
+        this.assignmentsDetailArrayList = new ArrayList<>();
         showHidePlaceholder(getArrayList());
         activity.showErrorDialog(activity, errorCode, "");
         showSkeleton(false);

@@ -216,6 +216,21 @@ public class Util {
         }
         return finalData;
     }
+    public static String getTimeAm(String messageTime, Context context) {
+        String finalData = "";
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
+
+        Date date = null;
+        try {
+            date = fmt.parse(messageTime);
+            SimpleDateFormat fmtOut = new SimpleDateFormat("h:mm aa", new Locale(getLocale(context)));
+            finalData = fmtOut.format(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return finalData;
+    }
 
     public static String getWeeklyPlannerDate(Date date, Context context) {
         String finalData = "";

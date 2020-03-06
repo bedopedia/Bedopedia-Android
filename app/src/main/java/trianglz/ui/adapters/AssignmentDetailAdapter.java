@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -56,6 +56,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
         }
         if (assignmentsDetail.getEndAt() != null) {
             holder.dateTextView.setText(Util.getPostDateAmPm(assignmentsDetail.getEndAt(), context));
+            holder.dueTimeTextView.setText(Util.getTimeAm(assignmentsDetail.getEndAt(), context));
         }
 
         if (assignmentsDetail.getEndAt() != null) {
@@ -68,13 +69,25 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
         if (assignmentsDetail.getState() != null) {
             holder.dateTextView.setVisibility(View.VISIBLE);
             if (assignmentsDetail.getState().equals("running")) {
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
-                holder.clockImageView.setImageResource(R.drawable.green_clock_icon);
-                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine, null));
+//                holder.clockImageView.setImageResource(R.drawable.ic_clock_green);
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.color.transparent_light_sage,null));
+
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
+                holder.dayTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
+                holder.monthTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
+                holder.dueTimeTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
+                holder.dueTimeTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_clock_green, null), null, null, null);
+
             } else {
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
-                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dirt_brown, null));
-                holder.clockImageView.setImageResource(R.drawable.red_clock_icon);}
+//                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.red, null));
+//                holder.clockImageView.setImageResource(R.drawable.ic_clock_red);
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.color.very_light_pink,null));
+                holder.dayTextView.setTextColor(context.getResources().getColor(R.color.transparent_red, null));
+                holder.monthTextView.setTextColor(context.getResources().getColor(R.color.transparent_red, null));
+                holder.dueTimeTextView.setTextColor(context.getResources().getColor(R.color.red, null));
+                holder.dueTimeTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_clock_red, null), null, null, null);
+
+            }
         } else {
             holder.dateTextView.setVisibility(View.INVISIBLE);
         }
@@ -105,10 +118,10 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
     public static class Holder extends RecyclerView.ViewHolder {
 
         public TextView subjectNameTextView, dateTextView,
-                assignmentNameTextView, dayTextView, monthTextView, publishedTextView;
+                assignmentNameTextView, dayTextView, monthTextView, publishedTextView,dueTimeTextView;
         public IImageLoader imageLoader;
         private AvatarView courseAvatarView;
-        public LinearLayout dateLinearLayout;
+        public FrameLayout dateLinearLayout;
         public CardView cardView;
         public ImageView clockImageView;
 
@@ -125,6 +138,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
             publishedTextView = itemView.findViewById(R.id.tv_published);
             cardView = itemView.findViewById(R.id.card_view);
             clockImageView = itemView.findViewById(R.id.date_icon);
+            dueTimeTextView = itemView.findViewById(R.id.due_time_tv);
         }
     }
 

@@ -7,13 +7,13 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:focusable="true"
-    android:background="@color/snow"
     tools:context="trianglz.ui.fragments.QuizDetailsFragment">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:elevation="2dp"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="0dp"
@@ -43,20 +43,20 @@
                     android:padding="10dp"
                     android:src="@drawable/chevron_left" />
 
-                <trianglz.components.SfproBoldTextView
+                <TextView
                     android:id="@+id/tv_quiz_name"
+                    style="@style/RobotoMediumStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
+                    android:layout_toEndOf="@+id/btn_back"
                     android:background="@android:color/transparent"
-                    android:text="Pattern Quiz"
-                    android:maxLines="1"
                     android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Pattern Quiz"
                     android:textColor="@color/greyish_brown"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:textSize="20sp" />
 
             </RelativeLayout>
 
@@ -76,8 +76,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:background="@color/white"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/quiz_name_tv"
@@ -85,9 +85,12 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                style="@style/RobotoMediumStyle"
                 android:textAlignment="viewStart"
-                android:layout_marginBottom="16dp"
+                android:background="@color/snow"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="6dp"
                 android:text="General - End Of Module 1 Quiz" />
 
             <TextView
@@ -95,10 +98,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/cool_grey"
-                android:textSize="17sp"
+                android:textSize="14sp"
                 android:includeFontPadding="false"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="20dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:textAlignment="viewStart"
+                android:visibility="visible"
+                android:layout_marginTop="20dp"
                 android:text="A revision on what was learned in module 1." />
 
             <TextView
@@ -106,16 +113,22 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                style="@style/RobotoMediumStyle"
                 android:textAlignment="viewStart"
                 android:includeFontPadding="false"
                 android:layout_marginBottom="16dp"
+                android:background="@color/snow"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="6dp"
                 android:text="@string/basic_info" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:layout_marginBottom="16dp">
 
                 <TextView
@@ -123,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:textAlignment="viewStart"
                     android:includeFontPadding="false"
                     android:text="@string/publish_date" />
@@ -134,7 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textColor="@color/cool_grey"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:textAlignment="viewEnd"
                     android:maxLines="1"
                     android:includeFontPadding="false"
@@ -145,6 +158,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:layout_marginBottom="16dp">
 
                 <TextView
@@ -152,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:textAlignment="viewStart"
                     android:includeFontPadding="false"
                     android:text="@string/due_date" />
@@ -163,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textColor="@color/cool_grey"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:gravity="end"
                     android:maxLines="1"
                     android:textAlignment="viewEnd"
@@ -175,6 +190,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:layout_marginBottom="16dp">
 
                 <TextView
@@ -182,7 +199,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:includeFontPadding="false"
                     android:text="@string/duration" />
 
@@ -192,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textColor="@color/cool_grey"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:gravity="end"
                     android:maxLines="1"
                     android:textAlignment="viewEnd"
@@ -204,6 +221,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:layout_marginBottom="24dp">
 
                 <TextView
@@ -211,7 +230,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:includeFontPadding="false"
                     android:text="@string/total_score" />
 
@@ -221,7 +240,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textColor="@color/cool_grey"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:gravity="end"
                     android:textAlignment="textEnd"
                     android:includeFontPadding="false"
@@ -233,15 +252,21 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 android:includeFontPadding="false"
                 android:layout_marginBottom="16dp"
-                android:text="@string/curriculum_information" />
+                android:text="@string/curriculum_information"
+                android:background="@color/snow"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="6dp"
+                style="@style/RobotoMediumStyle" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:layout_marginBottom="16dp">
 
                 <TextView
@@ -249,7 +274,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:includeFontPadding="false"
                     android:text="@string/blooms_taxonomy" />
 
@@ -259,7 +284,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:textColor="@color/cool_grey"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:gravity="end"
                     android:textAlignment="viewEnd"
                     android:includeFontPadding="false"
@@ -270,6 +295,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:layout_marginBottom="16dp">
 
                 <TextView
@@ -277,7 +304,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:includeFontPadding="false"
                     android:text="@string/topic" />
 
@@ -287,7 +314,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textColor="@color/cool_grey"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:gravity="end"
                     android:maxLines="1"
                     android:textAlignment="viewEnd"
@@ -299,6 +326,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:layout_marginBottom="16dp">
 
                 <TextView
@@ -306,7 +335,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:includeFontPadding="false"
                     android:text="@string/subtopic" />
 
@@ -316,7 +345,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textColor="@color/cool_grey"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:gravity="end"
                     android:maxLines="1"
                     android:textAlignment="viewEnd"
@@ -328,6 +357,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:layout_marginBottom="24dp">
 
                 <TextView
@@ -335,7 +366,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:textAlignment="viewStart"
                     android:includeFontPadding="false"
                     android:text="@string/lesson" />
@@ -346,7 +377,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textColor="@color/cool_grey"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:gravity="end"
                     android:maxLines="1"
                     android:textAlignment="viewEnd"
@@ -359,21 +390,27 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 android:textAlignment="viewStart"
                 android:includeFontPadding="false"
                 android:layout_marginBottom="16dp"
-                android:text="@string/learning_objectives" />
+                android:text="@string/learning_objectives"
+                android:background="@color/snow"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="6dp"
+                style="@style/RobotoMediumStyle" />
 
             <TextView
                 android:id="@+id/learning_obj_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/cool_grey"
-                android:textSize="17sp"
+                android:textSize="14sp"
                 android:textAlignment="viewStart"
                 android:includeFontPadding="false"
                 android:layout_marginBottom="24dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:text="@string/no_objective" />
 
             <TextView
@@ -381,20 +418,26 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 android:textAlignment="viewStart"
                 android:includeFontPadding="false"
                 android:layout_marginBottom="16dp"
-                android:text="@string/course_groups" />
+                android:text="@string/course_groups"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="6dp"
+                android:background="@color/snow"
+                style="@style/RobotoMediumStyle" />
 
             <TextView
                 android:id="@+id/course_group_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/cool_grey"
-                android:textSize="17sp"
+                android:textSize="14sp"
                 android:includeFontPadding="false"
                 android:textAlignment="viewStart"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:layout_marginBottom="24dp" />
         </LinearLayout>
     </ScrollView>

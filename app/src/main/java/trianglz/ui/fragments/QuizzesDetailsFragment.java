@@ -197,6 +197,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
                     getTeacherQuizzes();
                 else
                     getQuizzes();
+                showSkeleton(true);
                 placeholderLinearLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }
@@ -261,10 +262,9 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         isCalling = false;
         showSkeleton(false);
         populateIsToSubmitArray();
+        showHidePlaceholder(getArrayList());
         if (!isToBeSubmittedQuizzes.isEmpty()) {
-            submitQuizzes(isToBeSubmittedQuizzes.get(quizIndex).getStudentSubmissions().getId());
-        } else {
-            showHidePlaceholder(getArrayList());
+//            submitQuizzes(isToBeSubmittedQuizzes.get(quizIndex).getStudentSubmissions().getId());
         }
     }
 
@@ -272,6 +272,8 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onGetQuizzesDetailsFailure(String message, int errorCode) {
         isCalling = false;
+        quizzes = new ArrayList<>();
+        showHidePlaceholder(quizzes);
         showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
 
@@ -281,7 +283,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     public void onSubmitQuizSuccess() {
         quizIndex++;
         if (quizIndex < isToBeSubmittedQuizzes.size()) {
-            submitQuizzes(isToBeSubmittedQuizzes.get(quizIndex).getStudentSubmissions().getId());
+//            submitQuizzes(isToBeSubmittedQuizzes.get(quizIndex).getStudentSubmissions().getId());
         } else {
             if (activity.progress.isShowing()) {
                 activity.progress.dismiss();

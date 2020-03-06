@@ -69,7 +69,7 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
             }
             holder.dateTextView.setText(Util.getPostDateAmPm(quizzCourse.getNextQuizDate(),context));
         } else {
-            holder.dateLinearLayout.setVisibility(View.INVISIBLE);
+            holder.dateLinearLayout.setVisibility(View.GONE);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
