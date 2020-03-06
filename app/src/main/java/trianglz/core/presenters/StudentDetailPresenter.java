@@ -6,8 +6,6 @@ import java.util.List;
 
 import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
-import trianglz.models.MessageThread;
-import trianglz.models.Notification;
 import trianglz.models.WeeklyPlannerResponse;
 
 /**
@@ -26,5 +24,8 @@ public interface StudentDetailPresenter {
 
     void onGetWeeklyPlannerSuccess(WeeklyPlannerResponse weeklyPlannerResponse);
     void onGetWeeklyPlannerFailure(String message, int code);
+
+    void onGetAttendanceCountSuccess(double total, double presentCount, double percentage);
+    void onGetAttendanceCountFailure (String message, int errorCode);
 
 }

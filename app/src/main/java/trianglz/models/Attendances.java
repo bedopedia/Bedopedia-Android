@@ -8,7 +8,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Attendances implements Serializable {
 
@@ -53,7 +57,7 @@ public class Attendances implements Serializable {
         this.comment = comment;
     }
 
-    public Object getComment() {
+    public String getComment() {
         return this.comment;
     }
 
@@ -99,5 +103,27 @@ public class Attendances implements Serializable {
         Gson gson = new GsonBuilder().create();
         return gson.toJson(this);
     }
+    public static JSONArray getJsonArray(ArrayList<Attendances> arrayList) {
+        JSONArray jsonArray = new JSONArray();
+        for (Attendances object : arrayList) {
+            jsonArray.put(object.toString());
+        }
+        return jsonArray;
+    }
 
+    public static ArrayList<Attendances> getArrayList(String string) {
+        ArrayList<Attendances> arrayList = new ArrayList<>();
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = new JSONArray(string);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                arrayList.add(Attendances.create(jsonArray.opt(i).toString()));
+            }
+        }
+        return arrayList;
+    }
 }

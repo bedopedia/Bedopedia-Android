@@ -1249,4 +1249,22 @@ public class UserManager {
             }
         });
     }
+
+    public static void getAttendanceCount(int studentId, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() +
+                ApiEndPoints.getAttendanceCount(studentId);
+        HashMap<String, String> hashMap = SessionManager.getInstance().getHeaderHashMap();
+        String header = Util.convertHeaderMapToBulk(hashMap);
+        NetworkManager.get(url, hashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
 }

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import gradeBook.Course;
  * Created by ${Aly} on 10/31/2018.
  */
 public class Student extends trianglz.models.User {
-    @SerializedName("level")
+    @SerializedName("level_name")
     public String level;
     @SerializedName("section")
     public String section;
@@ -80,8 +82,6 @@ public class Student extends trianglz.models.User {
     public boolean passwordChanged;
     @SerializedName("parent_id")
     public int parentId;
-    @SerializedName("level_name")
-    public String levelName;
     @SerializedName("section_name")
     public String sectionName;
     @SerializedName("level_id")
@@ -95,7 +95,9 @@ public class Student extends trianglz.models.User {
     @SerializedName("parent_user_id")
     public int parentUserId;
     @SerializedName("attendances")
-    public Attendances[] attendances;
+    public ArrayList<Attendances> attendances;
+    @SerializedName("today_workload_status")
+    public TodayWorkLoadStatus todayWorkLoadStatus;
 
     public boolean isExpanded() {
         return expanded;
@@ -199,6 +201,7 @@ public class Student extends trianglz.models.User {
     }
 
     public void setTodayWorkLoad(JSONObject todayWorkLoad) {
+        if (todayWorkLoad == null) return;
         this.todayAttendance = todayWorkLoad.optString("attendance_status");
         this.todayAssignmentsCount = todayWorkLoad.optInt("assignments_count");
         this.todayQuizzesCount = todayWorkLoad.optInt("quizzes_count");
@@ -210,6 +213,12 @@ public class Student extends trianglz.models.User {
         Student student = gson.fromJson(json, Student.class);
         student.userId = student.getId();
         if (student.actableId == 0 ) student.actableId = student.childId;
+        if (student.todayWorkLoadStatus != null) {
+            student.todayAttendance = student.todayWorkLoadStatus.attendanceStatus;
+            student.todayAssignmentsCount = student.todayWorkLoadStatus.assignmentsCount;
+            student.todayQuizzesCount = student.todayWorkLoadStatus.quizzesCount;
+            student.todayEventsCount = student.todayWorkLoadStatus.eventsCount;
+        }
         return student;
     }
 
@@ -217,7 +226,29 @@ public class Student extends trianglz.models.User {
         Gson gson = new GsonBuilder().create();
         return gson.toJson(this);
     }
+    public static JSONArray getJsonArray(ArrayList<Student> arrayList) {
+        JSONArray jsonArray = new JSONArray();
+        for (Student object : arrayList) {
+            jsonArray.put(object.toString());
+        }
+        return jsonArray;
+    }
 
+    public static ArrayList<Student> getArrayList(String string) {
+        ArrayList<Student> arrayList = new ArrayList<>();
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = new JSONArray(string);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                arrayList.add(Student.create(jsonArray.opt(i).toString()));
+            }
+        }
+        return arrayList;
+    }
 }
 
 

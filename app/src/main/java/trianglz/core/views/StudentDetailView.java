@@ -461,4 +461,22 @@ public class StudentDetailView {
         public String name;
         public String date;
     }
+
+    public void getAttendanceCount(int studentId) {
+        UserManager.getAttendanceCount(studentId, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                double total, presentCount, percentage;
+                total = response.optDouble(Constants.KEY_TOTAL);
+                presentCount = response.optDouble(Constants.PRESENT_COUNT);
+                percentage = response.optDouble(Constants.PERCENTAGE);
+                studentDetailPresenter.onGetAttendanceCountSuccess(total, presentCount, percentage);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                studentDetailPresenter.onGetAttendanceCountFailure(message, errorCode);
+            }
+        });
+    }
 }

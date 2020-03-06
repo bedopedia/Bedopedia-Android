@@ -221,10 +221,10 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     }
 
     @Override
-    public void onParentLoginSuccess() {
+    public void onParentLoginSuccess(JSONArray students) {
         progress.dismiss();
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            openHomeActivity();
+            openHomeActivity(students);
         }
     }
 
@@ -270,8 +270,9 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     }
 
 
-    private void openHomeActivity() {
+    private void openHomeActivity(JSONArray students) {
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra(Constants.CHILDREN, students.toString());
         this.startActivity(intent);
     }
 
@@ -286,10 +287,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     private void openStudentDetailActivity(Student student, JSONArray studentAttendance) {
         Intent intent = new Intent(this, StudentMainActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT, student);
-        bundle.putSerializable(Constants.KEY_ATTENDANCE, studentAttendance.toString());
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        intent.putExtra(Constants.STUDENT, student.toString());
         startActivity(intent);
     }
 

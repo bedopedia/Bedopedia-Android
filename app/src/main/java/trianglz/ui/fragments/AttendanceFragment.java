@@ -20,9 +20,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.math.NumberUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -40,6 +37,7 @@ import attendance.Attendance;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
+import trianglz.models.Attendances;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.AttendanceAdapter;
@@ -54,7 +52,6 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     private View rootView;
     private CompactCalendarView compactCalendarView;
     private ArrayList<Attendance> absentDates, lateDates, excusedDates, presentDates;
-    private JSONArray attendanceJsonArray;
     private RecyclerView recyclerView;
     private IImageLoader imageLoader;
     private AvatarView studentImageView;
@@ -62,7 +59,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     private TextView monthYearTextView, lateCounterTextView, excusedCounterTextView, absentCounterTextView;
     private ImageButton backBtn;
     private Calendar calendar;
-    private String attendance;
+    private ArrayList<Attendances> attendance;
     private AttendanceAdapter attendanceAdapter;
     private LinearLayout lateLayout, absentLayout, excusedLayout;
     private View lateView, absentView, excusedView;
@@ -131,55 +128,46 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            attendance = bundle.getString(Constants.KEY_ATTENDANCE);
             student = (Student) bundle.getSerializable(Constants.STUDENT);
+            attendance = student.attendances;
         }
     }
 
     private void setAttendance() {
-        try {
-            attendanceJsonArray = new JSONArray(attendance);
-            for (int i = 0; i < attendanceJsonArray.length(); i++) {
-                JSONObject day = attendanceJsonArray.optJSONObject(i);
+            for (Attendances attendance : attendance) {
                 Date date = new Date();
-                if (NumberUtils.isParsable(day.optString(Constants.KEY_DATE))) {
-                    date.setTime(day.optLong(Constants.KEY_DATE));
+                if (NumberUtils.isParsable(attendance.getDate())) {
+                    date.setTime(Long.parseLong(attendance.getDate()));
                 } else {
-                    date = Util.getAttendanceDate(day.optString(Constants.KEY_DATE), activity);
+                    date = Util.getAttendanceDate(attendance.getDate(), getActivity());
                 }
-                switch (day.optString(Constants.KEY_STATUS)) {
+                switch (attendance.getStatus()) {
                     case Constants.KEY_LATE:
-                        if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
-                            lateDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
+                        if (attendance.getComment() != null)
+                            lateDates.add(new Attendance(date, attendance.getComment()));
                         else
                             lateDates.add(new Attendance(date, ""));
                         break;
                     case Constants.KEY_ABSENT:
-                        if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
-                            absentDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
+                        if (attendance.getComment() != null)
+                            absentDates.add(new Attendance(date, attendance.getComment()));
                         else
                             absentDates.add(new Attendance(date, ""));
                         break;
                     case Constants.KEY_EXCUSED:
-                        if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
-                            excusedDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
+                        if (attendance.getComment() != null)
+                            excusedDates.add(new Attendance(date, attendance.getComment()));
                         else
                             excusedDates.add(new Attendance(date, ""));
                         break;
                     case "present":
-                        if (!day.optString(Constants.KEY_COMMENT).equals(Constants.KEY_NULL))
-                            presentDates.add(new Attendance(date, day.optString(Constants.KEY_COMMENT)));
+                        if (attendance.getComment() != null)
+                            presentDates.add(new Attendance(date, attendance.getComment()));
                         else
                             presentDates.add(new Attendance(date, ""));
                         break;
                 }
             }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     private void setRecyclerView() {

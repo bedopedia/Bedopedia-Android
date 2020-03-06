@@ -269,5 +269,8 @@ public class Constants {
     public static final String KEY_WEEKLY_PLAN = "weekly_plan";
     public static final int TYPE_ASSIGNMENT = 0;
     public static final int TYPE_ATTACHMENT = 1;
+    public static final String CHILDREN = "children";
+    public static final String PRESENT_COUNT = "present_count";
+    public static final String PERCENTAGE = "percentage";
 }
 
