@@ -57,6 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="170dp"
         android:scaleType="centerInside"
+        android:background="@color/white"
         android:id="@+id/img_annoucement"
         android:visibility="gone" />
     <WebView

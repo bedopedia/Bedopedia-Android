@@ -134,8 +134,10 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_back:
-                activity.headerLayout.setVisibility(View.VISIBLE);
-                activity.toolbarView.setVisibility(View.VISIBLE);
+                if (announcement != null) {
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                }
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
         }
