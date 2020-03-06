@@ -12,67 +12,68 @@
     tools:context="trianglz.ui.activities.AssignmentDetailActivity">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:elevation="2dp"
+        app:contentInsetEnd="0dp"
         app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
         app:contentInsetRight="0dp"
-        app:contentInsetEnd="0dp">
+        app:contentInsetStart="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="8dp">
 
                 <ImageButton
                     android:id="@+id/btn_back"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:background="@color/white"
-                    android:src="@drawable/chevron_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginTop="5dp" />
+                    android:padding="10dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/chevron_left"/>
 
-                <trianglz.components.SfproSemiBoldTextView
+                <TextView
                     android:id="@+id/tv_header"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:layout_gravity="start|center_vertical"
-                    android:layout_marginStart="9dp"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:text="@string/assignments"
-                    android:textSize="24sp" />
+                    android:layout_marginEnd="2dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/greyish_brown"
+                    style="@style/RobotoMediumStyle" />
 
 
                 <agency.tango.android.avatarview.views.AvatarView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:id="@+id/img_student"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/img_student" />
             </LinearLayout>
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 app:tabRippleColor="@color/transparent"
                 app:tabSelectedTextColor="@color/jade_green"
                 app:tabIndicatorColor="@color/jade_green"
-                app:tabTextColor="@color/steel"
+                app:tabTextColor="@color/greyish_brown"
                 app:tabTextAppearance="@style/TabStyle">
 
                 <android.support.design.widget.TabItem

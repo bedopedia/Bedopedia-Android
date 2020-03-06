@@ -24,6 +24,7 @@ import trianglz.components.ErrorDialog;
 import trianglz.components.SettingsDialog;
 import trianglz.managers.SessionManager;
 import trianglz.models.Actor;
+import trianglz.models.Attendances;
 import trianglz.models.Student;
 import trianglz.ui.adapters.StudentMainPagerAdapter;
 import trianglz.ui.fragments.AnnouncementsFragment;
@@ -57,7 +58,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private MenuFragment menuFragment;
     private TeacherCoursesFragment teacherCoursesFragment;
     public Student student;
-    public String attendance;
+    public ArrayList<Attendances> attendance;
     public Actor actor;
     public boolean isHod = false;
 
@@ -82,8 +83,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         //       isStudent = SessionManager.getInstance().getStudentAccount();
         //     isParent = SessionManager.getInstance().getUserType();
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
-            attendance = (String) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ATTENDANCE);
+            student = Student.create(getIntent().getStringExtra(Constants.STUDENT));
+            attendance = student.attendances;
         } else {
             actor = (Actor) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
         }
@@ -595,7 +596,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         return actor;
     }
 
-    public String getAttendance() {
+    public ArrayList<Attendances> getAttendance() {
         return attendance;
     }
 

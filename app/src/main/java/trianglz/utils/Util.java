@@ -216,6 +216,21 @@ public class Util {
         }
         return finalData;
     }
+    public static String getTimeAm(String messageTime, Context context) {
+        String finalData = "";
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
+
+        Date date = null;
+        try {
+            date = fmt.parse(messageTime);
+            SimpleDateFormat fmtOut = new SimpleDateFormat("h:mm aa", new Locale(getLocale(context)));
+            finalData = fmtOut.format(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return finalData;
+    }
 
     public static String getWeeklyPlannerDate(Date date, Context context) {
         String finalData = "";
@@ -610,5 +625,15 @@ public class Util {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return metrics.heightPixels;
+    }
+    public static String humanReadableByteCountBin(long bytes) {
+        long b = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
+        return b < 1024L ? bytes + " B"
+                : b <= 0xfffccccccccccccL >> 40 ? String.format("%.1f KB", bytes / 0x1p10)
+                : b <= 0xfffccccccccccccL >> 30 ? String.format("%.1f MB", bytes / 0x1p20)
+                : b <= 0xfffccccccccccccL >> 20 ? String.format("%.1f GB", bytes / 0x1p30)
+                : b <= 0xfffccccccccccccL >> 10 ? String.format("%.1f TB", bytes / 0x1p40)
+                : b <= 0xfffccccccccccccL ? String.format("%.1f PiB", (bytes >> 10) / 0x1p40)
+                : String.format("%.1f EiB", (bytes >> 20) / 0x1p40);
     }
 }

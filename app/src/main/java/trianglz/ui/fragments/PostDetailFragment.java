@@ -89,7 +89,6 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     }
 
     private void bindViews() {
-        ;
         addPostFab = rootView.findViewById(R.id.add_post_btn);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         postDetailsView = new PostDetailsView(activity, this);
@@ -101,7 +100,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
             }
         });
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
-            addPostFab.show();
+            addPostFab.hide();
         }
         placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
         courseNameTextView = rootView.findViewById(R.id.tv_course_name);
@@ -128,6 +127,8 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
             @Override
             public void onRefresh() {
                 pullRefreshLayout.setRefreshing(false);
+                placeholderLinearLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
                 reloadEvents();
             }
         });
@@ -167,7 +168,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     public void onGetPostDetailsFailure(String message, int errorCode) {
         showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
-        if (lastPage == 1) {
+        if (lastPage <= 1) {
             recyclerView.setVisibility(View.GONE);
             placeholderLinearLayout.setVisibility(View.VISIBLE);
         } else {

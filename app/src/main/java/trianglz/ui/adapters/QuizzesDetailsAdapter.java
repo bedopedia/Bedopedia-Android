@@ -1,5 +1,5 @@
 package trianglz.ui.adapters;
- // Created by gemy
+// Created by gemy
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -25,14 +25,14 @@ import trianglz.managers.SessionManager;
 import trianglz.models.Quizzes;
 import trianglz.utils.Util;
 
-public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAdapter.Holder>{
+public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAdapter.Holder> {
     public Context context;
     public List<Quizzes> mDataList;
     private QuizzesDetailsInterface anInterface;
     private String courseName = "";
 
 
-    public QuizzesDetailsAdapter(Context context, QuizzesDetailsInterface assignmentDetailInterface,String courseName) {
+    public QuizzesDetailsAdapter(Context context, QuizzesDetailsInterface assignmentDetailInterface, String courseName) {
         this.context = context;
         this.mDataList = new ArrayList<>();
         this.anInterface = assignmentDetailInterface;
@@ -49,8 +49,8 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
 //        Boolean teacher = !SessionManager.getInstance().getUserType();
-        if(position == mDataList.size() - 1 ){
-            if(!SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())){
+        if (position == mDataList.size() - 1) {
+            if (!SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
                 anInterface.onReachPosition();
             }
         }
@@ -60,30 +60,45 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
             holder.subjectNameTextView.setText(courseName);
         }
         if (quizzes.getEndDate() != null) {
-            holder.dateTextView.setText(Util.getPostDateAmPm(quizzes.getEndDate(),context));
+            holder.dateTextView.setText(Util.getPostDateAmPm(quizzes.getEndDate(), context));
+            holder.dueTimeTextView.setText(Util.getTimeAm(quizzes.getEndDate(), context));
+
         }
 
         if (quizzes.getEndDate() != null) {
             holder.dayTextView.setText(Util.getAssigmentDetailEndDateDay(quizzes.getEndDate()));
-            holder.monthTextView.setText(Util.getAssigmentDetailEndDateMonth(quizzes.getEndDate(),context));
+            holder.monthTextView.setText(Util.getAssigmentDetailEndDateMonth(quizzes.getEndDate(), context));
         }
         if (quizzes.getName() != null) {
             holder.assignmentNameTextView.setText(quizzes.getName());
         }
-        if(quizzes.getState() != null){
+        if (quizzes.getState() != null) {
             holder.dateTextView.setVisibility(View.VISIBLE);
             if (quizzes.getState().equals("running")) {
                 holder.itemView.setOnClickListener(null);
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
-                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine,null));
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.color.transparent_light_sage, null));
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.pine, null));
                 holder.clockImageView.setImageResource(R.drawable.green_clock_icon);
+
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
+                holder.dayTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
+                holder.monthTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
+                holder.dueTimeTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
+                holder.dueTimeTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_clock_green, null), null, null, null);
+
             } else {
                 holder.itemView.setOnClickListener(view -> anInterface.onItemClicked(quizzes));
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
-                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dirt_brown,null));
+//                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dirt_brown, null));
                 holder.clockImageView.setImageResource(R.drawable.red_clock_icon);
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.color.very_light_pink, null));
+                holder.dayTextView.setTextColor(context.getResources().getColor(R.color.transparent_red, null));
+                holder.monthTextView.setTextColor(context.getResources().getColor(R.color.transparent_red, null));
+                holder.dueTimeTextView.setTextColor(context.getResources().getColor(R.color.red, null));
+                holder.dueTimeTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_clock_red, null), null, null, null);
+
             }
-        }else {
+        } else {
             holder.dateTextView.setVisibility(View.INVISIBLE);
         }
 
@@ -98,17 +113,17 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
 
     public void addData(ArrayList<Quizzes> quizzes) {
         this.mDataList.clear();
-        if(quizzes != null) this.mDataList.addAll(quizzes);
+        if (quizzes != null) this.mDataList.addAll(quizzes);
         notifyDataSetChanged();
     }
 
     public static class Holder extends RecyclerView.ViewHolder {
 
         public TextView subjectNameTextView, dateTextView,
-                assignmentNameTextView, dayTextView, monthTextView, publishedTextView;
+                assignmentNameTextView, dayTextView, monthTextView, publishedTextView, dueTimeTextView;
         public IImageLoader imageLoader;
         private AvatarView courseAvatarView;
-        public LinearLayout dateLinearLayout;
+        public FrameLayout dateLinearLayout;
         public CardView cardView;
         private ImageView clockImageView;
 
@@ -125,12 +140,15 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
             publishedTextView = itemView.findViewById(R.id.tv_published);
             cardView = itemView.findViewById(R.id.card_view);
             clockImageView = itemView.findViewById(R.id.date_icon);
+            dueTimeTextView = itemView.findViewById(R.id.due_time_tv);
+
         }
     }
 
 
     public interface QuizzesDetailsInterface {
         void onItemClicked(Quizzes quizzes);
+
         void onReachPosition();
     }
 }

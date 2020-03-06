@@ -23,20 +23,14 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -83,8 +77,10 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private IImageLoader imageLoader;
     private String studentName = "";
     private StudentDetailView studentDetailView;
-    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout, weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout, teacherTimeTableLayout;
-    private String attendance, nextSlot;
+    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout,
+            weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout,
+            teacherTimeTableLayout, layoutAttendanceData;
+    private String nextSlot;
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
     private AppBarLayout appBarLayout;
@@ -112,8 +108,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         setParentActorView();
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             if (Util.isNetworkAvailable(getParentActivity())) {
-                String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
+                String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.childId + "/timetable";
                 studentDetailView.getStudentTimeTable(timeTableUrl);
+                studentDetailView.getAttendanceCount(student.childId);
                 //
                 activity.isCalling = true;
                 shimmerView.setVisibility(View.VISIBLE);
@@ -171,10 +168,9 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         teacherLayout = rootView.findViewById(R.id.layout_teacher);
         teacherTimeTableLayout = rootView.findViewById(R.id.layout_timetable_teacher);
         weeklyPlannerTextView = rootView.findViewById(R.id.tv_weekly_planner);
-
+        layoutAttendanceData = rootView.findViewById(R.id.layout_attendance_data);
         student = getParentActivity().getStudent();
         actor = getParentActivity().getActor();
-        attendance = getParentActivity().getAttendance();
 
         // new assignments layout
         assignmentsLayout = rootView.findViewById(R.id.layout_assignments);
@@ -229,7 +225,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             parentLayout.setVisibility(View.VISIBLE);
             teacherLayout.setVisibility(View.GONE);
             studentName = student.firstName + " " + student.lastName;
-            setAttendance();
             setStudentImage(student.getAvatar(), studentName);
             nameTextView.setText(studentName);
             if (student.level.trim().isEmpty()) {
@@ -266,35 +261,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                     });
         }
     }
-
-    private void setAttendance() {
-        try {
-            JSONArray jsonArray = new JSONArray(attendance);
-            Set<Date> attendanceDates = new HashSet<>();
-            absentDays = 0;
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject day = jsonArray.optJSONObject(i);
-                Date date = new Date();
-                date.setTime(day.optLong(Constants.KEY_DATE));
-                if (!attendanceDates.contains(date)) {
-                    if (day.optString(Constants.KEY_STATUS).equals(Constants.KEY_ABSENT))
-                        absentDays++;
-                }
-                attendanceDates.add(date);
-            }
-            if (attendanceDates.size() != 0)
-                progressBar.setProgress(((attendanceDates.size() - absentDays) * 100) / attendanceDates.size());
-            String attendance = getParentActivity().getResources().getString(R.string.attend) + " " + (
-                    attendanceDates.size() - absentDays) +
-                    " " + getParentActivity().getResources().getString(R.string.out) + " " + attendanceDates.size() + " " +
-                    getParentActivity().getResources().getString(R.string.days);
-            attendanceTextView.setText(attendance);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 
     @Override
     public void onGetStudentGradesSuccess(ArrayList<trianglz.models.CourseGroup> courseGroups, String totalGrade) {
@@ -540,7 +506,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         AttendanceFragment attendanceFragment = new AttendanceFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
-        bundle.putString(Constants.KEY_ATTENDANCE, attendance);
         attendanceFragment.setArguments(bundle);
         getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, attendanceFragment, "MenuFragments").
@@ -705,5 +670,18 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     @Override
     public void onCancel() {
 
+    }
+
+    @Override
+    public void onGetAttendanceCountSuccess(double total, double presentCount, double percentage) {
+        layoutAttendanceData.setVisibility(View.VISIBLE);
+        progressBar.setProgress((int) Math.round(percentage));
+        attendanceTextView.setText(String.format(getString(R.string.present_out_of), Util.removeZeroDecimal(String.valueOf(presentCount)),
+                Util.removeZeroDecimal(String.valueOf(total))));
+    }
+
+    @Override
+    public void onGetAttendanceCountFailure(String message, int errorCode) {
+        layoutAttendanceData.setVisibility(View.GONE);
     }
 }

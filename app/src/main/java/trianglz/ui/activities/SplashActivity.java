@@ -56,9 +56,10 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     }
 
 
-    private void openHomeActivity() {
+    private void openHomeActivity(JSONArray students) {
         Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-        SplashActivity.this.startActivity(intent);
+        intent.putExtra(Constants.CHILDREN, students.toString());
+        this.startActivity(intent);
     }
 
     private void openStudentDetailActivity(Actor actor) {
@@ -70,9 +71,10 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     }
 
     @Override
-    public void onParentLoginSuccess() {
+    public void onParentLoginSuccess(JSONArray students) {
+        progress.dismiss();
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            openHomeActivity();
+            openHomeActivity(students);
         }
         finish();
     }
@@ -118,10 +120,7 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
 
     private void openStudentDetailActivity(Student student, JSONArray studentAttendance) {
         Intent intent = new Intent(this, StudentMainActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT, student);
-        bundle.putSerializable(Constants.KEY_ATTENDANCE, studentAttendance.toString());
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        intent.putExtra(Constants.STUDENT, student.toString());
         startActivity(intent);
     }
 }

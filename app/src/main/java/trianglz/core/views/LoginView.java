@@ -72,7 +72,7 @@ public class LoginView {
             case "parent":
                 SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
                 refreshFireBaseToken();
-                loginPresenter.onParentLoginSuccess();
+                loginPresenter.onParentLoginSuccess(response.optJSONArray(Constants.CHILDREN));
                 break;
             case "student":
                 SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);

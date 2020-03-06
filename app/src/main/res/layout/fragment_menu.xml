@@ -351,11 +351,13 @@
                         android:layout_marginEnd="16dp"
                         android:src="@drawable/attendance_ico" />
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:paddingStart="8dp"
+                        android:orientation="vertical"
+                        android:gravity="center"
                         android:paddingTop="16dp"
                         android:paddingEnd="1dp"
                         android:paddingBottom="13dp">
@@ -364,7 +366,6 @@
                             android:text="@string/attendance"
                             android:layout_width="match_parent"
                             android:layout_height="22dp"
-                            android:layout_alignParentTop="true"
                             android:ellipsize="end"
                             android:includeFontPadding="false"
                             android:maxLines="1"
@@ -374,9 +375,9 @@
                             android:textAlignment="viewStart" />
 
                         <LinearLayout
+                            android:id="@+id/layout_attendance_data"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:layout_alignParentBottom="true"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
@@ -384,7 +385,6 @@
                                 android:id="@+id/tv_attendance"
                                 android:layout_width="0dp"
                                 android:layout_height="20dp"
-                                android:layout_alignParentBottom="true"
                                 android:layout_marginEnd="2dp"
                                 android:layout_weight="1"
                                 android:ellipsize="end"
@@ -410,7 +410,7 @@
                         </LinearLayout>
 
 
-                    </RelativeLayout>
+                    </LinearLayout>
 
 
                 </LinearLayout>

@@ -165,17 +165,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
     public void setAttendanceCircle(String attendanceStatus, KidsViewHolder holder) {
         attendanceStatus = attendanceStatus.substring(0, 1).toUpperCase() + attendanceStatus.substring(1).toLowerCase();
         holder.stateTextView.setText(attendanceStatus);
-//        if (attendanceStatus.equals("Present")) {
-//            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.present_icon, null), null, null, null);
-//        } else if (attendanceStatus.equals("Not taken")) {
-//            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.attendance_circle_grey, null), null, null, null);
-//        } else if (attendanceStatus.equals("Late")) {
-//            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.late_icon, null), null, null, null);
-//        } else if (attendanceStatus.equals("Excused")) {
-//            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.excused_icon, null), null, null, null);
-//        } else if (attendanceStatus.equals("Absent")) {
-//            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.absent_icon, null), null, null, null);
-//        }
+        if (attendanceStatus.equals("Present")) {
+            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.present_icon, null), null, null, null);
+        } else if (attendanceStatus.equals("Not taken")) {
+            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.attendance_circle_grey, null), null, null, null);
+        } else if (attendanceStatus.equals("Late")) {
+            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.late_icon, null), null, null, null);
+        } else if (attendanceStatus.equals("Excused")) {
+            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.excused_icon, null), null, null, null);
+        } else if (attendanceStatus.equals("Absent")) {
+            holder.stateTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.absent_icon, null), null, null, null);
+        }
     }
 
     private void setStudentImage(String imageUrl, final KidsViewHolder holder, final String name) {

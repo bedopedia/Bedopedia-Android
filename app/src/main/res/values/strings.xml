@@ -154,7 +154,7 @@
     <string name="start_from">Start from</string>
     <string name="there_is_no_weekly_planner">No weekly planner available</string>
     <string name="due_date">Due Date</string>
-    <string name="no_assignment">No assignments currently</string>
+    <string name="no_assignment">No active assignments currently</string>
     <string name="publish">Publish</string>
     <string name="announcements">Announcements</string>
     <string name="menu">Menu</string>
@@ -274,8 +274,10 @@
     <string name="posts_placeholder">You don\'t have any posts for now</string>
     <string name="attendance_placeholder">You don\'t have any attendances for now</string>
     <string name="weeklyplanner_placeholder">You don\'t have any weekly plans for now</string>
-    <string name="courses_placeholder">You don\'t have any courses for now</string>
+    <string name="courses_placeholder">You don\'t have any registered courses for now</string>
     <string name="grades_placeholder">You don\'t have any grades for now</string>
+    <string name="no_posts">No available posts currently</string>
+
     <string name="no_content">No content available</string>
     <string name="settings">Settings</string>
     <string name="change">Change</string>
@@ -305,5 +307,6 @@
     <string name="gpa">GPA</string>
     <string name="minutes">%1$s Minutes</string>
     <string name="no_description">No description available</string>
-
+    <string name="present_out_of">present %1$s out of %2$s days</string>
+     <string name="more">more</string>
 </resources>
