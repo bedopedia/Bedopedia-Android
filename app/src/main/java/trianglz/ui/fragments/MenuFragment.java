@@ -64,7 +64,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     private View rootView;
     // parent activity
     private StudentMainActivity activity;
-    private View appBarView;
     private List<TimeTableSlot> todaySlots;
     private List<TimeTableSlot> tomorrowSlots;
     private List<BehaviorNote> positiveBehaviorNotes;
@@ -143,7 +142,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         negativeBehaviorNotes = new ArrayList<>();
         otherBehaviorNotes = new ArrayList<>();
         nextSlot = "";
-        appBarView = rootView.findViewById(R.id.appbar_view);
         appBarLayout = rootView.findViewById(R.id.app_bar_layout);
         nameTextView = rootView.findViewById(R.id.tv_name);
         levelTextView = rootView.findViewById(R.id.tv_level);
@@ -193,16 +191,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         calendarLayout.setOnClickListener(this);
         quizzesLayout.setOnClickListener(this);
         teacherTimeTableLayout.setOnClickListener(this);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset == 0) {
-                    appBarView.setVisibility(View.GONE);
-                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
-                    appBarView.setVisibility(View.VISIBLE);
-                }
-            }
-        });
     }
 
     private void setParentActorView() {
