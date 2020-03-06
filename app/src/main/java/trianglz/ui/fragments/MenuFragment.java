@@ -215,7 +215,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             actorName = actor.firstName + " " + actor.lastName;
             setStudentImage(actor.imageUrl, actorName);
             nameTextView.setText(actorName);
-            levelTextView.setText(actor.actableType);
+            if (actor.actableType.trim().isEmpty()) {
+                levelTextView.setVisibility(View.GONE);
+            } else {
+                levelTextView.setText(actor.actableType);
+            }
             String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/teachers/" + SessionManager.getInstance().getId() + "/timetable";
             studentDetailView.getStudentTimeTable(timeTableUrl);
             appBarLayout.setVisibility(View.GONE);
@@ -228,7 +232,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             setAttendance();
             setStudentImage(student.getAvatar(), studentName);
             nameTextView.setText(studentName);
-            levelTextView.setText(student.level);
+            if (student.level.trim().isEmpty()) {
+                levelTextView.setVisibility(View.GONE);
+            } else {
+                levelTextView.setText(student.level);
+            }
         }
     }
 
