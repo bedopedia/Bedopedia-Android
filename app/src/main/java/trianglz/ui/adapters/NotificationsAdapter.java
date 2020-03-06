@@ -54,7 +54,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         Notification notification = notificationArrayList.get(position);
         holder.dateTv.setText(notification.getDate());
         holder.descriptionTv.setText(notification.getMessage());
-        holder.descriptionTv.setTextColor(ResourcesCompat.getColor(context.getResources(), R.color.steel, null));
         if (notification.getType().contains("graded")){
             holder.logo.setImageResource(R.drawable.grades);
         } else if (notification.getType().contains("assignments")) {
