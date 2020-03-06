@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.skolera.skolera_android.R;
 
 import trianglz.models.PlannerSubject;
+import trianglz.utils.Util;
 
 public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Holder> {
     public Context context;
@@ -37,8 +38,13 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
             if (!plannerSubject.classWork.isEmpty() && !plannerSubject.classWork.equals("null")) {
                 holder.contentWebView.loadData((plannerSubject.classWork), "text/html", "UTF-8");
             } else {
-                holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no)
-                        + " " + context.getResources().getString(R.string.class_work), "text/html", "UTF-8");
+                if (Util.getLocale(holder.itemView.getContext()).equals("ar")) {
+                    holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no_classwork),
+                            "text/html", "UTF-8");
+                } else {
+                    holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no)
+                            + " " + context.getResources().getString(R.string.class_work), "text/html", "UTF-8");
+                }
             }
         } else if (position == 1) {
             holder.dailyNoteImageView.setImageResource((R.drawable.ic_home_work));
@@ -46,8 +52,13 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
             if (!plannerSubject.homework.isEmpty() && !plannerSubject.homework.equals("null")) {
                 holder.contentWebView.loadData((plannerSubject.homework), "text/html", "UTF-8");
             } else {
-                holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no)
-                        + " " + context.getResources().getString(R.string.homework), "text/html", "UTF-8");
+                if (Util.getLocale(holder.itemView.getContext()).equals("ar")) {
+                    holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no_homework),
+                            "text/html", "UTF-8");
+                } else {
+                    holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no)
+                            + " " + context.getResources().getString(R.string.homework), "text/html", "UTF-8");
+                }
             }
         } else {
             holder.dailyNoteImageView.setImageResource((R.drawable.ic_activity));
@@ -55,8 +66,13 @@ public class DailyNoteAdapter extends RecyclerView.Adapter<DailyNoteAdapter.Hold
             if (!plannerSubject.activities.isEmpty() && !plannerSubject.activities.equals("null")) {
                 holder.contentWebView.loadData((plannerSubject.activities), "text/html", "UTF-8");
             } else {
-                holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no)
-                        + " " + context.getResources().getString(R.string.activity), "text/html", "UTF-8");
+                if (Util.getLocale(holder.itemView.getContext()).equals("ar")) {
+                    holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no_activities),
+                            "text/html", "UTF-8");
+                } else {
+                    holder.contentWebView.loadData(context.getResources().getString(R.string.there_is_no)
+                            + " " + context.getResources().getString(R.string.activity), "text/html", "UTF-8");
+                }
             }
         }
     }

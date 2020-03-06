@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">Skolera</string>
     <string name="title_activity_message_thread" translatable="false">Message_thread</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
@@ -309,4 +309,13 @@
     <string name="no_description">No description available</string>
     <string name="present_out_of">present %1$s out of %2$s days</string>
      <string name="more">more</string>
+    <string name="there_is_no_activities" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
+  لا يوجد انشطة
+      </div></TD>]]></string>
+    <string name="there_is_no_homework" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
+  لا يوجد واجبات منزليه
+      </div></TD>]]></string>
+    <string name="there_is_no_classwork" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
+  لا يوجد واجبات الفصل
+      </div></TD>]]></string>
 </resources>

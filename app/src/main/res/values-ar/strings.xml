@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="fragmentStudentAttendance_tv">الحضور</string>
     <string name="fragmentStudentTimetable_tv">جدول المواعيد</string>
     <string name="fragmentStudentGrades_tv">الدرجات</string>
@@ -128,6 +128,15 @@
     <string name="menu">القائمة</string>
     <string name="activity">انشطة</string>
     <string name="there_is_no">لا يوجد</string>
+    <string name="there_is_no_activities" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
+  لا يوجد انشطة
+      </div></TD>]]></string>
+    <string name="there_is_no_homework" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
+  لا يوجد واجبات منزليه
+      </div></TD>]]></string>
+    <string name="there_is_no_classwork" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
+  لا يوجد واجبات الفصل
+      </div></TD>]]></string>
     <string name="last_updated">أخر تعديل</string>
     <string name="to">إلى</string>
     <string name="start_from">يبدأ من</string>

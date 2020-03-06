@@ -139,7 +139,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
                         weeklyNoteImageView.setVisibility(View.VISIBLE);
                         Picasso.with(activity)
                                 .load(generalNote.image.url)
-                                .centerCrop()
+                                .centerInside()
                                 .fit()
                                 .into(weeklyNoteImageView);
                     } else {
@@ -311,6 +311,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
         Bundle bundle = new Bundle();
         GeneralNote generalNote = weeklyPlannerResponse.weeklyPlans.get(0).generalNote;
         bundle.putSerializable(Constants.KEY_WEEKLY_NOTE, generalNote);
+        bundle.putSerializable(Constants.STUDENT, student);
         announcementDetailFragment.setArguments(bundle);
         getParentFragment().getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, announcementDetailFragment, "MenuFragments").
