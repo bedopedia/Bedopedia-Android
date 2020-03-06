@@ -66,7 +66,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         } else if (notification.getType().equals("virtual")) {
             holder.logo.setImageResource(R.drawable.ic_icons8_class_100);
         } else {
-            holder.logo.setImageResource(R.drawable.ic_notification_empty_inside);
+            holder.logo.setImageResource(R.drawable.ic_notification_empty);
         }
     }
 
