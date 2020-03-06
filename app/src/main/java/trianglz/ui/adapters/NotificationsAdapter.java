@@ -56,17 +56,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         if (notification.getType().contains("graded")) {
             holder.logo.setImageResource(R.drawable.grades);
         } else if (notification.getType().contains("assignments")) {
-            holder.logo.setImageResource(R.drawable.notification_2_copy);
+            holder.logo.setImageResource(R.drawable.assignment);
         } else if (notification.getType().contains("quizzes")) {
-            holder.logo.setImageResource(R.drawable.quizzes_ico);
+            holder.logo.setImageResource(R.drawable.quiz);
         } else if (notification.getType().contains("zones")) {
-            holder.logo.setImageResource(R.drawable.zones);
+            holder.logo.setImageResource(R.drawable.ic_conference_call);
         } else if (notification.getType().contains("events")) {
-            holder.logo.setImageResource(R.drawable.mydays);
+            holder.logo.setImageResource(R.drawable.event);
         } else if (notification.getType().equals("virtual")) {
-            holder.logo.setImageResource(R.drawable.virtualclass);
+            holder.logo.setImageResource(R.drawable.ic_icons8_class_100);
         } else {
-            holder.logo.setImageResource(R.drawable.notifications);
+            holder.logo.setImageResource(R.drawable.ic_notification_empty_inside);
         }
     }
 
