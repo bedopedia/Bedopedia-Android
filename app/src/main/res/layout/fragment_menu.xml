@@ -236,7 +236,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                        android:src="@drawable/ic_assignment_layout" />
+                        android:src="@drawable/assignment" />
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -301,7 +301,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                        android:src="@drawable/ic_quizzes_layout" />
+                        android:src="@drawable/quiz" />
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -366,7 +366,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                        android:src="@drawable/attendance_ico" />
+                        android:src="@drawable/attendance_home" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -462,7 +462,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                            android:src="@drawable/behavior_notes_ico" />
+                            android:src="@drawable/behaviour_notes" />
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -579,7 +579,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                            android:src="@drawable/calendar_ico" />
+                            android:src="@drawable/event" />
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -639,7 +639,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                            android:src="@drawable/ic_posts_layout" />
+                            android:src="@drawable/posts_home" />
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -693,7 +693,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                        android:src="@drawable/timetable" />
+                        android:src="@drawable/timetable_home" />
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -759,7 +759,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                        android:src="@drawable/weeklyplanner" />
+                        android:src="@drawable/weekly_planner_home" />
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -836,7 +836,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                        android:src="@drawable/timetable" />
+                        android:src="@drawable/timetable_home" />
 
                     <RelativeLayout
                         android:layout_width="0dp"
