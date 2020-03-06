@@ -84,7 +84,7 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
             announcementImageView.setVisibility(View.VISIBLE);
             Picasso.with(activity)
                     .load(generalNote.image.url)
-                    .centerCrop()
+                    .centerInside()
                     .fit()
                     .into(announcementImageView);
         }else {
@@ -104,7 +104,7 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
             announcementImageView.setVisibility(View.VISIBLE);
             Picasso.with(activity)
                     .load(announcement.imageUrl)
-                    .centerCrop()
+                    .centerInside()
                     .fit()
                     .into(announcementImageView);
             announcementImageView.setOnClickListener(new View.OnClickListener() {
