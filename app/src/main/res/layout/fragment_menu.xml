@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/white"
     android:id="@+id/menu_fragment_root"
     android:animateLayoutChanges="true"
     tools:context="trianglz.ui.fragments.MenuFragment">
@@ -146,26 +147,31 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:id="@+id/layout_parent"
+                android:paddingTop="8dp"
                 android:visibility="visible">
 
-
-                <LinearLayout
-                    android:id="@+id/layout_grades"
-                    android:layout_width="match_parent"
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginHorizontal="12dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/layout_grades"
+                        android:layout_width="wrap_content"
                         android:layout_height="80dp"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="8dp"
+                            android:background="@drawable/circle_catskill_background_circle"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
                             android:src="@drawable/grades" />
 
                         <RelativeLayout
@@ -206,17 +212,16 @@
                                 android:textAlignment="viewStart" />
 
                         </RelativeLayout>
-
-
-                    </LinearLayout>
-
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/black_10" />
-
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginHorizontal="12dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
                 <LinearLayout
                     android:id="@+id/layout_assignments"
                     android:layout_width="match_parent"
@@ -271,12 +276,15 @@
 
 
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/black_10" />
-
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginHorizontal="12dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
                 <LinearLayout
                     android:id="@+id/layout_quizzes"
                     android:layout_width="match_parent"
@@ -331,12 +339,15 @@
 
 
                 </LinearLayout>
-
-                <View
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/black_10" />
-
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginHorizontal="12dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
                 <LinearLayout
                     android:id="@+id/layout_attendance"
                     android:layout_width="match_parent"
@@ -365,7 +376,8 @@
                         <TextView
                             android:text="@string/attendance"
                             android:layout_width="match_parent"
-                            android:layout_height="22dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
                             android:ellipsize="end"
                             android:includeFontPadding="false"
                             android:maxLines="1"
@@ -377,14 +389,16 @@
                         <LinearLayout
                             android:id="@+id/layout_attendance_data"
                             android:layout_width="match_parent"
-                            android:layout_height="20dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            tools:visibility="visible"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/tv_attendance"
                                 android:layout_width="0dp"
-                                android:layout_height="20dp"
+                                android:layout_height="wrap_content"
                                 android:layout_marginEnd="2dp"
                                 android:layout_weight="1"
                                 android:ellipsize="end"
@@ -414,12 +428,15 @@
 
 
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/black_10" />
-
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginHorizontal="12dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
                 <LinearLayout
                     android:id="@+id/layout_behavior_notes"
                     android:layout_width="match_parent"
@@ -526,12 +543,15 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/black_10" />
-
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginHorizontal="12dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
                 <LinearLayout
                     android:id="@+id/layout_calendar"
                     android:layout_width="match_parent"
@@ -581,12 +601,15 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/black_10" />
-
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginHorizontal="12dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
                 <LinearLayout
                     android:id="@+id/layout_posts"
                     android:layout_width="match_parent"
@@ -635,12 +658,15 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/black_10" />
-
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginHorizontal="12dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
                 <LinearLayout
                     android:id="@+id/layout_timetable"
                     android:layout_width="match_parent"
@@ -696,13 +722,15 @@
 
 
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/black_10" />
-
-
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginHorizontal="12dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
                 <LinearLayout
                     android:id="@+id/layout_weekly_planner"
                     android:layout_width="match_parent"
@@ -756,11 +784,7 @@
 
 
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/black_10" />
+                </android.support.v7.widget.CardView>
             </LinearLayout>
 
             <include
@@ -774,7 +798,14 @@
                 android:orientation="vertical"
                 android:visibility="gone"
                 android:id="@+id/layout_teacher">
-
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginHorizontal="12dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
                 <LinearLayout
                     android:id="@+id/layout_timetable_teacher"
                     android:layout_width="match_parent"
@@ -829,7 +860,7 @@
 
                     </RelativeLayout>
                 </LinearLayout>
-
+                </android.support.v7.widget.CardView>
             </LinearLayout>
         </FrameLayout>
 
