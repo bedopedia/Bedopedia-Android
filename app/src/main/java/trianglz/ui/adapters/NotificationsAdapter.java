@@ -2,7 +2,6 @@ package trianglz.ui.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +21,10 @@ import trianglz.models.Notification;
  * This file is spawned by Gemy on 10/31/2018.
  */
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.NotificationsViewHolder> {
-    private Context context;
     public ArrayList<Notification> notificationArrayList;
+    public int totalCount = -1;
+    private Context context;
     private AdapterPaginationInterface paginationInterface;
-    private boolean newData;
 
 
     public NotificationsAdapter(Context context, AdapterPaginationInterface adapterPaginationInterface) {
@@ -48,13 +47,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     @Override
     public void onBindViewHolder(@NonNull NotificationsViewHolder holder, int position) {
-        if (position == notificationArrayList.size() - 2 && newData) {
+        if (position == notificationArrayList.size() - 4 && totalCount != -1 && notificationArrayList.size() <= totalCount) {
             paginationInterface.onReachPosition();
         }
         Notification notification = notificationArrayList.get(position);
         holder.dateTv.setText(notification.getDate());
         holder.descriptionTv.setText(notification.getMessage());
-        if (notification.getType().contains("graded")){
+        if (notification.getType().contains("graded")) {
             holder.logo.setImageResource(R.drawable.grades);
         } else if (notification.getType().contains("assignments")) {
             holder.logo.setImageResource(R.drawable.notification_2_copy);
@@ -66,7 +65,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             holder.logo.setImageResource(R.drawable.mydays);
         } else if (notification.getType().equals("virtual")) {
             holder.logo.setImageResource(R.drawable.virtualclass);
-        }else {
+        } else {
             holder.logo.setImageResource(R.drawable.notifications);
         }
     }
@@ -76,12 +75,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         return notificationArrayList.size();
     }
 
-    public void addData(ArrayList<Notification> notifications, boolean newIncomingNotificationData) {
-        newData = newIncomingNotificationData;
-        if (newData) {
-            this.notificationArrayList.addAll(notifications);
-            notifyDataSetChanged();
-        }
+    public void addData(ArrayList<Notification> notifications) {
+        this.notificationArrayList.addAll(notifications);
+        notifyDataSetChanged();
     }
 
     public class NotificationsViewHolder extends RecyclerView.ViewHolder {
