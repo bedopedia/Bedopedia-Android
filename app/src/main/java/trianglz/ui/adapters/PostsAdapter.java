@@ -3,14 +3,17 @@ package trianglz.ui.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+
+import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 
@@ -19,16 +22,16 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.models.PostsResponse;
-import trianglz.utils.Util;
 
 public class PostsAdapter extends RecyclerView.Adapter {
     private Context context;
     ArrayList<PostsResponse> postsResponses;
     private PostsInterface postsInterface;
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_posts, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_course_assignment, parent, false);
         return new PostsViewHolder(view);
     }
 
@@ -39,34 +42,32 @@ public class PostsAdapter extends RecyclerView.Adapter {
         viewHolder.subjectTextView.setText(postsResponse.getCourseName());
         if (postsResponse.getPosts() != null) {
             if (postsResponse.getPosts().getOwner() != null) {
+                viewHolder.nameTextview.setVisibility(View.VISIBLE);
                 viewHolder.nameTextview.setText(postsResponse.getPosts().getOwner().getNameWithTitle());
             } else {
-                viewHolder.nameTextview.setText("");
+                viewHolder.nameTextview.setVisibility(View.GONE);
             }
+            viewHolder.counterTextView.setVisibility(View.VISIBLE);
             viewHolder.counterTextView.setText(String.valueOf(postsResponse.getPostsCount()));
 
             // sets the text view is both cases whether the back end response contains html or not
-            if (Util.hasHTMLTags(postsResponse.getPosts().getContent())) {
-                viewHolder.descriptionTextView.setText(String.valueOf(Html.fromHtml(postsResponse.getPosts().getContent())));
-            } else {
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)viewHolder.descriptionTextView.getLayoutParams();
-                params.setMargins(0, 0, 0, Math.round(Util.convertDpToPixel(24, context))); //substitute parameters for left, top, right, bottom
-                viewHolder.descriptionTextView.setLayoutParams(params);
-                viewHolder.descriptionTextView.setText(String.valueOf(Html.fromHtml(postsResponse.getPosts().getContent())));
-            }
+            if (postsResponse.getPosts().getContent() != null && !postsResponse.getPosts().getContent().isEmpty())
+                viewHolder.descriptionTextView.setVisibility(View.VISIBLE);
+            viewHolder.descriptionTextView.setHtml(postsResponse.getPosts().getContent(),
+                    new HtmlHttpImageGetter(viewHolder.descriptionTextView));
         } else {
-            viewHolder.nameTextview.setText("");
-            viewHolder.counterTextView.setText("");
-            viewHolder.descriptionTextView.setText("");
+            viewHolder.nameTextview.setText(context.getResources().getString(R.string.no_posts));
+            viewHolder.counterTextView.setVisibility(View.GONE);
+            viewHolder.descriptionTextView.setVisibility(View.GONE);
         }
         IImageLoader imageLoader = new PicassoLoader();
-            imageLoader.loadImage(viewHolder.subjectImageView, new AvatarPlaceholderModified(postsResponse.getCourseName()), "Path of Image");
-            viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    postsInterface.onCourseClicked(postsResponse.getId(), postsResponse.getCourseName());
-                }
-            });
+        imageLoader.loadImage(viewHolder.subjectImageView, new AvatarPlaceholderModified(postsResponse.getCourseName()), "Path of Image");
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postsInterface.onCourseClicked(postsResponse.getId(), postsResponse.getCourseName());
+            }
+        });
 
     }
 
@@ -75,33 +76,38 @@ public class PostsAdapter extends RecyclerView.Adapter {
         this.context = context;
         this.postsInterface = postsInterface;
     }
+
     @Override
     public int getItemCount() {
         return postsResponses.size();
     }
+
     public void addData(ArrayList<PostsResponse> mpostsResponses) {
         postsResponses.clear();
-        if (mpostsResponses != null)postsResponses.addAll(mpostsResponses);
+        if (mpostsResponses != null) postsResponses.addAll(mpostsResponses);
         notifyDataSetChanged();
     }
 
 
     public class PostsViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout rootView;
-        public AvatarView subjectImageView;
-        public TextView subjectTextView;
-        public TextView counterTextView;
-        public TextView nameTextview;
-        public TextView descriptionTextView;
+        private AvatarView subjectImageView;
+        private TextView subjectTextView;
+        private TextView counterTextView;
+        private TextView nameTextview;
+        private HtmlTextView descriptionTextView;
+        private ImageView clockImageView;
 
         public PostsViewHolder(@NonNull View itemView) {
             super(itemView);
-            subjectImageView = itemView.findViewById(R.id.iv_post_img);
-            subjectTextView = itemView.findViewById(R.id.tv_subject);
-            counterTextView = itemView.findViewById(R.id.tv_number);
-            nameTextview = itemView.findViewById(R.id.tv_name);
-            descriptionTextView = itemView.findViewById(R.id.tv_description);
+            subjectImageView = itemView.findViewById(R.id.img_course);
+            subjectTextView = itemView.findViewById(R.id.tv_course_name);
+            counterTextView = itemView.findViewById(R.id.tv_assignment_count);
+            nameTextview = itemView.findViewById(R.id.tv_assignment_name);
+            descriptionTextView = itemView.findViewById(R.id.tv_date);
             rootView = itemView.findViewById(R.id.ll_root);
+            clockImageView = itemView.findViewById(R.id.date_icon);
+            clockImageView.setVisibility(View.GONE);
         }
     }
 
