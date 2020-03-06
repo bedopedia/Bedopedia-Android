@@ -832,6 +832,7 @@
                     android:layout_marginBottom="8dp"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="4dp"
+                    android:layout_marginTop="8dp"
                     app:cardElevation="4dp">
 
                     <LinearLayout
