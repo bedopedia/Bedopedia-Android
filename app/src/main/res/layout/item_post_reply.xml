@@ -3,18 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:background="@color/transparent"
     android:layout_height="wrap_content"
-    android:gravity="end">
+    android:layout_gravity="start">
     <Button
         android:id="@+id/btn_reply"
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="end|center_vertical"
-        android:paddingEnd="16dp"
-        android:textAlignment="textEnd"
-        android:background="#fafafa"
-        android:layout_gravity="end"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:textColor="#027ee5"
+        android:gravity="center"
+        android:background="@color/transparent"
         android:textAllCaps="false"
-        android:text="@string/reply"/>
+        android:layout_marginStart="4dp"
+        android:text="@string/comments"/>
 </RelativeLayout>
