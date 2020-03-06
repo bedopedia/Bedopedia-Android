@@ -13,13 +13,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.util.ArrayList;
 
+import agency.tango.android.avatarview.IImageLoader;
+import agency.tango.android.avatarview.loader.PicassoLoader;
+import agency.tango.android.avatarview.views.AvatarView;
+import trianglz.components.AvatarPlaceholderModified;
+import trianglz.components.CircleTransform;
 import trianglz.models.Announcement;
 import trianglz.models.GeneralNote;
+import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.utils.Constants;
 
@@ -32,6 +39,9 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
     private ImageButton backBtn;
     private TextView headerTextView;
     private Announcement announcement;
+    private AvatarView studentImageView;
+    private IImageLoader imageLoader;
+    private Student student;
     private ImageView announcementImageView;
     private WebView webView;
     private GeneralNote generalNote;
@@ -56,6 +66,7 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
+            student = (Student) bundle.getSerializable(Constants.STUDENT);
             announcement = (Announcement) bundle.getSerializable(Constants.KEY_ANNOUNCEMENTS);
             if (announcement == null) {
                 generalNote = (GeneralNote) bundle.getSerializable(Constants.KEY_WEEKLY_NOTE);
@@ -69,6 +80,13 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
         backBtn = rootView.findViewById(R.id.btn_back);
         headerTextView = rootView.findViewById(R.id.tv_header);
         announcementImageView = rootView.findViewById(R.id.img_annoucement);
+        imageLoader = new PicassoLoader();
+        studentImageView = rootView.findViewById(R.id.img_student);
+        if (student != null) {
+            setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+        } else {
+            studentImageView.setVisibility(View.GONE);
+        }
         if(announcement != null){
             setAnnouncement();
         }else {
@@ -140,6 +158,32 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
                 }
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
+        }
+    }
+    private void setStudentImage(String imageUrl, final String name) {
+        if (imageUrl == null || imageUrl.equals("")) {
+            imageLoader = new PicassoLoader();
+            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+        } else {
+            imageLoader = new PicassoLoader();
+            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+            Picasso.with(activity)
+                    .load(imageUrl)
+                    .fit()
+                    .noPlaceholder()
+                    .transform(new CircleTransform())
+                    .into(studentImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            imageLoader = new PicassoLoader();
+                            imageLoader.loadImage(studentImageView, new AvatarPlaceholderModified(name), "Path of Image");
+                        }
+                    });
         }
     }
 }
