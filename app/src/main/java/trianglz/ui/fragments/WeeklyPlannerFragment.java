@@ -139,7 +139,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
                         weeklyNoteImageView.setVisibility(View.VISIBLE);
                         Picasso.with(activity)
                                 .load(generalNote.image.url)
-                                .centerCrop()
+                                .centerInside()
                                 .fit()
                                 .into(weeklyNoteImageView);
                     } else {
