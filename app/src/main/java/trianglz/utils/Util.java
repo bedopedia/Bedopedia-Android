@@ -457,15 +457,15 @@ public class Util {
             endDate = inFormat.parse(endDateString);
             android.text.format.DateFormat df = new android.text.format.DateFormat();
             String startDayName = (String) df.format("EEEE", startDate); // Thursday
-            if (startDayName.length() >= 3 && !Util.getLocale(context).equals("ar")) {
-                startDayName = startDayName.substring(0, 4);
+            if (startDayName.length() >= 2 && !Util.getLocale(context).equals("ar")) {
+                startDayName = startDayName.substring(0, 3);
             }
             String startDay = (String) df.format("dd", startDate); // 20
             String startMonth = (String) df.format("MM", startDate); // 06
 
             String endDayName = (String) df.format("EEEE", endDate); // Thursday
-            if (endDayName.length() >= 3 && !Util.getLocale(context).equals("ar")) {
-                endDayName = endDayName.substring(0, 4);
+            if (endDayName.length() >= 2 && !Util.getLocale(context).equals("ar")) {
+                endDayName = endDayName.substring(0, 3);
             }
             String endDay = (String) df.format("dd", endDate); // 20
             String endMonth = (String) df.format("MM", endDate); // 06
