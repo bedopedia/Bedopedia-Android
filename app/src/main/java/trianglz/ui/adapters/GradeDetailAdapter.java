@@ -233,7 +233,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     GradeHeader.HeaderType.CATEGORY_TOTAL,
                     getGradeString(category.grade, String.valueOf(category.total))));
         }
-        array.add(getGradeHeader(context.getString(R.string.total_percent), GradeHeader.HeaderType.TOTAL, gradeBook.grade + " %"));
+        array.add(getGradeHeader(context.getString(R.string.total_percent), GradeHeader.HeaderType.TOTAL, Util.removeZeroDecimal(gradeBook.grade) + "%"));
         array.add(getGradeHeader(context.getString(R.string.letter_scale), GradeHeader.HeaderType.TOTAL, gradeBook.letterScale));
         if (!gradeBook.gpaScale.contains("--")) {
             array.add(getGradeHeader(context.getString(R.string.gpa), GradeHeader.HeaderType.TOTAL, gradeBook.gpaScale));
@@ -264,6 +264,12 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             grade = grade.replace(".0", "");
         }
         if (total.contains(".0") && total.lastIndexOf("0") == (total.length() - 1)) {
+            total = total.replace(".0", "");
+        }
+        if (grade.contains(".0%") && grade.lastIndexOf("%") == (grade.length() - 1)) {
+            grade = grade.replace(".0", "");
+        }
+        if (total.contains(".0%") && total.lastIndexOf("%") == (total.length() - 1)) {
             total = total.replace(".0", "");
         }
         return grade + "/" + total;
