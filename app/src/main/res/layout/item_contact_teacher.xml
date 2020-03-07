@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginStart="13dp"
     android:layout_marginEnd="13dp"
     android:id="@+id/card_view"
@@ -49,21 +50,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="start"
-                        android:textSize="17sp"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="4dp"
                         android:textColor="@color/gunmetal"
                         android:maxLines="1"
                         android:singleLine="true"
+                        style="@style/RobotoMediumStyle"
                         android:ellipsize="end"
+                        tools:text="Testing"
                         android:id="@+id/tv_teacher_name"
                         android:textAlignment="viewStart" />
 
-                    <trianglz.components.SfproRegularTextView
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="start"
-                        android:textSize="15sp"
-                        android:textColor="@color/steel"
+                        android:gravity="start|center_vertical"
+                        android:textSize="14sp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/silver"
                         android:maxLines="1"
+                        style="@style/RobotoMediumStyle"
+                        tools:text="Test"
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:id="@+id/tv_subject_name"
@@ -71,7 +78,7 @@
 
                 </LinearLayout>
 
-                <trianglz.components.SfproRegularButton
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
@@ -80,7 +87,8 @@
                     android:text="Yesterday"
                     android:textAllCaps="false"
                     android:drawablePadding="10dp"
-                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:textSize="14sp"
                     android:textColor="@color/steel"
                     android:layout_marginStart="10dp"
                     android:includeFontPadding="false"

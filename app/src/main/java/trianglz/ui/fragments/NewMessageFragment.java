@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.ethanhua.skeleton.Skeleton;
+import com.ethanhua.skeleton.SkeletonScreen;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ public class NewMessageFragment extends Fragment implements View.OnClickListener
     private ArrayList<MessageThread> messageThreadArrayList;
     private Subject selectedSubject;
     private SwipeRefreshLayout pullRefreshLayout;
+    private SkeletonScreen skeletonScreen;
 
     @Nullable
     @Override
@@ -67,13 +70,28 @@ public class NewMessageFragment extends Fragment implements View.OnClickListener
         getValueFromIntent();
         bindViews();
         setListeners();
+        getCourseGroups();
+    }
+
+    private void getCourseGroups() {
         if (Util.isNetworkAvailable(activity)) {
-            activity.showLoadingDialog();
+            showShimmer();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getCourseGroups(student.getId());
             newMessageView.getCourseGroups(url);
         } else {
             Util.showNoInternetConnectionDialog(activity);
         }
+    }
+
+    private void showShimmer() {
+        skeletonScreen = Skeleton.bind(recyclerView)
+                .adapter(newMessageAdapter)
+                .load(R.layout.skeleton_new_message_layout)
+                .count(16)
+                .angle(45)
+                .duration(500)
+                .color(R.color.white)
+                .show();
     }
 
     private void bindViews() {
@@ -96,9 +114,7 @@ public class NewMessageFragment extends Fragment implements View.OnClickListener
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                activity.showLoadingDialog();
-                String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getCourseGroups(student.getId());
-                newMessageView.getCourseGroups(url);
+                getCourseGroups();
             }
         });
     }
@@ -134,16 +150,14 @@ public class NewMessageFragment extends Fragment implements View.OnClickListener
     public void onGetCourseGroupsSuccess(ArrayList<Subject> subjectArrayList) {
         subjectObjectArrayList.addAll(subjectArrayList);
         newMessageAdapter.addData(subjectObjectArrayList, NewMessageAdapter.Type.SUBJECT);
-        activity.progress.dismiss();
+        skeletonScreen.hide();
         pullRefreshLayout.setRefreshing(false);
 
     }
 
     @Override
     public void onGetCourseGroupsFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
+        skeletonScreen.hide();
         activity.showErrorDialog(activity, errorCode, "");
     }
 

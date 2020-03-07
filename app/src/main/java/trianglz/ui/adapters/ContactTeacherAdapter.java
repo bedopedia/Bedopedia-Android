@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -74,8 +73,8 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
             if(messageThread.messageArrayList.size()>0){
                 Message message = messageThread.messageArrayList.get(0);
                 String body = android.text.Html.fromHtml(message.body).toString().trim();
-                if(!message.user.firstName.isEmpty()) {
-                    holder.subjectTextView.setText(message.user.firstName + " : " + body + "..");
+                if(!messageThread.otherNames.isEmpty()) {
+                    holder.subjectTextView.setText(messageThread.otherNames + " : " + body + "..");
                 }else {
                     holder.subjectTextView.setText(body + "..");
                 }
@@ -84,7 +83,7 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
             }
         }
 
-        holder.dateBtn.setText(Util.getDate(messageThread.lastAddedDate,context));
+        holder.dateBtn.setText(Util.getMessagesDate(messageThread.lastAddedDate,context));
         setTeacherImage(messageThread.otherAvatars, messageThread.otherNames, holder);
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +109,7 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
         public TextView teacherName, subjectTextView;
         public AvatarView teacherImageView;
         public LinearLayout itemLayout;
-        public Button dateBtn;
+        public TextView dateBtn;
 
         public Holder(View itemView) {
             super(itemView);

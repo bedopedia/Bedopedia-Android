@@ -146,6 +146,17 @@ public class Util {
     }
 
 
+    public static String getMessagesDate(String messageTime, Context context) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale(getLocale(context)));
+        Date date = new Date();
+        try {
+            date = fmt.parse(messageTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat fmtOut = new SimpleDateFormat("dd/MM/yyyy", new Locale(getLocale(context)));
+        return fmtOut.format(date);
+    }
     public static String getDate(String messageTime, Context context) {
         String finalData = "";
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
