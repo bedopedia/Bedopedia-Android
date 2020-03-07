@@ -76,8 +76,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         } else {
             actor = activity.getActor();
         }
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-        contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
+        getMessages();
         return rootView;
     }
 
@@ -102,8 +101,7 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-                contactTeacherView.getMessages(url, SessionManager.getInstance().getId());
+                getMessages();
                 showSkeleton(true);
                 pullRefreshLayout.setRefreshing(false);
                 placeholderLinearLayout.setVisibility(View.GONE);
@@ -116,6 +114,10 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
+//        getMessages();
+    }
+
+    private void getMessages() {
         if (Util.isNetworkAvailable(getActivity())) {
             showSkeleton(true);
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
