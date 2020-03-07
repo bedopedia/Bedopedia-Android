@@ -405,14 +405,17 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_event"/>
     </FrameLayout>
 
 
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="66dp">
+        android:layout_height="66dp"
+        android:id="@+id/create_event_framelayout">
 
         <trianglz.components.RobotoMediumButton
             android:id="@+id/create_personal_event"

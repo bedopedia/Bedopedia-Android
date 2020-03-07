@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -82,6 +83,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     private LinearLayout skeletonLayout;
     private ShimmerFrameLayout shimmer;
     private LayoutInflater inflater;
+    private FrameLayout createEventLayout;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
@@ -165,6 +167,13 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         monthYearTextView.setText(setHeaderDate(Calendar.getInstance().getTime()));
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
 
+        createEventLayout = rootView.findViewById(R.id.create_event_framelayout);
+
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+            createEventLayout.setVisibility(View.GONE);
+        }else {
+            createEventLayout.setVisibility(View.VISIBLE);
+        }
 
         skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
         shimmer = rootView.findViewById(R.id.shimmer_view_container);
