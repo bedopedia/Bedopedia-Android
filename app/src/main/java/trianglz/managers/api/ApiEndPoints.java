@@ -99,7 +99,7 @@ public class ApiEndPoints {
     }
 
     public static String postsDetailsApi(int courseId, int page) {
-        return "/api/posts?access_by_entity=Course+Group+Posts&course_group_id=" + courseId + "&page=" + page + "&per_page=10";
+        return "/api/posts?access_by_entity=Course+Group+Posts&course_group_id=" + courseId + "&page=1&per_page=1000";
     }
 
     public static String postReply() {

@@ -54,7 +54,6 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     private PostDetailsAdapter adapter;
     private String subjectName;
     private int courseId;
-    private int lastPage = 0;
     private SwipeRefreshLayout pullRefreshLayout;
     private LinearLayout placeholderLinearLayout;
     private LinearLayout skeletonLayout;
@@ -169,13 +168,9 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     public void onGetPostDetailsFailure(String message, int errorCode) {
         showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
-        if (lastPage <= 1) {
-            recyclerView.setVisibility(View.GONE);
-            placeholderLinearLayout.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            placeholderLinearLayout.setVisibility(View.GONE);
-        }
+        recyclerView.setVisibility(View.GONE);
+        placeholderLinearLayout.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -205,10 +200,10 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
 
     @Override
     public void loadNextPage(int page) {
-        if (lastPage != page) {
-            postDetailsView.getPostDetails(courseId, page);
-            lastPage = page;
-        }
+//        if (lastPage != page) {
+//            postDetailsView.getPostDetails(courseId, page);
+//            lastPage = page;
+//        }
     }
 
     @Override
