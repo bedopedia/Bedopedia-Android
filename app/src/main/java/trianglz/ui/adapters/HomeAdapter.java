@@ -35,6 +35,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
     private ArrayList<Student> mDataList;
     private Context context;
     final String urlUploadsKey = "/uploads";
+    private boolean firstExpand = false;
 
     private HomeAdapterInterface homeAdapterInterface;
 
@@ -58,7 +59,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
         if (position == mDataList.size() - 1) {
             //  holder.lineView.setVisibility(View.GONE);
         }
-        boolean expanded = student.isExpanded();
         // Set the visibility based on state
 
 //        if(position % 4 == 0){
@@ -106,7 +106,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
                 homeAdapterInterface.onOpenStudentClicked(mDataList.get(position), position);
             }
         });
-
+        if (!firstExpand) {
+            if (position == 0) {
+                holder.expandableLayout.expand();
+                holder.expandImageButton.setImageResource(R.drawable.ic_keyboard_arrow_up);
+                student.setExpanded(true);
+                firstExpand = true;
+            }
+        }
+        boolean expanded = student.isExpanded();
     }
 
 
