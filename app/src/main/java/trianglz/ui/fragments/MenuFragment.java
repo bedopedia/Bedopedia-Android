@@ -285,7 +285,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         }
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             String url = SessionManager.getInstance().getBaseUrl() + "/api/behavior_notes";
-            studentDetailView.getStudentBehavioursNotes(url, student.getId() + "");
+            studentDetailView.getStudentBehavioursNotes(url, student.childId + "");
         } else {
             teacherLayout.setVisibility(View.VISIBLE);
             appBarLayout.setVisibility(View.VISIBLE);

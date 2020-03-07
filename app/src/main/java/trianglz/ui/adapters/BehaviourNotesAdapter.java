@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import org.sufficientlysecure.htmltextview.HtmlTextView;
+
 import java.util.ArrayList;
 
 import trianglz.models.BehaviorNote;
@@ -47,9 +49,9 @@ public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAd
     @Override
     public void onBindViewHolder(@NonNull BehaviourNotesViewHolder holder, int position) {
         BehaviorNote behaviorNote = behaviorNotes.get(position);
-        holder.titleTv.setText(behaviorNote.title);
-        holder.teacherNameTv.setText(android.text.Html.fromHtml(behaviorNote.teacherName).toString());
-        holder.messageTv.setText(android.text.Html.fromHtml(behaviorNote.message).toString());
+        holder.titleTv.setHtml(behaviorNote.category);
+        holder.teacherNameTv.setHtml(behaviorNote.teacherName);
+        holder.messageTv.setHtml(behaviorNote.message);
     }
 
     @Override
@@ -64,7 +66,8 @@ public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAd
 
     class BehaviourNotesViewHolder extends RecyclerView.ViewHolder {
         LinearLayout itemLayout;
-        TextView teacherNameTv, titleTv, messageTv;
+        HtmlTextView teacherNameTv,titleTv, messageTv;
+
 
         public BehaviourNotesViewHolder(View itemView) {
             super(itemView);
