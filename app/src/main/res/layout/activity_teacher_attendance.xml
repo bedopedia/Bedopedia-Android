@@ -24,37 +24,45 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:gravity="center_vertical"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/btn_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                    android:padding="10dp"
-                    android:src="@drawable/chevron_left" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:text="@string/attendance"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/greyish_brown"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
+                    <ImageButton
+                        android:id="@+id/btn_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:padding="10dp"
+                        android:src="@drawable/chevron_left" />
+
+                    <TextView
+                        android:id="@+id/tv_course_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="32dp"
+                        android:background="@android:color/transparent"
+                        android:text="@string/attendance"
+                        android:textColor="@color/greyish_brown"
+                        android:textSize="20sp"
+                        android:layout_marginEnd="2dp"
+                        style="@style/RobotoMediumStyle" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,7 +84,8 @@
                         android:text="@string/full_day"
                         android:textAllCaps="false"
                         android:textColor="@color/cerulean_blue"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        style="@style/RobotoMediumStyle"/>
 
                     <View
                         android:id="@+id/full_day_view"
@@ -101,6 +110,7 @@
                         android:text="@string/per_slot"
                         android:textAllCaps="false"
                         android:textColor="@color/greyish"
+                        style="@style/RobotoMediumStyle"
                         android:textSize="16sp" />
 
                     <View
@@ -163,9 +173,10 @@
                         android:textSize="16sp"
                         android:textColor="@color/cerulean_blue"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        style="@style/RobotoMediumStyle"/>
 
-                    <trianglz.components.RobotoRegularButton
+                    <Button
                         android:id="@+id/assign_all_btn"
                         android:layout_width="0dp"
                         android:gravity="end|center_vertical"
@@ -174,6 +185,7 @@
                         android:textSize="16sp"
                         android:background="@color/transparent"
                         android:text="@string/assign_for_all"
+                        style="@style/RobotoMediumStyle"
                         android:layout_height="match_parent"
                         android:foreground="?android:attr/selectableItemBackgroundBorderless"
                         android:layout_weight="1" />
