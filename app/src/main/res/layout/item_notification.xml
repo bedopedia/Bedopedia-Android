@@ -22,7 +22,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/circle_catskill_background_circle"
-            android:padding="8dp"
+            android:padding="10dp"
             android:src="@drawable/attendance_home"
             app:layout_constraintBottom_toBottomOf="@id/tv_date"
             app:layout_constraintStart_toStartOf="parent"
