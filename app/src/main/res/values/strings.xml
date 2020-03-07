@@ -323,4 +323,6 @@
       </div></TD>]]></string>
     <string name="on_hold">On hold</string>
     <string name="from">From</string>
+    <string name="positive">Positive</string>
+    <string name="negative">Negative</string>
 </resources>
