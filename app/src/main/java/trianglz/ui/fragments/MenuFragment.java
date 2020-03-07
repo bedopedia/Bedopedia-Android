@@ -473,20 +473,25 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     }
 
     private void openBehaviourNotesActivity() {
-        appBarLayout.setExpanded(true);
-        BehaviorNotesMainFragment behaviorNotesMainFragment = new BehaviorNotesMainFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
-        bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveBehaviorNotes);
-        bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeBehaviorNotes);
-        bundle.putSerializable(Constants.KEY_OTHER_NOTES_LIST, (Serializable) otherBehaviorNotes);
-        bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
-        bundle.putSerializable(Constants.STUDENT, student);
-        behaviorNotesMainFragment.setArguments(bundle);
-        getChildFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, behaviorNotesMainFragment, "MenuFragments").
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                addToBackStack(null).commit();
+        if (positiveBehaviorNotes.size() > 0 || negativeBehaviorNotes.size() > 0 || otherBehaviorNotes.size() > 0) {
+            appBarLayout.setExpanded(true);
+            BehaviorNotesMainFragment behaviorNotesMainFragment = new BehaviorNotesMainFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
+            bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveBehaviorNotes);
+            bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeBehaviorNotes);
+            bundle.putSerializable(Constants.KEY_OTHER_NOTES_LIST, (Serializable) otherBehaviorNotes);
+            bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
+            bundle.putSerializable(Constants.STUDENT, student);
+            behaviorNotesMainFragment.setArguments(bundle);
+            getChildFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, behaviorNotesMainFragment, "MenuFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+        }else {
+            activity.showErrorDialog(activity, -3, getParentActivity().getResources().getString(R.string.there_is_no_behavoir_note));
+
+        }
     }
 
     private void openAttendanceActivity() {

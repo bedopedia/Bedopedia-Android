@@ -325,4 +325,6 @@
     <string name="from">From</string>
     <string name="positive">Positive</string>
     <string name="negative">Negative</string>
+    <string name="there_is_no_behavoir_note">No behavior Notes Available</string>
+
 </resources>
