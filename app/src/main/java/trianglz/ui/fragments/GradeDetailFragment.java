@@ -14,6 +14,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.ethanhua.skeleton.Skeleton;
+import com.ethanhua.skeleton.SkeletonScreen;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -52,6 +54,7 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     private GradeDetailView gradeDetailView;
     private TextView subjectHeaderTextView;
     private FrameLayout listFrameLayout, placeholderFrameLayout;
+    private SkeletonScreen skeletonScreen;
     // add segmented group
 
 
@@ -70,8 +73,14 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         bindViews();
         setListeners();
         if (Util.isNetworkAvailable(activity)) {
-            activity.showLoadingDialog();
             gradeDetailView.getGradesDetails(student.actableId, courseGroup.getCourseId(), courseGroup.getId(), gradingPeriodId);
+            skeletonScreen = Skeleton.bind(recyclerView)
+                    .adapter(gradeDetailAdapter)
+                    .load(R.layout.skeleton_grades_details_layout)
+                    .count(16)
+                    .angle(45)
+                    .color(R.color.white_70)
+                    .show();
         } else {
             Util.showNoInternetConnectionDialog(activity);
         }
@@ -144,12 +153,6 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
             case R.id.btn_back:
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
-            case R.id.btn_all:
-                gradeDetailAdapter.filterData(false);
-                break;
-            case R.id.btn_current:
-                gradeDetailAdapter.filterData(true);
-                break;
         }
     }
 
@@ -172,14 +175,14 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onGetGradesDetailsSuccess(GradeBook gradeBook) {
         gradeDetailAdapter.addData(gradeBook);
-        activity.progress.dismiss();
+        skeletonScreen.hide();
     }
 
     @Override
     public void onGetGradesDetailsFailure(String message, int errorCode) {
         placeholderFrameLayout.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
-        activity.progress.dismiss();
+        skeletonScreen.hide();
         activity.showErrorDialog(activity, errorCode,"");
 
     }

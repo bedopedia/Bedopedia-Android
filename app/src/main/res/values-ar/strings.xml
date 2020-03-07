@@ -291,6 +291,8 @@
     <string name="present_out_of">حاضر %1$s أيام من %2$s يوم</string>
     <string name="no_posts">لا يوجد منشورات الآن</string>
     <string name="more">المزيد</string>
-    <string name="from">من</string>
-
+    <string name="comments">التعليقات</string>
+<string name="from">من</string>
+    <string name="select_a_semester">اختر الفترة</string>
+    <string name="select_quarter">اختر الفترة الفرعية</string>
 </resources>

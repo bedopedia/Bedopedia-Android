@@ -408,7 +408,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         PostsFragment postsFragment = new PostsFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
-        bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
+        bundle.putInt(Constants.KEY_STUDENT_ID, student.childId);
         postsFragment.setArguments(bundle);
         getChildFragmentManager().
                 beginTransaction().add(R.id.menu_fragment_root, postsFragment, "MenuFragments").

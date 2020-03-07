@@ -73,12 +73,23 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             viewHolder.cardView.setLayoutParams(params);
             setAvatarView(viewHolder.avatarView, postDetail.getOwner().getNameWithTitle(), imageUrl);
             viewHolder.ownerTextview.setText(postDetail.getOwner().getNameWithTitle());
-            String date = Util.getPostDate(postDetail.getCreatedAt(), context);
+            String date = Util.getTimeAndDate(postDetail.getCreatedAt(), context);
             viewHolder.dateTextView.setText(date);
-            viewHolder.bodyTextView.setHtml(postDetail.getContent(),
-                    new HtmlHttpImageGetter(viewHolder.bodyTextView));
-            Linkify.addLinks(viewHolder.bodyTextView, Linkify.WEB_URLS);
-            viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+            if (!postDetail.getContent().isEmpty()) {
+                viewHolder.bodyTextView.setVisibility(View.VISIBLE);
+                viewHolder.bodyTextView.setTextColor(context.getResources().getColor(R.color.black, null));
+                viewHolder.bodyTextView.setHtml(postDetail.getContent(),
+                        new HtmlHttpImageGetter(viewHolder.bodyTextView));
+                Linkify.addLinks(viewHolder.bodyTextView, Linkify.WEB_URLS);
+                viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
+            } else {
+                viewHolder.bodyTextView.setVisibility(View.GONE);
+            }
+//            viewHolder.bodyTextView.setHtml(postDetail.getContent(),
+//                    new HtmlHttpImageGetter(viewHolder.bodyTextView));
+//            Linkify.addLinks(viewHolder.bodyTextView, Linkify.WEB_URLS);
+//            viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
             // setting the attachments buttons
             switch (postDetail.getUploadedFiles().length) {
                 case 0:
@@ -140,22 +151,6 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
                             postReplyInterface.onAttachmentClicked(uploadedObjects);
                     }
                 });
-//            if (viewHolder.secondTextView.getVisibility() != View.GONE)
-//                viewHolder.secondTextView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        if (!uploadedObjects.isEmpty())
-//                            postReplyInterface.onAttachmentClicked(uploadedObjects);
-//                    }
-//                });
-//            if (viewHolder.thirdTextView.getVisibility() != View.GONE)
-//                viewHolder.thirdTextView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        if (!uploadedObjects.isEmpty())
-//                            postReplyInterface.onAttachmentClicked(uploadedObjects);
-//                    }
-//                });
         } else if (position == 1) {
             ReplyViewHolder replyViewHolder = (ReplyViewHolder) holder;
             if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
@@ -164,6 +159,7 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
                 replyViewHolder.itemView.setVisibility(View.VISIBLE);
             }
+            replyViewHolder.replyBtn.setTextColor(context.getResources().getColor(Util.checkUserColor(),null));
             replyViewHolder.replyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -178,17 +174,19 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             imageUrl = reply.getOwner().getAvatarUrl();
             setAvatarView(viewHolder.avatarView, reply.getOwner().getNameWithTitle(), imageUrl);
             viewHolder.ownerTextview.setText(reply.getOwner().getNameWithTitle());
-            String date = Util.getPostDate(reply.getCreatedAt(), context);
+            String date = Util.getTimeAndDate(reply.getCreatedAt(), context);
             viewHolder.dateTextView.setText(date);
+            viewHolder.view.setVisibility(View.GONE);
+            viewHolder.buttonsLayout.setVisibility(View.GONE);
 
-            if (postDetail.getContent().isEmpty() && postDetail.getUploadedFiles().length == 0) {
+            if (reply.getContent().isEmpty()) {
                 viewHolder.bodyTextView.setTextColor(context.getResources().getColor(R.color.greyish_brown, null));
                 viewHolder.bodyTextView.setText(context.getResources().getString(R.string.no_content));
             } else {
-                if (!postDetail.getContent().isEmpty()) {
+                if (!reply.getContent().isEmpty()) {
                     viewHolder.bodyTextView.setVisibility(View.VISIBLE);
                     viewHolder.bodyTextView.setTextColor(context.getResources().getColor(R.color.black, null));
-                    viewHolder.bodyTextView.setHtml(postDetail.getContent(),
+                    viewHolder.bodyTextView.setHtml(reply.getContent(),
                             new HtmlHttpImageGetter(viewHolder.bodyTextView));
                     Linkify.addLinks(viewHolder.bodyTextView, Linkify.WEB_URLS);
                     viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -196,20 +194,11 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
                     viewHolder.bodyTextView.setVisibility(View.GONE);
                 }
             }
-
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                viewHolder.bodyTextView.setText(Html.fromHtml(reply.getContent(), Html.FROM_HTML_MODE_COMPACT));
-//                viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
-//            } else {
-//                viewHolder.bodyTextView.setText(Html.fromHtml(reply.getContent()));
-//            }
-//            viewHolder.bodyTextView.setMovementMethod(LinkMovementMethod.getInstance());
-            // setting the attachments buttons
         }
     }
 
     private void setAvatarView(final AvatarView avatarView, final String name, String imageUrl) {
-        imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), "Path of Image");
+        imageLoader.loadImage(avatarView, new AvatarPlaceholderModified(name), imageUrl);
     }
 
     public void addData(PostDetails postDetail) {

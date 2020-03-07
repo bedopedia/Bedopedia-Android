@@ -299,7 +299,7 @@
     <string name="un_authorized">Sorry, but you\'re unauthorized to this page</string>
     <string name="semesters">Periods</string>
     <string name="select_a_semester">Select a period</string>
-    <string name="select_quarter">Select a quarter</string>
+    <string name="select_quarter">Select a sub period</string>
     <string name="total">Total</string>
     <string name="category_total">Category total</string>
     <string name="total_percent">Total(%)</string>
@@ -307,8 +307,9 @@
     <string name="gpa">GPA</string>
     <string name="minutes">%1$s Minutes</string>
     <string name="no_description">No description available</string>
+    <string name="more">more</string>
+    <string name="comments">Comments</string>
     <string name="present_out_of">present %1$s out of %2$s days</string>
-     <string name="more">more</string>
     <string name="there_is_no_activities" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
   لا يوجد انشطة
       </div></TD>]]></string>
