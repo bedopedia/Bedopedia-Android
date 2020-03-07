@@ -63,41 +63,47 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         Object item = mDataList.get(position);
-        if (getItemViewType(position) == TYPE_SEMESTER_QUARTER_HEADER) {
-            QuarterViewHolder quarterViewHolder = (QuarterViewHolder) holder;
-            GradeHeader gradeHeader = (GradeHeader) item;
-            if (gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY) {
-                quarterViewHolder.itemView.setBackgroundResource(R.color.category);
-            } else if (gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY) {
-                quarterViewHolder.itemView.setBackgroundResource(R.color.subcategory);
-            } else if (gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY_TOTAL) {
-                quarterViewHolder.itemView.setBackgroundResource(R.color.subcategory_total);
-            } else if (gradeHeader.headerType == GradeHeader.HeaderType.TOTAL) {
-                quarterViewHolder.itemView.setBackgroundResource(R.color.total);
-            } else if (gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY_TOTAL) {
-                quarterViewHolder.itemView.setBackgroundResource(R.color.category);
+        switch (getItemViewType(position)) {
+            case TYPE_SEMESTER_QUARTER_HEADER: {
+                QuarterViewHolder quarterViewHolder = (QuarterViewHolder) holder;
+                GradeHeader gradeHeader = (GradeHeader) item;
+                if (gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY) {
+                    quarterViewHolder.itemView.setBackgroundResource(R.color.category);
+                } else if (gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY) {
+                    quarterViewHolder.itemView.setBackgroundResource(R.color.subcategory);
+                } else if (gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY_TOTAL) {
+                    quarterViewHolder.itemView.setBackgroundResource(R.color.subcategory_total);
+                } else if (gradeHeader.headerType == GradeHeader.HeaderType.TOTAL) {
+                    quarterViewHolder.itemView.setBackgroundResource(R.color.total);
+                } else if (gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY_TOTAL) {
+                    quarterViewHolder.itemView.setBackgroundResource(R.color.category);
+                }
+                quarterViewHolder.gradeTextview.setText(gradeHeader.gradeText);
+                quarterViewHolder.quarterTextView.setText(gradeHeader.header);
+                break;
             }
-            quarterViewHolder.gradeTextview.setText(gradeHeader.gradeText);
-            quarterViewHolder.quarterTextView.setText(gradeHeader.header);
-        } else if (getItemViewType(position) == TYPE_GRADE_HEADER) {
-            HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
-            GradeHeader gradeHeader = (GradeHeader) item;
-            headerViewHolder.headerTextView.setText(gradeHeader.header);
-        } else {
-            DetailViewHolder detailViewHolder = (DetailViewHolder) holder;
-            if (item instanceof GradeItems) {
-                GradeItems grade = (GradeItems) item;
-                detailViewHolder.classWorkTextView.setText(grade.name);
-                detailViewHolder.markTextView.setText(getMarkText(grade.gradeView, grade.total));
-            } else if (item instanceof Quizzes) {
-                Quizzes grade = (Quizzes) item;
-                detailViewHolder.classWorkTextView.setText(grade.getName());
-                detailViewHolder.markTextView.setText(getMarkText(grade.getGradeView(), grade.getTotal()));
-            } else {
-                Assignments grade = (Assignments) item;
-                detailViewHolder.classWorkTextView.setText(grade.name);
-                detailViewHolder.markTextView.setText(getMarkText(grade.gradeView, grade.total));
+            case TYPE_GRADE_HEADER: {
+                HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+                GradeHeader gradeHeader = (GradeHeader) item;
+                headerViewHolder.headerTextView.setText(gradeHeader.header);
+                break;
             }
+            default:
+                DetailViewHolder detailViewHolder = (DetailViewHolder) holder;
+                if (item instanceof GradeItems) {
+                    GradeItems grade = (GradeItems) item;
+                    detailViewHolder.classWorkTextView.setText(grade.name);
+                    detailViewHolder.markTextView.setText(getMarkText(grade.gradeView, grade.total));
+                } else if (item instanceof Quizzes) {
+                    Quizzes grade = (Quizzes) item;
+                    detailViewHolder.classWorkTextView.setText(grade.getName());
+                    detailViewHolder.markTextView.setText(getMarkText(grade.getGradeView(), grade.getTotal()));
+                } else {
+                    Assignments grade = (Assignments) item;
+                    detailViewHolder.classWorkTextView.setText(grade.name);
+                    detailViewHolder.markTextView.setText(getMarkText(grade.gradeView, grade.total));
+                }
+                break;
         }
     }
 
