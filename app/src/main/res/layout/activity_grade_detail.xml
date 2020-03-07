@@ -14,58 +14,37 @@
         android:gravity="center_vertical"
         android:paddingEnd="8dp"
         android:paddingStart="8dp">
-        <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/segmented"
-            android:layout_width="250dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:layoutDirection="ltr"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            segmentedgroup:sc_tint_color="@color/student_red"
-            segmentedgroup:sc_border_width="1dp"
-            segmentedgroup:sc_corner_radius="4dp">
-
-            <RadioButton
-                android:id="@+id/btn_all"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:defaultFocusHighlightEnabled="true"
-                android:layout_height="wrap_content"
-                android:text="@string/all"
-                style="@style/segmented_group_text_style" />
-
-            <RadioButton
-                android:id="@+id/btn_current"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/current"
-                style="@style/segmented_group_text_style" />
-        </info.hoang8f.android.segmented.SegmentedGroup>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:foreground="@drawable/round_ripple_25"
             android:background="@android:color/transparent"
             android:padding="10dp"
             android:id="@+id/btn_back"
             android:src="@drawable/chevron_left" />
 
-        <trianglz.components.SfproBoldTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
+            android:layout_alignStart="@id/btn_back"
             android:text="@string/semesters"
             android:layout_centerInParent="true"
             android:textColor="@color/greyish_brown"
-            android:textSize="24sp"
             android:id="@+id/tv_subject_header"
-            android:textStyle="bold" />
+            android:textAlignment="viewStart"
+            android:gravity="start"
+            style="@style/RobotoMediumStyle"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="20sp"
+             />
 
         <agency.tango.android.avatarview.views.AvatarView
             android:id="@+id/img_student"

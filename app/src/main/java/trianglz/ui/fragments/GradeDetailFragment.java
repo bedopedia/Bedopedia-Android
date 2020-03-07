@@ -144,12 +144,6 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
             case R.id.btn_back:
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
-            case R.id.btn_all:
-                gradeDetailAdapter.filterData(false);
-                break;
-            case R.id.btn_current:
-                gradeDetailAdapter.filterData(true);
-                break;
         }
     }
 

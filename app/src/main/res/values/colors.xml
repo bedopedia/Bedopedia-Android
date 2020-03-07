@@ -95,8 +95,8 @@
     <color name="transparent_white">#80FFFFFF</color>
     <color name="hint_color">#808080</color>
     <color name="warm_grey_four">#9b9b9b</color>
-    <color name="category">#F2F9FF</color>
-    <color name="subcategory">#CEE8FF</color>
+    <color name="category">#CEE8FF</color>
+    <color name="subcategory">#CEFFE5</color>
     <color name="subcategory_total">#E0E0E0</color>
     <color name="total">#F8F8F8</color>
     <color name="medium_grey">#676767</color>
