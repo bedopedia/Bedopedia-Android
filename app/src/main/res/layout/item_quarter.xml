@@ -9,7 +9,7 @@
     android:paddingEnd="16dp"
     android:gravity="center_vertical">
 
-    <trianglz.components.SfproSemiBoldTextView
+    <TextView
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="24dp"
@@ -17,7 +17,8 @@
         android:gravity="center_vertical|start"
         android:textAlignment="viewStart"
         android:textSize="16sp"
-        android:textColor="@color/black"
+        android:textColor="@color/gunmetal"
+        style="@style/RobotoMediumStyle"
         android:text="Quarter 1"
         android:layout_marginEnd="5dp"
         android:maxLines="1"
@@ -25,7 +26,7 @@
 
         />
 
-    <trianglz.components.SfproSemiBoldTextView
+    <TextView
         android:id="@+id/tv_grade"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
@@ -33,9 +34,10 @@
         android:layout_gravity="end|center_vertical"
         tools:text="100/total"
         android:textSize="16sp"
-        android:textColor="@color/black"
+        android:textColor="@color/gunmetal"
         android:text="Quarter 1"
         android:layout_marginEnd="5dp"
+        style="@style/RobotoMediumStyle"
         android:maxLines="1"
         android:ellipsize="end"
 
