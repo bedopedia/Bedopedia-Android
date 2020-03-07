@@ -147,15 +147,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
             placeholderLinearLayout.setVisibility(View.VISIBLE);
         }
     }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_close:
-                activity.finish();
-                break;
-        }
-    }
+    
 
     @Override
     public void onReachPosition() {
