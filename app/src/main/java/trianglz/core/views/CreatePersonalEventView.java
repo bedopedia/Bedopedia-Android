@@ -22,7 +22,7 @@ public class CreatePersonalEventView {
         this.createPersonalEventPresenter = createPersonalEventPresenter;
     }
 
-    public void createEvent(String url, Date startDate, Date endDate, String type, String allDay, String title, String listenerType, int listenerId, String description, String cancel ){
+    public void createEvent(String url, Date startDate, Date endDate, String type, String allDay, String title, String listenerType, String listenerId, String description, String cancel ){
         UserManager.createEvent(url,startDate,endDate,type,allDay,title,listenerType,listenerId,description,cancel, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {

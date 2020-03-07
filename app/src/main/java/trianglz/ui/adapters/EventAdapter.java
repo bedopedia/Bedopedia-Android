@@ -62,8 +62,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             holder.eventDay.setText(String.format(new Locale("ar"), dateTime.getDayOfMonth() + ""));
             holder.eventMonth.setText(String.format(new Locale("ar"), getMonthName(dateTime.getMonthOfYear()) + ""));
         } else {
-            holder.eventDay.setText(dateTime.getDayOfMonth() + "");
-            holder.eventMonth.setText(getMonthName(dateTime.getMonthOfYear()) + "");
+            holder.eventDay.setText(dateTime.getDayOfMonth()+"");
+            holder.eventMonth.setText(getMonthName(dateTime.getMonthOfYear()).substring(0,3));
         }
 
         holder.eventTitle.setText(event.getTitle());

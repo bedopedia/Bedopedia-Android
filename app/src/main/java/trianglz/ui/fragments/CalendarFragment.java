@@ -1,5 +1,6 @@
 package trianglz.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
@@ -77,7 +79,9 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     private LinearLayout allLayout, academicLayout, eventsLayout, vacationsLayout, personalLayout, assignmentsLayout, quizzesLayout;
     private View allView, academicView, eventsView, vacationsView, personalView, assignmentsView, quizzesView;
 
-
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
@@ -161,6 +165,12 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         monthYearTextView.setText(setHeaderDate(Calendar.getInstance().getTime()));
         setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
 
+
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     private void setListeners() {
@@ -209,7 +219,8 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
 
     private void getEvents() {
         if (Util.isNetworkAvailable(activity)) {
-            activity.showLoadingDialog();
+//            activity.showLoadingDialog();
+            showSkeleton(true);
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getEvents(student.userId,
                     "user", end, start);
             calendarEventsView.getEvents(url);
@@ -386,9 +397,10 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onGetEventsSuccess(ArrayList<Event> events) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
+//        if (activity.progress.isShowing()) {
+//            activity.progress.dismiss();
+//        }
+        showSkeleton(false);
         allEvents.clear();
         compactCalendarView.removeAllEvents();
         allEvents.addAll(events);
@@ -400,9 +412,10 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onGetEventsFailure(String message, int code) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
-        }
+//        if (activity.progress.isShowing()) {
+//            activity.progress.dismiss();
+//        }
+        showSkeleton(false);
         activity.showErrorDialog(activity, code, "");
     }
 
@@ -410,4 +423,30 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     public void reloadEvents() {
         getEvents();
     }
+
+
+
+
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_event_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
+        }
+    }
 }
+

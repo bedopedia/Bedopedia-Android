@@ -728,7 +728,7 @@ public class UserManager {
         });
     }
 
-    public static void createEvent(String url, Date startDate, Date endDate, String type, String allDay, String title, String listenerType, int listenerId, String description, String cancel, final ResponseListener responseListener) {
+    public static void createEvent(String url, Date startDate, Date endDate, String type, String allDay, String title, String listenerType, String listenerId, String description, String cancel, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject eventJsonObject = new JSONObject();
         JSONObject eventAttributesJsonObject = new JSONObject();
