@@ -10,7 +10,7 @@
     app:cardElevation="3dp"
     android:layout_marginBottom="8dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -22,44 +22,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
+            android:minHeight="44dp"
             android:gravity="center_vertical"
-            android:layout_marginStart="26dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp">
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            >
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+
+
+            <agency.tango.android.avatarview.views.AvatarView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:visibility="visible"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
                 android:id="@+id/img_annoucement"
-                android:layout_marginEnd="10dp" />
+                android:layout_marginEnd="12dp" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textSize="17sp"
-                android:textColor="@color/greyish_brown"
-                android:text="test"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="tsdskajasdkldajslkdsajlkdasjdalskjsdaldasjaldsjadslkjadskldasjlkdajdaksdasjkdasjdsjkdsajsdaest"
                 android:ellipsize="end"
-                android:gravity="start"
+                android:gravity="center_vertical|start"
                 android:textAlignment="viewStart"
                 android:singleLine="true"
                 android:maxLines="1"
                 android:id="@+id/tv_header"
                 android:layout_marginEnd="5dp" />
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="9:15 am"
+                android:layout_height="match_parent"
+                android:text="lskjdsadjjslsjdksa"
                 android:clickable="false"
                 android:focusable="false"
+                android:gravity="center_vertical"
+                android:layout_marginEnd="16dp"
                 android:background="@color/transparent"
-                android:textAlignment="textEnd"
-                android:id="@+id/btn_date"
-                android:textColor="@color/steel"
-                android:drawablePadding="5dp"
+                android:id="@+id/tv_date"
+                android:textColor="@color/annocment_date"
                 android:textAllCaps="false" />
 
         </LinearLayout>

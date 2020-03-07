@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -18,6 +19,11 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import agency.tango.android.avatarview.IImageLoader;
+import agency.tango.android.avatarview.loader.PicassoLoader;
+import agency.tango.android.avatarview.views.AvatarView;
+import trianglz.components.AvatarPlaceholderModified;
+import trianglz.components.CircleTransform;
 import trianglz.components.RoundCornersTransformation;
 import trianglz.models.Announcement;
 import trianglz.utils.Util;
@@ -52,28 +58,17 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         body = StringEscapeUtils.unescapeJava(body);
         holder.contentTextView.setText(body);
         holder.announcementHeaderTextView.setText(announcement.title);
-        holder.dateBtn.setText(announcement.endAt);
+        holder.dateTextView.setText(announcement.endAt);
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 announcementAdapterInterface.onAnnouncementSelected(mDataList.get(holder.getAdapterPosition()));
             }
         });
-        if(announcement.imageUrl !=null && !announcement.imageUrl.isEmpty() && !announcement.imageUrl.equals("null")){
-           holder.announcementImage.setVisibility(View.VISIBLE);
-            Picasso.with(context)
-                    .load(announcement.imageUrl)
-                    .transform(new RoundCornersTransformation((int) Util.convertDpToPixel(5,context),0))
-                    .fit()
-                    .into(holder.announcementImage);
-
-
-        }else {
-            holder.announcementImage.setVisibility(View.INVISIBLE);
-
-        }
-
+        holder.imageLoader.loadImage(holder.announcementImage, new AvatarPlaceholderModified(announcement.title), "Path of Image");
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -91,17 +86,18 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
 
     public static class Holder extends RecyclerView.ViewHolder {
 
-        public ImageView announcementImage;
+        public AvatarView announcementImage;
         public TextView announcementHeaderTextView,contentTextView;
-        public Button dateBtn;
+        public TextView dateTextView ;
         public LinearLayout itemLayout;
+        public IImageLoader imageLoader;
 
         public Holder(View itemView) {
             super(itemView);
+            imageLoader =  new PicassoLoader();
             announcementImage = itemView.findViewById(R.id.img_annoucement);
-            announcementImage.setVisibility(View.GONE);
             announcementHeaderTextView = itemView.findViewById(R.id.tv_header);
-            dateBtn = itemView.findViewById(R.id.btn_date);
+            dateTextView = itemView.findViewById(R.id.tv_date);
             contentTextView = itemView.findViewById(R.id.tv_content);
             contentTextView.setVisibility(View.GONE);
             itemLayout = itemView.findViewById(R.id.item_layout);
