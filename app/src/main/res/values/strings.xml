@@ -319,4 +319,5 @@
     <string name="there_is_no_classwork" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
   لا يوجد واجبات الفصل
       </div></TD>]]></string>
+    <string name="on_hold">On hold</string>
 </resources>
