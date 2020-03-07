@@ -69,16 +69,17 @@
 
         </LinearLayout>
 
-        <trianglz.components.SfuiRegularTextView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:text="Dear Parents, MIS believes that Food, to alarge extent, defines our life. It determines our mood, behaviors, and directs us towards specific actions. students will lear"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textAlignment="viewStart"
             android:id="@+id/tv_content"
             android:paddingStart="20dp"
             android:paddingEnd="15dp"
+            android:textColor="@color/greyish_brown"
             android:paddingTop="7dp"
             android:paddingBottom="7dp"
             android:visibility="gone" />
