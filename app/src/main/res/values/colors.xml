@@ -103,6 +103,8 @@
     <color name="transparent_light_sage">#49D2EFCD</color>
     <color name="transparent_red">#B0d91b16</color>
     <color name="catskill_white">#EDF1F7</color>
+    <color name="dark_yellow">#80602E</color>
+    <color name="light_yellow">#43E8E8D6</color>
     <color name="attachment_color">#11DE93</color>
     <color name="annocment_date">#8F8E94</color>
 

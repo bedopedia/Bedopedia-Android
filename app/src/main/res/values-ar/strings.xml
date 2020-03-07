@@ -252,6 +252,8 @@
     <string name="notification_placeholder">لا يوجد الإشعارات الآن</string>
     <string name="announcements_placeholder">لا يوجد تنبيهات الآن</string>
     <string name="messages_placeholder">لا يوجد رسائل الآن</string>
+    <string name="on_hold_quizzes_placeholder">لا يوجد اختبارات قصيرة تحت الإنتظار الآن</string>
+    <string name="on_hold_assignment_placeholder">ا يوجد واجبات تحت الإنتظار الآن</string>
     <string name="open_assignments_placeholder">لا يوجد واجبات جارية الآن</string>
     <string name="closed_assignments_placeholder">لا يوجد واجبات منتهية الآن</string>
     <string name="closed_quizzes_placeholder">لا يوجد اختبارات قصيرة منتهية الآن</string>
@@ -292,6 +294,8 @@
     <string name="no_posts">لا يوجد منشورات الآن</string>
     <string name="more">المزيد</string>
     <string name="comments">التعليقات</string>
+    <string name="on_hold">تحت الإنتظار</string>
+
 <string name="from">من</string>
     <string name="select_a_semester">اختر الفترة</string>
     <string name="select_quarter">اختر الفترة الفرعية</string>

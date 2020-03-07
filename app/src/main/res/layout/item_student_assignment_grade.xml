@@ -15,26 +15,29 @@
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:id="@+id/parent_layout">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+
             android:orientation="horizontal">
 
             <agency.tango.android.avatarview.views.AvatarView
                 android:id="@+id/student_avatar"
-                android:layout_width="32dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp" />
 
             <TextView
                 android:id="@+id/tv_student_name"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:gravity="center_vertical|start"
@@ -43,7 +46,7 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/black_87"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                style="@style/RobotoMediumStyle" />
 
             <ImageButton
                 android:id="@+id/download_btn"
@@ -51,6 +54,7 @@
                 android:layout_height="34dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="18dp"
+                android:visibility="gone"
                 android:background="@android:color/transparent"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/download" />
@@ -61,8 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingStart="56dp"
-            android:layout_marginBottom="18dp"
+            android:layout_marginStart="38dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -75,11 +78,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:textStyle="bold"
                     android:gravity="center_vertical"
                     android:text="@string/grade"
-                    android:textColor="@color/black_87"
-                    android:textSize="12sp" />
+                    style="@style/RobotoMediumStyle"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/student_grade_btn"
@@ -91,8 +94,8 @@
                     android:layout_marginEnd="4dp"
                     android:ellipsize="end"
                     android:hint="@string/not_set"
-                    android:textColor="@color/black_87"
-                    android:textSize="14sp" />
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -105,12 +108,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+                    style="@style/RobotoMediumStyle"
                     android:gravity="center_vertical"
                     android:layout_marginBottom="10dp"
                     android:text="@string/feedback"
                     android:textColor="@color/black_87"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/student_feedback_btn"
@@ -124,8 +127,8 @@
                     android:textAlignment="viewStart"
                     android:background="@color/transparent"
                     android:hint="@string/no_feedback"
-                    android:textColor="@color/black_87"
-                    android:textSize="14sp" />
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
