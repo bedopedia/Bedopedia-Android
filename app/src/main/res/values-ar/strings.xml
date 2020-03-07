@@ -295,4 +295,7 @@
 <string name="from">من</string>
     <string name="select_a_semester">اختر الفترة</string>
     <string name="select_quarter">اختر الفترة الفرعية</string>
+
+    <string name="positive">إيجابي</string>
+    <string name="negative">سلبي</string>
 </resources>

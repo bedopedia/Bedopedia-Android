@@ -320,4 +320,6 @@
   لا يوجد واجبات الفصل
       </div></TD>]]></string>
     <string name="from">From</string>
+    <string name="positive">Positive</string>
+    <string name="negative">Negative</string>
 </resources>
