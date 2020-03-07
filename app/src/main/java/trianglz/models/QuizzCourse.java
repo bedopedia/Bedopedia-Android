@@ -5,10 +5,9 @@ package trianglz.models;//
 //  Created on July 24, 2019
 //
 
-import java.util.*;
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 public class QuizzCourse {
 
@@ -30,6 +29,8 @@ public class QuizzCourse {
 	private String quizState;
 	@SerializedName("next_quiz_start_date")
 	private String nextQuizStartDate;
+	@SerializedName("running_quizzes_count")
+	private String runningQuizzesCount;
 
 	public void setId(int id) {
 		this.id = id;
@@ -103,6 +104,13 @@ public class QuizzCourse {
 		return this.nextQuizStartDate;
 	}
 
+	public String getRunningQuizzesCount() {
+		return runningQuizzesCount;
+	}
+
+	public void setRunningQuizzesCount(String runningQuizzesCount) {
+		this.runningQuizzesCount = runningQuizzesCount;
+	}
 
 	public static QuizzCourse create(String json) {
 		Gson gson = new GsonBuilder().create();
