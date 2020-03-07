@@ -293,4 +293,6 @@
     <string name="more">المزيد</string>
     <string name="comments">التعليقات</string>
 <string name="from">من</string>
+    <string name="select_a_semester">اختر الفترة</string>
+    <string name="select_quarter">اختر الفترة الفرعية</string>
 </resources>

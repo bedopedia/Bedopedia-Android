@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,6 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
     private AvatarView studentImageView;
     private RecyclerView recyclerView;
     private GradesAdapter gradesAdapter;
-    private Toolbar toolbar;
     private Student student;
     private SwipeRefreshLayout pullRefreshLayout;
     private IImageLoader imageLoader;
@@ -85,12 +83,10 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
 
     private void bindViews() {
         gradesView = new GradesView(getActivity(), this);
-        if (!activity.progress.isShowing()) activity.progress.show();
         gradesView.getGradesCourses(student.actableId);
         activity.toolbarView.setVisibility(View.GONE);
         activity.headerLayout.setVisibility(View.GONE);
         backBtn = rootView.findViewById(R.id.btn_back);
-        toolbar = rootView.findViewById(R.id.toolbar);
         studentImageView = rootView.findViewById(R.id.img_student);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
@@ -107,14 +103,6 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         shimmer = rootView.findViewById(R.id.shimmer_view_container);
         this.inflater = (LayoutInflater) getActivity()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activity.toolbarView.setVisibility(View.VISIBLE);
-                activity.headerLayout.setVisibility(View.VISIBLE);
-                getParentFragment().getChildFragmentManager().popBackStack();
-            }
-        });
     }
     private void setListeners() {
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -125,6 +113,11 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
                 placeholderLinearLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }
+        });
+        backBtn.setOnClickListener(v -> {
+            activity.toolbarView.setVisibility(View.VISIBLE);
+            activity.headerLayout.setVisibility(View.VISIBLE);
+            getParentFragment().getChildFragmentManager().popBackStack();
         });
     }
 

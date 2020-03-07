@@ -1,6 +1,7 @@
 package trianglz.ui.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -55,17 +57,21 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     private FrameLayout placeHolderLayout;
     private LinearLayout contentLayout;
     private StudentMainActivity activity;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
+    private View rootView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         activity = (StudentMainActivity) getActivity();
-        View rootView = inflater.inflate(R.layout.fragment_select_period, container, false);
+        rootView = inflater.inflate(R.layout.fragment_select_period, container, false);
         getValueFromIntent();
-        bindViews(rootView);
+        bindViews();
         setListeners();
-        if (!activity.progress.isShowing()) activity.progress.show();
         selectPeriodView.getGradingPeriods(courseGroup.getCourseId());
+        showSkeleton(true);
         return rootView;
     }
 
@@ -81,7 +87,7 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
             student = (Student) bundle.getSerializable(Constants.STUDENT);
         }
     }
-    private void bindViews(View rootView) {
+    private void bindViews() {
         gradingPeriodsArray = new ArrayList<>();
         recyclerView = rootView.findViewById (R.id.recycler_view);
         selectSemesterTextView = rootView.findViewById(R.id.tv_header_semester);
@@ -97,6 +103,10 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
         selectPeriodView = new SelectPeriodView(this);
         String studentName = student.firstName + " " + student.lastName;
         setStudentImage(student.getAvatar(), studentName);
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
@@ -126,6 +136,7 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
     }
     @Override
     public void onGetGradingPeriodsSuccess(ArrayList<GradingPeriod> gradingPeriods) {
+        showSkeleton(false);
         if (activity.progress.isShowing()) activity.progress.dismiss();
         if (!gradingPeriods.isEmpty()) {
             gradingPeriodsArray.addAll(gradingPeriods);
@@ -140,6 +151,7 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
 
     @Override
     public void onGetGradingPeriodsFailure(String message, int errorCode) {
+        showSkeleton(false);
         if (activity.progress.isShowing()) activity.progress.dismiss();
         activity.showErrorDialog(activity, errorCode,"");
         contentLayout.setVisibility(View.GONE);
@@ -205,5 +217,26 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
                 beginTransaction().add(R.id.menu_fragment_root, gradeDetailFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
+    }
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_grading_period_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
+        }
     }
 }

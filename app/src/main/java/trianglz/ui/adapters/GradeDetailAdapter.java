@@ -31,6 +31,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private ArrayList<Category> parentArray;
     private Context context;
     private GradeDetailsAdapterInterface gradeDetailsAdapterInterface;
+    private boolean categoryIsNumeric = false;
 
 
     private static final int TYPE_SEMESTER_QUARTER_HEADER = 0;
@@ -63,41 +64,47 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         Object item = mDataList.get(position);
-        if (getItemViewType(position) == TYPE_SEMESTER_QUARTER_HEADER) {
-            QuarterViewHolder quarterViewHolder = (QuarterViewHolder) holder;
-            GradeHeader gradeHeader = (GradeHeader) item;
-            if (gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY) {
-                quarterViewHolder.itemView.setBackgroundResource(R.color.category);
-            } else if (gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY) {
-                quarterViewHolder.itemView.setBackgroundResource(R.color.subcategory);
-            } else if (gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY_TOTAL) {
-                quarterViewHolder.itemView.setBackgroundResource(R.color.subcategory_total);
-            } else if (gradeHeader.headerType == GradeHeader.HeaderType.TOTAL) {
-                quarterViewHolder.itemView.setBackgroundResource(R.color.total);
-            } else if (gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY_TOTAL) {
-                quarterViewHolder.itemView.setBackgroundResource(R.color.category);
+        switch (getItemViewType(position)) {
+            case TYPE_SEMESTER_QUARTER_HEADER: {
+                QuarterViewHolder quarterViewHolder = (QuarterViewHolder) holder;
+                GradeHeader gradeHeader = (GradeHeader) item;
+                if (gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY) {
+                    quarterViewHolder.itemView.setBackgroundResource(R.color.category);
+                } else if (gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY) {
+                    quarterViewHolder.itemView.setBackgroundResource(R.color.subcategory);
+                } else if (gradeHeader.headerType == GradeHeader.HeaderType.SUBCATEGORY_TOTAL) {
+                    quarterViewHolder.itemView.setBackgroundResource(R.color.subcategory_total);
+                } else if (gradeHeader.headerType == GradeHeader.HeaderType.TOTAL) {
+                    quarterViewHolder.itemView.setBackgroundResource(R.color.total);
+                } else if (gradeHeader.headerType == GradeHeader.HeaderType.CATEGORY_TOTAL) {
+                    quarterViewHolder.itemView.setBackgroundResource(R.color.category);
+                }
+                quarterViewHolder.gradeTextview.setText(gradeHeader.gradeText);
+                quarterViewHolder.quarterTextView.setText(gradeHeader.header);
+                break;
             }
-            quarterViewHolder.gradeTextview.setText(gradeHeader.gradeText);
-            quarterViewHolder.quarterTextView.setText(gradeHeader.header);
-        } else if (getItemViewType(position) == TYPE_GRADE_HEADER) {
-            HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
-            GradeHeader gradeHeader = (GradeHeader) item;
-            headerViewHolder.headerTextView.setText(gradeHeader.header);
-        } else {
-            DetailViewHolder detailViewHolder = (DetailViewHolder) holder;
-            if (item instanceof GradeItems) {
-                GradeItems grade = (GradeItems) item;
-                detailViewHolder.classWorkTextView.setText(grade.name);
-                detailViewHolder.markTextView.setText(getMarkText(grade.gradeView, grade.total));
-            } else if (item instanceof Quizzes) {
-                Quizzes grade = (Quizzes) item;
-                detailViewHolder.classWorkTextView.setText(grade.getName());
-                detailViewHolder.markTextView.setText(getMarkText(grade.getGradeView(), grade.getTotal()));
-            } else {
-                Assignments grade = (Assignments) item;
-                detailViewHolder.classWorkTextView.setText(grade.name);
-                detailViewHolder.markTextView.setText(getMarkText(grade.gradeView, grade.total));
+            case TYPE_GRADE_HEADER: {
+                HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+                GradeHeader gradeHeader = (GradeHeader) item;
+                headerViewHolder.headerTextView.setText(gradeHeader.header);
+                break;
             }
+            default:
+                DetailViewHolder detailViewHolder = (DetailViewHolder) holder;
+                if (item instanceof GradeItems) {
+                    GradeItems grade = (GradeItems) item;
+                    detailViewHolder.classWorkTextView.setText(grade.name);
+                    detailViewHolder.markTextView.setText(getMarkText(grade.gradeView, grade.total));
+                } else if (item instanceof Quizzes) {
+                    Quizzes grade = (Quizzes) item;
+                    detailViewHolder.classWorkTextView.setText(grade.getName());
+                    detailViewHolder.markTextView.setText(getMarkText(grade.getGradeView(), grade.getTotal()));
+                } else {
+                    Assignments grade = (Assignments) item;
+                    detailViewHolder.classWorkTextView.setText(grade.name);
+                    detailViewHolder.markTextView.setText(getMarkText(grade.gradeView, grade.total));
+                }
+                break;
         }
     }
 
@@ -142,6 +149,7 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void addData(GradeBook gradeBook) {
+        categoryIsNumeric = gradeBook.categoryIsNumeric;
         mDataList.clear();
         parentArray = gradeBook.categories;
         mDataList.addAll(sortGradingPeriodsArray(gradeBook, false));
@@ -167,8 +175,13 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //                    continue;
 //                }
 //            }
-            array.add(getGradeHeader(category.getName(), GradeHeader.HeaderType.CATEGORY,
-                    getGradeString(category.gradeView, String.valueOf(category.getWeight()))));
+            if (categoryIsNumeric) {
+                array.add(getGradeHeader(category.getName(), GradeHeader.HeaderType.CATEGORY,
+                        getGradeString(category.gradeView, String.valueOf(category.getWeight()))));
+            }else {
+                array.add(getGradeHeader(category.getName(), GradeHeader.HeaderType.CATEGORY,
+                        getGradeString(category.gradeView + "%", String.valueOf(category.getWeight()) + "%")));
+            }
             if (category.assignments != null && category.assignments.size() != 0) {
                 array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE,"" ));
                 array.addAll(category.assignments);
@@ -192,8 +205,13 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //                            continue;
 //                        }
 //                    }
-                    array.add(getGradeHeader(subcategory.name, GradeHeader.HeaderType.SUBCATEGORY,
-                            getGradeString(subcategory.gradeView, String.valueOf(subcategory.weight))));
+                    if (categoryIsNumeric) {
+                        array.add(getGradeHeader(subcategory.name, GradeHeader.HeaderType.SUBCATEGORY,
+                                getGradeString(subcategory.gradeView, String.valueOf(subcategory.weight))));
+                    } else {
+                        array.add(getGradeHeader(subcategory.name, GradeHeader.HeaderType.SUBCATEGORY,
+                                getGradeString(subcategory.gradeView + "%", String.valueOf(subcategory.weight)+ "%")));
+                    }
                     if (subcategory.assignments != null && subcategory.assignments.size() != 0) {
                         array.add(getGradeHeader("Assignments", GradeHeader.HeaderType.GRADE,""));
                         array.addAll(subcategory.assignments);
@@ -235,7 +253,11 @@ public class GradeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     private String getGradeString(String grade, String total) {
+        grade = grade.trim(); total = total.trim();
+        if (total.length() == 1 && total.charAt(0) == '%') total = "";
+        if (grade.length() == 1 && grade.charAt(0) == '%') grade = "";
         if (grade.toLowerCase().contains("n")) {
+            if (grade.split("%").length > 1) grade = grade.replaceFirst("%", "");
             return grade;
         }
         if (grade.contains(".0") && grade.lastIndexOf("0") == (grade.length() - 1)) {

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:paddingTop="16dp">
 
@@ -17,18 +18,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/RobotoMediumStyle"
             android:maxLines="1"
+            tools:text="Testing"
             android:textAlignment="viewStart"
             android:layout_marginEnd="2dp"
             android:ellipsize="end"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textColor="@color/gunmetal" />
 
         <TextView
             android:id="@+id/tv_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:textSize="16sp"
+            tools:text="Testing"
             android:textColor="@color/gunmetal"
 
             />
