@@ -76,7 +76,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
 
     private void getQuizzesCourses() {
         showSkeleton(true);
-        onlineQuizzesView.getQuizzesCourses(student.getId());
+        onlineQuizzesView.getQuizzesCourses(student.childId);
 
     }
 
