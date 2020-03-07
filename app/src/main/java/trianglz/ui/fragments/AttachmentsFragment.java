@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -38,6 +39,7 @@ public class AttachmentsFragment extends Fragment implements AttachmentAdapter.A
     private Toolbar toolbar;
     private TextView courseNameTextView;
     private AttachmentAdapter adapter;
+    private ImageButton backImageButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,12 +69,7 @@ public class AttachmentsFragment extends Fragment implements AttachmentAdapter.A
     private void bindViews() {
         recyclerView = rootView.findViewById(R.id.recycler_view);
         toolbar = rootView.findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getParentFragment().getChildFragmentManager().popBackStack();
-            }
-        });
+        backImageButton = rootView.findViewById(R.id.btn_back);
         courseNameTextView = rootView.findViewById(R.id.tv_course_name);
         courseNameTextView.setText(subjectName);
         adapter = new AttachmentAdapter(activity, this);
@@ -81,6 +78,7 @@ public class AttachmentsFragment extends Fragment implements AttachmentAdapter.A
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
         adapter.addData(uploadedObjects);
+        backImageButton.setOnClickListener(v -> getParentFragment().getChildFragmentManager().popBackStack());
     }
 
     @Override

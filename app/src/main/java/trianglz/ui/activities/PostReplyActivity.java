@@ -44,6 +44,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
     private String courseName = "Course";
 
     private PostReplyView postReplyView;
+    private ImageButton backButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +58,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
         rootView.setOnTouchListener(new HideKeyboardOnTouch(this));
         recyclerView.setOnTouchListener(new HideKeyboardOnTouch(this));
         sendReplyButton.setOnClickListener(this);
+        backButton.setOnClickListener(this);
     }
 
 
@@ -76,6 +78,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
     private void bindViews() {
         recyclerView = findViewById(R.id.recycler_view);
         toolbar = findViewById(R.id.toolbar);
+        backButton = findViewById(R.id.btn_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,9 +127,9 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
 
     @Override
     public void onReplyClicked() {
-        inputLayout.setVisibility(View.VISIBLE);
-        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-        replyEditText.requestFocus();
+//        inputLayout.setVisibility(View.VISIBLE);
+//        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+//        replyEditText.requestFocus();
     }
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -175,6 +178,9 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
                     rootView.requestFocus();
                 }
                 break;
+            case R.id.btn_back:
+                onBackPressed();
+                    break;
         }
     }
 }

@@ -5,8 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -24,7 +23,7 @@ public class AttachmentsActivity extends SuperActivity implements AttachmentAdap
     private String subjectName;
     ArrayList<UploadedObject> uploadedObjects;
     private RecyclerView recyclerView;
-    private Toolbar toolbar;
+    private ImageButton backImageButton;
     private TextView courseNameTextView;
     private AttachmentAdapter adapter;
     @Override
@@ -37,13 +36,7 @@ public class AttachmentsActivity extends SuperActivity implements AttachmentAdap
 
         private void bindViews() {
             recyclerView = findViewById(R.id.recycler_view);
-            toolbar = findViewById(R.id.toolbar);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onBackPressed();
-                }
-            });
+            backImageButton = findViewById(R.id.btn_back);
             courseNameTextView = findViewById(R.id.tv_course_name);
             courseNameTextView.setText(subjectName);
             adapter = new AttachmentAdapter(this, this);
@@ -52,7 +45,9 @@ public class AttachmentsActivity extends SuperActivity implements AttachmentAdap
             recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, this), false));
             adapter.addData(uploadedObjects);
-    }
+            backImageButton.setOnClickListener(v -> onBackPressed());
+
+        }
 
     private void getDataFromIntent() {
         uploadedObjects = new ArrayList<>();

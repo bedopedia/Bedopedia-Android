@@ -307,6 +307,8 @@
     <string name="gpa">GPA</string>
     <string name="minutes">%1$s Minutes</string>
     <string name="no_description">No description available</string>
+    <string name="more">more</string>
+    <string name="comments">Comments</string>
     <string name="present_out_of">present %1$s out of %2$s days</string>
      <string name="more">more</string>
     <string name="there_is_no_activities" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">

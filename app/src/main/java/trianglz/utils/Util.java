@@ -185,6 +185,7 @@ public class Util {
         }
         return finalData;
     }
+
     public static String getPostDate(String messageTime, Context context) {
         String finalData = "";
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
@@ -216,6 +217,23 @@ public class Util {
         }
         return finalData;
     }
+
+    public static String getTimeAndDate(String messageTime, Context context) {
+        String finalData = "";
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
+
+        Date date = null;
+        try {
+            date = fmt.parse(messageTime);
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM 'at' h:mm aa", new Locale(getLocale(context)));
+            finalData = fmtOut.format(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return finalData;
+    }
+
     public static String getTimeAm(String messageTime, Context context) {
         String finalData = "";
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
@@ -249,6 +267,7 @@ public class Util {
             return null;
         }
     }
+
     public static Date convertStringToDate(String dateString) {
         SimpleDateFormat fmt = new SimpleDateFormat("dd MMM yyyy", new Locale(getLocale(App.getInstance().getBaseContext())));
         Date date = null;
@@ -554,6 +573,7 @@ public class Util {
             return string;
         }
     }
+
     public static String getAssigmentDetailEndDateMonth(String endDate, Context context) {
         if (endDate == null || endDate.isEmpty()) {
             return "";
@@ -626,6 +646,7 @@ public class Util {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return metrics.heightPixels;
     }
+
     public static String humanReadableByteCountBin(long bytes) {
         long b = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
         return b < 1024L ? bytes + " B"
