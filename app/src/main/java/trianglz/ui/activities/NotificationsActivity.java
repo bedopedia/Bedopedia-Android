@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -28,7 +29,7 @@ public class NotificationsActivity extends SuperActivity implements Notification
 
     private RecyclerView recyclerView;
     private NotificationsAdapter adapter;
-    private Button closeBtn;
+    private ImageButton backBtn;
     private NotificationsView notificationsView;
     private int nextPage = -1;
     private String url = "";
@@ -63,7 +64,7 @@ public class NotificationsActivity extends SuperActivity implements Notification
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         notificationsView = new NotificationsView(this, this);
-        closeBtn = findViewById(R.id.btn_close);
+        backBtn = findViewById(R.id.btn_back);
         placeholderLinearLayout = findViewById(R.id.placeholder_layout);
         skeletonLayout = findViewById(R.id.skeletonLayout);
         shimmer = findViewById(R.id.shimmer_view_container);
@@ -71,7 +72,7 @@ public class NotificationsActivity extends SuperActivity implements Notification
     }
 
     private void setListeners() {
-        closeBtn.setOnClickListener(this);
+        backBtn.setOnClickListener(this);
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -139,7 +140,7 @@ public class NotificationsActivity extends SuperActivity implements Notification
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_close:
+            case R.id.btn_back:
                 finish();
                 break;
         }
