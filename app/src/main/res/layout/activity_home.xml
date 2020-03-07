@@ -54,15 +54,17 @@
                         android:id="@+id/btn_notification"
                         android:scaleType="fitCenter"
                         android:padding="10dp"/>
+
                     <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:src="@drawable/absent"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:src="@drawable/badge_drawable"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="-6dp"
+                        android:layout_marginTop="-8dp"
                         android:visibility="gone"
-                        android:id="@+id/img_red_circle"/>
+                        android:tint="@color/red"
+                        android:id="@+id/img_red_circle" />
                 </FrameLayout>
 
 

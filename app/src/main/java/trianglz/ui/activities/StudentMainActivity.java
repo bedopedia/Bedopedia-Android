@@ -293,6 +293,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 break;
             case R.id.ll_notifications_tab:
                 SessionManager.getInstance().setNotificationCounterToZero();
+                notificationBadgeImageView.setVisibility(View.GONE);
                 notificationCheck();
                 if (isHod) {
                     returnToRootFragment(pagerAdapter.getCount() - 1);
@@ -554,7 +555,6 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 firstTabImageView.setImageResource(R.drawable.ic_announcment_selected_teacher);
                 secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
                 thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
-
                 firstTextView.setVisibility(View.VISIBLE);
                 secondTextView.setVisibility(View.GONE);
                 thirdTextView.setVisibility(View.GONE);
