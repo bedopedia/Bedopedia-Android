@@ -73,8 +73,8 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
             if(messageThread.messageArrayList.size()>0){
                 Message message = messageThread.messageArrayList.get(0);
                 String body = android.text.Html.fromHtml(message.body).toString().trim();
-                if(!message.user.firstName.isEmpty()) {
-                    holder.subjectTextView.setText(message.user.firstName + " : " + body + "..");
+                if(!messageThread.otherNames.isEmpty()) {
+                    holder.subjectTextView.setText(messageThread.otherNames + " : " + body + "..");
                 }else {
                     holder.subjectTextView.setText(body + "..");
                 }
