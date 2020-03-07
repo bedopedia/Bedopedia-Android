@@ -75,6 +75,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
     private LayoutInflater inflater;
     private boolean isCalling = false;
     private SingleAssignmentView singleAssignmentView;
+    private boolean isOnHold = false;
 
     @Nullable
     @Override
@@ -158,8 +159,10 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         for (AssignmentsDetail assignmentsDetail : assignmentsDetailArrayList) {
             if (assignmentsDetail.getState().equals("running")) {
                 if (isOpen) filteredDetails.add(assignmentsDetail);
+            } else if (assignmentsDetail.getState().equals("on_hold")) {
+                if (isOnHold && !isOpen) filteredDetails.add(assignmentsDetail);
             } else {
-                if (!isOpen) filteredDetails.add(assignmentsDetail);
+                if (!isOpen && !isOnHold) filteredDetails.add(assignmentsDetail);
             }
         }
         return filteredDetails;
@@ -170,10 +173,16 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0)
+                if (tab.getPosition() == 0) {
                     isOpen = true;
-                else
+                    isOnHold = false;
+                } else if (tab.getPosition() == 1) {
                     isOpen = false;
+                    isOnHold = true;
+                } else {
+                    isOpen = false;
+                    isOnHold = false;
+                }
                 if (!isCalling)
                     showHidePlaceholder(getArrayList());
             }
@@ -261,6 +270,8 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         if (assignmentsDetails.isEmpty()) {
             if (isOpen) {
                 placeholderTextView.setText(activity.getResources().getString(R.string.open_assignments_placeholder));
+            } else if (isOnHold) {
+                placeholderTextView.setText(activity.getResources().getString(R.string.on_hold_assignment_placeholder));
             } else {
                 placeholderTextView.setText(activity.getResources().getString(R.string.closed_assignments_placeholder));
             }

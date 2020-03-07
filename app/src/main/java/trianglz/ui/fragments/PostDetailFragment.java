@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,13 +54,13 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     private PostDetailsAdapter adapter;
     private String subjectName;
     private int courseId;
-    private int lastPage = 0;
     private SwipeRefreshLayout pullRefreshLayout;
     private LinearLayout placeholderLinearLayout;
     private LinearLayout skeletonLayout;
     private ShimmerFrameLayout shimmer;
     private LayoutInflater inflater;
     private FloatingActionButton addPostFab;
+    private ImageButton backImageButton;
     //  private boolean isStudent, isParent;
 
     @Override
@@ -93,12 +94,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
         recyclerView = rootView.findViewById(R.id.recycler_view);
         postDetailsView = new PostDetailsView(activity, this);
         toolbar = rootView.findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getParentFragment().getChildFragmentManager().popBackStack();
-            }
-        });
+        backImageButton = rootView.findViewById(R.id.btn_back);
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             addPostFab.show();
         }
@@ -123,6 +119,7 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
 
     private void setListeners() {
         addPostFab.setOnClickListener(this);
+        backImageButton.setOnClickListener(this);
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -147,6 +144,9 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
             case R.id.add_post_btn:
                 openCreatePostActivity();
                 break;
+            case R.id.btn_back:
+                getParentFragment().getChildFragmentManager().popBackStack();
+                break;
         }
     }
 
@@ -168,13 +168,9 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
     public void onGetPostDetailsFailure(String message, int errorCode) {
         showSkeleton(false);
         activity.showErrorDialog(activity, errorCode, "");
-        if (lastPage <= 1) {
-            recyclerView.setVisibility(View.GONE);
-            placeholderLinearLayout.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            placeholderLinearLayout.setVisibility(View.GONE);
-        }
+        recyclerView.setVisibility(View.GONE);
+        placeholderLinearLayout.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -204,10 +200,10 @@ public class PostDetailFragment extends Fragment implements FragmentCommunicatio
 
     @Override
     public void loadNextPage(int page) {
-        if (lastPage != page) {
-            postDetailsView.getPostDetails(courseId, page);
-            lastPage = page;
-        }
+//        if (lastPage != page) {
+//            postDetailsView.getPostDetails(courseId, page);
+//            lastPage = page;
+//        }
     }
 
     @Override

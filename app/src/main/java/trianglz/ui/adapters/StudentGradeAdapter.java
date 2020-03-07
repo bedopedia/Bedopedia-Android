@@ -50,12 +50,12 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
         final StudentSubmission submission = mDataList.get(position);
         IImageLoader imageLoader = new PicassoLoader();
         if (!isQuizzes) {
-            imageLoader.loadImage(holder.studentAvatar, new AvatarPlaceholderModified(submission.getStudentName()), "Path of Image");
+            imageLoader.loadImage(holder.studentAvatar, new AvatarPlaceholderModified(submission.getStudentName()), submission.getAvatarUrl());
 
 
             if (submission.getFeedback() != null) {
                 holder.studentFeedback.setText(submission.getFeedback().getContent());
-            }else {
+            } else {
                 holder.studentFeedback.setText("");
             }
             if (submission.getGrade() != null) {
@@ -80,18 +80,18 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
                 }
             });
         } else {
-            imageLoader.loadImage(holder.studentAvatar, new AvatarPlaceholderModified(submission.getStudentName()), "Path of Image");
+            imageLoader.loadImage(holder.studentAvatar, new AvatarPlaceholderModified(submission.getStudentName()), submission.getAvatarUrl());
 
 
             if (submission.getFeedback() != null) {
                 holder.studentFeedback.setText(submission.getFeedback().getContent());
-            }else {
+            } else {
                 holder.studentFeedback.setText("");
             }
 
             if (submission.getScore() != null) {
                 holder.studentGrade.setText(Double.toString(submission.getScore()));
-            }else {
+            } else {
                 holder.studentGrade.setText("");
             }
             holder.studentName.setText(submission.getStudentName());
@@ -120,9 +120,10 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
     public int getItemCount() {
         return mDataList.size();
     }
+
     public void addData(ArrayList<StudentSubmission> studentSubmissions) {
         this.mDataList.clear();
-        if(studentSubmissions != null) this.mDataList.addAll(studentSubmissions);
+        if (studentSubmissions != null) this.mDataList.addAll(studentSubmissions);
         notifyDataSetChanged();
     }
 

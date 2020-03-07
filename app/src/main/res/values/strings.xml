@@ -269,6 +269,8 @@
     <string name="messages_placeholder">You don\'t have any messages for now</string>
     <string name="open_assignments_placeholder">You don\'t have any open assignments for now</string>
     <string name="closed_assignments_placeholder">You don\'t have any closed assignments for now</string>
+    <string name="on_hold_quizzes_placeholder">You don\'t have any on hold quizzes for now</string>
+    <string name="on_hold_assignment_placeholder">You don\'t have any on hold assignments for now</string>
     <string name="open_quizzes_placeholder">You don\'t have any open online quizzes for now</string>
     <string name="closed_quizzes_placeholder">You don\'t have any closed online quizzes for now</string>
     <string name="posts_placeholder">You don\'t have any posts for now</string>
@@ -319,6 +321,7 @@
     <string name="there_is_no_classwork" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
   لا يوجد واجبات الفصل
       </div></TD>]]></string>
+    <string name="on_hold">On hold</string>
     <string name="from">From</string>
     <string name="positive">Positive</string>
     <string name="negative">Negative</string>

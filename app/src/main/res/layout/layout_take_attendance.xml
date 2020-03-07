@@ -21,8 +21,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/assign_action_for_all"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textAllCaps="false"
+            style="@style/RobotoMediumStyle"
             android:textColor="@color/cool_grey" />
 
         <View
@@ -51,8 +52,9 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/present"
                 android:layout_gravity="center"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textAllCaps="false"
+                style="@style/RobotoMediumStyle"
                 android:textColor="@color/boring_green" />
 
         </LinearLayout>
@@ -83,7 +85,8 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/late"
                 android:layout_gravity="center"
-                android:textSize="18sp"
+                android:textSize="16sp"
+                style="@style/RobotoMediumStyle"
                 android:textAllCaps="false"
                 android:textColor="@color/electric_violet" />
 
@@ -115,8 +118,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_gravity="center"
                 android:text="@string/absent"
-                android:textSize="18sp"
-                android:textAllCaps="false"
+                android:textSize="16sp"
+                style="@style/RobotoMediumStyle"                android:textAllCaps="false"
                 android:textColor="@color/salmon" />
 
         </LinearLayout>
@@ -141,7 +144,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_gravity="center"
                 android:text="@string/remove_all_status"
-                android:textSize="18sp"
+                android:textSize="16sp"
+                style="@style/RobotoMediumStyle"
                 android:textAllCaps="false"
                 android:textColor="@color/cerulean_blue" />
 
@@ -156,7 +160,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:text="@string/cancel"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        style="@style/RobotoMediumStyle"
         android:textAllCaps="false"
         android:textColor="@color/red_2"
         android:foreground="?android:attr/selectableItemBackground" />

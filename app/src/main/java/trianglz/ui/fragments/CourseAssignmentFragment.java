@@ -153,7 +153,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         if (Util.isNetworkAvailable(activity)) {
             showSkeleton(true);
             String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" +
-                    student.getId() + "/course_groups_with_assignments_number";
+                    student.childId + "/course_groups_with_assignments_number";
             courseAssignmentView.getCourseAssignment(url);
         } else {
             Util.showNoInternetConnectionDialog(activity);

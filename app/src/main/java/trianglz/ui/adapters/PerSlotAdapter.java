@@ -41,11 +41,7 @@ public class PerSlotAdapter extends RecyclerView.Adapter<PerSlotAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        if (position == mDataList.size() - 1) {
-            viewHolder.slotView.setVisibility(View.INVISIBLE);
-        } else {
-            viewHolder.slotView.setVisibility(View.VISIBLE);
-        }
+
         viewHolder.clearAllSelected();
         if (selectedPosition == position) {
             viewHolder.itemLayout.setBackground(context.getResources().getDrawable(R.color.ice_blue_70,null));
@@ -74,12 +70,10 @@ public class PerSlotAdapter extends RecyclerView.Adapter<PerSlotAdapter.ViewHold
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private FrameLayout itemLayout;
         private TextView slotNameTextView;
-        private View slotView;
         private ImageView slotSelectedImageView, slotDeselectedImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            slotView = itemView.findViewById(R.id.item_view);
             itemLayout = itemView.findViewById(R.id.slot_layout);
             slotNameTextView = itemView.findViewById(R.id.slot_name);
             slotSelectedImageView = itemView.findViewById(R.id.slot_selected_imageview);

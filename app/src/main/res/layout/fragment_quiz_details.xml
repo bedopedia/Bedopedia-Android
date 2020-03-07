@@ -85,6 +85,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                android:visibility="gone"
                 style="@style/RobotoMediumStyle"
                 android:textAlignment="viewStart"
                 android:background="@color/snow"

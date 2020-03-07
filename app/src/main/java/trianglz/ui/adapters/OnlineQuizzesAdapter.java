@@ -51,7 +51,12 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
         } else {
             holder.assignmentNameTextView.setText(context.getResources().getString(R.string.no_quiz));
         }
-        holder.assignmentCountsTextView.setText(quizzCourse.getQuizzesCount() + "");
+        if (quizzCourse.getRunningQuizzesCount() > 0) {
+            holder.assignmentCountsTextView.setVisibility(View.VISIBLE);
+            holder.assignmentCountsTextView.setText(quizzCourse.getRunningQuizzesCount() + "");
+        } else {
+            holder.assignmentCountsTextView.setVisibility(View.GONE);
+        }
         IImageLoader imageLoader = new PicassoLoader();
         imageLoader.loadImage(holder.courseAvatarView, new AvatarPlaceholderModified(quizzCourse.getCourseName()), "path of image");
         if (quizzCourse.getNextQuizDate() != null && !quizzCourse.getNextQuizDate().isEmpty()) {
@@ -67,7 +72,7 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
                 holder.clockImageView.setImageResource(R.drawable.ic_clock_green);
                 holder.dateTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
             }
-            holder.dateTextView.setText(Util.getPostDateAmPm(quizzCourse.getNextQuizDate(),context));
+            holder.dateTextView.setText(Util.getPostDateAmPm(quizzCourse.getNextQuizDate(), context));
         } else {
             holder.dateLinearLayout.setVisibility(View.GONE);
         }

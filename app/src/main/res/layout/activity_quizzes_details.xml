@@ -78,7 +78,11 @@
                     android:text="@string/open"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
-
+                <android.support.design.widget.TabItem
+                    android:id="@+id/on_hold_tab"
+                    android:text="@string/on_hold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
                 <android.support.design.widget.TabItem
                     android:id="@+id/closed_tab"
                     android:text="@string/closed"
