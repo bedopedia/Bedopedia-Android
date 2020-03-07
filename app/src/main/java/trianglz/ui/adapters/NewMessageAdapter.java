@@ -61,7 +61,7 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.Ho
                     if(type.equals(Type.TEACHER)){
                         newMessageAdapterInterface.onTeacherSelected(holder.getAdapterPosition());
                     }else {
-                        newMessageAdapterInterface.onSubjectSelected(holder.getAdapterPosition());
+                        if (subject.teacherArrayList.size() > 0) newMessageAdapterInterface.onSubjectSelected(holder.getAdapterPosition());
                     }
 
                 }
