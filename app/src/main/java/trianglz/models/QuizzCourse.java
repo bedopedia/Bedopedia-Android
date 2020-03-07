@@ -30,7 +30,7 @@ public class QuizzCourse {
 	@SerializedName("next_quiz_start_date")
 	private String nextQuizStartDate;
 	@SerializedName("running_quizzes_count")
-	private String runningQuizzesCount;
+	private int runningQuizzesCount;
 
 	public void setId(int id) {
 		this.id = id;
@@ -104,11 +104,11 @@ public class QuizzCourse {
 		return this.nextQuizStartDate;
 	}
 
-	public String getRunningQuizzesCount() {
+	public int getRunningQuizzesCount() {
 		return runningQuizzesCount;
 	}
 
-	public void setRunningQuizzesCount(String runningQuizzesCount) {
+	public void setRunningQuizzesCount(int runningQuizzesCount) {
 		this.runningQuizzesCount = runningQuizzesCount;
 	}
 
