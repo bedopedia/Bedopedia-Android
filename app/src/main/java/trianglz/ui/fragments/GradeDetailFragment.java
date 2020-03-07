@@ -74,16 +74,20 @@ public class GradeDetailFragment extends Fragment implements View.OnClickListene
         setListeners();
         if (Util.isNetworkAvailable(activity)) {
             gradeDetailView.getGradesDetails(student.actableId, courseGroup.getCourseId(), courseGroup.getId(), gradingPeriodId);
-            skeletonScreen = Skeleton.bind(recyclerView)
-                    .adapter(gradeDetailAdapter)
-                    .load(R.layout.skeleton_grades_details_layout)
-                    .count(16)
-                    .angle(45)
-                    .color(R.color.white_70)
-                    .show();
+            showShimmer();
         } else {
             Util.showNoInternetConnectionDialog(activity);
         }
+    }
+
+    private void showShimmer() {
+        skeletonScreen = Skeleton.bind(recyclerView)
+                .adapter(gradeDetailAdapter)
+                .load(R.layout.skeleton_grading_period_layout)
+                .count(16)
+                .angle(45)
+                .color(R.color.white_70)
+                .show();
     }
 
 
