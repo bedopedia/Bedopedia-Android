@@ -225,7 +225,7 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
             int skeletonRows = Util.getSkeletonRowCount(activity);
             for (int i = 0; i <= skeletonRows; i++) {
                 ViewGroup rowLayout = (ViewGroup) inflater
-                        .inflate(R.layout.skeleton_row_layout, (ViewGroup) rootView, false);
+                        .inflate(R.layout.skeleton_grading_period_layout, (ViewGroup) rootView, false);
                 skeletonLayout.addView(rowLayout);
             }
             shimmer.setVisibility(View.VISIBLE);
