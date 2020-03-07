@@ -6,17 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:orientation="vertical"
     android:background="@color/white"
     android:clickable="true"
     android:focusable="true"
-    tools:context="trianglz.ui.activities.CreatePersonalEventActivity">
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="2dp"
+        android:elevation="3dp"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="0dp"
         app:contentInsetRight="0dp"
@@ -27,42 +26,47 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
                 android:paddingEnd="8dp">
 
                 <ImageButton
                     android:id="@+id/btn_back"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:background="@color/transparent"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:background="@android:color/transparent"
+                    android:foreground="@drawable/round_ripple_25"
                     android:padding="10dp"
                     android:src="@drawable/chevron_left" />
 
-                <trianglz.components.SfproBoldTextView
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tv_header"
+                    style="@style/RobotoMediumStyle"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
                     android:background="@android:color/transparent"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="@string/create_personal_event"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/greyish_brown"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:textSize="20sp" />
 
                 <agency.tango.android.avatarview.views.AvatarView
                     android:id="@+id/img_student"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"/>
-            </RelativeLayout>
+                    android:background="@android:color/transparent" />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -90,149 +94,185 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:layout_marginEnd="16dp"
+        android:paddingTop="8dp"
+        android:orientation="vertical">
 
-        <trianglz.components.RobotoRegularTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:includeFontPadding="true"
-            android:text="@string/when"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
 
-        <trianglz.components.RobotoRegularButton
-            android:id="@+id/event_start_date_btn"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/transparent"
-            android:drawableEnd="@drawable/mydays_ico"
-            android:paddingTop="10dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="10dp"
-            android:textAlignment="viewStart"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:layout_height="wrap_content">
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_start_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textAlignment="viewStart"
+                android:nextFocusDown="@id/et_password"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:met_hideUnderline="true"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelTextSize="14sp"
+                app:met_floatingLabelTextColor="@color/jade_green"
+                android:hint="@string/from" />
+
+            <Button
+                android:id="@+id/event_start_date_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </FrameLayout>
+
+
 
         <View
             android:id="@+id/when_view"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/curved_silver_75"></View>
+            android:background="@drawable/curved_silver_75"/>
 
 
-        <trianglz.components.RobotoRegularTextView
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="true"
-            android:text="@string/to_caps"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:layout_height="60dp">
 
-        <trianglz.components.RobotoRegularButton
-            android:id="@+id/event_end_date_btn"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/transparent"
-            android:drawableEnd="@drawable/mydays_ico"
-            android:paddingTop="10dp"
-            android:paddingEnd="10dp"
-            android:textAlignment="viewStart"
-            android:paddingBottom="10dp"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_end_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textAlignment="viewStart"
+                android:nextFocusDown="@id/et_password"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:met_hideUnderline="true"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelTextSize="14sp"
+                app:met_floatingLabelTextColor="@color/jade_green"
+                android:hint="@string/to" />
+
+            <Button
+                android:id="@+id/event_end_date_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </FrameLayout>
+
+
 
         <View
             android:id="@+id/to_view"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/curved_silver_75"></View>
+            android:background="@drawable/curved_silver_75"/>
 
 
-        <trianglz.components.RobotoRegularTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="true"
-            android:text="@string/subject"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
 
-        <trianglz.components.RobotoRegularEditTextView
+
+
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/event_subject_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/transparent"
-            android:hint="@string/subject_name"
+            android:layout_height="60dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:imeOptions="actionNext"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:paddingTop="10dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="10dp"
             android:textAlignment="viewStart"
-            android:textAllCaps="false"
+            android:nextFocusDown="@id/et_password"
+            android:singleLine="true"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:met_hideUnderline="true"
+            app:met_floatingLabel="highlight"
+            app:met_floatingLabelTextSize="14sp"
+            app:met_floatingLabelTextColor="@color/jade_green"
+            android:hint="@string/subject" />
 
         <View
             android:id="@+id/subject_view"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/curved_silver_75"></View>
+            android:background="@drawable/curved_silver_75"/>
 
 
-        <trianglz.components.RobotoRegularTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="true"
-            android:text="@string/notes"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
 
-        <trianglz.components.RobotoRegularEditTextView
+
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/event_notes_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:textAlignment="viewStart"
-            android:background="@color/transparent"
-            android:hint="@string/add_notes"
-            android:imeOptions="actionDone"
-            android:inputType="text"
+            android:layout_height="60dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:paddingTop="10dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="10dp"
-            android:textAllCaps="false"
+            android:textAlignment="viewStart"
+            android:nextFocusDown="@id/et_password"
+            android:singleLine="true"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:met_hideUnderline="true"
+            app:met_floatingLabel="highlight"
+            app:met_floatingLabelTextSize="14sp"
+            app:met_floatingLabelTextColor="@color/jade_green"
+            android:hint="@string/notes" />
+
 
         <View
             android:id="@+id/notes_view"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/curved_silver_75"></View>
+            android:background="@drawable/curved_silver_75"/>
 
 
-        <trianglz.components.RobotoMediumButton
+        <Button
             android:id="@+id/event_create_btn"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="45dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/curved_jade_green_background_radius_8"
+            android:background="@drawable/curved_background_8"
+            android:backgroundTint="@color/attachment_color"
             android:text="@string/create"
+            style="@style/RobotoMediumStyle"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
-        <trianglz.components.RobotoMediumButton
+        <Button
             android:id="@+id/event_cancel_btn"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
@@ -245,7 +285,7 @@
             android:text="@string/cancel"
             android:textAllCaps="false"
             android:textColor="@color/steel"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>

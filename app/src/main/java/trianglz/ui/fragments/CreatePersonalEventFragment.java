@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -70,6 +71,7 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
     private Button startDateBtn, endDateBtn, createEventBtn, cancelEventBtn;
     private View whenView, toView, subjectView, notesView;
     private FragmentCommunicationInterface fragmentCommunicationInterface;
+    private MaterialEditText fromEditText, toEditText;
 
     public static CreatePersonalEventFragment newInstance(FragmentCommunicationInterface fragmentCommunicationInterface) {
         CreatePersonalEventFragment createPersonalEventFragment = new CreatePersonalEventFragment();
@@ -120,16 +122,18 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
         subjectView = rootView.findViewById(R.id.subject_view);
         notesView = rootView.findViewById(R.id.notes_view);
         createPersonalEventView = new CreatePersonalEventView(activity, this);
-        startDateBtn.setHint(getCurrentDate());
-        endDateBtn.setHint(getCurrentDate());
-        if (Util.getLocale(activity).equals("ar")) {
-            startDateBtn.setHint(String.format(new Locale("ar"), getCurrentDate()));
-            endDateBtn.setHint(String.format(new Locale("ar"), getCurrentDate())
-            );
-        } else {
-            startDateBtn.setHint(getCurrentDate());
-            endDateBtn.setHint(getCurrentDate());
-        }
+//        startDateBtn.setHint(getCurrentDate());
+//        endDateBtn.setHint(getCurrentDate());
+        fromEditText = rootView.findViewById(R.id.et_start_date);
+        toEditText = rootView.findViewById(R.id.et_end_date);
+//        if (Util.getLocale(activity).equals("ar")) {
+//            startDateBtn.setHint(String.format(new Locale("ar"), getCurrentDate()));
+//            endDateBtn.setHint(String.format(new Locale("ar"), getCurrentDate())
+//            );
+//        } else {
+//            startDateBtn.setHint(getCurrentDate());
+//            endDateBtn.setHint(getCurrentDate());
+//        }
     }
 
     private void setListeners() {
@@ -167,12 +171,12 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
         backBtn.setOnClickListener(this);
     }
 
-    private void showDatePicker(final Button button) {
+    private void showDatePicker(final EditText editText) {
         final Calendar calendar = Calendar.getInstance();
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
         final int month = calendar.get(Calendar.MONTH);
         final int year = calendar.get(Calendar.YEAR);
-        final String buttonText = button.getText().toString();
+        final String buttonText = editText.getText().toString();
         datePickerDialog = new DatePickerDialog(activity,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -182,11 +186,11 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
                         yearSelected = yearofYear;
                         if (Util.getLocale(activity).equals("ar")) {
                             Log.i("tag", "onDateSet: year:" + year + "month" + monthOfYear + "day:" + dayOfMonth);
-                            button.setText(String.format(new Locale("ar"), "%d\\%d\\%d", dayOfMonth, (monthOfYear + 1), year));
+                            editText.setText(String.format(new Locale("ar"), "%d\\%d\\%d", dayOfMonth, (monthOfYear + 1), year));
                         } else
-                            button.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + yearofYear);
+                            editText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + yearofYear);
                         isDateDialogShowing = datePickerDialog.isShowing();
-                        showTimePicker(button, buttonText);
+                        showTimePicker(editText, buttonText);
                     }
                 }, year, month, day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
@@ -200,7 +204,7 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
         });
     }
 
-    private void showTimePicker(final Button button, final String buttonText) {
+    private void showTimePicker(final EditText editText, final String buttonText) {
         final Calendar calendar = Calendar.getInstance();
         final int hour = calendar.get(Calendar.HOUR_OF_DAY);
         final int minute = calendar.get(Calendar.MINUTE);
@@ -232,10 +236,10 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
                 c.set(yearSelected, monthSelected, daySelected, selectedHours, selectedMinute);
 
                 if (Util.getLocale(activity).equals("ar"))
-                    button.append(" " + String.format(new Locale("ar"), "%02d:%02d", twelveHourFormat, selectedMinute) + " " + status);
+                    editText.append(" " + String.format(new Locale("ar"), "%02d:%02d", twelveHourFormat, selectedMinute) + " " + status);
                 else
-                    button.append(" " + String.format("%02d:%02d", twelveHourFormat, selectedMinute) + " " + status);
-                if (button.getId() == R.id.event_start_date_btn) {
+                    editText.append(" " + String.format("%02d:%02d", twelveHourFormat, selectedMinute) + " " + status);
+                if (editText.getId() == R.id.event_start_date_btn) {
                     firstDate = c.getTime();
                     Log.d("dates", "onTimeSet: " + firstDate);
                 } else
@@ -247,7 +251,7 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
             @Override
             public void onDismiss(DialogInterface dialog) {
                 if (!isTimeSet) {
-                    button.setText(buttonText);
+                    editText.setText(buttonText);
                 }
             }
         });
@@ -324,7 +328,11 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
         if (Util.isNetworkAvailable(activity)) {
             activity.showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createEvent();
-            createPersonalEventView.createEvent(url, firstDate, secondDate, "personal", "false", subjectEditText.getText().toString(), "User", student.userId, notesEditText.getText().toString(), "false");
+            if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
+                createPersonalEventView.createEvent(url, firstDate, secondDate, "personal", "false", subjectEditText.getText().toString(), "User", student.userId+"", notesEditText.getText().toString(), "false");
+            }else {
+                createPersonalEventView.createEvent(url, firstDate, secondDate, "personal", "false", subjectEditText.getText().toString(), "User", SessionManager.getInstance().getUserId(), notesEditText.getText().toString(), "false");
+            }
         }
     }
 
@@ -342,17 +350,17 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
         switch (v.getId()) {
             case R.id.event_start_date_btn:
                 if (!isDateDialogShowing) {
-                    showDatePicker(startDateBtn);
+                    showDatePicker(fromEditText);
                 }
                 break;
             case R.id.event_end_date_btn:
                 if (!isDateDialogShowing) {
-                    showDatePicker(endDateBtn);
+                    showDatePicker(toEditText);
                 }
                 break;
             case R.id.event_create_btn:
-                Boolean valid = validate(startDateBtn.getText().toString(),
-                        endDateBtn.getText().toString(),
+                Boolean valid = validate(fromEditText.getText().toString(),
+                        toEditText.getText().toString(),
                         subjectEditText.getText().toString(),
                         notesEditText.getText().toString());
                 if (valid) {
@@ -367,8 +375,6 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
                 }
                 break;
             case R.id.event_cancel_btn:
-                getParentFragment().getChildFragmentManager().popBackStack();
-                break;
             case R.id.btn_back:
                 getParentFragment().getChildFragmentManager().popBackStack();
                 break;
