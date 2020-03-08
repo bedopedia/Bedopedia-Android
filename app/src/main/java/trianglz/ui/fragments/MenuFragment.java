@@ -113,8 +113,8 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 //
                 activity.isCalling = true;
                 shimmerView.setVisibility(View.VISIBLE);
-                parentLayout.setVisibility(View.GONE);
-                appBarLayout.setVisibility(View.GONE);
+                parentLayout.setVisibility(View.INVISIBLE);
+                appBarLayout.setVisibility(View.INVISIBLE);
             } else {
                 Util.showNoInternetConnectionDialog(getParentActivity());
             }
