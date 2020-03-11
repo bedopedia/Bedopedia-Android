@@ -136,7 +136,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         placeholderTextView = rootView.findViewById(R.id.placeholder_tv);
         tabLayout = rootView.findViewById(R.id.tab_layout);
         if (!teacherMode)
-            setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+            setStudentImage(student.avatar, student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         if (teacherMode) {
             adapter = new QuizzesDetailsAdapter(activity, this, courseGroupName);

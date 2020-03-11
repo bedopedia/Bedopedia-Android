@@ -96,7 +96,7 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
         // checkUserType();
         setListeners();
         studentName = student.firstName + " " + student.lastName;
-        setStudentImage(student.getAvatar(), studentName);
+        setStudentImage(student.avatar, studentName);
     }
 
 

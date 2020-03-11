@@ -104,7 +104,7 @@ public class ContactTeacherView {
         String createdAt = messageObj.optString(Constants.KEY_CREATED_AT);
         String updatedAt = messageObj.optString(Constants.KEY_UPADTED_AT);
         int messageThreadId = messageObj.optInt(Constants.KEY_ID);
-        Message message = new Message(attachmentUrl, body, createdAt, ext, fileName, sender.getId(), messageThreadId, updatedAt, sender);
+        Message message = new Message(attachmentUrl, body, createdAt, ext, fileName, sender.id, messageThreadId, updatedAt, sender);
         return message;
     }
 
@@ -172,7 +172,7 @@ public class ContactTeacherView {
                 String createdAt = messageObj.optString(Constants.KEY_CREATED_AT);
                 String updatedAt = messageObj.optString(Constants.KEY_UPADTED_AT);
                 int messageThreadId = messageObj.optInt(Constants.KEY_ID);
-                Message message = new Message(attachmentUrl, body, createdAt, ext, fileName, sender.getId(), messageThreadId, updatedAt, sender);
+                Message message = new Message(attachmentUrl, body, createdAt, ext, fileName, sender.id, messageThreadId, updatedAt, sender);
                 messageArrayList.add(message);
             }
 

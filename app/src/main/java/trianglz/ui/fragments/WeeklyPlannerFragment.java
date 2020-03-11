@@ -278,7 +278,7 @@ public class WeeklyPlannerFragment extends Fragment implements View.OnClickListe
     }
 
     private void setStudentImage() {
-        final String imageUrl = student.getAvatar();
+        final String imageUrl = student.avatar;
         final String name = student.firstName + " " + student.lastName;
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();

@@ -179,7 +179,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
 
     private void addMessageToAdapter(String messageString) {
         User user = new User();
-        user.setId(Integer.valueOf(SessionManager.getInstance().getUserId()));
+        user.id =(Integer.parseInt(SessionManager.getInstance().getUserId()));
         Message message = new Message("", messageString,
                 Util.convertLocaleToUtc(Util.getCurrentDate()), "", "", messageThread.id, messageThread.id, "", user);
         if (chatAdapter.mDataList.size() == 0) {
@@ -208,7 +208,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
 
     private void addFirstMessageToAdapter(String messageString) {
         User user = new User();
-        user.setId(Integer.valueOf(SessionManager.getInstance().getUserId()));
+        user.id = (Integer.parseInt(SessionManager.getInstance().getUserId()));
         Message message = new Message("", messageString,
                 Util.convertLocaleToUtc(Util.getCurrentDate()), "", "", 1, 2, "", user);
         if (chatAdapter.mDataList.size() == 0) {
@@ -238,7 +238,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     private void addImageToAdapter(String attachmentUrl) {
 
         User user = new User();
-        user.setId(Integer.valueOf(SessionManager.getInstance().getUserId()));
+        user.id = (Integer.parseInt(SessionManager.getInstance().getUserId()));
         Message message = new Message(attachmentUrl, "",
                 Util.convertLocaleToUtc(Util.getCurrentDate()), "png", "", messageThread.id, messageThread.id, "", user);
         message.isImage = true;

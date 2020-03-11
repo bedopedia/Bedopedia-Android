@@ -476,7 +476,7 @@ public class SolveQuizFragment extends Fragment implements View.OnClickListener,
 
     private void createSubmission() {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createQuizSubmission();
-        solveQuizView.createQuizSubmission(url, quizzes.getId(), student.getId(), course.getId(), 0);
+        solveQuizView.createQuizSubmission(url, quizzes.getId(), student.id, course.getId(), 0);
         activity.showLoadingDialog();
     }
 

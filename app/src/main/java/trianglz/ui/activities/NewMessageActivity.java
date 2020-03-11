@@ -45,7 +45,7 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
         setListeners();
         if(Util.isNetworkAvailable(this)){
             showLoadingDialog();
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getCourseGroups(student.getId());
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getCourseGroups(student.id);
             newMessageView.getCourseGroups(url);
         }else {
             Util.showNoInternetConnectionDialog(this);

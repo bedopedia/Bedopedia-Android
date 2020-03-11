@@ -94,7 +94,7 @@ public class OnlineQuizzesFragment extends Fragment implements View.OnClickListe
         quizzCourses = new ArrayList<>();
         studentImageView = rootView.findViewById(R.id.img_student);
         backBtn = rootView.findViewById(R.id.btn_back);
-        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+        setStudentImage(student.avatar, student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         adapter = new OnlineQuizzesAdapter(activity, this);
         recyclerView.setAdapter(adapter);

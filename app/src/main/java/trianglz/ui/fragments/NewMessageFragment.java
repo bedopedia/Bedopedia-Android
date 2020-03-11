@@ -76,7 +76,7 @@ public class NewMessageFragment extends Fragment implements View.OnClickListener
     private void getCourseGroups() {
         if (Util.isNetworkAvailable(activity)) {
             showShimmer();
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getCourseGroups(student.getId());
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getCourseGroups(student.id);
             newMessageView.getCourseGroups(url);
         } else {
             Util.showNoInternetConnectionDialog(activity);

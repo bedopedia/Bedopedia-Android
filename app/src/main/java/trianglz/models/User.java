@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class User  implements Serializable {
     @SerializedName("id")
-    private int id;
+    public int id;
 
     @SerializedName("firstname")
     public String firstName;
@@ -19,24 +19,24 @@ public class User  implements Serializable {
     public String lastName;
 
     @SerializedName("gender")
-    private String gender;
+    public String gender;
 
     @SerializedName("user_type")
-    private String userType;
+    public String userType;
 
     @SerializedName("avatar_url")
-    private String avatar;
+    public String avatar;
 
     @SerializedName("email")
-    private String email;
+    public String email;
     @SerializedName("phone")
-    private String phone;
+    public String phone;
 
-    private Date createdAt;
-    private Date updatedAt;
-    private Date dateOfBirth;
-    private String mobile;
-    private String middleName;
+    public Date createdAt;
+    public Date updatedAt;
+    public Date dateOfBirth;
+    public String mobile;
+    public String middleName;
 
 
     public User() {
@@ -63,109 +63,5 @@ public class User  implements Serializable {
         this.email = email;
         this.avatar = avatar;
         this.userType = userType;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
     }
 }

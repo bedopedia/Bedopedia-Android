@@ -139,67 +139,6 @@ public class Student extends trianglz.models.User {
 
     }
 
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public String getSection() {
-        return section;
-    }
-
-    public void setSection(String section) {
-        this.section = section;
-    }
-
-    public String getStage() {
-        return stage;
-    }
-
-    public void setStage(String stage) {
-        this.stage = stage;
-    }
-
-    public int getBedoPoints() {
-        return bedoPoints;
-    }
-
-    public void setBedoPoints(int bedoPoints) {
-        this.bedoPoints = bedoPoints;
-    }
-
-    public Parent getParent() {
-        return parent;
-    }
-
-    public void setParent(Parent parent) {
-        this.parent = parent;
-    }
-
-    public void addCourse(Course course) {
-        courses.add(course);
-    }
-
-    public int getTodayAssignmentsCount() {
-        return this.todayAssignmentsCount;
-    }
-
-    public int getTodayEventsCount() {
-        return this.todayEventsCount;
-    }
-
-    public int getTodayQuizzesCount() {
-        return this.todayQuizzesCount;
-    }
-
-    public String getTodayAttendance() {
-        return this.todayAttendance;
-    }
-
     public void setTodayWorkLoad(JSONObject todayWorkLoad) {
         if (todayWorkLoad == null) return;
         this.todayAttendance = todayWorkLoad.optString("attendance_status");
@@ -211,7 +150,7 @@ public class Student extends trianglz.models.User {
     public static Student create(String json) {
         Gson gson = new GsonBuilder().create();
         Student student = gson.fromJson(json, Student.class);
-        student.userId = student.getId();
+        student.userId = student.id;
         if (student.actableId == 0 ) student.actableId = student.childId;
         if (student.todayWorkLoadStatus != null) {
             student.todayAttendance = student.todayWorkLoadStatus.attendanceStatus;

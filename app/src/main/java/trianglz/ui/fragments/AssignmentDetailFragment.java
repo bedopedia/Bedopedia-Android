@@ -140,7 +140,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         tabLayout.setSelectedTabIndicatorColor(activity.getResources().getColor(Util.checkUserColor()));
         tabLayout.setTabTextColors(activity.getResources().getColor(R.color.steel), activity.getResources().getColor(Util.checkUserColor()));
         if (!SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
-            setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+            setStudentImage(student.avatar, student.firstName + " " + student.lastName);
         }
         placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
