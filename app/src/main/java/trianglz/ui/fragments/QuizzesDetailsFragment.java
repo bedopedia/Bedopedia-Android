@@ -211,7 +211,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         for (Quizzes quiz : quizzes) {
             if (quiz.getState().equals("running")) {
                 if (isOpen) filteredQuizzes.add(quiz);
-            } else {
+            } else if (quiz.getState().equals("finished")) {
                 if (!isOpen) filteredQuizzes.add(quiz);
             }
         }
@@ -369,7 +369,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             if (page == 1)
                 showSkeleton(true);
             isCalling = true;
-            quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId(), page);
+            quizzesDetailsView.getQuizzesDetails(quizzCourse.getId());
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }
