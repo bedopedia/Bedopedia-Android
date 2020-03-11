@@ -158,7 +158,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         for (AssignmentsDetail assignmentsDetail : assignmentsDetailArrayList) {
             if (assignmentsDetail.getState().equals("running")) {
                 if (isOpen) filteredDetails.add(assignmentsDetail);
-            } else {
+            } else if (assignmentsDetail.getState().equals("done")) {
                 if (!isOpen) filteredDetails.add(assignmentsDetail);
             }
         }
