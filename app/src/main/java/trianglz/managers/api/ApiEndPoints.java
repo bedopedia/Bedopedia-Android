@@ -26,7 +26,6 @@ public class ApiEndPoints {
     public static String gradesCourses(int studentId) {
         return "/api/students/" + studentId + "/course_groups_short_list";
     }
-
     public static String getAssignmentSubmissions(int courseId, int courseGroupId, int assignmentId) {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/assignments/" + assignmentId + "/submissions";
     }
@@ -45,7 +44,6 @@ public class ApiEndPoints {
     public static String gradingPeriods(int courseId) {
         return "/api/grading_periods/course_grading_periods?course_id=" + courseId;
     }
-
     public static String postAssignmentGrade(int courseId, int courseGroupId, int assignmentId) {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/assignments/" + assignmentId + "/student_grade";
     }
@@ -62,8 +60,8 @@ public class ApiEndPoints {
         return "/api/students/" + studentId + "/course_groups_with_quizzes_number";
     }
 
-    public static String getQuizzesDetails(int courseId) {
-        return "/api/quizzes?page=1&per_page=1000&by_course_group=" + courseId + "&mobile=true";
+    public static String getQuizzesDetails(int studentId, int courseId, int page) {
+        return "/api/students/" + studentId + "/quizzes?page=" + page + "&per_page=20&course_group_ids=[" + courseId + "]";
     }
 
     public static String getTeacherQuizzes(String courseGroupId) {
@@ -175,9 +173,8 @@ public class ApiEndPoints {
     }
 
     public static String getProfile(int userId) {
-        return "/api/users/" + userId + "/getProfile";
+        return  "/api/users/" + userId + "/getProfile";
     }
-
     public static String createBatchAttendance() {
         return "/api/attendances/batch_create";
     }

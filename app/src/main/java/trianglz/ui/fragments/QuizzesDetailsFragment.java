@@ -67,6 +67,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private QuizzesDetailsView quizzesDetailsView;
     private CourseGroups courseGroup;
     private boolean teacherMode = false;
+    private int page = 1;
     private int totalPages;
     private boolean isOpen = true;
     private SwipeRefreshLayout pullRefreshLayout;
@@ -79,7 +80,6 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private LayoutInflater inflater;
     private boolean isCalling = false;
     private QuizQuestion quizQuestion;
-    private boolean isOnHold = false;
 
     @Nullable
     @Override
@@ -171,16 +171,10 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 recyclerView.scrollToPosition(0);
-                if (tab.getPosition() == 0) {
+                if (tab.getPosition() == 0)
                     isOpen = true;
-                    isOnHold = false;
-                } else if (tab.getPosition() == 1) {
+                else
                     isOpen = false;
-                    isOnHold = true;
-                } else {
-                    isOpen = false;
-                    isOnHold = false;
-                }
                 if (!isCalling)
                     showHidePlaceholder(getArrayList());
             }
@@ -217,10 +211,8 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
         for (Quizzes quiz : quizzes) {
             if (quiz.getState().equals("running")) {
                 if (isOpen) filteredQuizzes.add(quiz);
-            } else if (quiz.getState().equals("on_hold")) {
-                if (isOnHold && !isOpen) filteredQuizzes.add(quiz);
             } else {
-                if (!isOpen && !isOnHold) filteredQuizzes.add(quiz);
+                if (!isOpen) filteredQuizzes.add(quiz);
             }
         }
         return filteredQuizzes;
@@ -264,7 +256,6 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onGetQuizzesDetailsSuccess(ArrayList<Quizzes> quizzes, Meta meta) {
-        this.quizzes.clear();
         this.quizzes.addAll(quizzes);
         populateIsToSubmitArray();
         totalPages = meta.getTotalPages();
@@ -352,9 +343,9 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 //                    beginTransaction().add(R.id.menu_fragment_root, singleQuizFragment, "MenuFragments").
 //                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
 //                    addToBackStack(null).commit();
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizQuestions(quizzes.getId());
-            quizzesDetailsView.getQuizQuestions(url);
-            activity.showLoadingDialog();
+                String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizQuestions(quizzes.getId());
+                quizzesDetailsView.getQuizQuestions(url);
+                activity.showLoadingDialog();
         } else {
             GradingFragment gradingFragment = new GradingFragment();
             Bundle bundle = new Bundle();
@@ -375,9 +366,10 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 
     private void getQuizzes() {
         if (Util.isNetworkAvailable(getActivity())) {
-            showSkeleton(true);
+            if (page == 1)
+                showSkeleton(true);
             isCalling = true;
-            quizzesDetailsView.getQuizzesDetails(quizzCourse.getId());
+            quizzesDetailsView.getQuizzesDetails(student.getId(), quizzCourse.getId(), page);
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }
@@ -390,6 +382,10 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onReachPosition() {
+        page++;
+        if (page <= totalPages) {
+            getQuizzes();
+        }
     }
 
     private void populateIsToSubmitArray() {
@@ -422,11 +418,9 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     private void showHidePlaceholder(ArrayList<Quizzes> quizzes) {
         if (quizzes.isEmpty()) {
             if (isOpen) {
-                placeholderTextView.setText(activity.getResources().getString(R.string.open_quizzes_placeholder));
-            } else if (isOnHold) {
-                placeholderTextView.setText(activity.getResources().getString(R.string.on_hold_quizzes_placeholder));
+                placeholderTextView.setText(activity.getResources().getString(R.string.open_assignments_placeholder));
             } else {
-                placeholderTextView.setText(activity.getResources().getString(R.string.closed_quizzes_placeholder));
+                placeholderTextView.setText(activity.getResources().getString(R.string.closed_assignments_placeholder));
             }
             recyclerView.setVisibility(View.GONE);
             placeholderLinearLayout.setVisibility(View.VISIBLE);

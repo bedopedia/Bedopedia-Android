@@ -84,18 +84,7 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
                 holder.dayTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
                 holder.monthTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
                 holder.dueTimeTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
-
                 holder.dueTimeTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_clock_green, null), null, null, null);
-
-            } else if (quizzes.getState().equals("on_hold")) {
-                holder.itemView.setOnClickListener(null);
-                holder.clockImageView.setImageResource(R.drawable.ic_yellow_clock);
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.color.light_yellow, null));
-                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dark_yellow, null));
-                holder.dayTextView.setTextColor(context.getResources().getColor(R.color.dark_yellow, null));
-                holder.monthTextView.setTextColor(context.getResources().getColor(R.color.dark_yellow, null));
-                holder.dueTimeTextView.setTextColor(context.getResources().getColor(R.color.dark_yellow, null));
-                holder.dueTimeTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_yellow_clock, null), null, null, null);
 
             } else {
                 holder.itemView.setOnClickListener(view -> anInterface.onItemClicked(quizzes));
