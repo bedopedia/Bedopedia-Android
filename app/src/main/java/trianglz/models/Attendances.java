@@ -4,6 +4,9 @@ package trianglz.models;
  * Created by Farah A. Moniem on 16/09/2019.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
@@ -14,7 +17,7 @@ import org.json.JSONException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Attendances implements Serializable {
+public class Attendances implements Serializable, Parcelable {
 
     @SerializedName("id")
     private int id;
@@ -126,4 +129,51 @@ public class Attendances implements Serializable {
         }
         return arrayList;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.date);
+        dest.writeString(this.comment);
+        dest.writeString(this.status);
+        dest.writeInt(this.timetableSlotId);
+        dest.writeInt(this.studentId);
+        dest.writeParcelable(this.student, flags);
+        dest.writeString(this.createdAt);
+        dest.writeString(this.updatedAt);
+        dest.writeString(this.deletedAt);
+    }
+
+    public Attendances() {
+    }
+
+    protected Attendances(Parcel in) {
+        this.id = in.readInt();
+        this.date = in.readString();
+        this.comment = in.readString();
+        this.status = in.readString();
+        this.timetableSlotId = in.readInt();
+        this.studentId = in.readInt();
+        this.student = in.readParcelable(Student.class.getClassLoader());
+        this.createdAt = in.readString();
+        this.updatedAt = in.readString();
+        this.deletedAt = in.readString();
+    }
+
+    public static final Parcelable.Creator<Attendances> CREATOR = new Parcelable.Creator<Attendances>() {
+        @Override
+        public Attendances createFromParcel(Parcel source) {
+            return new Attendances(source);
+        }
+
+        @Override
+        public Attendances[] newArray(int size) {
+            return new Attendances[size];
+        }
+    };
 }

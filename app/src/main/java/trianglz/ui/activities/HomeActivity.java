@@ -61,10 +61,7 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
 
     private void getValueFromIntent(Intent intent) {
         if (intent != null) {
-            String studentJsonArray = intent.getStringExtra(Constants.CHILDREN);
-            if (studentJsonArray != null) {
-                students = Student.getArrayList(studentJsonArray);
-            }
+            students = intent.getParcelableArrayListExtra(Constants.CHILDREN);
         }
     }
 
