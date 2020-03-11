@@ -64,15 +64,11 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
                 holder.studentGrade.setText("");
             }
             holder.studentName.setText(submission.getStudentName());
-            if (submission.getGrade() == null) {
-                holder.itemView.setOnClickListener(view -> {
-                    studentGradeInterface.onItemCLicked(null
-                            , holder.studentFeedback.getText().toString(), submission.getStudentId());
+            holder.itemView.setOnClickListener(view -> {
+                studentGradeInterface.onItemCLicked(null
+                        , holder.studentFeedback.getText().toString(), submission.getStudentId());
 
-                });
-            } else {
-                holder.itemView.setOnClickListener(null);
-            }
+            });
             holder.downloadAssignmentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -95,17 +91,12 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
                 holder.studentGrade.setText("");
             }
             holder.studentName.setText(submission.getStudentName());
-            if (submission.getScore() == null) {
                 holder.itemView.setOnClickListener(view -> {
 
                     studentGradeInterface.onItemCLicked(null
                             , holder.studentFeedback.getText().toString(), submission.getStudentId());
 
                 });
-            } else {
-                holder.itemView.setOnClickListener(null);
-            }
-
             holder.downloadAssignmentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
