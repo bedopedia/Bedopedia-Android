@@ -42,7 +42,7 @@
                     android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:padding="10dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/chevron_left" />
+                    android:src="@drawable/chevron_left"/>
 
                 <TextView
                     android:id="@+id/tv_header"
@@ -79,12 +79,6 @@
                 <android.support.design.widget.TabItem
                     android:id="@+id/open_tab"
                     android:text="@string/open"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
-
-                <android.support.design.widget.TabItem
-                    android:id="@+id/on_hold_tab"
-                    android:text="@string/on_hold"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
 
