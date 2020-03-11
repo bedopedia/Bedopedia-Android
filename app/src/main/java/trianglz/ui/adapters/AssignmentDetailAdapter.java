@@ -20,7 +20,6 @@ import java.util.List;
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import trianglz.managers.SessionManager;
 import trianglz.models.AssignmentsDetail;
 import trianglz.utils.Util;
 
@@ -70,11 +69,8 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
         if (assignmentsDetail.getState() != null) {
             holder.dateTextView.setVisibility(View.VISIBLE);
             if (assignmentsDetail.getState().equals("running")) {
-                if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
-                    holder.cardView.setOnClickListener(null);
-                }
 //                holder.clockImageView.setImageResource(R.drawable.ic_clock_green);
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.color.transparent_light_sage, null));
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.color.transparent_light_sage,null));
 
                 holder.dateTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
                 holder.dayTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
@@ -82,22 +78,10 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
                 holder.dueTimeTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
                 holder.dueTimeTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_clock_green, null), null, null, null);
 
-            } else if (assignmentsDetail.getState().equals("on_hold")) {
-                if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
-                    holder.cardView.setOnClickListener(null);
-                }
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.color.light_yellow, null));
-                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.dark_yellow, null));
-                holder.dayTextView.setTextColor(context.getResources().getColor(R.color.dark_yellow, null));
-                holder.monthTextView.setTextColor(context.getResources().getColor(R.color.dark_yellow, null));
-                holder.dueTimeTextView.setTextColor(context.getResources().getColor(R.color.dark_yellow, null));
-                holder.dueTimeTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_yellow_clock, null), null, null, null);
-
             } else {
-                holder.cardView.setOnClickListener(view -> anInterface.onItemClicked(assignmentsDetail));
 //                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.red, null));
 //                holder.clockImageView.setImageResource(R.drawable.ic_clock_red);
-                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.color.very_light_pink, null));
+                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.color.very_light_pink,null));
                 holder.dayTextView.setTextColor(context.getResources().getColor(R.color.transparent_red, null));
                 holder.monthTextView.setTextColor(context.getResources().getColor(R.color.transparent_red, null));
                 holder.dueTimeTextView.setTextColor(context.getResources().getColor(R.color.red, null));
@@ -111,6 +95,12 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
         String published = context.getString(R.string.published) + " " + Util.getPostDate(dateTime.toString(), context);
         holder.publishedTextView.setText(published);
         //  if (assignmentsDetail.getDescription() != null || assignmentsDetail.getUploadedFilesCount() != 0) {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                anInterface.onItemClicked(assignmentsDetail);
+            }
+        });
         //  }
     }
 
@@ -128,7 +118,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
     public static class Holder extends RecyclerView.ViewHolder {
 
         public TextView subjectNameTextView, dateTextView,
-                assignmentNameTextView, dayTextView, monthTextView, publishedTextView, dueTimeTextView;
+                assignmentNameTextView, dayTextView, monthTextView, publishedTextView,dueTimeTextView;
         public IImageLoader imageLoader;
         private AvatarView courseAvatarView;
         public FrameLayout dateLinearLayout;
