@@ -29,6 +29,17 @@ public class CourseAssignment implements Serializable {
     @SerializedName("next_assignment_start_date")
     private String nextAssignmentStartDate;
 
+    public int getActiveAssignmentCount() {
+        return activeAssignmentCount;
+    }
+
+    public void setActiveAssignmentCount(int activeAssignmentCount) {
+        this.activeAssignmentCount = activeAssignmentCount;
+    }
+
+    @SerializedName("running_assignments_count")
+    private int activeAssignmentCount;
+
     public void setId(int id) {
         this.id = id;
     }

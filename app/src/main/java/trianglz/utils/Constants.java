@@ -134,7 +134,7 @@ public class Constants {
     public static final String KEY_TOTAL_GRADE = "total_grade";
     public static final String KEY_THUMB_URL = "thumb_url";
     public static final String KEY_NAME_WITH_TITLE = "name_with_title";
-    public static final String KEY_ACTABLE_ID = "actable_id";
+    public static final String KEY_CHILD_ID = "child_id";
     public static final String KEY_TEACHERS = "teachers";
     public static final String KEY_SECTION_ID = "section_id";
     public static final String KEY_IS_DELETED = "is_deleted";
@@ -181,11 +181,14 @@ public class Constants {
     public static final String KEY_THREADS_IDS = "thread_ids";
     public static final String KEY_WEEKLY_PLANER = "weeklyPlaner";
     public static final String KEY_DAILY_NOTE = "dailyNote";
+    public static final String KEY_DAILY_NOTEs = "daily_notes";
     public static final String KEY_WEEKLY_NOTE = "weeklyNote";
     public static final String KEY_HIDE_GRADE = "hide_grade";
 
     public static final String KEY_IS_STUDENT_ACCOUNT = "isStudentAccount";
     public static final String KEY_UPLOADED_OBJECTS = "uploaded_objects";
+    public static final String KEY_UPLOADED_FILES = "uploaded_files";
+
     public static final String POST_DETAILS = "post_details";
     public static final String CONTENT = "content";
     public static final String POST_ID = "post_id";
@@ -197,22 +200,23 @@ public class Constants {
     public static final String DISABLE_CLICK = "disable_click";
     public static final String KEY_COURSE_GROUP_NAME = "course_group_name";
     public static final String KEY_ASSIGNMENT_ID = "assignment_id";
-    public static final String KEY_ASSIGNMENTS_GRADING= "is_assignments_grading";
-    public static final String KEY_QUIZ_ID= "quiz_id";
+    public static final String KEY_ASSIGNMENTS_GRADING = "is_assignments_grading";
+    public static final String KEY_QUIZ_ID = "quiz_id";
     public static final String KEY_ASSIGNMENT_NAME = "assignment_name";
     public static final String KEY_QUIZ_NAME = "quiz_name";
-    public static final String TYPE_EVENT="event";
-    public static final String TYPE_VACATIONS="vacations";
-    public static final String TYPE_PERSONAL="personal";
-    public static final String TYPE_QUIZZES="quizzes";
-    public static final String TYPE_ACADEMIC="academic";
-    public static final String TYPE_ASSIGNMENTS="assignments";
+    public static final String TYPE_EVENT = "event";
+    public static final String TYPE_VACATIONS = "vacations";
+    public static final String TYPE_PERSONAL = "personal";
+    public static final String TYPE_QUIZZES = "quizzes";
+    public static final String TYPE_ACADEMIC = "academic";
+    public static final String TYPE_ASSIGNMENTS = "assignments";
     public static final String KEY_EVENT = "event";
     public static final String KEY_ALL_DAY = "all_day";
-    public static final String KEY_LISTENERS_ATTRIBUTES = "listeners_attributes";
-    public static final String KEY_LISTENER_TYPE = "listener_type";
-    public static final String KEY_LISTENER_ID = "listener_id";
+    public static final String KEY_SUBSCRIPTIONS_ATTRIBUTES = "subscriptions_attributes";
+    public static final String KEY_SUBSCRIBER_TYPE = "subscriber_type";
+    public static final String KEY_SUBSCRIBER_ID = "subscriber_id";
     public static final String KEY_CANCEL = "cancel";
+    public static final String KEY_COURSE_ASSIGNMENT = "course_assignment";
 
     public static final String KEY_POSTABLE_TYPE = "postable_type";
     public static final String KEY_POSTABLE_ID = "postable_id";
@@ -221,6 +225,52 @@ public class Constants {
     public static final String KEY_POST = "post";
     public static final int PICKFILE_RESULT_CODE = 1;
     public static final String KEY_POST_IDS = "post_ids[]";
+    public static final String TIMETABLE_SLOTS = "timetable_slot";
+    public static final String TIMETABLE_SLOTS_ID = "timetable_slot_id";
+    public static final String KEY_ATTENDANCES = "attendances";
+    public static final String TYPE_PRESENT = "present";
+    public static final String TYPE_LATE = "late";
+    public static final String TYPE_ABSENT = "absent";
+    public static final String TYPE_EXCUSED = "excused";
+    public static final String KEY_META = "meta";
 
+
+    public static final String DELETE_ALL = "delete_all";
+    public static final String KEY_IDS = "ids";
+    public static final String TYPE_MULTIPLE_SELECT = "MultipleSelect";
+    public static final String TYPE_MULTIPLE_CHOICE = "MultipleChoice";
+    public static final String TYPE_TRUE_OR_FALSE = "TrueOrFalse";
+    public static final String TYPE_MATCH = "Match";
+    public static final String TYPE_REORDER = "Reorder";
+
+    public static final String MODE = "mode";
+    public static final int SOLVE_QUIZ = 0;
+    public static final int VIEW_QUESTIONS = 1;
+    public static final int VIEW_CORRECT_ANSWERS = 2;
+    public static final int VIEW_STUDENT_ANSWERS = 3;
+
+    public static final String KEY_QUIZ_QUESTION = "quiz_question";
+    public static final String SCORE = "score";
+    public static final String SUBMISSION = "submission";
+    public static final String KEY_ANSWER_ID="answer_id";
+    public static final String KEY_ANSWER_SUBMISSION="answer_submission";
+    public static final String KEY_IS_CORRECT="is_correct";
+    public static final String KEY_MATCH="match";
+    public static final String KEY_QUESTION_ID="question_id";
+    public static final String KEY_QUIZ_SUBMISSION_ID="quiz_submission_id";
+    public static final String KEY_CURRENT_PASSWORD="current_password";
+    public static final String KEY_PASSWORD_CONFIRMATION ="password_confirmation";
+    public static final String KEY_RESET_PASSWORD ="reset_password";
+    public static final String KEY_REASONS ="reasons";
+
+    public static final String KEY_SENDER_DATA="sender_data";
+
+    public static final String MOBILE_API = "mobile_api";
+    public static final String KEY_WEEKLY_PLAN = "weekly_plan";
+    public static final int TYPE_ASSIGNMENT = 0;
+    public static final int TYPE_ATTACHMENT = 1;
+    public static final String CHILDREN = "children";
+    public static final String PRESENT_COUNT = "present_count";
+    public static final String PERCENTAGE = "percentage";
 }
 

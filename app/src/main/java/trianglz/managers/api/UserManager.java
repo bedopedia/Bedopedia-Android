@@ -1,7 +1,5 @@
 package trianglz.managers.api;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import trianglz.managers.SessionManager;
@@ -19,6 +18,8 @@ import trianglz.managers.network.HandleArrayResponseListener;
 import trianglz.managers.network.HandleMultiPartResponseListener;
 import trianglz.managers.network.HandleResponseListener;
 import trianglz.managers.network.NetworkManager;
+import trianglz.models.AnswerSubmission;
+import trianglz.models.Answers;
 import trianglz.models.Feedback;
 import trianglz.models.GradeModel;
 import trianglz.utils.Constants;
@@ -58,11 +59,12 @@ public class UserManager {
             }
             jsonObject.put(Constants.KEY_PASSWORD, password);
             jsonObject.put(Constants.KEY_MOBILE, true);
+            jsonObject.put(Constants.MOBILE_API, true);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        String header = Util.convertHeaderMapToBulk(hashMap);
         NetworkManager.postLogin(url + "", jsonObject, hashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -93,10 +95,45 @@ public class UserManager {
         });
     }
 
+    public static void getGradesCourses(int studentId, final ArrayResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.gradesCourses(studentId);
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        String headerMap = Util.convertHeaderMapToBulk(headerHashMap);
+        HashMap<String, String> paramsHashMap = new HashMap<>();
+        NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
+    public static void getGradesDetails(int studentId, int courseId, int courseGroupId,int gradingPeriodId, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.gradesDetails(courseId, courseGroupId, studentId, gradingPeriodId);
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        headerHashMap.put("Mobile-Version", "application/vnd.skolera.v1");
+        HashMap<String, String> paramsHashMap = new HashMap<>();
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
     public static void getTeacherCourses(String teacherId, final ArrayResponseListener arrayResponseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getTeacherCourses(teacherId);
-        HashMap<String,String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
-        HashMap<String,String> paramsHashMap = new HashMap<>();
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String, String> paramsHashMap = new HashMap<>();
         NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -105,7 +142,7 @@ public class UserManager {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                arrayResponseListener.onFailure(message,errorCode);
+                arrayResponseListener.onFailure(message, errorCode);
             }
         });
     }
@@ -137,7 +174,7 @@ public class UserManager {
 
     }
 
-    public static void getPostDetails(int courseId,int page, final ResponseListener responseListener) {
+    public static void getPostDetails(int courseId, int page, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postsDetailsApi(courseId, page);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
@@ -170,6 +207,7 @@ public class UserManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        String headerString = Util.convertHeaderMapToBulk(hashMap);
         NetworkManager.put(url, params, hashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -188,6 +226,7 @@ public class UserManager {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
         paramsHashMap.put(Constants.PARENT_ID, id);
+        String headerMap = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -290,7 +329,8 @@ public class UserManager {
     }
 
 
-    public static void getWeeklyPlanner(String url, final ResponseListener responseListener) {
+    public static void getWeeklyPlanner(final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.weeklyPlanner();
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
             @Override
@@ -326,6 +366,7 @@ public class UserManager {
 
     public static void getStudentGradeBook(String url, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+//        headerHashMap.put("Accept","application/vnd.skolera.v1");
         HashMap<String, String> paramsHashMap = new HashMap<>();
         NetworkManager.getWithParameter(url, paramsHashMap, headerHashMap, new HandleResponseListener() {
             @Override
@@ -362,6 +403,7 @@ public class UserManager {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
         paramsHashMap.put(Constants.KEY_USER_ID, id);
+        String header = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.getWithParameter(url, paramsHashMap, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -374,7 +416,20 @@ public class UserManager {
             }
         });
     }
-
+    public static void getSingleThread(String url, final ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String, String> paramsHashMap = new HashMap<>();
+        NetworkManager.getWithParameter(url, paramsHashMap, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
     public static void getCourseGroups(String url, final ArrayResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
@@ -425,7 +480,7 @@ public class UserManager {
 
     }
 
-    public static void showAssignment (String url, final ResponseListener responseListener) {
+    public static void showAssignment(String url, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
             @Override
@@ -451,18 +506,19 @@ public class UserManager {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                responseListener.onFailure(message,errorCode);
+                responseListener.onFailure(message, errorCode);
             }
         });
     }
 
-    public static void getQuizzesDetails(int studentId, int courseId, final ResponseListener responseListener) {
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizzesDetails(studentId, courseId);
+    public static void getQuizzesDetails( int courseId,  final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizzesDetails(courseId);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        String hashStr = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-            responseListener.onSuccess(response);
+                responseListener.onSuccess(response);
             }
 
             @Override
@@ -658,6 +714,7 @@ public class UserManager {
     public static void getEvents(String url, final ArrayResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
+        String header = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -671,14 +728,14 @@ public class UserManager {
         });
     }
 
-    public static void createEvent(String url, Date startDate, Date endDate, String type, String allDay, String title, String listenerType, int listenerId, String description, String cancel, final ResponseListener responseListener) {
+    public static void createEvent(String url, Date startDate, Date endDate, String type, String allDay, String title, String listenerType, String listenerId, String description, String cancel, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject eventJsonObject = new JSONObject();
         JSONObject eventAttributesJsonObject = new JSONObject();
         JSONObject listenersJsonObject = new JSONObject();
         JSONArray listenerJsonArray = new JSONArray();
         SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("CET"));
         String d1 = sdf.format(startDate);
         String d2 = sdf.format(endDate);
@@ -689,15 +746,15 @@ public class UserManager {
             eventAttributesJsonObject.put(Constants.KEY_ALL_DAY, allDay);
             eventAttributesJsonObject.put(Constants.KEY_TITLE, title);
             //listeners
-            listenersJsonObject.put(Constants.KEY_LISTENER_TYPE, listenerType);
-            listenersJsonObject.put(Constants.KEY_LISTENER_ID, listenerId);
+            listenersJsonObject.put(Constants.KEY_SUBSCRIBER_TYPE, listenerType);
+            listenersJsonObject.put(Constants.KEY_SUBSCRIBER_ID, listenerId);
             listenerJsonArray.put(listenersJsonObject);
 
-            eventAttributesJsonObject.put(Constants.KEY_LISTENERS_ATTRIBUTES, listenerJsonArray);
+            eventAttributesJsonObject.put(Constants.KEY_SUBSCRIPTIONS_ATTRIBUTES, listenerJsonArray);
             eventAttributesJsonObject.put(Constants.KEY_DESCRIPTION, description);
             eventAttributesJsonObject.put(Constants.KEY_CANCEL, cancel);
 
-            eventJsonObject.put(Constants.KEY_EVENT,eventAttributesJsonObject);
+            eventJsonObject.put(Constants.KEY_EVENT, eventAttributesJsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -716,11 +773,28 @@ public class UserManager {
 
     }
 
+    public static void getProfile(int userId, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() +
+                ApiEndPoints.getProfile(userId);
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        String header = Util.convertHeaderMapToBulk(headerHashMap);
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
     public static void getAssignmentSubmissions(int courseId, int courseGroupId, int assignmentId, final ArrayResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() +
                 ApiEndPoints.getAssignmentSubmissions(courseId, courseGroupId, assignmentId);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
-        HashMap<String,String> paramsHashMap = new HashMap<>();
+        HashMap<String, String> paramsHashMap = new HashMap<>();
         NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -733,6 +807,7 @@ public class UserManager {
             }
         });
     }
+
     public static void postAssignmentGrade(GradeModel gradeModel, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() +
                 ApiEndPoints.postAssignmentGrade(gradeModel.getCourseId(),
@@ -758,6 +833,7 @@ public class UserManager {
             }
         });
     }
+
     public static void postQuizGrade(GradeModel gradeModel, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() +
                 ApiEndPoints.postQuizGrade(gradeModel.getCourseId(),
@@ -783,6 +859,7 @@ public class UserManager {
             }
         });
     }
+
     public static void postSubmissionFeedback(Feedback feedback, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.postSubmissionFeedback();
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
@@ -812,18 +889,18 @@ public class UserManager {
         });
     }
 
-    public static void createTeacherPost(String url,String post,int ownerId,int courseGroupId,String postableType, final ResponseListener responseListener ){
+    public static void createTeacherPost(String url, String post, int ownerId, int courseGroupId, String postableType, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
-        JSONObject jsonObject= new JSONObject();
-        JSONObject postJsonObject= new JSONObject();
+        JSONObject jsonObject = new JSONObject();
+        JSONObject postJsonObject = new JSONObject();
         try {
-            postJsonObject.put(Constants.CONTENT,post);
-            postJsonObject.put(Constants.KEY_OWNER_ID,ownerId);
-            postJsonObject.put(Constants.KEY_POSTABLE_ID,courseGroupId);
-            postJsonObject.put(Constants.KEY_POSTABLE_TYPE,postableType);
-            postJsonObject.put(Constants.KEY_VIDEO_PREVIEW,"");
-            postJsonObject.put(Constants.KEY_VIDEO_URL,"");
-            jsonObject.put(Constants.KEY_POST,postJsonObject);
+            postJsonObject.put(Constants.CONTENT, post);
+            postJsonObject.put(Constants.KEY_OWNER_ID, ownerId);
+            postJsonObject.put(Constants.KEY_POSTABLE_ID, courseGroupId);
+            postJsonObject.put(Constants.KEY_POSTABLE_TYPE, postableType);
+            postJsonObject.put(Constants.KEY_VIDEO_PREVIEW, "");
+            postJsonObject.put(Constants.KEY_VIDEO_URL, "");
+            jsonObject.put(Constants.KEY_POST, postJsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -841,11 +918,11 @@ public class UserManager {
     }
 
 
-    public static void attachFileToTeacherPost(String url, int postId, File file,MultiPartResponseListener multiPartResponseListener){
+    public static void attachFileToTeacherPost(String url, int postId, File file, MultiPartResponseListener multiPartResponseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> multiPartHashmap = new HashMap<>();
-        multiPartHashmap.put(Constants.KEY_NAME,file.getName());
-        multiPartHashmap.put(Constants.KEY_POST_IDS,Integer.toString(postId));
+        multiPartHashmap.put(Constants.KEY_NAME, file.getName());
+        multiPartHashmap.put(Constants.KEY_POST_IDS, Integer.toString(postId));
         NetworkManager.upload(url, multiPartHashmap, file, headerHashMap, new HandleMultiPartResponseListener() {
             @Override
             public void onProgress(long uploaded, long total) {
@@ -859,9 +936,335 @@ public class UserManager {
 
             @Override
             public void onFailure(String s, int errorCode) {
-                multiPartResponseListener.onFailure(s,errorCode);
+                multiPartResponseListener.onFailure(s, errorCode);
             }
         });
     }
 
+    public static void getTeacherAttendance(String url, final ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        String header = Util.convertHeaderMapToBulk(headerHashMap);
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
+    public static void createBatchAttendance(String url, String date, String comment, String status, ArrayList<Integer> studentIds, int timetableSlotId, final ArrayResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject rootJsonObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
+        JSONArray attendancesJsonArray = new JSONArray();
+        try {
+            for (int i = 0; i < studentIds.size(); i++) {
+                JSONObject attendanceJson = new JSONObject();
+                attendanceJson.put(Constants.KEY_DATE, date);
+                attendanceJson.put(Constants.KEY_COMMENT, comment);
+                attendanceJson.put(Constants.KEY_STATUS, status);
+                attendanceJson.put(Constants.KEY_STUDENT_ID, studentIds.get(i));
+                attendanceJson.put(Constants.TIMETABLE_SLOTS_ID, timetableSlotId);
+                attendancesJsonArray.put(attendanceJson);
+            }
+            jsonObject.put(Constants.KEY_ATTENDANCES, attendancesJsonArray);
+            rootJsonObject.put(Constants.KEY_ATTENDANCE, jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
+
+    public static void createBatchAttendance(String url, String date, String comment, String status, ArrayList<Integer> studentIds, final ArrayResponseListener arrayResponseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject rootJsonObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
+        JSONArray attendancesJsonArray = new JSONArray();
+        try {
+            for (int i = 0; i < studentIds.size(); i++) {
+                JSONObject attendanceJson = new JSONObject();
+                attendanceJson.put(Constants.KEY_DATE, date);
+                attendanceJson.put(Constants.KEY_COMMENT, comment);
+                attendanceJson.put(Constants.KEY_STATUS, status);
+                attendanceJson.put(Constants.KEY_STUDENT_ID, studentIds.get(i));
+                attendancesJsonArray.put(attendanceJson);
+            }
+            jsonObject.put(Constants.KEY_ATTENDANCES, attendancesJsonArray);
+            rootJsonObject.put(Constants.KEY_ATTENDANCE, jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                arrayResponseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                arrayResponseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
+
+    public static void deleteBatchAttendance(String url, ArrayList<Integer> attendanceIds, final ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject rootJsonObject = new JSONObject();
+        JSONArray attendanceIdsJsonArray = new JSONArray();
+        try {
+            for (int i = 0; i < attendanceIds.size(); i++) {
+                attendanceIdsJsonArray.put(attendanceIds.get(i));
+            }
+            rootJsonObject.put(Constants.KEY_IDS, attendanceIdsJsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
+
+    public static void getQuizQuestions(String url, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
+
+    public static void createQuizSubmission(String url, int quizId, int studentId, int courseGroupId, int score, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject jsonObject = new JSONObject();
+        JSONObject rootJsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.KEY_QUIZ_ID, quizId);
+            jsonObject.put(Constants.KEY_STUDENT_ID, studentId);
+            jsonObject.put(Constants.KEY_COURSE_GROUP_ID, courseGroupId);
+            jsonObject.put(Constants.SCORE, score);
+            rootJsonObject.put(Constants.SUBMISSION, jsonObject);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
+    public static void getQuizSolveDetails(String url, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
+
+    public static void postAnswerSubmission(String url, int quizSubmissionId, AnswerSubmission answerSubmission, ArrayResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject rootJsonObject = new JSONObject();
+        JSONArray answerJsonArray = new JSONArray();
+        try {
+            for (Answers answers : answerSubmission.getAnswerSubmission()) {
+                JSONObject answerJsonObject = new JSONObject();
+                answerJsonObject.put(Constants.KEY_ANSWER_ID, answers.getId());
+                answerJsonObject.put(Constants.KEY_IS_CORRECT, answers.isCorrect());
+                answerJsonObject.put(Constants.KEY_MATCH, answers.getMatch());
+                answerJsonObject.put(Constants.KEY_QUESTION_ID, answers.getQuestionId());
+                answerJsonObject.put(Constants.KEY_QUIZ_SUBMISSION_ID, quizSubmissionId);
+                answerJsonArray.put(answerJsonObject);
+            }
+            rootJsonObject.put(Constants.KEY_ANSWER_SUBMISSION, answerJsonArray);
+            rootJsonObject.put(Constants.KEY_QUESTION_ID, answerSubmission.getQuestionId());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
+    public static void getAnswerSubmission(String url, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        NetworkManager.get(url, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
+
+    public static void deleteAnswerSubmission(String url, int questionId, int quizSubmissionId, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.KEY_QUIZ_SUBMISSION_ID, quizSubmissionId);
+            jsonObject.put(Constants.KEY_QUESTION_ID, questionId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.delete(url, jsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
+
+    public static void submitQuiz(String url, int submissionId, ResponseListener responseListener) {
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject jsonObject = new JSONObject();
+        JSONObject rootJsonObject = new JSONObject();
+        try {
+            jsonObject.put(Constants.KEY_ID, submissionId);
+            rootJsonObject.put(Constants.SUBMISSION, jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.post(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+
+            }
+        });
+    }
+
+    public static void changePassword(String url, String currentPassword, int userId, String newPassword, HashMap<String, String> headerHashMap, ResponseListener responseListener) {
+        JSONObject rootJsonObject = new JSONObject();
+        JSONObject userJsonObject = new JSONObject();
+        try {
+            userJsonObject.put(Constants.KEY_CURRENT_PASSWORD, currentPassword);
+            userJsonObject.put(Constants.KEY_ID, userId);
+            userJsonObject.put(Constants.KEY_PASSWORD, newPassword);
+            userJsonObject.put(Constants.KEY_PASSWORD_CONFIRMATION, newPassword);
+            userJsonObject.put(Constants.KEY_RESET_PASSWORD, true);
+            rootJsonObject.put(Constants.USER, userJsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.put(url, rootJsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
+    public static void getGradingPeriods(int courseID, final ArrayResponseListener arrayResponseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.gradingPeriods(courseID);
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        HashMap<String, String> paramsHashMap = new HashMap<>();
+        NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                arrayResponseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                arrayResponseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
+    public static void getAttendanceCount(int studentId, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() +
+                ApiEndPoints.getAttendanceCount(studentId);
+        HashMap<String, String> hashMap = SessionManager.getInstance().getHeaderHashMap();
+        String header = Util.convertHeaderMapToBulk(hashMap);
+        NetworkManager.get(url, hashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
 }

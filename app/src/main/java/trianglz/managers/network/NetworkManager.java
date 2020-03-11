@@ -7,6 +7,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.androidnetworking.interfaces.OkHttpResponseAndJSONArrayRequestListener;
 import com.androidnetworking.interfaces.OkHttpResponseAndJSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 
@@ -129,6 +130,50 @@ public class NetworkManager {
 
     }
 
+    public static void post(String url, JSONObject object, final HashMap<String, String> headerValues, final HandleArrayResponseListener handleArrayResponseListener) {
+        if (object == null) {
+            AndroidNetworking.post(url)
+                    .addHeaders(headerValues)
+                    .setPriority(Priority.HIGH)
+                    .build()
+                    .getAsOkHttpResponseAndJSONArray(new OkHttpResponseAndJSONArrayRequestListener() {
+                        @Override
+                        public void onResponse(Response okHttpResponse, JSONArray response) {
+                            Headers headers = okHttpResponse.headers();
+                            handleArrayResponseListener.onSuccess(response);
+                        }
+
+                        @Override
+                        public void onError(ANError anError) {
+
+                        }
+                    });
+
+
+        } else {
+            AndroidNetworking.post(url)
+                    .addHeaders(headerValues)
+                    .addJSONObjectBody(object)
+                    .setPriority(Priority.HIGH)
+                    .build().getAsOkHttpResponseAndJSONArray(new OkHttpResponseAndJSONArrayRequestListener() {
+                @Override
+                public void onResponse(Response okHttpResponse, JSONArray response) {
+                    Headers headers = okHttpResponse.headers();
+                    handleArrayResponseListener.onSuccess(response);
+                }
+
+                @Override
+                public void onError(ANError anError) {
+                    handleArrayResponseListener.onFailure(getErrorMessage(anError), anError.getErrorCode());
+
+                }
+            });
+
+
+        }
+
+    }
+
     public static void put(String url, JSONObject object, HashMap<String, String> headersValues, final HandleResponseListener handleResponseListener) {
         if (object == null) {
             AndroidNetworking.put(url)
@@ -237,7 +282,45 @@ public class NetworkManager {
         }
 
     }
+    public static void delete(String url, JSONObject object, HashMap<String, String> headersValues , final HandleResponseListener handleResponseListener) {
+        if (object == null) {
+            AndroidNetworking.delete(url)
+                    .addHeaders(headersValues)
+                    .setPriority(Priority.HIGH)
+                    .build()
+                    .getAsJSONObject(new JSONObjectRequestListener() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            handleResponseListener.onSuccess(response);
+                        }
 
+                        @Override
+                        public void onError(ANError error) {
+                            handleResponseListener.onFailure(getErrorMessage(error), error.getErrorCode());
+                        }
+                    });
+
+        } else {
+            AndroidNetworking.delete(url)
+                    .addHeaders(headersValues)
+                    .addJSONObjectBody(object)
+                    .setPriority(Priority.HIGH)
+                    .build()
+                    .getAsJSONObject(new JSONObjectRequestListener() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            handleResponseListener.onSuccess(response);
+                        }
+
+                        @Override
+                        public void onError(ANError error) {
+                            handleResponseListener.onFailure(getErrorMessage(error), error.getErrorCode());
+                        }
+                    });
+
+        }
+
+    }
     public static void upload(String url, JSONObject jsonObject, File file, HashMap<String, String> headersValues, final HandleResponseListener handleResponseListener) {
         AndroidNetworking.upload(url)
                 .addHeaders(headersValues)
@@ -278,7 +361,12 @@ public class NetworkManager {
                 return "";
             }
             JSONObject errorBody = new JSONObject(anError.getErrorBody());
-            message = errorBody.optString(Constants.KEY_MESSAGE);
+            if(errorBody.has(Constants.KEY_REASONS)){
+                JSONArray jsonArray = errorBody.optJSONArray(Constants.KEY_REASONS);
+                message = jsonArray.optString(0);
+            }else{
+                message = errorBody.optString(Constants.KEY_MESSAGE);
+            }
             return message;
         } catch (JSONException e) {
             e.printStackTrace();

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/NoActionBar"
+    android:id="@+id/main_activity"
     tools:context="trianglz.ui.activities.StudentMainActivity">
 
 
@@ -13,25 +14,29 @@
         android:id="@+id/rl_header"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingEnd="8dp"
         android:paddingStart="8dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/logo"/>
-    <ImageButton
-        android:id="@+id/btn_setting_student"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:layout_centerVertical="true"
-        android:src="@drawable/settings_icon"
-        android:layout_alignParentEnd="true"
-        android:background="@color/transparent"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/logo" />
+
+        <ImageButton
+            android:id="@+id/btn_setting_student"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:layout_centerVertical="true"
+            android:src="@drawable/settings_icon"
+            android:layout_alignParentEnd="true"
+            android:background="@color/transparent" />
+
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,6 +47,7 @@
             android:padding="10dp"
             android:id="@+id/btn_new_message"
             android:src="@drawable/new_icon_group" />
+
         <ImageButton
             android:id="@+id/back_btn"
             android:layout_width="35dp"
@@ -53,15 +59,17 @@
             android:layout_alignParentStart="true"
             android:src="@drawable/chevron_left"
             android:layout_marginEnd="2dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp" />
 
     </RelativeLayout>
+
     <View
+        android:id="@+id/toolbar_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#e5e5e5"
-        android:layout_gravity="bottom"
-        />
+        android:layout_gravity="bottom" />
+
     <trianglz.components.CustomRtlViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
@@ -82,10 +90,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="60dp"
             android:background="@color/white"
             android:elevation="4dp"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:id="@+id/ll_courses_tab"
                 android:layout_width="0dp"
@@ -123,6 +132,7 @@
                     android:visibility="gone"
                     tools:targetApi="o" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_announcment_tab"
                 android:layout_width="0dp"
@@ -196,7 +206,7 @@
                     tools:targetApi="o" />
             </LinearLayout>
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/ll_notifications_tab"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -205,32 +215,51 @@
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:gravity="center_horizontal"
-                android:orientation="vertical"
                 tools:targetApi="m">
 
-                <ImageView
-                    android:id="@+id/iv_notifcations"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_notifications_tab" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
 
-                <TextView
-                    android:id="@+id/tv_notifications"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.5"
-                    android:autoSizeMaxTextSize="12sp"
-                    android:autoSizeMinTextSize="7sp"
-                    android:autoSizeTextType="uniform"
-                    android:paddingEnd="4dp"
-                    android:paddingStart="4dp"
-                    android:gravity="center_horizontal"
-                    android:text="@string/notifications"
-                    android:textColor="@color/new_blue"
-                    android:visibility="gone"
-                    tools:targetApi="o" />
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/iv_notifcations"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_notifications_tab" />
+
+                    <TextView
+                        android:id="@+id/tv_notifications"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.5"
+                        android:autoSizeMaxTextSize="12sp"
+                        android:autoSizeMinTextSize="7sp"
+                        android:autoSizeTextType="uniform"
+                        android:paddingEnd="4dp"
+                        android:paddingStart="4dp"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:text="@string/notifications"
+                        android:textColor="@color/new_blue"
+                        android:visibility="gone"
+                        tools:targetApi="o" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:src="@drawable/badge_drawable"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="-6dp"
+                    android:layout_marginTop="-8dp"
+                    android:visibility="visible"
+                    android:tint="@color/turquoise_blue_two"
+                    android:id="@+id/img_red_circle" />
+
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/ll_menu_tab"
@@ -262,7 +291,7 @@
                     android:paddingStart="4dp"
                     android:autoSizeTextType="uniform"
                     android:gravity="center_horizontal"
-                    android:text="@string/menu"
+                    android:text="@string/profile"
                     android:textColor="@color/new_blue"
                     tools:targetApi="o" />
             </LinearLayout>

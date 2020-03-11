@@ -12,6 +12,8 @@ public class TimeTableSlot implements Comparable<TimeTableSlot>, Serializable {
     private Date from;
     private Date to;
     private String day;
+    private String sectionName;
+    private String coureGroupName;
     private String courseName;
     private String classRoom;
 
@@ -21,14 +23,18 @@ public class TimeTableSlot implements Comparable<TimeTableSlot>, Serializable {
         this.day = "";
         this.courseName = "";
         this.classRoom = "";
+        this.coureGroupName = "";
+        this.sectionName = "";
     }
 
-    public TimeTableSlot(Date from, Date to, String day, String courseName, String classRoom) {
+    public TimeTableSlot(Date from, Date to, String day, String courseName, String classRoom, String coureGroupName, String sectionName) {
         this.from = from;
         this.to = to;
         this.day = day;
         this.courseName = courseName;
         this.classRoom = classRoom;
+        this.coureGroupName = coureGroupName;
+        this.sectionName = sectionName;
     }
 
     public Date getFrom() {
@@ -65,6 +71,22 @@ public class TimeTableSlot implements Comparable<TimeTableSlot>, Serializable {
 
     public String getClassRoom() {
         return classRoom;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
+    }
+
+    public String getCoureGroupName() {
+        return coureGroupName;
+    }
+
+    public void setCoureGroupName(String coureGroupName) {
+        this.coureGroupName = coureGroupName;
     }
 
     public void setClassRoom(String classRoom) {

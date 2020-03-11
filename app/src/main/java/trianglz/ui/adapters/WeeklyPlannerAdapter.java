@@ -4,18 +4,14 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-
-import com.skolera.skolera_android.R;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
-
-import trianglz.ui.fragments.DayFragment;
 
 /**
  * This file is spawned by Gemy on 1/16/2019.
  */
-public class WeeklyPlannerAdapter extends FragmentPagerAdapter {
+public class WeeklyPlannerAdapter extends FragmentStatePagerAdapter {
 
     public ArrayList<Fragment> fragmentArrayList;
     public ArrayList<String> daysNameArrayList;

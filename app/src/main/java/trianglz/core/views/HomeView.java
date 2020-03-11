@@ -2,23 +2,16 @@ package trianglz.core.views;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-import trianglz.core.presenters.HomePresenter;
 import trianglz.managers.SessionManager;
-import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
-import trianglz.models.Student;
 import trianglz.utils.Util;
 
 /**
@@ -26,52 +19,9 @@ import trianglz.utils.Util;
  */
 public class HomeView {
     private Context context;
-    private HomePresenter presenter;
 
-    public HomeView(Context context, HomePresenter presenter) {
+    public HomeView(Context context) {
         this.context = context;
-        this.presenter = presenter;
-    }
-
-    public void getStudents(String url, String id) {
-        UserManager.getStudentsHome(url, id, new ArrayResponseListener() {
-            @Override
-            public void onSuccess(JSONArray responseArray) {
-                presenter.onGetStudentsHomeSuccess(parseHomeResponse(responseArray));
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-                presenter.onGetStudentsHomeFailure(message, errorCode);
-            }
-        });
-    }
-
-    private ArrayList<Object> parseHomeResponse(JSONArray response) {
-        ArrayList<Object> objectArrayList = new ArrayList<>();
-        ArrayList<JSONArray> kidsAttendances = new ArrayList<>();
-        ArrayList<trianglz.models.Student> myKids = new ArrayList<>();
-        for (int i = 0; i < response.length(); i++) {
-            JSONObject studentData = response.optJSONObject(i);
-            JSONArray attenobdances = studentData.optJSONArray("attendances");
-            kidsAttendances.add(attenobdances);
-            myKids.add(new Student(Integer.parseInt(studentData.optString("id")),
-                    studentData.optString("firstname"),
-                    studentData.optString("lastname"),
-                    studentData.optString("gender"),
-                    studentData.optString("email"),
-                    studentData.optString("avatar_url"),
-                    studentData.optString("user_type"),
-                    studentData.optString("level_name"),
-                    studentData.optString("section_name"),
-                    studentData.optString("stage_name"),
-                    studentData.optJSONObject("today_workload_status"),
-                    0,studentData.optInt("user_id"), null, null));
-        }
-        objectArrayList.add(kidsAttendances);
-        objectArrayList.add(myKids);
-        return objectArrayList;
-
     }
 
     public void refreshFireBaseToken() {

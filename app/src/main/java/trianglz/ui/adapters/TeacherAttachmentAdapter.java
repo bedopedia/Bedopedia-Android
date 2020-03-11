@@ -89,7 +89,7 @@ public class TeacherAttachmentAdapter extends RecyclerView.Adapter {
     private void setAttachmentImage(ImageView attachmentImageView, String ext) {
         if (ext.contains("pdf")) {
             attachmentImageView.setImageResource((R.drawable.pdf_icon));
-        } else if (ext.contains("doc")) {
+        } else if (ext.contains("doc") || ext.contains("rtf")) {
             attachmentImageView.setImageResource((R.drawable.doc_icon));
         } else if (ext.contains("pp")) {
             attachmentImageView.setImageResource((R.drawable.ppt_icon));

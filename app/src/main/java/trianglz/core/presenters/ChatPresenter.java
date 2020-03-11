@@ -1,7 +1,5 @@
 package trianglz.core.presenters;
 
-import trianglz.models.MessageThread;
-
 /**
  * Created by ${Aly} on 11/12/2018.
  */
@@ -11,5 +9,5 @@ public interface ChatPresenter {
     void onFirstMessageSuccess();
     void onFirstMessageFailure(String message,int errorCode);
     void onSendImageSuccess(String attachmentUrl);
-    void onSendImageFailure();
+    void onSendImageFailure(String message, int errorCode);
 }

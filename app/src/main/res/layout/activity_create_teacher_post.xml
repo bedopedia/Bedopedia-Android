@@ -7,20 +7,21 @@
     android:id="@+id/root_view"
     android:background="@color/snow"
     android:orientation="vertical"
+    android:focusable="true"
+    android:clickable="true"
     tools:context="trianglz.ui.activities.CreateTeacherPostActivity">
 
     <ImageButton
         android:id="@+id/close_btn"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_width="40dp"
+        android:layout_width="50dp"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:background="@color/transparent"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:scaleType="center"
-        android:src="@drawable/places_ic_clear" />
+        android:src="@drawable/close" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,7 +31,8 @@
         android:layout_marginBottom="6dp"
         android:text="@string/create_post"
         android:textColor="@color/cerulean_blue"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        style="@style/RobotoMediumStyle"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -50,7 +52,8 @@
         android:layout_marginBottom="6dp"
         android:text="@string/content"
         android:textColor="@color/black_87"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        style="@style/RobotoMediumStyle"/>
 
     <EditText
         android:id="@+id/post_edit_text"
@@ -60,6 +63,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/curved_solid_white_radius_6"
         android:gravity="start"
+        android:textColor="@color/black"
         android:hint="@string/text_editor_hint"
         android:inputType="textMultiLine"
         android:maxHeight="104dp"
@@ -80,7 +84,8 @@
             android:layout_weight="1"
             android:text="@string/attachments"
             android:textColor="@color/black_87"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            style="@style/RobotoMediumStyle"/>
 
         <Button
             android:id="@+id/upload_file_btn"
@@ -93,22 +98,25 @@
             android:textAllCaps="false"
             android:textColor="@color/cerulean_blue"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/roboto_medium" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/attachment_layout"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/curved_solid_white_radius_6"
-        android:gravity="center_horizontal|bottom"
+        android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/attachment_icon"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -135,11 +143,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:visibility="gone"></android.support.v7.widget.RecyclerView>
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/post_btn"
-        android:layout_width="168dp"
+        android:layout_width="140dp"
         android:layout_height="48dp"
         android:layout_gravity="end"
         android:layout_marginStart="16dp"
@@ -148,6 +156,7 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/curved_solid_cerulean_blue"
         android:text="@string/post"
+        android:textSize="16sp"
         android:textAllCaps="false"
         android:textColor="@color/white" />
 </LinearLayout>

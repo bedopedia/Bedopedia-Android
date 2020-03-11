@@ -5,62 +5,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="trianglz.ui.activities.CalendarActivity">
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/white">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@color/white"
         android:elevation="2dp"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="0dp"
         app:contentInsetRight="0dp"
-        app:contentInsetStart="0dp">
+        app:contentInsetStart="0dp"
+        app:layout_collapseMode="pin">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:gravity="center_vertical"
                 android:paddingStart="8dp"
+                android:orientation="horizontal"
                 android:paddingEnd="8dp">
-
 
                 <ImageButton
                     android:id="@+id/btn_back"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:padding="10dp"
-                    android:src="@drawable/chevron_left" />
-
-                <trianglz.components.SfproBoldTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:background="@android:color/transparent"
+                    android:foreground="@drawable/round_ripple_25"
+                    android:padding="10dp"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/chevron_left" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:text="@string/calendar"
                     android:textColor="@color/greyish_brown"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:layout_weight="1"
+                    android:id="@+id/tv_header"
+                    style="@style/RobotoMediumStyle"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="20sp"
+                    />
 
                 <agency.tango.android.avatarview.views.AvatarView
                     android:id="@+id/img_student"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/notify" />
-            </RelativeLayout>
+                    android:background="@android:color/transparent" />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -71,28 +79,29 @@
 
     </android.support.v7.widget.Toolbar>
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <trianglz.components.SfuiBoldTextView
+        <TextView
             android:id="@+id/tv_month_year_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:text="March 2016"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="16sp" />
 
-        <trianglz.components.SfuiBoldTextView
+        <TextView
             android:id="@+id/today_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text="@string/today"
             android:textColor="@color/jade_green"
-            android:textSize="17sp" />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
@@ -153,7 +162,7 @@
                         android:id="@+id/tv_all_counter"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
-                        android:text="12"
+                        android:text="0"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -187,7 +196,7 @@
                         android:id="@+id/tv_events_counter"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
-                        android:text="12"
+                        android:text="0"
                         android:textColor="@color/turquoise_blue"
                         android:textSize="14sp" />
 
@@ -215,13 +224,14 @@
                     android:layout_width="94dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <trianglz.components.CircularMediumTextView
                         android:id="@+id/tv_assignments_counter"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
-                        android:text="12"
+                        android:text="0"
                         android:textColor="@color/red"
                         android:textSize="14sp" />
 
@@ -249,13 +259,14 @@
                     android:layout_width="94dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <trianglz.components.CircularMediumTextView
                         android:id="@+id/tv_quizzes_counter"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
-                        android:text="12"
+                        android:text="0"
                         android:textColor="@color/light_sage"
                         android:textSize="14sp" />
 
@@ -290,7 +301,7 @@
                         android:id="@+id/tv_academic_counter"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
-                        android:text="12"
+                        android:text="0"
                         android:textColor="@color/butterscotch"
                         android:textSize="14sp" />
 
@@ -325,7 +336,7 @@
                         android:id="@+id/tv_vacations_counter"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
-                        android:text="12"
+                        android:text="0"
                         android:textColor="@color/soft_green"
                         android:textSize="14sp" />
 
@@ -359,7 +370,7 @@
                         android:id="@+id/tv_personal_counter"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
-                        android:text="12"
+                        android:text="0"
                         android:textColor="@color/iris"
                         android:textSize="14sp" />
 
@@ -386,15 +397,25 @@
 
     </FrameLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+        <include layout="@layout/item_shimmer_layout"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_event"/>
+    </FrameLayout>
+
+
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="66dp">
+        android:layout_height="66dp"
+        android:id="@+id/create_event_framelayout">
 
         <trianglz.components.RobotoMediumButton
             android:id="@+id/create_personal_event"

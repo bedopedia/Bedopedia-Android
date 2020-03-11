@@ -1,28 +1,30 @@
 package trianglz.ui.fragments;
 
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 
-import trianglz.components.BottomItemDecoration;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.presenters.AnnouncementInterface;
 import trianglz.core.views.AnnouncementView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
 import trianglz.models.Announcement;
-import trianglz.ui.activities.AnnouncementDetailActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.AnnouncementAdapter;
 import trianglz.utils.Constants;
@@ -33,7 +35,7 @@ import trianglz.utils.Util;
  */
 public class AnnouncementsFragment extends Fragment implements View.OnClickListener
         , AnnouncementAdapter.AnnouncementAdapterInterface
-        , AnnouncementInterface {
+        , AnnouncementInterface, StudentMainActivity.OnBackPressedInterface {
 
     // rootView
     private View rootView;
@@ -46,6 +48,11 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     private int pageNumber = 1;
     private Actor actor;
     private boolean newIncomingNotificationData;
+    private SwipeRefreshLayout pullRefreshLayout;
+    private LinearLayout placeholderLinearLayout;
+    private LinearLayout skeletonLayout;
+    private ShimmerFrameLayout shimmer;
+    private LayoutInflater inflater;
 
     public AnnouncementsFragment() {
         // Required empty public constructor
@@ -59,30 +66,50 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
         rootView = inflater.inflate(R.layout.fragment_announcements, container, false);
         activity = (StudentMainActivity) getActivity();
         bindViews();
-        if(Util.isNetworkAvailable(getActivity())){
+        setListeners();
+        if (Util.isNetworkAvailable(getActivity())) {
             getAnnouncement(false);
-            activity.showLoadingDialog();
-        }else {
+//            if (!activity.isCalling)
+//                activity.showLoadingDialog();
+        } else {
             Util.showNoInternetConnectionDialog(getActivity());
         }
         return rootView;
     }
 
-    private void bindViews(){
-        adapter = new AnnouncementAdapter(getActivity(),this);
+    private void bindViews() {
+
+        adapter = new AnnouncementAdapter(getActivity(), this);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
-                LinearLayoutManager.VERTICAL,false));
-        recyclerView.addItemDecoration(new BottomItemDecoration((int) Util.convertDpToPixel(6,getActivity()),false));
-        announcementView = new AnnouncementView(getActivity(),this);
-
+                LinearLayoutManager.VERTICAL, false));
+        announcementView = new AnnouncementView(getActivity(), this);
+        pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
+        pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
+        placeholderLinearLayout = rootView.findViewById(R.id.placeholder_layout);
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
+        skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
+        shimmer = rootView.findViewById(R.id.shimmer_view_container);
+        this.inflater = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    private void setListeners() {
+        pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullRefreshLayout.setRefreshing(false);
+                getAnnouncement(false);
+                placeholderLinearLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+            }
+        });
+    }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_back:
                 activity.onBackPressed();
                 break;
@@ -101,14 +128,19 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
     }
 
     private void getAnnouncement(boolean pagination) {
-
-        activity.showLoadingDialog();
         if (!pagination) {
             pageNumber = 1;
+            showSkeleton(true);
         }
         String type;
-        if (SessionManager.getInstance().getUserType()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             type = "parent";
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
+            type = "teacher";
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
+            type = "hod";
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString())) {
+            type = "admin";
         } else {
             type = "student";
         }
@@ -119,36 +151,112 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onGetAnnouncementSuccess(ArrayList<Announcement> announcementArrayList) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
+        showSkeleton(false);
+        if (pageNumber == 1 && announcementArrayList.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            placeholderLinearLayout.setVisibility(View.GONE);
+            if (pageNumber == 1 && !adapter.mDataList.isEmpty()) {
+                adapter.mDataList.clear();
+            }
+            newIncomingNotificationData = announcementArrayList.size() != 0;
+            adapter.addData(announcementArrayList, newIncomingNotificationData);
         }
-        newIncomingNotificationData = announcementArrayList.size() != 0;
-        adapter.addData(announcementArrayList, newIncomingNotificationData);
     }
 
     @Override
     public void onGetAnnouncementFailure(String message, int errorCode) {
-        if (activity.progress.isShowing()) {
-            activity.progress.dismiss();
+       showSkeleton(false);
+        if (pageNumber == 1) {
+            recyclerView.setVisibility(View.GONE);
+            placeholderLinearLayout.setVisibility(View.VISIBLE);
         }
     }
 
 
-    private void  openAnnouncementDetailActivity(Announcement announcement){
-        Intent intent = new Intent(getActivity(), AnnouncementDetailActivity.class);
+    private void openAnnouncementDetailActivity(Announcement announcement) {
+        AnnouncementDetailFragment announcementDetailFragment = new AnnouncementDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_ANNOUNCEMENTS, announcement);
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(intent);
-
+        announcementDetailFragment.setArguments(bundle);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.announcement_root, announcementDetailFragment).
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
+    public void showSkeleton(boolean show) {
+        if (show) {
+            skeletonLayout.removeAllViews();
+
+            int skeletonRows = Util.getSkeletonRowCount(activity);
+            for (int i = 0; i <= skeletonRows; i++) {
+                ViewGroup rowLayout = (ViewGroup) inflater
+                        .inflate(R.layout.skeleton_row_layout, (ViewGroup) rootView, false);
+                skeletonLayout.addView(rowLayout);
+            }
+            shimmer.setVisibility(View.VISIBLE);
+            shimmer.startShimmer();
+            shimmer.showShimmer(true);
+            skeletonLayout.setVisibility(View.VISIBLE);
+            skeletonLayout.bringToFront();
+        } else {
+            shimmer.stopShimmer();
+            shimmer.hideShimmer();
+            shimmer.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onStop() {
         super.onStop();
-        if(activity.progress.isShowing()){
-            activity.progress.dismiss();
+        if (activity.progress.isShowing()) {
+            if (!activity.isCalling)
+                activity.progress.dismiss();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
+            if (activity.pager.getCurrentItem() == 3) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+            if (activity.pager.getCurrentItem() == 0) {
+                if (getChildFragmentManager().getFragments().size() == 0) {
+                    getActivity().finish();
+                    return;
+                }
+            }
+            getChildFragmentManager().popBackStack();
+            if (getChildFragmentManager().getFragments().size() == 1) {
+                activity.toolbarView.setVisibility(View.VISIBLE);
+                activity.headerLayout.setVisibility(View.VISIBLE);
+            }
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString())) {
+            if (activity.pager.getCurrentItem() == 0) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        } else {
+            if (activity.pager.getCurrentItem() == 1) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+
+            }
         }
     }
 }

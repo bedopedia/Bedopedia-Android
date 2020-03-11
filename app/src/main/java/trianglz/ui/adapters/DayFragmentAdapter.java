@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -21,14 +20,14 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
-import trianglz.models.DailyNote;
+import trianglz.models.PlannerSubject;
 
 /**
  * This file is spawned by Gemy on 1/20/2019.
  */
 public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.Holder> {
     public Context context;
-    public List<DailyNote> mDataList;
+    public List<PlannerSubject> mDataList;
     public DayFragmentAdapterInterface dayFragmentAdapterInterface;
 
 
@@ -47,16 +46,11 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final Holder holder, int position) {
-        DailyNote dailyNote = mDataList.get(position);
-        holder.subjectNameTextView.setText(dailyNote.getTitle());
+        PlannerSubject plannerSubject = mDataList.get(position);
+        holder.subjectNameTextView.setText(plannerSubject.title);
         holder.gradeTextView.setVisibility(View.GONE);
-        setSubjectName(null,getSubjectNameForPlaceHolder(dailyNote.getTitle()),holder);
-        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dayFragmentAdapterInterface.onItemClicked(mDataList.get(holder.getAdapterPosition()));
-            }
-        });
+        setSubjectName(null,getSubjectNameForPlaceHolder(plannerSubject.title),holder);
+        holder.itemView.setOnClickListener(view -> dayFragmentAdapterInterface.onItemClicked(mDataList.get(holder.getAdapterPosition())));
     }
 
 
@@ -65,9 +59,9 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
         return mDataList.size();
     }
 
-    public void addData(List<DailyNote> dailyNoteList) {
+    public void addData(List<PlannerSubject> plannerSubjectList) {
         this.mDataList.clear();
-        this.mDataList.addAll(dailyNoteList);
+        this.mDataList.addAll(plannerSubjectList);
         notifyDataSetChanged();
     }
 
@@ -75,7 +69,6 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
 
         private TextView subjectNameTextView,gradeTextView;
         private AvatarView subjectImageView;
-        private LinearLayout itemLayout;
         public IImageLoader imageLoader;
 
         private Holder(View itemView) {
@@ -83,7 +76,6 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
             gradeTextView = itemView.findViewById(R.id.tv_grade);
             subjectNameTextView = itemView.findViewById(R.id.tv_subject_name);
             subjectImageView = itemView.findViewById(R.id.img_subject);
-            itemLayout = itemView.findViewById(R.id.item_layout);
             imageLoader = new PicassoLoader();
         }
     }
@@ -126,7 +118,7 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
     }
 
     public interface DayFragmentAdapterInterface{
-        void onItemClicked(DailyNote dailyNote);
+        void onItemClicked(PlannerSubject plannerSubject);
     }
 
 }

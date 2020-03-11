@@ -1,81 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/item_layout"
-    android:clickable="true"
-    android:focusable="true"
-    >
-    
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="13dp"
+    android:layout_marginEnd="13dp"
+    android:id="@+id/card_view"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="3dp"
+    android:layout_marginBottom="8dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="6dp"
-        android:gravity="center_vertical"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp">
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/img_annoucement"
-            android:layout_marginEnd="10dp"
+        android:orientation="vertical"
+        android:id="@+id/item_layout"
+        android:clickable="true"
+        android:focusable="true">
 
-            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:minHeight="44dp"
+            android:gravity="center_vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            >
+
+
+
+            <agency.tango.android.avatarview.views.AvatarView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:visibility="visible"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:id="@+id/img_annoucement"
+                android:layout_marginEnd="12dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="tsdskajasdkldajslkdsajlkdasjdalskjsdaldasjaldsjadslkjadskldasjlkdajdaksdasjkdasjdsjkdsajsdaest"
+                android:ellipsize="end"
+                android:gravity="center_vertical|start"
+                android:textAlignment="viewStart"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:id="@+id/tv_header"
+                android:layout_marginEnd="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="lskjdsadjjslsjdksa"
+                android:clickable="false"
+                android:focusable="false"
+                android:gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:background="@color/transparent"
+                android:id="@+id/tv_date"
+                android:textColor="@color/annocment_date"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="17sp"
-            android:textColor="@color/greyish_brown"
-            android:text="test"
             android:ellipsize="end"
-            android:gravity="start"
+            android:text="Dear Parents, MIS believes that Food, to alarge extent, defines our life. It determines our mood, behaviors, and directs us towards specific actions. students will lear"
+            android:textSize="14sp"
             android:textAlignment="viewStart"
-            android:singleLine="true"
-            android:maxLines="1"
-            android:id="@+id/tv_header"
-            android:layout_marginEnd="5dp"
-            />
+            android:id="@+id/tv_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="15dp"
+            android:textColor="@color/greyish_brown"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:visibility="gone" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="9:15 am"
-            android:background="@color/transparent"
-            android:drawableEnd="@drawable/shape"
-            android:textAlignment="textEnd"
-            android:id="@+id/btn_date"
-            android:textColor="@color/steel"
-            android:drawablePadding="5dp"
-            android:textAllCaps="false"/>
-        
     </LinearLayout>
-    
-    <trianglz.components.SfuiRegularTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:text="Dear Parents, MIS believes that Food, to alarge extent, defines our life. It determines our mood, behaviors, and directs us towards specific actions. students will lear"
-        android:textSize="15sp"
-        android:textAlignment="viewStart"
-        android:id="@+id/tv_content"
-        android:paddingStart="20dp"
-        android:paddingEnd="15dp"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:visibility="gone"
-      />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e5e5e5"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="3dp"
-        android:id="@+id/view_line"/>
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

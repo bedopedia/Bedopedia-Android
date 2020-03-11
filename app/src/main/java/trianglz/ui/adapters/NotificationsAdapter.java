@@ -2,7 +2,6 @@ package trianglz.ui.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +21,10 @@ import trianglz.models.Notification;
  * This file is spawned by Gemy on 10/31/2018.
  */
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.NotificationsViewHolder> {
+    public ArrayList<Notification> notificationArrayList;
+    public int totalCount = -1;
     private Context context;
-    private ArrayList<Notification> notificationArrayList;
     private AdapterPaginationInterface paginationInterface;
-    private boolean newData;
 
 
     public NotificationsAdapter(Context context, AdapterPaginationInterface adapterPaginationInterface) {
@@ -48,27 +47,26 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     @Override
     public void onBindViewHolder(@NonNull NotificationsViewHolder holder, int position) {
-        if (position == notificationArrayList.size() - 2 && newData) {
+        if (position == notificationArrayList.size() - 4 && totalCount != -1 && notificationArrayList.size() <= totalCount) {
             paginationInterface.onReachPosition();
         }
         Notification notification = notificationArrayList.get(position);
         holder.dateTv.setText(notification.getDate());
         holder.descriptionTv.setText(notification.getMessage());
-        holder.descriptionTv.setTextColor(ResourcesCompat.getColor(context.getResources(), R.color.steel, null));
-        if (notification.getType().contains("graded")){
+        if (notification.getType().contains("graded")) {
             holder.logo.setImageResource(R.drawable.grades);
         } else if (notification.getType().contains("assignments")) {
-            holder.logo.setImageResource(R.drawable.notification_2_copy);
+            holder.logo.setImageResource(R.drawable.assignment);
         } else if (notification.getType().contains("quizzes")) {
-            holder.logo.setImageResource(R.drawable.quizzes_ico);
+            holder.logo.setImageResource(R.drawable.quiz);
         } else if (notification.getType().contains("zones")) {
-            holder.logo.setImageResource(R.drawable.zones);
+            holder.logo.setImageResource(R.drawable.ic_conference_call);
         } else if (notification.getType().contains("events")) {
-            holder.logo.setImageResource(R.drawable.mydays);
+            holder.logo.setImageResource(R.drawable.event);
         } else if (notification.getType().equals("virtual")) {
-            holder.logo.setImageResource(R.drawable.virtualclass);
-        }else {
-            holder.logo.setImageResource(R.drawable.notifications);
+            holder.logo.setImageResource(R.drawable.ic_icons8_class_100);
+        } else {
+            holder.logo.setImageResource(R.drawable.ic_notification_empty);
         }
     }
 
@@ -77,12 +75,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         return notificationArrayList.size();
     }
 
-    public void addData(ArrayList<Notification> notifications, boolean newIncomingNotificationData) {
-        newData = newIncomingNotificationData;
-        if (newData) {
-            this.notificationArrayList.addAll(notifications);
-            notifyDataSetChanged();
-        }
+    public void addData(ArrayList<Notification> notifications) {
+        this.notificationArrayList.addAll(notifications);
+        notifyDataSetChanged();
     }
 
     public class NotificationsViewHolder extends RecyclerView.ViewHolder {

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:id="@+id/activity_grades"
+    android:clickable="true"
+    android:focusable="true"
     tools:context="trianglz.ui.activities.GradesActivity"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -19,20 +23,29 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
+            android:foreground="@drawable/round_ripple_25"
             android:padding="10dp"
             android:id="@+id/btn_back"
             android:src="@drawable/chevron_left" />
 
-        <trianglz.components.SfproBoldTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_marginStart="32dp"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:text="@string/grades"
+            android:textAlignment="viewStart"
+            android:gravity="start"
             android:textColor="@color/greyish_brown"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:id="@+id/tv_header"
+            style="@style/RobotoMediumStyle"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="20sp"
+            />
 
         <agency.tango.android.avatarview.views.AvatarView
             android:id="@+id/img_student"
@@ -40,23 +53,53 @@
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:src="@drawable/notify" />
+            android:background="@android:color/transparent" />
     </RelativeLayout>
-    <TextView
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="26dp"
-        android:textColor="@color/gunmetal"
-        android:textSize="16sp"
-        android:text="@string/subjects"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
-        android:background="#197a8993"
-        />
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/recycler_view"/>
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/recycler_view_layout"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+            <include layout="@layout/item_shimmer_layout" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recycler_view" />
+
+            <LinearLayout
+                android:id="@+id/placeholder_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/grades_placeholder" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="24dp"
+                    android:layout_gravity="center"
+                    android:includeFontPadding="false"
+                    android:textSize="16sp"
+                    android:text="@string/courses_placeholder" />
+            </LinearLayout>
+
+        </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -1,6 +1,5 @@
 package trianglz.ui.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +11,6 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
@@ -21,8 +18,7 @@ import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.BottomItemDecoration;
 import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
-import trianglz.models.DailyNote;
-import trianglz.models.RootClass;
+import trianglz.models.PlannerSubject;
 import trianglz.models.Student;
 import trianglz.ui.adapters.DailyNoteAdapter;
 import trianglz.utils.Constants;
@@ -31,7 +27,7 @@ import trianglz.utils.Util;
 public class DailyNoteActivity extends SuperActivity implements View.OnClickListener {
     private ImageButton backButton;
     private Student student;
-    private DailyNote dailyNote;
+    private PlannerSubject plannerSubject;
     private IImageLoader imageLoader;
     private AvatarView studentImageView;
     private RecyclerView recyclerView;
@@ -48,7 +44,7 @@ public class DailyNoteActivity extends SuperActivity implements View.OnClickList
     }
 
     private void getValueFromIntent(){
-        dailyNote = (DailyNote) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_DAILY_NOTE);
+        plannerSubject = (PlannerSubject) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_DAILY_NOTE);
         student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
         imageLoader = new PicassoLoader();
     }
@@ -60,13 +56,13 @@ public class DailyNoteActivity extends SuperActivity implements View.OnClickList
             setStudentImage();
         }
         recyclerView = findViewById(R.id.recycler_view);
-        dailyNoteAdapter = new DailyNoteAdapter(this,dailyNote);
+        dailyNoteAdapter = new DailyNoteAdapter(this, plannerSubject);
         recyclerView.setAdapter(dailyNoteAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recyclerView.addItemDecoration(new TopItemDecoration((int)Util.convertDpToPixel(16,this),false));
         recyclerView.addItemDecoration(new BottomItemDecoration((int)Util.convertDpToPixel(16,this),false));
         dailyNoteNameTextView = findViewById(R.id.tv_name);
-        dailyNoteNameTextView.setText(dailyNote.getTitle());
+        dailyNoteNameTextView.setText(plannerSubject.title);
     }
 
     private void setListeners(){

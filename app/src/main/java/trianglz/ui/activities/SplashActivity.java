@@ -3,13 +3,10 @@ package trianglz.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 
 import com.skolera.skolera_android.R;
 
 import org.json.JSONArray;
-
-import java.util.ArrayList;
 
 import trianglz.core.presenters.SplashPresenter;
 import trianglz.core.views.SplashView;
@@ -26,11 +23,12 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        enableVersionCheck = false;
         splashView = new SplashView(this, this);
         if (SessionManager.getInstance().getIsLoggedIn()) {
-            if(Util.isNetworkAvailable(this)){
-                splashView.login();
-            }else {
+            if (Util.isNetworkAvailable(this)) {
+                splashView.refreshFireBaseToken();
+            } else {
                 startSchoolCodeActivity();
             }
         } else {
@@ -58,23 +56,25 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     }
 
 
-    private void openHomeActivity() {
+    private void openHomeActivity(JSONArray students) {
         Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-        SplashActivity.this.startActivity(intent);
+        intent.putExtra(Constants.CHILDREN, students.toString());
+        this.startActivity(intent);
     }
 
     private void openStudentDetailActivity(Actor actor) {
-        Intent intent = new Intent(this,StudentMainActivity.class);
+        Intent intent = new Intent(this, StudentMainActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_ACTOR,actor);
-        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        bundle.putSerializable(Constants.KEY_ACTOR, actor);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
         this.startActivity(intent);
     }
 
     @Override
-    public void onLoginSuccess() {
-        if(SessionManager.getInstance().getUserType()){
-            openHomeActivity();
+    public void onParentLoginSuccess(JSONArray students) {
+        progress.dismiss();
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+            openHomeActivity(students);
         }
         finish();
     }
@@ -92,19 +92,12 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     }
 
     @Override
-    public void onGetStudentsHomeSuccess(ArrayList<Object> dataObjectArrayList) {
-        if(dataObjectArrayList.size() >1){
-            ArrayList<JSONArray> attendanceJsonArray = (ArrayList<JSONArray>) dataObjectArrayList.get(0);
-            ArrayList<Student> studentArrayList = (ArrayList<Student>) dataObjectArrayList.get(1);
-            if(studentArrayList.size()> 0 && attendanceJsonArray.size() >0){
-                openStudentDetailActivity(studentArrayList.get(0),attendanceJsonArray.get(0));
-            }else {
-                openSchoolLoginActivity();
-            }
-        }else {
+    public void onStudentLoginSuccess(Student student, JSONArray attendanceArray) {
+        if (student != null && attendanceArray.length() > 0) {
+            openStudentDetailActivity(student, attendanceArray);
+        } else {
             openSchoolLoginActivity();
         }
-        finish();
     }
 
     @Override
@@ -113,13 +106,21 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
         finish();
     }
 
+    @Override
+    public void updateTokenSuccess() {
 
-    private void openStudentDetailActivity(Student student,JSONArray studentAttendance) {
+    }
+
+    @Override
+    public void updateTokenFailure() {
+        startSchoolCodeActivity();
+        finish();
+    }
+
+
+    private void openStudentDetailActivity(Student student, JSONArray studentAttendance) {
         Intent intent = new Intent(this, StudentMainActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT, student);
-        bundle.putSerializable(Constants.KEY_ATTENDANCE, studentAttendance.toString());
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        intent.putExtra(Constants.STUDENT, student.toString());
         startActivity(intent);
     }
 }

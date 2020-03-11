@@ -33,6 +33,8 @@
             android:textColor="@color/greyish_brown"
             android:textSize="24sp"
             android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:id="@+id/tv_header"/>
 
         <ImageButton

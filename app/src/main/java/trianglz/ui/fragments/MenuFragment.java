@@ -1,22 +1,19 @@
 package trianglz.ui.fragments;
 
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.javiersantos.appupdater.AppUpdater;
@@ -26,58 +23,33 @@ import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import attendance.Attendance;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
+import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
 import trianglz.components.SettingsDialog;
 import trianglz.core.presenters.StudentDetailPresenter;
 import trianglz.core.views.StudentDetailView;
 import trianglz.managers.SessionManager;
-import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
-import trianglz.models.Announcement;
 import trianglz.models.BehaviorNote;
-import trianglz.models.CourseGroup;
-import trianglz.models.Message;
-import trianglz.models.MessageThread;
-import trianglz.models.Notification;
-import trianglz.models.RootClass;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
-import trianglz.ui.activities.AnnouncementActivity;
-import trianglz.ui.activities.AttendanceActivity;
-import trianglz.ui.activities.BehaviorNotesActivity;
-import trianglz.ui.activities.CalendarActivity;
-import trianglz.ui.activities.ContactTeacherActivity;
-import trianglz.ui.activities.CourseAssignmentActivity;
-import trianglz.ui.activities.GradesActivity;
-import trianglz.ui.activities.NotificationsActivity;
-import trianglz.ui.activities.OnlineQuizzesActivity;
-import trianglz.ui.activities.PostsActivity;
+import trianglz.models.WeeklyPlannerResponse;
+import trianglz.ui.activities.SettingsActivity;
 import trianglz.ui.activities.StudentMainActivity;
-import trianglz.ui.activities.SuperActivity;
-import trianglz.ui.activities.TimetableActivity;
-import trianglz.ui.activities.WeeklyPlannerActivity;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
@@ -85,43 +57,39 @@ import trianglz.utils.Util;
  * A simple {@link Fragment} subclass.
  */
 public class MenuFragment extends Fragment implements StudentDetailPresenter,
-        View.OnClickListener,SettingsDialog.SettingsDialogInterface {
-    
+        StudentMainActivity.OnBackPressedInterface,
+        View.OnClickListener, SettingsDialog.SettingsDialogInterface, ErrorDialog.DialogConfirmationInterface {
+
     //fragment root view
     private View rootView;
-
-    // parent activity 
-    private  StudentMainActivity activity;
+    // parent activity
+    private StudentMainActivity activity;
     private List<TimeTableSlot> todaySlots;
     private List<TimeTableSlot> tomorrowSlots;
     private List<BehaviorNote> positiveBehaviorNotes;
     private List<BehaviorNote> negativeBehaviorNotes;
     private List<BehaviorNote> otherBehaviorNotes;
-    private ArrayList<CourseGroup> courseGroups;
     private Student student;
-    private AvatarView studentImage;
-    private ArrayList<Student> studentArrayList;
-    private ArrayList<Attendance> attendanceArrayList;
     private TextView nameTextView, levelTextView, nextSlotTextView, studentGradeTextView,
-            positiveCounterTextView, negativeCounterTextView,otherCounterTextView, attendanceTextView;
+            positiveCounterTextView, negativeCounterTextView, otherCounterTextView, attendanceTextView, teacherNextSlotTextView;
     private AvatarView studentImageView;
     private IImageLoader imageLoader;
     private String studentName = "";
     private StudentDetailView studentDetailView;
-    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout,weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout;
-    private String attendance;
+    private LinearLayout attendanceLayout, timeTableLayout, gradesLayout, behaviourNotesLayout,
+            weeklyPlannerLayout, assignmentsLayout, postsLayout, quizzesLayout, calendarLayout,
+            teacherTimeTableLayout, layoutAttendanceData;
+    private String nextSlot;
     private int absentDays;
     private com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar progressBar;
-    private ArrayList<JSONArray> attendanceList;
-
-
-    private LinearLayout parentLayout,teacherLayout;
+    private AppBarLayout appBarLayout;
+    private ErrorDialog errorDialogue;
+    private LinearLayout parentLayout, teacherLayout;
     private Actor actor;
     private String actorName = "";
-    private SettingsDialog settingsDialog;
-    private RootClass rootClass;
+    private WeeklyPlannerResponse weeklyPlannerResponse;
     private TextView weeklyPlannerTextView;
-
+    private View shimmerView, teacherShimmerView;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -131,25 +99,27 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         rootView = inflater.inflate(R.layout.fragment_menu, container, false);
         activity = (StudentMainActivity) getActivity();
         bindViews();
         setListeners();
         setParentActorView();
-        if(SessionManager.getInstance().getUserType()){
-            String courseUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/course_groups";
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             if (Util.isNetworkAvailable(getParentActivity())) {
-                studentDetailView.getStudentCourses(courseUrl);
-                getParentActivity().showLoadingDialog();
+                String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.childId + "/timetable";
+                studentDetailView.getStudentTimeTable(timeTableUrl);
+                studentDetailView.getAttendanceCount(student.childId);
+                //
+                activity.isCalling = true;
+                shimmerView.setVisibility(View.VISIBLE);
+                parentLayout.setVisibility(View.INVISIBLE);
+                appBarLayout.setVisibility(View.INVISIBLE);
             } else {
                 Util.showNoInternetConnectionDialog(getParentActivity());
             }
-        }else{
-            checkVersionOnStore();
         }
         return rootView;
-        
     }
 
 
@@ -162,20 +132,23 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             return activity;
         }
     }
-    private void bindViews() {
 
+    private void bindViews() {
+        shimmerView = rootView.findViewById(R.id.view_shimmer);
+        teacherShimmerView = rootView.findViewById(R.id.view_teacher_shimmer);
         todaySlots = new ArrayList<>();
         tomorrowSlots = new ArrayList<>();
         positiveBehaviorNotes = new ArrayList<>();
         negativeBehaviorNotes = new ArrayList<>();
         otherBehaviorNotes = new ArrayList<>();
-        courseGroups = new ArrayList<>();
-        studentArrayList = new ArrayList<>();
+        nextSlot = "";
+        appBarLayout = rootView.findViewById(R.id.app_bar_layout);
         nameTextView = rootView.findViewById(R.id.tv_name);
         levelTextView = rootView.findViewById(R.id.tv_level);
         studentImageView = rootView.findViewById(R.id.img_student);
         imageLoader = new PicassoLoader();
         nextSlotTextView = rootView.findViewById(R.id.tv_time_table);
+        teacherNextSlotTextView = rootView.findViewById(R.id.tv_time_table_teacher);
         studentGradeTextView = rootView.findViewById(R.id.tv_grade);
         attendanceLayout = rootView.findViewById(R.id.layout_attendance);
         weeklyPlannerLayout = rootView.findViewById(R.id.layout_weekly_planner);
@@ -191,15 +164,14 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         attendanceTextView = rootView.findViewById(R.id.tv_attendance);
         parentLayout = rootView.findViewById(R.id.layout_parent);
         teacherLayout = rootView.findViewById(R.id.layout_teacher);
-        settingsDialog = new SettingsDialog(getParentActivity(), R.style.SettingsDialog, this);
+        teacherTimeTableLayout = rootView.findViewById(R.id.layout_timetable_teacher);
         weeklyPlannerTextView = rootView.findViewById(R.id.tv_weekly_planner);
-
+        layoutAttendanceData = rootView.findViewById(R.id.layout_attendance_data);
         student = getParentActivity().getStudent();
         actor = getParentActivity().getActor();
-        attendance = getParentActivity().getAttendance();
 
         // new assignments layout
-        assignmentsLayout = rootView.findViewById (R.id.layout_assignments);
+        assignmentsLayout = rootView.findViewById(R.id.layout_assignments);
 
         // new posts layout
         postsLayout = rootView.findViewById(R.id.layout_posts);
@@ -218,46 +190,38 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         postsLayout.setOnClickListener(this);
         calendarLayout.setOnClickListener(this);
         quizzesLayout.setOnClickListener(this);
-
+        teacherTimeTableLayout.setOnClickListener(this);
     }
 
     private void setParentActorView() {
-        if(!SessionManager.getInstance().getUserType()){
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             parentLayout.setVisibility(View.GONE);
-            teacherLayout.setVisibility(View.VISIBLE);
             actorName = actor.firstName + " " + actor.lastName;
-            setStudentImage(actor.imageUrl,actorName);
+            setStudentImage(actor.imageUrl, actorName);
             nameTextView.setText(actorName);
-            levelTextView.setText(actor.actableType);
-            String notificationText = SessionManager.getInstance().getNotficiationCounter() + " "+getParentActivity().getResources().getString(R.string.unread_notifications);
-        }else {
+            if (actor.actableType.trim().isEmpty()) {
+                levelTextView.setVisibility(View.GONE);
+            } else {
+                levelTextView.setText(actor.actableType);
+            }
+            String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/teachers/" + SessionManager.getInstance().getId() + "/timetable";
+            studentDetailView.getStudentTimeTable(timeTableUrl);
+            appBarLayout.setVisibility(View.GONE);
+            teacherShimmerView.setVisibility(View.VISIBLE);
+            String notificationText = SessionManager.getInstance().getNotficiationCounter() + " " + getParentActivity().getResources().getString(R.string.unread_notifications);
+        } else {
             parentLayout.setVisibility(View.VISIBLE);
             teacherLayout.setVisibility(View.GONE);
             studentName = student.firstName + " " + student.lastName;
-            setAttendance();
             setStudentImage(student.getAvatar(), studentName);
             nameTextView.setText(studentName);
-            levelTextView.setText(student.level);
-        }
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(!SessionManager.getInstance().getUserType()){
-            if(Util.isNetworkAvailable(getParentActivity())){
-                getNotifications(false);
-                getParentActivity().showLoadingDialog();
-            }else {
-                Util.showNoInternetConnectionDialog(getParentActivity());
+            if (student.level.trim().isEmpty()) {
+                levelTextView.setVisibility(View.GONE);
+            } else {
+                levelTextView.setText(student.level);
             }
         }
-        if (!SessionManager.getInstance().getUserType()) {
-
-        }
     }
-    
 
     private void setStudentImage(String imageUrl, final String name) {
         if (imageUrl == null || imageUrl.equals("")) {
@@ -286,265 +250,99 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         }
     }
 
-    private void setAttendance() {
-        try {
-            JSONArray jsonArray = new JSONArray(attendance);
-            Set<Date> attendanceDates = new HashSet<>();
-            absentDays = 0;
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject day = jsonArray.optJSONObject(i);
-                Date date = new Date();
-                date.setTime(day.optLong(Constants.KEY_DATE));
-                if (!attendanceDates.contains(date)) {
-                    if (day.optString(Constants.KEY_STATUS).equals(Constants.KEY_ABSENT))
-                        absentDays++;
-                }
-                attendanceDates.add(date);
-            }
-            if (attendanceDates.size() != 0)
-                progressBar.setProgress(((attendanceDates.size()-absentDays) * 100) / attendanceDates.size());
-            String attendance = getParentActivity().getResources().getString(R.string.attend) + " " + (
-                    attendanceDates.size()-absentDays)  +
-                    " " + getParentActivity().getResources().getString(R.string.out) + " " + attendanceDates.size() + " " +
-                    getParentActivity().getResources().getString(R.string.days);
-            attendanceTextView.setText(attendance);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void onGetStudentCourseGroupSuccess(ArrayList<CourseGroup> courseGroups) {
-        this.courseGroups = courseGroups;
-        String url = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/grade_certificate";
-        studentDetailView.getStudentGrades(url, courseGroups);
-    }
-
-    @Override
-    public void onGetStudentCourseGroupFailure(String message, int errorCode) {
-        if(getParentActivity().progress.isShowing()){
-            getParentActivity().progress.dismiss();
-        }
-        if(errorCode == 401 || errorCode == 500 ){
-            getParentActivity().logoutUser(getParentActivity());
-        }else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
-    }
-
     @Override
     public void onGetStudentGradesSuccess(ArrayList<trianglz.models.CourseGroup> courseGroups, String totalGrade) {
-        this.courseGroups = courseGroups;
-        totalGrade = getParentActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
-        studentGradeTextView.setText(totalGrade);
-        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
-        studentDetailView.getStudentTimeTable(timeTableUrl);
+//        this.courseGroups = courseGroups;
+//        totalGrade = getParentActivity().getResources().getString(R.string.average_grade) + " " + totalGrade;
+//        //  studentGradeTextView.setVisibility(View.VISIBLE);
+//        studentGradeTextView.setText(totalGrade);
+//        String timeTableUrl = SessionManager.getInstance().getBaseUrl() + "/api/students/" + student.getId() + "/timetable";
+//        studentDetailView.getStudentTimeTable(timeTableUrl);
     }
 
     @Override
     public void onGetStudentGradesFailure(String message, int errorCode) {
-        if(getParentActivity().progress.isShowing()){
-            getParentActivity().progress.dismiss();
-        }
-        if(errorCode == 401 || errorCode == 500 ){
-            getParentActivity().logoutUser(getParentActivity());
-        }else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
+        activity.showErrorDialog(activity, errorCode, "");
     }
 
     @Override
     public void oneGetTimeTableSuccess(ArrayList<Object> timeTableData) {
-        String nextSlot = (String) timeTableData.get(2);
+
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
+            activity.isCalling = false;
+        } else {
+            activity.isCalling = true;
+        }
+        nextSlot = (String) timeTableData.get(2);
+
         todaySlots = (List<TimeTableSlot>) timeTableData.get(0);
         tomorrowSlots = (List<TimeTableSlot>) timeTableData.get(1);
-        if(nextSlot.isEmpty()){
-            nextSlotTextView.setText(getParentActivity().getResources().getString(R.string.there_is_no_time_table));
-            timeTableLayout.setClickable(false);
-        }else {
-            timeTableLayout.setClickable(true);
+        if (!nextSlot.isEmpty()) {
+            nextSlotTextView.setVisibility(View.VISIBLE);
+            teacherNextSlotTextView.setVisibility(View.VISIBLE);
             nextSlotTextView.setText(nextSlot);
+            teacherNextSlotTextView.setText(nextSlot);
         }
-
-        String url = SessionManager.getInstance().getBaseUrl() + "/api/behavior_notes";
-        studentDetailView.getStudentBehavioursNotes(url, student.getId() + "");
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
+            String url = SessionManager.getInstance().getBaseUrl() + "/api/behavior_notes";
+            studentDetailView.getStudentBehavioursNotes(url, student.childId + "");
+        } else {
+            teacherLayout.setVisibility(View.VISIBLE);
+            appBarLayout.setVisibility(View.VISIBLE);
+            teacherShimmerView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onGetTimeTableFailure(String message, int errorCode) {
-        if(getParentActivity().progress.isShowing()){
-            getParentActivity().progress.dismiss();
-        }
-        if(errorCode == 401 || errorCode == 500 ){
-            getParentActivity().logoutUser(getParentActivity());
-        }else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
+        activity.showErrorDialog(activity, errorCode, "");
+
     }
 
     @Override
     public void onGetBehaviorNotesSuccess(HashMap<String, List<BehaviorNote>> behaviorNoteHashMap) {
+        activity.isCalling = true;
         positiveBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_POSITIVE);
         negativeBehaviorNotes = behaviorNoteHashMap.get(Constants.KEY_NEGATIVE);
         otherBehaviorNotes = behaviorNoteHashMap.get(Constants.OTHER);
         String positiveCounter = positiveBehaviorNotes.size() + "";
         String negativeCounter = negativeBehaviorNotes.size() + "";
-        String otherCounter = otherBehaviorNotes.size() +"";
+        String otherCounter = otherBehaviorNotes.size() + "";
         positiveCounterTextView.setText(positiveCounter);
         negativeCounterTextView.setText(negativeCounter);
         otherCounterTextView.setText(otherCounter);
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",new Locale("en"));
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
         Date date = new Date();
         String currentDate = (dateFormat.format(date));
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getWeeklyPlanerUrl(currentDate);
-        studentDetailView.getWeeklyPlanner(url);
+        studentDetailView.getWeeklyPlanner();
 
     }
 
     @Override
     public void onGetBehaviorNotesFailure(String message, int errorCode) {
-        if(getParentActivity().progress.isShowing()){
-            getParentActivity().progress.dismiss();
-        }
-        if(errorCode == 401 || errorCode == 500 ){
-            getParentActivity().logoutUser(getParentActivity());
-        }else {
-            getParentActivity(). showErrorDialog(getParentActivity());
-        }
-
+        activity.showErrorDialog(activity, errorCode, "");
     }
 
     @Override
-    public void onGetWeeklyPlannerSuccess(RootClass rootClass) {
-        this.rootClass = rootClass;
-        if (getParentActivity().progress.isShowing())
-            getParentActivity().progress.dismiss();
-        if(rootClass.getWeeklyPlans().size() > 0){
-            weeklyPlannerTextView.setText(Util.getWeeklPlannerText(rootClass.getWeeklyPlans().get(0).getStartDate(),
-                    rootClass.getWeeklyPlans().get(0).getEndDate(),getParentActivity()));
-        }else {
-            weeklyPlannerTextView.setText(R.string.there_is_no_weekly_planner);
+    public void onGetWeeklyPlannerSuccess(WeeklyPlannerResponse weeklyPlannerResponse) {
+        activity.isCalling = false;
+        this.weeklyPlannerResponse = weeklyPlannerResponse;
+        if (weeklyPlannerResponse.weeklyPlans.size() > 0) {
+            weeklyPlannerTextView.setVisibility(View.VISIBLE);
+            weeklyPlannerTextView.setText(Util.getWeeklPlannerText(weeklyPlannerResponse.weeklyPlans.get(0).startDate,
+                    weeklyPlannerResponse.weeklyPlans.get(0).endDate, getParentActivity()));
+        } else {
+              weeklyPlannerTextView.setText(R.string.there_is_no_weekly_planner);
         }
-
+        shimmerView.setVisibility(View.GONE);
+        parentLayout.setVisibility(View.VISIBLE);
+        appBarLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onGetWeeklyPlannerFailure(String message, int errorCode) {
-        if (getParentActivity().progress.isShowing()) {
-            getParentActivity().progress.dismiss();
-        }
-        if (errorCode == 401 || errorCode == 500) {
-            getParentActivity().logoutUser(getParentActivity());
-        } else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
+        activity.showErrorDialog(activity, errorCode, "");
     }
-
-    @Override
-    public void onGetNotificationSuccess(ArrayList<Notification> notificationArrayList) {
-        if(notificationArrayList.size()>0){
-            Notification notification = notificationArrayList.get(0);
-        }else {
-        }
-
-        if(Util.isNetworkAvailable(getParentActivity())){
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-            studentDetailView.getMessages(url,SessionManager.getInstance().getId());
-        }else {
-            if(getParentActivity().progress.isShowing()){
-                getParentActivity(). progress.dismiss();
-            }
-            Util.showNoInternetConnectionDialog(getParentActivity());
-        }
-
-
-    }
-
-    @Override
-    public void onGetNotificationFailure(String message, int errorCode) {
-        if(Util.isNetworkAvailable(getParentActivity())){
-            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-            studentDetailView.getMessages(url,SessionManager.getInstance().getId());
-        }else {
-            if(getParentActivity().progress.isShowing()){
-                getParentActivity().progress.dismiss();
-            }
-            Util.showNoInternetConnectionDialog(getParentActivity());
-        }
-
-        if(errorCode == 401 || errorCode == 500 ){
-            getParentActivity().logoutUser(getParentActivity());
-        }else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
-    }
-
-    @Override
-    public void onGetMessagesSuccess(ArrayList<MessageThread> messageArrayList, int unreadMessageCount) {
-        if(messageArrayList.size() > 0){
-            MessageThread messageThread = messageArrayList.get(0);
-            if(messageThread.messageArrayList.size()>0){
-                Message latestMessage = messageThread.messageArrayList.get(0);
-                String body = android.text.Html.fromHtml(latestMessage.body).toString();
-                body = StringEscapeUtils.unescapeJava(body);
-            }
-        }else {
-        }
-        if(Util.isNetworkAvailable(getParentActivity())){
-            getAnnouncement();
-        }else {
-            if(getParentActivity().progress.isShowing()){
-                getParentActivity().progress.dismiss();
-            }
-            Util.showNoInternetConnectionDialog(getParentActivity());
-        }
-
-    }
-
-    @Override
-    public void onGetMessagesFailure(String message, int errorCode) {
-        if(Util.isNetworkAvailable(getParentActivity())){
-            getAnnouncement();
-        }else {
-            if(getParentActivity().progress.isShowing()){
-                getParentActivity().progress.dismiss();
-            }
-            Util.showNoInternetConnectionDialog(getParentActivity());
-        }
-        if(errorCode == 401 || errorCode == 500 ){
-            getParentActivity().logoutUser(getParentActivity());
-        }else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
-    }
-
-
-    @Override
-    public void onGetAnnouncementsSuccess(ArrayList<Announcement> announcementArrayList) {
-        if(announcementArrayList.size()>0){
-            Announcement announcement = announcementArrayList.get(0);
-            String body = android.text.Html.fromHtml(announcement.body).toString();
-            body = StringEscapeUtils.unescapeJava(body);
-        }else {
-        }
-        if(getParentActivity().progress.isShowing()){
-            getParentActivity(). progress.dismiss();
-        }
-    }
-
-    @Override
-    public void onGetAnnouncementsFailure(String message, int errorCode) {
-        if(getParentActivity().progress.isShowing()){
-            getParentActivity().progress.dismiss();
-        }
-        if(errorCode == 401 || errorCode == 500 ){
-            getParentActivity().logoutUser(getParentActivity());
-        }else {
-            SuperActivity.showErrorDialog(getParentActivity());
-        }
-    }
-
 
     @Override
     public void onClick(View view) {
@@ -567,31 +365,13 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             case R.id.layout_calendar:
                 openCalendarActivity();
                 break;
-            case R.id.btn_messages:
-                openMessagesActivity();
-                break;
-            case R.id.btn_notification:
-                openNotificationsActivity();
-                break;
-            case R.id.layout_notification:
-                openNotificationsActivity();
-                break;
-            case R.id.layout_messages:
-                openMessagesActivity();
-                break;
-            case R.id.layout_annoucment:
-                openAnnouncement();
-                break;
             case R.id.btn_setting:
-                settingsDialog.show();
+            case R.id.btn_setting_student:
+                Intent i = new Intent(activity, SettingsActivity.class);
+                startActivity(i);
                 break;
             case R.id.layout_weekly_planner:
                 openWeeklyPlannerActivity();
-                break;
-            case R.id.btn_setting_student:
-                if(!settingsDialog.isShowing()){
-                    settingsDialog.show();
-                }
                 break;
             case R.id.tv_assignment:
                 openAssignmentDetailActivity();
@@ -600,101 +380,137 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
                 openAssignmentDetailActivity();
                 break;
             case R.id.layout_posts:
-                Intent intent = new Intent(getActivity(), PostsActivity.class);
-                intent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
-                startActivity(intent);
+                appBarLayout.setExpanded(true);
+                openPostsActivity();
                 break;
             case R.id.layout_quizzes:
-                Intent intent1 = new Intent(getActivity(), OnlineQuizzesActivity.class);
-                intent1.putExtra(Constants.STUDENT, student.toString());
-                startActivity(intent1);
+                appBarLayout.setExpanded(true);
+                openQuizzesActivity();
+                break;
+            case R.id.layout_timetable_teacher:
+                openTeacherTimeTableActivity();
                 break;
         }
+    }
+
+    private void openQuizzesActivity() {
+        OnlineQuizzesFragment onlineQuizzesFragment = new OnlineQuizzesFragment();
+        Bundle bundleQuiz = new Bundle();
+        bundleQuiz.putString(Constants.STUDENT, student.toString());
+        onlineQuizzesFragment.setArguments(bundleQuiz);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, onlineQuizzesFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+    }
+
+    private void openPostsActivity() {
+        PostsFragment postsFragment = new PostsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT, student);
+        bundle.putInt(Constants.KEY_STUDENT_ID, student.childId);
+        postsFragment.setArguments(bundle);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, postsFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
     private void openWeeklyPlannerActivity() {
-        if(rootClass.getWeeklyPlans().size() > 0 ) {
-            Intent myIntent = new Intent(getActivity(), WeeklyPlannerActivity.class);
+            appBarLayout.setExpanded(true);
+            WeeklyPlannerFragment weeklyPlannerFragment = new WeeklyPlannerFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, rootClass);
+            bundle.putSerializable(Constants.KEY_WEEKLY_PLANER, weeklyPlannerResponse);
             bundle.putSerializable(Constants.STUDENT, student);
-            myIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-            startActivity(myIntent);
-        }
-    }
-
-    private void openMessagesActivity() {
-        Intent intent = new Intent(getActivity(), ContactTeacherActivity.class);
-        Bundle bundle = new Bundle();
-        if(SessionManager.getInstance().getUserType()){
-            bundle.putSerializable(Constants.STUDENT,student);
-        }else {
-            bundle.putSerializable(Constants.KEY_ACTOR,actor);
-        }
-        intent.putExtra(Constants.KEY_BUNDLE,bundle);
-        startActivity(intent);
+            weeklyPlannerFragment.setArguments(bundle);
+            getChildFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, weeklyPlannerFragment, "MenuFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
     }
 
     private void openGradesActivity() {
-        Intent gradesIntent = new Intent(getActivity(), GradesActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT,student);
-        bundle.putSerializable(Constants.KEY_COURSE_GROUPS, courseGroups);
-        gradesIntent.putExtra(Constants.KEY_BUNDLE,bundle);
-        startActivity(gradesIntent);
-    }
 
-    private void openCalendarActivity(){
-        Intent calendarIntent = new Intent(getActivity(), CalendarActivity.class);
+        GradesFragment gradesFragment = new GradesFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT,student);
-        calendarIntent.putExtra(Constants.KEY_BUNDLE,bundle);
-        startActivity(calendarIntent);
-    }
-    private void openTimeTableActivity() {
-        Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
-        bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
         bundle.putSerializable(Constants.STUDENT, student);
-        timeTableIntent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(timeTableIntent);
+        gradesFragment.setArguments(bundle);
+        appBarLayout.setExpanded(true);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, gradesFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+    }
 
+    private void openCalendarActivity() {
+        appBarLayout.setExpanded(true);
+        CalendarFragment calendarFragment = new CalendarFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.STUDENT, student);
+        calendarFragment.setArguments(bundle);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, calendarFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+    }
+
+    private void openTimeTableActivity() {
+        if (nextSlot.isEmpty()) {
+            activity.showErrorDialog(activity, -3, getParentActivity().getResources().getString(R.string.there_is_no_time_table));
+        } else {
+            appBarLayout.setExpanded(true);
+            TimetableMainFragment timetableMainFragment = new TimetableMainFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
+            bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
+            bundle.putSerializable(Constants.STUDENT, student);
+            timetableMainFragment.setArguments(bundle);
+            getChildFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, timetableMainFragment, "MenuFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+        }
     }
 
     private void openBehaviourNotesActivity() {
-        Intent behaviorNotesIntent = new Intent(getActivity(), BehaviorNotesActivity.class);
-        behaviorNotesIntent.putExtra(Constants.KEY_STUDENT_ID, student.getId());
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveBehaviorNotes);
-        bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeBehaviorNotes);
-        bundle.putSerializable(Constants.KEY_OTHER_NOTES_LIST, (Serializable) otherBehaviorNotes);
-        bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
-        bundle.putSerializable(Constants.STUDENT,student);
-        behaviorNotesIntent.putExtra(Constants.KEY_BUNDLE,bundle);
-        startActivity(behaviorNotesIntent);
+        if (positiveBehaviorNotes.size() > 0 || negativeBehaviorNotes.size() > 0 || otherBehaviorNotes.size() > 0) {
+            appBarLayout.setExpanded(true);
+            BehaviorNotesMainFragment behaviorNotesMainFragment = new BehaviorNotesMainFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
+            bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveBehaviorNotes);
+            bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeBehaviorNotes);
+            bundle.putSerializable(Constants.KEY_OTHER_NOTES_LIST, (Serializable) otherBehaviorNotes);
+            bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
+            bundle.putSerializable(Constants.STUDENT, student);
+            behaviorNotesMainFragment.setArguments(bundle);
+            getChildFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, behaviorNotesMainFragment, "MenuFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+        }else {
+            activity.showErrorDialog(activity, -3, getParentActivity().getResources().getString(R.string.there_is_no_behavoir_note));
+
+        }
     }
 
     private void openAttendanceActivity() {
-        Intent attendanceIntent = new Intent(getActivity(), AttendanceActivity.class);
+        appBarLayout.setExpanded(true);
+        AttendanceFragment attendanceFragment = new AttendanceFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT,student);
-        bundle.putString(Constants.KEY_ATTENDANCE, attendance);
-        attendanceIntent.putExtra(Constants.KEY_BUNDLE,bundle);
-        startActivity(attendanceIntent);
+        bundle.putSerializable(Constants.STUDENT, student);
+        attendanceFragment.setArguments(bundle);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, attendanceFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
 
-
-
-
-    private void openNotificationsActivity() {
-        Intent myIntent = new Intent(getActivity(), NotificationsActivity.class);
-        startActivity(myIntent);
-    }
 
     @Override
     public void onChangeLanguageClicked() {
-        changeLanguage();
+        errorDialogue = new ErrorDialog(activity, getResources().getString(R.string.restart_application), ErrorDialog.DialogType.CONFIRMATION, this);
+        errorDialogue.show();
     }
 
     @Override
@@ -716,13 +532,14 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
 
         LocalHelper.setLocale(getParentActivity(), languageCode);
         LocalHelper.getLanguage(getParentActivity());
-        restartApp();
+        new Handler().postDelayed(this::restartApp, 500);
     }
 
     public void restartApp() {
         Intent intent = getParentActivity().getBaseContext().getPackageManager()
                 .getLaunchIntentForPackage(getParentActivity().getBaseContext().getPackageName());
-        if (intent != null) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (intent != null)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(intent);
         if (getParentActivity() != null) {
             (this).getParentActivity().finish();
@@ -735,32 +552,6 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         }, 0);
 
     }
-
-
-
-    private void openAnnouncement() {
-        Intent intent = new Intent(getActivity(), AnnouncementActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_ACTOR,actor);
-        intent.putExtra(Constants.KEY_BUNDLE,bundle);
-        startActivity(intent);
-    }
-
-
-    private void getNotifications(boolean pagination) {
-        getParentActivity().showLoadingDialog();
-        String url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
-                SessionManager.getInstance().getUserId() + "/notifications";
-        studentDetailView.getNotifications(url, 1, 1);
-    }
-
-    private void getAnnouncement() {
-
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getAnnouncementUrl(1,actor.actableType,1);
-        studentDetailView.getAnnouncement(url);
-
-    }
-
 
     private void checkVersionOnStore() {
         AppUpdater appUpdater = new AppUpdater(getParentActivity())
@@ -800,11 +591,90 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
         }
     }
 
-    private void openAssignmentDetailActivity(){
-        Intent intent = new Intent(getActivity(), CourseAssignmentActivity.class);
+    private void openAssignmentDetailActivity() {
+        CourseAssignmentFragment courseAssignmentFragment = new CourseAssignmentFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(intent);
+        courseAssignmentFragment.setArguments(bundle);
+        appBarLayout.setExpanded(true);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.menu_fragment_root, courseAssignmentFragment, "MenuFragments").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
+    }
+
+    private void openTeacherTimeTableActivity() {
+        if (nextSlot.isEmpty()) {
+            activity.showErrorDialog(activity, -3, getParentActivity().getResources().getString(R.string.there_is_no_time_table));
+        } else {
+            appBarLayout.setExpanded(true);
+            TimetableMainFragment timetableMainFragment = new TimetableMainFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
+            bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
+            bundle.putSerializable(Constants.STUDENT, student);
+            timetableMainFragment.setArguments(bundle);
+            getChildFragmentManager().
+                    beginTransaction().add(R.id.menu_fragment_root, timetableMainFragment, "MenuFragments").
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(null).commit();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
+            if (activity.pager.getCurrentItem() == 0) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+            if (activity.pager.getCurrentItem() == 3) {
+                if (getChildFragmentManager().getFragments().size() == 0) {
+                    getActivity().finish();
+                    return;
+                }
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        } else {
+            if (activity.pager.getCurrentItem() == 4) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    activity.toolbarView.setVisibility(View.VISIBLE);
+                    activity.headerLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onConfirm() {
+        changeLanguage();
+
+    }
+
+    @Override
+    public void onCancel() {
+
+    }
+
+    @Override
+    public void onGetAttendanceCountSuccess(double total, double presentCount, double percentage) {
+        layoutAttendanceData.setVisibility(View.VISIBLE);
+        progressBar.setProgress((int) Math.round(percentage));
+        attendanceTextView.setText(String.format(getString(R.string.present_out_of), Util.removeZeroDecimal(String.valueOf(presentCount)),
+                Util.removeZeroDecimal(String.valueOf(total))));
+    }
+
+    @Override
+    public void onGetAttendanceCountFailure(String message, int errorCode) {
+        layoutAttendanceData.setVisibility(View.GONE);
     }
 }

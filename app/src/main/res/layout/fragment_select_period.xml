@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:id="@+id/activity_grades"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context="trianglz.ui.fragments.SelectPeriodFragment"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:foreground="@drawable/round_ripple_25"
+            android:padding="10dp"
+            android:id="@+id/btn_back"
+            android:src="@drawable/chevron_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:text="@string/semesters"
+            android:textAlignment="viewStart"
+            android:gravity="start"
+            android:textColor="@color/greyish_brown"
+            android:id="@+id/tv_header"
+            style="@style/RobotoMediumStyle"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="20sp"
+            />
+
+        <agency.tango.android.avatarview.views.AvatarView
+            android:id="@+id/img_student"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="#e5e5e5" />
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="visible"
+        android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:gravity="center_vertical|start"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:text="@string/select_a_semester"
+        android:textColor="@color/warm_grey"
+        android:textSize="16sp"
+        style="@style/RobotoMediumStyle"
+        android:textAlignment="viewStart"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:id="@+id/tv_header_semester"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center_vertical|start"
+        android:paddingEnd="15dp"
+        android:paddingStart="18dp"
+        android:text="@string/select_quarter"
+        android:textColor="@color/silver"
+        android:textAlignment="viewStart"
+        style="@style/RobotoMediumStyle"
+        android:textSize="14sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        tools:visibility="visible"
+        android:id="@+id/tv_header_quarter"
+        android:visibility="gone"/>
+
+        <include layout="@layout/item_shimmer_layout" />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recycler_view" />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/placeholder_layout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        tools:visibility="gone"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/grades_placeholder" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="24dp"
+                android:layout_gravity="center"
+                android:includeFontPadding="false"
+                android:textSize="16sp"
+                android:text="@string/grades_placeholder" />
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

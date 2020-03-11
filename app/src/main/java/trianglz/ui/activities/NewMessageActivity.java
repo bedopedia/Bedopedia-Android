@@ -2,7 +2,6 @@ package trianglz.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -105,11 +104,7 @@ public class NewMessageActivity extends SuperActivity implements View.OnClickLis
         if(progress.isShowing()){
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override

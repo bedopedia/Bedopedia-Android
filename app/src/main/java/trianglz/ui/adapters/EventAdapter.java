@@ -4,15 +4,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
+
+import org.joda.time.DateTime;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import java.util.List;
 import java.util.Locale;
 
 import trianglz.models.Event;
-import trianglz.ui.activities.CreatePersonalEventActivity;
 import trianglz.utils.Util;
 
 /**
@@ -58,13 +56,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             holder.lineView.setBackgroundResource(R.color.iris);
         }
         Event event = items.get(position);
+        DateTime dateTime = new DateTime(event.getStartDate());
 
         if (Util.getLocale(context).equals("ar")) {
-            holder.eventDay.setText(String.format(new Locale("ar"), event.getStartDate().getDate() + ""));
-            holder.eventMonth.setText(String.format(new Locale("ar"), getMonthName(event.getStartDate().getMonth()) + ""));
+            holder.eventDay.setText(String.format(new Locale("ar"), dateTime.getDayOfMonth() + ""));
+            holder.eventMonth.setText(String.format(new Locale("ar"), getMonthName(dateTime.getMonthOfYear()) + ""));
         } else {
-            holder.eventDay.setText(event.getStartDate().getDate() + "");
-            holder.eventMonth.setText(getMonthName(event.getStartDate().getMonth()) + "");
+            holder.eventDay.setText(dateTime.getDayOfMonth()+"");
+            holder.eventMonth.setText(getMonthName(dateTime.getMonthOfYear()).substring(0,3));
         }
 
         holder.eventTitle.setText(event.getTitle());
@@ -110,7 +109,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     String getMonthName(int m) {
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
-        return months[m];
+        return months[m-1];
     }
 }
 

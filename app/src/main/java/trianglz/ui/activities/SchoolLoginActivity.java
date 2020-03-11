@@ -21,13 +21,14 @@ import trianglz.models.School;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class SchoolLoginActivity extends SuperActivity implements View.OnClickListener,SchoolLoginPresenter,
+public class SchoolLoginActivity extends SuperActivity implements View.OnClickListener, SchoolLoginPresenter,
         TextView.OnEditorActionListener {
     private MaterialEditText codeEditText;
     private Button verifyBtn;
     private SchoolLoginView schoolLoginView;
     private String schoolUrl;
     private LinearLayout parentView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +40,12 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
     private void bindViews() {
         codeEditText = findViewById(R.id.et_school_name);
         verifyBtn = findViewById(R.id.btn_verify);
-        schoolLoginView = new SchoolLoginView(this,this);
+        schoolLoginView = new SchoolLoginView(this, this);
         schoolUrl = "";
         parentView = findViewById(R.id.parent_view);
     }
 
-    private void setListeners(){
+    private void setListeners() {
         verifyBtn.setOnClickListener(this);
         parentView.setOnTouchListener(new HideKeyboardOnTouch(this));
         codeEditText.setOnEditorActionListener(this);
@@ -52,14 +53,14 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_verify:
                 String code = codeEditText.getText().toString().trim();
                 if (validate(code)) {
-                    if(Util.isNetworkAvailable(this)){
+                    if (Util.isNetworkAvailable(this)) {
                         super.showLoadingDialog();
                         schoolLoginView.getSchoolUrl(ApiEndPoints.SCHOOL_CODE_BASE_URL, code);
-                    }else {
+                    } else {
                         Util.showNoInternetConnectionDialog(this);
                     }
                 }
@@ -76,15 +77,16 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
         boolean valid = true;
         if (code.isEmpty() || code.length() < 2) {
             if (code.isEmpty()) {
-                showErrorMessage(codeEditText,getResources().getString(R.string.code_is_empty));
+                showErrorMessage(codeEditText, getResources().getString(R.string.code_is_empty));
             } else {
-                showErrorMessage(codeEditText,getResources().getString(R.string.code_length_error));
+                showErrorMessage(codeEditText, getResources().getString(R.string.code_length_error));
             }
             valid = false;
         }
 
         return valid;
     }
+
     private void showErrorMessage(MaterialEditText editText, String message) {
         editText.setError(message);
         editText.setUnderlineColor(getResources().getColor(R.color.pale_red));
@@ -97,9 +99,9 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
         schoolUrl = url;
         SessionManager.getInstance().setBaseUrl(url);
         url += "/api/get_school_by_code";
-        if(Util.isNetworkAvailable(this)){
+        if (Util.isNetworkAvailable(this)) {
             schoolLoginView.getSchoolData(url, codeEditText.getText().toString());
-        }else {
+        } else {
             Util.showNoInternetConnectionDialog(this);
         }
 
@@ -107,15 +109,11 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
 
     @Override
     public void onGetSchoolUrlFailure(String message, int errorCode) {
-        if(progress.isShowing()){
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(errorCode == 401 ){
-        Util.showErrorDialog(this,"Skolera",getResources().
+        showErrorDialog(this, -3, getResources().
                 getString(R.string.not_correct_school_code));
-        }else {
-            showErrorDialog(this);
-        }
     }
 
     @Override
@@ -128,28 +126,29 @@ public class SchoolLoginActivity extends SuperActivity implements View.OnClickLi
     }
 
     @Override
-    public void onGetSchoolDataFailure(String message,int errorCode) {
-        if(progress.isShowing()){
+    public void onGetSchoolDataFailure(String message, int errorCode) {
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(errorCode == 401){
-            Util.showErrorDialog(this,"Skolera",getResources().getString(R.string.wrong_school_code));
-        }else {
-            showErrorDialog(this);
+        if (errorCode == 401) {
+            showErrorDialog(this, -3, getResources().
+                    getString(R.string.not_correct_school_code));
+        } else {
+            showErrorDialog(this, errorCode, "");
         }
     }
 
 
     @Override
     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-       if (i == EditorInfo.IME_ACTION_DONE) {
+        if (i == EditorInfo.IME_ACTION_DONE) {
             switch (textView.getId()) {
                 case R.id.et_school_name:
                     if (validate(codeEditText.getText().toString())) {
-                        if(Util.isNetworkAvailable(SchoolLoginActivity.this)){
+                        if (Util.isNetworkAvailable(SchoolLoginActivity.this)) {
                             SchoolLoginActivity.super.showLoadingDialog();
                             schoolLoginView.getSchoolUrl(ApiEndPoints.SCHOOL_CODE_BASE_URL, codeEditText.getText().toString());
-                        }else {
+                        } else {
                             Util.showNoInternetConnectionDialog(SchoolLoginActivity.this);
                         }
                     }

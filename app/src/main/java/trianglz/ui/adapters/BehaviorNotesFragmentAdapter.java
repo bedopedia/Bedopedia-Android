@@ -10,12 +10,14 @@ import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import trianglz.ui.fragments.NegativeFragment;
 import trianglz.ui.fragments.OtherFragment;
 import trianglz.ui.fragments.PositiveFragment;
 import trianglz.models.BehaviorNote;
+import trianglz.utils.Constants;
 
 
 /**
@@ -27,6 +29,8 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
     List<BehaviorNote> negativeNotesList;
     List<BehaviorNote> otherNoteList;
     Context context;
+    ArrayList<Fragment> fragmentList;
+    ArrayList<String> namesArrayList = new ArrayList<>();
     public BehaviorNotesFragmentAdapter(FragmentManager fm, List<BehaviorNote> positiveNotesList,
                                         List<BehaviorNote> negativeNotesList,
                                         List<BehaviorNote> otherNotesList, Context context) {
@@ -35,57 +39,58 @@ public class BehaviorNotesFragmentAdapter extends FragmentPagerAdapter {
         this.negativeNotesList = negativeNotesList;
         this.otherNoteList = otherNotesList;
         this.context = context;
+        this.fragmentList = getFragments();
+
     }
 
     @Override
     public Fragment getItem(int position) {
-
-        Fragment fragment = null;
-
         if (position == 0) {
-            fragment = PositiveFragment.newInstance(positiveNotesList);
+            return fragmentList.get(0);
         } else if(position == 1) {
-            fragment =  NegativeFragment.newInstance(negativeNotesList);
+            return fragmentList.get(1);
         }else {
-            fragment =  OtherFragment.newInstance(otherNoteList);
+            return fragmentList.get(2);
         }
-
-        return fragment;
     }
 
     @Override
     public int getCount() {
-        return 3;
+
+        return getFragments().size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         if (position == 0)
-            return "POSITIVE";
+            return namesArrayList.get(0);
         else if(position == 1){
-            return "NEGATIVE";
+            return namesArrayList.get(1);
         }else {
-            return "OTHER";
+            return namesArrayList.get(2);
         }
 
     }
 
-    public View getTabView(int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_tab, null);
-        TextView tabTitle = (TextView) view.findViewById(R.id.behavior_note_tab_title);
-        TextView behaviorCounter = (TextView) view.findViewById(R.id.behavior_note_tab_counter);
-        tabTitle.setText(this.getPageTitle(position));
-        if (position == 0) {
-            behaviorCounter.setText(positiveNotesList.size() + "");
-            if(positiveNotesList.size() == 0)
-                behaviorCounter.setVisibility(View.INVISIBLE);
+    private ArrayList<Fragment> getFragments(){
+        ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+        if(positiveNotesList.size() > 0){
+            fragmentArrayList.add( PositiveFragment.newInstance(positiveNotesList));
+            namesArrayList.add(context.getResources().getString(R.string.positive));
         }
-        else {
-            behaviorCounter.setText(negativeNotesList.size() + "");
-            if(negativeNotesList.size() == 0)
-                behaviorCounter.setVisibility(View.INVISIBLE);
+
+        if(negativeNotesList.size() > 0){
+            fragmentArrayList.add( NegativeFragment.newInstance(negativeNotesList));
+            namesArrayList.add(context.getResources().getString(R.string.negative));
         }
-        return view;
+
+        if(otherNoteList.size() > 0){
+            fragmentArrayList.add( OtherFragment.newInstance(otherNoteList));
+            namesArrayList.add(context.getResources().getString(R.string.other));
+        }
+
+        return fragmentArrayList;
     }
+
 
 }

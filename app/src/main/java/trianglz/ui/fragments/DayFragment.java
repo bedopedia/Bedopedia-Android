@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,10 @@ import com.skolera.skolera_android.R;
 
 import java.util.Objects;
 
-import trianglz.components.CustomeLayoutManager;
-import trianglz.models.DailyNote;
 import trianglz.models.Day;
+import trianglz.models.PlannerSubject;
 import trianglz.models.Student;
 import trianglz.ui.activities.DailyNoteActivity;
-import trianglz.ui.activities.WeeklyPlannerActivity;
 import trianglz.ui.adapters.DayFragmentAdapter;
 import trianglz.utils.Constants;
 
@@ -57,25 +56,21 @@ public class DayFragment extends Fragment implements DayFragmentAdapter.DayFragm
         adapter = new DayFragmentAdapter(getActivity(),this);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
-        recyclerView.setFocusable(false);
-        CustomeLayoutManager customeLayoutManager = new CustomeLayoutManager(getActivity());
-        customeLayoutManager.setScrollEnabled(false);
-        recyclerView.setLayoutManager(customeLayoutManager);
-        recyclerView.setNestedScrollingEnabled(true);
-        adapter.addData(day.dailyNoteArrayList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        adapter.addData(day.plannerSubjectArrayList);
     }
 
-    private void openDailyNoteActivity(DailyNote dailyNote){
+    private void openDailyNoteActivity(PlannerSubject plannerSubject){
         Intent intent = new Intent(getActivity(),DailyNoteActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_DAILY_NOTE,dailyNote);
+        bundle.putSerializable(Constants.KEY_DAILY_NOTE, plannerSubject);
         bundle.putSerializable(Constants.STUDENT,student);
         intent.putExtra(Constants.KEY_BUNDLE,bundle);
         getActivity().startActivity(intent);
     }
 
     @Override
-    public void onItemClicked(DailyNote dailyNote) {
-        openDailyNoteActivity(dailyNote);
+    public void onItemClicked(PlannerSubject plannerSubject) {
+        openDailyNoteActivity(plannerSubject);
     }
 }

@@ -1,173 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout_item"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
-    android:orientation="vertical"
-    android:paddingTop="16.5dp">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="13dp"
+    android:layout_marginEnd="13dp"
+    android:id="@+id/card_view"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="3dp"
+    android:layout_marginBottom="8dp">
+
 
     <LinearLayout
+        android:id="@+id/layout_item"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="12dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp"
         android:orientation="horizontal">
 
         <agency.tango.android.avatarview.views.AvatarView
             android:id="@+id/img_student"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="24dp"
-            app:av_border_color="@color/jade_green"
-            app:av_border_width="1.5dp" />
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/profile_pic"
+           />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="10dp"
             android:layout_weight="1">
 
-            <trianglz.components.SfuiSemiBoldTextView
+            <TextView
                 android:id="@+id/tv_student_name"
                 android:layout_width="match_parent"
-                android:layout_height="23dp"
-                android:layout_alignParentTop="true"
+                android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="Ahmed mostafa"
+                android:includeFontPadding="false"
                 android:textColor="@color/greyish_brown"
                 android:textSize="18sp"
                 android:textAlignment="viewStart"
-                />
+                android:layout_marginBottom="8dp" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tv_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginBottom="8dp"
+                android:text="3rd Gradelksjd"
+                android:textColor="@color/steel"
+                android:includeFontPadding="false"
+                android:textSize="15sp"
+                android:textAlignment="viewStart" />
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/expandable_layout"
                 android:layout_width="match_parent"
-                android:layout_height="18dp"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                app:el_duration="500"
+                app:el_expanded="false"
+                app:el_parallax="0.5">
 
-                <trianglz.components.SfproRegularTextView
-                    android:id="@+id/tv_grade"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:includeFontPadding="false"
-                    android:maxLines="1"
-                    android:text="3rd Grade"
-                    android:textColor="@color/steel"
-                    android:textSize="15sp"
-                    android:textAlignment="viewStart"
-                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/img_state"
-                    android:layout_width="18dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="4dp"
-                    android:src="@drawable/present" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
 
-                <trianglz.components.SfproRegularTextView
-                    android:id="@+id/tv_state_student"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="2dp"
-                    android:layout_weight="1.1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="3rd Grade"
-                    android:textColor="@color/steel"
-                    android:textSize="15sp"
-                    android:textAlignment="viewStart"
-                    />
+                    <TextView
+                        android:id="@+id/tv_state_student"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:drawablePadding="4dp"
+                        android:includeFontPadding="false"
+                        android:text="Present"
+                        android:textColor="@color/silver"
+                        android:textSize="15sp"
+                        android:textAlignment="viewStart" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/expanded_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="28dp"
+                        android:visibility="visible"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
 
-            </LinearLayout>
-        </RelativeLayout>
+                        <ImageView
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:layout_gravity="center_vertical"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/quiz_green" />
+                        <trianglz.components.SfuiSemiBoldTextView
+                            android:id="@+id/tv_quizzes"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:text="0"
+                            android:layout_marginStart="4dp"
+                            android:textAllCaps="false"
+                            android:textColor="@color/steel"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="14sp"
+                            android:includeFontPadding="false" />
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:padding="5dp"
+                            android:layout_gravity="center_vertical"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/assignment_blue" />
+                        <trianglz.components.SfuiSemiBoldTextView
+                            android:id="@+id/tv_assignment"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="4dp"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:text="10"
+                            android:textColor="@color/steel"
+                            android:textSize="14sp"
+                            android:includeFontPadding="false"
+                            android:clickable="true" />
 
-        <FrameLayout
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp">
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:padding="5dp"
+                            android:layout_gravity="center_vertical"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/event_yellow" />
+                        <trianglz.components.SfuiSemiBoldTextView
+                            android:id="@+id/tv_events"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="10"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="4dp"
+                            android:textColor="@color/steel"
+                            android:textSize="14sp"
+                            android:maxLines="1"
+                            android:includeFontPadding="false" />
 
-            <ImageButton
-                android:id="@+id/btn_open"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:background="@android:color/transparent"
-                android:scaleType="centerInside"
-                android:src="@drawable/shape"
-                android:focusable="false"
-                android:clickable="false"/>
-        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </net.cachapa.expandablelayout.ExpandableLayout>
+
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/expand_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_keyboard_arrow_down" />
+
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginBottom="4dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
 
-        <trianglz.components.SfuiSemiBoldTextView
-            android:id="@+id/tv_quizzes"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:gravity="center"
-            android:text="@string/quizzes"
-            android:textAllCaps="false"
-            android:textColor="@color/lightish_red"
-            android:textSize="16sp"
-            android:includeFontPadding="false"/>
-
-        <trianglz.components.SfuiSemiBoldTextView
-            android:id="@+id/tv_assignment"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/assignments"
-            android:textColor="@color/jade_green"
-            android:textSize="16sp"
-            android:includeFontPadding="false"
-            android:clickable="true"/>
-
-
-        <trianglz.components.SfuiSemiBoldTextView
-            android:id="@+id/tv_events"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:gravity="center"
-            android:text="@string/events"
-            android:textColor="@color/dusty_orange"
-            android:textSize="16sp"
-            android:maxLines="1"
-            android:includeFontPadding="false"/>
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp">
-
-        <View
-            android:id="@+id/view_line"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4.5"
-            android:background="@color/silver" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

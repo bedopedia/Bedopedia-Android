@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:gravity="bottom"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/curved_solid_white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialog_action_tv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/assign_action_for_all"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            style="@style/RobotoMediumStyle"
+            android:textColor="@color/cool_grey" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black_10" />
+
+        <LinearLayout
+            android:id="@+id/assign_present_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/present_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/present"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:textAllCaps="false"
+                style="@style/RobotoMediumStyle"
+                android:textColor="@color/boring_green" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black_10" />
+
+        <LinearLayout
+            android:id="@+id/assign_late_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/late_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/late"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                style="@style/RobotoMediumStyle"
+                android:textAllCaps="false"
+                android:textColor="@color/electric_violet" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black_10" />
+
+        <LinearLayout
+            android:id="@+id/assign_absent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/absent_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center"
+                android:text="@string/absent"
+                android:textSize="16sp"
+                style="@style/RobotoMediumStyle"                android:textAllCaps="false"
+                android:textColor="@color/salmon" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black_10" />
+
+        <LinearLayout
+            android:id="@+id/remove_all_status"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="?android:attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center"
+                android:text="@string/remove_all_status"
+                android:textSize="16sp"
+                style="@style/RobotoMediumStyle"
+                android:textAllCaps="false"
+                android:textColor="@color/cerulean_blue" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/cancel_attendance_dialog_btn"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/curved_solid_white"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/cancel"
+        android:textSize="16sp"
+        style="@style/RobotoMediumStyle"
+        android:textAllCaps="false"
+        android:textColor="@color/red_2"
+        android:foreground="?android:attr/selectableItemBackground" />
+</LinearLayout>

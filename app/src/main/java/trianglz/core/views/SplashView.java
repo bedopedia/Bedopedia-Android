@@ -2,6 +2,7 @@ package trianglz.core.views;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -34,51 +35,53 @@ public class SplashView {
         this.splashPresenter = splashPresenter;
     }
 
-    public void login() {
-        String schoolUrl = SessionManager.getInstance().getSchoolUrl();
-        String email = SessionManager.getInstance().getEmail();
-        String password = SessionManager.getInstance().getPassword();
-        UserManager.login(schoolUrl, email, password, new ResponseListener() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                parseLoginResponse(response);
-            }
-
-            @Override
-            public void onFailure(String message, int errorCode) {
-                splashPresenter.onLoginFailure(message, errorCode);
-            }
-        });
-    }
-
-
     private void parseLoginResponse(JSONObject response) {
-        JSONObject data = response.optJSONObject("data");
-        String username = data.optString("username");
-        String userId = data.optString("id");
-        String id = data.optString("actable_id");
-        int unSeenNotification = data.optInt("unseen_notifications");
+        String username = response.optString("username");
+        String userId = response.optString("id");
+        String id = response.optString("child_id");
+        int unSeenNotification = response.optInt("unseen_notifications");
         SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
-        String userType = data.optString(Constants.KEY_USER_TYPE);
-        if (userType.equals("parent")) {
-            SessionManager.getInstance().setUserType(true);
-            refreshFireBaseToken();
-            splashPresenter.onLoginSuccess();
-        } else if (userType.equals("student")) {
-            SessionManager.getInstance().setUserType(true);
-            SessionManager.getInstance().setStudentType(true);
-            int parentId = data.optInt(Constants.PARENT_ID);
-            String url = SessionManager.getInstance().getBaseUrl() + "/api/parents/" + parentId + "/children";
-            getStudents(url, id + "", id);
-        } else {
-            SessionManager.getInstance().setUserType(false);
-            String firstName = data.optString("firstname");
-            String lastName = data.optString("lastname");
-            String actableType = data.optString(Constants.KEY_ACTABLE_TYPE);
-            String avtarUrl = data.optString(Constants.KEY_AVATER_URL);
-            Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
-            refreshFireBaseToken();
-            splashPresenter.onLoginSuccess(actor);
+        String userType = response.optString(Constants.KEY_USER_TYPE);
+        switch (userType) {
+            case "parent":
+                SessionManager.getInstance().setUserType(SessionManager.Actor.PARENT);
+                splashPresenter.onParentLoginSuccess(response.optJSONArray(Constants.CHILDREN));
+                break;
+            case "student":
+                SessionManager.getInstance().setUserType(SessionManager.Actor.STUDENT);
+                splashPresenter.onStudentLoginSuccess(Student.create(response.toString()),
+                        response.optJSONArray(Constants.KEY_ATTENDANCES));
+                break;
+            case "teacher": {
+                SessionManager.getInstance().setUserType(SessionManager.Actor.TEACHER);
+                String firstName = response.optString("firstname");
+                String lastName = response.optString("lastname");
+                String actableType = response.optString(Constants.KEY_ACTABLE_TYPE);
+                String avtarUrl = response.optString(Constants.KEY_AVATER_URL);
+                Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+                splashPresenter.onLoginSuccess(actor);
+                break;
+            }
+            case "hod": {
+                SessionManager.getInstance().setUserType(SessionManager.Actor.HOD);
+                String firstName = response.optString("firstname");
+                String lastName = response.optString("lastname");
+                String actableType = response.optString(Constants.KEY_ACTABLE_TYPE);
+                String avtarUrl = response.optString(Constants.KEY_AVATER_URL);
+                Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+                splashPresenter.onLoginSuccess(actor);
+                break;
+            }
+            case "admin": {
+                SessionManager.getInstance().setUserType(SessionManager.Actor.ADMIN);
+                String firstName = response.optString("firstname");
+                String lastName = response.optString("lastname");
+                String actableType = response.optString(Constants.KEY_ACTABLE_TYPE);
+                String avtarUrl = response.optString(Constants.KEY_AVATER_URL);
+                Actor actor = new Actor(firstName, lastName, actableType, avtarUrl);
+                splashPresenter.onLoginSuccess(actor);
+                break;
+            }
         }
 
     }
@@ -89,6 +92,7 @@ public class SplashView {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 String token = instanceIdResult.getToken();
+                Log.d("token", "onSuccess: "+token);
                 SessionManager.getInstance().setFireBaseToken(token);
                 updateToken();
 
@@ -111,25 +115,38 @@ public class SplashView {
         UserManager.updateToken(url, token, locale, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-
+                getProfile();
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-
+                splashPresenter.updateTokenFailure();
             }
         });
 
 
     }
 
+    private void getProfile() {
+        UserManager.getProfile(Integer.parseInt(SessionManager.getInstance().getUserId()), new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                parseLoginResponse(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                splashPresenter.onLoginFailure(message, errorCode);
+            }
+        });
+    }
 
     public void getStudents(String url, final String id, final String studentId) {
         UserManager.getStudentsHome(url, id, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray responseArray) {
-                refreshFireBaseToken();
-                splashPresenter.onGetStudentsHomeSuccess(parseStudentResponse(responseArray,id));
+               // refreshFireBaseToken();
+                splashPresenter.onStudentLoginSuccess(null, null);
             }
 
             @Override
@@ -149,18 +166,7 @@ public class SplashView {
             String studentId = studentData.optString("id");
             if (id.equals(studentId)) {
                 kidsAttendances.add(attenobdances);
-                myKids.add(new Student(Integer.parseInt(studentData.optString("id")),
-                        studentData.optString("firstname"),
-                        studentData.optString("lastname"),
-                        studentData.optString("gender"),
-                        studentData.optString("email"),
-                        studentData.optString("avatar_url"),
-                        studentData.optString("user_type"),
-                        studentData.optString("level_name"),
-                        studentData.optString("section_name"),
-                        studentData.optString("stage_name"),
-                        studentData.optJSONObject("today_workload_status"),
-                        0, studentData.optInt("user_id"),null, null));
+                myKids.add(Student.create(studentData.toString()));
                 objectArrayList.add(kidsAttendances);
                 objectArrayList.add(myKids);
             }

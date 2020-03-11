@@ -1,114 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="13dp"
+    android:layout_marginEnd="13dp"
+    android:id="@+id/card_view"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="3dp"
+    android:layout_marginBottom="8dp"
+    android:minHeight="80dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="10dp">
+        android:background="@color/snow"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:orientation="horizontal">
+
         <agency.tango.android.avatarview.views.AvatarView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
-            android:id="@+id/img_course"
-            android:layout_marginEnd="16dp"
-            />
+            android:layout_gravity="center"
+            android:id="@+id/img_course" />
+
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-           >
+            android:background="@color/snow"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp">
 
-            <trianglz.components.SfproSemiBoldTextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical|start"
-                android:textAlignment="viewStart"
-                android:text="sjkldajkljsadlkjsdaklsjda"
-                android:textColor="@color/black"
-                android:textSize="18sp"
+                android:orientation="horizontal">
 
-                android:layout_marginBottom="5dp"
-                android:id="@+id/tv_course_name"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="sakjdjdsakjadsk"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical|start"
+                    android:textAlignment="viewStart"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:id="@+id/tv_course_name"
+                    android:includeFontPadding="false"
+                    style="@style/RobotoMediumStyle" />
 
-            <trianglz.components.SfproRegularTextView
+
+            </LinearLayout>
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:gravity="center_vertical|start"
+                android:includeFontPadding="false"
+                android:text="Pattern"
+                android:textColor="@color/greyish_brown"
                 android:textAlignment="viewStart"
-                android:text="sjkldajkljsadlkjsdaklsjda"
-                android:textColor="@color/black"
+                android:gravity="start"
                 android:textSize="14sp"
-                android:id="@+id/tv_assignment_name" />
+                android:layout_marginEnd="46dp"
+                tools:text="Pattern assignment"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:visibility="visible"
+                android:id="@+id/tv_assignment_name"
+                style="@style/RobotoMediumStyle" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:background="@drawable/curved_light_sage"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:drawableStart="@drawable/timetable"
+                android:drawablePadding="4dp"
+                android:textAllCaps="false"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingStart="8dp"
-                android:paddingTop="2dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="2dp"
                 android:id="@+id/ll_date">
 
                 <ImageView
+                    android:id="@+id/date_icon"
+                    android:visibility="visible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_clock"
-                    android:layout_marginStart="1dp"
-                    android:layout_marginEnd="5dp"/>
+                    android:src="@drawable/ic_clock_green"
+                    android:layout_marginEnd="4dp" />
 
-                <trianglz.components.SfproRegularTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/tv_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:gravity="center_vertical"
                     android:includeFontPadding="false"
-                    android:maxLines="1"
                     android:layout_gravity="start"
-                    android:singleLine="true"
+                    android:visibility="visible"
                     android:text="sjkldajkljsadlkjsdaklsjda"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    />
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="12sp" />
+
             </LinearLayout>
 
         </LinearLayout>
 
-        <trianglz.components.SfproSemiBoldTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/shape"
-            android:textColor="@color/red"
-            android:includeFontPadding="false"
-            android:paddingBottom="2dp"
-            android:drawablePadding="20dp"
+            android:layout_marginEnd="30dp"
+            android:textColor="@color/colorPrimaryDark"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="5dp"
+            android:textAlignment="textStart"
+            android:text="+100"
+            style="@style/RobotoMediumStyle"
             android:id="@+id/tv_assignment_count"
-            />
+            android:gravity="start|center_vertical"
+            android:includeFontPadding="false" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e5e5e5"
-        android:layout_marginStart="70dp"
-        android:layout_gravity="bottom"/>
-
-
-</FrameLayout>
+</android.support.v7.widget.CardView>

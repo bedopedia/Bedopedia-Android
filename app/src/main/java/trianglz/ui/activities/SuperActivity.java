@@ -1,37 +1,52 @@
 package trianglz.ui.activities;
 
-import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.skolera.skolera_android.R;
 
+import trianglz.components.ErrorDialog;
+import trianglz.components.LoadingDialog;
 import trianglz.components.LocalHelper;
 import trianglz.core.presenters.SuperPresenter;
 import trianglz.core.views.SuperView;
 import trianglz.managers.SessionManager;
 
 public class SuperActivity extends AppCompatActivity implements SuperPresenter {
-    public ProgressDialog progress;
+    // public ProgressDialog progress;
+    public LoadingDialog progress;
     private SuperView superView;
+    public ErrorDialog errorDialog;
+    public boolean enableVersionCheck = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        superView = new SuperView(this,this);
-        progress = new ProgressDialog(this);
+        superView = new SuperView(this, this);
+        progress = new LoadingDialog(this, R.style.LoadingDialog);
         progress.setCancelable(false);
     }
 
 
-    public void showLoadingDialog(){
-        progress.setTitle(R.string.LoadDialogueTitle);
-        progress.setMessage(getString(R.string.LoadDialogueBody));
-        progress.show();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (enableVersionCheck) checkVersionOnStore();
     }
+
+    public void showLoadingDialog() {
+      //  progress.setTitle(R.string.LoadDialogueTitle);
+        //     progress.setMessage(getString(R.string.LoadDialogueBody));
+        progress.show();
+        progress.setIndicatorColor();
+    }
+
     public void logoutUser(Context context) {
         SessionManager.getInstance().logoutUser();
         openSchoolLoginActivity(context);
@@ -46,27 +61,46 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
     }
 
 
-
-
-    public static void showErrorDialog(Context context) {
-        new MaterialDialog.Builder(context)
-                .title("Skolera")
-                .content(context.getResources().getString(R.string.system_error))
-                .titleColor(context.getResources().getColor(R.color.jade_green))
-                .neutralText(context.getResources().getString(R.string.ok))
-                .neutralColor(context.getResources().getColor(R.color.jade_green))
-                .contentColor(context.getResources().getColor(R.color.steel))
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(MaterialDialog dialog, DialogAction which) {
-
-                    }
-                })
-                .show();
+    public void showErrorDialog(Context context, int errorCode, String content) {
+        if (errorCode == 401 || errorCode == 500) {
+            content = context.getResources().getString(R.string.system_error);
+        } else if (errorCode != -3) {
+            content = context.getResources().getString(R.string.something_went_wrong);
+        }
+        errorDialog = new ErrorDialog(context,content, ErrorDialog.DialogType.ERROR);
+        errorDialog.show();
     }
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(LocalHelper.onAttach(base,"en"));
+        super.attachBaseContext(LocalHelper.onAttach(base, "en"));
+    }
+
+
+    private void checkVersionOnStore() {
+        AppUpdater appUpdater = new AppUpdater(this)
+                .setDisplay(Display.DIALOG)
+                .showEvery(1)
+                .setUpdateFrom(UpdateFrom.GOOGLE_PLAY)
+                .setTitleOnUpdateAvailable(getResources().getString(R.string.update_is_available))
+                .setContentOnUpdateAvailable(getResources().getString(R.string.check_latest_version))
+                .setButtonDoNotShowAgain("")
+                .setButtonDismiss("")
+                .setButtonUpdate(getResources().getString(R.string.update_now))
+                .setButtonUpdateClickListener((dialogInterface, i) -> openStore())
+                .setCancelable(false);
+        appUpdater.start();
+    }
+
+    private void openStore() {
+        try {
+            Uri uri = Uri.parse("market://details?id=" + getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id="
+                            + getPackageName())));
+        }
     }
 }

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,7 +36,7 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
     public CourseAssignmentAdapter(Context context, CourseAssignmentAdapterInterface courseAssignmentAdapterInterface) {
         this.context = context;
         this.mDataList = new ArrayList<>();
-        this.anInterface =  courseAssignmentAdapterInterface;
+        this.anInterface = courseAssignmentAdapterInterface;
     }
 
     @Override
@@ -49,21 +50,31 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
     public void onBindViewHolder(Holder holder, final int position) {
         CourseAssignment courseAssignment = mDataList.get(position);
         holder.subjectNameTextView.setText(courseAssignment.getCourseName());
-        if(courseAssignment.getAssignmentName() != null && !courseAssignment.getAssignmentName().isEmpty()){
+        if (courseAssignment.getAssignmentName() != null && !courseAssignment.getAssignmentName().isEmpty()) {
             holder.assignmentNameTextView.setText(courseAssignment.getAssignmentName());
-        }else {
+        } else {
             holder.assignmentNameTextView.setText(context.getResources().getString(R.string.no_assignment));
         }
-        holder.assignmentCountsTextView.setText(courseAssignment.getAssignmentsCount() + "");
+        if (courseAssignment.getActiveAssignmentCount() > 1) {
+            holder.assignmentCountsTextView.setVisibility(View.VISIBLE);
+            holder.assignmentCountsTextView.setText(courseAssignment.getActiveAssignmentCount() + "");
+        } else {
+            holder.assignmentCountsTextView.setVisibility(View.GONE);
+        }
         setCourseImage("", courseAssignment.getCourseName(), holder);
-        if(courseAssignment.getAssignmentState() != null){
+        if (courseAssignment.getAssignmentState() != null) {
+            holder.dateLinearLayout.setVisibility(View.VISIBLE);
             if (courseAssignment.getAssignmentState().equals("running")) {
-                holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
+//                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_light_sage));
+                holder.clockImageView.setImageResource(R.drawable.ic_clock_green);
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
             } else {
-                holder.dateTextView.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+//                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
+                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.red, null));
+                holder.clockImageView.setImageResource(R.drawable.ic_clock_red);
             }
-        }else {
-            holder.dateLinearLayout.setVisibility(View.INVISIBLE);
+        } else {
+            holder.dateLinearLayout.setVisibility(View.GONE);
         }
         holder.dateTextView.setText(Util.getCourseDate(courseAssignment.getNextAssignmentDate()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +92,7 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
 
     public void addData(ArrayList<CourseAssignment> courseAssignments) {
         this.mDataList.clear();
-        if(courseAssignments != null) this.mDataList.addAll(courseAssignments);
+        if (courseAssignments != null) this.mDataList.addAll(courseAssignments);
         notifyDataSetChanged();
     }
 
@@ -92,12 +103,14 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         public IImageLoader imageLoader;
         private AvatarView courseAvatarView;
         private LinearLayout dateLinearLayout;
+        private ImageView clockImageView;
 
 
         public Holder(View itemView) {
             super(itemView);
             subjectNameTextView = itemView.findViewById(R.id.tv_course_name);
             dateTextView = itemView.findViewById(R.id.tv_date);
+            clockImageView = itemView.findViewById(R.id.date_icon);
             assignmentNameTextView = itemView.findViewById(R.id.tv_assignment_name);
             imageLoader = new PicassoLoader();
             courseAvatarView = itemView.findViewById(R.id.img_course);
@@ -131,7 +144,7 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
     }
 
 
-    public interface CourseAssignmentAdapterInterface{
+    public interface CourseAssignmentAdapterInterface {
         void onItemClicked(CourseAssignment courseAssignment);
     }
 

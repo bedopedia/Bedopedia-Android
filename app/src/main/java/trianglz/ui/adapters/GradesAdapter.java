@@ -1,12 +1,11 @@
 package trianglz.ui.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
@@ -21,14 +20,14 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
-import trianglz.models.CourseGroup;
+import trianglz.models.PostsResponse;
 
 /**
  * Created by ${Aly} on 11/7/2018.
  */
 public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
     public Context context;
-    public List<CourseGroup> mDataList;
+    public List<PostsResponse> mDataList;
     GradesAdapterInterface gradesAdapterInterface;
 
 
@@ -47,23 +46,23 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
-        CourseGroup courseGroup = mDataList.get(position);
-        if(courseGroup.getLetter().isEmpty() || courseGroup.getLetter().equals("--") || !courseGroup.publish){
-            holder.gradeTextView.setVisibility(View.GONE);
-        }else {
-            holder.gradeTextView.setVisibility(View.VISIBLE);
-            holder.gradeTextView.setText(courseGroup.getLetter());
-        }
+        PostsResponse courseGroup = mDataList.get(position);
+//        if(courseGroup.getLetter().isEmpty() || courseGroup.getLetter().equals("--") || !courseGroup.publish){
+        holder.gradeTextView.setVisibility(View.GONE);
+//        }else {
+//            holder.gradeTextView.setVisibility(View.VISIBLE);
+//            holder.gradeTextView.setText(courseGroup.getLetter());
+//        }
 
         holder.subjectNameTextView.setText(courseGroup.getCourseName());
-        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gradesAdapterInterface.onSubjectSelected(position);
+                gradesAdapterInterface.onSubjectSelected(courseGroup);
             }
         });
 
-        setSubjectName(courseGroup.getIcon(),getSubjectNameForPlaceHolder(courseGroup.getCourseName()),holder);
+        setSubjectName(courseGroup.getCourseName(), getSubjectNameForPlaceHolder(courseGroup.getCourseName()), holder);
     }
 
     @Override
@@ -71,7 +70,7 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
         return mDataList.size();
     }
 
-    public void addData(List<CourseGroup> courseGroupList) {
+    public void addData(List<PostsResponse> courseGroupList) {
         this.mDataList.clear();
         this.mDataList.addAll(courseGroupList);
         notifyDataSetChanged();
@@ -81,7 +80,7 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
 
         public TextView subjectNameTextView, gradeTextView;
         public AvatarView subjectImageView;
-        public LinearLayout itemLayout;
+        public CardView cardView;
         public IImageLoader imageLoader;
 
         public Holder(View itemView) {
@@ -89,13 +88,13 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
             subjectNameTextView = itemView.findViewById(R.id.tv_subject_name);
             gradeTextView = itemView.findViewById(R.id.tv_grade);
             subjectImageView = itemView.findViewById(R.id.img_subject);
-            itemLayout = itemView.findViewById(R.id.item_layout);
+            cardView = itemView.findViewById(R.id.card_view);
             imageLoader = new PicassoLoader();
         }
     }
 
-    public interface GradesAdapterInterface{
-        void onSubjectSelected(int position);
+    public interface GradesAdapterInterface {
+        void onSubjectSelected(PostsResponse postsResponse);
     }
 
 
@@ -124,11 +123,11 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.Holder> {
     }
 
 
-    private String getSubjectNameForPlaceHolder(String name){
+    private String getSubjectNameForPlaceHolder(String name) {
 
-        if(name.indexOf('&') != -1){
+        if (name.indexOf('&') != -1) {
             int indexOfAnd = name.indexOf('&');
-            name = name.substring(0, indexOfAnd-1) + name.substring(indexOfAnd+1);
+            name = name.substring(0, indexOfAnd - 1) + name.substring(indexOfAnd + 1);
         }
 
         return name;

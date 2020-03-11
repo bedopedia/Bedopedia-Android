@@ -1,99 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
     tools:context="trianglz.ui.activities.GradeDetailActivity"
     android:orientation="vertical">
-    <android.support.v7.widget.Toolbar
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/white"
-        android:elevation="2dp"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        app:contentInsetRight="0dp"
-        app:contentInsetEnd="0dp"
-       >
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:foreground="@drawable/round_ripple_25"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:id="@+id/btn_back"
+            android:src="@drawable/chevron_left" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:layout_alignStart="@id/btn_back"
+            android:text="@string/semesters"
+            android:layout_centerInParent="true"
+            android:textColor="@color/greyish_brown"
+            android:id="@+id/tv_subject_header"
+            android:textAlignment="viewStart"
+            android:gravity="start"
+            style="@style/RobotoMediumStyle"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="20sp"
+             />
 
-            <ImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:padding="15dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp"
-                android:background="@color/white"
-                android:src="@drawable/chevron_left" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <trianglz.components.SfproSemiBoldTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/behaviour_notes"
-                    android:textSize="17sp"
-                    android:id="@+id/tv_subject_header"/>
-
-                <info.hoang8f.android.segmented.SegmentedGroup
-                    xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/segmented"
-                    android:layout_width="250dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_margin="10dp"
-                    android:layoutDirection="ltr"
-                    android:orientation="horizontal"
-                    segmentedgroup:sc_tint_color="@color/student_red"
-                    segmentedgroup:sc_border_width="1dp"
-                    segmentedgroup:sc_corner_radius="4dp">
-
-                    <RadioButton
-                        android:id="@+id/btn_all"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:defaultFocusHighlightEnabled="true"
-                        android:layout_height="wrap_content"
-                        android:text="@string/all"
-                        style="@style/segmented_group_text_style" />
-
-                    <RadioButton
-                        android:id="@+id/btn_current"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="@string/current"
-                        style="@style/segmented_group_text_style"/>
-                </info.hoang8f.android.segmented.SegmentedGroup>
-            </LinearLayout>
-
-            <agency.tango.android.avatarview.views.AvatarView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="13dp"
-                android:layout_marginEnd="14dp"
-                android:src="@drawable/profile_pic"
-                android:id="@+id/img_student"/>
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
-    <android.support.v7.widget.RecyclerView
+        <agency.tango.android.avatarview.views.AvatarView
+            android:id="@+id/img_student"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent" />
+    </RelativeLayout>
+    <View
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="#e5e5e5" />
+    <FrameLayout
+        android:id="@+id/recycler_view_layout"
+        android:layout_width="match_parent"
         android:layout_weight="1"
-        android:id="@+id/recycler_view"/>
+        android:layout_height="0dp">
 
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recycler_view" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/placeholder_layout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/grades_placeholder" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="24dp"
+                android:layout_gravity="center"
+                android:includeFontPadding="false"
+                android:textSize="16sp"
+                android:text="@string/grades_placeholder" />
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

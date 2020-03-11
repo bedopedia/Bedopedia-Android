@@ -41,8 +41,8 @@ public class StudentSubmission {
 	private Object answers;
 	@SerializedName("old_grade")
 	private double oldGrade;
-	@SerializedName("grade_view")
-	private double gradeView;
+//	@SerializedName("grade_view")
+//	private double gradeView;
 	@SerializedName("is_hidden")
 	private boolean isHidden;
 
@@ -174,13 +174,13 @@ public class StudentSubmission {
 		return this.oldGrade;
 	}
 
-	public void setGradeView(double gradeView) {
-		this.gradeView = gradeView;
-	}
-
-	public double getGradeView() {
-		return this.gradeView;
-	}
+//	public void setGradeView(double gradeView) {
+//		this.gradeView = gradeView;
+//	}
+//
+//	public double getGradeView() {
+//		return this.gradeView;
+//	}
 
 	public void setIsHidden(boolean isHidden) {
 		this.isHidden = isHidden;

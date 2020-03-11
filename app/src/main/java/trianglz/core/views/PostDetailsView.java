@@ -39,7 +39,7 @@ public class PostDetailsView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                postDetailsPresenter.onGetPostDetailsFailure();
+                postDetailsPresenter.onGetPostDetailsFailure(message, errorCode);
             }
         });
     }

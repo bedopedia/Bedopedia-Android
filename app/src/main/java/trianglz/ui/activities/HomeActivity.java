@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,41 +19,53 @@ import com.github.javiersantos.appupdater.enums.Display;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.skolera.skolera_android.R;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 
+import trianglz.components.ErrorDialog;
 import trianglz.components.LocalHelper;
-import trianglz.components.SettingsDialog;
-import trianglz.core.presenters.HomePresenter;
+import trianglz.components.TopItemDecoration;
 import trianglz.core.views.HomeView;
 import trianglz.managers.SessionManager;
-import trianglz.models.CourseAssignment;
 import trianglz.models.Student;
 import trianglz.ui.adapters.HomeAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
-public class HomeActivity extends SuperActivity implements HomePresenter, View.OnClickListener,
-        HomeAdapter.HomeAdapterInterface, SettingsDialog.SettingsDialogInterface {
+public class HomeActivity extends SuperActivity implements View.OnClickListener,
+        HomeAdapter.HomeAdapterInterface, ErrorDialog.DialogConfirmationInterface {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
     private String id;
     private HomeView homeView;
     private ImageButton notificationBtn;
-    private ArrayList<JSONArray> kidsAttendances;
-    private SettingsDialog settingsDialog;
     private ImageButton settingsBtn;
     private ImageView redCircleImageView;
+    private ArrayList<Student> students;
+    private boolean canSelect = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        Intent intent = getIntent();
+        getValueFromIntent(intent);
         bindViews();
         setListeners();
-        getStudentsHome();
+        if (students != null && !students.isEmpty()) {
+            progress.dismiss();
+            homeAdapter.addData(students);
+        }
         homeView.refreshFireBaseToken();
         checkVersionOnStore();
+    }
+
+    private void getValueFromIntent(Intent intent) {
+        if (intent != null) {
+            String studentJsonArray = intent.getStringExtra(Constants.CHILDREN);
+            if (studentJsonArray != null) {
+                students = Student.getArrayList(studentJsonArray);
+            }
+        }
     }
 
     private void bindViews() {
@@ -60,12 +73,13 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         homeAdapter = new HomeAdapter(this, this);
         recyclerView.setAdapter(homeAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        homeView = new HomeView(this, this);
+        homeView = new HomeView(this);
         notificationBtn = findViewById(R.id.btn_notification);
         redCircleImageView = findViewById(R.id.img_red_circle);
-        kidsAttendances = new ArrayList<>();
-        settingsDialog = new SettingsDialog(this, R.style.SettingsDialog, this);
         settingsBtn = findViewById(R.id.btn_setting);
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, this), false));
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+
     }
 
     private void setListeners() {
@@ -81,42 +95,13 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         } else {
             redCircleImageView.setVisibility(View.GONE);
         }
+        canSelect = true;
     }
 
     @Override
     public void onBackPressed() {
 
     }
-
-    private void getStudentsHome() {
-        id = SessionManager.getInstance().getId();
-        String url = SessionManager.getInstance().getBaseUrl() + "/api/parents/" + id + "/children";
-        showLoadingDialog();
-        homeView.getStudents(url, id);
-    }
-
-    @Override
-    public void onGetStudentsHomeSuccess(ArrayList<Object> dataObjectArrayList) {
-        progress.dismiss();
-        ArrayList<JSONArray> attendanceJsonArray = (ArrayList<JSONArray>) dataObjectArrayList.get(0);
-        this.kidsAttendances = attendanceJsonArray;
-        ArrayList<Student> studentArrayList = (ArrayList<Student>) dataObjectArrayList.get(1);
-        homeAdapter.addData(studentArrayList);
-
-    }
-
-    @Override
-    public void onGetStudentsHomeFailure(String message, int errorCode) {
-        if (progress.isShowing()) {
-            progress.dismiss();
-        }
-        if (errorCode == 401 || errorCode == 500) {
-            logoutUser(this);
-        } else {
-            showErrorDialog(this);
-        }
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -124,7 +109,8 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
                 openNotificationsActivity();
                 break;
             case R.id.btn_setting:
-                settingsDialog.show();
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivity(i);
                 break;
         }
     }
@@ -136,7 +122,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
 
     @Override
     public void onOpenStudentClicked(Student student, int position) {
-        openStudentDetailActivity(student, position);
+        if (canSelect) openStudentDetailActivity(student);
     }
 
     @Override
@@ -144,34 +130,16 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         openAssignmentDetailActivity(student);
     }
 
-    private void openAssignmentDetailActivity(Student student){
-        Intent intent = new Intent(this, CourseAssignmentActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT, student);
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(intent);
+    private void openAssignmentDetailActivity(Student student) {
+
     }
 
-    private void openStudentDetailActivity(Student student, int position) {
+    private void openStudentDetailActivity(Student student) {
+        canSelect = false;
         Intent intent = new Intent(this, StudentMainActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT, student);
-        bundle.putSerializable(Constants.KEY_ATTENDANCE, kidsAttendances.get(position).toString());
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        intent.putExtra(Constants.STUDENT, student.toString());
         startActivity(intent);
     }
-
-
-    @Override
-    public void onChangeLanguageClicked() {
-        changeLanguage();
-    }
-
-    @Override
-    public void onSignOutClicked() {
-        logoutUser(this);
-    }
-
 
     private void changeLanguage() {
         if (LocalHelper.getLanguage(this).equals("ar")) {
@@ -186,7 +154,7 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
 
         LocalHelper.setLocale(this, languageCode);
         LocalHelper.getLanguage(this);
-        restartApp();
+        new Handler().postDelayed(this::restartApp, 500);
     }
 
     public void restartApp() {
@@ -245,4 +213,13 @@ public class HomeActivity extends SuperActivity implements HomePresenter, View.O
         }
     }
 
+    @Override
+    public void onConfirm() {
+        changeLanguage();
+    }
+
+    @Override
+    public void onCancel() {
+
+    }
 }

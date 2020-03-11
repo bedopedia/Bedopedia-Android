@@ -67,7 +67,7 @@ public class ChatView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-                chatPresenter.onSendImageFailure();
+                chatPresenter.onSendImageFailure(message,errorCode);
             }
         });
     }

@@ -1,50 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="trianglz.ui.activities.AnnouncementActivity"
+    android:focusable="true"
+    android:clickable="true"
+    android:background="@color/snow"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center_vertical"
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
+        android:orientation="horizontal"
         android:background="@color/white">
 
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
             android:background="@android:color/transparent"
+            android:foreground="@drawable/round_ripple_25"
+            android:layout_marginEnd="2dp"
             android:padding="10dp"
             android:src="@drawable/chevron_left" />
 
-        <trianglz.components.SfproBoldTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:text="@string/announcement"
-            android:textColor="@color/greyish_brown"
-            android:textSize="20sp"
-            android:textStyle="bold"
+        <TextView
             android:id="@+id/tv_header"
-            android:layout_toEndOf="@id/btn_back"
+            style="@style/RobotoMediumStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:includeFontPadding="false"
             android:maxLines="1"
             android:singleLine="true"
-            android:ellipsize="end"
-            android:includeFontPadding="false"
-            android:textAlignment="center"
-            />
-
-    </RelativeLayout>
+            android:text="@string/announcement"
+            android:textAlignment="viewStart"
+            android:textColor="@color/greyish_brown"
+            android:textSize="20sp" />
+        <agency.tango.android.avatarview.views.AvatarView
+            android:id="@+id/img_student"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/notify" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -52,20 +59,16 @@
         android:layout_gravity="bottom"
         android:background="#e5e5e5" />
 
-
-     <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="170dp"
-                android:id="@+id/img_annoucement"
-                android:visibility="gone"/>
-
-
-
-     <WebView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/web_view"
-                    />
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:scaleType="centerInside"
+        android:background="@color/white"
+        android:id="@+id/img_annoucement"
+        android:visibility="gone" />
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/web_view" />
 
 </LinearLayout>

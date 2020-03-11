@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,7 +18,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 
-import trianglz.components.MimeTypeInterface;
+import trianglz.components.HideKeyboardOnTouch;
 import trianglz.components.OnImageSelectedListener;
 import trianglz.core.presenters.ChatPresenter;
 import trianglz.core.views.ChatView;
@@ -32,7 +31,7 @@ import trianglz.ui.adapters.ChatAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class ChatActivity extends SuperActivity implements View.OnClickListener,ChatPresenter {
+public class ChatActivity extends SuperActivity implements View.OnClickListener, ChatPresenter {
     private MessageThread messageThread;
     private TextView chatHeaderTextView;
     private ImageButton backBtn;
@@ -44,7 +43,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     private int teacherId;
     private int courseId;
     private ImageButton imageBtn;
-    private LinearLayout rootView;
+    private LinearLayout rootView, sendLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,56 +56,69 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     }
 
     private void getValueFromIntent() {
-        if(getIntent().getBundleExtra(Constants.KEY_BUNDLE)!= null){
+        if (getIntent().getBundleExtra(Constants.KEY_BUNDLE) != null) {
             messageThread = (MessageThread) getIntent().getBundleExtra(Constants.KEY_BUNDLE)
                     .getSerializable(Constants.KEY_MESSAGES);
-        }else {
-            teacherId = getIntent().getIntExtra(Constants.KEY_TEACHER_ID,0);
-            courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID,0);
+        } else {
+            teacherId = getIntent().getIntExtra(Constants.KEY_TEACHER_ID, 0);
+            courseId = getIntent().getIntExtra(Constants.KEY_COURSE_ID, 0);
         }
-        if(messageThread != null){
+        if (messageThread != null) {
             messageThread.reverseMessagesOrder();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSetReadThreadUrl();
-            chatView.setAsSeen(url,messageThread.id);
+            chatView.setAsSeen(url, messageThread.id);
 
         }
     }
 
     private void bindViews() {
         chatHeaderTextView = findViewById(R.id.tv_chat_header);
-        if(messageThread != null) {
-            String name  = "";
-            if(messageThread.otherNames.contains("&")) {
-                String[] nameArray = messageThread.otherNames.split("&");
-                if (nameArray.length > 1) {
-                    name =  nameArray[0]+
-                            nameArray[1];
-                } else {
-                    name = nameArray[0];
+        if (messageThread != null) {
+            String name = "";
+            String[] nameArray = messageThread.otherNames.split(" ");
+            if (nameArray.length > 1) {
+                String first = nameArray[0];
+                String last = nameArray[nameArray.length - 1];
+                if (first.length() > 0 && last.length() > 0) {
+                    name = first + " " + last;
+                } else if (first.length() == 0 && last.length() > 0) {
+                    name = last;
+                } else if (first.length() > 0) {
+                    name = first;
                 }
-                chatHeaderTextView.setText(name);
-            }else {
-                chatHeaderTextView.setText(messageThread.otherNames);
+            } else {
+                name = nameArray[0];
             }
+            chatHeaderTextView.setText(name);
         }
         backBtn = findViewById(R.id.btn_back);
         recyclerView = findViewById(R.id.recycler_view);
         chatAdapter = new ChatAdapter(this, SessionManager.getInstance().getUserId());
         recyclerView.setAdapter(chatAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        if(messageThread != null){
-          setAdapterData(messageThread.messageArrayList);
+        if (messageThread != null) {
+            setAdapterData(messageThread.messageArrayList);
         }
         messageEditText = findViewById(R.id.et_message);
         sendBtn = findViewById(R.id.enter_chat1);
         imageBtn = findViewById(R.id.btn_image);
         rootView = findViewById(R.id.root_view);
+        sendLinearLayout = findViewById(R.id.ll_send);
+
+        if (messageThread != null) {
+            if (messageThread.id == -1) {
+                sendLinearLayout.setVisibility(View.GONE);
+            } else {
+                sendLinearLayout.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void setListeners() {
         backBtn.setOnClickListener(this);
         sendBtn.setOnClickListener(this);
         imageBtn.setOnClickListener(this);
+        recyclerView.setOnTouchListener(new HideKeyboardOnTouch(this));
     }
 
     @Override
@@ -117,23 +129,23 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
                 break;
             case R.id.enter_chat1:
                 if (isMessageValid()) {
-                    if(messageThread != null){
+                    if (messageThread != null) {
                         addMessageToAdapter(Html.toHtml(messageEditText.getText()));
                         sendMessage(messageEditText.getText().toString());
                         messageEditText.setText("");
-                    }else {
+                    } else {
                         showLoadingDialog();
                         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getThreads();
-                        chatView.sendFirstMessage(url,teacherId+"",
+                        chatView.sendFirstMessage(url, teacherId + "",
                                 SessionManager.getInstance().getUserId(),
-                                messageEditText.getText().toString(),courseId+"");
+                                messageEditText.getText().toString(), courseId + "");
                         addFirstMessageToAdapter(Html.toHtml(messageEditText.getText()));
                     }
 
                 }
                 break;
             case R.id.btn_image:
-                if(chatAdapter.mDataList.size()>0 && messageThread != null){
+                if (chatAdapter.mDataList.size() > 0 && messageThread != null) {
                     Util.selectImagesFromGallery(
                             new OnImageSelectedListener() {
                                 @Override
@@ -151,7 +163,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     }
 
     private void setAdapterData(ArrayList<Message> messageArrayList) {
-        if(messageArrayList.size()>0){
+        if (messageArrayList.size() > 0) {
 //            showLoadingDialog();
             ArrayList<Object> messageObjectArrayList = new ArrayList<>();
             messageObjectArrayList.addAll(messageArrayList);
@@ -162,24 +174,24 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     }
 
     private boolean isMessageValid() {
-        return !messageEditText.getText().toString().isEmpty() && !android.text.Html.fromHtml(messageEditText.getText().toString()).toString().isEmpty() ;
+        return !messageEditText.getText().toString().isEmpty() && !android.text.Html.fromHtml(messageEditText.getText().toString()).toString().isEmpty();
     }
 
     private void addMessageToAdapter(String messageString) {
         User user = new User();
         user.setId(Integer.valueOf(SessionManager.getInstance().getUserId()));
         Message message = new Message("", messageString,
-               Util.convertLocaleToUtc(Util.getCurrentDate()), "", "", messageThread.id, messageThread.id, "", user);
-        if(chatAdapter.mDataList.size() == 0){
-            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
+                Util.convertLocaleToUtc(Util.getCurrentDate()), "", "", messageThread.id, messageThread.id, "", user);
+        if (chatAdapter.mDataList.size() == 0) {
+            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(), this));
             chatAdapter.mDataList.add(message);
             chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
             chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
-        }else {
+        } else {
             if (!(chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1) instanceof String)) {
                 Message lastMessage = (Message) chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1);
                 if (!Util.isSameDay(message.createdAt, lastMessage.createdAt)) {
-                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
+                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(), this));
                     chatAdapter.mDataList.add(message);
                     chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
                     chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
@@ -192,24 +204,23 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         }
         recyclerView.smoothScrollToPosition(chatAdapter.mDataList.size() - 1);
     }
-
 
 
     private void addFirstMessageToAdapter(String messageString) {
         User user = new User();
         user.setId(Integer.valueOf(SessionManager.getInstance().getUserId()));
         Message message = new Message("", messageString,
-                Util.convertLocaleToUtc(Util.getCurrentDate()), "", "",1, 2, "", user);
-        if(chatAdapter.mDataList.size() == 0){
-            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
+                Util.convertLocaleToUtc(Util.getCurrentDate()), "", "", 1, 2, "", user);
+        if (chatAdapter.mDataList.size() == 0) {
+            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(), this));
             chatAdapter.mDataList.add(message);
             chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
             chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
-        }else {
+        } else {
             if (!(chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1) instanceof String)) {
                 Message lastMessage = (Message) chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1);
                 if (!Util.isSameDay(message.createdAt, lastMessage.createdAt)) {
-                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
+                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(), this));
                     chatAdapter.mDataList.add(message);
                     chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
                     chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
@@ -222,7 +233,6 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         }
         recyclerView.smoothScrollToPosition(chatAdapter.mDataList.size() - 1);
     }
-
 
 
     private void addImageToAdapter(String attachmentUrl) {
@@ -232,16 +242,16 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
         Message message = new Message(attachmentUrl, "",
                 Util.convertLocaleToUtc(Util.getCurrentDate()), "png", "", messageThread.id, messageThread.id, "", user);
         message.isImage = true;
-        if(chatAdapter.mDataList.size() == 0){
-            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
+        if (chatAdapter.mDataList.size() == 0) {
+            chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(), this));
             chatAdapter.mDataList.add(message);
             chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
             chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
-        }else {
+        } else {
             if (!(chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1) instanceof String)) {
                 Message lastMessage = (Message) chatAdapter.mDataList.get(chatAdapter.mDataList.size() - 1);
                 if (!Util.isSameDay(message.createdAt, lastMessage.createdAt)) {
-                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(),this));
+                    chatAdapter.mDataList.add(Util.getDate(Util.getCurrentDate(), this));
                     chatAdapter.mDataList.add(message);
                     chatAdapter.notifyItemInserted(chatAdapter.mDataList.size() - 1);
                     chatAdapter.notifyItemRangeChanged(chatAdapter.mDataList.size() - 2, chatAdapter.mDataList.size());
@@ -258,9 +268,9 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     }
 
     private void sendImage(Uri imageUri) {
-        if(messageThread != null){
+        if (messageThread != null) {
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSendImageId(messageThread.id);
-            chatView.sendImage(url,"1",imageUri);
+            chatView.sendImage(url, "1", imageUri);
             addImageToAdapter(imageUri.toString());
         }
     }
@@ -274,41 +284,33 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
 
     @Override
     public void onSendMessageSuccess() {
-        if(progress.isShowing()){
+        if (progress.isShowing()) {
             progress.dismiss();
         }
     }
 
     @Override
     public void onSendMessageFailure(String message, int errorCode) {
-        if(progress.isShowing()){
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode, "");
     }
 
     @Override
     public void onFirstMessageSuccess() {
         messageEditText.setText("");
-        if(progress.isShowing()){
+        if (progress.isShowing()) {
             progress.dismiss();
         }
     }
 
     @Override
     public void onFirstMessageFailure(String message, int errorCode) {
-        if(progress.isShowing()){
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(errorCode == 401 || errorCode == 500 ){
-            logoutUser(this);
-        }else {
-            showErrorDialog(this);
-        }
+        showErrorDialog(this, errorCode, "");
     }
 
     @Override
@@ -317,30 +319,30 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     }
 
     @Override
-    public void onSendImageFailure() {
-        showErrorDialog(this);
+    public void onSendImageFailure(String message, int errorCode) {
+        showErrorDialog(this, errorCode, "");
     }
 
     private ArrayList<Object> setDates(ArrayList<Object> messageObjectArrayList) {
-      int i = 0 ;
-      int j = 1;
-      while (i <messageObjectArrayList.size() && j<messageObjectArrayList.size()){
-          Message message1 = (Message) messageObjectArrayList.get(i);
-          Message message2 = (Message) messageObjectArrayList.get(j);
-          if(Util.isSameDay(message1.createdAt,message2.createdAt)){
-              i = j;
-              j = j+1;
-          }else {
-              messageObjectArrayList.add(j,Util.getDate(message2.createdAt,this));
-              i = j+1;
-              j = j+2;
-          }
-      }
-      if(messageObjectArrayList.size()>0){
-          Message message = (Message) messageObjectArrayList.get(0);
-          messageObjectArrayList.add(0,Util.getDate(message.createdAt,this));
-      }
-      return messageObjectArrayList;
+        int i = 0;
+        int j = 1;
+        while (i < messageObjectArrayList.size() && j < messageObjectArrayList.size()) {
+            Message message1 = (Message) messageObjectArrayList.get(i);
+            Message message2 = (Message) messageObjectArrayList.get(j);
+            if (Util.isSameDay(message1.createdAt, message2.createdAt)) {
+                i = j;
+                j = j + 1;
+            } else {
+                messageObjectArrayList.add(j, Util.getDate(message2.createdAt, this));
+                i = j + 1;
+                j = j + 2;
+            }
+        }
+        if (messageObjectArrayList.size() > 0) {
+            Message message = (Message) messageObjectArrayList.get(0);
+            messageObjectArrayList.add(0, Util.getDate(message.createdAt, this));
+        }
+        return messageObjectArrayList;
     }
 //
 //    @Override

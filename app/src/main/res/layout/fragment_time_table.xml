@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:clickable="true"
+    android:background="@color/white"
     tools:context="trianglz.ui.fragments.TimeTableFragment">
 
     <LinearLayout
@@ -12,84 +15,82 @@
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             app:contentInsetRight="0dp"
             app:contentInsetEnd="0dp"
-            android:elevation="2dp"
-            >
+            android:elevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/back_btn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/white"
-                    android:src="@drawable/chevron_left"
-                    android:layout_marginStart="5dp"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/back_btn"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:background="@color/white"
+                        android:src="@drawable/chevron_left"
+                        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginTop="5dp" />
 
                     <trianglz.components.SfproSemiBoldTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
+                        android:id="@+id/tv_subject_header"
+                        android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_height="match_parent"
                         android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="9dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:includeFontPadding="false"
                         android:text="@string/timetable"
-                        android:textSize="17sp" />
+                        android:textSize="24sp" />
 
-                    <info.hoang8f.android.segmented.SegmentedGroup
-                        xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/segmented"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:layout_margin="10dp"
-                        android:layoutDirection="ltr"
-                        android:orientation="horizontal"
-                        segmentedgroup:sc_tint_color="@color/student_red"
-                        segmentedgroup:sc_border_width="1dp"
-                        segmentedgroup:sc_corner_radius="4dp">
-
-                        <RadioButton
-                            android:id="@+id/btn_today"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:defaultFocusHighlightEnabled="true"
-                            android:layout_height="wrap_content"
-                            android:text="@string/today"
-                            style="@style/segmented_group_text_style" />
-
-                        <RadioButton
-                            android:id="@+id/btn_tomorrow"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tomorrow"
-                            style="@style/segmented_group_text_style"/>
-                    </info.hoang8f.android.segmented.SegmentedGroup>
+                    <agency.tango.android.avatarview.views.AvatarView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:id="@+id/img_student"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="4dp" />
                 </LinearLayout>
 
-                <agency.tango.android.avatarview.views.AvatarView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:id="@+id/img_student"
-                    android:src="@drawable/profile_pic" />
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    app:tabRippleColor="@color/transparent"
+                    app:tabSelectedTextColor="@color/jade_green"
+                    app:tabIndicatorColor="@color/jade_green"
+                    app:tabTextColor="@color/steel"
+                    app:tabTextAppearance="@style/TabStyle">
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/open_tab"
+                        android:text="@string/today"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/closed_tab"
+                        android:text="@string/tomorrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+
+                </android.support.design.widget.TabLayout>
+
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
 

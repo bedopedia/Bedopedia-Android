@@ -5,18 +5,29 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:minHeight="56dp"
+    android:layout_marginBottom="12dp"
     android:layout_marginStart="12dp"
-    >
-    <TextView
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="26dp">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:id="@+id/tv_question"
-        android:text="How to prounce 6?"
-        android:textColor="@color/posts_black"/>
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <org.sufficientlysecure.htmltextview.HtmlTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:id="@+id/tv_question"
+            android:text="How to prounce 6?"
+            android:textColor="@color/posts_black" />
+
+    </LinearLayout>
 
 </LinearLayout>

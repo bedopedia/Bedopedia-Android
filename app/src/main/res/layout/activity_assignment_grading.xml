@@ -5,10 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/snow"
     tools:context="trianglz.ui.activities.GradingActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="2dp"
@@ -49,6 +53,8 @@
                     android:layout_toEndOf="@id/btn_back"
                     android:background="@android:color/transparent"
                     android:text="Pattern Assignment"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/greyish_brown"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -62,10 +68,24 @@
 
 
     </android.support.v7.widget.Toolbar>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <include layout="@layout/item_shimmer_layout" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="fragmentStudentAttendance_tv">الحضور</string>
     <string name="fragmentStudentTimetable_tv">جدول المواعيد</string>
     <string name="fragmentStudentGrades_tv">الدرجات</string>
@@ -29,7 +29,8 @@
     <string name="enter_valid_email">ادخل بريد الكترونى صحيح</string>
     <string name="password_is_empty">كلمة السر فارغة</string>
     <string name="email_is_empty">البريد الالكترونى فارغ</string>
-    <string name="password_length_error">Password length should be more than 4 characters</string>
+    <string name="username_email">البريد الالكترونى/إسم المستخدم</string>
+    <string name="password_length_error">Password length should be more than 6 characters</string>
     <string name="code_is_empty">كود المدرسة فارغ</string>
     <string name="code_length_error">خطأ فى كود المدرسة</string>
     <string name="notifications">الإشعارات</string>
@@ -60,7 +61,7 @@
     <string name="select_teacher">إختار المعلم</string>
     <string name="write_a_message">إرسال رسالة .....</string>
     <string name="grade_items">درجات</string>
-    <string name="there_is_no_time_table">لا يوجد جدول حضور</string>
+    <string name="there_is_no_time_table">لا يوجد جدول زمنى</string>
     <string name="current">الحالى</string>
     <string name="change_language">تغيير اللغة الى الانجليزية</string>
     <string name="sign_out">تسجيل خروج</string>
@@ -71,7 +72,7 @@
     <string name="email_address">البريد الإلكترونى</string>
     <string name="password">كلمه المرور</string>
     <string name="send">إرسال</string>
-    <string name="ok">تم</string>
+    <string name="ok">تأكيد</string>
     <string name="no_internet_connection">لا يوجد انترنت</string>
     <string name="all">الكل</string>
 
@@ -101,7 +102,7 @@
     <string name="days">يوم</string>
     <string name="enter_email">ادخل اسم المستخدم</string>
     <string name="enter_password">ادخل كلمة السر</string>
-    <string name="enter_school_code">ادخل كود المدرسة</string>
+    <string name="enter_school_code">كود المدرسة</string>
     <string name="wrong_school_code">خطأ فى كود المدرسة</string>
 
 
@@ -127,13 +128,22 @@
     <string name="menu">القائمة</string>
     <string name="activity">انشطة</string>
     <string name="there_is_no">لا يوجد</string>
+    <string name="there_is_no_activities" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
+  لا يوجد انشطة
+      </div></TD>]]></string>
+    <string name="there_is_no_homework" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
+  لا يوجد واجبات منزليه
+      </div></TD>]]></string>
+    <string name="there_is_no_classwork" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
+  لا يوجد واجبات الفصل
+      </div></TD>]]></string>
     <string name="last_updated">أخر تعديل</string>
     <string name="to">إلى</string>
     <string name="start_from">يبدأ من</string>
     <string name="there_is_no_weekly_planner">لا يوجد خطة اسبوعية</string>
     <string name="announcements">الاعلانات</string>
     <string name="due_date">تاريخ الأنتهاء</string>
-    <string name="no_assignment">لا يوجد واجبات</string>
+    <string name="no_assignment">لا يوجد واجبات حالياََ</string>
     <string name="publish">نشر</string>
     <string name="home">الرئيسية</string>
     <string name="posts">المنشورات</string>
@@ -142,7 +152,7 @@
     <string name="no_submission">لم يتم حل الإختبار</string>
     <string name="published">نشر</string>
     <string name="online_quizzes">الإختبارات القصيرة</string>
-    <string name="no_quiz">لا يوجد إختبارات</string>
+    <string name="no_quiz">لا يوجد إختبارات حالياََ</string>
     <string name="open">جارية</string>
     <string name="out_of">من</string>
     <string name="quiz_not_started_yet">الإختبار لم يبدأ بعد</string>
@@ -178,12 +188,121 @@
 
 
     <string name="create_post">إنشاء منشور</string>
-    <string name="create_a_post_and_share">إنشئ منشور و شارك مع الفصل</string>
+    <string name="create_a_post_and_share">اكتب منشور و شارك مع الفصل</string>
     <string name="content">المحتوى</string>
-    <string name="text_editor_hint">This is a text editor. Add and edit as you wish</string>
+    <string name="post_is_empty">المحتوى فارغ</string>
+    <string name="text_editor_hint">تفاصيل المنشور</string>
     <string name="attachments">المرفقات</string>
-    <string name="upload_file">+ إرفع ملف</string>
+    <string name="upload_file">+ إضافة ملف</string>
     <string name="add_attachment">اضف المرفقات</string>
-    <string name="clicking_button">By clicking the add button you will add a new attachment.</string>
+    <string name="file_is_big">حجم الملف لا يمكن ان يتخطى ١٠ ميجا بايت.</string>
+    <string name="delete_entry">مسح المرفق</string>
+    <string name="delete_attachment">متأكد من مسح المرفق؟</string>
+    <string name="cannot_select_file">لا يمكن اختيار الملف</string>
+    <string name="clicking_button">بضغتك على زر + إضافة ملف سيضاف ملف جديد</string>
     <string name="post">نشر</string>
+    <string name="answer">الاجابات</string>
+    <string name="solve_quiz_now">حل الاختبار الان</string>
+    <string name="present">حاضر</string>
+    <string name="something_went_wrong">حدث خطأ ما، برجاء المحاولة مرة اخرى</string>
+    <string name="correct_dates">برجاء إدخال تواريخ صحيحة</string>
+    <string name="remove_all_status">ازالة كل الحالات</string>
+    <string name="assign_action_for_all">تعيين لكل الطلبة</string>
+    <string name="assign_action_for_selected">تعيين للطلبة المختارة</string>
+    <string name="student_excused">الطالب معتذر اليوم</string>
+    <string name="write_reason">اكتب السبب</string>
+    <string name="reason_hint">السبب</string>
+    <string name="select_slot">اختر الحصة</string>
+    <string name="apply">تطبيق</string>
+    <string name="slot">حصة</string>
+    <string name="no_slots_available">لا يوجد حصص</string>
+    <string name="full_day">يوم كامل</string>
+    <string name="per_slot">لكل حصة</string>
+    <string name="assign_for_all">تعيين للكل</string>
+    <string name="assign_for_selected">تعيين للمختارين</string>
+    <string name="details">التفاصيل</string>
+    <string name="questions">الأسئلة</string>
+    <string name="answers">الإجابات</string>
+    <string name="user_name">أسم المستخدم</string>
+    <string name="solved">تم حله</string>
+    <string name="next">التالي</string>
+    <string name="previous">السابق</string>
+    <string name="basic_info">معلومات عامة</string>
+    <string name="publish_date">تاريخ النشر</string>
+    <string name="duration">المدة الزمنية</string>
+    <string name="total_score">مجموع النقاط</string>
+    <string name="curriculum_information">معلومات منهجية</string>
+    <string name="blooms_taxonomy">التصنيف</string>
+    <string name="topic">الموضوع</string>
+    <string name="subtopic">الموضوع الفرعي</string>
+    <string name="lesson">الدرس</string>
+    <string name="learning_objectives">الأهداف</string>
+    <string name="course_groups">الصفوف</string>
+    <string name="no_objective">لا يوجد اهداف</string>
+    <string name="restart_application">هل أنت متأكد أنك تريد تغيير اللغة للإنجليزية؟</string>
+
+    <string name="quiz_submitted"> تم تسليم الاختبار بنجاح</string>
+    <string name="see_grade">You will be able to see your grade in grades section</string>
+    <string name="go_home">الرجوع للصفحة الرئيسية</string>
+    <string name="true_answer">صحيح</string>
+    <string name="false_answer">خاطئ</string>
+    <string name="complete_answer">برجاء إكمال الإجابة</string>
+    <string name="solve_now">اجب السؤال</string>
+    <string name="submit_quiz">ارسال</string>
+    <string name="notification_placeholder">لا يوجد الإشعارات الآن</string>
+    <string name="announcements_placeholder">لا يوجد تنبيهات الآن</string>
+    <string name="messages_placeholder">لا يوجد رسائل الآن</string>
+    <string name="on_hold_quizzes_placeholder">لا يوجد اختبارات قصيرة تحت الإنتظار الآن</string>
+    <string name="on_hold_assignment_placeholder">ا يوجد واجبات تحت الإنتظار الآن</string>
+    <string name="open_assignments_placeholder">لا يوجد واجبات جارية الآن</string>
+    <string name="closed_assignments_placeholder">لا يوجد واجبات منتهية الآن</string>
+    <string name="closed_quizzes_placeholder">لا يوجد اختبارات قصيرة منتهية الآن</string>
+    <string name="open_quizzes_placeholder">لا يوجد اختبارات قصيرة جارية الآن</string>
+    <string name="posts_placeholder">لا يوجد منشورات الآن</string>
+    <string name="attendance_placeholder">لا يوجد غياب الآن</string>
+    <string name="weeklyplanner_placeholder">لا يوجد الخطة الاسبوعية الآن</string>
+    <string name="courses_placeholder">لا يوجد مواد مسجلة الآن</string>
+    <string name="grades_placeholder">لا يوجد درجات الآن</string>
+    <string name="no_content">لا يوجد محتوى</string>
+    <string name="settings">الإعدادات</string>
+    <string name="change">تغيير</string>
+    <string name="version">إصدار %1$s</string>
+    <string name="change_password">تغيير كلمة المرور</string>
+    <string name="rate_app">قيم التطبيق</string>
+    <string name="share_app">شارك التطبيق</string>
+    <string name="language">اللغة (العربية)</string>
+    <string name="try_app_now">أنصحك بإستخدام Skolera حمله الآن!</string>
+    <string name="share_via">مشاركة Skolera عبر</string>
+    <string name="old_password">كلمة المرور الحالية</string>
+    <string name="new_password">كلمة المرور الجديدة</string>
+    <string name="update">تعديل</string>
+    <string name="show">إظهار</string>
+    <string name="hide">إخفاء</string>
+    <string name="profile">الملف الشخصى</string>
+    <string name="choose_new_password">برجاء اختيار كلمة مرور جديدة</string>
+    <string name="confirm_new_password">تأكيد كلمة المرور الجديدة</string>
+    <string name="not_same_password">كلمة المرور والتأكيد لا تتطابق</string>
+    <string name="un_authorized">نأسف, غير مسموح بالدخول للصفحة</string>
+    <string name="mark">%1$s / %2$s</string>
+    <string name="total">مجموع</string>
+    <string name="category_total">مجموع الفئة</string>
+    <string name="total_percent">(%)المجموع</string>
+    <string name="semesters">Periods</string>
+    <string name="minutes">%1$s دقائق</string>
+    <string name="no_description">لا يوجد تفاصيل</string>
+    <string name="present_out_of">حاضر %1$s أيام من %2$s يوم</string>
+    <string name="no_posts">لا يوجد منشورات الآن</string>
+    <string name="more">المزيد</string>
+    <string name="comments">التعليقات</string>
+    <string name="on_hold">تحت الإنتظار</string>
+
+<string name="from">من</string>
+    <string name="select_a_semester">اختر الفترة</string>
+    <string name="select_quarter">اختر الفترة الفرعية</string>
+
+    <string name="positive">إيجابي</string>
+    <string name="negative">سلبي</string>
+
+    <string name="there_is_no_behavoir_note">لا توجد ملاحظات سلوك الآن</string>
+
 </resources>

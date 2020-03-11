@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +24,17 @@ import java.util.List;
 import java.util.Locale;
 
 import Tools.CalendarUtils;
+import trianglz.managers.SessionManager;
 import trianglz.models.TimeTableSlot;
 import trianglz.utils.Constants;
 
 /**
  * Created by khaled on 3/2/17.
  */
-/** file modified by gemy */
+
+/**
+ * file modified by gemy
+ */
 
 public class TomorrowFragment extends Fragment {
 
@@ -39,9 +44,8 @@ public class TomorrowFragment extends Fragment {
     public static final String KEY_NAME = "tomorrowSlots";
 
 
-
-    public static Fragment newInstance(List<TimeTableSlot> tomorrowSlots){
-        Fragment fragment ;
+    public static Fragment newInstance(List<TimeTableSlot> tomorrowSlots) {
+        Fragment fragment;
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
 
@@ -51,7 +55,7 @@ public class TomorrowFragment extends Fragment {
         return fragment;
     }
 
-    public int getInDp(int dimensionInPixel){
+    public int getInDp(int dimensionInPixel) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimensionInPixel, getResources().getDisplayMetrics());
     }
 
@@ -84,7 +88,7 @@ public class TomorrowFragment extends Fragment {
         headerColors.add("#ffffd180");
 
         mLayout = rootView.findViewById(R.id.tomorrow_event_column);
-        List<TimeTableSlot> tomorrowSlots = ( List<TimeTableSlot> ) getArguments().getSerializable(Constants.KEY_TOMORROW);
+        List<TimeTableSlot> tomorrowSlots = (List<TimeTableSlot>) getArguments().getSerializable(Constants.KEY_TOMORROW);
         displayDailyEvents(tomorrowSlots);
 
         TextView tomorrow7AM = rootView.findViewById(R.id.tomorrow_7am);
@@ -120,46 +124,50 @@ public class TomorrowFragment extends Fragment {
     }
 
 
-    private void displayDailyEvents( List<TimeTableSlot> tomorrowSlots){
-
-        for(TimeTableSlot eObject : tomorrowSlots){
+    private void displayDailyEvents(List<TimeTableSlot> tomorrowSlots) {
+        for (TimeTableSlot eObject : tomorrowSlots) {
             Date eventDate = eObject.getFrom();
             Date endDate = eObject.getTo();
+            String classRoom ="";
             String courseName = eObject.getCourseName();
-            String classRoom = eObject.getClassRoom();
+            if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
+                 classRoom = eObject.getCoureGroupName();
+            } else {
+                 classRoom = eObject.getClassRoom();
+            }
             int eventBlockHeight = getEventTimeFrame(eventDate, endDate);
             displayEventSection(eventDate, eventBlockHeight, courseName, classRoom, eventDate);
         }
     }
 
-    private int getEventTimeFrame(Date start, Date end){
+    private int getEventTimeFrame(Date start, Date end) {
         long timeDifference = end.getTime() - start.getTime();
         int hours = (int) timeDifference / (60 * 60 * 1000);
         int minutes = (int) timeDifference / (60 * 1000) % 60;
-        return (hours * 60) + minutes ;
+        return (hours * 60) + minutes;
     }
 
-    private void displayEventSection(Date eventDate, int height, String courseName, String classRoom, Date startTime){
+    private void displayEventSection(Date eventDate, int height, String courseName, String classRoom, Date startTime) {
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
         String displayValue = timeFormatter.format(eventDate);
-        String[]hourMinutes = displayValue.split(":");
+        String[] hourMinutes = displayValue.split(":");
         int hours = Integer.parseInt(hourMinutes[0]);
         int minutes = Integer.parseInt(hourMinutes[1]);
         int topViewMargin = (hours * 60) + ((minutes * 60) / 100);
         createEventView(topViewMargin, height, courseName, classRoom, startTime);
     }
 
-    private void createEventView(int topMargin, int height, String courseName, String classRoom, Date startTime){
+    private void createEventView(int topMargin, int height, String courseName, String classRoom, Date startTime) {
 
         Calendar calendar = CalendarUtils.getGregorianCalendar(startTime);
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE);
-        int eventPosition = (int) (31.0 + ((hours - 7)*60.0) + (minutes/60.0) * 60.0) ;
+        int eventPosition = (int) (31.0 + ((hours - 7) * 60.0) + (minutes / 60.0) * 60.0);
 
         Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/circular_bold.ttf");
         Typeface roboto1 = Typeface.createFromAsset(getActivity().getAssets(), "font/circular_book.ttf");
 
-        int randomNumber = (int) (Math.random()*10);
+        int randomNumber = (int) (Math.random() * 10);
 
         TextView mEventView = new TextView(getActivity());
         RelativeLayout.LayoutParams lParam = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -167,12 +175,13 @@ public class TomorrowFragment extends Fragment {
         lParam.topMargin = getInDp(eventPosition);
         lParam.leftMargin = getInDp(3);
         mEventView.setLayoutParams(lParam);
-        mEventView.setPadding(24, 8, 24, 0);
-        mEventView.setHeight(getInDp(height/2));
+        mEventView.setPadding(24, 0, 24, 0);
+        mEventView.setHeight(getInDp(height));
         mEventView.setWidth(1200);
         mEventView.setTextColor(Color.parseColor("#52616b"));
         mEventView.setText(courseName);
         mEventView.setTypeface(roboto);
+        mEventView.setGravity(Gravity.CENTER_VERTICAL);
         mEventView.setTextSize(14);
         mEventView.setBackgroundColor(Color.parseColor(mainColors.get(randomNumber)));
         mLayout.addView(mEventView);
@@ -180,18 +189,18 @@ public class TomorrowFragment extends Fragment {
         TextView mEventView3 = new TextView(getActivity());
         RelativeLayout.LayoutParams lParam3 = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lParam3.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        lParam3.topMargin = getInDp(eventPosition+(height/2));
+        lParam3.topMargin = getInDp(eventPosition + (height / 2));
         lParam3.leftMargin = getInDp(3);
         mEventView3.setLayoutParams(lParam3);
-        mEventView3.setPadding(24,8, 24, 16);
-        mEventView3.setHeight(getInDp(height/2));
+        mEventView3.setPadding(24, 8, 24, 16);
+        mEventView3.setHeight(getInDp(height / 2));
         mEventView3.setWidth(1200);
         mEventView3.setTextColor(Color.parseColor("#7a8993"));
         mEventView3.setTypeface(roboto1);
         mEventView3.setTextSize(10);
         mEventView3.setText(classRoom);
         mEventView3.setBackgroundColor(Color.parseColor(mainColors.get(randomNumber)));
-        mLayout.addView(mEventView3);
+      //  mLayout.addView(mEventView3);
 
 
         TextView mEventView1 = new TextView(getActivity());

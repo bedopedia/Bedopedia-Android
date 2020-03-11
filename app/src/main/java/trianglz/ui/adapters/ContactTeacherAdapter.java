@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,7 +20,6 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
-import trianglz.components.CircleTransform;
 import trianglz.models.Message;
 import trianglz.models.MessageThread;
 import trianglz.utils.Util;
@@ -54,31 +52,38 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
     public void onBindViewHolder(final Holder holder, final int position) {
         MessageThread messageThread = mDataList.get(position);
         String name  = "";
-        if(messageThread.otherNames.contains("&")) {
-            String[] nameArray = messageThread.otherNames.split("&");
-            if (nameArray.length > 1) {
-                name =  nameArray[0]+
-                        nameArray[1];
-            } else {
-                name = nameArray[0];
+        String[] nameArray = messageThread.name.split(" ");
+        if(nameArray.length>1){
+            String first  = nameArray[0];
+            String last = nameArray[nameArray.length-1];
+            if(first.length() > 0 && last.length() > 0){
+                name =  first + " " + last;
+            }else if( first.length() == 0 && last.length() > 0){
+                name =  last;
+            }else if(first.length() > 0){
+                name =  first;
             }
-            holder.teacherName.setText(name);
         }else {
-            holder.teacherName.setText(messageThread.otherNames);
+            name  = nameArray[0];
         }
+        holder.teacherName.setText(name);
         if(!messageThread.courseName.isEmpty() && !messageThread.courseName.equals("null")){
             holder.subjectTextView.setText(messageThread.courseName);
         }else {
             if(messageThread.messageArrayList.size()>0){
-                Message message = messageThread.messageArrayList.get(messageThread.messageArrayList.size()-1);
+                Message message = messageThread.messageArrayList.get(0);
                 String body = android.text.Html.fromHtml(message.body).toString().trim();
-                holder.subjectTextView.setText(body +".."+message.user.firstName);
+                if(!messageThread.otherNames.isEmpty()) {
+                    holder.subjectTextView.setText(messageThread.otherNames + " : " + body + "..");
+                }else {
+                    holder.subjectTextView.setText(body + "..");
+                }
             }else {
                 holder.subjectTextView.setText("");
             }
         }
 
-        holder.dateBtn.setText(Util.getDate(messageThread.lastAddedDate,context));
+        holder.dateBtn.setText(Util.getMessagesDate(messageThread.lastAddedDate,context));
         setTeacherImage(messageThread.otherAvatars, messageThread.otherNames, holder);
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +109,7 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
         public TextView teacherName, subjectTextView;
         public AvatarView teacherImageView;
         public LinearLayout itemLayout;
-        public Button dateBtn;
+        public TextView dateBtn;
 
         public Holder(View itemView) {
             super(itemView);

@@ -8,11 +8,11 @@ package trianglz.models;//
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
-public class Quizzes implements Parcelable {
+public class Quizzes extends StudentGradeModel implements Parcelable {
 
 	@SerializedName("id")
 	private int id;
@@ -51,13 +51,78 @@ public class Quizzes implements Parcelable {
 	@SerializedName("chapter")
 	private Chapter chapter;
 	@SerializedName("student_solved")
-	private Object studentSolved;
+	private boolean studentSolved;
 	@SerializedName("blooms")
 	private String[] blooms;
 	@SerializedName("questions")
 	private Questions[] questions;
 	@SerializedName("objectives")
 	private Object[] objectives;
+    @SerializedName("status")
+    private String status;
+    @SerializedName("grading_period_id")
+    private int gradingPeriodId;
+    @SerializedName("type")
+    private String type;
+    @SerializedName("hide_grade")
+    private int hideGrade;
+    @SerializedName("category_id")
+    public int categoryId;
+    @SerializedName("feedback_content")
+    public Object feedbackContent;
+    @SerializedName("feedback_id")
+    public Object feedbackId;
+    @SerializedName("due_date")
+    public String dueDate;
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setGradingPeriodId(int gradingPeriodId) {
+        this.gradingPeriodId = gradingPeriodId;
+    }
+
+    public int getGradingPeriodId() {
+        return this.gradingPeriodId;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public double getTotal() {
+        return this.total;
+    }
+
+    public void setHideGrade(int hideGrade) {
+        this.hideGrade = hideGrade;
+    }
+
+    public int getHideGrade() {
+        return this.hideGrade;
+    }
+
+    public void setGradeView(String gradeView) {
+        this.gradeView = gradeView;
+    }
+
+    public String getGradeView() {
+        return this.gradeView;
+    }
+
 
     protected Quizzes(Parcel in) {
         id = in.readInt();
@@ -226,11 +291,11 @@ public class Quizzes implements Parcelable {
         this.chapter = chapter;
     }
 
-    public Object getStudentSolved() {
+    public boolean isStudentSolved() {
         return studentSolved;
     }
 
-    public void setStudentSolved(Object studentSolved) {
+    public void setStudentSolved(boolean studentSolved) {
         this.studentSolved = studentSolved;
     }
 

@@ -1,93 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="76dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="13dp"
+    android:layout_marginEnd="13dp"
+    android:id="@+id/card_view"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="3dp"
+    android:layout_marginBottom="8dp">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="76dp"
-        android:orientation="horizontal"
-        android:id="@+id/item_layout">
-        <agency.tango.android.avatarview.views.AvatarView
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:id="@+id/img_teacher"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="14dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:av_border_color="@color/jade_green"
-            app:av_border_width="2dp"
-            />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:paddingTop="8dp"
-            android:paddingBottom="13dp"
-            android:orientation="horizontal">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:orientation="horizontal"
+            android:id="@+id/item_layout">
+
+            <agency.tango.android.avatarview.views.AvatarView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:id="@+id/img_teacher"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="14dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical|start"
-               >
+                android:paddingTop="8dp"
+                android:paddingBottom="13dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical|start">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="4dp"
+                        android:textColor="@color/gunmetal"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        style="@style/RobotoMediumStyle"
+                        android:ellipsize="end"
+                        tools:text="Testing"
+                        android:id="@+id/tv_teacher_name"
+                        android:textAlignment="viewStart" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start|center_vertical"
+                        android:textSize="14sp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/silver"
+                        android:maxLines="1"
+                        style="@style/RobotoMediumStyle"
+                        tools:text="Test"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:id="@+id/tv_subject_name"
+                        android:textAlignment="viewStart" />
+
+                </LinearLayout>
+
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:textSize="17sp"
-                    android:textColor="@color/gunmetal"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:id="@+id/tv_teacher_name"
-                    android:textAlignment="viewStart"
-                    />
-                <trianglz.components.SfproRegularTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:layout_marginEnd="13.5dp"
+                    android:id="@+id/btn_date"
+                    android:text="Yesterday"
+                    android:textAllCaps="false"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
                     android:textColor="@color/steel"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:id="@+id/tv_subject_name"
-                    android:textAlignment="viewStart"
-                    />
+                    android:layout_marginStart="10dp"
+                    android:includeFontPadding="false"
+                    android:focusable="false"
+                    android:clickable="false" />
 
             </LinearLayout>
-
-            <trianglz.components.SfproRegularButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:drawableEnd="@drawable/shape"
-                android:background="@color/transparent"
-                android:layout_marginEnd="13.5dp"
-                android:id="@+id/btn_date"
-                android:text="Yesterday"
-                android:textAllCaps="false"
-                android:drawablePadding="10dp"
-                android:textSize="15sp"
-                android:textColor="@color/steel"
-                android:layout_marginStart="10dp"
-                android:includeFontPadding="false"
-                android:focusable="false"
-                android:clickable="false"
-                />
-
-            </LinearLayout>
-
         </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e5e5e5"
-        android:layout_gravity="bottom"
-        />
-</FrameLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e5e5e5"
+            android:layout_gravity="bottom" />
+    </FrameLayout>
+</android.support.v7.widget.CardView>

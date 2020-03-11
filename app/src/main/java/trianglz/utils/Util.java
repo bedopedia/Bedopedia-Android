@@ -3,19 +3,21 @@ package trianglz.utils;
 import android.Manifest;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
+import android.view.TouchDelegate;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -44,8 +46,11 @@ import java.util.regex.Pattern;
 import Tools.CalendarUtils;
 import gun0912.tedbottompicker.TedBottomPicker;
 import trianglz.components.DexterPermissionErrorListener;
+import trianglz.components.ErrorDialog;
 import trianglz.components.MimeTypeInterface;
 import trianglz.components.OnImageSelectedListener;
+import trianglz.managers.App;
+import trianglz.managers.SessionManager;
 import trianglz.models.Message;
 
 /**
@@ -76,26 +81,14 @@ public class Util {
         return px;
     }
 
-    public static void showErrorDialog(Context context, String title, String content) {
-        new MaterialDialog.Builder(context)
-                .title(title)
-                .content(content)
-                .titleColor(context.getResources().getColor(R.color.jade_green))
-                .neutralText("Ok")
-                .neutralColor(context.getResources().getColor(R.color.jade_green))
-                .contentColor(context.getResources().getColor(R.color.steel))
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(MaterialDialog dialog, DialogAction which) {
-
-                    }
-                })
-                .show();
+    public static void showErrorDialog(Context context, String content) {
+        ErrorDialog errorDialog = new ErrorDialog(context, content, ErrorDialog.DialogType.ERROR);
+        errorDialog.show();
     }
 
 
     public static void showNoInternetConnectionDialog(Context context) {
-        showErrorDialog(context, context.getResources().getString(R.string.skolera), context.getResources().getString(R.string.no_internet_connection));
+        showErrorDialog(context, context.getResources().getString(R.string.no_internet_connection));
     }
 
     public static boolean isNullOrEmpty(String string) {
@@ -153,14 +146,25 @@ public class Util {
     }
 
 
-    public static String getDate(String messageTime,Context context) {
+    public static String getMessagesDate(String messageTime, Context context) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale(getLocale(context)));
+        Date date = new Date();
+        try {
+            date = fmt.parse(messageTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat fmtOut = new SimpleDateFormat("dd/MM/yyyy", new Locale(getLocale(context)));
+        return fmtOut.format(date);
+    }
+    public static String getDate(String messageTime, Context context) {
         String finalData = "";
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",new Locale("en"));
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
 
         Date date = null;
         try {
             date = fmt.parse(messageTime);
-            SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy",new Locale("en"));
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy", new Locale("en"));
             String[] dates = fmtOut.format(date).split(" ");
             Calendar cal = CalendarUtils.getCalendar(Calendar.getInstance().getTime());
             Integer day = cal.get(Calendar.DAY_OF_MONTH);
@@ -176,14 +180,31 @@ public class Util {
         }
         return finalData;
     }
-    public static String getPostDate(String messageTime,Context context) {
+
+    public static String getAnnouncementDate(String messageTime, Context context) {
         String finalData = "";
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",new Locale("en"));
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale(getLocale(context)));
+        fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date date;
+        try {
+            date = fmt.parse(messageTime);
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy", new Locale(getLocale(context)));
+            fmtOut.setTimeZone(TimeZone.getDefault());
+            finalData = fmtOut.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return finalData;
+    }
+
+    public static String getPostDate(String messageTime, Context context) {
+        String finalData = "";
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
 
         Date date = null;
         try {
             date = fmt.parse(messageTime);
-            SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy",new Locale(getLocale(context)));
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy", new Locale(getLocale(context)));
             finalData = fmtOut.format(date);
 
         } catch (ParseException e) {
@@ -191,14 +212,15 @@ public class Util {
         }
         return finalData;
     }
-    public static String getPostDateAmPm(String messageTime,Context context) {
+
+    public static String getPostDateAmPm(String messageTime, Context context) {
         String finalData = "";
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",new Locale("en"));
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
 
         Date date = null;
         try {
             date = fmt.parse(messageTime);
-            SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy, h:mm aa",new Locale(getLocale(context)));
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy, h:mm aa", new Locale(getLocale(context)));
             finalData = fmtOut.format(date);
 
         } catch (ParseException e) {
@@ -207,9 +229,58 @@ public class Util {
         return finalData;
     }
 
+    public static String getTimeAndDate(String messageTime, Context context) {
+        String finalData = "";
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
+
+        Date date = null;
+        try {
+            date = fmt.parse(messageTime);
+            SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM 'at' h:mm aa", new Locale(getLocale(context)));
+            finalData = fmtOut.format(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return finalData;
+    }
+
+    public static String getTimeAm(String messageTime, Context context) {
+        String finalData = "";
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
+
+        Date date = null;
+        try {
+            date = fmt.parse(messageTime);
+            SimpleDateFormat fmtOut = new SimpleDateFormat("h:mm aa", new Locale(getLocale(context)));
+            finalData = fmtOut.format(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return finalData;
+    }
+
+    public static String getWeeklyPlannerDate(Date date, Context context) {
+        String finalData = "";
+        SimpleDateFormat fmtOut = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
+        finalData = fmtOut.format(date);
+        return finalData;
+    }
+
+    @Nullable
+    public static Date getAttendanceDate(String string, Context context) {
+        SimpleDateFormat formatIn = new SimpleDateFormat("yyyy-MM-dd", new Locale(getLocale(context)));
+        try {
+            return formatIn.parse(string);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static Date convertStringToDate(String dateString) {
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat fmt = new SimpleDateFormat("dd MMM yyyy", new Locale(getLocale(App.getInstance().getBaseContext())));
         Date date = null;
         try {
             date = fmt.parse(dateString);
@@ -220,8 +291,7 @@ public class Util {
     }
 
 
-
-    public static Date convertUtcToLocal(String dateString){
+    public static Date convertUtcToLocal(String dateString) {
         String formattedDate = "";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -235,14 +305,14 @@ public class Util {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(date == null){
+        if (date == null) {
             date = Calendar.getInstance().getTime();
         }
         return date;
     }
 
 
-    public static String convertLocaleToUtc(String dateString){
+    public static String convertLocaleToUtc(String dateString) {
         String formattedDate = "";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
         df.setTimeZone(TimeZone.getDefault());
@@ -319,7 +389,7 @@ public class Util {
         };
 
         PermissionListener snackbarPermissionListener = SnackbarOnDeniedPermissionListener.Builder
-                .with(rootView,"")
+                .with(rootView, "")
                 .withOpenSettingsButton("")
                 .build();
 
@@ -334,41 +404,70 @@ public class Util {
 
     }
 
-    public static boolean hasHTMLTags(String text){
+    public static boolean hasHTMLTags(String text) {
         final String HTML_PATTERN = "<(\"[^\"]*\"|'[^']*'|[^'\">])*>";
         Pattern pattern = Pattern.compile(HTML_PATTERN);
         Matcher matcher = pattern.matcher(text);
         return matcher.find();
     }
-    public static void isImageUrl(final Message message, final int position , final MimeTypeInterface mimeTypeInterface) {
+
+    public static void isImageUrl(final Message message, final int position, final MimeTypeInterface mimeTypeInterface) {
         final ArrayList<Object> filteredArrayList = new ArrayList<>();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                           URLConnection connection = null;
-                            try {
-                                connection = new URL(message.attachmentUrl).openConnection();
-                                String contentType = connection.getHeaderField("Content-Type");
-                                boolean isImage = contentType.startsWith("image/");
-                                message.isImage = isImage;
-                                mimeTypeInterface.onCheckType(message,position);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
+                URLConnection connection = null;
+                try {
+                    connection = new URL(message.attachmentUrl).openConnection();
+                    String contentType = connection.getHeaderField("Content-Type");
+                    boolean isImage = contentType.startsWith("image/");
+                    message.isImage = isImage;
+                    mimeTypeInterface.onCheckType(message, position);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
         });
     }
 
+    public static String getDayByNumber(int number) {
+        String string = "";
+        Context context = App.getInstance().getBaseContext();
+        switch (number + 1) {
+            case 1:
+                string = context.getString(R.string.weekly_saturday);
+                break;
+            case 2:
+                string = context.getString(R.string.weekly_sunday);
+                break;
+            case 3:
+                string = context.getString(R.string.weekly_monday);
+                break;
+            case 4:
+                string = context.getString(R.string.weekly_tuesday);
+                break;
+            case 5:
+                string = context.getString(R.string.weekly_wednesday);
+                break;
+            case 6:
+                string = context.getString(R.string.weekly_thursday);
+                break;
+            case 7:
+                string = context.getString(R.string.weekly_friday);
+                break;
+        }
+        return string;
+    }
 
-    public static String getDayName(String dateString){
+    public static String getDayName(String dateString) {
         String dayName = "";
         SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
             date = inFormat.parse(dateString);
             SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
-           dayName = outFormat.format(date);
+            dayName = outFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -377,33 +476,33 @@ public class Util {
 
     }
 
-    public static String getWeeklPlannerText(String startDateString, String endDateString,Context context){
+    public static String getWeeklPlannerText(String startDateString, String endDateString, Context context) {
         String text = "";
 
         SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = null;
-        Date  endDate  = null;
+        Date endDate = null;
         try {
             startDate = inFormat.parse(startDateString);
             endDate = inFormat.parse(endDateString);
             android.text.format.DateFormat df = new android.text.format.DateFormat();
             String startDayName = (String) df.format("EEEE", startDate); // Thursday
-            if (startDayName.length() >=3 && !Util.getLocale(context).equals("ar")){
-                startDayName = startDayName.substring(0,4);
+            if (startDayName.length() >= 2 && !Util.getLocale(context).equals("ar")) {
+                startDayName = startDayName.substring(0, 3);
             }
-            String startDay          = (String) df.format("dd",   startDate); // 20
-            String startMonth  = (String) df.format("MM",   startDate); // 06
+            String startDay = (String) df.format("dd", startDate); // 20
+            String startMonth = (String) df.format("MM", startDate); // 06
 
             String endDayName = (String) df.format("EEEE", endDate); // Thursday
-            if (endDayName.length() >=3  && !Util.getLocale(context).equals("ar")){
-                endDayName = endDayName.substring(0,4);
+            if (endDayName.length() >= 2 && !Util.getLocale(context).equals("ar")) {
+                endDayName = endDayName.substring(0, 3);
             }
-            String endDay          = (String) df.format("dd",   endDate); // 20
-            String endMonth  = (String) df.format("MM",   endDate); // 06
-            text = context.getResources().getString(R.string.start_from)+ " "+
-                    startDayName + " " + startDay+"/"+ startMonth +" "+
-                    context.getResources().getString(R.string.to) + " "+
-                    endDayName + " " + endDay+"/"+ endMonth;
+            String endDay = (String) df.format("dd", endDate); // 20
+            String endMonth = (String) df.format("MM", endDate); // 06
+            text = context.getResources().getString(R.string.start_from) + " " +
+                    startDayName + " " + startDay + "/" + startMonth + " " +
+                    context.getResources().getString(R.string.to) + " " +
+                    endDayName + " " + endDay + "/" + endMonth;
 
 
         } catch (ParseException e) {
@@ -413,8 +512,8 @@ public class Util {
     }
 
 
-    public static String getCourseDate(String courseDateString){
-        if(courseDateString== null){
+    public static String getCourseDate(String courseDateString) {
+        if (courseDateString == null) {
             return "";
         }
         String endDateString = "";
@@ -430,8 +529,8 @@ public class Util {
         return endDateString;
     }
 
-    public static String getAssigmentDetailStartDate(String startDate){
-        if(startDate == null || startDate.isEmpty()){
+    public static String getAssigmentDetailStartDate(String startDate) {
+        if (startDate == null || startDate.isEmpty()) {
             return "";
         }
         String formattedStartDate = "";
@@ -447,8 +546,8 @@ public class Util {
         return formattedStartDate;
     }
 
-    public static String getAssigmentDetailEndDateDay(String endDate){
-        if(endDate == null || endDate.isEmpty()){
+    public static String getAssigmentDetailEndDateDay(String endDate) {
+        if (endDate == null || endDate.isEmpty()) {
             return "";
         }
         String formattedDay = "";
@@ -466,6 +565,7 @@ public class Util {
 
     /**
      * Used instead of copying header hashMap's keys and values manually
+     *
      * @param hashMap user headers hash map
      * @return the headers but as bulk string
      */
@@ -477,8 +577,16 @@ public class Util {
         return headers.toString();
     }
 
-    public static String getAssigmentDetailEndDateMonth(String endDate,Context context){
-        if(endDate == null || endDate.isEmpty()){
+    public static String removeZeroDecimal(String string) {
+        if (string != null && !string.isEmpty() && string.contains(".0")) {
+            return string.replace(".0", "");
+        } else {
+            return string;
+        }
+    }
+
+    public static String getAssigmentDetailEndDateMonth(String endDate, Context context) {
+        if (endDate == null || endDate.isEmpty()) {
             return "";
         }
         String formattedDay = "";
@@ -486,16 +594,78 @@ public class Util {
         Date date;
         try {
             date = inFormat.parse(endDate);
-            SimpleDateFormat outFormat ;
-            if(Util.getLocale(context).equals("ar")){
-                 outFormat = new SimpleDateFormat("MMMM");
-            }else {
-                 outFormat = new SimpleDateFormat("MMM");
+            SimpleDateFormat outFormat;
+            if (Util.getLocale(context).equals("ar")) {
+                outFormat = new SimpleDateFormat("MMMM");
+            } else {
+                outFormat = new SimpleDateFormat("MMM");
             }
             formattedDay = outFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return formattedDay;
+    }
+
+    public static int checkUserColor() {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
+            return R.color.salmon;
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+            return R.color.turquoise_blue;
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
+            return R.color.cerulean_blue;
+        } else {
+            return R.color.jade_green;
+        }
+    }
+
+    public static Date convertIsoToDate(String iso) {
+        SimpleDateFormat inputFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date date = null;
+        try {
+            date = inputFormatter.parse(iso);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public static void increaseButtonsHitArea(ImageButton button) {
+        final View parent = (View) button.getParent();
+        parent.post(new Runnable() {
+            public void run() {
+                final Rect rect = new Rect();
+                button.getHitRect(rect);
+                rect.top -= 100;    // increase top hit area
+                rect.left -= 100;   // increase left hit area
+                rect.bottom += 100; // increase bottom hit area
+                rect.right += 100;  // increase right hit area
+                parent.setTouchDelegate(new TouchDelegate(rect, button));
+            }
+        });
+    }
+
+    public static int getSkeletonRowCount(Context context) {
+        int pxHeight = getDeviceHeight(context);
+        int skeletonRowHeight = (int) context.getResources()
+                .getDimension(R.dimen.skeleton_height); //converts to pixel
+        return (int) Math.ceil(pxHeight / skeletonRowHeight);
+    }
+
+    public static int getDeviceHeight(Context context) {
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        return metrics.heightPixels;
+    }
+
+    public static String humanReadableByteCountBin(long bytes) {
+        long b = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
+        return b < 1024L ? bytes + " B"
+                : b <= 0xfffccccccccccccL >> 40 ? String.format("%.1f KB", bytes / 0x1p10)
+                : b <= 0xfffccccccccccccL >> 30 ? String.format("%.1f MB", bytes / 0x1p20)
+                : b <= 0xfffccccccccccccL >> 20 ? String.format("%.1f GB", bytes / 0x1p30)
+                : b <= 0xfffccccccccccccL >> 10 ? String.format("%.1f TB", bytes / 0x1p40)
+                : b <= 0xfffccccccccccccL ? String.format("%.1f PiB", (bytes >> 10) / 0x1p40)
+                : String.format("%.1f EiB", (bytes >> 20) / 0x1p40);
     }
 }

@@ -16,55 +16,100 @@
         app:contentInsetLeft="0dp"
         app:contentInsetRight="0dp"
         app:contentInsetStart="0dp">
+
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="67dp"
+                android:layout_height="60dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:background="@color/white"
-                >
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
 
-                <trianglz.components.SfproBoldTextView
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:background="@android:color/transparent"
+                    android:foreground="@drawable/round_ripple_25"
+                    android:padding="10dp"
+                    android:src="@drawable/chevron_left" />
+
+                <TextView
+                    android:id="@+id/tv_header"
+                    style="@style/RobotoMediumStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="@string/notifications"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/greyish_brown"
-                    android:textSize="24sp"
-                    android:layout_marginStart="24dp"/>
-
-                <trianglz.components.SfproRegularButton
-                    android:id="@+id/btn_close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/transparent"
-                    android:text="@string/close"
-                    android:textAllCaps="false"
-                    android:textColor="@color/steel"
-                    android:textSize="15sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/silver"/>
+                android:background="@color/silver" />
         </LinearLayout>
 
 
-    </android.support.v7.widget.Toolbar>
 
+    </android.support.v7.widget.Toolbar>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <include layout="@layout/item_shimmer_layout"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="8dp" />
+            android:paddingTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:clipToPadding="false"/>
+
+        <LinearLayout
+            android:id="@+id/placeholder_layout"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/notification_placeholder" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center"
+            android:includeFontPadding="false"
+            android:textSize="16sp"
+            android:text="@string/notification_placeholder" />
+        </LinearLayout>
 
     </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

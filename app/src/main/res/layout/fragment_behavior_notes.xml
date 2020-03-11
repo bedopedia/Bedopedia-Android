@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:clickable="true"
+    android:background="@color/white"
     tools:context="trianglz.ui.fragments.BehaviorNotesFragment">
 
     <LinearLayout
@@ -12,147 +15,117 @@
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             android:elevation="2dp"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             app:contentInsetRight="0dp"
-            app:contentInsetEnd="0dp"
-          >
+            app:contentInsetEnd="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                >
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/back_btn"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:background="@color/white"
-                    android:src="@drawable/chevron_left"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginTop="5dp"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <trianglz.components.SfproSemiBoldTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="9dp"
-                        android:gravity="center"
-                        android:layout_marginTop="2.5dp"
-                        android:text="@string/behaviour_notes"
-                        android:textSize="24sp" />
-
                     <LinearLayout
-                        android:id="@+id/layout_texts"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:gravity="center"
-                        android:visibility="gone"
+                        android:layout_height="60dp"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        >
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp">
 
-                        <trianglz.components.SfuiRegularTextView
-                            android:id="@+id/tv_positive"
+                        <ImageButton
+                            android:id="@+id/back_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="2dp"
+                            android:background="@android:color/transparent"
+                            android:foreground="@drawable/round_ripple_25"
+                            android:padding="10dp"
+                            android:src="@drawable/chevron_left" />
+
+                        <TextView
+                            android:id="@+id/tv_header"
+                            style="@style/RobotoMediumStyle"
                             android:layout_width="0dp"
-                            android:layout_height="28dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@drawable/curved_solid_left_green"
-                            android:gravity="center"
-                            android:text="@string/positiveBehaviorNotes"
-                            android:textAlignment="center"
-                            android:textColor="@color/white" />
+                            android:background="@android:color/transparent"
+                            android:ellipsize="end"
+                            android:gravity="start"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="@string/behavior_notes"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/greyish_brown"
+                            android:textSize="20sp" />
 
-
-
-                        <trianglz.components.SfuiRegularTextView
-                            android:id="@+id/tv_negative"
-                            android:layout_width="0dp"
-                            android:layout_height="28dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="@string/negativeBehaviorNotes"
-                            android:textAlignment="center"
-                            android:textColor="@color/jade_green" />
-
-
-
-                        <trianglz.components.SfuiRegularTextView
-                            android:id="@+id/tv_other"
-                            android:layout_width="0dp"
-                            android:layout_height="28dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/curved_stroke_right_green"
-                            android:gravity="center"
-                            android:text="@string/other"
-                            android:textAlignment="center"
-                            android:textColor="@color/jade_green" />
+                        <agency.tango.android.avatarview.views.AvatarView
+                            android:id="@+id/img_student"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@android:color/transparent" />
                     </LinearLayout>
-                    <info.hoang8f.android.segmented.SegmentedGroup
-                        xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/segmented"
+
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:layout_margin="10dp"
-                        android:layoutDirection="ltr"
-                        android:orientation="horizontal"
-                        segmentedgroup:sc_tint_color="@color/student_red"
-                        segmentedgroup:sc_border_width="1dp"
-                        segmentedgroup:sc_corner_radius="4dp">
-
-                        <RadioButton
-                            android:id="@+id/btn_positive"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:defaultFocusHighlightEnabled="true"
-                            android:layout_height="wrap_content"
-                            android:text="@string/positiveBehaviorNotes"
-                            style="@style/segmented_group_text_style" />
-
-                        <RadioButton
-                            android:id="@+id/btn_negative"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="@string/negativeBehaviorNotes"
-                            style="@style/segmented_group_text_style" />
-                        <RadioButton
-                            android:id="@+id/btn_other"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="@string/other"
-                            style="@style/segmented_group_text_style" />
-                    </info.hoang8f.android.segmented.SegmentedGroup>
+                        android:layout_height="0.5dp"
+                        android:background="@color/silver" />
                 </LinearLayout>
 
-                <agency.tango.android.avatarview.views.AvatarView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:id="@+id/img_student"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="4dp"/>
+
+
+
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    app:tabRippleColor="@color/transparent"
+                    app:tabSelectedTextColor="@color/jade_green"
+                    app:tabIndicatorColor="@color/jade_green"
+                    app:tabTextColor="@color/steel"
+                    app:tabTextAppearance="@style/BehaviorNoteTabStyle">
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/open_tab"
+                        android:text="@string/positiveBehaviorNotes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+
+                    <android.support.design.widget.TabItem
+                        android:text="@string/negativeBehaviorNotes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                    <android.support.design.widget.TabItem
+                        android:text="@string/other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                </android.support.design.widget.TabLayout>
+
             </LinearLayout>
+
+
+
 
         </android.support.v7.widget.Toolbar>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:visibility="gone"
             android:background="@color/steel_transparent" />
+
 
         <trianglz.components.CustomRtlViewPager
             android:id="@+id/behavior_notes_container"

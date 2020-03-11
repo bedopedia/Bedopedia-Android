@@ -2,7 +2,12 @@ package trianglz.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -10,16 +15,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
+import trianglz.components.ChangePasswordDialog;
 import trianglz.components.HideKeyboardOnTouch;
 import trianglz.core.presenters.LoginPresenter;
 import trianglz.core.views.LoginView;
@@ -32,15 +38,19 @@ import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
 public class LoginActivity extends SuperActivity implements View.OnClickListener, LoginPresenter,
-        TextView.OnEditorActionListener{
-    private MaterialEditText emailEditText;
-    private MaterialEditText passwordEditText;
+        ChangePasswordDialog.DialogConfirmationInterface {
+    private MaterialEditText emailEditText, passwordEditText;
+    private TextView emailErrorTextView, passwordErrorTextView;
     private Button loginBtn;
     private LoginView loginView;
     private School school;
     private ImageView schoolImageView;
     private ImageButton backBtn;
+    private String baseUrl;
     private LinearLayout parentView;
+    private View emailView;
+    private ImageButton showHidePasswordButton;
+    private RoundCornerProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,54 +65,121 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         emailEditText = findViewById(R.id.et_email);
         passwordEditText = findViewById(R.id.et_password);
         loginBtn = findViewById(R.id.btn_login);
-        loginBtn.setBackground(Util.getCurvedBackgroundColor(Util.convertDpToPixel(8,this),
+        loginBtn.setBackground(Util.getCurvedBackgroundColor(Util.convertDpToPixel(8, this),
                 getResources().getColor(R.color.jade_green)));
         loginView = new LoginView(this, this);
         schoolImageView = findViewById(R.id.img_school);
         backBtn = findViewById(R.id.btn_back);
         parentView = findViewById(R.id.parent_view);
+        baseUrl = SessionManager.getInstance().getBaseUrl();
+
+        progressBar = findViewById(R.id.progress_bar);
+        emailErrorTextView = findViewById(R.id.email_error_tv);
+        passwordErrorTextView = findViewById(R.id.password_error_tv);
+        emailView = findViewById(R.id.email_view);
+        showHidePasswordButton = findViewById(R.id.show_hide_password_image_button);
     }
 
     private void setListeners() {
         loginBtn.setOnClickListener(this);
         backBtn.setOnClickListener(this);
+        showHidePasswordButton.setOnClickListener(this);
         parentView.setOnTouchListener(new HideKeyboardOnTouch(this));
-        passwordEditText.setOnEditorActionListener(this);
+        emailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                emailView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white_four));
+                emailErrorTextView.setVisibility(View.INVISIBLE);
+            }
+        });
+        passwordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                passwordErrorTextView.setVisibility(View.INVISIBLE);
+                progressBar.setProgressColor(getResources().getColor(R.color.jade_green));
+                Log.d("count", "afterTextChanged: " + s.toString().trim().length());
+                if (s.toString().trim().length() > 6) {
+                    progressBar.setProgress(100);
+                } else {
+                    progressBar.setProgress((10 * (float) s.length()) / 6);
+                }
+            }
+        });
+        passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                login();
+                handled = true;
+            }
+            return handled;
+        });
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                if(Util.isNetworkAvailable(this)){
-                    if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
-                        super.showLoadingDialog();
-                        String url = school.schoolUrl + "/api/auth/sign_in";
-                        loginView.login(url,emailEditText.getText().toString(), passwordEditText.getText().toString(),school.schoolUrl);
-                    }
-                }else {
-                    Util.showErrorDialog(LoginActivity.this,getResources().getString(R.string.skolera),
-                            getResources().getString(R.string.no_internet_connection));
-                }
+                login();
                 break;
             case R.id.btn_back:
                 onBackPressed();
                 break;
+            case R.id.show_hide_password_image_button:
+                if (passwordEditText.getTransformationMethod() instanceof PasswordTransformationMethod) {
+                    passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showHidePasswordButton.setImageResource(R.drawable.ic_unshow_password);
+                } else {
+                    passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showHidePasswordButton.setImageResource(R.drawable.ic_show_password);
+                }
+                break;
+        }
+    }
+
+    private void login() {
+        if (Util.isNetworkAvailable(this)) {
+            if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
+                super.showLoadingDialog();
+                String url = school.schoolUrl + "/api/auth/sign_in";
+                loginView.login(url, emailEditText.getText().toString(), passwordEditText.getText().toString(), school.schoolUrl);
+            }
+        } else {
+            showErrorDialog(this, -3, getResources().getString(R.string.no_internet_connection));
         }
     }
 
 
     public boolean validate(String email, String password) {
         boolean valid = true;
-            if(email.isEmpty()){
-                showErrorMessage(emailEditText, getResources().getString(R.string.email_is_empty));
-                valid = false;
-            }
-        if (password.isEmpty() || password.length() < 4) {
+        if (email.isEmpty()) {
+            showEmailErrorMessage(getResources().getString(R.string.email_is_empty), emailErrorTextView);
+            valid = false;
+        }
+        if (password.isEmpty() || password.length() < 6) {
             if (password.isEmpty()) {
-                showErrorMessage(passwordEditText, getResources().getString(R.string.password_is_empty));
+                showPasswordErrorMessage(getResources().getString(R.string.password_is_empty), passwordErrorTextView);
             } else {
-                showErrorMessage(passwordEditText, getResources().getString(R.string.password_length_error));
+                showPasswordErrorMessage(getResources().getString(R.string.password_length_error), passwordErrorTextView);
             }
             valid = false;
         }
@@ -124,117 +201,123 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
 
     }
 
-    private void showErrorMessage(MaterialEditText editText, String message) {
-        editText.setError(message);
-        editText.setUnderlineColor(getResources().getColor(R.color.pale_red));
-        editText.setHideUnderline(false);
-        editText.setErrorColor(getResources().getColor(R.color.tomato));
+    private void showEmailErrorMessage(String message, TextView textView) {
+        textView.setText(message);
+        emailView.setBackgroundColor(ContextCompat.getColor(this, R.color.pale_red));
+        textView.setVisibility(View.VISIBLE);
+    }
+
+    private void showPasswordErrorMessage(String message, TextView textView) {
+        textView.setText(message);
+        progressBar.setProgressColor(getResources().getColor(R.color.pale_red));
+        progressBar.setProgress(100);
+        textView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onLoginSuccess(Actor actor) {
         openStudentDetailActivity(actor);
         String url = school.schoolUrl + "/api/auth/sign_in";
-        SessionManager.getInstance().setloginValues(url,emailEditText.getText().toString(),
-                passwordEditText.getText().toString());
     }
 
     @Override
-    public void onLoginSuccess() {
+    public void onParentLoginSuccess(JSONArray students) {
         progress.dismiss();
-        if(SessionManager.getInstance().getUserType()){
-            openHomeActivity();
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+            openHomeActivity(students);
         }
-        String url = school.schoolUrl + "/api/auth/sign_in";
-        SessionManager.getInstance().setloginValues(url,emailEditText.getText().toString(),
-                passwordEditText.getText().toString());
     }
 
     @Override
     public void onLoginFailure(String message, int errorCode) {
-        if(progress.isShowing()){
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(errorCode == 401 ){
-          Util.showErrorDialog(this,"Skolera",getResources().getString(R.string.wrong_username_or_password));
-        }else {
-            showErrorDialog(this);
+        if (errorCode == 401) {
+            showErrorDialog(this, -3, getResources().getString(R.string.wrong_username_or_password));
+        } else if (errorCode == 406) {
+            ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this, this, getResources().getString(R.string.choose_new_password));
+            changePasswordDialog.show();
+            changePasswordDialog.headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+            changePasswordDialog.userId = Integer.parseInt(SessionManager.getInstance().getUserId());
+            changePasswordDialog.setOldPasswordValue(passwordEditText.getText().toString());
+
+        } else {
+            showErrorDialog(this, errorCode, "");
         }
     }
 
     @Override
-    public void onGetStudentsHomeSuccess(ArrayList<Object> dataObjectArrayList) {
-        String url = school.schoolUrl + "/api/auth/sign_in";
-        SessionManager.getInstance().setloginValues(url,emailEditText.getText().toString(),
-                passwordEditText.getText().toString());
-        if(progress.isShowing()){
+    public void onStudentLoginSuccess(Student student, JSONArray attendanceJsonArray) {
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(dataObjectArrayList.size() >1){
-            ArrayList<JSONArray> attendanceJsonArray = (ArrayList<JSONArray>) dataObjectArrayList.get(0);
-            ArrayList<Student> studentArrayList = (ArrayList<Student>) dataObjectArrayList.get(1);
-            if(studentArrayList.size()> 0 && attendanceJsonArray.size() >0){
-                openStudentDetailActivity(studentArrayList.get(0),attendanceJsonArray.get(0));
-            }
-        }
+        openStudentDetailActivity(student, attendanceJsonArray);
 
 
     }
 
     @Override
     public void onGetStudentsHomeFailure(String message, int errorCode) {
-        if(progress.isShowing()){
+        if (progress.isShowing()) {
             progress.dismiss();
         }
-        if(errorCode == 401 ){
-            Util.showErrorDialog(this,"Skolera",getResources().getString(R.string.wrong_username_or_password));
-        }else {
-            showErrorDialog(this);
+        if (errorCode == 401) {
+            showErrorDialog(this, -3, getResources().getString(R.string.wrong_username_or_password));
+        } else {
+            showErrorDialog(this, errorCode, "");
         }
     }
 
 
-    private void openHomeActivity(){
-        Intent intent = new Intent(this,HomeActivity.class);
+    private void openHomeActivity(JSONArray students) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra(Constants.CHILDREN, students.toString());
         this.startActivity(intent);
     }
 
-    private void openStudentDetailActivity(Actor actor){
-        Intent intent = new Intent(this,StudentMainActivity.class);
+    private void openStudentDetailActivity(Actor actor) {
+        Intent intent = new Intent(this, StudentMainActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_ACTOR,actor);
-        intent.putExtra(Constants.KEY_BUNDLE,bundle);
+        bundle.putSerializable(Constants.KEY_ACTOR, actor);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
         this.startActivity(intent);
+    }
+
+
+    private void openStudentDetailActivity(Student student, JSONArray studentAttendance) {
+        Intent intent = new Intent(this, StudentMainActivity.class);
+        intent.putExtra(Constants.STUDENT, student.toString());
+        startActivity(intent);
     }
 
     @Override
-    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == EditorInfo.IME_ACTION_DONE) {
-            switch (textView.getId()) {
-                case R.id.et_password:
-                    if(Util.isNetworkAvailable(this)){
-                        if (validate(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
-                            super.showLoadingDialog();
-                            String url = school.schoolUrl + "/api/auth/sign_in";
-                            loginView.login(url,emailEditText.getText().toString(), passwordEditText.getText().toString(),school.schoolUrl);
-                        }
-                    }else {
-                        Util.showErrorDialog(LoginActivity.this,getResources().getString(R.string.skolera),
-                                getResources().getString(R.string.no_internet_connection));
-                    }
-                    break;
-
-            }
-        }
-        return false;
+    public void onUpdatePassword(String oldPassword, String newPassword, HashMap<String, String> headerHashMap, int userId) {
+        changePassword(oldPassword, newPassword, headerHashMap, userId);
     }
 
-    private void openStudentDetailActivity(Student student,JSONArray studentAttendance) {
-        Intent intent = new Intent(this, StudentMainActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.STUDENT, student);
-        bundle.putSerializable(Constants.KEY_ATTENDANCE, studentAttendance.toString());
-        intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        startActivity(intent);
+
+    @Override
+    public void onPasswordChangedSuccess(String newPassword) {
+        if (progress.isShowing())
+            progress.dismiss();
+        SessionManager.getInstance().setPassword(newPassword);
+        passwordEditText.setText("");
+        emailEditText.setText("");
     }
+
+    @Override
+    public void onPasswordChangedFailure(String message, int errorCode) {
+        if (progress.isShowing())
+            progress.dismiss();
+        showErrorDialog(this, -3, message);
+    }
+
+    void changePassword(String oldPassword, String newPassword, HashMap<String, String> headerHashMap, int userId) {
+        String url = baseUrl + ApiEndPoints.changePassword(userId);
+        loginView.changePassword(url, oldPassword, userId, newPassword, headerHashMap);
+        showLoadingDialog();
+    }
+
+
 }

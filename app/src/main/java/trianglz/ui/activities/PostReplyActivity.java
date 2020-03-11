@@ -27,7 +27,6 @@ import trianglz.managers.SessionManager;
 import trianglz.models.PostDetails;
 import trianglz.models.Reply;
 import trianglz.models.UploadedObject;
-import trianglz.ui.AttachmentsActivity;
 import trianglz.ui.adapters.PostReplyAdapter;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
@@ -45,6 +44,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
     private String courseName = "Course";
 
     private PostReplyView postReplyView;
+    private ImageButton backButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +56,9 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
 
     private void setListeners() {
         rootView.setOnTouchListener(new HideKeyboardOnTouch(this));
+        recyclerView.setOnTouchListener(new HideKeyboardOnTouch(this));
         sendReplyButton.setOnClickListener(this);
+        backButton.setOnClickListener(this);
     }
 
 
@@ -76,6 +78,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
     private void bindViews() {
         recyclerView = findViewById(R.id.recycler_view);
         toolbar = findViewById(R.id.toolbar);
+        backButton = findViewById(R.id.btn_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,10 +99,10 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
         postReplyView = new PostReplyView(this,this);
         sendReplyButton = findViewById (R.id.send);
         replyEditText = findViewById(R.id.et_reply);
-        if (SessionManager.getInstance().getStudentAccount()) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             inputLayout.setVisibility(View.VISIBLE);
             sendReplyButton.setBackground(getResources().getDrawable(R.drawable.circle_student_background));
-        } else if(!SessionManager.getInstance().getUserType()&&!SessionManager.getInstance().getStudentAccount()){
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             inputLayout.setVisibility(View.VISIBLE);
             sendReplyButton.setBackground(getResources().getDrawable(R.drawable.circle_blue_background));
         }else{
@@ -124,9 +127,9 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
 
     @Override
     public void onReplyClicked() {
-        inputLayout.setVisibility(View.VISIBLE);
-        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-        replyEditText.requestFocus();
+//        inputLayout.setVisibility(View.VISIBLE);
+//        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+//        replyEditText.requestFocus();
     }
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -160,7 +163,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
     @Override
     public void onPostReplyFailure(String message, int errorCode) {
         progress.dismiss();
-        showErrorDialog(this);
+        showErrorDialog(this, errorCode,"");
     }
 
     @Override
@@ -175,6 +178,9 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
                     rootView.requestFocus();
                 }
                 break;
+            case R.id.btn_back:
+                onBackPressed();
+                    break;
         }
     }
 }

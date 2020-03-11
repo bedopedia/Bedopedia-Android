@@ -4,20 +4,16 @@ package trianglz.ui.fragments;
  * file modified by gemy
  */
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
@@ -25,20 +21,20 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
-import info.hoang8f.android.segmented.SegmentedGroup;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.CustomRtlViewPager;
 import trianglz.managers.SessionManager;
 import trianglz.models.Student;
 import trianglz.models.TimeTableSlot;
+import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.TimetableAdapter;
 import trianglz.utils.Constants;
+import trianglz.utils.Util;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,8 +52,10 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     private ImageButton backBtn;
     private AvatarView studentImage;
     private Student student;
-    private RadioButton todayButton, tomorrowButton;
-    private SegmentedGroup segmentedGroup;
+    private TabLayout tabLayout;
+
+//    private RadioButton todayButton, tomorrowButton;
+//    private SegmentedGroup segmentedGroup;
 
     public TimeTableFragment() {
         // Required empty public constructor
@@ -66,11 +64,11 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
      * @return A new instance of fragment TimeTableFragment.
      */
-    public static Fragment newInstance() {
+    public static Fragment newInstance(Bundle args) {
         Fragment fragment = new TimeTableFragment();
-        Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,17 +76,18 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getActivity().getIntent();
-        Bundle bundle = intent.getBundleExtra(Constants.KEY_BUNDLE);
+        //   Intent intent = getActivity().getIntent();
+        // Bundle bundle = intent.getBundleExtra(Constants.KEY_BUNDLE);
+        Bundle bundle = this.getArguments();
         tomorrowSlots = (ArrayList<TimeTableSlot>) bundle.getSerializable(Constants.KEY_TOMORROW);
         todaySlots = (ArrayList<TimeTableSlot>) bundle.getSerializable(Constants.KEY_TODAY);
-        student = (Student)bundle.getSerializable(Constants.STUDENT);
+        student = (Student) bundle.getSerializable(Constants.STUDENT);
     }
 
     private void setListeners() {
-        todayButton.setOnClickListener(this);
-        tomorrowButton.setOnClickListener(this);
+
         backBtn.setOnClickListener(this);
+        tabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
@@ -99,7 +98,9 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         mViewPager.setPagingEnabled(true);
         bindViews();
         setListeners();
-        setStudentImage();
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+            setStudentImage();
+        }
         increaseButtonsHitArea();
         return rootView;
     }
@@ -108,8 +109,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        mSectionsPagerAdapter = new TimetableAdapter(getActivity().getSupportFragmentManager(), tomorrowSlots, todaySlots);
+        mSectionsPagerAdapter = new TimetableAdapter(getChildFragmentManager(), tomorrowSlots, todaySlots);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(0);
@@ -118,38 +118,28 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     }
 
     private void bindViews() {
-        todayButton = rootView.findViewById(R.id.btn_today);
-        tomorrowButton = rootView.findViewById(R.id.btn_tomorrow);
+
         backBtn = rootView.findViewById(R.id.back_btn);
         studentImage = rootView.findViewById(R.id.img_student);
-        // radio button for segment control
-        segmentedGroup = rootView.findViewById(R.id.segmented);
-        segmentedGroup.check(todayButton.getId());
-        if (SessionManager.getInstance().getStudentAccount()) {
-            segmentedGroup.setTintColor(Color.parseColor("#fd8268"));
-        } else if (SessionManager.getInstance().getUserType()) {
-            segmentedGroup.setTintColor(Color.parseColor("#06c4cc"));
-        } else {
-            segmentedGroup.setTintColor(Color.parseColor("#007ee5"));
-        }
+        tabLayout = rootView.findViewById(R.id.tab_layout);
+
+        tabLayout.setSelectedTabIndicatorColor(getActivity().getResources().getColor(Util.checkUserColor()));
+        tabLayout.setTabTextColors(getActivity().getResources().getColor(R.color.steel), getActivity().getResources().getColor(Util.checkUserColor()));
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_today:
-                mViewPager.setCurrentItem(0);
-                break;
-            case R.id.btn_tomorrow:
-                mViewPager.setCurrentItem(1);
-                break;
             case R.id.back_btn:
-                Objects.requireNonNull(getActivity()).onBackPressed();
+                StudentMainActivity activity = (StudentMainActivity) getActivity();
+                activity.headerLayout.setVisibility(View.VISIBLE);
+                activity.toolbarView.setVisibility(View.VISIBLE);
+                activity.onBackPressed();
+                //  Objects.requireNonNull(getActivity()).onBackPressed();
                 break;
 
         }
     }
-
 
 
     private void increaseButtonsHitArea() {
@@ -169,12 +159,12 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
 
     private void setStudentImage() {
         String imageUrl = student.getAvatar();
-        final String name = student.firstName +" " + student.lastName;
+        final String name = student.firstName + " " + student.lastName;
         final IImageLoader[] imageLoader = {new PicassoLoader()};
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader[0] = new PicassoLoader();
             imageLoader[0].loadImage(studentImage, new AvatarPlaceholderModified(name), "Path of Image");
-        }else{
+        } else {
             imageLoader[0] = new PicassoLoader();
             imageLoader[0].loadImage(studentImage, new AvatarPlaceholderModified(name), "Path of Image");
             Picasso.with(getActivity())

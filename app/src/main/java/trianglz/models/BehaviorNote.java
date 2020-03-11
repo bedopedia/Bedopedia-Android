@@ -10,11 +10,12 @@ public class BehaviorNote implements Serializable {
     public String teacherName;
     public String title;
     public String message;
-
-    public BehaviorNote(String teacherName, String title, String message) {
+    public String category;
+    public BehaviorNote(String teacherName, String title, String message,String category) {
         this.teacherName = teacherName;
         this.title = title;
         this.message = message;
+        this.category = category;
     }
     public BehaviorNote() {
         this.teacherName = "";

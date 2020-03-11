@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/posts_background"
     android:orientation="vertical"
-    tools:context="trianglz.ui.activities.SingleQuizActivity">
+    android:clickable="true"
+    android:focusable="true">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -49,6 +49,8 @@
                     android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
                     android:text="@string/quizzes"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/greyish_brown"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -59,8 +61,7 @@
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/notify" />
+                    android:background="@android:color/transparent" />
             </RelativeLayout>
 
             <View
@@ -80,13 +81,13 @@
         android:layout_marginTop="4dp"
         android:background="@color/white"
         android:layout_marginBottom="8dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:gravity="center_vertical"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="12dp"
-            >
+            android:layout_marginBottom="12dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -94,8 +95,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_marginStart="24dp"
-                android:gravity="start"
-                >
+                android:gravity="start">
 
                 <trianglz.components.SfuiMediumTextView
                     android:id="@+id/tv_subject_name"
@@ -104,8 +104,7 @@
                     android:textColor="@color/black"
                     android:layout_marginTop="8dp"
                     android:textSize="14sp"
-                    android:text="English"
-                    />
+                    android:text="English" />
 
                 <TextView
                     android:id="@+id/tv_published"
@@ -117,7 +116,8 @@
                     android:text="testtestestsetsetsetsetsetsetsetsetsetsetsetsetsetsetsetestsetset"
                     android:layout_marginEnd="5dp"
                     android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:ellipsize="end" />
+
                 <TextView
                     android:id="@+id/tv_assignment_name"
                     android:layout_width="wrap_content"
@@ -126,7 +126,8 @@
                     android:textStyle="bold"
                     android:layout_marginTop="4dp"
                     android:textSize="16sp"
-                    android:text="Pattern assignment"/>
+                    android:text="Pattern assignment" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
@@ -141,12 +142,13 @@
                     android:id="@+id/ll_date">
 
                     <ImageView
+                        android:id="@+id/date_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_clock"
+                        android:src="@drawable/green_clock_icon"
                         android:layout_marginStart="1dp"
-                        android:layout_marginEnd="5dp"/>
+                        android:layout_marginEnd="5dp" />
 
                     <trianglz.components.SfproRegularTextView
                         android:id="@+id/tv_date"
@@ -160,47 +162,53 @@
                         android:layout_gravity="start"
                         android:singleLine="true"
                         android:text="sjkldajkljsadlkjsdaklsjda"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        />
+                        android:textColor="@color/pine"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
             </LinearLayout>
+
             <FrameLayout
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                >
+                android:layout_marginEnd="16dp">
+
                 <LinearLayout
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center"
                     android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_height="10dp">
+
                         <View
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
+
                         <View
                             android:layout_width="4dp"
                             android:layout_height="match_parent"
-                            android:background="#F3F3F3"/>
+                            android:background="#F3F3F3" />
+
                         <View
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
+
                         <View
                             android:layout_width="4dp"
                             android:layout_height="match_parent"
-                            android:background="#F3F3F3"/>
+                            android:background="#F3F3F3" />
+
                         <View
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
                     </LinearLayout>
 
                     <FrameLayout
@@ -208,14 +216,15 @@
                         android:layout_height="50dp"
                         android:background="@drawable/curved_light_grey_background"
                         android:padding="5dp">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:minWidth="60dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/curved_white_4"
                             android:gravity="center"
-                            android:orientation="vertical"
-                            >
+                            android:orientation="vertical">
+
                             <trianglz.components.SfproBoldTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -223,8 +232,7 @@
                                 android:textColor="@color/grape_fruit"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="3dp"
-                                android:id="@+id/tv_day_number"
-                                />
+                                android:id="@+id/tv_day_number" />
 
                             <trianglz.components.SfproRegularTextView
                                 android:layout_width="wrap_content"
@@ -234,8 +242,7 @@
                                 android:layout_marginBottom="3dp"
                                 android:maxLines="1"
                                 android:gravity="center_horizontal"
-                                android:id="@+id/tv_month"
-                                />
+                                android:id="@+id/tv_month" />
 
                         </LinearLayout>
                     </FrameLayout>
@@ -247,7 +254,7 @@
                         android:textSize="12sp"
                         android:layout_marginTop="3dp"
                         android:text="@string/due_date"
-                        android:layout_gravity="center_horizontal"/>
+                        android:layout_gravity="center_horizontal" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
@@ -255,22 +262,100 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/silver"/>
+            android:background="@color/silver" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:padding="14dp">
+
+        <Button
+            android:id="@+id/details_btn"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/white"
+            android:padding="14dp"
+            android:textAlignment="viewStart"
+            android:drawableEnd="@drawable/chevron_right"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:text="@string/details"
+            android:includeFontPadding="false"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginBottom="14dp" />
+
+        <Button
+            android:id="@+id/questions_btn"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/white"
+            android:padding="14dp"
+            android:textAlignment="viewStart"
+            android:drawableEnd="@drawable/chevron_right"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:text="@string/questions"
+            android:includeFontPadding="false"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginBottom="14dp" />
+
+        <Button
+            android:id="@+id/answers_btn"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/white"
+            android:padding="14dp"
+            android:textAlignment="viewStart"
+            android:drawableEnd="@drawable/chevron_right"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:text="@string/answers"
+            android:includeFontPadding="false"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginBottom="14dp" />
     </LinearLayout>
 
     <include
         android:layout_gravity="center_horizontal"
         android:layout_width="270dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="52dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:id="@+id/v_quiz_grade"
-        layout="@layout/quiz_grade_layout"
-        />
-    <include
-        android:id="@+id/v_not_started_quiz"
-        layout="@layout/quiz_not_started_yet_layout" />
+        layout="@layout/quiz_grade_layout" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <Button
+            android:id="@+id/solve_quiz_btn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/curved_salmon_background_radius_6"
+            android:text="@string/solve_quiz_now"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/v_not_started_quiz"
+            layout="@layout/quiz_not_started_yet_layout"
+            android:visibility="gone" />
+    </FrameLayout>
 </LinearLayout>
+
 

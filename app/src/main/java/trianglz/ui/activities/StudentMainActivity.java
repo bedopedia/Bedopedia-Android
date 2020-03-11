@@ -1,12 +1,15 @@
 package trianglz.ui.activities;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,10 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import trianglz.components.CustomRtlViewPager;
-import trianglz.components.LocalHelper;
+import trianglz.components.ErrorDialog;
 import trianglz.components.SettingsDialog;
 import trianglz.managers.SessionManager;
 import trianglz.models.Actor;
+import trianglz.models.Attendances;
 import trianglz.models.Student;
 import trianglz.ui.adapters.StudentMainPagerAdapter;
 import trianglz.ui.fragments.AnnouncementsFragment;
@@ -33,19 +37,21 @@ import trianglz.ui.fragments.TeacherCoursesFragment;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
-public class StudentMainActivity extends SuperActivity implements View.OnClickListener, SettingsDialog.SettingsDialogInterface {
+public class StudentMainActivity extends SuperActivity implements View.OnClickListener {
 
-    private LinearLayout coursesLayout, firstLayout, secondLayout, thirdLayout, fourthLayout;
-    private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView;
+    private LinearLayout coursesLayout, firstLayout, secondLayout, fourthLayout;
+    private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView, notificationBadgeImageView;
     private TextView coursesTextView, firstTextView, secondTextView, thirdTextView, fourthTextView;
-
-    private CustomRtlViewPager pager;
+    private FrameLayout thirdLayout;
+    public View toolbarView;
+    public Boolean isCalling = false;
+    public CustomRtlViewPager pager;
     private StudentMainPagerAdapter pagerAdapter;
-
+    private ErrorDialog errorDialogue;
     // header
     private ImageButton settingsBtn, addNewMessageButton, backBtn;
     private SettingsDialog settingsDialog;
-    private RelativeLayout headerLayout;
+    public RelativeLayout headerLayout;
 
     // fragments
     private AnnouncementsFragment announcementsFragment;
@@ -54,11 +60,11 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private MenuFragment menuFragment;
     private TeacherCoursesFragment teacherCoursesFragment;
     public Student student;
-    public String attendance;
+    public ArrayList<Attendances> attendance;
     public Actor actor;
+    public boolean isHod = false;
 
     // booleans
-    boolean isStudent, isParent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,17 +74,25 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         bindViews();
         setListeners();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        notificationCheck();
+    }
+
     private void getValueFromIntent() {
-        isStudent = SessionManager.getInstance().getStudentAccount();
-        isParent = SessionManager.getInstance().getUserType();
-        if(isParent){
-            student = (Student) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.STUDENT);
-            attendance = (String) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ATTENDANCE);
-        }else {
+        //       isStudent = SessionManager.getInstance().getStudentAccount();
+        //     isParent = SessionManager.getInstance().getUserType();
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+            student = Student.create(getIntent().getStringExtra(Constants.STUDENT));
+            attendance = student.attendances;
+        } else {
             actor = (Actor) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
         }
 
     }
+
     private void setListeners() {
         settingsBtn.setOnClickListener(this);
         addNewMessageButton.setOnClickListener(this);
@@ -99,6 +113,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
             @Override
             public void onPageSelected(int position) {
+                showHideToolBar(pagerAdapter.getItem(position));
                 if (fragmentsCount == 4) {
                     if (position == 1) {
                         addNewMessageButton.setVisibility(View.VISIBLE);
@@ -110,6 +125,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 }
             }
 
+
             @Override
             public void onPageScrollStateChanged(int state) {
 
@@ -119,42 +135,49 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     private void bindViews() {
 
-        if (!isStudent && !isParent) {
-            teacherCoursesFragment = new TeacherCoursesFragment();
-            coursesLayout = findViewById (R.id.ll_courses_tab);
-            coursesImageView = findViewById (R.id.iv_courses);
-            coursesTextView = findViewById (R.id.tv_courses);
-            coursesLayout.setVisibility(View.VISIBLE);
-        }
         // tabs
         firstLayout = findViewById(R.id.ll_announcment_tab);
         secondLayout = findViewById(R.id.ll_messages_tab);
         thirdLayout = findViewById(R.id.ll_notifications_tab);
         fourthLayout = findViewById(R.id.ll_menu_tab);
 
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
+            teacherCoursesFragment = new TeacherCoursesFragment();
+            coursesLayout = findViewById(R.id.ll_courses_tab);
+            coursesImageView = findViewById(R.id.iv_courses);
+            coursesTextView = findViewById(R.id.tv_courses);
+            coursesLayout.setVisibility(View.VISIBLE);
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.ADMIN.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.HOD.toString())) {
+            fourthLayout.setVisibility(View.GONE);
+            isHod = true;
+        }
+
         // image views
         firstTabImageView = findViewById(R.id.iv_announcements);
         secondTabImageView = findViewById(R.id.iv_messages);
-        thirdTabImageView = findViewById (R.id.iv_notifcations);
+        thirdTabImageView = findViewById(R.id.iv_notifcations);
         fourthTabImageView = findViewById(R.id.iv_menu);
+        notificationBadgeImageView = findViewById(R.id.img_red_circle);
 
         // text views
         firstTextView = findViewById(R.id.tv_announcements);
         secondTextView = findViewById(R.id.tv_messages);
         thirdTextView = findViewById(R.id.tv_notifications);
-        fourthTextView = findViewById (R.id.tv_menu);
+        fourthTextView = findViewById(R.id.tv_menu);
+
+        //views
+        toolbarView = findViewById(R.id.toolbar_view);
 
         // header
         headerLayout = findViewById(R.id.rl_header);
         settingsBtn = findViewById(R.id.btn_setting_student);
         addNewMessageButton = findViewById(R.id.btn_new_message);
-        settingsDialog = new SettingsDialog(this, R.style.SettingsDialog, this);
         addNewMessageButton.setVisibility(View.GONE);
         backBtn = findViewById(R.id.back_btn);
         backBtn.setVisibility(View.GONE);
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             settingsBtn.setVisibility(View.VISIBLE);
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             settingsBtn.setVisibility(View.GONE);
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) addNewMessageButton.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_START, 0);
@@ -166,39 +189,45 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         }
 
         // init fragments
+        menuFragment = new MenuFragment();
         announcementsFragment = new AnnouncementsFragment();
         messagesFragment = new MessagesFragment();
         notificationsFragment = new NotificationsFragment();
-        menuFragment = new MenuFragment();
 
         // pager
         pager = findViewById(R.id.pager);
         pager.setPagingEnabled(false);
         setUpAdapterAccordingToUserType();
         pager.setAdapter(pagerAdapter);
-
+        String h = SessionManager.getInstance().getUserType();
         // set default tab according to user type
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             pager.setOffscreenPageLimit(4);
             pager.setCurrentItem(0);
             handleStudentTabs(pagerAdapter.getCount() - 4);
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             pager.setOffscreenPageLimit(4);
             pager.setCurrentItem(4);
-        } else {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             pager.setOffscreenPageLimit(5);
             pager.setCurrentItem(4);
             handleTeacherTabs(4);
+        } else {
+            pager.setOffscreenPageLimit(3);
+            pager.setCurrentItem(2);
+            handleHodTabs(0);
         }
     }
 
     private void setUpAdapterAccordingToUserType() {
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getStudentFragmentList());
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getParentFragmentList());
-        } else {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getTeacherFragmentList());
+        } else {
+            pagerAdapter = new StudentMainPagerAdapter(getSupportFragmentManager(), getHodFragmentList());
         }
     }
 
@@ -220,6 +249,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         fragmentArrayList.add(menuFragment);
         return fragmentArrayList;
     }
+
     private ArrayList<Fragment> getStudentFragmentList() {
         ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
         fragmentArrayList.add(menuFragment);
@@ -229,71 +259,62 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         return fragmentArrayList;
     }
 
-    @Override
-    public void onChangeLanguageClicked() {
-        changeLanguage();
-    }
-
-    @Override
-    public void onSignOutClicked() {
-        logoutUser(this);
-    }
-
-
-    private void changeLanguage() {
-        if (LocalHelper.getLanguage(this).equals("ar")) {
-            updateViews("en");
-        } else {
-            updateViews("ar");
-        }
-    }
-
-
-    private void updateViews(String languageCode) {
-
-        LocalHelper.setLocale(this, languageCode);
-        LocalHelper.getLanguage(this);
-        restartApp();
-    }
-    public void restartApp() {
-        Intent intent = this.getBaseContext().getPackageManager()
-                .getLaunchIntentForPackage(this.getBaseContext().getPackageName());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        this.startActivity(intent);
-        finish();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Runtime.getRuntime().exit(0);
-            }
-        }, 0);
-
+    private ArrayList<Fragment> getHodFragmentList() {
+        ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+        fragmentArrayList.add(announcementsFragment);
+        fragmentArrayList.add(messagesFragment);
+        fragmentArrayList.add(notificationsFragment);
+        return fragmentArrayList;
     }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_courses_tab:
+                returnToRootFragment(pagerAdapter.getCount() - 5);
                 handleTabsClicking(pagerAdapter.getCount() - 5);
                 break;
             case R.id.ll_announcment_tab:
-                handleTabsClicking(pagerAdapter.getCount() - 4);
+                if (isHod) {
+                    returnToRootFragment(pagerAdapter.getCount() - 3);
+                    handleTabsClicking(pagerAdapter.getCount() - 3);
+                } else {
+                    returnToRootFragment(pagerAdapter.getCount() - 4);
+                    handleTabsClicking(pagerAdapter.getCount() - 4);
+                }
                 break;
             case R.id.ll_messages_tab:
-                handleTabsClicking(pagerAdapter.getCount() - 3);
+                if (isHod) {
+                    returnToRootFragment(pagerAdapter.getCount() - 2);
+                    handleTabsClicking(pagerAdapter.getCount() - 2);
+                } else {
+                    returnToRootFragment(pagerAdapter.getCount() - 3);
+                    handleTabsClicking(pagerAdapter.getCount() - 3);
+                }
                 break;
             case R.id.ll_notifications_tab:
-                handleTabsClicking(pagerAdapter.getCount() - 2);
+                SessionManager.getInstance().setNotificationCounterToZero();
+                notificationBadgeImageView.setVisibility(View.GONE);
+                notificationCheck();
+                if (isHod) {
+                    returnToRootFragment(pagerAdapter.getCount() - 1);
+                    handleTabsClicking(pagerAdapter.getCount() - 1);
+                } else {
+                    returnToRootFragment(pagerAdapter.getCount() - 2);
+                    handleTabsClicking(pagerAdapter.getCount() - 2);
+                }
                 break;
             case R.id.ll_menu_tab:
+                returnToRootFragment(pagerAdapter.getCount() - 1);
                 handleTabsClicking(pagerAdapter.getCount() - 1);
                 break;
             case R.id.btn_setting_student:
-                settingsDialog.show();
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivity(i);
                 break;
             case R.id.btn_new_message:
-                if(Util.isNetworkAvailable(this)){
+                if (Util.isNetworkAvailable(this)) {
                     messagesFragment.openNewMessageActivity();
-                }else {
+                } else {
                     Util.showNoInternetConnectionDialog(this);
                 }
                 break;
@@ -304,18 +325,22 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void handleTabsClicking(int tabNumber) {
-        if (isStudent) {
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
             handleStudentTabs(tabNumber);
-        } else if (isParent) {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             handleParentTabs(tabNumber);
-        } else {
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.TEACHER.toString())) {
             handleTeacherTabs(tabNumber);
+        } else {
+            handleHodTabs(tabNumber);
         }
 
     }
 
     private void handleParentTabs(int tabNumber) {
         pager.setCurrentItem(tabNumber);
+        fourthTextView.setText(getResources().getString(R.string.profile));
+        //  showHideToolBar(pagerAdapter.getItem(tabNumber));
         switch (tabNumber) {
             case 0:
                 firstTabImageView.setImageResource(R.drawable.ic_announcements_selected_parent);
@@ -363,15 +388,17 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 break;
         }
     }
+
     private void handleStudentTabs(int tabNumber) {
         pager.setCurrentItem(tabNumber);
         // text view content
-        firstTextView.setText(getResources().getString(R.string.home));
+        firstTextView.setText(getResources().getString(R.string.profile));
         secondTextView.setText(getResources().getString(R.string.messages));
         thirdTextView.setText(getResources().getString(R.string.notifications));
         fourthTextView.setText(getResources().getString(R.string.announcements));
         // text view text color
         int color = Color.parseColor("#fd8268");
+        notificationBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.salmon), android.graphics.PorterDuff.Mode.MULTIPLY);
         firstTextView.setTextColor(color);
         secondTextView.setTextColor(color);
         thirdTextView.setTextColor(color);
@@ -423,9 +450,12 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 break;
         }
     }
+
     private void handleTeacherTabs(int tabNumber) {
         pager.setCurrentItem(tabNumber);
+        // showHideToolBar(pagerAdapter.getItem(tabNumber));
         // text view content
+
         coursesTextView.setText(getResources().getString(R.string.courses));
         firstTextView.setText(getResources().getString(R.string.announcements));
         secondTextView.setText(getResources().getString(R.string.messages));
@@ -506,12 +536,59 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         }
     }
 
+    private void handleHodTabs(int tabNumber) {
+        pager.setCurrentItem(tabNumber);
+        // showHideToolBar(pagerAdapter.getItem(tabNumber));
+        // text view content
+        firstTextView.setText(getResources().getString(R.string.announcements));
+        secondTextView.setText(getResources().getString(R.string.messages));
+        thirdTextView.setText(getResources().getString(R.string.notifications));
+        // text view text color
+        int color = Color.parseColor("#007ee5");
+        firstTextView.setTextColor(color);
+        secondTextView.setTextColor(color);
+        thirdTextView.setTextColor(color);
+        notificationBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.cerulean_blue), android.graphics.PorterDuff.Mode.MULTIPLY);
+
+        switch (tabNumber) {
+            case 0:
+                firstTabImageView.setImageResource(R.drawable.ic_announcment_selected_teacher);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+                firstTextView.setVisibility(View.VISIBLE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.GONE);
+                break;
+            case 1:
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_selected_teacher);
+                thirdTabImageView.setImageResource(R.drawable.ic_notifications_tab);
+
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.VISIBLE);
+                thirdTextView.setVisibility(View.GONE);
+                break;
+            case 2:
+                firstTabImageView.setImageResource(R.drawable.ic_announcments_tab);
+                secondTabImageView.setImageResource(R.drawable.ic_messages_tab);
+                thirdTabImageView.setImageResource(R.drawable.ic_notification_selected_teacher);
+
+                firstTextView.setVisibility(View.GONE);
+                secondTextView.setVisibility(View.GONE);
+                thirdTextView.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
-        if(isParent){
-            if(!isStudent){
-                super.onBackPressed();
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+        if (fragmentList != null) {
+            for (Fragment fragment : fragmentList) {
+                if (fragment instanceof OnBackPressedInterface) {
+                    ((OnBackPressedInterface) fragment).onBackPressed();
+                }
             }
         }
     }
@@ -519,15 +596,55 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     public Student getStudent() {
         return student;
     }
+
     public Actor getActor() {
         return actor;
     }
-    public String getAttendance() {
+
+    public ArrayList<Attendances> getAttendance() {
         return attendance;
     }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    public interface OnBackPressedInterface {
+        void onBackPressed();
+    }
+
+    private void showHideToolBar(Fragment fragment) {
+        if (!fragment.isAdded()) {
+            return;
+        }
+        if (fragment.getChildFragmentManager() != null) {
+            if (fragment.getChildFragmentManager().getFragments().size() > 0) {
+                headerLayout.setVisibility(View.GONE);
+                toolbarView.setVisibility(View.GONE);
+            } else {
+                headerLayout.setVisibility(View.VISIBLE);
+                toolbarView.setVisibility(View.VISIBLE);
+            }
+        }
+
+    }
+
+    private void returnToRootFragment(int tabNumber) {
+        if (tabNumber == pager.getCurrentItem()) {
+            if (pagerAdapter.getItem(tabNumber).isAdded()) {
+                pagerAdapter.getItem(tabNumber).getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                headerLayout.setVisibility(View.VISIBLE);
+                toolbarView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private void notificationCheck() {
+        if (SessionManager.getInstance().getNotficiationCounter() > 0) {
+            notificationBadgeImageView.setVisibility(View.VISIBLE);
+        } else {
+            notificationBadgeImageView.setVisibility(View.GONE);
+        }
     }
 }
