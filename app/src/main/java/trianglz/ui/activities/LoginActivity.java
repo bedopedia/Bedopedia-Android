@@ -253,7 +253,7 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
         if (progress.isShowing()) {
             progress.dismiss();
         }
-        openStudentDetailActivity(student, attendanceJsonArray);
+        openStudentDetailActivity(student);
 
 
     }
@@ -286,9 +286,11 @@ public class LoginActivity extends SuperActivity implements View.OnClickListener
     }
 
 
-    private void openStudentDetailActivity(Student student, JSONArray studentAttendance) {
+    private void openStudentDetailActivity(Student student) {
         Intent intent = new Intent(this, StudentMainActivity.class);
-        intent.putExtra(Constants.STUDENT, student.toString());
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.STUDENT, student);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
     }
 
