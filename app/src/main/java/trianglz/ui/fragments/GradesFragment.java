@@ -108,6 +108,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                gradesView.getGradesCourses(student.actableId);
                 showSkeleton(true);
                 pullRefreshLayout.setRefreshing(false);
                 placeholderLinearLayout.setVisibility(View.GONE);
