@@ -49,6 +49,25 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final StudentSubmission submission = mDataList.get(position);
         IImageLoader imageLoader = new PicassoLoader();
+        String grade;
+        // for displaying the previous grade while editing
+        if (!isQuizzes) {
+            if (submission.getGrade() == null) {
+                grade = "";
+            } else if (submission.getGrade() == 0) {
+                grade = "0";
+            } else {
+                grade = Double.toString(submission.getGrade());
+            }
+        }else {
+            if (submission.getScore() == null) {
+                grade = "";
+            } else if (submission.getScore() == 0) {
+                grade = "0";
+            } else {
+                grade = Double.toString(submission.getScore());
+            }
+        }
         if (!isQuizzes) {
             imageLoader.loadImage(holder.studentAvatar, new AvatarPlaceholderModified(submission.getStudentName()), submission.getAvatarUrl());
 
@@ -65,7 +84,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
             }
             holder.studentName.setText(submission.getStudentName());
             holder.itemView.setOnClickListener(view -> {
-                studentGradeInterface.onItemCLicked(null
+                studentGradeInterface.onItemCLicked(grade
                         , holder.studentFeedback.getText().toString(), submission.getStudentId());
 
             });
@@ -93,7 +112,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
             holder.studentName.setText(submission.getStudentName());
                 holder.itemView.setOnClickListener(view -> {
 
-                    studentGradeInterface.onItemCLicked(null
+                    studentGradeInterface.onItemCLicked(grade
                             , holder.studentFeedback.getText().toString(), submission.getStudentId());
 
                 });
@@ -140,7 +159,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
     }
 
     public interface StudentGradeInterface {
-        void onItemCLicked(Double grade, String feedback, int studentId);
+        void onItemCLicked(String grade, String feedback, int studentId);
 
         void onDownloadButtonClick();
     }
