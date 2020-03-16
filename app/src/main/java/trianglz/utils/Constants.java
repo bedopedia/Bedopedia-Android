@@ -21,7 +21,8 @@ public class Constants {
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_MOBILE = "mobile";
 
-    public static final String MOBILE_DEVICE_TOKEN = "mobile_device_token";
+    public static final String FCM_TOKEN = "fcm_token";
+    public static final String MOBILE_DEVICE_ID = "device_id";
     public static final String USER = "user";
     public static final String PARENT_ID = "parent_id";
     public static final String KEY_BASE_URL = "base_url";
@@ -158,7 +159,7 @@ public class Constants {
     public static final String BAD = "Bad";
     public static final String KEY_OWNER = "owner";
     public static final String KEY_USERNAME = "username";
-    public static final String KEY_LOCALE = "locale";
+    public static final String KEY_LOCALE = "language";
     public static final String KEY_GRADING_PERIOD_ID = "grading_period_id";
     public static final String KEY_GRADING_PERIODS_GRADES = "grading_periods_grades";
 

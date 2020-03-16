@@ -221,4 +221,7 @@ public class ApiEndPoints {
     public static String getAttendanceCount(int studentId) {
         return "/api/attendances/percentage?by_student=" + studentId;
     }
+    public static String logout() {
+        return "/api/auth/sign_out";
+    }
 }
