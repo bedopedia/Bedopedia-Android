@@ -77,6 +77,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
                 holder.monthTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
                 holder.dueTimeTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
                 holder.dueTimeTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_clock_green, null), null, null, null);
+                holder.cardView.setOnClickListener(null);
 
             } else {
 //                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.red, null));
@@ -86,6 +87,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
                 holder.monthTextView.setTextColor(context.getResources().getColor(R.color.transparent_red, null));
                 holder.dueTimeTextView.setTextColor(context.getResources().getColor(R.color.red, null));
                 holder.dueTimeTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_clock_red, null), null, null, null);
+                holder.cardView.setOnClickListener(view -> anInterface.onItemClicked(assignmentsDetail));
 
             }
         } else {
@@ -95,12 +97,6 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
         String published = context.getString(R.string.published) + " " + Util.getPostDate(dateTime.toString(), context);
         holder.publishedTextView.setText(published);
         //  if (assignmentsDetail.getDescription() != null || assignmentsDetail.getUploadedFilesCount() != 0) {
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                anInterface.onItemClicked(assignmentsDetail);
-            }
-        });
         //  }
     }
 
