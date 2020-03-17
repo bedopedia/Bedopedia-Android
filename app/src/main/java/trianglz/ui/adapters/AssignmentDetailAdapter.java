@@ -77,7 +77,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
                 holder.monthTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
                 holder.dueTimeTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
                 holder.dueTimeTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_clock_green, null), null, null, null);
-                holder.cardView.setOnClickListener(null);
+                holder.cardView.setOnClickListener(view -> anInterface.onRunningAssignmentClicked(assignmentsDetail));
 
             } else {
 //                holder.dateTextView.setTextColor(context.getResources().getColor(R.color.red, null));
@@ -141,5 +141,6 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
 
     public interface AssignmentDetailInterface {
         void onItemClicked(AssignmentsDetail assignmentsDetail);
+        void onRunningAssignmentClicked(AssignmentsDetail assignmentsDetail);
     }
 }
