@@ -23,6 +23,7 @@ public class ExcusedDialog extends Dialog implements DialogInterface.OnShowListe
     private ExcusedDialogInterface excusedDialogInterface;
     private Context context;
     private int studentId;
+    private String excusedString = "";
 
 
     public ExcusedDialog(@NonNull Context context, ExcusedDialogInterface excusedDialogInterface, int studentId) {
@@ -69,6 +70,7 @@ public class ExcusedDialog extends Dialog implements DialogInterface.OnShowListe
     private void bindViews() {
         excuseEditText = findViewById(R.id.excuse_reason_edit_text);
         submitButton = findViewById(R.id.submit_btn);
+        excuseEditText.setText(excusedString);
     }
 
     @Override
@@ -96,6 +98,10 @@ public class ExcusedDialog extends Dialog implements DialogInterface.OnShowListe
             valid = false;
         }
         return valid;
+    }
+
+    public void setExcusedString(String excusedString) {
+        this.excusedString = excusedString;
     }
 
     public interface ExcusedDialogInterface {

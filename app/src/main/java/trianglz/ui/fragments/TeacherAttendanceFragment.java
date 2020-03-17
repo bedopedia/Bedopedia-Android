@@ -221,11 +221,12 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public void onStatusClicked(int studentId, String status) {
+    public void onStatusClicked(int studentId, String status, String excusedString) {
         ArrayList<Integer> studentIds = new ArrayList<>();
         studentIds.add(studentId);
         if (status.equals(Constants.TYPE_EXCUSED)) {
             ExcusedDialog excusedDialog = new ExcusedDialog(activity, this, studentId);
+            excusedDialog.setExcusedString(excusedString);
             excusedDialog.show();
         } else {
             getCreateAndUpdateBatch(studentIds, status);
