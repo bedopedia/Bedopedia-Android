@@ -6,6 +6,8 @@ import android.text.format.DateUtils;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -418,7 +420,10 @@ public class StudentDetailView {
                 JSONObject weeklyPlan = weeklyPlans.optJSONObject(i);
                 JSONObject dailyNotes = weeklyPlan.optJSONObject(Constants.KEY_DAILY_NOTEs);
                 ArrayList<Day> days = new ArrayList<>();
-                for (DayWithDate dayWithDate: getCurrentWeekArray()) {
+                // calculates number of days between start and end
+                DateTime startDate = new DateTime(weeklyPlannerResponse.weeklyPlans.get(0).startDate);
+                int numDays = Days.daysBetween(startDate, new DateTime(weeklyPlannerResponse.weeklyPlans.get(0).endDate)).getDays();
+                for (DayWithDate dayWithDate: getCurrentWeekArray(startDate, numDays + 1)) {
                     JSONArray day = dailyNotes.optJSONArray(dayWithDate.date);
                     ArrayList<PlannerSubject> plannerSubjects = new ArrayList<>();
                     if (day != null) {
@@ -444,21 +449,19 @@ public class StudentDetailView {
             return weeklyPlannerResponse;
         }
 
-    private ArrayList<DayWithDate> getCurrentWeekArray() {
+    private ArrayList<DayWithDate> getCurrentWeekArray(DateTime dateTime, int numberOfDays) {
         ArrayList<DayWithDate> dayWithDates = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setFirstDayOfWeek(Calendar.SATURDAY);
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i <= numberOfDays; i++) {
             DayWithDate dayWithDate = new DayWithDate();
-            calendar.set(Calendar.DAY_OF_WEEK, i);
-            dayWithDate.date = (Util.getWeeklyPlannerDate(calendar.getTime(), context));
-            dayWithDate.name = Util.getDayByNumber(i);
+            dayWithDate.date = (Util.getWeeklyPlannerDate(dateTime.toDate(), true));
+            dayWithDate.name = Util.getDayByNumber(i).substring(0, 3) + " " + Util.getWeeklyPlannerDate(dateTime.toDate(), false);
             dayWithDates.add(dayWithDate);
+            dateTime = dateTime.plusDays(1);
         }
         return dayWithDates;
     }
 
-    private class DayWithDate {
+    private static class DayWithDate {
         public String name;
         public String date;
     }
