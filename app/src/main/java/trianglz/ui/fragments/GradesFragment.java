@@ -95,7 +95,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         pullRefreshLayout.setColorSchemeResources(Util.checkUserColor());
         String studentName = student.firstName + " " + student.lastName;
-        setStudentImage(student.getAvatar(), studentName);
+        setStudentImage(student.avatar, studentName);
         recyclerView.setAdapter(gradesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
@@ -108,6 +108,7 @@ public class GradesFragment extends Fragment implements GradesAdapter.GradesAdap
         pullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                gradesView.getGradesCourses(student.actableId);
                 showSkeleton(true);
                 pullRefreshLayout.setRefreshing(false);
                 placeholderLinearLayout.setVisibility(View.GONE);

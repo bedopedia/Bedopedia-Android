@@ -1,7 +1,6 @@
 package trianglz.ui.activities;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -85,7 +84,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         //       isStudent = SessionManager.getInstance().getStudentAccount();
         //     isParent = SessionManager.getInstance().getUserType();
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            student = Student.create(getIntent().getStringExtra(Constants.STUDENT));
+            student = getIntent().getBundleExtra(Constants.KEY_BUNDLE).getParcelable(Constants.STUDENT);
             attendance = student.attendances;
         } else {
             actor = (Actor) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);

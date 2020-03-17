@@ -261,9 +261,15 @@ public class Util {
         return finalData;
     }
 
-    public static String getWeeklyPlannerDate(Date date, Context context) {
+    public static String getWeeklyPlannerDate(Date date, boolean isDate) {
         String finalData = "";
-        SimpleDateFormat fmtOut = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
+        SimpleDateFormat fmtOut;
+        if (isDate) {
+            fmtOut = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
+        } else {
+            fmtOut = new SimpleDateFormat("dd/MM", new Locale("en"));
+        }
+
         finalData = fmtOut.format(date);
         return finalData;
     }
@@ -433,29 +439,31 @@ public class Util {
 
     public static String getDayByNumber(int number) {
         String string = "";
-        Context context = App.getInstance().getBaseContext();
+        while (number > 7) number = number - 7;
         switch (number + 1) {
             case 1:
-                string = context.getString(R.string.weekly_saturday);
+                string = "Saturday";
                 break;
             case 2:
-                string = context.getString(R.string.weekly_sunday);
+                string = "Sunday";
                 break;
             case 3:
-                string = context.getString(R.string.weekly_monday);
+                string = "Monday";
                 break;
             case 4:
-                string = context.getString(R.string.weekly_tuesday);
+                string = "Tuesday";
                 break;
             case 5:
-                string = context.getString(R.string.weekly_wednesday);
+                string = "Wednesday";
                 break;
             case 6:
-                string = context.getString(R.string.weekly_thursday);
+                string = "Thursday";
                 break;
             case 7:
-                string = context.getString(R.string.weekly_friday);
+                string = "Friday";
                 break;
+            default:
+                return "Sun";
         }
         return string;
     }

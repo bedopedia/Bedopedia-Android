@@ -6,4 +6,7 @@ package trianglz.core.presenters;
 public interface SettingsPresenter {
     void onPasswordChangedSuccess(String newPassword);
     void onPasswordChangedFailure(String message, int errorCode);
+
+    void onLogoutSuccess();
+    void onLogoutFailure(String message, int errorCode);
 }

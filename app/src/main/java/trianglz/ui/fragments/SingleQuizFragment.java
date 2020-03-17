@@ -133,7 +133,7 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         outOfTextView = rootView.findViewById(R.id.tv_out_of);
         noteTextview = rootView.findViewById(R.id.tv_note);
         backButton = rootView.findViewById(R.id.btn_back);
-        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+        setStudentImage(student.avatar, student.firstName + " " + student.lastName);
         DateTime dateTime = new DateTime(quizzes.getStartDate());
 
         if (quizzes.getName() != null) {

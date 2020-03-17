@@ -72,18 +72,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.KidsViewHolder
 //        }
         String name = student.firstName + " " + student.lastName;
         holder.studentName.setText(name);
-        String imageUrl = student.getAvatar();
+        String imageUrl = student.avatar;
         if (imageUrl.substring(0, 8).equals(urlUploadsKey)) {
             imageUrl = ApiClient.BASE_URL + imageUrl;
         }
         setStudentImage(imageUrl, holder, name);
-        setAttendanceCircle(student.getTodayAttendance(), holder);
+        setAttendanceCircle(student.todayAttendance, holder);
         holder.gradeTextView.setText(student.level);
-        String quizzes = String.valueOf(student.getTodayQuizzesCount());
+        String quizzes = String.valueOf(student.todayQuizzesCount);
         holder.quizzesTextView.setText(quizzes);
-        String assignments = String.valueOf(student.getTodayAssignmentsCount());
+        String assignments = String.valueOf(student.todayAssignmentsCount);
         holder.assignmentsTextView.setText(assignments);
-        String events = String.valueOf(student.getTodayEventsCount());
+        String events = String.valueOf(student.todayEventsCount);
         holder.eventsTextView.setText(events);
 
         if (student.isExpanded()) {

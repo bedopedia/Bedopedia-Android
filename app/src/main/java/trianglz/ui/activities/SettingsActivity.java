@@ -96,7 +96,8 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
                 rateApp();
                 break;
             case R.id.btn_sign_out:
-                logoutUser(this);
+                progress.show();
+                settingsView.logout();
                 break;
         }
     }
@@ -181,6 +182,18 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
         if (progress.isShowing())
             progress.dismiss();
         showErrorDialog(this, -3, message);
+    }
+
+    @Override
+    public void onLogoutSuccess() {
+        if (progress.isShowing()) progress.dismiss();
+        logoutUser(this);
+    }
+
+    @Override
+    public void onLogoutFailure(String message, int errorCode) {
+        if (progress.isShowing()) progress.dismiss();
+        showErrorDialog(this, errorCode, message);
     }
 
     void changePassword(String oldPassword, String newPassword) {

@@ -118,7 +118,7 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
         studentImage = rootView.findViewById(R.id.img_student);
         imageLoader = new PicassoLoader();
         String name = student.firstName + " " + student.lastName;
-        setStudentImage(student.getAvatar(), name);
+        setStudentImage(student.avatar, name);
         //setHeader();
 
         tabLayout = rootView.findViewById(R.id.tab_layout);

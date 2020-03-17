@@ -91,7 +91,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         pullRefreshLayout = rootView.findViewById(R.id.pullToRefresh);
         studentImageView = rootView.findViewById(R.id.img_student);
         backBtn = rootView.findViewById(R.id.btn_back);
-        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+        setStudentImage(student.avatar, student.firstName + " " + student.lastName);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         courseAssignmentAdapter = new CourseAssignmentAdapter(activity, this);
         recyclerView.setAdapter(courseAssignmentAdapter);
@@ -197,7 +197,7 @@ public class CourseAssignmentFragment extends Fragment implements View.OnClickLi
         //  Intent intent = new Intent(this, AssignmentDetailActivity.class);
         AssignmentDetailFragment assignmentDetailFragment = new AssignmentDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.KEY_STUDENT_NAME, student.getFirstName() + " " + student.getLastName());
+        bundle.putString(Constants.KEY_STUDENT_NAME, student.firstName + " " + student.lastName);
         bundle.putSerializable(Constants.STUDENT, student);
         if (courseAssignment.getCourseName() != null) {
             bundle.putString(Constants.KEY_COURSE_NAME, courseAssignment.getCourseName());

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,7 +97,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             String messageTime = setMessageTime(Util.convertUtcToLocal(message.createdAt));
             if (!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")) {
                 if (message.isImage || message.ext.isEmpty() || message.ext.equals("null")) {
-                    if (userId.equals(String.valueOf(message.user.getId()))) {
+                    if (userId.equals(String.valueOf(message.user.id))) {
                         ImageMeViewHolder imageMeViewHolder = ((ImageMeViewHolder) holder);
                         imageMeViewHolder.messageTimeTextView.setText(messageTime);
                         Transformation transformation = new RoundedTransformationBuilder()
@@ -175,7 +174,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     }
                 } else {
 
-                    if (userId.equals(String.valueOf(message.user.getId()))) {
+                    if (userId.equals(String.valueOf(message.user.id))) {
                         AttachmentMeViewHolder attachmentMeViewHolder = (AttachmentMeViewHolder) (holder);
                         attachmentMeViewHolder.messageTimeTextView.setText(messageTime);
                         attachmentMeViewHolder.progressBar.setVisibility(View.GONE);
@@ -204,7 +203,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             } else {
                 String body = android.text.Html.fromHtml(message.body).toString();
                 body = StringEscapeUtils.unescapeJava(body);
-                if (userId.equals(String.valueOf(message.user.getId()))) {
+                if (userId.equals(String.valueOf(message.user.id))) {
                     MeViewHolder meViewHolder = ((MeViewHolder) holder);
                     meViewHolder.bodyTextView.setText(body);
                     meViewHolder.messageTimeTextView.setText(messageTime);
@@ -230,7 +229,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             return TYPE_DATE;
         } else {
             Message message = (Message) mDataList.get(position);
-            if (userId.equals(String.valueOf(message.user.getId()))) {
+            if (userId.equals(String.valueOf(message.user.id))) {
                 if (!message.attachmentUrl.isEmpty() && !message.attachmentUrl.equals("null")) {
                     if (message.isImage || message.ext.isEmpty() || message.ext.equals("null")) {
                         return TYPE_ME_IMAGE;

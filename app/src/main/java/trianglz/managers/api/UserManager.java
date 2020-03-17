@@ -1,5 +1,7 @@
 package trianglz.managers.api;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -191,14 +193,38 @@ public class UserManager {
         });
     }
 
+    public static void logout(final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.logout();
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject = new JSONObject(FirebaseInstanceId.getInstance().getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetworkManager.delete(url, jsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
     public static void updateToken(String url, String token, String locale, final ResponseListener responseListener) {
         HashMap<String, String> hashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject params = new JSONObject();
         JSONObject tokenJson = new JSONObject();
 
+        String id = FirebaseInstanceId.getInstance().getId();
+
         try {
-            tokenJson.put(Constants.MOBILE_DEVICE_TOKEN, token);
+            tokenJson.put(Constants.FCM_TOKEN, token);
             tokenJson.put(Constants.KEY_LOCALE, locale);
+            tokenJson.put(Constants.MOBILE_DEVICE_ID, id);
         } catch (JSONException e) {
             e.printStackTrace();
         }

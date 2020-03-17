@@ -213,7 +213,7 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             parentLayout.setVisibility(View.VISIBLE);
             teacherLayout.setVisibility(View.GONE);
             studentName = student.firstName + " " + student.lastName;
-            setStudentImage(student.getAvatar(), studentName);
+            setStudentImage(student.avatar, studentName);
             nameTextView.setText(studentName);
             if (student.level.trim().isEmpty()) {
                 levelTextView.setVisibility(View.GONE);
@@ -477,11 +477,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             appBarLayout.setExpanded(true);
             BehaviorNotesMainFragment behaviorNotesMainFragment = new BehaviorNotesMainFragment();
             Bundle bundle = new Bundle();
-            bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
+            bundle.putInt(Constants.KEY_STUDENT_ID, student.id);
             bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveBehaviorNotes);
             bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeBehaviorNotes);
             bundle.putSerializable(Constants.KEY_OTHER_NOTES_LIST, (Serializable) otherBehaviorNotes);
-            bundle.putInt(Constants.KEY_STUDENT_ID, student.getId());
+            bundle.putInt(Constants.KEY_STUDENT_ID, student.id);
             bundle.putSerializable(Constants.STUDENT, student);
             behaviorNotesMainFragment.setArguments(bundle);
             getChildFragmentManager().

@@ -269,8 +269,8 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     }
 
     @Override
-    public void onItemCLicked(Double grade, String feedback, int studentId) {
-        gradeFeedbackDialog = new GradeFeedbackDialog(activity, R.style.GradeDialog, this, grade + "", feedback, studentId);
+    public void onItemCLicked(String grade, String feedback, int studentId) {
+        gradeFeedbackDialog = new GradeFeedbackDialog(activity, R.style.GradeDialog, this, grade, feedback, studentId);
         gradeFeedbackDialog.show();
     }
 

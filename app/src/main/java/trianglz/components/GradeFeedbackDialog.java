@@ -77,14 +77,8 @@ public class GradeFeedbackDialog extends Dialog implements DialogInterface.OnSho
         studentFeedbackEditText = findViewById(R.id.student_feedback_edittext);
         feedbackTextView = findViewById(R.id.tv_feedback);
         submitButton = findViewById(R.id.submit_btn);
-        studentGradeEditText.setText("");
-        if (!feedback.isEmpty()) {
-            feedbackTextView.setVisibility(View.GONE);
-            studentFeedbackEditText.setVisibility(View.GONE);
-        } else {
-
-            studentFeedbackEditText.setText("");
-        }
+        studentGradeEditText.setText(grade);
+        studentFeedbackEditText.setText(feedback);
 
     }
 

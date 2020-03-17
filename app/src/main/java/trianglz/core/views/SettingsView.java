@@ -35,4 +35,18 @@ public class SettingsView {
         });
 
     }
+
+    public void logout() {
+        UserManager.logout(new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                settingsPresenter.onLogoutSuccess();
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                settingsPresenter.onLogoutFailure(message, errorCode);
+            }
+        });
+    }
 }

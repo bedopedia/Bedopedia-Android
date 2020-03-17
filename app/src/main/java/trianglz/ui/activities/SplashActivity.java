@@ -8,6 +8,8 @@ import com.skolera.skolera_android.R;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+
 import trianglz.core.presenters.SplashPresenter;
 import trianglz.core.views.SplashView;
 import trianglz.managers.SessionManager;
@@ -56,9 +58,9 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     }
 
 
-    private void openHomeActivity(JSONArray students) {
+    private void openHomeActivity(ArrayList<Student> students) {
         Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-        intent.putExtra(Constants.CHILDREN, students.toString());
+        intent.putParcelableArrayListExtra(Constants.CHILDREN, students);
         this.startActivity(intent);
     }
 
@@ -71,7 +73,7 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
     }
 
     @Override
-    public void onParentLoginSuccess(JSONArray students) {
+    public void onParentLoginSuccess(ArrayList<Student> students) {
         progress.dismiss();
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
             openHomeActivity(students);
@@ -120,7 +122,9 @@ public class SplashActivity extends SuperActivity implements SplashPresenter {
 
     private void openStudentDetailActivity(Student student, JSONArray studentAttendance) {
         Intent intent = new Intent(this, StudentMainActivity.class);
-        intent.putExtra(Constants.STUDENT, student.toString());
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.STUDENT, student);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
     }
 }

@@ -83,7 +83,7 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
         imageLoader = new PicassoLoader();
         studentImageView = rootView.findViewById(R.id.img_student);
         if (student != null) {
-            setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+            setStudentImage(student.avatar, student.firstName + " " + student.lastName);
         } else {
             studentImageView.setVisibility(View.GONE);
         }

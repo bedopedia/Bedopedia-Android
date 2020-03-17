@@ -158,7 +158,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     }
 
     private void setStudentImage() {
-        String imageUrl = student.getAvatar();
+        String imageUrl = student.avatar;
         final String name = student.firstName + " " + student.lastName;
         final IImageLoader[] imageLoader = {new PicassoLoader()};
         if (imageUrl == null || imageUrl.equals("")) {

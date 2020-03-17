@@ -102,7 +102,7 @@ public class SelectPeriodFragment extends Fragment implements SelectPeriodPresen
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, getActivity()), false));
         selectPeriodView = new SelectPeriodView(this);
         String studentName = student.firstName + " " + student.lastName;
-        setStudentImage(student.getAvatar(), studentName);
+        setStudentImage(student.avatar, studentName);
         skeletonLayout = rootView.findViewById(R.id.skeletonLayout);
         shimmer = rootView.findViewById(R.id.shimmer_view_container);
         this.inflater = (LayoutInflater) getActivity()

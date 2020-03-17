@@ -104,7 +104,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         absentCounterTextView = rootView.findViewById(R.id.tv_absent_counter);
         backBtn = rootView.findViewById(R.id.btn_back);
         calendar = Calendar.getInstance();
-        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+        setStudentImage(student.avatar, student.firstName + " " + student.lastName);
         compactCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
         compactCalendarView.removeAllEvents();
         attendanceAdapter = new AttendanceAdapter(activity, AttendanceAdapter.STATE.LATE);

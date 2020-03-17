@@ -75,7 +75,7 @@ public class PostsFragment extends Fragment implements PostsPresenter, PostsAdap
         bindViews();
         setListeners();
         getRecentPosts();
-        setStudentImage(student.getAvatar(), studentName);
+        setStudentImage(student.avatar, studentName);
     }
 
 

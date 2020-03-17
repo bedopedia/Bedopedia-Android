@@ -98,7 +98,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         getValueFromIntent();
         bindViews();
         setListeners();
-        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+        setStudentImage(student.avatar, student.firstName + " " + student.lastName);
         setRecyclerView();
         getEvents();
     }
@@ -165,7 +165,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         assignmentsView = rootView.findViewById(R.id.view_assignments);
         quizzesView = rootView.findViewById(R.id.view_quizzes);
         monthYearTextView.setText(setHeaderDate(Calendar.getInstance().getTime()));
-        setStudentImage(student.getAvatar(), student.firstName + " " + student.lastName);
+        setStudentImage(student.avatar, student.firstName + " " + student.lastName);
 
         createEventLayout = rootView.findViewById(R.id.create_event_framelayout);
 
