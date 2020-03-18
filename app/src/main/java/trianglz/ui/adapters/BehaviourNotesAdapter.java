@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
@@ -15,6 +15,7 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 import java.util.ArrayList;
 
 import trianglz.models.BehaviorNote;
+import trianglz.utils.Util;
 
 /**
  * This file is spawned by Gemy on 11/6/2018.
@@ -50,6 +51,7 @@ public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAd
         holder.titleTv.setHtml(behaviorNote.category);
         holder.teacherNameTv.setHtml(behaviorNote.owner.name);
         holder.messageTv.setHtml(behaviorNote.note);
+        holder.dateTextView.setText(Util.getAnnouncementDate(behaviorNote.createdAt, holder.itemView.getContext()));
     }
 
     @Override
@@ -63,16 +65,16 @@ public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAd
     }
 
     class BehaviourNotesViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout itemLayout;
         HtmlTextView teacherNameTv,titleTv, messageTv;
+        TextView dateTextView;
 
 
         public BehaviourNotesViewHolder(View itemView) {
             super(itemView);
-            itemLayout = itemView.findViewById(R.id.behaviour_item_layout);
             teacherNameTv = itemView.findViewById(R.id.teacher_tv);
             titleTv = itemView.findViewById(R.id.title_tv);
             messageTv = itemView.findViewById(R.id.message_tv);
+            dateTextView = itemView.findViewById(R.id.date_tv);
         }
     }
 
