@@ -49,9 +49,18 @@ public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAd
     public void onBindViewHolder(@NonNull BehaviourNotesViewHolder holder, int position) {
         BehaviorNote behaviorNote = behaviorNotes.get(position);
         holder.titleTv.setHtml(behaviorNote.category);
+        Context context = holder.itemView.getContext();
+        String behaviourNoteString = "";
+        if (behaviorNote.location != null && !behaviorNote.location.isEmpty()) {
+            behaviourNoteString += String.format(context.getString(R.string.location), behaviorNote.location);
+        }
+        if (behaviorNote.consequence != null && !behaviorNote.consequence.isEmpty()) {
+            behaviourNoteString += "<br>" + String.format(context.getString(R.string.consequence), behaviorNote.consequence);
+        }
+        holder.detailsTv.setHtml(behaviourNoteString);
         holder.teacherNameTv.setHtml(behaviorNote.owner.name);
-        holder.messageTv.setHtml(behaviorNote.note);
-        holder.dateTextView.setText(Util.getAnnouncementDate(behaviorNote.createdAt, holder.itemView.getContext()));
+        holder.messageTv.setHtml(String.format(context.getString(R.string.note), behaviorNote.note.replace("<p>","")));
+        holder.dateTextView.setText(Util.getAnnouncementDate(behaviorNote.createdAt, context));
     }
 
     @Override
@@ -65,7 +74,7 @@ public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAd
     }
 
     class BehaviourNotesViewHolder extends RecyclerView.ViewHolder {
-        HtmlTextView teacherNameTv,titleTv, messageTv;
+        HtmlTextView teacherNameTv,titleTv, messageTv, detailsTv;
         TextView dateTextView;
 
 
@@ -75,6 +84,7 @@ public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAd
             titleTv = itemView.findViewById(R.id.title_tv);
             messageTv = itemView.findViewById(R.id.message_tv);
             dateTextView = itemView.findViewById(R.id.date_tv);
+            detailsTv = itemView.findViewById(R.id.details_tv);
         }
     }
 

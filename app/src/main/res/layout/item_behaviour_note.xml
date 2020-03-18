@@ -82,6 +82,22 @@
             tools:text="THIS is a sample"
 
             />
+        <org.sufficientlysecure.htmltextview.HtmlTextView
+            android:id="@+id/details_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/steel"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/message_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="THIS is a sample"
+
+            />
 
     </android.support.constraint.ConstraintLayout>
 
