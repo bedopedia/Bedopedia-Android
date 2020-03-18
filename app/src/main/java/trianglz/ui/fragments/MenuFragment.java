@@ -478,11 +478,11 @@ public class MenuFragment extends Fragment implements StudentDetailPresenter,
             BehaviorNotesMainFragment behaviorNotesMainFragment = new BehaviorNotesMainFragment();
             Bundle bundle = new Bundle();
             bundle.putInt(Constants.KEY_STUDENT_ID, student.id);
-            bundle.putSerializable(Constants.KEY_POSITIVE_NOTES_LIST, (Serializable) positiveBehaviorNotes);
-            bundle.putSerializable(Constants.KEY_NEGATIVE_NOTES_LIST, (Serializable) negativeBehaviorNotes);
-            bundle.putSerializable(Constants.KEY_OTHER_NOTES_LIST, (Serializable) otherBehaviorNotes);
+            bundle.putParcelableArrayList(Constants.KEY_POSITIVE_NOTES_LIST, (ArrayList<BehaviorNote>) positiveBehaviorNotes);
+            bundle.putParcelableArrayList(Constants.KEY_NEGATIVE_NOTES_LIST, (ArrayList<BehaviorNote>) negativeBehaviorNotes);
+            bundle.putParcelableArrayList(Constants.KEY_OTHER_NOTES_LIST, (ArrayList<BehaviorNote>) otherBehaviorNotes);
             bundle.putInt(Constants.KEY_STUDENT_ID, student.id);
-            bundle.putSerializable(Constants.STUDENT, student);
+            bundle.putParcelable(Constants.STUDENT, student);
             behaviorNotesMainFragment.setArguments(bundle);
             getChildFragmentManager().
                     beginTransaction().add(R.id.menu_fragment_root, behaviorNotesMainFragment, "MenuFragments").
