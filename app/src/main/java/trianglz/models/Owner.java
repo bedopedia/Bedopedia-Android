@@ -5,135 +5,41 @@ package trianglz.models;//
 //  Created on July 17, 2019
 //
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Owner implements Serializable {
+public class Owner implements Serializable, Parcelable {
 
 	@SerializedName("id")
-	private int id;
+	public int id;
 	@SerializedName("firstname")
-	private String firstname;
+	public String firstname;
 	@SerializedName("lastname")
-	private String lastname;
+	public String lastname;
 	@SerializedName("avatar_url")
-	private String avatarUrl;
+	public String avatarUrl;
 	@SerializedName("thumb_url")
-	private String thumbUrl;
+	public String thumbUrl;
 	@SerializedName("user_type")
-	private String userType;
+	public String userType;
 	@SerializedName("name")
-	private String name;
+	public String name;
 	@SerializedName("gender")
-	private String gender;
+	public String gender;
 	@SerializedName("name_with_title")
-	private String nameWithTitle;
+	public String nameWithTitle;
 	@SerializedName("actable_id")
-	private int actableId;
+	public int actableId;
 	@SerializedName("user_id")
-	private int userId;
+	public int userId;
 	@SerializedName("password_changed")
-	private boolean passwordChanged;
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getFirstname() {
-		return this.firstname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getLastname() {
-		return this.lastname;
-	}
-
-	public void setAvatarUrl(String avatarUrl) {
-		this.avatarUrl = avatarUrl;
-	}
-
-	public String getAvatarUrl() {
-		return this.avatarUrl;
-	}
-
-	public void setThumbUrl(String thumbUrl) {
-		this.thumbUrl = thumbUrl;
-	}
-
-	public String getThumbUrl() {
-		return this.thumbUrl;
-	}
-
-	public void setUserType(String userType) {
-		this.userType = userType;
-	}
-
-	public String getUserType() {
-		return this.userType;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-	public String getGender() {
-		return this.gender;
-	}
-
-	public void setNameWithTitle(String nameWithTitle) {
-		this.nameWithTitle = nameWithTitle;
-	}
-
-	public String getNameWithTitle() {
-		return this.nameWithTitle;
-	}
-
-	public void setActableId(int actableId) {
-		this.actableId = actableId;
-	}
-
-	public int getActableId() {
-		return this.actableId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public int getUserId() {
-		return this.userId;
-	}
-
-	public void setPasswordChanged(boolean passwordChanged) {
-		this.passwordChanged = passwordChanged;
-	}
-
-	public boolean getPasswordChanged() {
-		return this.passwordChanged;
-	}
-
+	public boolean passwordChanged;
 
 	public static Owner create(String json) {
 		Gson gson = new GsonBuilder().create();
@@ -145,4 +51,54 @@ public class Owner implements Serializable {
 		return gson.toJson(this);
 	}
 
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(this.id);
+		dest.writeString(this.firstname);
+		dest.writeString(this.lastname);
+		dest.writeString(this.avatarUrl);
+		dest.writeString(this.thumbUrl);
+		dest.writeString(this.userType);
+		dest.writeString(this.name);
+		dest.writeString(this.gender);
+		dest.writeString(this.nameWithTitle);
+		dest.writeInt(this.actableId);
+		dest.writeInt(this.userId);
+		dest.writeByte(this.passwordChanged ? (byte) 1 : (byte) 0);
+	}
+
+	public Owner() {
+	}
+
+	protected Owner(Parcel in) {
+		this.id = in.readInt();
+		this.firstname = in.readString();
+		this.lastname = in.readString();
+		this.avatarUrl = in.readString();
+		this.thumbUrl = in.readString();
+		this.userType = in.readString();
+		this.name = in.readString();
+		this.gender = in.readString();
+		this.nameWithTitle = in.readString();
+		this.actableId = in.readInt();
+		this.userId = in.readInt();
+		this.passwordChanged = in.readByte() != 0;
+	}
+
+	public static final Parcelable.Creator<Owner> CREATOR = new Parcelable.Creator<Owner>() {
+		@Override
+		public Owner createFromParcel(Parcel source) {
+			return new Owner(source);
+		}
+
+		@Override
+		public Owner[] newArray(int size) {
+			return new Owner[size];
+		}
+	};
 }

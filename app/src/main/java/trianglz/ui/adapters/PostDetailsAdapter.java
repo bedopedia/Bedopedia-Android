@@ -53,10 +53,10 @@ public class PostDetailsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final PostDetailsViewHolder viewHolder = (PostDetailsViewHolder) holder;
         final PostDetails postDetail = postDetails.get(position);
-        String imageUrl = postDetail.getOwner().getAvatarUrl();
+        String imageUrl = postDetail.getOwner().avatarUrl;
         imageLoader = new PicassoLoader();
-        setAvatarView(viewHolder.avatarView, postDetail.getOwner().getNameWithTitle(), imageUrl);
-        viewHolder.ownerTextView.setText(postDetail.getOwner().getNameWithTitle());
+        setAvatarView(viewHolder.avatarView, postDetail.getOwner().nameWithTitle, imageUrl);
+        viewHolder.ownerTextView.setText(postDetail.getOwner().nameWithTitle);
         String date = Util.getTimeAndDate(postDetail.getCreatedAt(), context);
         viewHolder.dateTextView.setText(date);
         if (postDetail.getContent().isEmpty() && postDetail.getUploadedFiles().length == 0) {

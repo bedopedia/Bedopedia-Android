@@ -79,15 +79,13 @@ public class BehaviorNotesFragment extends Fragment implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = this.getActivity().getIntent().getExtras();
         context = getActivity();
-        //   Bundle bundle = getActivity().getIntent().getBundleExtra(Constants.KEY_BUNDLE);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            positiveNotesList = (List<BehaviorNote>) bundle.getSerializable(Constants.KEY_POSITIVE_NOTES_LIST);
-            negativeNotesList = (List<BehaviorNote>) bundle.getSerializable(Constants.KEY_NEGATIVE_NOTES_LIST);
-            otherNoteList = (List<BehaviorNote>) bundle.getSerializable(Constants.KEY_OTHER_NOTES_LIST);
-            student = (Student) bundle.getSerializable(Constants.STUDENT);
+            positiveNotesList = bundle.getParcelableArrayList(Constants.KEY_POSITIVE_NOTES_LIST);
+            negativeNotesList = bundle.getParcelableArrayList(Constants.KEY_NEGATIVE_NOTES_LIST);
+            otherNoteList = bundle.getParcelableArrayList(Constants.KEY_OTHER_NOTES_LIST);
+            student = bundle.getParcelable(Constants.STUDENT);
             studentId = bundle.getInt(studentIdKey) + "";
         }
     }
