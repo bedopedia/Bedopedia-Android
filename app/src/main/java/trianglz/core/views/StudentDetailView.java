@@ -260,17 +260,17 @@ public class StudentDetailView {
         List<BehaviorNote> otherBehaviorNotesList = new ArrayList<>();
         JSONArray behaviourNotes = response.optJSONArray(Constants.KEY_BEHAVIOUR_NOTES);
         for(int i = 0 ; i<behaviourNotes.length(); i++){
-            JSONObject note = behaviourNotes.optJSONObject(i);
-            String type = note.optString(Constants.KEY_TYPE);
-            String noteBody =  note.optString(Constants.KEY_NOTE);
-            String category = note.optString(Constants.KEY_CATEGORY);
-            String teacherName = note.optJSONObject(Constants.KEY_OWNER).optString(Constants.KEY_NAME);
-            if(type.equals(Constants.GOOD)){
-                positiveBehaviorNotesList.add(new BehaviorNote(teacherName,type,noteBody,category));
-            }else if(type.equals(Constants.BAD)){
-                negativeBehaviorNotesList.add(new BehaviorNote(teacherName,type,noteBody,category));
-            }else if(type.equals(Constants.OTHER)){
-                otherBehaviorNotesList.add(new BehaviorNote(teacherName,type,noteBody,category));
+            BehaviorNote behaviorNote = BehaviorNote.create(behaviourNotes.opt(i).toString());
+            switch (behaviorNote.type) {
+                case Constants.GOOD:
+                    positiveBehaviorNotesList.add(behaviorNote);
+                    break;
+                case Constants.BAD:
+                    negativeBehaviorNotesList.add(behaviorNote);
+                    break;
+                case Constants.OTHER:
+                    otherBehaviorNotesList.add(behaviorNote);
+                    break;
             }
         }
         behaviorNoteHashMap.put(Constants.KEY_POSITIVE,positiveBehaviorNotesList);

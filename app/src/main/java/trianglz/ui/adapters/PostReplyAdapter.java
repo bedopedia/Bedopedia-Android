@@ -64,15 +64,15 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        String imageUrl = postDetail.getOwner().getAvatarUrl();
+        String imageUrl = postDetail.getOwner().avatarUrl;
         imageLoader = new PicassoLoader();
         if (position == 0) {
             final PostReplyViewHolder viewHolder = (PostReplyViewHolder) holder;
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) viewHolder.cardView.getLayoutParams();
             params.setMargins(0, 0, 0, 0); //substitute parameters for left, top, right, bottom
             viewHolder.cardView.setLayoutParams(params);
-            setAvatarView(viewHolder.avatarView, postDetail.getOwner().getNameWithTitle(), imageUrl);
-            viewHolder.ownerTextview.setText(postDetail.getOwner().getNameWithTitle());
+            setAvatarView(viewHolder.avatarView, postDetail.getOwner().nameWithTitle, imageUrl);
+            viewHolder.ownerTextview.setText(postDetail.getOwner().nameWithTitle);
             String date = Util.getTimeAndDate(postDetail.getCreatedAt(), context);
             viewHolder.dateTextView.setText(date);
 
@@ -171,9 +171,9 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) viewHolder.cardView.getLayoutParams();
             params.setMargins(0, 0, 0, (int) Util.convertDpToPixel(16, context)); //substitute parameters for left, top, right, bottom
             Reply reply = postDetail.getComments()[position - 2];
-            imageUrl = reply.getOwner().getAvatarUrl();
-            setAvatarView(viewHolder.avatarView, reply.getOwner().getNameWithTitle(), imageUrl);
-            viewHolder.ownerTextview.setText(reply.getOwner().getNameWithTitle());
+            imageUrl = reply.getOwner().avatarUrl;
+            setAvatarView(viewHolder.avatarView, reply.getOwner().nameWithTitle, imageUrl);
+            viewHolder.ownerTextview.setText(reply.getOwner().nameWithTitle);
             String date = Util.getTimeAndDate(reply.getCreatedAt(), context);
             viewHolder.dateTextView.setText(date);
             viewHolder.view.setVisibility(View.GONE);

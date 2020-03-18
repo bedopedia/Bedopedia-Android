@@ -1,5 +1,9 @@
 package trianglz.models;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -7,40 +11,40 @@ import java.io.Serializable;
  */
 public class BehaviorNote implements Serializable {
 
-    public String teacherName;
-    public String title;
-    public String message;
+    @SerializedName("id")
+    public int id;
+    @SerializedName("category")
     public String category;
-    public BehaviorNote(String teacherName, String title, String message,String category) {
-        this.teacherName = teacherName;
-        this.title = title;
-        this.message = message;
-        this.category = category;
-    }
-    public BehaviorNote() {
-        this.teacherName = "";
-        this.message = "";
-    }
+    @SerializedName("note")
+    public String note;
+    @SerializedName("created_at")
+    public String createdAt;
+    @SerializedName("behavior_note_category_id")
+    public int behaviorNoteCategoryId;
+    @SerializedName("type")
+    public String type;
+    @SerializedName("location")
+    public String location;
+    @SerializedName("consequence")
+    public String consequence;
+    @SerializedName("owner")
+    public Owner owner;
+    @SerializedName("receivers")
+    public Receivers[] receivers;
+    @SerializedName("student")
+    public Student student;
 
     public BehaviorNote(String teacherName, String message) {
-        this.teacherName = teacherName;
-        this.message = message;
+        this.category = teacherName;
+        this.note = message;
+    }
+    public static BehaviorNote create(String json) {
+        Gson gson = new GsonBuilder().create();
+        return gson.fromJson(json, BehaviorNote.class);
     }
 
-    public String getTeacherName() {
-        return teacherName;
+    public String toString() {
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(this);
     }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
 }

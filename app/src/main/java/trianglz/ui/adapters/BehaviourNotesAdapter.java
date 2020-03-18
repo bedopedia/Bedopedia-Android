@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.skolera.skolera_android.R;
 
@@ -16,7 +15,6 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 import java.util.ArrayList;
 
 import trianglz.models.BehaviorNote;
-import trianglz.utils.Constants;
 
 /**
  * This file is spawned by Gemy on 11/6/2018.
@@ -50,8 +48,8 @@ public class BehaviourNotesAdapter extends RecyclerView.Adapter<BehaviourNotesAd
     public void onBindViewHolder(@NonNull BehaviourNotesViewHolder holder, int position) {
         BehaviorNote behaviorNote = behaviorNotes.get(position);
         holder.titleTv.setHtml(behaviorNote.category);
-        holder.teacherNameTv.setHtml(behaviorNote.teacherName);
-        holder.messageTv.setHtml(behaviorNote.message);
+        holder.teacherNameTv.setHtml(behaviorNote.owner.name);
+        holder.messageTv.setHtml(behaviorNote.note);
     }
 
     @Override
