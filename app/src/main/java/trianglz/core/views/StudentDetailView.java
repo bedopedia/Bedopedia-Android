@@ -200,7 +200,7 @@ public class StudentDetailView {
 //        }
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        formatter.setTimeZone(TimeZone.getTimeZone("Egypt"));
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         for (int i = 0; i < jsonArray.length(); i++) {
 
             JSONObject slot = jsonArray.optJSONObject(i);
