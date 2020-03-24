@@ -110,7 +110,7 @@
     <string name="current">Current</string>
     <string name="ok">Ok</string>
     <string name="change_language">Change language to arabic</string>
-    <string name="sign_out">Sign out</string>
+    <string name="sign_out">Log out</string>
     <string name="cancel">Cancel</string>
     <string name="no_title">No title</string>
     <string name="system_error">System error</string>
@@ -285,8 +285,8 @@
     <string name="change">Change</string>
     <string name="version">Version %1$s</string>
     <string name="change_password">Change password</string>
-    <string name="share_app">Share App</string>
-    <string name="rate_app">Rate App</string>
+    <string name="share_app">Share application</string>
+    <string name="rate_app">Rate application</string>
     <string name="language">Language (English)</string>
     <string name="try_app_now">Try Skolera now!</string>
     <string name="share_via">Share Skolera via</string>
