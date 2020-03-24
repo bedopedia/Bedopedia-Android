@@ -1,7 +1,8 @@
 package trianglz.ui.changepassword;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class ChangePasswordViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
+    public MutableLiveData<String> oldPassword, newPassword;
 }

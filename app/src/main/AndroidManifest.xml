@@ -19,7 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name="trianglz.ui.changepassword.ChangePasswordActivity"></activity>
+        <activity android:name="trianglz.ui.changepassword.ChangePasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_v2"
+            />
         <activity
             android:name="trianglz.ui.activities.SettingsActivity"
             android:hardwareAccelerated="true"

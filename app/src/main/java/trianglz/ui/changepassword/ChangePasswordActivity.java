@@ -2,11 +2,11 @@ package trianglz.ui.changepassword;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.skolera.skolera_android.R;
 
-public class ChangePasswordActivity extends AppCompatActivity {
+import trianglz.ui.activities.SuperActivity;
+
+public class ChangePasswordActivity extends SuperActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
