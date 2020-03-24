@@ -6,7 +6,6 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,14 +15,23 @@ import androidx.lifecycle.ViewModelProvider;
 import com.skolera.skolera_android.R;
 import com.skolera.skolera_android.databinding.ChangePasswordFragmentBinding;
 
+import java.util.Objects;
+
 
 public class ChangePasswordFragment extends Fragment {
 
     private ChangePasswordViewModel viewModel;
     private ChangePasswordFragmentBinding binding;
+    private ChangePasswordActivity changePasswordActivity;
 
     public static ChangePasswordFragment newInstance() {
         return new ChangePasswordFragment();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        changePasswordActivity = ((ChangePasswordActivity) Objects.requireNonNull(getActivity()));
     }
 
     @Nullable
@@ -77,7 +85,11 @@ public class ChangePasswordFragment extends Fragment {
             binding.newProgressBar.setProgress(100);
             isValid = false;
         }
-        if (isValid) Toast.makeText(getContext(), "tmam", Toast.LENGTH_LONG).show();
+
+        if (isValid) {
+            changePasswordActivity.progress.show();
+            viewModel.changePassword(viewModel.oldPassword.getValue(),viewModel.newPassword.getValue());
+        }
     }
 
     private void onShowHideNewPassword() {
@@ -116,6 +128,25 @@ public class ChangePasswordFragment extends Fragment {
                 binding.newProgressBar.setProgress(100);
             } else {
                 binding.newProgressBar.setProgress((10 * (float) s.length()) / 6);
+            }
+        });
+
+        viewModel.hideDialogEvent.observe(getViewLifecycleOwner(), hideLoading -> {
+            if (hideLoading) {
+                changePasswordActivity.progress.hide();
+                viewModel.hideDialogHandled();
+            }
+        });
+        viewModel.finishEvent.observe(getViewLifecycleOwner(), finish -> {
+            if (finish) {
+                changePasswordActivity.finish();
+                viewModel.finishEventHandled();
+            }
+        });
+        viewModel.showErrorDialog.observe(getViewLifecycleOwner(), stringIntegerPair -> {
+            if (stringIntegerPair != null) {
+                changePasswordActivity.showErrorDialog(getContext(), stringIntegerPair.second, stringIntegerPair.first);
+                viewModel.showErrorDialogHandled();
             }
         });
     }
