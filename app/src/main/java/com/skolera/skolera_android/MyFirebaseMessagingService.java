@@ -8,25 +8,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Map;
-
-import Models.Message;
-import Models.User;
-import myKids.MyKidsActivity;
-import student.StudentFragment;
 import trianglz.ui.activities.HomeActivity;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by ali on 27/02/17.

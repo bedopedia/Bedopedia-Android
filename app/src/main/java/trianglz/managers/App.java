@@ -2,22 +2,17 @@ package trianglz.managers;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Environment;
-import android.support.multidex.MultiDex;
+
+import androidx.multidex.MultiDex;
 
 import com.androidnetworking.AndroidNetworking;
-import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.skolera.skolera_android.R;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
-//import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
-
-import java.io.File;
-
-import io.fabric.sdk.android.Fabric;
 import trianglz.components.LocalHelper;
+
+//import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 /**
  * Created by ${Aly} on 10/24/2018.

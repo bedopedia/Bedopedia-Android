@@ -10,13 +10,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;

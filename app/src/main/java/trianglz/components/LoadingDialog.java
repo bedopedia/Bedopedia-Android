@@ -3,11 +3,12 @@ package trianglz.components;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
 import android.util.Log;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
 
 import com.skolera.skolera_android.R;
 import com.wang.avi.AVLoadingIndicatorView;

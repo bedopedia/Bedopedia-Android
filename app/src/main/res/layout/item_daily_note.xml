@@ -60,7 +60,7 @@
         android:layout_height="1dp"
         android:background="@color/pale_grey"/>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <WebView
@@ -74,6 +74,6 @@
         android:nestedScrollingEnabled="true"
         android:textColor="@color/brownish_grey"
         android:minHeight="60dp" />
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

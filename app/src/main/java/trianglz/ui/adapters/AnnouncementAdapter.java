@@ -1,18 +1,15 @@
 package trianglz.ui.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.skolera.skolera_android.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -23,10 +20,7 @@ import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
-import trianglz.components.CircleTransform;
-import trianglz.components.RoundCornersTransformation;
 import trianglz.models.Announcement;
-import trianglz.utils.Util;
 
 public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapter.Holder> {
     public Context context;

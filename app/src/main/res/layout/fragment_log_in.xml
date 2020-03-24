@@ -52,7 +52,7 @@
                     />
 
                 <!-- Email Label -->
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
@@ -68,10 +68,10 @@
                         android:textSize="16sp"
                         android:textColor="@color/black" />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- password lable-->
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -86,9 +86,9 @@
                         android:drawablePadding="17dp"
                         android:textSize="16sp"
                         android:textColor="@color/black" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.v7.widget.AppCompatButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/login_submit_button"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"

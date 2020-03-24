@@ -10,7 +10,7 @@
     android:focusable="true"
     tools:context="trianglz.ui.activities.AssignmentActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
         app:contentInsetRight="0dp"
         app:contentInsetStart="0dp">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
@@ -57,12 +57,12 @@
                 app:layout_constraintStart_toEndOf="@id/btn_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -85,9 +85,9 @@
             android:text="Your assignment is about math. Your assignment is about math. Your assignment is about math. Your assignment is about math. Your assignment is about math. Your assignment is about math. Your assignment is about math. Your assignment is about math. Your assignment is about math. Your assignment is about math."
             android:textColor="#de000000"
             android:textSize="14sp" />
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -1,6 +1,6 @@
 package trianglz.models;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.Date;

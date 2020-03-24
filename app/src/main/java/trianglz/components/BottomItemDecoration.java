@@ -1,8 +1,9 @@
 package trianglz.components;
 
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class BottomItemDecoration extends RecyclerView.ItemDecoration {
     private int space;

@@ -1,8 +1,8 @@
 package trianglz.ui.adapters;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Locale;
 
 import Tools.CalendarUtils;
+import trianglz.models.TimeTableSlot;
 import trianglz.ui.fragments.TodayFragment;
 import trianglz.ui.fragments.TomorrowFragment;
-import trianglz.models.TimeTableSlot;
 
 /**
  * Created by khaled on 3/2/17.

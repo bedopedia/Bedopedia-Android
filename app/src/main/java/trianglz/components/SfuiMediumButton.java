@@ -3,10 +3,10 @@ package trianglz.components;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.Button;
-import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 @SuppressLint("AppCompatCustomView")
 public class SfuiMediumButton extends Button {

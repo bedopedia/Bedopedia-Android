@@ -3,12 +3,6 @@ package com.skolera.skolera_android;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-
-
-
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -19,9 +13,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,10 +29,10 @@ import Models.MessageThread;
 import Models.User;
 import Tools.ImageViewHelper;
 import Tools.SharedPreferenceUtils;
-import login.Services.ApiClient;
-import login.Services.ApiInterface;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import login.Services.ApiClient;
+import login.Services.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
