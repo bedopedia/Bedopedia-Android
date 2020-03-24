@@ -6,6 +6,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ public class ChangePasswordFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(ChangePasswordViewModel.class);
         binding = ChangePasswordFragmentBinding.inflate(inflater, container, false);
+        binding.setViewModel(viewModel);
         initViewModelObservers();
         setListeners();
         return binding.getRoot();
@@ -39,6 +41,43 @@ public class ChangePasswordFragment extends Fragment {
     private void setListeners() {
         binding.showHideNewPassword.setOnClickListener(v -> onShowHideNewPassword());
         binding.showHideOldPassword.setOnClickListener(v -> onShowHideOldPassword());
+        binding.btnChangePassword.setOnClickListener(view -> validate());
+    }
+
+    private void validate() {
+        boolean isValid = true;
+        // validate old password
+        String oldPass = viewModel.oldPassword.getValue();
+        if (oldPass == null || oldPass.isEmpty()) {
+            binding.oldPasswordErrorTv.setVisibility(View.VISIBLE);
+            binding.oldPasswordErrorTv.setText(getString(R.string.password_is_empty));
+            isValid = false;
+            binding.oldProgressBar.setProgressColor(getResources().getColor(R.color.pale_red));
+            binding.oldProgressBar.setProgress(100);
+        } else if (oldPass.length() < 7) {
+            binding.oldPasswordErrorTv.setVisibility(View.VISIBLE);
+            binding.oldPasswordErrorTv.setText(getString(R.string.password_length_error));
+            binding.oldProgressBar.setProgressColor(getResources().getColor(R.color.pale_red));
+            binding.oldProgressBar.setProgress(100);
+            isValid = false;
+        }
+        // validate new password
+        String newPass = viewModel.newPassword.getValue();
+        if (newPass == null || newPass.isEmpty()) {
+            binding.newPasswordErrorTv.setVisibility(View.VISIBLE);
+            binding.newPasswordErrorTv.setVisibility(View.VISIBLE);
+            binding.newPasswordErrorTv.setText(getString(R.string.password_is_empty));
+            binding.newProgressBar.setProgressColor(getResources().getColor(R.color.pale_red));
+            binding.newProgressBar.setProgress(100);
+            isValid = false;
+        } else if (newPass.length() < 7) {
+            binding.newPasswordErrorTv.setVisibility(View.VISIBLE);
+            binding.newPasswordErrorTv.setText(getString(R.string.password_length_error));
+            binding.newProgressBar.setProgressColor(getResources().getColor(R.color.pale_red));
+            binding.newProgressBar.setProgress(100);
+            isValid = false;
+        }
+        if (isValid) Toast.makeText(getContext(), "tmam", Toast.LENGTH_LONG).show();
     }
 
     private void onShowHideNewPassword() {
@@ -62,10 +101,22 @@ public class ChangePasswordFragment extends Fragment {
 
     private void initViewModelObservers() {
         viewModel.oldPassword.observe(getViewLifecycleOwner(), s -> {
-
+            binding.oldPasswordErrorTv.setVisibility(View.INVISIBLE);
+            binding.oldProgressBar.setProgressColor(getResources().getColor(R.color.jade_green));
+            if (s.trim().length() > 6) {
+                binding.oldProgressBar.setProgress(100);
+            } else {
+                binding.oldProgressBar.setProgress((10 * (float) s.length()) / 6);
+            }
         });
         viewModel.newPassword.observe(getViewLifecycleOwner(), s -> {
-
+            binding.newPasswordErrorTv.setVisibility(View.INVISIBLE);
+            binding.newProgressBar.setProgressColor(getResources().getColor(R.color.jade_green));
+            if (s.trim().length() > 6) {
+                binding.newProgressBar.setProgress(100);
+            } else {
+                binding.newProgressBar.setProgress((10 * (float) s.length()) / 6);
+            }
         });
     }
 }
