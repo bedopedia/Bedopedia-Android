@@ -25,6 +25,7 @@ import trianglz.core.presenters.SettingsPresenter;
 import trianglz.core.views.SettingsView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
+import trianglz.ui.changepassword.ChangePasswordActivity;
 
 public class SettingsActivity extends SuperActivity implements View.OnClickListener, ErrorDialog.DialogConfirmationInterface, ChangePasswordDialog.DialogConfirmationInterface, SettingsPresenter {
 
@@ -87,8 +88,7 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
                 errorDialogue.show();
                 break;
             case R.id.btn_change_password:
-                ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this, this, getResources().getString(R.string.change_password));
-                changePasswordDialog.show();
+                startActivity(new Intent(this, ChangePasswordActivity.class));
                 break;
             case R.id.btn_share_app:
                 shareApp();
