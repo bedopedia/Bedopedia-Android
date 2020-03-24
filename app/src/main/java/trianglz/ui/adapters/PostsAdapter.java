@@ -43,7 +43,7 @@ public class PostsAdapter extends RecyclerView.Adapter {
         if (postsResponse.getPosts() != null) {
             if (postsResponse.getPosts().getOwner() != null) {
                 viewHolder.nameTextview.setVisibility(View.VISIBLE);
-                viewHolder.nameTextview.setText(postsResponse.getPosts().getOwner().getNameWithTitle());
+                viewHolder.nameTextview.setText(postsResponse.getPosts().getOwner().nameWithTitle);
             } else {
                 viewHolder.nameTextview.setVisibility(View.GONE);
             }

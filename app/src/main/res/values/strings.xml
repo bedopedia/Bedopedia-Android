@@ -326,5 +326,7 @@
     <string name="positive">Positive</string>
     <string name="negative">Negative</string>
     <string name="there_is_no_behavoir_note">No behavior Notes Available</string>
-
+    <string name="note"><![CDATA[<p>Note: %1$s]]></string>
+    <string name="location">Location: %1$s</string>
+    <string name="consequence">Consequence: %1$s</string>
 </resources>

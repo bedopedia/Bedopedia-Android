@@ -329,6 +329,10 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
         if ((singleAssignment.getContent() == null || singleAssignment.getContent().trim().isEmpty()) && singleAssignment.getUploadedFiles().length == 0) {
             activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.no_content));
         } else {
+            int id = R.id.course_root;
+            if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString()) ||
+                    SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()))
+                id = R.id.menu_fragment_root;
             AssignmentFragment assignmentFragment = new AssignmentFragment();
             Bundle bundle = new Bundle();
             if (courseId != 0) bundle.putInt(Constants.KEY_COURSE_ID, courseId);
@@ -336,7 +340,7 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             bundle.putString(Constants.KEY_ASSIGNMENT_DETAIL, singleAssignment.toString());
             assignmentFragment.setArguments(bundle);
             getParentFragment().getChildFragmentManager().
-                    beginTransaction().add(R.id.menu_fragment_root, assignmentFragment, "MenuFragments").
+                    beginTransaction().add(id, assignmentFragment, "MenuFragments").
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     addToBackStack(null).commit();
         }
@@ -348,5 +352,11 @@ public class AssignmentDetailFragment extends Fragment implements View.OnClickLi
             activity.progress.dismiss();
         activity.showErrorDialog(activity, errorCode, "");
 
+    }
+
+    @Override
+    public void onRunningAssignmentClicked(AssignmentsDetail assignmentsDetail) {
+        singleAssignmentView.showAssignment(courseId, assignmentsDetail.getId());
+        activity.showLoadingDialog();
     }
 }

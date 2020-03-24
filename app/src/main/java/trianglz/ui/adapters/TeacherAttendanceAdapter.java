@@ -155,16 +155,21 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.present_btn:
-                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_PRESENT);
+                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_PRESENT, "");
                     break;
                 case R.id.late_btn:
-                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_LATE);
+                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_LATE, "");
                     break;
                 case R.id.excused_btn:
-                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_EXCUSED);
+                    Attendances attendances = positionStatusHashMap.get(mDataList.get(getAdapterPosition()).getChildId());
+                    String excusedString = "";
+                    if (attendances != null)
+                    excusedString = attendances.getComment();
+                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_EXCUSED,
+                            (excusedString != null) ? excusedString : "");
                     break;
                 case R.id.absent_btn:
-                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_ABSENT);
+                    teacherAttendanceAdapterInterface.onStatusClicked(mDataList.get(getAdapterPosition()).getChildId(), Constants.TYPE_ABSENT, "");
                     break;
                 case R.id.check_attendance_btn:
                     if (positionCheckStatusHashMap.containsKey(getAdapterPosition())) {
@@ -243,7 +248,7 @@ public class TeacherAttendanceAdapter extends RecyclerView.Adapter<TeacherAttend
 
     public interface TeacherAttendanceAdapterInterface {
 
-        void onStatusClicked(int studentId, String status);
+        void onStatusClicked(int studentId, String status, String excusedString);
 
         void onCheckClicked(Boolean isSelected);
     }
