@@ -307,7 +307,11 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
             DateTime endTime = new DateTime(eventsArrayList.get(i).getEndDate());
             c.setTimeInMillis(startTime.getMillis());
             while (c.getTimeInMillis() <= endTime.getMillis()) {
-                compactCalendarView.addEvent(new com.github.sundeepk.compactcalendarview.domain.Event(getResources().getColor(color, null), c.getTimeInMillis()));
+                boolean skip = false;
+                for (com.github.sundeepk.compactcalendarview.domain.Event event : compactCalendarView.getEvents(c.getTimeInMillis())) {
+                    if (event.getColor() == getResources().getColor(color, null)) skip = true;
+                }
+                if (!skip) compactCalendarView.addEvent(new com.github.sundeepk.compactcalendarview.domain.Event(getResources().getColor(color, null), c.getTimeInMillis()));
                 c.add(Calendar.DATE, 1);
             }
         }
