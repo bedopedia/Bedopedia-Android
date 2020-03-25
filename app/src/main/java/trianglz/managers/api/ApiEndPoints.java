@@ -57,6 +57,9 @@ public class ApiEndPoints {
     public static String postSubmissionFeedback() {
         return "/api/feedbacks";
     }
+    public static String putSubmissionFeedback(int feedbackId) {
+        return "/api/feedbacks/" + feedbackId;
+    }
 
     public static String getQuizzesCourses(int studentId) {
         return "/api/students/" + studentId + "/course_groups_with_quizzes_number";

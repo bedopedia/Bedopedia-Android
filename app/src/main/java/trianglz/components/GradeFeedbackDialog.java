@@ -16,6 +16,9 @@ import androidx.annotation.StyleRes;
 
 import com.skolera.skolera_android.R;
 
+import trianglz.models.Feedback;
+import trianglz.models.StudentSubmission;
+
 /**
  * Created by Farah A. Moniem on 05/08/2019.
  */
@@ -24,21 +27,30 @@ public class GradeFeedbackDialog extends Dialog implements DialogInterface.OnSho
     private EditText studentGradeEditText, studentFeedbackEditText;
     private Button submitButton;
     private Context context;
-    private String grade, feedback;
+    private String grade;
+    private Feedback feedback;
     private GradeDialogInterface gradeDialogInterface;
     private int studentId;
     private TextView feedbackTextView;
 
     public GradeFeedbackDialog(@NonNull Context context, @StyleRes
-            int theme, GradeDialogInterface gradeDialogInterface, String grade, String feedback, int studentId) {
+            int theme, GradeDialogInterface gradeDialogInterface, StudentSubmission submission) {
         super(context, theme);
         View view = getLayoutInflater().inflate(R.layout.dialog_grade_feedback, null);
         setContentView(view);
-        this.grade = grade;
-        this.feedback = feedback;
         this.gradeDialogInterface = gradeDialogInterface;
         this.context = context;
-        this.studentId = studentId;
+        if (submission.getGrade() != null || submission.getScore() != null) {
+            if (submission.getGrade() == null) {
+                this.grade = String.valueOf(submission.getScore());
+            } else {
+                this.grade = String.valueOf(submission.getGrade());
+            }
+        } else {
+            this.grade = "";
+        }
+        this.feedback = submission.getFeedback();
+        this.studentId = submission.getStudentId();
     }
 
     @Override
@@ -79,7 +91,7 @@ public class GradeFeedbackDialog extends Dialog implements DialogInterface.OnSho
         feedbackTextView = findViewById(R.id.tv_feedback);
         submitButton = findViewById(R.id.submit_btn);
         studentGradeEditText.setText(grade);
-        studentFeedbackEditText.setText(feedback);
+        studentFeedbackEditText.setText((feedback != null) ? feedback.getContent() : "");
 
     }
 

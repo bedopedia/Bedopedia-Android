@@ -58,6 +58,8 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     private LinearLayout skeletonLayout;
     private ShimmerFrameLayout shimmer;
     private LayoutInflater inflater;
+    private StudentSubmission submission;
+    private ArrayList<StudentSubmission> studentSubmissions;
 
     @Nullable
     @Override
@@ -176,6 +178,7 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     public void onGetAssignmentSubmissionsSuccess(ArrayList<StudentSubmission> submissions) {
         if (activity.progress.isShowing()) activity.progress.dismiss();
         showSkeleton(false);
+        this.studentSubmissions = submissions;
         adapter.addData(submissions);
     }
 
@@ -199,7 +202,17 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
                 feedback.setToId(studentSubmission.getStudentId());
                 feedback.setToType("Student");
                 activity.showLoadingDialog();
-                gradingView.postSubmissionFeedback(feedback);
+                for (StudentSubmission listSubmission : studentSubmissions) {
+                    if (listSubmission.getId() == studentSubmission.getId()) {
+                        feedback.setId((listSubmission.getFeedback() != null) ? listSubmission.getFeedback().getId() : null);
+                        break;
+                    }
+                }
+                if (feedback.getId() == null) {
+                    gradingView.postSubmissionFeedback(feedback, true);
+                } else {
+                    gradingView.postSubmissionFeedback(feedback,false);
+                }
             } else {
                 fetchData();
             }
@@ -219,6 +232,7 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
         if (activity.progress.isShowing()) activity.progress.dismiss();
         showSkeleton(false);
         adapter.setIsQuizzes();
+        this.studentSubmissions = studentSubmissions;
         adapter.addData(studentSubmissions);
         pullRefreshLayout.setRefreshing(false);
     }
@@ -253,7 +267,12 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
                 feedback.setToId(studentSubmission.getStudentId());
                 feedback.setToType("Student");
                 activity.showLoadingDialog();
-                gradingView.postSubmissionFeedback(feedback);
+                feedback.setId((submission.getFeedback() != null) ? submission.getFeedback().getId() : null);
+                if (studentSubmission.getFeedback() == null) {
+                    gradingView.postSubmissionFeedback(feedback, true);
+                } else {
+                    gradingView.postSubmissionFeedback(feedback,false);
+                }
             } else {
                 fetchData();
             }
@@ -270,8 +289,9 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     }
 
     @Override
-    public void onItemCLicked(String grade, String feedback, int studentId) {
-        gradeFeedbackDialog = new GradeFeedbackDialog(activity, R.style.GradeDialog, this, grade, feedback, studentId);
+    public void onItemCLicked(StudentSubmission submission) {
+        this.submission = submission;
+        gradeFeedbackDialog = new GradeFeedbackDialog(activity, R.style.GradeDialog, this, submission);
         gradeFeedbackDialog.show();
     }
 

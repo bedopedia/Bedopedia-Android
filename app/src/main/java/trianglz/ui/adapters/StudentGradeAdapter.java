@@ -85,8 +85,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
             }
             holder.studentName.setText(submission.getStudentName());
             holder.itemView.setOnClickListener(view -> {
-                studentGradeInterface.onItemCLicked(grade
-                        , holder.studentFeedback.getText().toString(), submission.getStudentId());
+                studentGradeInterface.onItemCLicked(submission);
 
             });
             holder.downloadAssignmentBtn.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +112,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
             holder.studentName.setText(submission.getStudentName());
                 holder.itemView.setOnClickListener(view -> {
 
-                    studentGradeInterface.onItemCLicked(grade
-                            , holder.studentFeedback.getText().toString(), submission.getStudentId());
+                    studentGradeInterface.onItemCLicked(submission);
 
                 });
             holder.downloadAssignmentBtn.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +158,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
     }
 
     public interface StudentGradeInterface {
-        void onItemCLicked(String grade, String feedback, int studentId);
+        void onItemCLicked(StudentSubmission submission);
 
         void onDownloadButtonClick();
     }

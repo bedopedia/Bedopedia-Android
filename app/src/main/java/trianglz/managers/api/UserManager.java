@@ -916,6 +916,34 @@ public class UserManager {
             }
         });
     }
+    public static void putSubmissionFeedback(Feedback feedback, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.putSubmissionFeedback(feedback.getId());
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject = new JSONObject(feedback.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject parentJsonObject = new JSONObject();
+        try {
+            parentJsonObject.putOpt(Constants.KEY_FEED_BACK, jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String headers = Util.convertHeaderMapToBulk(headerHashMap);
+        NetworkManager.put(url, parentJsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
 
     public static void createTeacherPost(String url, String post, int ownerId, int courseGroupId, String postableType, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
