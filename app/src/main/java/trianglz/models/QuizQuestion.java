@@ -41,7 +41,7 @@ public class QuizQuestion {
     @SerializedName("state")
     private String state;
     @SerializedName("total_score")
-    private int totalScore;
+    private double totalScore;
     @SerializedName("lesson_id")
     private int lessonId;
     @SerializedName("student_solved")
@@ -192,11 +192,11 @@ public class QuizQuestion {
         return this.state;
     }
 
-    public void setTotalScore(int totalScore) {
+    public void setTotalScore(double totalScore) {
         this.totalScore = totalScore;
     }
 
-    public int getTotalScore() {
+    public double getTotalScore() {
         return this.totalScore;
     }
 
