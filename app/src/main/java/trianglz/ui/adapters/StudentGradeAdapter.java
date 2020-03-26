@@ -2,14 +2,15 @@ package trianglz.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.skolera.skolera_android.R;
 
@@ -84,8 +85,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
             }
             holder.studentName.setText(submission.getStudentName());
             holder.itemView.setOnClickListener(view -> {
-                studentGradeInterface.onItemCLicked(grade
-                        , holder.studentFeedback.getText().toString(), submission.getStudentId());
+                studentGradeInterface.onItemCLicked(submission);
 
             });
             holder.downloadAssignmentBtn.setOnClickListener(new View.OnClickListener() {
@@ -112,8 +112,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
             holder.studentName.setText(submission.getStudentName());
                 holder.itemView.setOnClickListener(view -> {
 
-                    studentGradeInterface.onItemCLicked(grade
-                            , holder.studentFeedback.getText().toString(), submission.getStudentId());
+                    studentGradeInterface.onItemCLicked(submission);
 
                 });
             holder.downloadAssignmentBtn.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +158,7 @@ public class StudentGradeAdapter extends RecyclerView.Adapter<StudentGradeAdapte
     }
 
     public interface StudentGradeInterface {
-        void onItemCLicked(String grade, String feedback, int studentId);
+        void onItemCLicked(StudentSubmission submission);
 
         void onDownloadButtonClick();
     }

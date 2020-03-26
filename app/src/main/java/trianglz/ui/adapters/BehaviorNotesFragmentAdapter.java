@@ -1,23 +1,20 @@
 package trianglz.ui.adapters;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import trianglz.models.BehaviorNote;
 import trianglz.ui.fragments.NegativeFragment;
 import trianglz.ui.fragments.OtherFragment;
 import trianglz.ui.fragments.PositiveFragment;
-import trianglz.models.BehaviorNote;
-import trianglz.utils.Constants;
 
 
 /**

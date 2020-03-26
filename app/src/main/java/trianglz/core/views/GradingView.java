@@ -87,17 +87,31 @@ public class GradingView {
         });
     }
 
-    public void postSubmissionFeedback(Feedback feedback) {
-        UserManager.postSubmissionFeedback(feedback, new ResponseListener() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                gradingPresenter.onPostFeedbackSuccess(Feedback.create(response.toString()));
-            }
+    public void postSubmissionFeedback(Feedback feedback, boolean firstFeedback) {
+        if (firstFeedback) {
+            UserManager.postSubmissionFeedback(feedback, new ResponseListener() {
+                @Override
+                public void onSuccess(JSONObject response) {
+                    gradingPresenter.onPostFeedbackSuccess(Feedback.create(response.toString()));
+                }
 
-            @Override
-            public void onFailure(String message, int errorCode) {
-                gradingPresenter.onPostFeedbackFailure(message, errorCode);
-            }
-        });
+                @Override
+                public void onFailure(String message, int errorCode) {
+                    gradingPresenter.onPostFeedbackFailure(message, errorCode);
+                }
+            });
+        } else {
+            UserManager.putSubmissionFeedback(feedback, new ResponseListener() {
+                @Override
+                public void onSuccess(JSONObject response) {
+                    gradingPresenter.onPostFeedbackSuccess(Feedback.create(response.toString()));
+                }
+
+                @Override
+                public void onFailure(String message, int errorCode) {
+                    gradingPresenter.onPostFeedbackFailure(message, errorCode);
+                }
+            });
+        }
     }
 }

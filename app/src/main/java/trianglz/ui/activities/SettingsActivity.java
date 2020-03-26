@@ -7,11 +7,12 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.skolera.skolera_android.R;
 
@@ -24,6 +25,7 @@ import trianglz.core.presenters.SettingsPresenter;
 import trianglz.core.views.SettingsView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
+import trianglz.ui.changepassword.ChangePasswordActivity;
 
 public class SettingsActivity extends SuperActivity implements View.OnClickListener, ErrorDialog.DialogConfirmationInterface, ChangePasswordDialog.DialogConfirmationInterface, SettingsPresenter {
 
@@ -86,8 +88,7 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
                 errorDialogue.show();
                 break;
             case R.id.btn_change_password:
-                ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog(this, this, getResources().getString(R.string.change_password));
-                changePasswordDialog.show();
+                startActivity(new Intent(this, ChangePasswordActivity.class));
                 break;
             case R.id.btn_share_app:
                 shareApp();

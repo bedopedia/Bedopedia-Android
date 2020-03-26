@@ -3,9 +3,10 @@ package trianglz.components;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 /**
  * This file is spawned by Gemy on 10/30/2018.

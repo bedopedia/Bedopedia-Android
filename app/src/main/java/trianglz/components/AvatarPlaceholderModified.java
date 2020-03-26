@@ -9,8 +9,9 @@ import android.graphics.PixelFormat;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.Typeface;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
 
 import agency.tango.android.avatarview.AvatarPlaceholder;
 import trianglz.utils.Util;

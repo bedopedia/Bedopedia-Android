@@ -10,7 +10,7 @@
     android:background="@color/snow"
     tools:context="trianglz.ui.activities.QuizzesDetailsActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -63,7 +63,7 @@
                     android:id="@+id/img_student" />
             </LinearLayout>
 
-            <android.support.design.widget.TabLayout
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,25 +73,25 @@
                 app:tabTextColor="@color/greyish_brown"
                 app:tabTextAppearance="@style/TabStyle">
 
-                <android.support.design.widget.TabItem
+                <com.google.android.material.tabs.TabItem
                     android:id="@+id/open_tab"
                     android:text="@string/open"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
 
-                <android.support.design.widget.TabItem
+                <com.google.android.material.tabs.TabItem
                     android:id="@+id/closed_tab"
                     android:text="@string/closed"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
 
-            </android.support.design.widget.TabLayout>
+            </com.google.android.material.tabs.TabLayout>
 
         </LinearLayout>
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -103,7 +103,7 @@
 
             <include layout="@layout/item_shimmer_layout" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -134,6 +134,6 @@
                     android:text="@string/open_quizzes_placeholder" />
             </LinearLayout>
         </FrameLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
 

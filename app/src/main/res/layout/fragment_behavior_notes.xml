@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -86,7 +86,7 @@
 
 
 
-                <android.support.design.widget.TabLayout
+                <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -97,28 +97,28 @@
                     app:tabTextColor="@color/steel"
                     app:tabTextAppearance="@style/BehaviorNoteTabStyle">
 
-                    <android.support.design.widget.TabItem
+                    <com.google.android.material.tabs.TabItem
                         android:id="@+id/open_tab"
                         android:text="@string/positiveBehaviorNotes"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" />
 
-                    <android.support.design.widget.TabItem
+                    <com.google.android.material.tabs.TabItem
                         android:text="@string/negativeBehaviorNotes"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" />
-                    <android.support.design.widget.TabItem
+                    <com.google.android.material.tabs.TabItem
                         android:text="@string/other"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" />
-                </android.support.design.widget.TabLayout>
+                </com.google.android.material.tabs.TabLayout>
 
             </LinearLayout>
 
 
 
 
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
         <View
             android:layout_width="match_parent"
