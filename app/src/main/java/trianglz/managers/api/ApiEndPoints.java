@@ -142,7 +142,7 @@ public class ApiEndPoints {
     }
 
     public static String getAnnouncementUrl(int pageNumber, String user_type, int numberPerPage) {
-
+        if (user_type.equals("admin")) user_type = "";
         return "/api/announcements?order_by_end_at=asc&page=" + pageNumber + "&per_page=" + numberPerPage + "&running_announcement=true&user_type=" + user_type;
 
     }
