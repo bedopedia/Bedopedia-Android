@@ -307,4 +307,5 @@
     <string name="note">الملاحظة: %1$s</string>
     <string name="location">المكان: %1$s</string>
     <string name="consequence">النتيجة: %1$s</string>
+    <string name="thread">محادثة</string>
 </resources>

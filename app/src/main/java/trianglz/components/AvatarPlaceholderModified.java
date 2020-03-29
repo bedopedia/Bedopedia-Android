@@ -137,6 +137,7 @@ public class AvatarPlaceholderModified extends AvatarPlaceholder {
                     return "";
                 }
             } else {
+                if (nameArray.length == 0) return "";
                 String first = nameArray[0];
                 return first.substring(0, 1).toUpperCase();
             }
