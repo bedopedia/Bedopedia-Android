@@ -370,6 +370,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
             if (page == 1)
                 showSkeleton(true);
             isCalling = true;
+            if (quizzes != null) quizzes.clear();
             quizzesDetailsView.getQuizzesDetails(quizzCourse.getId());
         } else {
             Util.showNoInternetConnectionDialog(getActivity());
