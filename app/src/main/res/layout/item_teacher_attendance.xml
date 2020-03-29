@@ -59,14 +59,12 @@
         android:layout_marginEnd="14dp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal">
-        <me.grantland.widget.AutofitLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
-        <Button
+
+        <com.marcouberti.autofitbutton.AutoFitButton
             android:textAllCaps="false"
             android:id="@+id/present_btn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:drawablePadding="4dp"
             android:textSize="12sp"
@@ -81,15 +79,12 @@
             android:paddingHorizontal="4dp"
             style="?android:attr/borderlessButtonStyle"
             android:background="@drawable/curved_white_four" />
-        </me.grantland.widget.AutofitLayout>
-        <me.grantland.widget.AutofitLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
-        <Button
+
+        <com.marcouberti.autofitbutton.AutoFitButton
             android:textAllCaps="false"
             android:id="@+id/late_btn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:gravity="center_vertical|start"
             android:includeFontPadding="false"
             android:drawablePadding="8dp"
@@ -105,15 +100,12 @@
             android:text="@string/late"
             style="?android:attr/borderlessButtonStyle"
             android:paddingHorizontal="4dp" />
-        </me.grantland.widget.AutofitLayout>
-        <me.grantland.widget.AutofitLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
-        <Button
+
+        <com.marcouberti.autofitbutton.AutoFitButton
             android:textAllCaps="false"
             android:id="@+id/absent_btn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_marginEnd="10dp"
             android:drawablePadding="4dp"
             android:gravity="center_vertical|start"
@@ -129,15 +121,12 @@
             android:text="@string/absent"
             style="?android:attr/borderlessButtonStyle"
             android:paddingHorizontal="4dp" />
-        </me.grantland.widget.AutofitLayout>
-        <me.grantland.widget.AutofitLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
-        <Button
+
+        <com.marcouberti.autofitbutton.AutoFitButton
             android:textAllCaps="false"
             android:id="@+id/excused_btn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:includeFontPadding="false"
             android:drawablePadding="4dp"
@@ -152,7 +141,6 @@
             android:drawableStart="@drawable/not_excused"
             android:text="@string/excused"
             android:paddingHorizontal="4dp" />
-        </me.grantland.widget.AutofitLayout>
     </LinearLayout>
 </LinearLayout>
 </androidx.cardview.widget.CardView>
