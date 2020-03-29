@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 ext.versionMajor = 3
 ext.versionMinor = 0
-ext.versionPatch = 9
+ext.versionPatch = 10
 ext.versionClassifier = null
 ext.isSnapshot = false
 ext.minimumSdkVersion = 23
