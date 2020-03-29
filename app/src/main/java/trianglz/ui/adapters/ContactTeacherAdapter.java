@@ -53,7 +53,7 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
     public void onBindViewHolder(final Holder holder, final int position) {
         MessageThread messageThread = mDataList.get(position);
         String name  = "";
-        String[] nameArray = messageThread.name.split(" ");
+        String[] nameArray = messageThread.otherNames.split(" ");
         if(nameArray.length>1){
             String first  = nameArray[0];
             String last = nameArray[nameArray.length-1];
@@ -67,6 +67,7 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
         }else {
             name  = nameArray[0];
         }
+        if (name.equals("&")) name = context.getString(R.string.thread);
         holder.teacherName.setText(name);
         if(!messageThread.courseName.isEmpty() && !messageThread.courseName.equals("null")){
             holder.subjectTextView.setText(messageThread.courseName);
@@ -127,12 +128,14 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
     }
 
 
-    private void setTeacherImage(String imageUrl, final String name, final Holder holder) {
+    private void setTeacherImage(String imageUrl, String name, final Holder holder) {
+        if (name.trim().equals("&")) name = " ";
         if (imageUrl == null || imageUrl.equals("")) {
             imageLoader = new PicassoLoader();
             imageLoader.loadImage(holder.teacherImageView, new AvatarPlaceholderModified(name), "Path of Image");
         } else {
             imageLoader = new PicassoLoader();
+            final String avatarName = name;
             imageLoader.loadImage(holder.teacherImageView, new AvatarPlaceholderModified(name), "Path of Image");
             Transformation transformation = new RoundedTransformationBuilder()
                     .oval(true)
@@ -153,7 +156,7 @@ public class ContactTeacherAdapter extends RecyclerView.Adapter<ContactTeacherAd
                         @Override
                         public void onError() {
                             imageLoader = new PicassoLoader();
-                            imageLoader.loadImage(holder.teacherImageView, new AvatarPlaceholderModified(name), "Path of Image");
+                            imageLoader.loadImage(holder.teacherImageView, new AvatarPlaceholderModified(avatarName), "Path of Image");
                         }
                     });
         }

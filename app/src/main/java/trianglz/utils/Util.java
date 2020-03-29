@@ -201,11 +201,12 @@ public class Util {
     public static String getPostDate(String messageTime, Context context) {
         String finalData = "";
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
-
+        fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = null;
         try {
             date = fmt.parse(messageTime);
             SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy", new Locale(getLocale(context)));
+            fmtOut.setTimeZone(TimeZone.getDefault());
             finalData = fmtOut.format(date);
 
         } catch (ParseException e) {
@@ -217,11 +218,12 @@ public class Util {
     public static String getPostDateAmPm(String messageTime, Context context) {
         String finalData = "";
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
-
+        fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = null;
         try {
             date = fmt.parse(messageTime);
             SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM yyyy, h:mm aa", new Locale(getLocale(context)));
+            fmtOut.setTimeZone(TimeZone.getDefault());
             finalData = fmtOut.format(date);
 
         } catch (ParseException e) {
@@ -233,11 +235,12 @@ public class Util {
     public static String getTimeAndDate(String messageTime, Context context) {
         String finalData = "";
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
-
+        fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = null;
         try {
             date = fmt.parse(messageTime);
             SimpleDateFormat fmtOut = new SimpleDateFormat("dd MMM 'at' h:mm aa", new Locale(getLocale(context)));
+            fmtOut.setTimeZone(TimeZone.getDefault());
             finalData = fmtOut.format(date);
 
         } catch (ParseException e) {
@@ -249,11 +252,12 @@ public class Util {
     public static String getTimeAm(String messageTime, Context context) {
         String finalData = "";
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
-
+        fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = null;
         try {
             date = fmt.parse(messageTime);
             SimpleDateFormat fmtOut = new SimpleDateFormat("h:mm aa", new Locale(getLocale(context)));
+            fmtOut.setTimeZone(TimeZone.getDefault());
             finalData = fmtOut.format(date);
 
         } catch (ParseException e) {
@@ -561,10 +565,12 @@ public class Util {
         }
         String formattedDay = "";
         SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        inFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date;
         try {
             date = inFormat.parse(endDate);
             SimpleDateFormat outFormat = new SimpleDateFormat("dd");
+            outFormat.setTimeZone(TimeZone.getDefault());
             formattedDay = outFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -600,6 +606,7 @@ public class Util {
         }
         String formattedDay = "";
         SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        inFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date;
         try {
             date = inFormat.parse(endDate);
@@ -609,6 +616,7 @@ public class Util {
             } else {
                 outFormat = new SimpleDateFormat("MMM");
             }
+            outFormat.setTimeZone(TimeZone.getDefault());
             formattedDay = outFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
