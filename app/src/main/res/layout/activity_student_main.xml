@@ -121,16 +121,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
-                    android:autoSizeMaxTextSize="12sp"
-                    android:autoSizeMinTextSize="7sp"
+                    app:autoSizeMaxTextSize="12sp"
+                    app:autoSizeMinTextSize="7sp"
+                    app:autoSizeTextType="uniform"
                     android:paddingEnd="4dp"
                     android:paddingStart="4dp"
-                    android:autoSizeTextType="uniform"
                     android:gravity="center_horizontal"
                     android:text="@string/courses"
                     android:textColor="@color/cerulean_blue"
                     android:visibility="gone"
-                    tools:targetApi="o" />
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -158,16 +158,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
-                    android:autoSizeMaxTextSize="12sp"
-                    android:autoSizeMinTextSize="7sp"
+                    app:autoSizeMaxTextSize="12sp"
+                    app:autoSizeMinTextSize="7sp"
+                    app:autoSizeTextType="uniform"
                     android:paddingEnd="4dp"
                     android:paddingStart="4dp"
-                    android:autoSizeTextType="uniform"
                     android:gravity="center_horizontal"
                     android:text="@string/announcements"
                     android:textColor="@color/new_blue"
                     android:visibility="gone"
-                    tools:targetApi="o" />
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -194,16 +194,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
-                    android:autoSizeMaxTextSize="12sp"
-                    android:autoSizeMinTextSize="7sp"
-                    android:autoSizeTextType="uniform"
+                    app:autoSizeMaxTextSize="12sp"
+                    app:autoSizeMinTextSize="7sp"
+                    app:autoSizeTextType="uniform"
                     android:gravity="center_horizontal"
                     android:paddingEnd="4dp"
                     android:paddingStart="4dp"
                     android:text="@string/messages"
                     android:textColor="@color/new_blue"
                     android:visibility="gone"
-                    tools:targetApi="o" />
+                    />
             </LinearLayout>
 
             <FrameLayout
@@ -235,9 +235,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="0.5"
-                        android:autoSizeMaxTextSize="12sp"
-                        android:autoSizeMinTextSize="7sp"
-                        android:autoSizeTextType="uniform"
+                        app:autoSizeMaxTextSize="12sp"
+                        app:autoSizeMinTextSize="7sp"
+                        app:autoSizeTextType="uniform"
                         android:paddingEnd="4dp"
                         android:paddingStart="4dp"
                         android:gravity="center_horizontal"
@@ -245,7 +245,7 @@
                         android:text="@string/notifications"
                         android:textColor="@color/new_blue"
                         android:visibility="gone"
-                        tools:targetApi="o" />
+                        />
                 </LinearLayout>
 
                 <ImageView
@@ -285,15 +285,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
-                    android:autoSizeMaxTextSize="12sp"
-                    android:autoSizeMinTextSize="7sp"
+                    app:autoSizeMaxTextSize="12sp"
+                    app:autoSizeMinTextSize="7sp"
+                    app:autoSizeTextType="uniform"
                     android:paddingEnd="4dp"
                     android:paddingStart="4dp"
-                    android:autoSizeTextType="uniform"
                     android:gravity="center_horizontal"
                     android:text="@string/profile"
                     android:textColor="@color/new_blue"
-                    tools:targetApi="o" />
+                    />
             </LinearLayout>
 
         </LinearLayout>
