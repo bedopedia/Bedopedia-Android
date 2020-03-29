@@ -192,7 +192,6 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onPostAssignmentGradeSuccess(StudentSubmission studentSubmission) {
         if (feedBack != null) {
-            if (!feedBack.isEmpty()) {
                 String userId = SessionManager.getInstance().getUserId();
                 Feedback feedback = new Feedback();
                 feedback.setContent(feedBack);
@@ -213,9 +212,6 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
                 } else {
                     gradingView.postSubmissionFeedback(feedback,false);
                 }
-            } else {
-                fetchData();
-            }
         } else {
             fetchData();
         }
@@ -257,7 +253,6 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onPostQuizGradeSuccess(StudentSubmission studentSubmission) {
         if (feedBack != null) {
-            if (!feedBack.isEmpty()) {
                 String userId = SessionManager.getInstance().getUserId();
                 Feedback feedback = new Feedback();
                 feedback.setContent(feedBack);
@@ -273,9 +268,6 @@ public class GradingFragment extends Fragment implements View.OnClickListener, S
                 } else {
                     gradingView.postSubmissionFeedback(feedback,false);
                 }
-            } else {
-                fetchData();
-            }
         } else {
             fetchData();
         }
