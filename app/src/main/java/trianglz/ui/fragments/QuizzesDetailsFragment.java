@@ -104,6 +104,7 @@ public class QuizzesDetailsFragment extends Fragment implements View.OnClickList
     }
 
     private void getTeacherQuizzes() {
+        if (quizzes != null) quizzes.clear();
         quizzesDetailsView.getTeacherQuizzes(courseGroup.getId() + "");
         showSkeleton(true);
         isCalling = true;
