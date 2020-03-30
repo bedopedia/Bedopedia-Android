@@ -105,14 +105,18 @@
 
     </RelativeLayout>
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="200dp">
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="wrap_content">
 
         <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/compactcalendar_view"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="270dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             app:compactCalendarBackgroundColor="@android:color/transparent"
@@ -122,11 +126,12 @@
             app:compactCalendarCurrentSelectedDayTextColor="@color/black"
             app:compactCalendarMultiEventIndicatorColor="@color/jade_green"
             app:compactCalendarOtherMonthDaysTextColor="@color/black"
-            app:compactCalendarTargetHeight="230dp"
+            app:compactCalendarTargetHeight="270dp"
             app:compactCalendarTextColor="@color/black"
             app:compactCalendarTextSize="12sp" />
 
     </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <FrameLayout
         android:layout_width="match_parent"
