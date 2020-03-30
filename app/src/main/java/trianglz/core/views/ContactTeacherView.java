@@ -162,7 +162,7 @@ public class ContactTeacherView {
                 } else {
                     sender = new User(-1, "Deleted User", "", "", "",
                             "", "");
-                    id = -1;
+                    if (!otherNames.trim().equals("&")) id = -1;
 
                 }
                 String attachmentUrl = messageObj.opt(Constants.KEY_ATTACHMENT_URL).toString();

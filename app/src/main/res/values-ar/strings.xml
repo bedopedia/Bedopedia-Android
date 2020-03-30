@@ -308,4 +308,5 @@
     <string name="location">المكان: %1$s</string>
     <string name="consequence">النتيجة: %1$s</string>
     <string name="thread">محادثة</string>
+    <string name="thread_error">هذه الرسالة غير متاحة الآن, تحقق منها على الموقع</string>
 </resources>

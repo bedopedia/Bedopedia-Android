@@ -330,4 +330,5 @@
     <string name="location">Location: %1$s</string>
     <string name="consequence">Consequence: %1$s</string>
     <string name="thread">Thread</string>
+    <string name="thread_error">This thread is not available right now, check it on the website</string>
 </resources>

@@ -174,7 +174,11 @@ public class MessagesFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onGetSingleThreadFailure(String message, int errorCode) {
-        activity.showErrorDialog(activity, errorCode, "");
+        if (errorCode == 500) {
+            activity.showErrorDialog(activity, -3, getContext().getString(R.string.thread_error));
+        } else {
+            activity.showErrorDialog(activity, errorCode, "");
+        }
         isOpeningThread = false;
     }
 
