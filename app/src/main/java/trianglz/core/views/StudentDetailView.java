@@ -236,12 +236,9 @@ public class StudentDetailView {
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 
         for (TimeTableSlot timeSlotIterator : todaySlots) {
-            if ((timeSlotIterator.getFrom().getHours() == current.getHours() && timeSlotIterator.getFrom().getMinutes() >= current.getMinutes()) ||
-                    timeSlotIterator.getFrom().getHours() > current.getHours()) {
                 nextSlotFound = true;
                 nextSlot = ("Next: " + timeSlotIterator.getCourseName() + ", " + timeSlotIterator.getDay() + " " + dateFormat.format(timeSlotIterator.getFrom()));
                 break;
-            }
         }
         if (!nextSlotFound && tomorrowSlots.size() > 0) {
             TimeTableSlot timeSlot = tomorrowSlots.get(0);
