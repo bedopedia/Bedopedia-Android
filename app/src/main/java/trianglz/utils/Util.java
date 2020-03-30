@@ -431,8 +431,7 @@ public class Util {
                 try {
                     connection = new URL(message.attachmentUrl).openConnection();
                     String contentType = connection.getHeaderField("Content-Type");
-                    boolean isImage = contentType.startsWith("image/");
-                    message.isImage = isImage;
+                    message.isImage = (contentType != null) && contentType.startsWith("image/");
                     mimeTypeInterface.onCheckType(message, position);
                 } catch (IOException e) {
                     e.printStackTrace();
