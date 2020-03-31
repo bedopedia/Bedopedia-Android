@@ -57,7 +57,7 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
         }
         if (assignmentsDetail.getEndAt() != null) {
             holder.dateTextView.setText(Util.getPostDateAmPm(assignmentsDetail.getEndAt(), context));
-            holder.dueTimeTextView.setText(Util.getTimeAm(assignmentsDetail.getEndAt(), context));
+            holder.dueTimeTextView.setText(Util.getTimeAm(assignmentsDetail.getEndAt(), context,false));
         }
 
         if (assignmentsDetail.getEndAt() != null) {

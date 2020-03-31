@@ -62,7 +62,7 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
         }
         if (quizzes.getEndDate() != null) {
             holder.dateTextView.setText(Util.getPostDateAmPm(quizzes.getEndDate(), context));
-            holder.dueTimeTextView.setText(Util.getTimeAm(quizzes.getEndDate(), context));
+            holder.dueTimeTextView.setText(Util.getTimeAm(quizzes.getEndDate(), context, true));
 
         }
 
