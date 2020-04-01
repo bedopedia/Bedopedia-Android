@@ -85,6 +85,7 @@ public class ContactTeacherView {
                     "", "");
         }
         String attachmentUrl = "", fileName = "", ext = "";
+        boolean isImage = false;
         try {
             if (messageObj.getJSONArray(Constants.KEY_UPLOADED_FILES) != null && messageObj.getJSONArray(Constants.KEY_UPLOADED_FILES).optJSONObject(0) != null) {
                 if (messageObj.optJSONArray(Constants.KEY_UPLOADED_FILES).optJSONObject(0).optString(Constants.KEY_URL) != null)
@@ -92,8 +93,11 @@ public class ContactTeacherView {
                 if (messageObj.optJSONArray(Constants.KEY_UPLOADED_FILES).optJSONObject(0).optString(Constants.KEY_NAME) != null) {
                     fileName = messageObj.optJSONArray(Constants.KEY_UPLOADED_FILES).optJSONObject(0).optString(Constants.KEY_NAME);
                     String[] tokens = fileName.split("\\.(?=[^\\.]+$)");
-                    if (tokens.length > 1 ) ext = tokens[1];
+                    if (tokens.length > 1) ext = tokens[1];
                 }
+            } else {
+                attachmentUrl = messageObj.optString(Constants.KEY_ATTACHMENT_URL);
+                isImage = true;
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -105,6 +109,7 @@ public class ContactTeacherView {
         String updatedAt = messageObj.optString(Constants.KEY_UPADTED_AT);
         int messageThreadId = messageObj.optInt(Constants.KEY_ID);
         Message message = new Message(attachmentUrl, body, createdAt, ext, fileName, sender.id, messageThreadId, updatedAt, sender);
+        message.isImage = isImage;
         return message;
     }
 
