@@ -558,18 +558,18 @@ public class Util {
         return formattedStartDate;
     }
 
-    public static String getAssigmentDetailEndDateDay(String endDate) {
+    public static String getEndDateDay(String endDate, boolean isQuiz) {
         if (endDate == null || endDate.isEmpty()) {
             return "";
         }
         String formattedDay = "";
         SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        inFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        if (isQuiz) inFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date;
         try {
             date = inFormat.parse(endDate);
             SimpleDateFormat outFormat = new SimpleDateFormat("dd");
-            outFormat.setTimeZone(TimeZone.getDefault());
+            if (isQuiz) outFormat.setTimeZone(TimeZone.getDefault());
             formattedDay = outFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -599,13 +599,13 @@ public class Util {
         }
     }
 
-    public static String getAssigmentDetailEndDateMonth(String endDate, Context context) {
+    public static String getEndDateMonth(String endDate, Context context, boolean isQuiz) {
         if (endDate == null || endDate.isEmpty()) {
             return "";
         }
         String formattedDay = "";
         SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        inFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        if (isQuiz) inFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date;
         try {
             date = inFormat.parse(endDate);
@@ -615,7 +615,7 @@ public class Util {
             } else {
                 outFormat = new SimpleDateFormat("MMM");
             }
-            outFormat.setTimeZone(TimeZone.getDefault());
+            if (isQuiz) outFormat.setTimeZone(TimeZone.getDefault());
             formattedDay = outFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();

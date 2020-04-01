@@ -61,8 +61,8 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
         }
 
         if (assignmentsDetail.getEndAt() != null) {
-            holder.dayTextView.setText(Util.getAssigmentDetailEndDateDay(assignmentsDetail.getEndAt()));
-            holder.monthTextView.setText(Util.getAssigmentDetailEndDateMonth(assignmentsDetail.getEndAt(), context));
+            holder.dayTextView.setText(Util.getEndDateDay(assignmentsDetail.getEndAt(), false));
+            holder.monthTextView.setText(Util.getEndDateMonth(assignmentsDetail.getEndAt(), context, false));
         }
         if (assignmentsDetail.getName() != null) {
             holder.assignmentNameTextView.setText(assignmentsDetail.getName());
