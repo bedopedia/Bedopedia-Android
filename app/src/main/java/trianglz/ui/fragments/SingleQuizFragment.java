@@ -145,8 +145,8 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         }
 
         if (quizzes.getEndDate() != null) {
-            dayTextView.setText(Util.getAssigmentDetailEndDateDay(quizzes.getEndDate()));
-            monthTextView.setText(Util.getAssigmentDetailEndDateMonth(quizzes.getEndDate(), activity));
+            dayTextView.setText(Util.getEndDateDay(quizzes.getEndDate(), true));
+            monthTextView.setText(Util.getEndDateMonth(quizzes.getEndDate(), activity, true));
         }
         if (quizzes.getName() != null) {
             assignmentNameTextView.setText(quizzes.getName());

@@ -62,13 +62,13 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
         }
         if (quizzes.getEndDate() != null) {
             holder.dateTextView.setText(Util.getPostDateAmPm(quizzes.getEndDate(), context));
-            holder.dueTimeTextView.setText(Util.getTimeAm(quizzes.getEndDate(), context));
+            holder.dueTimeTextView.setText(Util.getTimeAm(quizzes.getEndDate(), context, true));
 
         }
 
         if (quizzes.getEndDate() != null) {
-            holder.dayTextView.setText(Util.getAssigmentDetailEndDateDay(quizzes.getEndDate()));
-            holder.monthTextView.setText(Util.getAssigmentDetailEndDateMonth(quizzes.getEndDate(), context));
+            holder.dayTextView.setText(Util.getEndDateDay(quizzes.getEndDate(), true));
+            holder.monthTextView.setText(Util.getEndDateMonth(quizzes.getEndDate(), context, true));
         }
         if (quizzes.getName() != null) {
             holder.assignmentNameTextView.setText(quizzes.getName());

@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.tabs.TabLayout;
@@ -95,8 +94,6 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_time_table, container, false);
-        mViewPager = rootView.findViewById(R.id.timetable_container);
-        mViewPager.setPagingEnabled(true);
         bindViews();
         setListeners();
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())||SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
@@ -106,20 +103,14 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         return rootView;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+    private void bindViews() {
         mSectionsPagerAdapter = new TimetableAdapter(getChildFragmentManager(), tomorrowSlots, todaySlots);
 
+        mViewPager = rootView.findViewById(R.id.timetable_container);
+        mViewPager.setPagingEnabled(true);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(0);
         mViewPager.setHorizontalScrollBarEnabled(false);
-
-    }
-
-    private void bindViews() {
-
         backBtn = rootView.findViewById(R.id.back_btn);
         studentImage = rootView.findViewById(R.id.img_student);
         tabLayout = rootView.findViewById(R.id.tab_layout);

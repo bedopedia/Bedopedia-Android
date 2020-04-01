@@ -447,6 +447,7 @@ public class UserManager {
     public static void getSingleThread(String url, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
+        String haspmap = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.getWithParameter(url, paramsHashMap, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -462,6 +463,7 @@ public class UserManager {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
         paramsHashMap.put(Constants.KEY_SOURCE, Constants.KEY_HOME);
+        String hasmap = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.getJsonArray(url + "", paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {

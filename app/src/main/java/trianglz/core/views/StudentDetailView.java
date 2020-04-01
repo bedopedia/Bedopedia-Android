@@ -236,12 +236,9 @@ public class StudentDetailView {
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 
         for (TimeTableSlot timeSlotIterator : todaySlots) {
-            if ((timeSlotIterator.getFrom().getHours() == current.getHours() && timeSlotIterator.getFrom().getMinutes() >= current.getMinutes()) ||
-                    timeSlotIterator.getFrom().getHours() > current.getHours()) {
                 nextSlotFound = true;
                 nextSlot = ("Next: " + timeSlotIterator.getCourseName() + ", " + timeSlotIterator.getDay() + " " + dateFormat.format(timeSlotIterator.getFrom()));
                 break;
-            }
         }
         if (!nextSlotFound && tomorrowSlots.size() > 0) {
             TimeTableSlot timeSlot = tomorrowSlots.get(0);
@@ -454,7 +451,7 @@ public class StudentDetailView {
         for (int i = 0; i <= numberOfDays; i++) {
             DayWithDate dayWithDate = new DayWithDate();
             dayWithDate.date = (Util.getWeeklyPlannerDate(dateTime.toDate(), true));
-            dayWithDate.name = Util.getDayByNumber(i).substring(0, 3) + " " + Util.getWeeklyPlannerDate(dateTime.toDate(), false);
+            dayWithDate.name = Util.getDay(dateTime.toDate()) + " " + Util.getWeeklyPlannerDate(dateTime.toDate(), false);
             dayWithDates.add(dayWithDate);
             dateTime = dateTime.plusDays(1);
         }

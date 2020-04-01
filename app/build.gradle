@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 ext.versionMajor = 3
 ext.versionMinor = 0
-ext.versionPatch = 10
+ext.versionPatch = 13
 ext.versionClassifier = null
 ext.isSnapshot = false
 ext.minimumSdkVersion = 23
@@ -127,6 +127,8 @@ dependencies {
     implementation 'com.ethanhua:skeleton:1.1.2'
     implementation 'io.supercharge:shimmerlayout:2.1.0'
     implementation 'me.grantland:autofittextview:0.2.1'
+    implementation 'com.marcouberti.autofitbutton:android-auto-fit-button:0.1.1@aar'
+
 
 }
 

@@ -1,8 +1,12 @@
 package trianglz.ui.adapters;
 
+import android.content.Context;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import com.skolera.skolera_android.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,6 +15,7 @@ import java.util.List;
 import java.util.Locale;
 
 import Tools.CalendarUtils;
+import trianglz.managers.App;
 import trianglz.models.TimeTableSlot;
 import trianglz.ui.fragments.TodayFragment;
 import trianglz.ui.fragments.TomorrowFragment;
@@ -69,11 +74,14 @@ public class TimetableAdapter extends FragmentPagerAdapter {
         String tomorrowNumber = new SimpleDateFormat("dd", Locale.ENGLISH).format(date.getTime());
         today = today.toLowerCase();
         tomorrow = tomorrow.toLowerCase();
-
+        Context baseContext = App.getInstance().getBaseContext();
         if (position == 0)
 //            return todayNumber + " " + today + " - Today";
 //        return tomorrowNumber + " " + tomorrow + " - Tomorrow";
-            return "Today";
-        return "Tomorrow";
+        {
+
+            return baseContext.getString(R.string.today);
+        }
+        return baseContext.getString(R.string.tomorrow);
     }
 }

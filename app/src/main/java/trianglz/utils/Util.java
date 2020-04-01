@@ -249,15 +249,15 @@ public class Util {
         return finalData;
     }
 
-    public static String getTimeAm(String messageTime, Context context) {
+    public static String getTimeAm(String messageTime, Context context, boolean isQuiz) {
         String finalData = "";
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("en"));
-        fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
+        if (isQuiz) fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = null;
         try {
             date = fmt.parse(messageTime);
             SimpleDateFormat fmtOut = new SimpleDateFormat("h:mm aa", new Locale(getLocale(context)));
-            fmtOut.setTimeZone(TimeZone.getDefault());
+            if (isQuiz) fmtOut.setTimeZone(TimeZone.getDefault());
             finalData = fmtOut.format(date);
 
         } catch (ParseException e) {
@@ -269,10 +269,11 @@ public class Util {
     public static String getWeeklyPlannerDate(Date date, boolean isDate) {
         String finalData = "";
         SimpleDateFormat fmtOut;
+        Context baseContext = App.getInstance().getBaseContext();
         if (isDate) {
             fmtOut = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
         } else {
-            fmtOut = new SimpleDateFormat("dd/MM", new Locale("en"));
+            fmtOut = new SimpleDateFormat("dd/MM", new Locale(getLocale(baseContext)));
         }
 
         finalData = fmtOut.format(date);
@@ -431,8 +432,7 @@ public class Util {
                 try {
                     connection = new URL(message.attachmentUrl).openConnection();
                     String contentType = connection.getHeaderField("Content-Type");
-                    boolean isImage = contentType.startsWith("image/");
-                    message.isImage = isImage;
+                    message.isImage = (contentType != null) && contentType.startsWith("image/");
                     mimeTypeInterface.onCheckType(message, position);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -442,35 +442,13 @@ public class Util {
         });
     }
 
-    public static String getDayByNumber(int number) {
-        String string = "";
-        while (number > 7) number = number - 7;
-        switch (number + 1) {
-            case 1:
-                string = "Saturday";
-                break;
-            case 2:
-                string = "Sunday";
-                break;
-            case 3:
-                string = "Monday";
-                break;
-            case 4:
-                string = "Tuesday";
-                break;
-            case 5:
-                string = "Wednesday";
-                break;
-            case 6:
-                string = "Thursday";
-                break;
-            case 7:
-                string = "Friday";
-                break;
-            default:
-                return "Sun";
+    public static String getDay(Date date) {
+        SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
+        String day  = outFormat.format(date);
+        if (day.length() >= 2 && !getLocale(App.getInstance().getBaseContext()).equals("ar")) {
+            day = day.substring(0, 3);
         }
-        return string;
+        return day;
     }
 
     public static String getDayName(String dateString) {
@@ -559,18 +537,18 @@ public class Util {
         return formattedStartDate;
     }
 
-    public static String getAssigmentDetailEndDateDay(String endDate) {
+    public static String getEndDateDay(String endDate, boolean isQuiz) {
         if (endDate == null || endDate.isEmpty()) {
             return "";
         }
         String formattedDay = "";
         SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        inFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        if (isQuiz) inFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date;
         try {
             date = inFormat.parse(endDate);
             SimpleDateFormat outFormat = new SimpleDateFormat("dd");
-            outFormat.setTimeZone(TimeZone.getDefault());
+            if (isQuiz) outFormat.setTimeZone(TimeZone.getDefault());
             formattedDay = outFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -600,13 +578,13 @@ public class Util {
         }
     }
 
-    public static String getAssigmentDetailEndDateMonth(String endDate, Context context) {
+    public static String getEndDateMonth(String endDate, Context context, boolean isQuiz) {
         if (endDate == null || endDate.isEmpty()) {
             return "";
         }
         String formattedDay = "";
         SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        inFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        if (isQuiz) inFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date;
         try {
             date = inFormat.parse(endDate);
@@ -616,7 +594,7 @@ public class Util {
             } else {
                 outFormat = new SimpleDateFormat("MMM");
             }
-            outFormat.setTimeZone(TimeZone.getDefault());
+            if (isQuiz) outFormat.setTimeZone(TimeZone.getDefault());
             formattedDay = outFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();

@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.TimeZone;
 
 import trianglz.models.QuizQuestion;
 import trianglz.ui.activities.StudentMainActivity;
@@ -116,6 +117,7 @@ public class QuizDetailsFragment extends Fragment implements View.OnClickListene
 
     private String dateConverter(String dateString) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = null;
         try {
             date = formatter.parse(dateString);
@@ -123,6 +125,7 @@ public class QuizDetailsFragment extends Fragment implements View.OnClickListene
             e.printStackTrace();
         }
         SimpleDateFormat df = new SimpleDateFormat("d MMMM, yyyy - hh:mm a");
+        df.setTimeZone(TimeZone.getDefault());
         String formattedDate = df.format(date);
         return formattedDate;
     }
