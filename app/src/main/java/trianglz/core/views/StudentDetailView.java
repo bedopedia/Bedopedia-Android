@@ -451,7 +451,7 @@ public class StudentDetailView {
         for (int i = 0; i <= numberOfDays; i++) {
             DayWithDate dayWithDate = new DayWithDate();
             dayWithDate.date = (Util.getWeeklyPlannerDate(dateTime.toDate(), true));
-            dayWithDate.name = Util.getDayByNumber(i).substring(0, 3) + " " + Util.getWeeklyPlannerDate(dateTime.toDate(), false);
+            dayWithDate.name = Util.getDay(dateTime.toDate()) + " " + Util.getWeeklyPlannerDate(dateTime.toDate(), false);
             dayWithDates.add(dayWithDate);
             dateTime = dateTime.plusDays(1);
         }
