@@ -271,7 +271,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     private void sendImage(Uri imageUri) {
         if (messageThread != null) {
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSendImageId(messageThread.id);
-            chatView.sendImage(url, "currenttime.jpg", imageUri);
+            chatView.sendImage(url, System.currentTimeMillis() + ".jpg", imageUri);
             addImageToAdapter(imageUri.toString());
         }
     }
