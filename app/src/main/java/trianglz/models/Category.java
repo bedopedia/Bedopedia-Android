@@ -47,7 +47,7 @@ public class Category implements Serializable {
 	@SerializedName("assignments_total")
 	public double assignmentsTotal;
 	@SerializedName("assignments_grade")
-	public int assignmentsGrade;
+	public double assignmentsGrade;
 	@SerializedName("assignments")
 	public ArrayList<Assignments> assignments;
 	@SerializedName("grade_items_total")
