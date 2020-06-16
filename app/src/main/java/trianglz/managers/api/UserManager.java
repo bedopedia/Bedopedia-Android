@@ -765,8 +765,8 @@ public class UserManager {
         JSONObject listenersJsonObject = new JSONObject();
         JSONArray listenerJsonArray = new JSONArray();
         SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-        sdf.setTimeZone(TimeZone.getTimeZone("CET"));
+        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
+        sdf.setTimeZone(TimeZone.getDefault());
         String d1 = sdf.format(startDate);
         String d2 = sdf.format(endDate);
         try {

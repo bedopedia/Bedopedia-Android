@@ -97,7 +97,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         notificationHolderItem.studentNames.setText(notification.getStudentNames());
         notificationHolderItem.studentNames.setTypeface(roboto);
 
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
         Date date = null;
         try {

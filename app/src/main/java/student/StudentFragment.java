@@ -597,8 +597,8 @@ public class StudentFragment extends Fragment {
                         tomorrow = "sunday";
                     }
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-                    formatter.setTimeZone(TimeZone.getTimeZone("Egypt"));
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+                    formatter.setTimeZone(TimeZone.getDefault());
                     for (int i = 0; i < response.body().size(); i++) {
 
                         JsonObject slot = response.body().get(i);

@@ -116,8 +116,8 @@ public class QuizDetailsFragment extends Fragment implements View.OnClickListene
     }
 
     private String dateConverter(String dateString) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+//        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = null;
         try {
             date = formatter.parse(dateString);

@@ -62,7 +62,7 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
             ImageViewHelper.getImageFromUrlWithIdFailure(context,message.getCreator().getAvatar(),singleMessageHolderItem.avatar,R.drawable.student);
 
 
-            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
             Date date = null;
             try {
@@ -88,7 +88,7 @@ public class SingleMessageThreadAdapter extends ArrayAdapter {
             singleMessageHolderItem.body.setText(android.text.Html.fromHtml(message.getBody()).toString());
             ImageViewHelper.getImageFromUrlWithIdFailure(context,message.getCreator().getAvatar(),singleMessageHolderItem.avatar,R.drawable.student);
 
-            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
             Date date = null;
             try {
