@@ -11,16 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
-
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 import trianglz.components.CustomRtlViewPager;
 import trianglz.components.ErrorDialog;
 import trianglz.components.SettingsDialog;
@@ -39,10 +38,10 @@ import trianglz.utils.Util;
 
 public class StudentMainActivity extends SuperActivity implements View.OnClickListener {
 
-    private LinearLayout coursesLayout, firstLayout, secondLayout, fourthLayout;
-    private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView, notificationBadgeImageView;
+    private LinearLayout coursesLayout, secondLayout;
+    private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView, notificationBadgeImageView, announcementBadgeImageView, studentannouncementBadgeImageView;
     private TextView coursesTextView, firstTextView, secondTextView, thirdTextView, fourthTextView;
-    private FrameLayout thirdLayout;
+    private FrameLayout thirdLayout, firstLayout, fourthLayout;
     public View toolbarView;
     public Boolean isCalling = false;
     public CustomRtlViewPager pager;
@@ -79,6 +78,10 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     protected void onResume() {
         super.onResume();
         notificationCheck();
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()))
+            studentAnnouncementCheck();
+        else
+            announcementCheck();
     }
 
     private void getValueFromIntent() {
@@ -158,6 +161,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         thirdTabImageView = findViewById(R.id.iv_notifcations);
         fourthTabImageView = findViewById(R.id.iv_menu);
         notificationBadgeImageView = findViewById(R.id.img_red_circle);
+        announcementBadgeImageView = findViewById(R.id.img_announcement_circle);
+        studentannouncementBadgeImageView = findViewById(R.id.student_announcement_circle);
 
         // text views
         firstTextView = findViewById(R.id.tv_announcements);
@@ -266,6 +271,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         fragmentArrayList.add(notificationsFragment);
         return fragmentArrayList;
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -398,7 +404,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         fourthTextView.setText(getResources().getString(R.string.announcements));
         // text view text color
         int color = Color.parseColor("#fd8268");
-        notificationBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.salmon), android.graphics.PorterDuff.Mode.MULTIPLY);
+        notificationBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.salmon), android.graphics.PorterDuff.Mode.SRC_IN);
+        studentannouncementBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.salmon), android.graphics.PorterDuff.Mode.SRC_IN);
         firstTextView.setTextColor(color);
         secondTextView.setTextColor(color);
         thirdTextView.setTextColor(color);
@@ -548,7 +555,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         firstTextView.setTextColor(color);
         secondTextView.setTextColor(color);
         thirdTextView.setTextColor(color);
-        notificationBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.cerulean_blue), android.graphics.PorterDuff.Mode.MULTIPLY);
+        notificationBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.cerulean_blue), android.graphics.PorterDuff.Mode.SRC_IN);
+        announcementBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.cerulean_blue), android.graphics.PorterDuff.Mode.SRC_IN);
 
         switch (tabNumber) {
             case 0:
@@ -645,6 +653,22 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
             notificationBadgeImageView.setVisibility(View.VISIBLE);
         } else {
             notificationBadgeImageView.setVisibility(View.GONE);
+        }
+    }
+
+    private void announcementCheck() {
+        if (SessionManager.getInstance().getAnnouncementCounter() > 0) {
+            announcementBadgeImageView.setVisibility(View.VISIBLE);
+        } else {
+            announcementBadgeImageView.setVisibility(View.GONE);
+        }
+    }
+
+    private void studentAnnouncementCheck() {
+        if (SessionManager.getInstance().getAnnouncementCounter() > 0) {
+            studentannouncementBadgeImageView.setVisibility(View.VISIBLE);
+        } else {
+            studentannouncementBadgeImageView.setVisibility(View.GONE);
         }
     }
 }
