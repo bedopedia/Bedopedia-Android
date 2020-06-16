@@ -65,7 +65,8 @@ public class LoginView {
         String id = response.optString("child_id");
         Boolean passwordChanged = response.optBoolean("password_changed");
         int unSeenNotification = response.optInt("unseen_notifications");
-        SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
+        int runningAnnouncements = response.optInt("running_announcements_count");
+        SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification,runningAnnouncements);
 //        if (passwordChanged) {
             String userType = response.optString(Constants.KEY_USER_TYPE);
         switch (userType) {
