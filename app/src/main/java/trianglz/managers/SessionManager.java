@@ -27,6 +27,7 @@ public class SessionManager {
     private String id = "id";
     private String unSeenNotification = "unseen_notifications";
     private String runningAnnouncements = "running_announcements";
+    private String timeZone = "time_zone";
     private String deviceId = "device_id";
 
     public boolean isToUpdateNotificaton = false;
@@ -60,12 +61,14 @@ public class SessionManager {
         mEditor.apply();
     }
 
-    public void setHeadersValue(String accessToken, String tokenType, String clientCode, String uid) {
+    public void setHeadersValue(String accessToken, String tokenType, String clientCode, String uid,String timeZone) {
         mEditor.putString(this.accessToken, accessToken);
         mEditor.putString(this.tokenType, tokenType);
         mEditor.putString(this.clientCode, clientCode);
         mEditor.putString(this.uid, uid);
         mEditor.putBoolean(Constants.KEY_IS_LOGGED_IN, true);
+        mEditor.putString(this.clientCode, clientCode);
+        mEditor.putString(this.timeZone,timeZone);
         mEditor.apply();
 
     }
@@ -93,11 +96,14 @@ public class SessionManager {
         String uid = mPreferences.getString(this.uid, "");
         String client = mPreferences.getString(this.clientCode, "");
         String tokenType = mPreferences.getString(this.tokenType, "");
+        String timeZone = mPreferences.getString(this.timeZone, "");
+
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("access-token", token);
         hashMap.put("uid", uid);
         hashMap.put("client", client);
         hashMap.put("token-type", tokenType);
+        hashMap.put("timezone",timeZone);
         return hashMap;
     }
 

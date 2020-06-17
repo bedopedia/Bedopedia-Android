@@ -449,7 +449,8 @@ public class NetworkManager {
                             String tokenType = headers.get("token-type");
                             String clientCode = headers.get("client");
                             String uid = headers.get("uid");
-                            SessionManager.getInstance().setHeadersValue(accessToken, tokenType, clientCode, uid);
+                            String timeZone = headers.get("Timezone");
+                            SessionManager.getInstance().setHeadersValue(accessToken, tokenType, clientCode, uid,timeZone);
                             handleResponseListener.onSuccess(response);
                         }
 
