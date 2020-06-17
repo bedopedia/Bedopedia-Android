@@ -298,9 +298,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 }
                 break;
             case R.id.ll_notifications_tab:
-                SessionManager.getInstance().setNotificationCounterToZero();
                 notificationBadgeImageView.setVisibility(View.GONE);
-                notificationCheck();
+//                notificationCheck();
                 if (isHod) {
                     returnToRootFragment(pagerAdapter.getCount() - 1);
                     handleTabsClicking(pagerAdapter.getCount() - 1);
