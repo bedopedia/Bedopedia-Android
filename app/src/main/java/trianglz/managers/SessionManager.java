@@ -1,6 +1,7 @@
 package trianglz.managers;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -26,6 +27,7 @@ public class SessionManager {
     private String id = "id";
     private String unSeenNotification = "unseen_notifications";
     private String runningAnnouncements = "running_announcements";
+    private String deviceId = "device_id";
 
     //firebase
     String tokenKey = "token";
@@ -175,4 +177,17 @@ public class SessionManager {
             return text;
         }
     }
+
+    public void setDeviceId(String deviceId) {
+        mEditor.putString(this.deviceId, deviceId);
+        mEditor.apply();
+
+    }
+
+
+    public String getDeviceId() {
+        return mPreferences.getString(deviceId, "");
+
+    }
+
 }

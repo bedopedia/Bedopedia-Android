@@ -51,8 +51,7 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
     public void logoutUser(Context context) {
         SessionManager.getInstance().logoutUser();
         openSchoolLoginActivity(context);
-        superView.updateToken();
-
+        superView.logout();
     }
 
     private void openSchoolLoginActivity(Context context) {

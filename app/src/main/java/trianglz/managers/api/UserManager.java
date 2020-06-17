@@ -1,5 +1,7 @@
 package trianglz.managers.api;
 
+import android.util.Log;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
@@ -198,7 +200,7 @@ public class UserManager {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject = new JSONObject(FirebaseInstanceId.getInstance().getId());
+            jsonObject.put(Constants.MOBILE_DEVICE_ID,SessionManager.getInstance().getDeviceId());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -218,9 +220,7 @@ public class UserManager {
         HashMap<String, String> hashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject params = new JSONObject();
         JSONObject tokenJson = new JSONObject();
-
         String id = FirebaseInstanceId.getInstance().getId();
-
         try {
             tokenJson.put(Constants.FCM_TOKEN, token);
             tokenJson.put(Constants.KEY_LOCALE, locale);
@@ -237,8 +237,8 @@ public class UserManager {
         NetworkManager.put(url, params, hashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-
                 responseListener.onSuccess(response);
+                SessionManager.getInstance().setDeviceId(id);
             }
 
             @Override

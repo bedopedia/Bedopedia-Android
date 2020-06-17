@@ -43,4 +43,17 @@ public class SuperView {
 
 
     }
+
+
+    public void logout() {
+        UserManager.logout(new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+            }
+        });
+    }
 }
