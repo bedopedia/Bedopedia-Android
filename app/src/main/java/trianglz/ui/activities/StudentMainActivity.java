@@ -154,6 +154,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 if (intent.getAction().equals("/safe")) {
                     notificationBadgeImageView.setVisibility(View.GONE);
                     thirdLayout.callOnClick();
+                    SessionManager.getInstance().isToUpdateNotificaton = true;
                 }
             }
         }

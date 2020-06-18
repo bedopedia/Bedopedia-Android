@@ -29,6 +29,8 @@ public class SessionManager {
     private String runningAnnouncements = "running_announcements";
     private String deviceId = "device_id";
 
+    public boolean isToUpdateNotificaton = false;
+
     //firebase
     String tokenKey = "token";
 
