@@ -12,7 +12,7 @@ public class StudentMainPagerAdapter extends FragmentPagerAdapter {
     private List<Fragment> fragment_list;
 
     public StudentMainPagerAdapter(FragmentManager fm, List<Fragment> fragments) {
-        super(fm);
+        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         fragment_list = new ArrayList<>();
         fragment_list.addAll(fragments);
     }

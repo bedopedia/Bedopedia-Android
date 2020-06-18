@@ -1,6 +1,7 @@
 package trianglz.managers;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -25,6 +26,10 @@ public class SessionManager {
     private String userId = "userId";
     private String id = "id";
     private String unSeenNotification = "unseen_notifications";
+    private String runningAnnouncements = "running_announcements";
+    private String deviceId = "device_id";
+
+    public boolean isToUpdateNotificaton = false;
 
     //firebase
     String tokenKey = "token";
@@ -46,11 +51,12 @@ public class SessionManager {
     }
 
     public void createLoginSession(String userName,
-                                   String userId, String id, int unSeenNotficationCounter) {
+                                   String userId, String id, int unSeenNotficationCounter, int runningAnnouncements) {
         mEditor.putString(this.userName, userName);
         mEditor.putString(this.userId, userId);
         mEditor.putString(this.id, id);
         mEditor.putInt(this.unSeenNotification, unSeenNotficationCounter);
+        mEditor.putInt(this.runningAnnouncements, runningAnnouncements);
         mEditor.apply();
     }
 
@@ -132,6 +138,9 @@ public class SessionManager {
         return mPreferences.getInt(this.unSeenNotification, 0);
     }
 
+    public int getAnnouncementCounter() {
+        return mPreferences.getInt(this.runningAnnouncements, 0);
+    }
 
     public void setUserType(Actor actor) {
         if (actor == null) {
@@ -170,4 +179,17 @@ public class SessionManager {
             return text;
         }
     }
+
+    public void setDeviceId(String deviceId) {
+        mEditor.putString(this.deviceId, deviceId);
+        mEditor.apply();
+
+    }
+
+
+    public String getDeviceId() {
+        return mPreferences.getString(deviceId, "");
+
+    }
+
 }

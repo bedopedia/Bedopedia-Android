@@ -74,7 +74,8 @@ public class AnnouncementView {
             }
             announcementArrayList.add(new Announcement(id, title, body, Util.getAnnouncementDate(endAt, context), Util.getAnnouncementDate(createdAt, context), adminId, imageUrl, announcementReceiverArrayList));
         }
-        Collections.sort(announcementArrayList,new SortByDate());
+        //todo uncomment when date format is changed
+//        Collections.sort(announcementArrayList,new SortByDate());
         Collections.reverse(announcementArrayList);
         return announcementArrayList;
     }

@@ -3,6 +3,7 @@ package trianglz.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,8 +65,6 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         activity = (StudentMainActivity) getActivity();
         bindViews();
         setListeners();
-        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.setAsSeen(SessionManager.getInstance().getUserId());
-        notificationsView.setAsSeen(url);
         if (Util.isNetworkAvailable(getActivity())) {
             getNotifications();
         } else {
@@ -73,6 +72,17 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         }
         return rootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(SessionManager.getInstance().getNotficiationCounter() > 0) {
+            String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.setAsSeen(SessionManager.getInstance().getUserId());
+            notificationsView.setAsSeen(url);
+            SessionManager.getInstance().setNotificationCounterToZero();
+        }
+    }
+
 
     private void bindViews() {
         url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
@@ -112,7 +122,9 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
                 showSkeleton(true);
                 notificationsView.getNotifications(url,1,20);
             }else {
-                notificationsView.getNotifications(url, nextPage, 20);
+                if(nextPage != 0) {
+                    notificationsView.getNotifications(url, nextPage, 20);
+                }
             }
         } else {
             Util.showNoInternetConnectionDialog(getActivity());

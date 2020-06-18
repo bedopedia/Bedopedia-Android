@@ -3,6 +3,7 @@ package trianglz.ui.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -39,30 +40,29 @@ import trianglz.utils.Util;
 
 public class StudentMainActivity extends SuperActivity implements View.OnClickListener {
 
-    private LinearLayout coursesLayout, firstLayout, secondLayout, fourthLayout;
-    private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView, notificationBadgeImageView;
-    private TextView coursesTextView, firstTextView, secondTextView, thirdTextView, fourthTextView;
-    private FrameLayout thirdLayout;
     public View toolbarView;
     public Boolean isCalling = false;
     public CustomRtlViewPager pager;
+    public RelativeLayout headerLayout;
+    public Student student;
+    public ArrayList<Attendances> attendance;
+    public Actor actor;
+    public boolean isHod = false;
+    private LinearLayout coursesLayout, secondLayout;
+    private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView, notificationBadgeImageView, announcementBadgeImageView, studentannouncementBadgeImageView;
+    private TextView coursesTextView, firstTextView, secondTextView, thirdTextView, fourthTextView;
+    private FrameLayout thirdLayout, firstLayout, fourthLayout;
     private StudentMainPagerAdapter pagerAdapter;
     private ErrorDialog errorDialogue;
     // header
     private ImageButton settingsBtn, addNewMessageButton, backBtn;
     private SettingsDialog settingsDialog;
-    public RelativeLayout headerLayout;
-
     // fragments
     private AnnouncementsFragment announcementsFragment;
     private MessagesFragment messagesFragment;
     private NotificationsFragment notificationsFragment;
     private MenuFragment menuFragment;
     private TeacherCoursesFragment teacherCoursesFragment;
-    public Student student;
-    public ArrayList<Attendances> attendance;
-    public Actor actor;
-    public boolean isHod = false;
 
     // booleans
 
@@ -73,22 +73,30 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         getValueFromIntent();
         bindViews();
         setListeners();
+        checkIntent(getIntent());
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         notificationCheck();
+        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()))
+            studentAnnouncementCheck();
+        else
+            announcementCheck();
     }
 
     private void getValueFromIntent() {
         //       isStudent = SessionManager.getInstance().getStudentAccount();
         //     isParent = SessionManager.getInstance().getUserType();
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            student = getIntent().getBundleExtra(Constants.KEY_BUNDLE).getParcelable(Constants.STUDENT);
-            attendance = student.attendances;
-        } else {
-            actor = (Actor) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
+        if(getIntent().getBundleExtra(Constants.KEY_BUNDLE) != null) {
+            if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+                student = getIntent().getBundleExtra(Constants.KEY_BUNDLE).getParcelable(Constants.STUDENT);
+                attendance = student.attendances;
+            } else if (getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR) != null) {
+                actor = (Actor) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
+            }
         }
 
     }
@@ -133,6 +141,26 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         });
     }
 
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        checkIntent(intent);
+    }
+
+    private void checkIntent(Intent intent) {
+        if (intent != null) {
+            if(intent.getAction() != null) {
+                if (intent.getAction().equals("/safe")) {
+                    notificationBadgeImageView.setVisibility(View.GONE);
+                    thirdLayout.callOnClick();
+                    SessionManager.getInstance().isToUpdateNotificaton = true;
+                }
+            }
+        }
+    }
+
+
     private void bindViews() {
 
         // tabs
@@ -158,6 +186,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         thirdTabImageView = findViewById(R.id.iv_notifcations);
         fourthTabImageView = findViewById(R.id.iv_menu);
         notificationBadgeImageView = findViewById(R.id.img_red_circle);
+        announcementBadgeImageView = findViewById(R.id.img_announcement_circle);
+        studentannouncementBadgeImageView = findViewById(R.id.student_announcement_circle);
 
         // text views
         firstTextView = findViewById(R.id.tv_announcements);
@@ -266,6 +296,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         fragmentArrayList.add(notificationsFragment);
         return fragmentArrayList;
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -292,9 +323,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
                 }
                 break;
             case R.id.ll_notifications_tab:
-                SessionManager.getInstance().setNotificationCounterToZero();
                 notificationBadgeImageView.setVisibility(View.GONE);
-                notificationCheck();
+//                notificationCheck();
                 if (isHod) {
                     returnToRootFragment(pagerAdapter.getCount() - 1);
                     handleTabsClicking(pagerAdapter.getCount() - 1);
@@ -398,7 +428,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         fourthTextView.setText(getResources().getString(R.string.announcements));
         // text view text color
         int color = Color.parseColor("#fd8268");
-        notificationBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.salmon), android.graphics.PorterDuff.Mode.MULTIPLY);
+        notificationBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.salmon), android.graphics.PorterDuff.Mode.SRC_IN);
+        studentannouncementBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.salmon), android.graphics.PorterDuff.Mode.SRC_IN);
         firstTextView.setTextColor(color);
         secondTextView.setTextColor(color);
         thirdTextView.setTextColor(color);
@@ -548,7 +579,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         firstTextView.setTextColor(color);
         secondTextView.setTextColor(color);
         thirdTextView.setTextColor(color);
-        notificationBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.cerulean_blue), android.graphics.PorterDuff.Mode.MULTIPLY);
+        notificationBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.cerulean_blue), android.graphics.PorterDuff.Mode.SRC_IN);
+        announcementBadgeImageView.setColorFilter(ContextCompat.getColor(this, R.color.cerulean_blue), android.graphics.PorterDuff.Mode.SRC_IN);
 
         switch (tabNumber) {
             case 0:
@@ -610,10 +642,6 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     }
 
-    public interface OnBackPressedInterface {
-        void onBackPressed();
-    }
-
     private void showHideToolBar(Fragment fragment) {
         if (!fragment.isAdded()) {
             return;
@@ -641,10 +669,30 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void notificationCheck() {
-        if (SessionManager.getInstance().getNotficiationCounter() > 0) {
+        if (SessionManager.getInstance().getNotficiationCounter() > 0 && pager.getCurrentItem() != 2) {
             notificationBadgeImageView.setVisibility(View.VISIBLE);
         } else {
             notificationBadgeImageView.setVisibility(View.GONE);
         }
+    }
+
+    private void announcementCheck() {
+        if (SessionManager.getInstance().getAnnouncementCounter() > 0) {
+            announcementBadgeImageView.setVisibility(View.VISIBLE);
+        } else {
+            announcementBadgeImageView.setVisibility(View.GONE);
+        }
+    }
+
+    private void studentAnnouncementCheck() {
+        if (SessionManager.getInstance().getAnnouncementCounter() > 0) {
+            studentannouncementBadgeImageView.setVisibility(View.VISIBLE);
+        } else {
+            studentannouncementBadgeImageView.setVisibility(View.GONE);
+        }
+    }
+
+    public interface OnBackPressedInterface {
+        void onBackPressed();
     }
 }

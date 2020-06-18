@@ -40,7 +40,8 @@ public class SplashView {
         String userId = response.optString("id");
         String id = response.optString("child_id");
         int unSeenNotification = response.optInt("unseen_notifications");
-        SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification);
+        int runningAnnouncements = response.optInt("running_announcements_count");
+        SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification, runningAnnouncements);
         String userType = response.optString(Constants.KEY_USER_TYPE);
         switch (userType) {
             case "parent":
@@ -92,7 +93,7 @@ public class SplashView {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 String token = instanceIdResult.getToken();
-                Log.d("token", "onSuccess: "+token);
+                Log.d("token", "onSuccess: " + token);
                 SessionManager.getInstance().setFireBaseToken(token);
                 updateToken();
 
@@ -145,7 +146,7 @@ public class SplashView {
         UserManager.getStudentsHome(url, id, new ArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray responseArray) {
-               // refreshFireBaseToken();
+                // refreshFireBaseToken();
                 splashPresenter.onStudentLoginSuccess(null, null);
             }
 
