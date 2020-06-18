@@ -122,7 +122,9 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
                 showSkeleton(true);
                 notificationsView.getNotifications(url,1,20);
             }else {
-                notificationsView.getNotifications(url, nextPage, 20);
+                if(nextPage != 0) {
+                    notificationsView.getNotifications(url, nextPage, 20);
+                }
             }
         } else {
             Util.showNoInternetConnectionDialog(getActivity());

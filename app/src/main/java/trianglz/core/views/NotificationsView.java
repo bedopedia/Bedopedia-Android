@@ -3,6 +3,7 @@ package trianglz.core.views;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.skolera.skolera_android.R;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import retrofit2.http.Url;
 import trianglz.core.presenters.NotificationsPresenter;

@@ -1,6 +1,7 @@
 package trianglz.ui.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -94,7 +95,9 @@ public class NotificationsActivity extends SuperActivity implements Notification
                 showRecyclerView(true);
                 notificationsView.getNotifications(url, 1,20);
             }else {
-                notificationsView.getNotifications(url, nextPage,20);
+                if(nextPage != 0) {
+                    notificationsView.getNotifications(url, nextPage, 20);
+                }
             }
         } else {
             Util.showNoInternetConnectionDialog(this);
