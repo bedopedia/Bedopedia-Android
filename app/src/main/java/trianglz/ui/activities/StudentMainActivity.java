@@ -3,6 +3,7 @@ package trianglz.ui.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -11,15 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
+
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
 import trianglz.components.CustomRtlViewPager;
 import trianglz.components.ErrorDialog;
 import trianglz.components.SettingsDialog;
@@ -38,30 +40,29 @@ import trianglz.utils.Util;
 
 public class StudentMainActivity extends SuperActivity implements View.OnClickListener {
 
+    public View toolbarView;
+    public Boolean isCalling = false;
+    public CustomRtlViewPager pager;
+    public RelativeLayout headerLayout;
+    public Student student;
+    public ArrayList<Attendances> attendance;
+    public Actor actor;
+    public boolean isHod = false;
     private LinearLayout coursesLayout, secondLayout;
     private ImageView coursesImageView, firstTabImageView, secondTabImageView, thirdTabImageView, fourthTabImageView, notificationBadgeImageView, announcementBadgeImageView, studentannouncementBadgeImageView;
     private TextView coursesTextView, firstTextView, secondTextView, thirdTextView, fourthTextView;
     private FrameLayout thirdLayout, firstLayout, fourthLayout;
-    public View toolbarView;
-    public Boolean isCalling = false;
-    public CustomRtlViewPager pager;
     private StudentMainPagerAdapter pagerAdapter;
     private ErrorDialog errorDialogue;
     // header
     private ImageButton settingsBtn, addNewMessageButton, backBtn;
     private SettingsDialog settingsDialog;
-    public RelativeLayout headerLayout;
-
     // fragments
     private AnnouncementsFragment announcementsFragment;
     private MessagesFragment messagesFragment;
     private NotificationsFragment notificationsFragment;
     private MenuFragment menuFragment;
     private TeacherCoursesFragment teacherCoursesFragment;
-    public Student student;
-    public ArrayList<Attendances> attendance;
-    public Actor actor;
-    public boolean isHod = false;
 
     // booleans
 
@@ -72,6 +73,8 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         getValueFromIntent();
         bindViews();
         setListeners();
+        checkIntent(getIntent());
+
     }
 
     @Override
@@ -87,11 +90,13 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private void getValueFromIntent() {
         //       isStudent = SessionManager.getInstance().getStudentAccount();
         //     isParent = SessionManager.getInstance().getUserType();
-        if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            student = getIntent().getBundleExtra(Constants.KEY_BUNDLE).getParcelable(Constants.STUDENT);
-            attendance = student.attendances;
-        } else {
-            actor = (Actor) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
+        if(getIntent().getBundleExtra(Constants.KEY_BUNDLE) != null) {
+            if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString()) || SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
+                student = getIntent().getBundleExtra(Constants.KEY_BUNDLE).getParcelable(Constants.STUDENT);
+                attendance = student.attendances;
+            } else if (getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR) != null) {
+                actor = (Actor) getIntent().getBundleExtra(Constants.KEY_BUNDLE).getSerializable(Constants.KEY_ACTOR);
+            }
         }
 
     }
@@ -135,6 +140,25 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
             }
         });
     }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        checkIntent(intent);
+    }
+
+    private void checkIntent(Intent intent) {
+        if (intent != null) {
+            if(intent.getAction() != null) {
+                if (intent.getAction().equals("/safe")) {
+                    notificationBadgeImageView.setVisibility(View.GONE);
+                    thirdLayout.callOnClick();
+                }
+            }
+        }
+    }
+
 
     private void bindViews() {
 
@@ -617,10 +641,6 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
 
     }
 
-    public interface OnBackPressedInterface {
-        void onBackPressed();
-    }
-
     private void showHideToolBar(Fragment fragment) {
         if (!fragment.isAdded()) {
             return;
@@ -648,7 +668,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     }
 
     private void notificationCheck() {
-        if (SessionManager.getInstance().getNotficiationCounter() > 0) {
+        if (SessionManager.getInstance().getNotficiationCounter() > 0 && pager.getCurrentItem() != 2) {
             notificationBadgeImageView.setVisibility(View.VISIBLE);
         } else {
             notificationBadgeImageView.setVisibility(View.GONE);
@@ -669,5 +689,9 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
         } else {
             studentannouncementBadgeImageView.setVisibility(View.GONE);
         }
+    }
+
+    public interface OnBackPressedInterface {
+        void onBackPressed();
     }
 }
