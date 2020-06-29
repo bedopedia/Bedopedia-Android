@@ -4,13 +4,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.skolera.skolera_android.R;
 import com.vanniktech.emoji.EmojiEditText;
@@ -19,6 +15,8 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import trianglz.components.HideKeyboardOnTouch;
 import trianglz.components.OnImageSelectedListener;
 import trianglz.core.presenters.ChatPresenter;
@@ -35,11 +33,10 @@ import trianglz.utils.Util;
 public class ChatActivity extends SuperActivity implements View.OnClickListener, ChatPresenter {
     private MessageThread messageThread;
     private TextView chatHeaderTextView;
-    private ImageButton backBtn;
+    private ImageButton backBtn, sendBtn;
     private ChatAdapter chatAdapter;
     private RecyclerView recyclerView;
     private EmojiEditText messageEditText;
-    private Button sendBtn;
     private ChatView chatView;
     private int teacherId;
     private int courseId;
@@ -180,7 +177,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
 
     private void addMessageToAdapter(String messageString) {
         User user = new User();
-        user.id =(Integer.parseInt(SessionManager.getInstance().getUserId()));
+        user.id = (Integer.parseInt(SessionManager.getInstance().getUserId()));
         Message message = new Message("", messageString,
                 Util.convertLocaleToUtc(Util.getCurrentDate()), "", "", messageThread.id, messageThread.id, "", user);
         if (chatAdapter.mDataList.size() == 0) {
