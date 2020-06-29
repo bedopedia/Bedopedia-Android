@@ -2,6 +2,7 @@ package trianglz.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
@@ -19,7 +18,8 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.recyclerview.widget.RecyclerView;
 import trianglz.components.MimeTypeInterface;
 import trianglz.models.Message;
 import trianglz.ui.activities.ChatActivity;
@@ -92,28 +93,37 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         if (mDataList.get(position) instanceof String) {
             String date = ((String) mDataList.get(position));
             TimeViewHolder timeViewHolder = ((TimeViewHolder) holder);
-            timeViewHolder.timeTextView.setText(date);
+            if (date == null || date.isEmpty()){
+                timeViewHolder.timeTextView.setVisibility(View.GONE);
+            }else{
+                timeViewHolder.timeTextView.setVisibility(View.VISIBLE);
+                timeViewHolder.timeTextView.setText(date);
+            }
         } else {
             final Message message = (Message) mDataList.get(position);
             String messageTime = setMessageTime(Util.convertUtcToLocal(message.createdAt));
             switch (getItemViewType(position)) {
                 case TYPE_ME:
-                    String body = android.text.Html.fromHtml(message.body).toString();
-                    body = StringEscapeUtils.unescapeJava(body);
+//                    String body = android.text.Html.fromHtml(message.body).toString();
+//                    body = StringEscapeUtils.unescapeJava(body);
                     MeViewHolder meViewHolder = ((MeViewHolder) holder);
-                    meViewHolder.bodyTextView.setText(body);
+                    meViewHolder.bodyTextView.setHtml(message.body,
+                            new HtmlHttpImageGetter(meViewHolder.bodyTextView));
                     meViewHolder.messageTimeTextView.setText(messageTime);
                     break;
                 case TYPE_OTHER:
-                    String body1 = android.text.Html.fromHtml(message.body).toString();
-                    body1 = StringEscapeUtils.unescapeJava(body1);
+//                    String body1 = android.text.Html.fromHtml(message.body).toString();
+//                    body1 = StringEscapeUtils.unescapeJava(body1);
                     OtherViewHolder otherViewHolder = ((OtherViewHolder) holder);
-                    otherViewHolder.bodyTextView.setText(body1);
+                    otherViewHolder.bodyTextView.setHtml(message.body,
+                            new HtmlHttpImageGetter(otherViewHolder.bodyTextView));
                     otherViewHolder.messageTimeTextView.setText(messageTime);
                     break;
                 case TYPE_ME_IMAGE:
                     ImageMeViewHolder imageMeViewHolder = ((ImageMeViewHolder) holder);
                     imageMeViewHolder.messageTimeTextView.setText(messageTime);
+                    imageMeViewHolder.progressBar.setVisibility(View.VISIBLE);
+
                     Transformation transformation = new RoundedTransformationBuilder()
                             .cornerRadiusDp((int) Util.convertDpToPixel(5, context))
                             .oval(false)
@@ -126,11 +136,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                             .into(imageMeViewHolder.imageView, new Callback() {
                                 @Override
                                 public void onSuccess() {
-
+                                    imageMeViewHolder.progressBar.setVisibility(View.GONE);
                                 }
 
                                 @Override
                                 public void onError() {
+                                    imageMeViewHolder.progressBar.setVisibility(View.GONE);
                                     Util.isImageUrl(message, holder.getAdapterPosition(), ChatAdapter.this);
                                 }
                             });
@@ -149,6 +160,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 case TYPE_OTHER_IMAGE:
                     ImageOtherViewHolder imageOtherViewHolder = ((ImageOtherViewHolder) holder);
                     imageOtherViewHolder.messageTimeTextView.setText(messageTime);
+                    imageOtherViewHolder.progressBar.setVisibility(View.VISIBLE);
                     Transformation transformations = new RoundedTransformationBuilder()
                             .cornerRadiusDp((int) Util.convertDpToPixel(5, context))
                             .oval(false)
@@ -161,11 +173,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                             .into(imageOtherViewHolder.imageView, new Callback() {
                                 @Override
                                 public void onSuccess() {
+                                    imageOtherViewHolder.progressBar.setVisibility(View.GONE);
 
                                 }
 
                                 @Override
                                 public void onError() {
+                                    imageOtherViewHolder.progressBar.setVisibility(View.GONE);
+
                                     Util.isImageUrl(message, holder.getAdapterPosition(), ChatAdapter.this);
                                 }
                             });
@@ -184,22 +199,25 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 case TYPE_ME_ATTACHMENT:
                     AttachmentMeViewHolder attachmentMeViewHolder = (AttachmentMeViewHolder) (holder);
                     attachmentMeViewHolder.messageTimeTextView.setText(messageTime);
-                    attachmentMeViewHolder.progressBar.setVisibility(View.GONE);
-                    setAttachmentImage(attachmentMeViewHolder.imageView, message.ext);
-                    attachmentMeViewHolder.imageView.setOnClickListener(view -> openAttachment(message.attachmentUrl));
+                    attachmentMeViewHolder.attachmentNameTextView.setText(message.fileName);
+                    attachmentMeViewHolder.attachmentNameTextView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG | attachmentMeViewHolder.attachmentNameTextView.getPaintFlags());
+//                    attachmentMeViewHolder.progressBar.setVisibility(View.GONE);
+//                    setAttachmentImage(attachmentMeViewHolder.imageView, message.ext);
+                    attachmentMeViewHolder.attachmentNameTextView.setOnClickListener(view -> openAttachment(message.attachmentUrl));
                     break;
                 case TYPE_OTHER_ATTACHMENT:
                     AttachmentOtherViewHolder attachmentOtherViewHolder = (AttachmentOtherViewHolder) (holder);
                     attachmentOtherViewHolder.messageTimeTextView.setText(messageTime);
-                    setAttachmentImage(attachmentOtherViewHolder.imageView, message.ext);
-                    attachmentOtherViewHolder.progressBar.setVisibility(View.GONE);
+                    attachmentOtherViewHolder.attachmentNameTextView.setText(message.fileName);
+                    attachmentOtherViewHolder.attachmentNameTextView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG | attachmentOtherViewHolder.attachmentNameTextView.getPaintFlags());
+//                    setAttachmentImage(attachmentOtherViewHolder.imageView, message.ext);
+//                    attachmentOtherViewHolder.progressBar.setVisibility(View.GONE);
                     attachmentOtherViewHolder.imageView.setOnClickListener(view -> openAttachment(message.attachmentUrl));
                     break;
 
             }
         }
     }
-
 
 
     @Override
@@ -256,7 +274,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
 
     private class OtherViewHolder extends RecyclerView.ViewHolder {
-        TextView bodyTextView;
+        HtmlTextView bodyTextView;
         TextView messageTimeTextView;
 
         OtherViewHolder(View itemView) {
@@ -267,7 +285,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     private class MeViewHolder extends RecyclerView.ViewHolder {
-        TextView bodyTextView;
+        HtmlTextView bodyTextView;
         TextView messageTimeTextView;
 
         MeViewHolder(View itemView) {
@@ -280,11 +298,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private class ImageMeViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView messageTimeTextView;
+        ProgressBar progressBar;
 
         ImageMeViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.img_view);
             messageTimeTextView = itemView.findViewById(R.id.textview_time);
+            progressBar = itemView.findViewById(R.id.progress_bar);
         }
     }
 
@@ -292,33 +312,36 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private class ImageOtherViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView messageTimeTextView;
+        ProgressBar progressBar;
 
         ImageOtherViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.img_view);
             messageTimeTextView = itemView.findViewById(R.id.textview_time);
+            progressBar = itemView.findViewById(R.id.progress_bar);
         }
     }
 
 
     private class AttachmentMeViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
-        TextView messageTimeTextView;
-        ProgressBar progressBar;
+        //        ImageView imageView;
+        TextView messageTimeTextView, attachmentNameTextView;
+//        ProgressBar progressBar;
 
         AttachmentMeViewHolder(View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.img_view);
+//            imageView = itemView.findViewById(R.id.img_view);
             messageTimeTextView = itemView.findViewById(R.id.textview_time);
-            progressBar = itemView.findViewById(R.id.progress_bar);
-            progressBar.setVisibility(View.GONE);
+            attachmentNameTextView = itemView.findViewById(R.id.tv_body);
+//            progressBar = itemView.findViewById(R.id.progress_bar);
+//            progressBar.setVisibility(View.GONE);
         }
     }
 
 
     private class AttachmentOtherViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView messageTimeTextView;
+        TextView messageTimeTextView, attachmentNameTextView;
         ProgressBar progressBar;
 
         AttachmentOtherViewHolder(View itemView) {
@@ -327,6 +350,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             messageTimeTextView = itemView.findViewById(R.id.textview_time);
             progressBar = itemView.findViewById(R.id.progress_bar);
             progressBar.setVisibility(View.GONE);
+            attachmentNameTextView = itemView.findViewById(R.id.tv_body);
         }
     }
 
