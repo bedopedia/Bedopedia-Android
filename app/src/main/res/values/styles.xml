@@ -166,5 +166,8 @@
         <item name="android:includeFontPadding">false</item>
         <item name="firstBaselineToTopHeight">0dp</item>
     </style>
+    <style name="ImageProgressBarStyleLeft">
+        <item name="colorAccent">@color/attachment_color</item>
+    </style>
 
 </resources>
