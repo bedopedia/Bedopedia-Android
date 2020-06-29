@@ -277,7 +277,7 @@ public class ChatActivity extends SuperActivity implements View.OnClickListener,
     }
 
     private void sendMessage(String message) {
-        message = StringEscapeUtils.escapeJava(message);
+//        message = StringEscapeUtils.escapeJava(message);
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getSendMessageUrl(messageThread.id);
         chatView.sendMessage(url, message, messageThread.id + "",
                 SessionManager.getInstance().getUserId(), messageThread.id + "", messageThread.name);
