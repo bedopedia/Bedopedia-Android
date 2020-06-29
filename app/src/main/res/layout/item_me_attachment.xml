@@ -1,54 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="3dp">
+    android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/sender_image_layout"
-        android:layout_width="105dp"
-        android:layout_height="105dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="8dp"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/chat_me_image_background"
-        >
-
-
-        <ImageView
-            android:id="@+id/img_view"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:autoLink="web"
-            android:layout_gravity="right"
-            android:layout_marginEnd="5dp"
-            />
-
-        <ProgressBar
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:id="@+id/progress_bar"/>
-
-    </FrameLayout>
-    <LinearLayout
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/sender_image_layout"
-        android:layout_alignParentRight="true"
-        >
+        android:padding="16dp"
+        android:backgroundTint="#9211de93"
+        android:textSize="14sp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_gravity="right"
+        android:drawablePadding="4dp"
+        android:drawableTint="@color/white"
+        android:drawableStart="@drawable/ic_doc_dark"
+        android:background="@drawable/rounded_corner_me"
+        android:textColor="@color/white"
+        android:id="@+id/tv_body" />
+    <!--    <FrameLayout-->
+    <!--        android:id="@+id/sender_image_layout"-->
+    <!--        android:layout_width="105dp"-->
+    <!--        android:layout_height="105dp"-->
+    <!--        android:layout_marginLeft="60dp"-->
+    <!--        android:layout_marginRight="8dp"-->
+    <!--        android:layout_alignParentRight="true"-->
+    <!--        android:background="@drawable/chat_me_image_background"-->
+    <!--        >-->
 
-        <TextView
-            android:id="@+id/textview_time"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="24dp"
-            android:text="11:15 PM"
-            style="@style/chat_timings"
-            android:layout_marginTop="2dp"
-            />
-    </LinearLayout>
 
-</RelativeLayout>
+    <!--        <ImageView-->
+    <!--            android:id="@+id/img_view"-->
+    <!--            android:layout_width="100dp"-->
+    <!--            android:layout_height="100dp"-->
+    <!--            android:autoLink="web"-->
+    <!--            android:layout_gravity="right"-->
+    <!--            android:layout_marginEnd="5dp"-->
+    <!--            />-->
+
+    <!--        <ProgressBar-->
+    <!--            android:layout_width="50dp"-->
+    <!--            android:layout_height="50dp"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:id="@+id/progress_bar"/>-->
+
+    <!--    </FrameLayout>-->
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:layout_below="@+id/sender_image_layout"-->
+    <!--        android:layout_alignParentRight="true"-->
+    <!--        >-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/textview_time"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_marginRight="24dp"-->
+    <!--            android:text="11:15 PM"-->
+    <!--            style="@style/chat_timings"-->
+    <!--            android:layout_marginTop="4dp"-->
+    <!--            />-->
+    <!--    </LinearLayout>-->
+    <TextView
+        android:id="@+id/textview_time"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="16dp"
+        android:text="11:15 PM"
+        android:layout_gravity="right"
+        style="@style/chat_timings"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="4dp" />
+</LinearLayout>
