@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.skolera.skolera_android.R;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +58,8 @@ public class QuizzesDetailsAdapter extends RecyclerView.Adapter<QuizzesDetailsAd
             }
         }
         final Quizzes quizzes = mDataList.get(position);
-        DateTime dateTime = new DateTime(quizzes.getStartDate());
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        DateTime dateTime = fmt.parseDateTime(quizzes.getStartDate());
         if (quizzes.getName() != null) {
             holder.subjectNameTextView.setText(courseName);
         }

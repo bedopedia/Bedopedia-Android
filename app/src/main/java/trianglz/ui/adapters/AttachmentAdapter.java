@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.skolera.skolera_android.R;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
@@ -71,7 +73,8 @@ public class AttachmentAdapter extends RecyclerView.Adapter {
                 final AttachmentViewHolder viewHolder = (AttachmentViewHolder) holder;
                 final UploadedObject uploadedObject = uploadedObjects.get(position - 1);
                 viewHolder.fileNameTextView.setText(uploadedObject.getName());
-                DateTime dateTime = new DateTime(uploadedObject.getCreatedAt());
+                DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+                DateTime dateTime = fmt.parseDateTime(uploadedObject.getCreatedAt());
                 String date = dateTime.toLocalDate().toString();
                 viewHolder.dateAddedTextView.setText(date);
                 setAttachmentImage(viewHolder.fileType, uploadedObject.getExtension());
@@ -82,7 +85,8 @@ public class AttachmentAdapter extends RecyclerView.Adapter {
             final AttachmentViewHolder viewHolder = (AttachmentViewHolder) holder;
             final UploadedObject uploadedObject = uploadedObjects.get(position);
             viewHolder.fileNameTextView.setText(uploadedObject.getName());
-            DateTime dateTime = new DateTime(uploadedObject.getCreatedAt());
+            DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+            DateTime dateTime = fmt.parseDateTime(uploadedObject.getCreatedAt());
             String date = dateTime.toLocalDate().toString();
             viewHolder.dateAddedTextView.setText(Util.humanReadableByteCountBin(uploadedObject.getFileSize()));
             setAttachmentImage(viewHolder.fileType, uploadedObject.getExtension());

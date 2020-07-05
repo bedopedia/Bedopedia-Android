@@ -20,6 +20,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -135,7 +137,8 @@ public class SingleQuizFragment extends Fragment implements View.OnClickListener
         noteTextview = rootView.findViewById(R.id.tv_note);
         backButton = rootView.findViewById(R.id.btn_back);
         setStudentImage(student.avatar, student.firstName + " " + student.lastName);
-        DateTime dateTime = new DateTime(quizzes.getStartDate());
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        DateTime dateTime = fmt.parseDateTime(quizzes.getStartDate());
 
         if (quizzes.getName() != null) {
             subjectNameTextView.setText(course.getCourseName());

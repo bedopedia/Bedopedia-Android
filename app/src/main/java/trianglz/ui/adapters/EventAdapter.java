@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.skolera.skolera_android.R;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -57,7 +59,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             holder.lineView.setBackgroundResource(R.color.iris);
         }
         Event event = items.get(position);
-        DateTime dateTime = new DateTime(event.getStartDate());
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        DateTime dateTime = fmt.parseDateTime(event.getStartDate());
 
         if (Util.getLocale(context).equals("ar")) {
             holder.eventDay.setText(String.format(new Locale("ar"), dateTime.getDayOfMonth() + ""));

@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.skolera.skolera_android.R;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +64,9 @@ public class OnlineQuizzesAdapter extends RecyclerView.Adapter<OnlineQuizzesAdap
         imageLoader.loadImage(holder.courseAvatarView, new AvatarPlaceholderModified(quizzCourse.getCourseName()), "path of image");
         if (quizzCourse.getNextQuizDate() != null && !quizzCourse.getNextQuizDate().isEmpty()) {
             holder.dateLinearLayout.setVisibility(View.VISIBLE);
-            DateTime dateTime = new DateTime(quizzCourse.getNextQuizDate());
+            DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+            DateTime dateTime =fmt.parseDateTime(quizzCourse.getNextQuizDate());
+
             if (dateTime.isBefore(DateTime.now())) {
 //                holder.dateLinearLayout.setBackground(context.getResources().getDrawable(R.drawable.curved_red));
                 holder.dateTextView.setTextColor(context.getResources().getColor(R.color.red, null));

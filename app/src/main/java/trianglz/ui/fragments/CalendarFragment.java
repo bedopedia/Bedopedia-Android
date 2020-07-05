@@ -26,6 +26,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -303,8 +305,9 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     private void createEvents(ArrayList<trianglz.models.Event> eventsArrayList, int color) {
         for (int i = 0; i < eventsArrayList.size(); i++) {
             Calendar c = Calendar.getInstance();
-            DateTime startTime = new DateTime(eventsArrayList.get(i).getStartDate());
-            DateTime endTime = new DateTime(eventsArrayList.get(i).getEndDate());
+            DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+            DateTime startTime = fmt.parseDateTime(eventsArrayList.get(i).getStartDate());
+            DateTime endTime = fmt.parseDateTime(eventsArrayList.get(i).getEndDate());
             c.setTimeInMillis(startTime.getMillis());
             while (c.getTimeInMillis() <= endTime.getMillis()) {
                 boolean skip = false;

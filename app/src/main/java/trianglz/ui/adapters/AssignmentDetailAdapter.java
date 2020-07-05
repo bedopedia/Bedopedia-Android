@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.skolera.skolera_android.R;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +53,8 @@ public class AssignmentDetailAdapter extends RecyclerView.Adapter<AssignmentDeta
     @Override
     public void onBindViewHolder(Holder holder, final int position) {
         final AssignmentsDetail assignmentsDetail = mDataList.get(position);
-        DateTime dateTime = new DateTime(assignmentsDetail.getStartAt());
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        DateTime dateTime = fmt.parseDateTime(assignmentsDetail.getStartAt());
         if (assignmentsDetail.getName() != null) {
             holder.subjectNameTextView.setText(courseName);
         }
