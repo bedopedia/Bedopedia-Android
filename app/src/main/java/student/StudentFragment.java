@@ -597,7 +597,7 @@ public class StudentFragment extends Fragment {
                         tomorrow = "sunday";
                     }
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     formatter.setTimeZone(TimeZone.getTimeZone("Egypt"));
                     for (int i = 0; i < response.body().size(); i++) {
 

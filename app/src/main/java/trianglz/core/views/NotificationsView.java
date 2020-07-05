@@ -83,19 +83,17 @@ public class NotificationsView {
     }
 
     private String formatDate(String time) {
-        ISO8601DateFormat iso = new ISO8601DateFormat();
-        @SuppressLint("SimpleDateFormat")
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd,' 'hh:mm a",new Locale("en"));
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
         Date date = null;
         try {
-            date = iso.parse(time);
+            date = dateFormat.parse(time);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         String finalDate = dateFormat.format(date);
-        if (DateUtils.isToday(Objects.requireNonNull(date).getTime())) {
-            return context.getResources().getString(R.string.today);
-        }
+//        if (DateUtils.isToday(Objects.requireNonNull(date).getTime())) {
+//            return context.getResources().getString(R.string.today);
+//        }
         return finalDate;
     }
 
