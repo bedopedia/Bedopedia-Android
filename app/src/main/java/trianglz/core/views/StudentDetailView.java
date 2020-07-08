@@ -29,6 +29,7 @@ import java.util.TimeZone;
 
 import Tools.CalendarUtils;
 import trianglz.core.presenters.StudentDetailPresenter;
+import trianglz.managers.SessionManager;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
@@ -191,10 +192,14 @@ public class StudentDetailView {
         List<TimeTableSlot> tomorrowSlots = new ArrayList<>();
         Calendar calendar = CalendarUtils.getCalendarWithoutDate();
         Date date = calendar.getTime();
-        String today = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE", Locale.ENGLISH);
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+            sdf.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
+        }
+        String today = sdf.format(date.getTime());
         calendar.add(Calendar.DATE, 1);
         date = calendar.getTime();
-        String tomorrow = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
+        String tomorrow = sdf.format(date.getTime());
         today = today.toLowerCase();
         tomorrow = tomorrow.toLowerCase();
 //        if (today.equals(Constants.THURSDAY)) {
@@ -202,6 +207,9 @@ public class StudentDetailView {
 //        }
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+            formatter.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
+        }
         for (int i = 0; i < jsonArray.length(); i++) {
 
             JSONObject slot = jsonArray.optJSONObject(i);
