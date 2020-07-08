@@ -1,11 +1,8 @@
 package trianglz.core.views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.format.DateUtils;
-import android.util.Log;
 
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.skolera.skolera_android.R;
 
 import org.json.JSONArray;
@@ -19,17 +16,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.logging.Logger;
 
-import retrofit2.http.Url;
 import trianglz.core.presenters.NotificationsPresenter;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Meta;
 import trianglz.models.Notification;
-import trianglz.models.User;
 import trianglz.utils.Constants;
-import trianglz.utils.Util;
 
 /**
  * This file is spawned by Gemy on 11/1/2018.
@@ -44,16 +37,16 @@ public class NotificationsView {
     }
 
     public void getNotifications(String url, int pageNumber, int numberPerPage) {
-        UserManager.getNotifications(url, pageNumber, numberPerPage+"",new ResponseListener() {
+        UserManager.getNotifications(url, pageNumber, numberPerPage + "", new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 Meta meta = new Meta(response.optJSONObject(Constants.KEY_META));
-                presenter.onGetNotificationSuccess(parseNotificationResponse(response),meta);
+                presenter.onGetNotificationSuccess(parseNotificationResponse(response), meta);
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                presenter.onGetNotificationFailure(message,errorCode);
+                presenter.onGetNotificationFailure(message, errorCode);
             }
         });
     }
@@ -90,15 +83,16 @@ public class NotificationsView {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String finalDate = dateFormat.format(date);
+        DateFormat finalFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("en"));
+
 //        if (DateUtils.isToday(Objects.requireNonNull(date).getTime())) {
 //            return context.getResources().getString(R.string.today);
 //        }
-        return finalDate;
+        return finalFormat.format(date);
     }
 
 
-    public void setAsSeen(String url){
+    public void setAsSeen(String url) {
         UserManager.setAsSeen(url, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
