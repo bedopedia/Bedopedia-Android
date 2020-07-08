@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import trianglz.components.ExcusedDialog;
 import trianglz.components.TakeAttendanceDialog;
@@ -190,6 +191,9 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     private String getCurrentDate() {
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("EEEE d MMM");
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+            df.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
+        }
         String formattedDate = df.format(c);
         return formattedDate;
     }
