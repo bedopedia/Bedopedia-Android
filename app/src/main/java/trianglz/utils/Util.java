@@ -200,7 +200,8 @@ public class Util {
 
     public static String getPostDate(String messageTime, Context context) {
         String finalData = "";
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("en"));
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", new Locale("en"));
+
         Date date = null;
         try {
             date = fmt.parse(messageTime);
