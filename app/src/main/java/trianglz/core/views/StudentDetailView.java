@@ -427,7 +427,7 @@ public class StudentDetailView {
                 JSONObject dailyNotes = weeklyPlan.optJSONObject(Constants.KEY_DAILY_NOTEs);
                 ArrayList<Day> days = new ArrayList<>();
                 // calculates number of days between start and end
-                DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+                DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
                 DateTime startDate =fmt.parseDateTime(weeklyPlannerResponse.weeklyPlans.get(0).startDate);
                 int numDays = Days.daysBetween(startDate, fmt.parseDateTime(weeklyPlannerResponse.weeklyPlans.get(0).endDate)).getDays();
                 for (DayWithDate dayWithDate: getCurrentWeekArray(startDate, numDays + 1)) {
