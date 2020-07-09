@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.skolera.skolera_android.R;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import trianglz.managers.SessionManager;
 import trianglz.models.Event;
 import trianglz.utils.Util;
 
@@ -60,7 +62,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         }
         Event event = items.get(position);
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-        DateTime dateTime = fmt.parseDateTime(event.getStartDate());
+        DateTime dateTime;
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+            DateTimeZone zone = DateTimeZone.forID(timeZone);
+            dateTime = fmt.parseDateTime(event.getStartDate()).withZoneRetainFields(zone);
+        }else {
+            dateTime = fmt.parseDateTime(event.getStartDate());
+        }
 
         if (Util.getLocale(context).equals("ar")) {
             holder.eventDay.setText(String.format(new Locale("ar"), dateTime.getDayOfMonth() + ""));

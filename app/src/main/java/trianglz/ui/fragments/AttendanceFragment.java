@@ -38,6 +38,7 @@ import attendance.Attendance;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.components.CircleTransform;
 import trianglz.components.TopItemDecoration;
+import trianglz.managers.SessionManager;
 import trianglz.models.Attendances;
 import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
@@ -89,6 +90,10 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         activity.headerLayout.setVisibility(View.GONE);
         compactCalendarView = rootView.findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), new Locale("en"));
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")) {
+            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+            compactCalendarView.setLocale(TimeZone.getTimeZone(timeZone), new Locale("en"));
+        }
         compactCalendarView.setUseThreeLetterAbbreviation(true);
         absentDates = new ArrayList<>();
         lateDates = new ArrayList<>();
@@ -163,7 +168,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                         break;
                     case "present":
                         if (attendance.getComment() != null)
-                            presentDates.add(new Attendance(date, attendance.getComment()));
+                            presentDates.add(new  Attendance(date, attendance.getComment()));
                         else
                             presentDates.add(new Attendance(date, ""));
                         break;

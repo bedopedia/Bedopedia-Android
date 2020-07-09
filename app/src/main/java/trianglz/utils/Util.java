@@ -31,6 +31,7 @@ import com.skolera.skolera_android.R;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -278,6 +279,10 @@ public class Util {
     @Nullable
     public static Date getAttendanceDate(String string, Context context) {
         SimpleDateFormat formatIn = new SimpleDateFormat("yyyy-MM-dd", new Locale(getLocale(context)));
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")) {
+            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+            formatIn.setTimeZone(TimeZone.getTimeZone(timeZone));
+        }
         try {
             return formatIn.parse(string);
         } catch (ParseException e) {

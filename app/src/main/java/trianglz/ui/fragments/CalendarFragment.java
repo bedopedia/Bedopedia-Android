@@ -26,6 +26,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -126,6 +127,10 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         quizzes = new ArrayList<>();
         compactCalendarView = rootView.findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), new Locale("en"));
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")) {
+            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+            compactCalendarView.setLocale(TimeZone.getTimeZone(timeZone), new Locale("en"));
+        }
         compactCalendarView.setUseThreeLetterAbbreviation(true);
         compactCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
         compactCalendarView.removeAllEvents();
@@ -306,8 +311,17 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         for (int i = 0; i < eventsArrayList.size(); i++) {
             Calendar c = Calendar.getInstance();
             DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-            DateTime startTime = fmt.parseDateTime(eventsArrayList.get(i).getStartDate());
-            DateTime endTime = fmt.parseDateTime(eventsArrayList.get(i).getEndDate());
+            DateTime startTime,endTime;
+            if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+                String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+                DateTimeZone zone = DateTimeZone.forID(timeZone);
+                startTime = fmt.parseDateTime(eventsArrayList.get(i).getStartDate()).withZoneRetainFields(zone);
+                endTime = fmt.parseDateTime(eventsArrayList.get(i).getEndDate()).withZoneRetainFields(zone);
+            }else {
+                startTime = fmt.parseDateTime(eventsArrayList.get(i).getStartDate());
+                endTime = fmt.parseDateTime(eventsArrayList.get(i).getEndDate());
+            }
+
             c.setTimeInMillis(startTime.getMillis());
             while (c.getTimeInMillis() <= endTime.getMillis()) {
                 boolean skip = false;

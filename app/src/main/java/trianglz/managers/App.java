@@ -10,6 +10,8 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import trianglz.components.LocalHelper;
 
 //import com.vanniktech.emoji.google.GoogleEmojiProvider;
@@ -36,6 +38,8 @@ public class App extends Application {
         AndroidNetworking.initialize(getApplicationContext());
         EmojiManager.install(new GoogleEmojiProvider());
         Fresco.initialize(this);
+        JodaTimeAndroid.init(this);
+
     }
 
     @Override
