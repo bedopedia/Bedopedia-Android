@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import okhttp3.Headers;
 import okhttp3.Response;
@@ -53,15 +54,24 @@ public class NetworkManager {
                 .addHeaders(headerValue)
                 .setPriority(Priority.HIGH)
                 .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
+                .getAsOkHttpResponseAndJSONObject(new OkHttpResponseAndJSONObjectRequestListener() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(Response okHttpResponse, JSONObject response) {
+                        Headers headers = okHttpResponse.headers();
+                        if(headers != null && headers.size() > 0) {
+                            String accessToken = headers.get("access-token");
+                            String tokenType = headers.get("token-type");
+                            String clientCode = headers.get("client");
+                            String uid = headers.get("uid");
+                            String timeZone = headers.get("Timezone");
+                            SessionManager.getInstance().setHeadersValue(accessToken, tokenType, clientCode, uid, timeZone);
+                        }
                         handleResponseListener.onSuccess(response);
                     }
 
                     @Override
-                    public void onError(ANError error) {
-                        handleResponseListener.onFailure(getErrorMessage(error), error.getErrorCode());
+                    public void onError(ANError anError) {
+
                     }
                 });
     }
