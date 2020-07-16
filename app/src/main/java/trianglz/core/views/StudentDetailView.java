@@ -249,9 +249,13 @@ public class StudentDetailView {
                 nextSlot = ("Next: " + timeSlotIterator.getCourseName() + ", " + timeSlotIterator.getDay() + " " + dateFormat.format(timeSlotIterator.getFrom()));
                 break;
         }
-        if (!nextSlotFound && tomorrowSlots.size() > 0) {
+        if (!nextSlotFound && tomorrowSlots.size() > 0 ) {
             TimeTableSlot timeSlot = tomorrowSlots.get(0);
-            nextSlot = ("Next: " + timeSlot.getCourseName() + ", " + timeSlot.getDay() + " " + dateFormat.format(timeSlot.getFrom()));
+            if(timeSlot.getFrom() != null){
+                nextSlot = ("Next: " + timeSlot.getCourseName() + ", " + timeSlot.getDay() + " " + dateFormat.format(timeSlot.getFrom()));
+            }else {
+                nextSlot = "";
+            }
         }
         timeTableData.add(todaySlots);
         timeTableData.add(tomorrowSlots);
