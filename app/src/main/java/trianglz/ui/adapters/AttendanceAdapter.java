@@ -15,9 +15,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import Tools.CalendarUtils;
 import attendance.Attendance;
+import trianglz.managers.SessionManager;
 
 /**
  * Created by ${Aly} on 11/5/2018.
@@ -51,7 +53,11 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Ho
             holder.lineView.setBackground(context.getResources().getDrawable(R.drawable.curved_orange_red));
         }
         Attendance attendanceItem = items.get(position);
-        Calendar cal = CalendarUtils.getCalendar(attendanceItem.getDate());
+        Calendar cal = CalendarUtils.getCalendarWithoutDate();
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+            cal.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
+        }
+        cal.setTime(attendanceItem.getDate());
         DateFormatSymbols dfs = new DateFormatSymbols(new Locale("en"));
         String[] months = dfs.getMonths();
         int month = cal.get(Calendar.MONTH);
