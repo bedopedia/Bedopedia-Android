@@ -119,9 +119,13 @@ public class Util {
 
 
     public static String getCurrentDate() {
-
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        df.setTimeZone(TimeZone.getDefault());
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")) {
+            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+            df.setTimeZone(TimeZone.getTimeZone(timeZone));
+        }else {
+            df.setTimeZone(TimeZone.getDefault());
+        }
         Date dateObject = Calendar.getInstance().getTime();
         String date = df.format(dateObject);
         return date;
