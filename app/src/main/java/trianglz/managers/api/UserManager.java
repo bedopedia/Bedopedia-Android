@@ -12,6 +12,7 @@ import java.io.File;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -765,10 +766,11 @@ public class UserManager {
         JSONObject listenersJsonObject = new JSONObject();
         JSONArray listenerJsonArray = new JSONArray();
         SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
-            sdf.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
-        }
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+//        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+//            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+//            sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
+//        }
         String d1 = sdf.format(startDate);
         String d2 = sdf.format(endDate);
         try {
