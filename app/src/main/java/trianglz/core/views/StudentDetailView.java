@@ -207,9 +207,9 @@ public class StudentDetailView {
 //        }
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
-            formatter.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
-        }
+//        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+//            formatter.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
+//        }
         for (int i = 0; i < jsonArray.length(); i++) {
 
             JSONObject slot = jsonArray.optJSONObject(i);
