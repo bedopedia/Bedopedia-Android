@@ -153,7 +153,7 @@ public class ApiEndPoints {
     }
 
     public static String getEvents(int userId, String type, String endDate, String startDate) {
-        return "/api/events?by_subscriber%5Bsubscriber_id%5D=" + userId + "&by_subscriber%5Bsubscriber_type%5D=" + type + "&start_date_between%5Bend_date%5D=" + endDate + "&start_date_between%5Bstart_date%5D=" + startDate;
+        return "/api/events?by_subscriber%5Bsubscriber_id%5D=" + userId + "&by_subscriber%5Bsubscriber_type%5D=" + type + "&event_is_between%5Bend_date%5D=" + endDate + "&event_is_between%5Bstart_date%5D=" + startDate;
     }
 
     public static String createEvent() {
