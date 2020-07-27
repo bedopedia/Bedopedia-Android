@@ -20,12 +20,13 @@ import trianglz.core.presenters.SuperPresenter;
 import trianglz.core.views.SuperView;
 import trianglz.managers.SessionManager;
 
-public class SuperActivity extends AppCompatActivity implements SuperPresenter {
+public class SuperActivity extends AppCompatActivity implements SuperPresenter, ErrorDialog.DialogConfirmationInterface {
     // public ProgressDialog progress;
     public LoadingDialog progress;
-    private SuperView superView;
     public ErrorDialog errorDialog;
     public boolean enableVersionCheck = true;
+    private SuperView superView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,7 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
     }
 
     public void showLoadingDialog() {
-      //  progress.setTitle(R.string.LoadDialogueTitle);
+        //  progress.setTitle(R.string.LoadDialogueTitle);
         //     progress.setMessage(getString(R.string.LoadDialogueBody));
         progress.show();
         progress.setIndicatorColor();
@@ -62,12 +63,17 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
 
 
     public void showErrorDialog(Context context, int errorCode, String content) {
-        if (errorCode == 401 || errorCode == 500) {
-            content = context.getResources().getString(R.string.system_error);
-        } else if (errorCode != -3) {
+        if (errorCode == 401 || errorCode == 403) {
             content = context.getResources().getString(R.string.something_went_wrong);
+            errorDialog = new ErrorDialog(context, content, ErrorDialog.DialogType.LOGOUT_USER,this);
+        } else {
+            if (errorCode == 500) {
+                content = context.getResources().getString(R.string.system_error);
+            } else if (errorCode != -3) {
+                content = context.getResources().getString(R.string.something_went_wrong);
+            }
+            errorDialog = new ErrorDialog(context, content, ErrorDialog.DialogType.ERROR);
         }
-        errorDialog = new ErrorDialog(context,content, ErrorDialog.DialogType.ERROR);
         errorDialog.show();
     }
 
@@ -102,5 +108,15 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter {
                     Uri.parse("http://play.google.com/store/apps/details?id="
                             + getPackageName())));
         }
+    }
+
+    @Override
+    public void onConfirm() {
+        logoutUser(this);
+    }
+
+    @Override
+    public void onCancel() {
+
     }
 }

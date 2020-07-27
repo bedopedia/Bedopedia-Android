@@ -93,12 +93,12 @@ public class ErrorDialog extends Dialog implements DialogInterface.OnShowListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit_btn:
-                if (dialogType == DialogType.CONFIRMATION) {
-                    dialogConfirmationInterface.onConfirm();
-                    dismiss();
-                } else {
-                    dismiss();
+                if(dialogConfirmationInterface != null) {
+                    if (dialogType == DialogType.CONFIRMATION || dialogType == DialogType.LOGOUT_USER) {
+                        dialogConfirmationInterface.onConfirm();
+                    }
                 }
+                dismiss();
                 break;
             case R.id.cancel_btn:
                 if(dialogConfirmationInterface != null){
@@ -114,7 +114,7 @@ public class ErrorDialog extends Dialog implements DialogInterface.OnShowListene
     }
 
     public enum DialogType {
-        CONFIRMATION, ERROR, QUIZ_SUBMISSION
+        CONFIRMATION, ERROR, QUIZ_SUBMISSION,LOGOUT_USER
     }
 
     public interface DialogConfirmationInterface {
