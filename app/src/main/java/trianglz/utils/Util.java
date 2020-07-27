@@ -175,11 +175,11 @@ public class Util {
             Calendar cal = CalendarUtils.getCalendar(Calendar.getInstance().getTime());
             Integer day = cal.get(Calendar.DAY_OF_MONTH);
             String notificationDate = fmtOut.format(date);
-            if (dates[0].equals(String.valueOf(day))) {
-                notificationDate = context.getResources().getString(R.string.today) + notificationDate.substring(dates[0].length() + dates[1].length() + 1);
-            } else if (dates[0].equals(String.valueOf(day - 1))) {
-                notificationDate = context.getResources().getString(R.string.yesterday) + notificationDate.substring(dates[0].length() + dates[1].length() + 1);
-            }
+//            if (dates[0].equals(String.valueOf(day))) {
+//                notificationDate = context.getResources().getString(R.string.today) + notificationDate.substring(dates[0].length() + dates[1].length() + 1);
+//            } else if (dates[0].equals(String.valueOf(day - 1))) {
+//                notificationDate = context.getResources().getString(R.string.yesterday) + notificationDate.substring(dates[0].length() + dates[1].length() + 1);
+//            }
             finalData = notificationDate;
         } catch (ParseException e) {
             e.printStackTrace();
