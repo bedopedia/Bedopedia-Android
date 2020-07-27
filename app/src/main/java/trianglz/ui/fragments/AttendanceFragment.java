@@ -120,7 +120,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         lateView = rootView.findViewById(R.id.view_late);
         absentView = rootView.findViewById(R.id.view_absent);
         excusedView = rootView.findViewById(R.id.view_excused);
-        monthYearTextView.setText(setHeaderDate(Calendar.getInstance().getTime()));
+        monthYearTextView.setText(setHeaderDate(Calendar.getInstance().getTime(),false));
     }
 
     private void setListeners() {
@@ -239,10 +239,16 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         absentView.setVisibility(View.INVISIBLE);
     }
 
-    private String setHeaderDate(Date date) {
+    private String setHeaderDate(Date date,boolean isTimeZoneDate) {
         DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(new Locale("en"));
         String[] months = dateFormatSymbols.getMonths();
-        String monthString = months[date.getMonth()];
+        String monthString;
+        if(isTimeZoneDate){
+            monthString= months[date.getMonth()+1];
+        }else {
+            monthString= months[date.getMonth()];
+        }
+
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy", new Locale("en"));
         String yearDate = fmt.format(date);
         return monthString + " " + yearDate;
@@ -288,7 +294,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onMonthScroll(Date firstDayOfNewMonth) {
-        monthYearTextView.setText(setHeaderDate(firstDayOfNewMonth));
+        monthYearTextView.setText(setHeaderDate(firstDayOfNewMonth,true));
         if (firstDayOfNewMonth.getYear() == calendar.getTime().getYear()
                 && firstDayOfNewMonth.getMonth() == calendar.getTime().getMonth()
                 && firstDayOfNewMonth.getDay() == calendar.getTime().getDay()) {

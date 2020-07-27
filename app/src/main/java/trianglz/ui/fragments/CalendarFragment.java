@@ -172,7 +172,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         personalView = rootView.findViewById(R.id.view_personal);
         assignmentsView = rootView.findViewById(R.id.view_assignments);
         quizzesView = rootView.findViewById(R.id.view_quizzes);
-        monthYearTextView.setText(setHeaderDate(Calendar.getInstance().getTime()));
+        monthYearTextView.setText(setHeaderDate(Calendar.getInstance().getTime(),false));
         setStudentImage(student.avatar, student.firstName + " " + student.lastName);
 
         createEventLayout = rootView.findViewById(R.id.create_event_framelayout);
@@ -277,14 +277,20 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         Collections.sort(vacations, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
     }
 
-    private String setHeaderDate(Date date) {
+    private String setHeaderDate(Date date,boolean isTimeZoneDate) {
         DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(new Locale("en"));
         String[] months = dateFormatSymbols.getMonths();
-        String monthString = months[date.getMonth()];
+        String monthString;
+        if(isTimeZoneDate) {
+             monthString = months[date.getMonth()+1];
+        }else {
+            monthString = months[date.getMonth()];
+        }
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy", new Locale("en"));
         String yearDate = fmt.format(date);
         return monthString + " " + yearDate;
     }
+
 
     private void deselectAll() {
         allView.setVisibility(View.INVISIBLE);
@@ -413,7 +419,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onMonthScroll(Date firstDayOfNewMonth) {
-        monthYearTextView.setText(setHeaderDate(firstDayOfNewMonth));
+        monthYearTextView.setText(setHeaderDate(firstDayOfNewMonth,true));
         compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.jade_green));
         if (firstDayOfNewMonth
                 .getYear() == calendar.getTime().getYear()
