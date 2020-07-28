@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.logging.Logger;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -172,7 +173,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         personalView = rootView.findViewById(R.id.view_personal);
         assignmentsView = rootView.findViewById(R.id.view_assignments);
         quizzesView = rootView.findViewById(R.id.view_quizzes);
-        monthYearTextView.setText(setHeaderDate(Calendar.getInstance().getTime(),false));
+        monthYearTextView.setText(setHeaderDate(Calendar.getInstance().getTime()));
         setStudentImage(student.avatar, student.firstName + " " + student.lastName);
 
         createEventLayout = rootView.findViewById(R.id.create_event_framelayout);
@@ -277,18 +278,19 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         Collections.sort(vacations, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
     }
 
-    private String setHeaderDate(Date date,boolean isTimeZoneDate) {
-        DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(new Locale("en"));
-        String[] months = dateFormatSymbols.getMonths();
-        String monthString;
-        if(isTimeZoneDate) {
-             monthString = months[date.getMonth()+1];
+    private String setHeaderDate(Date date) {
+        Calendar mCalendar;
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")) {
+            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+            mCalendar = Calendar.getInstance(TimeZone.getTimeZone(timeZone));
         }else {
-            monthString = months[date.getMonth()];
+            mCalendar = Calendar.getInstance();
         }
+        mCalendar.setTime(date);
+        String month = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy", new Locale("en"));
         String yearDate = fmt.format(date);
-        return monthString + " " + yearDate;
+        return month + " " + yearDate;
     }
 
 
@@ -419,7 +421,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onMonthScroll(Date firstDayOfNewMonth) {
-        monthYearTextView.setText(setHeaderDate(firstDayOfNewMonth,true));
+        monthYearTextView.setText(setHeaderDate(firstDayOfNewMonth));
         compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.jade_green));
         if (firstDayOfNewMonth
                 .getYear() == calendar.getTime().getYear()

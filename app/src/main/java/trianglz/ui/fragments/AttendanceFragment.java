@@ -120,7 +120,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         lateView = rootView.findViewById(R.id.view_late);
         absentView = rootView.findViewById(R.id.view_absent);
         excusedView = rootView.findViewById(R.id.view_excused);
-        monthYearTextView.setText(setHeaderDate(Calendar.getInstance().getTime(),false));
+        monthYearTextView.setText(setHeaderDate(Calendar.getInstance().getTime()));
     }
 
     private void setListeners() {
@@ -239,19 +239,19 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         absentView.setVisibility(View.INVISIBLE);
     }
 
-    private String setHeaderDate(Date date,boolean isTimeZoneDate) {
-        DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(new Locale("en"));
-        String[] months = dateFormatSymbols.getMonths();
-        String monthString;
-        if(isTimeZoneDate){
-            monthString= months[date.getMonth()+1];
+    private String setHeaderDate(Date date) {
+        Calendar mCalendar;
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")) {
+            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+             mCalendar = Calendar.getInstance(TimeZone.getTimeZone(timeZone));
         }else {
-            monthString= months[date.getMonth()];
+            mCalendar = Calendar.getInstance();
         }
-
+        mCalendar.setTime(date);
+        String month = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy", new Locale("en"));
         String yearDate = fmt.format(date);
-        return monthString + " " + yearDate;
+        return month + " " + yearDate;
     }
 
     @Override
@@ -294,7 +294,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onMonthScroll(Date firstDayOfNewMonth) {
-        monthYearTextView.setText(setHeaderDate(firstDayOfNewMonth,true));
+        monthYearTextView.setText(setHeaderDate(firstDayOfNewMonth));
         if (firstDayOfNewMonth.getYear() == calendar.getTime().getYear()
                 && firstDayOfNewMonth.getMonth() == calendar.getTime().getMonth()
                 && firstDayOfNewMonth.getDay() == calendar.getTime().getDay()) {
