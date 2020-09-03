@@ -2,8 +2,6 @@ package trianglz.core.views;
 
 import android.content.Context;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import trianglz.core.presenters.SchoolLoginPresenter;
@@ -24,52 +22,39 @@ public class SchoolLoginView {
         this.presenter = presenter;
     }
 
-    public void getSchoolUrl(String url,String code){
-        UserManager.getSchoolUrl(url,code, new ResponseListener() {
+    public void getSchoolUrl(String url, String code) {
+        UserManager.getSchoolUrl(url, code, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 String url = response.optString(Constants.KEY_URL);
                 presenter.onGetSchoolUrlSuccess(url);
-                
+
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                presenter.onGetSchoolUrlFailure(message,errorCode);
+                presenter.onGetSchoolUrlFailure(message, errorCode);
             }
         });
     }
 
-    public void getSchoolData(String url,String code) {
+    public void getSchoolData(String url, String code) {
         UserManager.getSchoolUrl(url, code, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 int id = Integer.parseInt(response.optString(Constants.KEY_ID));
                 String name = response.optString(Constants.KEY_NAME);
-                String schoolDescription = response.optString(Constants.KEY_SCHOOL_DESCRIPTION);
                 String avatarUrl = response.optString(Constants.KEY_AVATER_URL);
-                String gaTrackingId = response.optString(Constants.KEY_GA_TRACKING_ID);
+                String code = response.optString(Constants.KEY_CODE);
+                String url = response.optString(Constants.KEY_URL);
+                School school = new School(id, name, code, url,avatarUrl);
+                presenter.onGetSchoolDataSuccess(school);
 
-                try {
-                    JSONObject baseResponse = new JSONObject(String.valueOf(response));
-                    JSONObject configObject = baseResponse.optJSONObject(Constants.KEY_CONFIG);
-                    String attendanceAllowSlot = configObject.optString("attendance_allow_teacher_record_slot");
-                    String attendanceAllowFullDay = configObject.optString("attendance_allow_teacher_record_full_day");
-                    JSONArray defaultConfigArray = baseResponse.getJSONArray(Constants.KEY_DEFAULT_CONFIGS);
-                    String defaultConfigSlot = defaultConfigArray.get(0).toString();
-                    String defaultConfigFullDay = defaultConfigArray.get(1).toString();
-
-                    School school = new School(id, name, schoolDescription, avatarUrl, gaTrackingId, attendanceAllowSlot,
-                            attendanceAllowFullDay, defaultConfigSlot, defaultConfigFullDay,"");
-                    presenter.onGetSchoolDataSuccess(school);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                presenter.onGetSchoolDataFailure(message,errorCode);
+                presenter.onGetSchoolDataFailure(message, errorCode);
             }
         });
     }

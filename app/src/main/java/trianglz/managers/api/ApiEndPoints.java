@@ -7,9 +7,9 @@ import android.net.Uri;
  */
 public class ApiEndPoints {
     //Base url
-    public static final String BASE_URL = "https://bedopedia-schools.herokuapp.com/";
+    public static final String BASE_URL = "https://schools.skoleralms.com/api/";
     //SCHOOL_CODE_URL
-    public static final String SCHOOL_CODE_BASE_URL = BASE_URL + "schools/get_by_code";
+    public static final String SCHOOL_CODE_BASE_URL = BASE_URL + "get_school_by_code";
 
     public static String averageGradeEndPoint(int courseId, int courseGroupId) {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/student_grade";

@@ -38,7 +38,7 @@ public class UserManager {
     public static void getSchoolUrl(String url, String code, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
-        paramsHashMap.put(Constants.KEY_CODE, code);
+        url = url +"?code="+ code;
         NetworkManager.getWithParameter(url + "", paramsHashMap, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
