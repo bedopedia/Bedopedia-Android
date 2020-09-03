@@ -14,7 +14,7 @@ public class SessionManager {
     private static SessionManager mInstance;
     public SharedPreferences mPreferences;
     public SharedPreferences.Editor mEditor;
-    private static final String PREF_NAME = App.TAG;
+    private static final String PREF_NAME = "skolera_pref";
     private static final int PRIVATE_MODE = 0;
 
     //login
