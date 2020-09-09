@@ -7,9 +7,9 @@ import android.net.Uri;
  */
 public class ApiEndPoints {
     //Base url
-    public static final String BASE_URL = "https://bedopedia-schools.herokuapp.com/";
+    public static final String BASE_URL = "https://schools.skoleralms.com/api/";
     //SCHOOL_CODE_URL
-    public static final String SCHOOL_CODE_BASE_URL = BASE_URL + "schools/get_by_code";
+    public static final String SCHOOL_CODE_BASE_URL = BASE_URL + "get_school_by_code";
 
     public static String averageGradeEndPoint(int courseId, int courseGroupId) {
         return "/api/courses/" + courseId + "/course_groups/" + courseGroupId + "/student_grade";
@@ -153,7 +153,7 @@ public class ApiEndPoints {
     }
 
     public static String getEvents(int userId, String type, String endDate, String startDate) {
-        return "/api/events?by_subscriber%5Bsubscriber_id%5D=" + userId + "&by_subscriber%5Bsubscriber_type%5D=" + type + "&start_date_between%5Bend_date%5D=" + endDate + "&start_date_between%5Bstart_date%5D=" + startDate;
+        return "/api/events?by_subscriber%5Bsubscriber_id%5D=" + userId + "&by_subscriber%5Bsubscriber_type%5D=" + type + "&event_is_between%5Bend_date%5D=" + endDate + "&event_is_between%5Bstart_date%5D=" + startDate;
     }
 
     public static String createEvent() {

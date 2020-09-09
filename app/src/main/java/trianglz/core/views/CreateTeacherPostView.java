@@ -35,7 +35,7 @@ public class CreateTeacherPostView {
 
             @Override
             public void onFailure(String message, int errorCode) {
-
+                createTeacherPostPresenter.onPostCreatedFailure(message,errorCode);
             }
         });
     }

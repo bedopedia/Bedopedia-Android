@@ -94,10 +94,12 @@ public class TimeTableSlot implements Comparable<TimeTableSlot>, Serializable {
     }
     @Override
     public int compareTo(@NonNull TimeTableSlot o) {
-        if(this.getFrom().getHours() > o.getFrom().getHours())
-            return 1;
-        else if (this.getFrom().getHours() < o.getFrom().getHours())
-            return -1;
+        if(this.getFrom() != null && o.getFrom() != null) {
+            if (this.getFrom().getHours() > o.getFrom().getHours())
+                return 1;
+            else if (this.getFrom().getHours() < o.getFrom().getHours())
+                return -1;
+        }
         return 0;
     }
 }

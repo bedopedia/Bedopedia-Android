@@ -12,6 +12,7 @@ import java.io.File;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -37,7 +38,7 @@ public class UserManager {
     public static void getSchoolUrl(String url, String code, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
-        paramsHashMap.put(Constants.KEY_CODE, code);
+        url = url +"?code="+ code;
         NetworkManager.getWithParameter(url + "", paramsHashMap, headerHashMap, new HandleResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -765,8 +766,11 @@ public class UserManager {
         JSONObject listenersJsonObject = new JSONObject();
         JSONArray listenerJsonArray = new JSONArray();
         SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-        sdf.setTimeZone(TimeZone.getTimeZone("CET"));
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+//        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+//            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+//            sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
+//        }
         String d1 = sdf.format(startDate);
         String d2 = sdf.format(endDate);
         try {
@@ -947,7 +951,7 @@ public class UserManager {
         });
     }
 
-    public static void createTeacherPost(String url, String post, int ownerId, int courseGroupId, String postableType, final ResponseListener responseListener) {
+    public static void  createTeacherPost(String url, String post, int ownerId, int courseGroupId, String postableType, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject jsonObject = new JSONObject();
         JSONObject postJsonObject = new JSONObject();
@@ -970,6 +974,7 @@ public class UserManager {
 
             @Override
             public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message,errorCode);
 
             }
         });

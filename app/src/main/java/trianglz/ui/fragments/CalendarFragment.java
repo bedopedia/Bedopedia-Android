@@ -26,6 +26,9 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -35,6 +38,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.logging.Logger;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -124,6 +128,10 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         quizzes = new ArrayList<>();
         compactCalendarView = rootView.findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), new Locale("en"));
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")) {
+            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+            compactCalendarView.setLocale(TimeZone.getTimeZone(timeZone), new Locale("en"));
+        }
         compactCalendarView.setUseThreeLetterAbbreviation(true);
         compactCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
         compactCalendarView.removeAllEvents();
@@ -271,13 +279,20 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     }
 
     private String setHeaderDate(Date date) {
-        DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(new Locale("en"));
-        String[] months = dateFormatSymbols.getMonths();
-        String monthString = months[date.getMonth()];
+        Calendar mCalendar;
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")) {
+            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+            mCalendar = Calendar.getInstance(TimeZone.getTimeZone(timeZone));
+        }else {
+            mCalendar = Calendar.getInstance();
+        }
+        mCalendar.setTime(date);
+        String month = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy", new Locale("en"));
         String yearDate = fmt.format(date);
-        return monthString + " " + yearDate;
+        return month + " " + yearDate;
     }
+
 
     private void deselectAll() {
         allView.setVisibility(View.INVISIBLE);
@@ -303,8 +318,18 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     private void createEvents(ArrayList<trianglz.models.Event> eventsArrayList, int color) {
         for (int i = 0; i < eventsArrayList.size(); i++) {
             Calendar c = Calendar.getInstance();
-            DateTime startTime = new DateTime(eventsArrayList.get(i).getStartDate());
-            DateTime endTime = new DateTime(eventsArrayList.get(i).getEndDate());
+            DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+            DateTime startTime,endTime;
+            if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+                String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+                DateTimeZone zone = DateTimeZone.forID(timeZone);
+                startTime = fmt.parseDateTime(eventsArrayList.get(i).getStartDate()).withZoneRetainFields(zone);
+                endTime = fmt.parseDateTime(eventsArrayList.get(i).getEndDate()).withZoneRetainFields(zone);
+            }else {
+                startTime = fmt.parseDateTime(eventsArrayList.get(i).getStartDate());
+                endTime = fmt.parseDateTime(eventsArrayList.get(i).getEndDate());
+            }
+
             c.setTimeInMillis(startTime.getMillis());
             while (c.getTimeInMillis() <= endTime.getMillis()) {
                 boolean skip = false;

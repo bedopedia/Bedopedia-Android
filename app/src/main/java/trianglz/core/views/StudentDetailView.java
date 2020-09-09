@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +29,7 @@ import java.util.TimeZone;
 
 import Tools.CalendarUtils;
 import trianglz.core.presenters.StudentDetailPresenter;
+import trianglz.managers.SessionManager;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
@@ -189,18 +192,24 @@ public class StudentDetailView {
         List<TimeTableSlot> tomorrowSlots = new ArrayList<>();
         Calendar calendar = CalendarUtils.getCalendarWithoutDate();
         Date date = calendar.getTime();
-        String today = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE", Locale.ENGLISH);
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+            sdf.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
+        }
+        String today = sdf.format(date.getTime());
         calendar.add(Calendar.DATE, 1);
         date = calendar.getTime();
-        String tomorrow = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
+        String tomorrow = sdf.format(date.getTime());
         today = today.toLowerCase();
         tomorrow = tomorrow.toLowerCase();
 //        if (today.equals(Constants.THURSDAY)) {
 //            tomorrow = "sunday";
 //        }
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+//            formatter.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
+//        }
         for (int i = 0; i < jsonArray.length(); i++) {
 
             JSONObject slot = jsonArray.optJSONObject(i);
@@ -240,9 +249,13 @@ public class StudentDetailView {
                 nextSlot = ("Next: " + timeSlotIterator.getCourseName() + ", " + timeSlotIterator.getDay() + " " + dateFormat.format(timeSlotIterator.getFrom()));
                 break;
         }
-        if (!nextSlotFound && tomorrowSlots.size() > 0) {
+        if (!nextSlotFound && tomorrowSlots.size() > 0 ) {
             TimeTableSlot timeSlot = tomorrowSlots.get(0);
-            nextSlot = ("Next: " + timeSlot.getCourseName() + ", " + timeSlot.getDay() + " " + dateFormat.format(timeSlot.getFrom()));
+            if(timeSlot.getFrom() != null){
+                nextSlot = ("Next: " + timeSlot.getCourseName() + ", " + timeSlot.getDay() + " " + dateFormat.format(timeSlot.getFrom()));
+            }else {
+                nextSlot = "";
+            }
         }
         timeTableData.add(todaySlots);
         timeTableData.add(tomorrowSlots);
@@ -418,8 +431,9 @@ public class StudentDetailView {
                 JSONObject dailyNotes = weeklyPlan.optJSONObject(Constants.KEY_DAILY_NOTEs);
                 ArrayList<Day> days = new ArrayList<>();
                 // calculates number of days between start and end
-                DateTime startDate = new DateTime(weeklyPlannerResponse.weeklyPlans.get(0).startDate);
-                int numDays = Days.daysBetween(startDate, new DateTime(weeklyPlannerResponse.weeklyPlans.get(0).endDate)).getDays();
+                DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
+                DateTime startDate =fmt.parseDateTime(weeklyPlannerResponse.weeklyPlans.get(0).startDate);
+                int numDays = Days.daysBetween(startDate, fmt.parseDateTime(weeklyPlannerResponse.weeklyPlans.get(0).endDate)).getDays();
                 for (DayWithDate dayWithDate: getCurrentWeekArray(startDate, numDays + 1)) {
                     JSONArray day = dailyNotes.optJSONArray(dayWithDate.date);
                     ArrayList<PlannerSubject> plannerSubjects = new ArrayList<>();

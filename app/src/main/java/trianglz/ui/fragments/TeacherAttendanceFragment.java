@@ -21,6 +21,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 
+import org.joda.time.DateTimeZone;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +30,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import trianglz.components.ExcusedDialog;
 import trianglz.components.TakeAttendanceDialog;
@@ -179,9 +182,12 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     }
 
     private void getDateInNumbers() {
-        Date today = new Date();
+//        Date today = new Date();
         Calendar cal = Calendar.getInstance();
-        cal.setTime(today);
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+            cal =  Calendar.getInstance(TimeZone.getTimeZone(timeZone));
+        }
         day = cal.get(Calendar.DAY_OF_MONTH);
         month = cal.get(Calendar.MONTH) + 1;
         year = cal.get(Calendar.YEAR);
@@ -190,6 +196,9 @@ public class TeacherAttendanceFragment extends Fragment implements View.OnClickL
     private String getCurrentDate() {
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("EEEE d MMM");
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+            df.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
+        }
         String formattedDate = df.format(c);
         return formattedDate;
     }

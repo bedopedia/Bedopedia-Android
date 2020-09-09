@@ -113,16 +113,21 @@ public class NewMessageView {
         return teacherArrayList;
     }
 
-    private Stage parseStage(JSONObject stageJsonObject){
-         String createdAt = stageJsonObject.optString(Constants.KEY_CREATED_AT);
-        Object deletedAt = stageJsonObject.opt(Constants.KEY_DELETED_AT);
-        int id = stageJsonObject.optInt(Constants.KEY_ID);
-        boolean isDeleted = stageJsonObject.optBoolean(Constants.KEY_IS_DELETED);
-        boolean isPreSchool = stageJsonObject.optBoolean(Constants.KEY_IS_PRESCHOOL);
-        String name = stageJsonObject.optString(Constants.KEY_NAME);
-        int sectionId = stageJsonObject.optInt(Constants.KEY_SECTION_ID);
-        String updatedAt = stageJsonObject.optString(Constants.KEY_UPADTED_AT);
-        Stage stage = new Stage(createdAt,deletedAt,id,isDeleted,isPreSchool,name,sectionId,updatedAt);
-        return stage;
+    private Stage parseStage(JSONObject stageJsonObject) {
+        // TODO: 7/8/20 Time zone fixes i removed stage object for now , it wasn't used  
+        if (stageJsonObject != null) {
+            String createdAt = stageJsonObject.optString(Constants.KEY_CREATED_AT);
+            Object deletedAt = stageJsonObject.opt(Constants.KEY_DELETED_AT);
+            int id = stageJsonObject.optInt(Constants.KEY_ID);
+            boolean isDeleted = stageJsonObject.optBoolean(Constants.KEY_IS_DELETED);
+            boolean isPreSchool = stageJsonObject.optBoolean(Constants.KEY_IS_PRESCHOOL);
+            String name = stageJsonObject.optString(Constants.KEY_NAME);
+            int sectionId = stageJsonObject.optInt(Constants.KEY_SECTION_ID);
+            String updatedAt = stageJsonObject.optString(Constants.KEY_UPADTED_AT);
+            Stage stage = new Stage(createdAt, deletedAt, id, isDeleted, isPreSchool, name, sectionId, updatedAt);
+            return stage;
+        }
+        return null;
     }
+
 }

@@ -80,6 +80,14 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
         return createPersonalEventFragment;
     }
 
+    public static String getCurrentDate() {
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm a");
+        df.setTimeZone(TimeZone.getDefault());
+        Date dateObject = Calendar.getInstance().getTime();
+        String date = df.format(dateObject);
+        return date;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
@@ -99,7 +107,6 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
         studentName = student.firstName + " " + student.lastName;
         setStudentImage(student.avatar, studentName);
     }
-
 
     private void getValueFromIntent() {
         Bundle bundle = this.getArguments();
@@ -234,17 +241,21 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
                 }
                 isTimeSet = true;
                 final Calendar c = Calendar.getInstance();
+//                if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+//                    c.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
+//                }
                 c.set(yearSelected, monthSelected, daySelected, selectedHours, selectedMinute);
 
                 if (Util.getLocale(activity).equals("ar"))
                     editText.append(" " + String.format(new Locale("ar"), "%02d:%02d", twelveHourFormat, selectedMinute) + " " + status);
                 else
                     editText.append(" " + String.format("%02d:%02d", twelveHourFormat, selectedMinute) + " " + status);
-                if (editText.getId() == R.id.event_start_date_btn) {
+                if (editText.getId() == R.id.et_start_date) {
                     firstDate = c.getTime();
                     Log.d("dates", "onTimeSet: " + firstDate);
-                } else
+                } else{
                     secondDate = c.getTime();
+                }
             }
         }, hour, minute, false);
         timePickerDialog.show();
@@ -288,14 +299,20 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
     }
 
     private boolean checkDateAndTime(Date first, Date second) {
-        boolean valid = false;
-        if (first.before(second)) {
-            valid = true;
-        } else if (first.after(second)) {
-            valid = false;
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(firstDate);
+        cal2.setTime(secondDate);
+        boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.HOUR_OF_DAY) == cal2.get(Calendar.HOUR_OF_DAY) &&
+                cal1.get(Calendar.MINUTE) == cal2.get(Calendar.MINUTE);
+        if (first.after(second) || sameDay) {
             activity.showErrorDialog(activity, -3, activity.getResources().getString(R.string.correct_dates));
+            return false;
+        } else {
+            return true;
         }
-        return valid;
     }
 
     private void setStudentImage(String imageUrl, final String name) {
@@ -330,21 +347,12 @@ public class CreatePersonalEventFragment extends Fragment implements View.OnClic
             activity.showLoadingDialog();
             String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.createEvent();
             if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
-                createPersonalEventView.createEvent(url, firstDate, secondDate, "personal", "false", subjectEditText.getText().toString(), "User", student.userId+"", notesEditText.getText().toString(), "false");
-            }else {
+                createPersonalEventView.createEvent(url, firstDate, secondDate, "personal", "false", subjectEditText.getText().toString(), "User", student.userId + "", notesEditText.getText().toString(), "false");
+            } else {
                 createPersonalEventView.createEvent(url, firstDate, secondDate, "personal", "false", subjectEditText.getText().toString(), "User", SessionManager.getInstance().getUserId(), notesEditText.getText().toString(), "false");
             }
         }
     }
-
-    public static String getCurrentDate() {
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm a");
-        df.setTimeZone(TimeZone.getDefault());
-        Date dateObject = Calendar.getInstance().getTime();
-        String date = df.format(dateObject);
-        return date;
-    }
-
 
     @Override
     public void onClick(View v) {

@@ -23,9 +23,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -141,7 +143,12 @@ public class TodayFragment extends Fragment {
 
 
         Date nowDate = new Date();
-        Calendar calendar = CalendarUtils.getGregorianCalendar(nowDate);// creates a new calendar instance
+        Calendar calendar = GregorianCalendar.getInstance();
+        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
+            String timeZone = SessionManager.getInstance().getHeaderHashMap().get("timezone");
+            calendar =  GregorianCalendar.getInstance(TimeZone.getTimeZone(timeZone));
+        }
+        calendar.setTime(nowDate);
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE);
         if(hours >= 7 && hours < 19) {
