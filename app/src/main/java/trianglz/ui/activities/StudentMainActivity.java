@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ import trianglz.managers.SessionManager;
 import trianglz.models.Actor;
 import trianglz.models.Attendances;
 import trianglz.models.Student;
+import trianglz.ui.adapters.ChatAdapter;
 import trianglz.ui.adapters.StudentMainPagerAdapter;
 import trianglz.ui.fragments.AnnouncementsFragment;
 import trianglz.ui.fragments.MenuFragment;
@@ -63,6 +66,7 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
     private NotificationsFragment notificationsFragment;
     private MenuFragment menuFragment;
     private TeacherCoursesFragment teacherCoursesFragment;
+    private ImageView logoImageView;
 
     // booleans
 
@@ -247,7 +251,16 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
             pager.setCurrentItem(2);
             handleHodTabs(0);
         }
+        logoImageView = findViewById(R.id.img_logo);
+        Log.v("test_url",SessionManager.getInstance().getSchoolLogoHeader());
+        Picasso.with(this)
+                .load(SessionManager.getInstance().getSchoolLogoHeader())
+                .fit()
+                .centerInside()
+                .placeholder(R.drawable.logo_2)
+                .into(logoImageView);
     }
+
 
     private void setUpAdapterAccordingToUserType() {
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {

@@ -19,6 +19,7 @@ import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.Display;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.skolera.skolera_android.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -43,6 +44,7 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
     private ImageView redCircleImageView;
     private ArrayList<Student> students;
     private boolean canSelect = true;
+    private ImageView logoImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,13 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
         settingsBtn = findViewById(R.id.btn_setting);
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, this), false));
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        logoImageView = findViewById(R.id.img_logo);
+        Picasso.with(this)
+                .load(SessionManager.getInstance().getSchoolLogoHeader())
+                .fit()
+                .centerInside()
+                .placeholder(R.drawable.logo_2)
+                .into(logoImageView);
 
     }
 
