@@ -29,6 +29,7 @@ public class SessionManager {
     private String runningAnnouncements = "running_announcements";
     private String timeZone = "time_zone";
     private String deviceId = "device_id";
+    private String schoolLogoHeader = "school_logo_header";
 
     public boolean isToUpdateNotificaton = false;
 
@@ -196,6 +197,14 @@ public class SessionManager {
     public String getDeviceId() {
         return mPreferences.getString(deviceId, "");
 
+    }
+
+    public void setSchoolLogoHeader(String image){
+        mEditor.putString(schoolLogoHeader,image);
+    }
+
+    public String getSchoolLogoHeader(){
+        return mPreferences.getString(schoolLogoHeader,"");
     }
 
 }

@@ -1,10 +1,12 @@
 package trianglz.core.views;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONObject;
 
 import trianglz.core.presenters.SchoolLoginPresenter;
+import trianglz.managers.SessionManager;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.School;
@@ -26,6 +28,7 @@ public class SchoolLoginView {
         UserManager.getSchoolUrl(url, code, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
+                Log.v("test_url",response.toString());
                 String url = response.optString(Constants.KEY_URL);
                 presenter.onGetSchoolUrlSuccess(url);
 
@@ -42,12 +45,15 @@ public class SchoolLoginView {
         UserManager.getSchoolUrl(url, code, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
+                Log.v("test_url_response",response.toString());
                 int id = Integer.parseInt(response.optString(Constants.KEY_ID));
                 String name = response.optString(Constants.KEY_NAME);
                 String avatarUrl = response.optString(Constants.KEY_AVATER_URL);
                 String code = response.optString(Constants.KEY_CODE);
                 String url = response.optString(Constants.KEY_URL);
-                School school = new School(id, name, code, url,avatarUrl);
+                String headerUrl = response.optString(Constants.KEY_HEADER_URL);
+                School school = new School(id, name, code, url,avatarUrl,headerUrl);
+                SessionManager.getInstance().setSchoolLogoHeader(headerUrl);
                 presenter.onGetSchoolDataSuccess(school);
 
             }

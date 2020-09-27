@@ -273,5 +273,7 @@ public class Constants {
     public static final String CHILDREN = "children";
     public static final String PRESENT_COUNT = "present_count";
     public static final String PERCENTAGE = "percentage";
+
+    public static final String KEY_HEADER_URL = "header_url";
 }
 
