@@ -82,8 +82,8 @@ public class Student extends trianglz.models.User implements Parcelable {
     public String schoolName;
     @SerializedName("realtime_ip")
     public String realtimeIp;
-    @SerializedName("password_changed")
-    public boolean passwordChanged;
+//    @SerializedName("password_changed")
+//    public boolean passwordChanged;
     @SerializedName("parent_id")
     public int parentId;
     @SerializedName("section_name")
@@ -231,7 +231,7 @@ public class Student extends trianglz.models.User implements Parcelable {
         dest.writeInt(this.unseenNotifications);
         dest.writeString(this.schoolName);
         dest.writeString(this.realtimeIp);
-        dest.writeByte(this.passwordChanged ? (byte) 1 : (byte) 0);
+//        dest.writeByte(this.passwordChanged ? (byte) 1 : (byte) 0);
         dest.writeInt(this.parentId);
         dest.writeString(this.sectionName);
         dest.writeInt(this.levelId);
@@ -290,7 +290,7 @@ public class Student extends trianglz.models.User implements Parcelable {
         this.unseenNotifications = in.readInt();
         this.schoolName = in.readString();
         this.realtimeIp = in.readString();
-        this.passwordChanged = in.readByte() != 0;
+//        this.passwordChanged = in.readByte() != 0;
         this.parentId = in.readInt();
         this.sectionName = in.readString();
         this.levelId = in.readInt();

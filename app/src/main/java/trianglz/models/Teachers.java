@@ -35,8 +35,8 @@ public class Teachers implements Serializable {
 	private int actableId;
 	@SerializedName("user_id")
 	private int userId;
-	@SerializedName("password_changed")
-	private boolean passwordChanged;
+//	@SerializedName("password_changed")
+//	private boolean passwordChanged;
 
 	public void setId(int id) {
 		this.id = id;
@@ -126,13 +126,13 @@ public class Teachers implements Serializable {
 		return this.userId;
 	}
 
-	public void setPasswordChanged(boolean passwordChanged) {
-		this.passwordChanged = passwordChanged;
-	}
-
-	public boolean getPasswordChanged() {
-		return this.passwordChanged;
-	}
+//	public void setPasswordChanged(boolean passwordChanged) {
+//		this.passwordChanged = passwordChanged;
+//	}
+//
+//	public boolean getPasswordChanged() {
+//		return this.passwordChanged;
+//	}
 
 
 	public static Teachers create(String json) {

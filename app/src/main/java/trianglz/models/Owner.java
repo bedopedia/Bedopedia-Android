@@ -38,8 +38,8 @@ public class Owner implements Serializable, Parcelable {
 	public int actableId;
 	@SerializedName("user_id")
 	public int userId;
-	@SerializedName("password_changed")
-	public boolean passwordChanged;
+//	@SerializedName("password_changed")
+//	public boolean passwordChanged;
 
 	public static Owner create(String json) {
 		Gson gson = new GsonBuilder().create();
@@ -69,7 +69,7 @@ public class Owner implements Serializable, Parcelable {
 		dest.writeString(this.nameWithTitle);
 		dest.writeInt(this.actableId);
 		dest.writeInt(this.userId);
-		dest.writeByte(this.passwordChanged ? (byte) 1 : (byte) 0);
+//		dest.writeByte(this.passwordChanged ? (byte) 1 : (byte) 0);
 	}
 
 	public Owner() {
@@ -87,7 +87,7 @@ public class Owner implements Serializable, Parcelable {
 		this.nameWithTitle = in.readString();
 		this.actableId = in.readInt();
 		this.userId = in.readInt();
-		this.passwordChanged = in.readByte() != 0;
+//		this.passwordChanged = in.readByte() != 0;
 	}
 
 	public static final Parcelable.Creator<Owner> CREATOR = new Parcelable.Creator<Owner>() {
