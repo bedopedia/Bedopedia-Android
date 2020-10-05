@@ -80,12 +80,15 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, this), false));
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         logoImageView = findViewById(R.id.img_logo);
-        Picasso.with(this)
-                .load(SessionManager.getInstance().getSchoolLogoHeader())
-                .fit()
-                .centerInside()
-                .placeholder(R.drawable.logo_2)
-                .into(logoImageView);
+        if(!SessionManager.getInstance().getSchoolLogoHeader().isEmpty()){
+            Picasso.with(this)
+                    .load(SessionManager.getInstance().getSchoolLogoHeader())
+                    .fit()
+                    .centerInside()
+                    .placeholder(R.drawable.logo_2)
+                    .into(logoImageView);
+        }
+
 
     }
 

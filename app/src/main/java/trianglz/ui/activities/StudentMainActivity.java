@@ -252,13 +252,15 @@ public class StudentMainActivity extends SuperActivity implements View.OnClickLi
             handleHodTabs(0);
         }
         logoImageView = findViewById(R.id.img_logo);
-        Log.v("test_url",SessionManager.getInstance().getSchoolLogoHeader());
-        Picasso.with(this)
-                .load(SessionManager.getInstance().getSchoolLogoHeader())
-                .fit()
-                .centerInside()
-                .placeholder(R.drawable.logo_2)
-                .into(logoImageView);
+        if(!SessionManager.getInstance().getSchoolLogoHeader().isEmpty()){
+            Picasso.with(this)
+                    .load(SessionManager.getInstance().getSchoolLogoHeader())
+                    .fit()
+                    .centerInside()
+                    .placeholder(R.drawable.logo_2)
+                    .into(logoImageView);
+        }
+
     }
 
 
