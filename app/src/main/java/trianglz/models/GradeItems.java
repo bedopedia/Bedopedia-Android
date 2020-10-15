@@ -15,20 +15,20 @@ public class GradeItems extends StudentGradeModel {
 	public int id;
 	@SerializedName("name")
 	public String name;
-	@SerializedName("grading_period_id")
-	public int gradingPeriodId;
-	@SerializedName("hide_grade")
-	public boolean hideGrade;
-	@SerializedName("type")
-	public String type;
-	@SerializedName("status")
-	public int status;
-	@SerializedName("category_id")
-	public int categoryId;
-	@SerializedName("feedback_content")
-	public Object feedbackContent;
-	@SerializedName("feedback_id")
-	public Object feedbackId;
+//	@SerializedName("grading_period_id")
+//	public int gradingPeriodId;
+//	@SerializedName("hide_grade")
+//	public boolean hideGrade;
+//	@SerializedName("type")
+//	public String type;
+//	@SerializedName("status")
+//	public int status;
+//	@SerializedName("category_id")
+//	public int categoryId;
+//	@SerializedName("feedback_content")
+//	public Object feedbackContent;
+//	@SerializedName("feedback_id")
+//	public Object feedbackId;
 
 
 	public static GradeItems create(String json) {

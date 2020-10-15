@@ -32,8 +32,8 @@ public class SubGradingPeriod {
     private String academicTermId;
     @SerializedName("deleted_at")
     private String deletedAt;
-    @SerializedName("weight")
-    private Object weight;
+//    @SerializedName("weight")
+//    private Object weight;
     @SerializedName("parent_id")
     private int parentId;
     @SerializedName("lock")

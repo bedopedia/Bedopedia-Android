@@ -10,35 +10,35 @@ public class Subcategory {
     @SerializedName("id")
     public int id;
     @SerializedName("weight")
-    public int weight;
+    public double weight;
     @SerializedName("name")
     public String name;
-    @SerializedName("parent_id")
-    public int parentId;
+//    @SerializedName("parent_id")
+//    public int parentId;
     @SerializedName("total")
     public double total;
     @SerializedName("grade")
     public String grade;
-    @SerializedName("quizzes_total")
-    public double quizzesTotal;
-    @SerializedName("quizzes_grade")
-    public double quizzesGrade;
+//    @SerializedName("quizzes_total")
+//    public double quizzesTotal;
+//    @SerializedName("quizzes_grade")
+//    public double quizzesGrade;
     @SerializedName("quizzes")
     public ArrayList<Quizzes> quizzes;
-    @SerializedName("assignments_total")
-    public double assignmentsTotal;
-    @SerializedName("assignments_grade")
-    public double assignmentsGrade;
+//    @SerializedName("assignments_total")
+//    public double assignmentsTotal;
+//    @SerializedName("assignments_grade")
+//    public double assignmentsGrade;
     @SerializedName("assignments")
     public ArrayList<Assignments> assignments;
-    @SerializedName("grade_items_total")
-    public double gradeItemsTotal;
-    @SerializedName("grade_items_grade")
-    public double gradeItemsGrade;
+//    @SerializedName("grade_items_total")
+//    public double gradeItemsTotal;
+//    @SerializedName("grade_items_grade")
+//    public double gradeItemsGrade;
     @SerializedName("grade_items")
     public ArrayList<GradeItems> gradeItems;
-    @SerializedName("percentage")
-    public double percentage;
+//    @SerializedName("percentage")
+//    public double percentage;
     @SerializedName("grade_view")
     public String gradeView;
 
