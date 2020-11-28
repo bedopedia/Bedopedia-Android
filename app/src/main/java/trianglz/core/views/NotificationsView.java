@@ -64,13 +64,16 @@ public class NotificationsView {
 
             JSONObject notificationObj = notificationArray.optJSONObject(i);
             JSONObject to = notificationObj.optJSONObject("to");
+            String studentsNames = "";
+            if(to != null){
+              studentsNames=  to.optString("firstname");
+            }
             String time = notificationObj.optString("created_at");
             notifications.add(new Notification(notificationObj.optString("text"),
                     formatDate(time),
                     notificationObj.optString("logo"),
-                    to.optString("firstname"),
+                    studentsNames,
                     notificationObj.optString("message")));
-
         }
         return notifications;
     }
