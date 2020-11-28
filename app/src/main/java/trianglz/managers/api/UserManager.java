@@ -627,8 +627,8 @@ public class UserManager {
             messageAttributesJsonArray.put(messageAttributesJsonObject);
             messageThreadJsonObject.put(Constants.KEY_MESSAGE_ATTRIBUTES, messageAttributesJsonArray);
             messageThreadJsonObject.put(Constants.KEY_COURSE_ID, courseId);
-            messageThreadJsonObject.put(Constants.KEY_NAME, ".");
-            messageThreadJsonObject.put(Constants.KEY_TAG, ".");
+            messageThreadJsonObject.put(Constants.KEY_NAME, "sent from mobile");
+            messageThreadJsonObject.put(Constants.KEY_TAG, "Question");
             parametersJsonObject.put(Constants.KEY_MESSAGE_THREAD, messageThreadJsonObject);
             parametersJsonObject.put(Constants.KEY_USER_IDS, new JSONArray(list));
         } catch (JSONException e) {
