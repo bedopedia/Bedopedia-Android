@@ -78,12 +78,12 @@ public class SchoolFeesView {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        DateFormat finalFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("en"));
+      //  DateFormat finalFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("en"));
 
 //        if (DateUtils.isToday(Objects.requireNonNull(date).getTime())) {
 //            return context.getResources().getString(R.string.today);
 //        }
-        return finalFormat.format(date);
+        return dateFormat.format(date);
     }
 
 
