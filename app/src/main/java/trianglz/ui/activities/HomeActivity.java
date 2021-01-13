@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -45,6 +47,7 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
     private ArrayList<Student> students;
     private boolean canSelect = true;
     private ImageView logoImageView;
+    private Button checkFeesBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,21 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
         }
         homeView.refreshFireBaseToken();
         checkVersionOnStore();
+        checkFeesBtnListener();
+    }
+
+    private void checkFeesBtnListener() {
+        checkFeesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSchoolFeeActivity();
+            }
+        });
+    }
+
+    private void openSchoolFeeActivity(){
+        Intent intent = new Intent(this, SchoolFeeActivity.class);
+        startActivity(intent);
     }
 
     private void getValueFromIntent(Intent intent) {
@@ -80,6 +98,7 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, this), false));
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         logoImageView = findViewById(R.id.img_logo);
+        checkFeesBtn =findViewById(R.id.check_fees_btn);
         if(!SessionManager.getInstance().getSchoolLogoHeader().isEmpty()){
             Picasso.with(this)
                     .load(SessionManager.getInstance().getSchoolLogoHeader())
@@ -152,6 +171,8 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
         startActivity(intent);
     }
+
+
 
     private void changeLanguage() {
         if (LocalHelper.getLanguage(this).equals("ar")) {

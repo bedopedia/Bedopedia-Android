@@ -227,4 +227,8 @@ public class ApiEndPoints {
     public static String logout() {
         return "/api/auth/sign_out";
     }
+
+    public static String getSchoolFees(){
+        return "";
+    }
 }
