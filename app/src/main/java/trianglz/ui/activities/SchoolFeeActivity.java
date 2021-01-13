@@ -57,12 +57,8 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_fee);
 
-        showEmptyListDialog();
 
-        MaterialAlertDialogBuilder(this)
-                .setMessage("This is a test of AlertDialog.Builder")
-                .setPositiveButton("Ok", null)
-                .show();
+
         initViews();
         setListeners();
         if(Util.isNetworkAvailable(this)){
@@ -119,12 +115,10 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
     private void showRecyclerView(boolean isToShowRecyclerView){
         if(isToShowRecyclerView){
             recyclerView.setVisibility(View.VISIBLE);
-          //  placeholderLinearLayout.setVisibility(View.GONE);
         }else {
             recyclerView.setVisibility(View.GONE);
             showEmptyListDialog();
 
-            //  placeholderLinearLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -207,7 +201,6 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
 
         alertDialog.show();
         alertDialog.getWindow().setLayout(1200, 600); //Controlling width and height.
-        
 
         view2.findViewById(R.id.submit_btn).setOnClickListener(v1 ->{
             alertDialog.dismiss();

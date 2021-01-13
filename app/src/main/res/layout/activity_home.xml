@@ -85,4 +85,16 @@
         android:layout_weight="1"
         android:id="@+id/recycler_view"/>
 
+    <Button
+        android:id="@+id/check_fees_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/white"
+        android:layout_margin="16dp"
+        android:text="@string/check_fees"
+        android:textAllCaps="false"
+        android:foreground="@drawable/round_ripple_6"
+        android:background="@drawable/curved_jade_green_background_radius_8"
+        />
+
 </LinearLayout>
