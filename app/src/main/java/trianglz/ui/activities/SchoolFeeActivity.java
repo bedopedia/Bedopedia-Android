@@ -41,7 +41,6 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
     private ShimmerFrameLayout shimmer;
     private SwipeRefreshLayout pullRefreshLayout;
     private ImageButton backBtn;
-    private ErrorDialog errorDialog;
 
     private int nextPage = -1;
     private String url = "";
@@ -51,7 +50,6 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_school_fee);
-        
         initViews();
         setListeners();
         if(Util.isNetworkAvailable(this)){
@@ -99,7 +97,6 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
                 pullRefreshLayout.setRefreshing(false);
                 nextPage = -1;
                 getSchoolFees();
-                //placeholderLinearLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }
         });
@@ -117,11 +114,7 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_back:
-                finish();
-                break;
-        }
+        finish();
     }
 
     @Override
@@ -130,13 +123,6 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-       // if(progress.isShowing()){
-         //   progress.dismiss();
-        //}
-    }
-    @Override
     public void onGetSchoolFeesSuccess(ArrayList<SchoolFee> schoolFees, Meta meta) {
         showSkeleton(false);
         if (meta.getTotalCount() == 0) {
@@ -144,8 +130,7 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
         } else {
             showRecyclerView(true);
             nextPage =  meta.getNextPage();
-            getSchoolFees();
-            Log.d("TAG", "onGetSchoolFeesSuccess: " + nextPage);
+           // getSchoolFees();
             if(meta.getCurrentPage() == 1){
                 adapter.schoolFeeArrayList.clear();
                 adapter.totalCount = meta.getTotalCount();
@@ -188,8 +173,8 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
     private void showEmptyListDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
-        View view2 = layoutInflaterAndroid.inflate(R.layout.cancel_dialog, null);
-        builder.setView(view2);
+        View dialogLayout = layoutInflaterAndroid.inflate(R.layout.cancel_dialog, null);
+        builder.setView(dialogLayout);
         builder.setCancelable(false);
         final AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -199,9 +184,9 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
         window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
-        InsetDrawable inset = new InsetDrawable(back, 20);
+        InsetDrawable inset = new InsetDrawable(back, 40);
         alertDialog.getWindow().setBackgroundDrawable(inset);
-        view2.findViewById(R.id.submit_btn).setOnClickListener(v1 ->{
+        dialogLayout.findViewById(R.id.submit_btn).setOnClickListener(v1 ->{
             alertDialog.dismiss();
             finish();
         });

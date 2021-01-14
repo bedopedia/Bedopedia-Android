@@ -5,15 +5,15 @@ public class SchoolFee {
     private Integer id;
     private String name;
     private String amount;
-    private String due_date;
-    private String student_name;
+    private String dueDate;
+    private String studentName;
 
-    public SchoolFee(Integer id, String name, String amount, String due_date, String student_name) {
+    public SchoolFee(Integer id, String name, String amount, String dueDate, String studentName) {
         this.id = id;
         this.name = name;
         this.amount = amount;
-        this.due_date = due_date;
-        this.student_name = student_name;
+        this.dueDate = dueDate;
+        this.studentName = studentName;
     }
 
     public Integer getId() {
@@ -40,19 +40,19 @@ public class SchoolFee {
         this.amount = amount;
     }
 
-    public String getDue_date() {
-        return due_date;
+    public String getDueDate() {
+        return dueDate;
     }
 
-    public void setDue_date(String due_date) {
-        this.due_date = due_date;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
-    public String getStudent_name() {
-        return student_name;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setStudent_name(String student_name) {
-        this.student_name = student_name;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 }

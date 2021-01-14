@@ -34,38 +34,35 @@ public class SchoolFeesView {
             @Override
             public void onSuccess(JSONObject response) {
                 Meta meta = new Meta(response.optJSONObject(Constants.KEY_META));
-                Log.d("TAG", "onSuccess: " + response);
-                presenter.onGetSchoolFeesSuccess(parseNotificationResponse(response), meta);
+                presenter.onGetSchoolFeesSuccess(parseSchoolFeeResponse(response), meta);
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                Log.d("TAG", "onFailure: " + message.toString());
                 presenter.onGetSchoolFeesFailure(message, errorCode);
             }
         });
     }
 
-    private ArrayList<SchoolFee> parseNotificationResponse(JSONObject response) {
+    private ArrayList<SchoolFee> parseSchoolFeeResponse(JSONObject response) {
         ArrayList<SchoolFee> schoolFees = new ArrayList<>();
-        JSONArray notificationArray = new JSONArray();
+        JSONArray schoolFeeAttay = new JSONArray();
         try {
-            notificationArray = response.getJSONArray(Constants.KEY_SCHOOL_FEES);
-            Log.d("TAG", "parseNotificationResponse: " + notificationArray);
+            schoolFeeAttay = response.getJSONArray(Constants.KEY_SCHOOL_FEES);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < notificationArray.length(); i++) {
+        for (int i = 0; i < schoolFeeAttay.length(); i++) {
 
-            JSONObject notificationObj = notificationArray.optJSONObject(i);
+            JSONObject schoolFeeObj = schoolFeeAttay.optJSONObject(i);
 
-            String time = notificationObj.optString("due_date");
-            schoolFees.add(new SchoolFee(notificationObj.optInt("id"),
-                    notificationObj.optString("name"),
-                    notificationObj.optString("amount"),
+            String time = schoolFeeObj.optString("due_date");
+            schoolFees.add(new SchoolFee(schoolFeeObj.optInt("id"),
+                    schoolFeeObj.optString("name"),
+                    schoolFeeObj.optString("amount"),
                     formatDate(time),
-                    notificationObj.optString("student_name")));
+                    schoolFeeObj.optString("student_name")));
         }
         return schoolFees;
     }
@@ -78,11 +75,6 @@ public class SchoolFeesView {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-      //  DateFormat finalFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("en"));
-
-//        if (DateUtils.isToday(Objects.requireNonNull(date).getTime())) {
-//            return context.getResources().getString(R.string.today);
-//        }
         return dateFormat.format(date);
     }
 

@@ -47,9 +47,9 @@ public class SchoolFeeAdapter extends RecyclerView.Adapter<SchoolFeeAdapter.Scho
             paginationInterface.onReachPosition();
         }
         SchoolFee schoolFee = schoolFeeArrayList.get(position);
-        holder.dateTv.setText(schoolFee.getDue_date());
+        holder.dateTv.setText(schoolFee.getDueDate());
         holder.nameTv.setText(schoolFee.getName());
-        holder.studentNameTv.setText(schoolFee.getStudent_name());
+        holder.studentNameTv.setText(schoolFee.getStudentName());
         holder.amountTv.setText(schoolFee.getAmount());
 
     }
