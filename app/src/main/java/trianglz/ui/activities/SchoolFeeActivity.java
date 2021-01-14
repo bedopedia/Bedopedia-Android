@@ -2,19 +2,17 @@ package trianglz.ui.activities;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -23,18 +21,14 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
-import java.util.concurrent.BlockingDeque;
 
 import trianglz.components.ErrorDialog;
 import trianglz.core.presenters.AdapterPaginationInterface;
 import trianglz.core.presenters.SchoolFeePresenter;
-import trianglz.core.views.NotificationsView;
 import trianglz.core.views.SchoolFeesView;
 import trianglz.managers.SessionManager;
 import trianglz.models.Meta;
-import trianglz.models.Notification;
 import trianglz.models.SchoolFee;
-import trianglz.ui.adapters.NotificationsAdapter;
 import trianglz.ui.adapters.SchoolFeeAdapter;
 import trianglz.utils.Util;
 
@@ -55,14 +49,13 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_school_fee);
-
-
-
+        
         initViews();
         setListeners();
         if(Util.isNetworkAvailable(this)){
-            getNotifications();
+            getSchoolFees();
         }else {
             Util.showNoInternetConnectionDialog(this);
         }
@@ -82,15 +75,15 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
         shimmer = findViewById(R.id.shimmer_view_container);
         pullRefreshLayout = findViewById(R.id.pullToRefresh);
     }
-    private void getNotifications() {
+    private void getSchoolFees() {
         if (Util.isNetworkAvailable(this)) {
             if(nextPage == -1){
                  showSkeleton(true);
                 showRecyclerView(true);
-                schoolFeesView.getSchoolFees(url, 1,20);
+                schoolFeesView.getSchoolFees(url, 1,5);
             }else {
                 if(nextPage != 0) {
-                    schoolFeesView.getSchoolFees(url, nextPage, 20);
+                    schoolFeesView.getSchoolFees(url, nextPage, 5);
                 }
             }
         } else {
@@ -105,7 +98,7 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
             public void onRefresh() {
                 pullRefreshLayout.setRefreshing(false);
                 nextPage = -1;
-                getNotifications();
+                getSchoolFees();
                 //placeholderLinearLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }
@@ -133,7 +126,7 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
 
     @Override
     public void onReachPosition() {
-        getNotifications();
+        getSchoolFees();
     }
 
     @Override
@@ -151,8 +144,10 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
         } else {
             showRecyclerView(true);
             nextPage =  meta.getNextPage();
+            getSchoolFees();
+            Log.d("TAG", "onGetSchoolFeesSuccess: " + nextPage);
             if(meta.getCurrentPage() == 1){
-                adapter.notificationArrayList.clear();
+                adapter.schoolFeeArrayList.clear();
                 adapter.totalCount = meta.getTotalCount();
             }
             adapter.addData(schoolFees);
@@ -200,8 +195,12 @@ public class SchoolFeeActivity extends SuperActivity implements SchoolFeePresent
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         alertDialog.show();
-        alertDialog.getWindow().setLayout(1200, 600); //Controlling width and height.
+        Window window = alertDialog.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
+        ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+        InsetDrawable inset = new InsetDrawable(back, 20);
+        alertDialog.getWindow().setBackgroundDrawable(inset);
         view2.findViewById(R.id.submit_btn).setOnClickListener(v1 ->{
             alertDialog.dismiss();
             finish();

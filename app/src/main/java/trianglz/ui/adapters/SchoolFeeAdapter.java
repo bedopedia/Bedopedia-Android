@@ -1,12 +1,9 @@
 package trianglz.ui.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +17,7 @@ import trianglz.core.presenters.AdapterPaginationInterface;
 import trianglz.models.SchoolFee;
 
 public class SchoolFeeAdapter extends RecyclerView.Adapter<SchoolFeeAdapter.SchoolFeeViewHolder> {
-    public ArrayList<SchoolFee> notificationArrayList;
+    public ArrayList<SchoolFee> schoolFeeArrayList;
     public int totalCount = -1;
     private Context context;
     private AdapterPaginationInterface paginationInterface;
@@ -28,7 +25,7 @@ public class SchoolFeeAdapter extends RecyclerView.Adapter<SchoolFeeAdapter.Scho
 
     public SchoolFeeAdapter(Context context, AdapterPaginationInterface adapterPaginationInterface) {
         this.context = context;
-        this.notificationArrayList = new ArrayList<>();
+        this.schoolFeeArrayList = new ArrayList<>();
         paginationInterface = adapterPaginationInterface;
     }
 
@@ -46,10 +43,10 @@ public class SchoolFeeAdapter extends RecyclerView.Adapter<SchoolFeeAdapter.Scho
 
     @Override
     public void onBindViewHolder(@NonNull SchoolFeeViewHolder holder, int position) {
-        if (position == notificationArrayList.size() - 4 && totalCount != -1 && notificationArrayList.size() <= totalCount) {
+        if (position == schoolFeeArrayList.size() - 4 && totalCount != -1 && schoolFeeArrayList.size() <= totalCount) {
             paginationInterface.onReachPosition();
         }
-        SchoolFee schoolFee = notificationArrayList.get(position);
+        SchoolFee schoolFee = schoolFeeArrayList.get(position);
         holder.dateTv.setText(schoolFee.getDue_date());
         holder.nameTv.setText(schoolFee.getName());
         holder.studentNameTv.setText(schoolFee.getStudent_name());
@@ -59,11 +56,11 @@ public class SchoolFeeAdapter extends RecyclerView.Adapter<SchoolFeeAdapter.Scho
 
     @Override
     public int getItemCount() {
-        return notificationArrayList.size();
+        return schoolFeeArrayList.size();
     }
 
-    public void addData(ArrayList<SchoolFee> notifications) {
-        this.notificationArrayList.addAll(notifications);
+    public void addData(ArrayList<SchoolFee> schoolFees) {
+        this.schoolFeeArrayList.addAll(schoolFees);
         notifyDataSetChanged();
     }
 
