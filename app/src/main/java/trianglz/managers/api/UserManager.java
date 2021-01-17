@@ -196,7 +196,7 @@ public class UserManager {
         });
     }
 
-    public static void logout(final ResponseListener responseListener) {
+    public static void logout(String deviceId, final ResponseListener responseListener) {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.logout();
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject jsonObject = new JSONObject();

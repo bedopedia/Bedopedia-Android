@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -50,9 +52,10 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter, 
     }
 
     public void logoutUser(Context context) {
+
         SessionManager.getInstance().logoutUser();
         openSchoolLoginActivity(context);
-        superView.logout();
+        superView.logout(getDeviceId());
     }
 
     private void openSchoolLoginActivity(Context context) {
@@ -118,5 +121,10 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter, 
     @Override
     public void onCancel() {
 
+    }
+
+     String getDeviceId(){
+        return Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
     }
 }
