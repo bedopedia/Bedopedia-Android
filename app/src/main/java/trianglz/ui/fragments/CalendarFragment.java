@@ -1,6 +1,8 @@
 package trianglz.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,10 +23,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.google.android.gms.measurement.AppMeasurement;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -36,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.EventListener;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.logging.Logger;
@@ -62,7 +67,7 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 05/09/2019.
  */
-public class CalendarFragment extends Fragment implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener, CalendarEventsPresenter, FragmentCommunicationInterface {
+public class CalendarFragment extends Fragment implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener, CalendarEventsPresenter, FragmentCommunicationInterface , EventAdapter.EventInterface {
 
     private StudentMainActivity activity;
     private View rootView;
@@ -141,7 +146,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new BottomItemDecoration(66, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
-        eventAdapter = new EventAdapter(activity, EventAdapter.EVENTSTATE.ALL);
+        eventAdapter = new EventAdapter(activity, EventAdapter.EVENTSTATE.ALL, this);
         imageLoader = new PicassoLoader();
         studentImageView = rootView.findViewById(R.id.img_student);
         monthYearTextView = rootView.findViewById(R.id.tv_month_year_header);
@@ -458,6 +463,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         activity.showErrorDialog(activity, code, "");
     }
 
+
     @Override
     public void reloadEvents() {
         getEvents();
@@ -486,6 +492,31 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
             shimmer.hideShimmer();
             shimmer.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onEventClicked(String event) {
+        if(event != null && event.contains("zoom")){
+            calendarEventsView.postJoinParticipant(StringUtils.substringAfterLast(event, "/"));
+            openZoomMeeting(event);
+        }
+
+    }
+
+    @Override
+    public void onPostParticipantSuccess() {
+
+    }
+
+    @Override
+    public void onPostParticipantFailure() {
+
+    }
+
+    public void openZoomMeeting( String link) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(link));
+        startActivity(i);
     }
 }
 

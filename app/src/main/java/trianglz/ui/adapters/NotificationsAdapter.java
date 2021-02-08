@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.skolera.skolera_android.R;
@@ -85,6 +86,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         LinearLayout itemLayout;
         TextView dateTv, descriptionTv;
         ImageView logo;
+        CardView cardView;
+
 
         public NotificationsViewHolder(View itemView) {
             super(itemView);
@@ -92,6 +95,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             dateTv = itemView.findViewById(R.id.tv_date);
             descriptionTv = itemView.findViewById(R.id.tv_description);
             logo = itemView.findViewById(R.id.image);
+            cardView =itemView.findViewById(R.id.card_view);
+
         }
     }
 }

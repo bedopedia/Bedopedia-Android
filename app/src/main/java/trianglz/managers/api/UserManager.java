@@ -580,7 +580,6 @@ public class UserManager {
         String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.getQuizzesSubmissions(quizId, courseGroupId);
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> params = new HashMap<>();
-        String headers = Util.convertHeaderMapToBulk(headerHashMap);
         NetworkManager.getJsonArray(url, params, headerHashMap, new HandleArrayResponseListener() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -1349,4 +1348,27 @@ public class UserManager {
             }
         });
     }
+
+    public static void postJoinParticipant(String zoomId, final ResponseListener responseListener) {
+        String url = SessionManager.getInstance().getBaseUrl() + ApiEndPoints.joinParticipant(zoomId);
+        Log.d("TAG", "postJoinParticipant: " + url);
+
+        HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
+        JSONObject parametersJsonObject = new JSONObject();
+
+        NetworkManager.post(url, parametersJsonObject, headerHashMap, new HandleResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                responseListener.onFailure(message, errorCode);
+            }
+        });
+    }
+
 }
+
+
