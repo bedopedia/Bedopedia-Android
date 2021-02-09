@@ -496,10 +496,12 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onEventClicked(String event) {
         if(event != null && event.contains("zoom.us")){
-            calendarEventsView.postJoinParticipant(StringUtils.substringAfterLast(event, "/"));
-            openZoomMeeting(event);
+            String zoomUrlLastPath =StringUtils.substringAfterLast(event, "/");
+            if(!zoomUrlLastPath.isEmpty()) {
+                calendarEventsView.postJoinParticipant(zoomUrlLastPath);
+                openZoomMeeting(event);
+            }
         }
-
     }
 
 
