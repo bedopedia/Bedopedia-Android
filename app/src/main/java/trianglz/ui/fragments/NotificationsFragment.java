@@ -212,7 +212,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
 
     @Override
     public void onNotificationClicked(String zoomId, String zoomURl) {
-        if(zoomURl != null && zoomURl.contains("zoom")){
+        if(zoomURl != null && zoomURl.contains("zoom.us")){
             String zoomUrlLastPath =StringUtils.substringAfterLast( zoomURl, "/");
             String zoomMeetingId = zoomUrlLastPath.substring(0, zoomUrlLastPath.indexOf("?"));
             notificationsView.postJoinParticipant(zoomMeetingId);
