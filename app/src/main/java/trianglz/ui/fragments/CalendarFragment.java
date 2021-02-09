@@ -503,15 +503,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    @Override
-    public void onPostParticipantSuccess() {
 
-    }
-
-    @Override
-    public void onPostParticipantFailure() {
-
-    }
 
     public void openZoomMeeting( String link) {
         Intent i = new Intent(Intent.ACTION_VIEW);

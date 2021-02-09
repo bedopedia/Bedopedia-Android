@@ -53,14 +53,10 @@ public class CalendarEventsView {
         UserManager.postJoinParticipant(id, new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
-                Log.d("TAG", "onSuccess: " + response);
-                calendarEventsPresenter.onPostParticipantSuccess();
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                Log.d("TAG", "onFailure: " + message + errorCode);
-                calendarEventsPresenter.onPostParticipantFailure();
 
             }
         });

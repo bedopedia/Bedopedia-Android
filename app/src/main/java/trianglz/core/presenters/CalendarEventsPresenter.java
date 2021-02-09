@@ -11,7 +11,4 @@ public interface CalendarEventsPresenter {
     void onGetEventsSuccess(ArrayList<Event> events);
     void onGetEventsFailure(String message,int code);
 
-    void onPostParticipantSuccess();
-    void onPostParticipantFailure();
-
 }

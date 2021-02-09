@@ -65,7 +65,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             holder.lineView.setBackgroundResource(R.color.iris);
         }
         Event event = items.get(position);
-        Log.d("TAG", "onBindViewHolder: " + event);
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
         DateTime dateTime;
         if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
