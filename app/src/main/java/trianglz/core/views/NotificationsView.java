@@ -2,7 +2,9 @@ package trianglz.core.views;
 
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.util.Log;
 
+import com.google.gson.JsonObject;
 import com.skolera.skolera_android.R;
 
 import org.json.JSONArray;
@@ -22,6 +24,7 @@ import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Meta;
 import trianglz.models.Notification;
+import trianglz.models.NotificationParam;
 import trianglz.utils.Constants;
 
 /**
@@ -68,12 +71,17 @@ public class NotificationsView {
             if(to != null){
               studentsNames=  to.optString("firstname");
             }
+
+           String logo = notificationObj.optString("logo");
+
+
             String time = notificationObj.optString("created_at");
             notifications.add(new Notification(notificationObj.optString("text"),
                     formatDate(time),
-                    notificationObj.optString("logo"),
+                    logo,
                     studentsNames,
-                    notificationObj.optString("message")));
+                    notificationObj.optString("message"),
+                    getEventParam(logo,notificationObj)));
         }
         return notifications;
     }
@@ -108,5 +116,31 @@ public class NotificationsView {
             }
         });
 
+    }
+    public NotificationParam getEventParam(String logo, JSONObject notificationObj){
+        NotificationParam notificationParam =new NotificationParam();
+        if(logo.equals("events")){
+            try {
+                JSONObject notificationParamObj = notificationObj.getJSONObject("params");
+                notificationParam.setZoomMeetingId(notificationParamObj.getString("zoomMeetingId"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return notificationParam;
+    }
+
+    public void postJoinParticipant(String id) {
+        UserManager.postJoinParticipant(id, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                Log.d("TAG", "onSuccess: " + response);
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+                Log.d("TAG", "onFailure: " + message + errorCode);
+            }
+        });
     }
 }

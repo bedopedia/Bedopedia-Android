@@ -34,7 +34,7 @@ import trianglz.utils.Util;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NotificationsFragment extends Fragment implements NotificationsPresenter, View.OnClickListener, AdapterPaginationInterface, StudentMainActivity.OnBackPressedInterface {
+public class NotificationsFragment extends Fragment implements NotificationsPresenter, View.OnClickListener, AdapterPaginationInterface, StudentMainActivity.OnBackPressedInterface, NotificationsAdapter.NotificationInterface {
 
     // fragment root view 
     private View rootView;
@@ -88,7 +88,7 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
         url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
                 SessionManager.getInstance().getUserId() + "/notifications";
         recyclerView = rootView.findViewById(R.id.recycler_view);
-        adapter = new NotificationsAdapter(getActivity(), this);
+        adapter = new NotificationsAdapter(getActivity(), this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         notificationsView = new NotificationsView(getActivity(), this);
@@ -203,5 +203,13 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
 
     @Override
     public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onNotificationClicked(String zoomId) {
+        if(zoomId != null){
+            notificationsView.postJoinParticipant(zoomId);
+        }
     }
 }

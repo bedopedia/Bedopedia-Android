@@ -27,12 +27,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public int totalCount = -1;
     private Context context;
     private AdapterPaginationInterface paginationInterface;
+    private NotificationInterface notificationInterface;
 
 
-    public NotificationsAdapter(Context context, AdapterPaginationInterface adapterPaginationInterface) {
+    public NotificationsAdapter(Context context, AdapterPaginationInterface adapterPaginationInterface, NotificationInterface notificationInterface) {
         this.context = context;
         this.notificationArrayList = new ArrayList<>();
         paginationInterface = adapterPaginationInterface;
+        this.notificationInterface = notificationInterface;
     }
 
     @Override
@@ -70,6 +72,13 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         } else {
             holder.logo.setImageResource(R.drawable.ic_notification_empty);
         }
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notificationInterface.onNotificationClicked(notification.getNotificationParam().getZoomMeetingId());
+            }
+        });
     }
 
     @Override
@@ -98,5 +107,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             cardView =itemView.findViewById(R.id.card_view);
 
         }
+    }
+
+    public interface NotificationInterface{
+        public void onNotificationClicked(String zoomUrl);
     }
 }

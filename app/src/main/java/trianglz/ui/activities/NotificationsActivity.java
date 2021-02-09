@@ -26,7 +26,7 @@ import trianglz.models.Notification;
 import trianglz.ui.adapters.NotificationsAdapter;
 import trianglz.utils.Util;
 
-public class NotificationsActivity extends SuperActivity implements NotificationsPresenter, View.OnClickListener, AdapterPaginationInterface {
+public class NotificationsActivity extends SuperActivity implements NotificationsPresenter, View.OnClickListener, AdapterPaginationInterface, NotificationsAdapter.NotificationInterface {
 
     private RecyclerView recyclerView;
     private NotificationsAdapter adapter;
@@ -61,7 +61,7 @@ public class NotificationsActivity extends SuperActivity implements Notification
         url = SessionManager.getInstance().getBaseUrl() + "/api/users/" +
                 SessionManager.getInstance().getUserId() + "/notifications";
         recyclerView = findViewById(R.id.recycler_view);
-        adapter = new NotificationsAdapter(this, this);
+        adapter = new NotificationsAdapter(this, this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         notificationsView = new NotificationsView(this, this);
@@ -184,4 +184,8 @@ public class NotificationsActivity extends SuperActivity implements Notification
         }
     }
 
+    @Override
+    public void onNotificationClicked(String zoomUrl) {
+
+    }
 }
