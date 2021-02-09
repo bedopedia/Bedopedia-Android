@@ -220,7 +220,6 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
                 if (zoomUrlLastPathIndex != -1) {
 
                     String zoomMeetingId = zoomUrlLastPath.substring(0, zoomUrlLastPathIndex);
-                    Log.d("TAG", "onNotificationClicked: idddd " + zoomMeetingId);
                     notificationsView.postJoinParticipant(zoomMeetingId);
 
                     openZoomMeeting(zoomURl);
