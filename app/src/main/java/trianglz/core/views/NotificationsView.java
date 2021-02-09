@@ -123,6 +123,7 @@ public class NotificationsView {
             try {
                 JSONObject notificationParamObj = notificationObj.getJSONObject("params");
                 notificationParam.setZoomMeetingId(notificationParamObj.getString("zoomMeetingId"));
+                notificationParam.setName(notificationParamObj.getString("name"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

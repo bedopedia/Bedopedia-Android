@@ -463,7 +463,6 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         activity.showErrorDialog(activity, code, "");
     }
 
-
     @Override
     public void reloadEvents() {
         getEvents();
@@ -496,7 +495,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onEventClicked(String event) {
-        if(event != null && event.contains("zoom")){
+        if(event != null && event.contains("zoom.us")){
             calendarEventsView.postJoinParticipant(StringUtils.substringAfterLast(event, "/"));
             openZoomMeeting(event);
         }

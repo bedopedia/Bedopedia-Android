@@ -9,7 +9,9 @@ public class NotificationParam {
     @SerializedName("zoomMeetingId")
     @Expose
     private String zoomMeetingId;
-  
+
+    private String name;
+
 
     public String getZoomMeetingId() {
         return zoomMeetingId;
@@ -19,5 +21,11 @@ public class NotificationParam {
         this.zoomMeetingId = zoomMeetingId;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -2,6 +2,8 @@ package trianglz.ui.fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.skolera.skolera_android.R;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 
@@ -207,9 +211,18 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
     }
 
     @Override
-    public void onNotificationClicked(String zoomId) {
-        if(zoomId != null){
-            notificationsView.postJoinParticipant(zoomId);
+    public void onNotificationClicked(String zoomId, String zoomURl) {
+        if(zoomURl != null && zoomURl.contains("zoom")){
+            String zoomUrlLastPath =StringUtils.substringAfterLast( zoomURl, "/");
+            String zoomMeetingId = zoomUrlLastPath.substring(0, zoomUrlLastPath.indexOf("?"));
+            notificationsView.postJoinParticipant(zoomMeetingId);
+            openZoomMeeting(zoomURl);
         }
+    }
+
+    public void openZoomMeeting( String link) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(link));
+        startActivity(i);
     }
 }
