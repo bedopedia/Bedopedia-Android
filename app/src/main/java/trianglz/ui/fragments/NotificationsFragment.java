@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -29,10 +30,13 @@ import trianglz.core.presenters.NotificationsPresenter;
 import trianglz.core.views.NotificationsView;
 import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
+import trianglz.models.Announcement;
 import trianglz.models.Meta;
 import trianglz.models.Notification;
+import trianglz.models.Student;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.NotificationsAdapter;
+import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
 /**
@@ -211,31 +215,32 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
     }
 
     @Override
-    public void onNotificationClicked(String zoomId, String zoomURl) {
-        if(zoomURl != null && zoomURl.contains("zoom.us")){
+    public void onNotificationClicked(String zoomId, String zoomURl, Integer eventId) {
+        if(eventId != null)
+        openCalenderFragment(eventId);
+    }
 
-            String zoomUrlLastPath =StringUtils.substringAfterLast( zoomURl, "/");
-            if(!zoomUrlLastPath.isEmpty()) {
-                int zoomUrlLastPathIndex = zoomUrlLastPath.indexOf("?");
-                if (zoomUrlLastPathIndex != -1) {
 
-                    String zoomMeetingId = zoomUrlLastPath.substring(0, zoomUrlLastPathIndex);
-                    notificationsView.postJoinParticipant(zoomMeetingId);
-
-                    openZoomMeeting(zoomURl);
-
-                }
-
-            }
-
+    private StudentMainActivity getParentActivity() {
+        if (activity == null) {
+            activity = (StudentMainActivity) getActivity();
+            return activity;
+        } else {
+            return activity;
         }
     }
 
-
-
-    public void openZoomMeeting( String link) {
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(link));
-        startActivity(i);
+    private void openCalenderFragment(Integer eventId) {
+        CalendarFragment calendarFragment = new CalendarFragment();
+        Bundle bundle = new Bundle();
+        Student student = getParentActivity().getStudent();
+        bundle.putSerializable(Constants.STUDENT, student);
+        bundle.putSerializable(Constants.EVENT_ID, eventId);
+        calendarFragment.setArguments(bundle);
+        getChildFragmentManager().
+                beginTransaction().add(R.id.notification_root, calendarFragment, "calenderFragment").
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                addToBackStack(null).commit();
     }
+
 }

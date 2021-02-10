@@ -185,7 +185,7 @@ public class NotificationsActivity extends SuperActivity implements Notification
     }
 
     @Override
-    public void onNotificationClicked(String zoomUrl , String name) {
+    public void onNotificationClicked(String zoomUrl , String name, Integer eventId) {
 
     }
 }
