@@ -319,8 +319,9 @@ public class CalendarFragment extends Fragment implements View.OnClickListener,
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.STUDENT, student);
         createPersonalEventFragment.setArguments(bundle);
+        int containerId = ((ViewGroup)getView().getParent()).getId();
         getParentFragment().getChildFragmentManager().
-                beginTransaction().add(R.id.menu_fragment_root, createPersonalEventFragment, "MenuFragments").
+                beginTransaction().add(containerId, createPersonalEventFragment, "MenuFragments").
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                 addToBackStack(null).commit();
     }
