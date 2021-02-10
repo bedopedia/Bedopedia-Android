@@ -78,7 +78,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             public void onClick(View v) {
                 notificationInterface.onNotificationClicked(
                         notification.getNotificationParam().getZoomMeetingId(),
-                        notification.getNotificationParam().getName());
+                        notification.getNotificationParam().getName(),
+                        notification.getNotificationParam().getEventId());
             }
         });
     }
@@ -112,6 +113,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     }
 
     public interface NotificationInterface{
-        public void onNotificationClicked(String zoomId, String zoomURl);
+        public void onNotificationClicked(String zoomId, String zoomURl, Integer eventId);
     }
 }

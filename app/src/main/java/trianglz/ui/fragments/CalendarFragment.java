@@ -67,7 +67,9 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 05/09/2019.
  */
-public class CalendarFragment extends Fragment implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener, CalendarEventsPresenter, FragmentCommunicationInterface , EventAdapter.EventInterface {
+public class CalendarFragment extends Fragment implements View.OnClickListener,
+        CompactCalendarView.CompactCalendarViewListener, CalendarEventsPresenter,
+        FragmentCommunicationInterface , EventAdapter.EventInterface {
 
     private StudentMainActivity activity;
     private View rootView;
@@ -94,6 +96,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     private ShimmerFrameLayout shimmer;
     private LayoutInflater inflater;
     private FrameLayout createEventLayout;
+    private Integer eventId;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
@@ -117,7 +120,9 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             student = (Student) bundle.getSerializable(Constants.STUDENT);
+            eventId = (Integer) bundle.getSerializable(Constants.EVENT_ID);
         }
+
     }
 
     private void bindViews() {
@@ -378,6 +383,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
                 deselectAll();
                 allView.setVisibility(View.VISIBLE);
                 eventAdapter.addData(allEvents, EventAdapter.EVENTSTATE.ALL);
+
                 break;
             case R.id.layout_academic:
                 deselectAll();
@@ -448,10 +454,24 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         allEvents.clear();
         compactCalendarView.removeAllEvents();
         allEvents.addAll(events);
+
         Collections.sort(allEvents, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
         eventAdapter.addData(allEvents, EventAdapter.EVENTSTATE.ALL);
         fillCalendarEventLists(events);
         setEvents();
+
+        if(eventId != null){
+            scrollRecyclerViewToPosition();
+        }
+
+    }
+
+    private void scrollRecyclerViewToPosition(){
+        for(int i = 0 ; i < allEvents.size(); i++){
+            if(allEvents.get(i).getId() == eventId){
+                recyclerView.scrollToPosition(i);
+            }
+        }
     }
 
     @Override
@@ -511,5 +531,6 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         i.setData(Uri.parse(link));
         startActivity(i);
     }
+
 }
 

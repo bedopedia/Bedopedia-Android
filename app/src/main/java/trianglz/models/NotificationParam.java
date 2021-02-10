@@ -11,6 +11,8 @@ public class NotificationParam {
     private String zoomMeetingId;
 
     private String name;
+    private Integer eventId;
+
 
 
     public String getZoomMeetingId() {
@@ -27,5 +29,12 @@ public class NotificationParam {
 
     public void setName(String name) {
         this.name = name;
+    }
+    public Integer getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Integer eventId) {
+        this.eventId = eventId;
     }
 }
