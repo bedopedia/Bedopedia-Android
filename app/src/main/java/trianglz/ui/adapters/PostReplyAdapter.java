@@ -148,6 +148,9 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
                         viewHolder.imageView3.setVisibility(View.VISIBLE);
                         viewHolder.thirdSizeTextView.setVisibility(View.VISIBLE);
                 }
+            } else  {
+                viewHolder.buttonsLayout.setVisibility(View.GONE);
+                viewHolder.view.setVisibility(View.GONE);
             }
             if (viewHolder.buttonsLayout.getVisibility() != View.GONE)
                 viewHolder.buttonsLayout.setOnClickListener(new View.OnClickListener() {
