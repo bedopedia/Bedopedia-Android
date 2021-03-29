@@ -2,6 +2,7 @@ package trianglz.ui.fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -26,6 +26,7 @@ import trianglz.managers.SessionManager;
 import trianglz.managers.api.ApiEndPoints;
 import trianglz.models.Actor;
 import trianglz.models.Announcement;
+import trianglz.ui.activities.PostReplyActivity;
 import trianglz.ui.activities.StudentMainActivity;
 import trianglz.ui.adapters.AnnouncementAdapter;
 import trianglz.utils.Constants;
@@ -178,14 +179,22 @@ public class AnnouncementsFragment extends Fragment implements View.OnClickListe
 
 
     private void openAnnouncementDetailActivity(Announcement announcement) {
-        AnnouncementDetailFragment announcementDetailFragment = new AnnouncementDetailFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_ANNOUNCEMENTS, announcement);
-        announcementDetailFragment.setArguments(bundle);
-        getChildFragmentManager().
-                beginTransaction().add(R.id.announcement_root, announcementDetailFragment).
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
-                addToBackStack(null).commit();
+//        AnnouncementDetailFragment announcementDetailFragment = new AnnouncementDetailFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(Constants.KEY_ANNOUNCEMENTS, announcement);
+//        announcementDetailFragment.setArguments(bundle);
+//        getChildFragmentManager().
+//                beginTransaction().add(R.id.announcement_root, announcementDetailFragment).
+//                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+//                addToBackStack(null).commit();
+
+        /*
+        we wanted to open the post details from the announcement so we map firstly the announcement
+        to post details and then open the screen as we already do from the post details fragment
+         */
+        Intent intent = new Intent(activity, PostReplyActivity.class);
+        intent.putExtra(Constants.POST_DETAILS, announcement.toPostDetails().toString());
+        startActivity(intent);
     }
 
     public void showSkeleton(boolean show) {
