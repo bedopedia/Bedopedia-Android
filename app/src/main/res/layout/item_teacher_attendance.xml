@@ -60,27 +60,29 @@
         android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
-        <com.marcouberti.autofitbutton.AutoFitButton
+        <androidx.appcompat.widget.AppCompatButton
             android:textAllCaps="false"
             android:id="@+id/present_btn"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:drawablePadding="4dp"
-            android:textSize="12sp"
-            android:gravity="center_vertical|start"
+            android:maxLines="1"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="7sp"
+            app:autoSizeTextType="uniform"
             android:includeFontPadding="false"
             android:layout_marginEnd="10dp"
             android:drawableStart="@drawable/not_present"
             android:textColor="@color/warm_grey2"
-            android:textAlignment="textStart"
+            android:gravity="center"
+            android:textAlignment="center"
             android:text="@string/present"
-            android:maxLines="1"
             android:paddingHorizontal="4dp"
             style="?android:attr/borderlessButtonStyle"
             android:background="@drawable/curved_white_four" />
 
-        <com.marcouberti.autofitbutton.AutoFitButton
+        <androidx.appcompat.widget.AppCompatButton
             android:textAllCaps="false"
             android:id="@+id/late_btn"
             android:layout_width="0dp"
@@ -101,7 +103,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:paddingHorizontal="4dp" />
 
-        <com.marcouberti.autofitbutton.AutoFitButton
+        <androidx.appcompat.widget.AppCompatButton
             android:textAllCaps="false"
             android:id="@+id/absent_btn"
             android:layout_width="0dp"
@@ -122,7 +124,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:paddingHorizontal="4dp" />
 
-        <com.marcouberti.autofitbutton.AutoFitButton
+        <androidx.appcompat.widget.AppCompatButton
             android:textAllCaps="false"
             android:id="@+id/excused_btn"
             android:layout_width="0dp"

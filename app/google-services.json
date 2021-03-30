@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "742721869641-jccfi6ibnbgul2kvibv3jjdi8empbosv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bedopedia.bedopedia_android",
+            "certificate_hash": "e74394cb170897d6a91081d3dd31dc3297d7b0f3"
+          }
+        },
+        {
           "client_id": "742721869641-pom8qbsp92gpjquuhhhu1nc83uhvpi71.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -29,7 +37,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCHC1UFUVGb-3SH8rNNcrSe0sIz0CyHKgU"
+          "current_key": "AIzaSyDjqt7TJsHCEEb--HyTNIsN18KXxm0AjPY"
         }
       ],
       "services": {
@@ -59,14 +67,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "742721869641-biamhvhk9ijh8d3kcof7i69ahsvsrhob.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.skolera.skolera_android",
-            "certificate_hash": "b5fc5ea8e2ba48c014818c71c2a7d0edb81c846d"
-          }
-        },
-        {
           "client_id": "742721869641-1jkus5hqr7vavpmpabg5fnbd1hcu5ebn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -83,13 +83,29 @@
           }
         },
         {
+          "client_id": "742721869641-biamhvhk9ijh8d3kcof7i69ahsvsrhob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skolera.skolera_android",
+            "certificate_hash": "b5fc5ea8e2ba48c014818c71c2a7d0edb81c846d"
+          }
+        },
+        {
+          "client_id": "742721869641-jf8gs1if35gbiormljqqr4flm1hhrodk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skolera.skolera_android",
+            "certificate_hash": "54a746605b5a6347fa6c422975a7cbb07ecb8a66"
+          }
+        },
+        {
           "client_id": "742721869641-jp7c1m14tuid9899h6husi4v28t5lchc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCHC1UFUVGb-3SH8rNNcrSe0sIz0CyHKgU"
+          "current_key": "AIzaSyDjqt7TJsHCEEb--HyTNIsN18KXxm0AjPY"
         }
       ],
       "services": {
