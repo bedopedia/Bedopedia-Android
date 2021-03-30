@@ -23,4 +23,16 @@ public class Announcement implements Serializable {
         this.adminId = adminId;
         this.imageUrl = imageUrl;
     }
+
+    public PostDetails toPostDetails() {
+        PostDetails postDetails = new PostDetails();
+        postDetails.setContent(body);
+        postDetails.setId(id);
+        Owner owner = new Owner();
+        owner.nameWithTitle = "";
+        postDetails.setOwner(owner);
+        postDetails.setCreatedAt(createdAt);
+        postDetails.setComments(new Reply[0]);
+        return postDetails;
+    }
 }

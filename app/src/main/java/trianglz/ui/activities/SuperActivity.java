@@ -63,7 +63,7 @@ public class SuperActivity extends AppCompatActivity implements SuperPresenter, 
 
 
     public void showErrorDialog(Context context, int errorCode, String content) {
-        if (errorCode == 401 || errorCode == 403) {
+        if (errorCode == 401) {
             content = context.getResources().getString(R.string.something_went_wrong);
             errorDialog = new ErrorDialog(context, content, ErrorDialog.DialogType.LOGOUT_USER,this);
         } else {
