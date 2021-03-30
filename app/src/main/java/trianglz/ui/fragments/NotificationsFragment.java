@@ -182,11 +182,28 @@ public class NotificationsFragment extends Fragment implements NotificationsPres
     @Override
     public void onBackPressed() {
         if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.PARENT.toString())) {
-            if (activity.pager.getCurrentItem() == 2) {
+            if (getChildFragmentManager().getFragments().size() >= 1) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                    showToolBar();
+                }
+            }else if(getChildFragmentManager().getFragments().size() ==0 && activity.pager.getCurrentItem() == 2){
                 getActivity().finish();
+            }
+        } else if (SessionManager.getInstance().getUserType().equals(SessionManager.Actor.STUDENT.toString())) {
+            if (getChildFragmentManager().getFragments().size() > 0) {
+                getChildFragmentManager().popBackStack();
+                if (getChildFragmentManager().getFragments().size() == 1) {
+                   showToolBar();
+                }
             }
         }
     }
+    private void  showToolBar(){
+        activity.toolbarView.setVisibility(View.VISIBLE);
+        activity.headerLayout.setVisibility(View.VISIBLE);
+    }
+
     public void showSkeleton(boolean show) {
         if (show) {
             skeletonLayout.removeAllViews();
