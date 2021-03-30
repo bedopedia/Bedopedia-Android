@@ -30,6 +30,7 @@ public class Constants {
     public static final String KEY_NOTIFICATION = "notifications";
     public static final String KEY_ADDITIONAL_PARAMS = "additional_params";
     public static final String KEY_STUDENT_NAMES = "studentNames";
+    public static final String KEY_SCHOOL_FEES = "school_fees";
 
     public static final String STUDENT = "student";
 

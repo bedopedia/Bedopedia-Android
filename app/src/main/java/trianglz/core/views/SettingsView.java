@@ -36,8 +36,9 @@ public class SettingsView {
 
     }
 
-    public void logout() {
-        UserManager.logout(new ResponseListener() {
+    public void logout(String deviceId) {
+
+        UserManager.logout(deviceId,new ResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 settingsPresenter.onLogoutSuccess();

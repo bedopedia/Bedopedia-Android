@@ -107,5 +107,6 @@
     <color name="light_yellow">#43E8E8D6</color>
     <color name="attachment_color">#11DE93</color>
     <color name="annocment_date">#8F8E94</color>
+    <color name="dialog_black">#303030</color>
 
 </resources>

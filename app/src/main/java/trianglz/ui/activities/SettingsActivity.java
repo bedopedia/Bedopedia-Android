@@ -98,7 +98,7 @@ public class SettingsActivity extends SuperActivity implements View.OnClickListe
                 break;
             case R.id.btn_sign_out:
                 progress.show();
-                settingsView.logout();
+                settingsView.logout(getDeviceId());
                 break;
         }
     }

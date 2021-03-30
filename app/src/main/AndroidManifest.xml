@@ -146,6 +146,10 @@
             android:name="trianglz.ui.activities.DailyNoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />
+        <activity
+            android:name="trianglz.ui.activities.SchoolFeeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_v2" />
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>

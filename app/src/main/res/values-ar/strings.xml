@@ -309,4 +309,8 @@
     <string name="consequence">النتيجة: %1$s</string>
     <string name="thread">محادثة</string>
     <string name="thread_error">هذه الرسالة غير متاحة الآن, تحقق منها على الموقع</string>
+    <string name="check_fees">تحقق من المصروفات المدرسية</string>
+    <string name="school_fees">المصروفات المدرسية</string>
+    <string name="no_fees">لا يوجود مصروفات مدرسية</string>
+
 </resources>
