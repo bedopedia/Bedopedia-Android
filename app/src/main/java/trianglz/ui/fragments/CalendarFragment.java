@@ -1,6 +1,8 @@
 package trianglz.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,10 +23,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.google.android.gms.measurement.AppMeasurement;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -36,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.EventListener;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.logging.Logger;
@@ -62,7 +67,9 @@ import trianglz.utils.Util;
 /**
  * Created by Farah A. Moniem on 05/09/2019.
  */
-public class CalendarFragment extends Fragment implements View.OnClickListener, CompactCalendarView.CompactCalendarViewListener, CalendarEventsPresenter, FragmentCommunicationInterface {
+public class CalendarFragment extends Fragment implements View.OnClickListener,
+        CompactCalendarView.CompactCalendarViewListener, CalendarEventsPresenter,
+        FragmentCommunicationInterface , EventAdapter.EventInterface {
 
     private StudentMainActivity activity;
     private View rootView;
@@ -89,6 +96,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
     private ShimmerFrameLayout shimmer;
     private LayoutInflater inflater;
     private FrameLayout createEventLayout;
+    private Integer eventId;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (StudentMainActivity) getActivity();
@@ -112,7 +120,9 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             student = (Student) bundle.getSerializable(Constants.STUDENT);
+            eventId = (Integer) bundle.getSerializable(Constants.EVENT_ID);
         }
+
     }
 
     private void bindViews() {
@@ -141,7 +151,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new BottomItemDecoration(66, false));
         recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, activity), false));
-        eventAdapter = new EventAdapter(activity, EventAdapter.EVENTSTATE.ALL);
+        eventAdapter = new EventAdapter(activity, EventAdapter.EVENTSTATE.ALL, this);
         imageLoader = new PicassoLoader();
         studentImageView = rootView.findViewById(R.id.img_student);
         monthYearTextView = rootView.findViewById(R.id.tv_month_year_header);
@@ -373,6 +383,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
                 deselectAll();
                 allView.setVisibility(View.VISIBLE);
                 eventAdapter.addData(allEvents, EventAdapter.EVENTSTATE.ALL);
+
                 break;
             case R.id.layout_academic:
                 deselectAll();
@@ -443,10 +454,24 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
         allEvents.clear();
         compactCalendarView.removeAllEvents();
         allEvents.addAll(events);
+
         Collections.sort(allEvents, Collections.reverseOrder(new trianglz.models.Event.SortByDate()));
         eventAdapter.addData(allEvents, EventAdapter.EVENTSTATE.ALL);
         fillCalendarEventLists(events);
         setEvents();
+
+        if(eventId != null){
+            scrollRecyclerViewToPosition();
+        }
+
+    }
+
+    private void scrollRecyclerViewToPosition(){
+        for(int i = 0 ; i < allEvents.size(); i++){
+            if(allEvents.get(i).getId() == eventId){
+                recyclerView.scrollToPosition(i);
+            }
+        }
     }
 
     @Override
@@ -487,5 +512,25 @@ public class CalendarFragment extends Fragment implements View.OnClickListener, 
             shimmer.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public void onEventClicked(String event) {
+        if(event != null && event.contains("zoom.us")){
+            String zoomUrlLastPath =StringUtils.substringAfterLast(event, "/");
+            if(!zoomUrlLastPath.isEmpty()) {
+                calendarEventsView.postJoinParticipant(zoomUrlLastPath);
+                openZoomMeeting(event);
+            }
+        }
+    }
+
+
+
+    public void openZoomMeeting( String link) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(link));
+        startActivity(i);
+    }
+
 }
 

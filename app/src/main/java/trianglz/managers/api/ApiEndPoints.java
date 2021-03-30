@@ -231,4 +231,9 @@ public class ApiEndPoints {
     public static String getSchoolFees(){
         return "";
     }
+
+    public static String joinParticipant(String zoomId) {
+        return "/api/zoom_meetings/" +zoomId+ "/join_participant";
+    }
+
 }

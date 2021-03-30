@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.skolera.skolera_android.R;
@@ -26,12 +27,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public int totalCount = -1;
     private Context context;
     private AdapterPaginationInterface paginationInterface;
+    private NotificationInterface notificationInterface;
 
 
-    public NotificationsAdapter(Context context, AdapterPaginationInterface adapterPaginationInterface) {
+    public NotificationsAdapter(Context context, AdapterPaginationInterface adapterPaginationInterface, NotificationInterface notificationInterface) {
         this.context = context;
         this.notificationArrayList = new ArrayList<>();
         paginationInterface = adapterPaginationInterface;
+        this.notificationInterface = notificationInterface;
     }
 
     @Override
@@ -69,6 +72,16 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         } else {
             holder.logo.setImageResource(R.drawable.ic_notification_empty);
         }
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notificationInterface.onNotificationClicked(
+                        notification.getNotificationParam().getZoomMeetingId(),
+                        notification.getNotificationParam().getName(),
+                        notification.getNotificationParam().getEventId());
+            }
+        });
     }
 
     @Override
@@ -85,6 +98,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         LinearLayout itemLayout;
         TextView dateTv, descriptionTv;
         ImageView logo;
+        CardView cardView;
+
 
         public NotificationsViewHolder(View itemView) {
             super(itemView);
@@ -92,6 +107,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             dateTv = itemView.findViewById(R.id.tv_date);
             descriptionTv = itemView.findViewById(R.id.tv_description);
             logo = itemView.findViewById(R.id.image);
+            cardView =itemView.findViewById(R.id.card_view);
+
         }
+    }
+
+    public interface NotificationInterface{
+        public void onNotificationClicked(String zoomId, String zoomURl, Integer eventId);
     }
 }

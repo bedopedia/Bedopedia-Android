@@ -1,15 +1,19 @@
 package trianglz.core.views;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import trianglz.core.presenters.CalendarEventsPresenter;
 import trianglz.managers.api.ArrayResponseListener;
+import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Event;
 
@@ -44,4 +48,20 @@ public class CalendarEventsView {
             }
         });
     }
+
+    public void postJoinParticipant(String id) {
+        UserManager.postJoinParticipant(id, new ResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+            }
+
+            @Override
+            public void onFailure(String message, int errorCode) {
+
+            }
+        });
+    }
+
+
+
 }

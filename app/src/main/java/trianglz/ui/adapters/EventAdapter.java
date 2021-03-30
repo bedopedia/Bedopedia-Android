@@ -2,12 +2,14 @@ package trianglz.ui.adapters;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.skolera.skolera_android.R;
@@ -33,11 +35,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     public Context context;
     List<Event> items;
     public EventAdapter.EVENTSTATE state;
+    public EventInterface eventInterface;
 
-    public EventAdapter(Context context, EVENTSTATE eventstate) {
+    public EventAdapter(Context context, EVENTSTATE eventstate, EventInterface eventInterface) {
         this.context = context;
         this.state = eventstate;
         this.items = new ArrayList<>();
+        this.eventInterface = eventInterface;
     }
 
     @NonNull
@@ -86,6 +90,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         } else {
             holder.eventDetails.setVisibility(View.GONE);
         }
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eventInterface.onEventClicked(event.getDescription());
+            }
+        });
     }
 
     @Override
@@ -103,6 +114,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
         public TextView eventTitle, eventDetails, eventDay, eventMonth;
         public View lineView;
+        CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -111,6 +123,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             eventDay = itemView.findViewById(R.id.tv_day_number);
             eventMonth = itemView.findViewById(R.id.tv_month_number);
             lineView = itemView.findViewById(R.id.view_line);
+            cardView =itemView.findViewById(R.id.card_view);
         }
     }
 
@@ -123,6 +136,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
         return months[m-1];
+    }
+
+    public interface EventInterface{
+        public void onEventClicked(String zoomUrl);
     }
 }
 

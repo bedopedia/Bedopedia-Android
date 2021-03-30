@@ -108,6 +108,7 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
                     .into(logoImageView);
         }
 
+        setSchoolFeeButtonVisibility();
 
     }
 
@@ -246,6 +247,12 @@ public class HomeActivity extends SuperActivity implements View.OnClickListener,
         }
     }
 
+    private void setSchoolFeeButtonVisibility(){
+        if(SessionManager.getInstance().showSchoolFees())
+            checkFeesBtn.setVisibility(View.VISIBLE);
+        else
+            checkFeesBtn.setVisibility(View.GONE);
+    }
     @Override
     public void onConfirm() {
         changeLanguage();

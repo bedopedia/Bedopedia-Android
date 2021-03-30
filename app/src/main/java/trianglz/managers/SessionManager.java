@@ -30,7 +30,7 @@ public class SessionManager {
     private String timeZone = "time_zone";
     private String deviceId = "device_id";
     private String schoolLogoHeader = "school_logo_header";
-
+    private String showSchoolFee = "show_school_fees";
     public boolean isToUpdateNotificaton = false;
 
     //firebase
@@ -53,12 +53,13 @@ public class SessionManager {
     }
 
     public void createLoginSession(String userName,
-                                   String userId, String id, int unSeenNotficationCounter, int runningAnnouncements) {
+                                   String userId, String id, int unSeenNotficationCounter, int runningAnnouncements, boolean showFee) {
         mEditor.putString(this.userName, userName);
         mEditor.putString(this.userId, userId);
         mEditor.putString(this.id, id);
         mEditor.putInt(this.unSeenNotification, unSeenNotficationCounter);
         mEditor.putInt(this.runningAnnouncements, runningAnnouncements);
+        mEditor.putBoolean(this.showSchoolFee,showFee);
         mEditor.apply();
     }
 
@@ -207,4 +208,7 @@ public class SessionManager {
         return mPreferences.getString(schoolLogoHeader,"");
     }
 
+    public Boolean showSchoolFees(){
+        return mPreferences.getBoolean(showSchoolFee,false);
+    }
 }

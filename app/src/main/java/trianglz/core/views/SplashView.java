@@ -41,7 +41,8 @@ public class SplashView {
         String id = response.optString("child_id");
         int unSeenNotification = response.optInt("unseen_notifications");
         int runningAnnouncements = response.optInt("running_announcements_count");
-        SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification, runningAnnouncements);
+        Boolean showFees = response.optBoolean("show_school_fees");
+        SessionManager.getInstance().createLoginSession(username, userId, id, unSeenNotification, runningAnnouncements, showFees);
         String userType = response.optString(Constants.KEY_USER_TYPE);
         switch (userType) {
             case "parent":
