@@ -16,9 +16,6 @@ import androidx.fragment.app.Fragment;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.stfalcon.frescoimageviewer.ImageViewer;
-
-import java.util.ArrayList;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -118,11 +115,12 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
     }
 
     private void setAnnouncement(){
-        headerTextView.setText(announcement.title);
-        if(announcement.imageUrl != null && !announcement.imageUrl.isEmpty() && !announcement.imageUrl.equals("null")){
+        headerTextView.setText(announcement.getTitle());
+/*
+        if(announcement.getImageUrl() != null && !announcement.getImageUrl().isEmpty() && !announcement.getImageUrl().equals("null")){
             announcementImageView.setVisibility(View.VISIBLE);
             Picasso.with(activity)
-                    .load(announcement.imageUrl)
+                    .load(announcement.getImageUrl())
                     .centerInside()
                     .fit()
                     .into(announcementImageView);
@@ -130,7 +128,7 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
                 @Override
                 public void onClick(View v) {
                     ArrayList<String> images = new ArrayList<>();
-                    images.add(announcement.imageUrl);
+                    images.add(announcement.getImageUrl());
                     new ImageViewer.Builder<>(activity, images)
                             .setStartPosition(0)
                             .hideStatusBar(false)
@@ -144,8 +142,9 @@ public class AnnouncementDetailFragment extends Fragment  implements View.OnClic
         }else {
             announcementImageView.setVisibility(View.GONE);
         }
+*/
         webView = rootView.findViewById(R.id.web_view);
-        webView.loadData(announcement.body, "text/html", null);
+        webView.loadData(announcement.getBody(), "text/html", null);
     }
 
 

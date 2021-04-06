@@ -5,14 +5,9 @@ package trianglz.models;//
 //  Created on July 18, 2019
 //
 
-import java.util.*;
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import trianglz.models.Meta;
-import trianglz.models.Owner;
-import trianglz.models.Posts;
+import com.google.gson.annotations.SerializedName;
 
 public class PostDetails {
 

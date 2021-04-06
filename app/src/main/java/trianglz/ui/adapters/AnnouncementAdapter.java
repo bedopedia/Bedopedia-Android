@@ -21,6 +21,7 @@ import agency.tango.android.avatarview.loader.PicassoLoader;
 import agency.tango.android.avatarview.views.AvatarView;
 import trianglz.components.AvatarPlaceholderModified;
 import trianglz.models.Announcement;
+import trianglz.utils.Util;
 
 public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapter.Holder> {
     public Context context;
@@ -48,18 +49,18 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
             announcementAdapterInterface.onReachPosition();
         }
         Announcement announcement = mDataList.get(holder.getAdapterPosition());
-        String body = android.text.Html.fromHtml(announcement.body).toString();
+        String body = android.text.Html.fromHtml(announcement.getBody()).toString();
         body = StringEscapeUtils.unescapeJava(body);
         holder.contentTextView.setText(body);
-        holder.announcementHeaderTextView.setText(announcement.title);
-        holder.dateTextView.setText(announcement.endAt);
+        holder.announcementHeaderTextView.setText(announcement.getTitle());
+        holder.dateTextView.setText(Util.getAssigmentDetailStartDate(announcement.getEndAt()));
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 announcementAdapterInterface.onAnnouncementSelected(mDataList.get(holder.getAdapterPosition()));
             }
         });
-        holder.imageLoader.loadImage(holder.announcementImage, new AvatarPlaceholderModified(announcement.title), "Path of Image");
+        holder.imageLoader.loadImage(holder.announcementImage, new AvatarPlaceholderModified(announcement.getTitle()), "Path of Image");
     }
 
 

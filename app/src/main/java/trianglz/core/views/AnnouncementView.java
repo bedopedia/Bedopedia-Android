@@ -22,7 +22,6 @@ import trianglz.core.presenters.AnnouncementInterface;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
 import trianglz.models.Announcement;
-import trianglz.models.AnnouncementReceiver;
 import trianglz.utils.Constants;
 import trianglz.utils.Util;
 
@@ -52,31 +51,14 @@ public class AnnouncementView {
 
     private ArrayList<Announcement> parseAnnouncementResponse(JSONObject response) {
         JSONArray announcementJsonArray = response.optJSONArray(Constants.KEY_ANNOUNCEMENTS);
-        ArrayList<Announcement> announcementArrayList = new ArrayList<>();
-        for (int i = 0; i < announcementJsonArray.length(); i++) {
-            JSONObject announcementJsonObject = announcementJsonArray.optJSONObject(i);
-            ArrayList<AnnouncementReceiver> announcementReceiverArrayList = new ArrayList<>();
-            int id = announcementJsonObject.optInt(Constants.KEY_ID);
-            String title = announcementJsonObject.optString(Constants.KEY_TITLE);
-            String body = announcementJsonObject.optString(Constants.KEY_BODY);
-            String endAt = announcementJsonObject.optString(Constants.KEY_END_AT);
-            int adminId = announcementJsonObject.optInt(Constants.KEY_ADMIN_ID);
-            String createdAt = announcementJsonObject.optString(Constants.KEY_CREATED_AT);
-            String imageUrl = announcementJsonObject.optString(Constants.KEY_IMAGE_URL);
-            JSONArray announcementReceiversJsonArray = announcementJsonObject.optJSONArray(Constants.KEY_ANNOUNCEMENT_RECEIVERS);
-            for (int j = 0; j < announcementReceiversJsonArray.length(); j++) {
-                JSONObject announcementReceiverObject = announcementReceiversJsonArray.optJSONObject(j);
-                int annoucementReceiverId = announcementReceiverObject.optInt(Constants.KEY_ID);
-                int annoucenmentID = announcementReceiverObject.optInt(Constants.KEY_ANNOUCEMENT_ID);
-                String userType = announcementReceiverObject.optString(Constants.KEY_USER_TYPE);
-                AnnouncementReceiver announcementReceiver = new AnnouncementReceiver(annoucementReceiverId, annoucenmentID, userType);
-                announcementReceiverArrayList.add(announcementReceiver);
-            }
-            announcementArrayList.add(new Announcement(id, title, body, Util.getAnnouncementDate(endAt, context), Util.getAnnouncementDate(createdAt, context), adminId, imageUrl, announcementReceiverArrayList));
+        ArrayList<Announcement> announcements = new ArrayList<>();
+        for (int i = 0; i < ((announcementJsonArray != null) ? announcementJsonArray.length() : 0); i++) {
+            Announcement announcement = Announcement.create(announcementJsonArray.optString(i));
+            announcements.add(announcement);
         }
-        Collections.sort(announcementArrayList,new SortByDate());
-        Collections.reverse(announcementArrayList);
-        return announcementArrayList;
+        Collections.sort(announcements,new SortByDate());
+        Collections.reverse(announcements);
+        return announcements;
     }
 
 
@@ -100,7 +82,8 @@ public class AnnouncementView {
     public static class SortByDate implements Comparator<Announcement> {
         @Override
         public int compare(Announcement a, Announcement b) {
-            return Util.convertStringToDate(a.endAt).compareTo(Util.convertStringToDate(b.endAt));
+            if (a.getEndAt() == null || b.getEndAt() == null) return 1;
+            return Util.convertIsoToDate(a.getEndAt()).compareTo(Util.convertIsoToDate(b.getEndAt()));
         }
     }
 }

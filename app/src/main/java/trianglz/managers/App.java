@@ -15,6 +15,7 @@ import com.vanniktech.emoji.google.GoogleEmojiProvider;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import trianglz.components.LocalHelper;
 
 //import com.vanniktech.emoji.google.GoogleEmojiProvider;
@@ -38,11 +39,14 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mApp = this;
-        OkHttpClient client =  new OkHttpClient().newBuilder().addInterceptor(new StethoInterceptor()).build();
-        AndroidNetworking.initialize(getApplicationContext(), client);
+        Stetho.initializeWithDefaults(this);
+        OkHttpClient client =  new OkHttpClient().newBuilder()
+                .addInterceptor(new StethoInterceptor())
+                .addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT))
+        .build();
+        AndroidNetworking.initialize(this, client);
 
         EmojiManager.install(new GoogleEmojiProvider());
-        Stetho.initializeWithDefaults(this);
         Fresco.initialize(this);
         JodaTimeAndroid.init(this);
 

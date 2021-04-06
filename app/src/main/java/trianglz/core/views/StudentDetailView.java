@@ -33,8 +33,6 @@ import trianglz.managers.SessionManager;
 import trianglz.managers.api.ArrayResponseListener;
 import trianglz.managers.api.ResponseListener;
 import trianglz.managers.api.UserManager;
-import trianglz.models.Announcement;
-import trianglz.models.AnnouncementReceiver;
 import trianglz.models.BehaviorNote;
 import trianglz.models.CourseGroup;
 import trianglz.models.DailyNotes;
@@ -332,33 +330,6 @@ public class StudentDetailView {
         return finalDate;
     }
 
-
-    private ArrayList<Announcement> parseAnnouncementResponse(JSONObject response){
-        JSONArray announcementJsonArray  = response.optJSONArray(Constants.KEY_ANNOUNCEMENTS);
-        ArrayList<Announcement> announcementArrayList = new ArrayList<>();
-        for(int i = 0; i< announcementJsonArray.length(); i++){
-            JSONObject announcementJsonObject = announcementJsonArray.optJSONObject(i);
-            ArrayList<AnnouncementReceiver> announcementReceiverArrayList = new ArrayList<>();
-            int id = announcementJsonObject.optInt(Constants.KEY_ID);
-            String title = announcementJsonObject.optString(Constants.KEY_TITLE);
-            String body = announcementJsonObject.optString(Constants.KEY_BODY);
-            String endAt = announcementJsonObject.optString(Constants.KEY_END_AT);
-            int adminId = announcementJsonObject.optInt(Constants.KEY_ADMIN_ID);
-            String createdAt = announcementJsonObject.optString(Constants.KEY_CREATED_AT);
-            String imageUrl =  announcementJsonObject.optString(Constants.KEY_IMAGE_URL);
-            JSONArray announcementReceiversJsonArray = announcementJsonObject.optJSONArray(Constants.KEY_ANNOUNCEMENT_RECEIVERS);
-            for(int j= 0; j< announcementReceiversJsonArray.length(); j++){
-                JSONObject announcementReceiverObject = announcementReceiversJsonArray.optJSONObject(j);
-                int annoucementReceiverId = announcementReceiverObject.optInt(Constants.KEY_ID);
-                int annoucenmentID = announcementReceiverObject.optInt(Constants.KEY_ANNOUCEMENT_ID);
-                String userType =  announcementReceiverObject.optString(Constants.KEY_USER_TYPE);
-                AnnouncementReceiver announcementReceiver = new AnnouncementReceiver(annoucementReceiverId,annoucenmentID,userType);
-                announcementReceiverArrayList.add(announcementReceiver);
-            }
-            announcementArrayList.add( new Announcement(id,title,body,formatDate(endAt),formatDate(createdAt),adminId,imageUrl, announcementReceiverArrayList));
-        }
-        return announcementArrayList;
-    }
 
     private ArrayList<MessageThread> parseGetMessagesResponse(JSONObject jsonObject) {
 
