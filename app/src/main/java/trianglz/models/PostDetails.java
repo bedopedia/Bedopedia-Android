@@ -34,6 +34,13 @@ public class PostDetails {
     @SerializedName("uploaded_files")
     private UploadedObject[] uploadedFiles;
 
+    /**
+     * Indicates if the post details was converting from an announcement object using
+     * @see trianglz.models.Announcement 's toPostDetails method
+     */
+    @SerializedName("wasAnnouncement")
+    public boolean wasAnnouncement = false;
+
     public void setId(int id) {
         this.id = id;
     }

@@ -73,9 +73,11 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
             params.setMargins(0, 0, 0, 0); //substitute parameters for left, top, right, bottom
             viewHolder.cardView.setLayoutParams(params);
             String nameWithTitle = postDetail.getOwner().nameWithTitle;
-            if (nameWithTitle != null && !nameWithTitle.isEmpty() && imageUrl != null && !imageUrl.isEmpty()) {
-                setAvatarView(viewHolder.avatarView, nameWithTitle, imageUrl);
+            if (nameWithTitle != null && !nameWithTitle.isEmpty()) {
                 viewHolder.ownerTextview.setText(nameWithTitle);
+            }
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                setAvatarView(viewHolder.avatarView, nameWithTitle, imageUrl);
             }
             String date = Util.getTimeAndDate(postDetail.getCreatedAt(), context);
             viewHolder.dateTextView.setText(date);
@@ -217,7 +219,7 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 1) {
+        if (position == 1 && postDetail.wasAnnouncement) {
             return TYPE_REPLY;
         } else {
             return TYPE_POST;
@@ -227,7 +229,7 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return postDetail.getComments().length + 2;
+        return postDetail.wasAnnouncement ? postDetail.getComments().length + 1 : postDetail.getComments().length + 2;
     }
 
     public class PostReplyViewHolder extends RecyclerView.ViewHolder {

@@ -127,10 +127,12 @@ public class Announcement implements Serializable {
         Owner owner = new Owner();
         owner.name = title;
         owner.nameWithTitle = title;
+        owner.avatarUrl = title;
         postDetails.setOwner(owner);
         postDetails.setCreatedAt(createdAt);
         postDetails.setComments(new Reply[0]);
         postDetails.setUploadedFiles(uploadedFiles);
+        postDetails.wasAnnouncement = true;
         return postDetails;
     }
 }

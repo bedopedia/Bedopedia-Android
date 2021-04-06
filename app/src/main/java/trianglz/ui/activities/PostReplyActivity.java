@@ -52,6 +52,8 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
         setContentView(R.layout.activity_post_reply);
         checkIntent();
         bindViews();
+        // hide replying view if announcement
+        if (postDetails.wasAnnouncement) {inputLayout.setVisibility(View.GONE);}
         setListeners();
     }
 
