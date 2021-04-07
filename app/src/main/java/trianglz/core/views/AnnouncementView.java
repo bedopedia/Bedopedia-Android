@@ -57,7 +57,7 @@ public class AnnouncementView {
             announcements.add(announcement);
         }
         Collections.sort(announcements,new SortByDate());
-        Collections.reverse(announcements);
+//        Collections.reverse(announcements);
         return announcements;
     }
 

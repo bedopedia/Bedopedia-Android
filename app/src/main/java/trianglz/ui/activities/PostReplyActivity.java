@@ -124,7 +124,7 @@ public class PostReplyActivity extends SuperActivity implements PostReplyAdapter
         }
         if (!uploadedObjectStrings.isEmpty()) bundle.putStringArrayList(Constants.KEY_UPLOADED_OBJECTS, uploadedObjectStrings);
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
-        intent.putExtra(Constants.KEY_COURSE_NAME, courseName);
+        intent.putExtra(Constants.KEY_COURSE_NAME, postDetails.wasAnnouncement ? postDetails.getOwner().nameWithTitle : courseName);
         startActivity(intent);
     }
 

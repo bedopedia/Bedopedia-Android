@@ -21,6 +21,8 @@ public class PostDetails {
     private int postableId;
     @SerializedName("created_at")
     private String createdAt;
+    @SerializedName("end_at")
+    private String endAt;
     @SerializedName("meta")
     private Meta meta;
     @SerializedName("updated_at")
@@ -33,6 +35,8 @@ public class PostDetails {
     private Owner owner;
     @SerializedName("uploaded_files")
     private UploadedObject[] uploadedFiles;
+    @SerializedName("short_name")
+    public String shortName;
 
     /**
      * Indicates if the post details was converting from an announcement object using
@@ -91,6 +95,14 @@ public class PostDetails {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void setEndAt(String endAt) {
+        this.endAt = endAt;
+    }
+
+    public String getEndAt() {
+        return this.endAt;
     }
 
     public String getUpdatedAt() {

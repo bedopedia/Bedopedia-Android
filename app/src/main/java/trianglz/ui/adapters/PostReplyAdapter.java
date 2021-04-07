@@ -77,9 +77,10 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
                 viewHolder.ownerTextview.setText(nameWithTitle);
             }
             if (imageUrl != null && !imageUrl.isEmpty()) {
-                setAvatarView(viewHolder.avatarView, nameWithTitle, imageUrl);
+                setAvatarView(viewHolder.avatarView, postDetail.shortName, imageUrl);
             }
-            String date = Util.getTimeAndDate(postDetail.getCreatedAt(), context);
+            // handle announcement date to be end at just like the announcements list
+            String date = Util.getTimeAndDate(postDetail.wasAnnouncement? postDetail.getEndAt() : postDetail.getCreatedAt(), context);
             viewHolder.dateTextView.setText(date);
 
             if (!postDetail.getContent().isEmpty()) {

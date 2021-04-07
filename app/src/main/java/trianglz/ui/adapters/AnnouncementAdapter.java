@@ -60,7 +60,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
                 announcementAdapterInterface.onAnnouncementSelected(mDataList.get(holder.getAdapterPosition()));
             }
         });
-        holder.imageLoader.loadImage(holder.announcementImage, new AvatarPlaceholderModified(announcement.getTitle()), "Path of Image");
+        holder.imageLoader.loadImage(holder.announcementImage, new AvatarPlaceholderModified(announcement.getShortName(announcement.getTitle())), "Path of Image");
     }
 
 

@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Announcement implements Serializable {
 
@@ -125,14 +127,38 @@ public class Announcement implements Serializable {
         postDetails.setContent(body);
         postDetails.setId(id);
         Owner owner = new Owner();
-        owner.name = title;
         owner.nameWithTitle = title;
+        // setting short name
+        postDetails.shortName = getShortName(title);
+        //
         owner.avatarUrl = title;
         postDetails.setOwner(owner);
         postDetails.setCreatedAt(createdAt);
+        postDetails.setEndAt(endAt);
         postDetails.setComments(new Reply[0]);
         postDetails.setUploadedFiles(uploadedFiles);
         postDetails.wasAnnouncement = true;
         return postDetails;
+    }
+
+    public String getShortName(String string) {
+        if (string == null) return "";
+        Matcher matcher = Pattern.compile("^(\\w+)(?=\\b)").matcher(string);
+        if (matcher.find()) {
+            StringBuilder shortName = new StringBuilder();
+            String group = matcher.group(1);
+            if (group != null) {
+                char[] chars = group.toCharArray();
+                if (chars.length >= 2) {
+                    for (int i = 0; i < 2; i++) {
+                        shortName.append(" ").append(chars[i]);
+                    }
+                    return shortName.toString().trim();
+                } else if (chars.length == 1) {
+                    return chars[0] + " " + chars[0];
+                }
+            }
+        }
+        return "";
     }
 }
