@@ -143,7 +143,8 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
                         viewHolder.firstTextView.setText(postDetail.getUploadedFiles()[0].getName());
                         viewHolder.secondTextView.setText(postDetail.getUploadedFiles()[1].getName());
                         viewHolder.thirdTextView.setText("+" + (postDetail.getUploadedFiles().length - 2));
-
+                        viewHolder.firstSizeTextView.setText(Util.humanReadableByteCountBin(postDetail.getUploadedFiles()[0].getFileSize()));
+                        viewHolder.secondSizeTextView.setText(Util.humanReadableByteCountBin(postDetail.getUploadedFiles()[1].getFileSize()));
                         viewHolder.buttonsLayout.setVisibility(View.VISIBLE);
                         viewHolder.firstLinearLayout.setVisibility(View.VISIBLE);
                         viewHolder.secondLinearLayout.setVisibility(View.VISIBLE);
