@@ -142,8 +142,8 @@ public class Announcement implements Serializable {
     }
 
     public String getShortName(String string) {
-        if (string == null) return "";
-        Matcher matcher = Pattern.compile("^(\\w+)(?=\\b)").matcher(string);
+        if (string == null) return "A N";
+        Matcher matcher = Pattern.compile("(\\w+)(?=\\b)").matcher(string);
         if (matcher.find()) {
             StringBuilder shortName = new StringBuilder();
             String group = matcher.group(1);
@@ -159,6 +159,6 @@ public class Announcement implements Serializable {
                 }
             }
         }
-        return "";
+        return "A N";
     }
 }
