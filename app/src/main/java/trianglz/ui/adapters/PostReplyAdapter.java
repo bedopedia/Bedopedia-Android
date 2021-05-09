@@ -221,7 +221,7 @@ public class PostReplyAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 1 && postDetail.wasAnnouncement) {
+        if (position == 1) {
             return TYPE_REPLY;
         } else {
             return TYPE_POST;
