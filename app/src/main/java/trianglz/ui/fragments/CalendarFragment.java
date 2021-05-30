@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
-import com.google.android.gms.measurement.AppMeasurement;
 import com.skolera.skolera_android.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -34,16 +33,13 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.EventListener;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.logging.Logger;
 
 import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -518,9 +514,13 @@ public class CalendarFragment extends Fragment implements View.OnClickListener,
     public void onEventClicked(String event) {
         if(event != null && event.contains("zoom.us")){
             String zoomUrlLastPath =StringUtils.substringAfterLast(event, "/");
+            // open zoom link only if the user is student
             if(!zoomUrlLastPath.isEmpty()) {
-                calendarEventsView.postJoinParticipant(zoomUrlLastPath);
-                openZoomMeeting(event);
+                if (SessionManager.getInstance().getUserType()
+                        .equals(SessionManager.Actor.STUDENT.toString())) {
+                    calendarEventsView.postJoinParticipant(zoomUrlLastPath);
+                    openZoomMeeting(event);
+                }
             }
         }
     }
