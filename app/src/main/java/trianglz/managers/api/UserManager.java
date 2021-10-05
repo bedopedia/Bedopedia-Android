@@ -320,18 +320,18 @@ public class UserManager {
     }
 
 
-    public static void getStudentTimeTable(String url, final ArrayResponseListener arrayResponseListener) {
+    public static void getStudentTimeTable(String url, final ResponseListener responseListener) {
         HashMap<String, String> headerHashMap = SessionManager.getInstance().getHeaderHashMap();
         HashMap<String, String> paramsHashMap = new HashMap<>();
-        NetworkManager.getJsonArray(url, paramsHashMap, headerHashMap, new HandleArrayResponseListener() {
+        NetworkManager.get(url, headerHashMap,new HandleResponseListener() {
             @Override
-            public void onSuccess(JSONArray response) {
-                arrayResponseListener.onSuccess(response);
+            public void onSuccess(JSONObject response) {
+                responseListener.onSuccess(response);
             }
 
             @Override
             public void onFailure(String message, int errorCode) {
-                arrayResponseListener.onFailure(message, errorCode);
+                responseListener.onFailure(message, errorCode);
             }
         });
     }
