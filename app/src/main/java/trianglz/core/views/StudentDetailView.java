@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.format.DateUtils;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.google.gson.JsonArray;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -80,10 +81,10 @@ public class StudentDetailView {
 
 
     public void getStudentTimeTable(String url) {
-        UserManager.getStudentTimeTable(url, new ArrayResponseListener() {
+        UserManager.getStudentTimeTable(url, new ResponseListener() {
             @Override
-            public void onSuccess(JSONArray responseArray) {
-                studentDetailPresenter.oneGetTimeTableSuccess(parseStudentTimeTable(responseArray));
+            public void onSuccess(JSONObject response) {
+                studentDetailPresenter.oneGetTimeTableSuccess(parseStudentTimeTable(response));
             }
 
             @Override
@@ -183,7 +184,8 @@ public class StudentDetailView {
 
     }
 
-    private ArrayList<Object> parseStudentTimeTable(JSONArray jsonArray) {
+    private ArrayList<Object> parseStudentTimeTable(JSONObject response) {
+
         ArrayList<Object> timeTableData = new ArrayList<>();
         String nextSlot = "";
         List<TimeTableSlot> todaySlots = new ArrayList<TimeTableSlot>();
@@ -208,8 +210,9 @@ public class StudentDetailView {
 //        if(SessionManager.getInstance().getHeaderHashMap().containsKey("timezone")){
 //            formatter.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
 //        }
-        for (int i = 0; i < jsonArray.length(); i++) {
+        JSONArray jsonArray = response.optJSONArray(Constants.KEY_SLOTS);
 
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject slot = jsonArray.optJSONObject(i);
             String from = slot.optString(Constants.KEY_FROM);
             String to = slot.optString(Constants.KEY_TO);

@@ -278,5 +278,8 @@ public class Constants {
     public static final String KEY_HEADER_URL = "header_url";
     public static final String EVENT_ID = "event_id";
 
+    public static final String KEY_SLOTS= "slots";
+
+
 }
 
