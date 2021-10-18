@@ -211,7 +211,6 @@ public class StudentDetailView {
 //            formatter.setTimeZone(TimeZone.getTimeZone(SessionManager.getInstance().getHeaderHashMap().get("timezone")));
 //        }
         JSONArray jsonArray = response.optJSONArray(Constants.KEY_SLOTS);
-
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject slot = jsonArray.optJSONObject(i);
             String from = slot.optString(Constants.KEY_FROM);
@@ -270,18 +269,22 @@ public class StudentDetailView {
         List<BehaviorNote> negativeBehaviorNotesList = new ArrayList<>();
         List<BehaviorNote> otherBehaviorNotesList = new ArrayList<>();
         JSONArray behaviourNotes = response.optJSONArray(Constants.KEY_BEHAVIOUR_NOTES);
-        for(int i = 0 ; i<behaviourNotes.length(); i++){
-            BehaviorNote behaviorNote = BehaviorNote.create(behaviourNotes.opt(i).toString());
-            switch (behaviorNote.type) {
-                case Constants.GOOD:
-                    positiveBehaviorNotesList.add(behaviorNote);
-                    break;
-                case Constants.BAD:
-                    negativeBehaviorNotesList.add(behaviorNote);
-                    break;
-                case Constants.OTHER:
-                    otherBehaviorNotesList.add(behaviorNote);
-                    break;
+        if(behaviourNotes != null) {
+            for (int i = 0; i < behaviourNotes.length(); i++) {
+                BehaviorNote behaviorNote = BehaviorNote.create(behaviourNotes.opt(i).toString());
+                if (behaviorNote != null && behaviorNote.type != null) {
+                    switch (behaviorNote.type) {
+                        case Constants.GOOD:
+                            positiveBehaviorNotesList.add(behaviorNote);
+                            break;
+                        case Constants.BAD:
+                            negativeBehaviorNotesList.add(behaviorNote);
+                            break;
+                        case Constants.OTHER:
+                            otherBehaviorNotesList.add(behaviorNote);
+                            break;
+                    }
+                }
             }
         }
         behaviorNoteHashMap.put(Constants.KEY_POSITIVE,positiveBehaviorNotesList);
