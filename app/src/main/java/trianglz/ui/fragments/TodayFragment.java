@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -106,8 +107,7 @@ public class TodayFragment extends Fragment {
         displayDailyEvents(todaySlots);
         displayNowTime();
 
-
-
+        TextView today6AM = rootView.findViewById(R.id.today_6am);
         TextView today7AM = rootView.findViewById(R.id.today_7am);
         TextView today8AM = rootView.findViewById(R.id.today_8am);
         TextView today9AM = rootView.findViewById(R.id.today_9am);
@@ -123,6 +123,7 @@ public class TodayFragment extends Fragment {
         TextView today7PM = rootView.findViewById(R.id.today_7pm);
 
         Typeface roboto = Typeface.createFromAsset(Objects.requireNonNull(getActivity()).getAssets(), "font/sfui_semibold.ttf");
+        today6AM.setTypeface(roboto);
         today7AM.setTypeface(roboto);
         today8AM.setTypeface(roboto);
         today9AM.setTypeface(roboto);
@@ -246,7 +247,7 @@ public class TodayFragment extends Fragment {
         Calendar calendar = CalendarUtils.getGregorianCalendar(startTime);
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE);
-        int eventPosition = (int) (31.0 + ((hours - 7)*60.0) + (minutes/60.0) * 60.0) ;
+        int eventPosition = (int) (31.0 + ((hours - 6)*60.0) + (minutes/60.0) * 60.0) ;
 
         Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/circular_bold.ttf");
         Typeface roboto1 = Typeface.createFromAsset(getActivity().getAssets(), "font/circular_book.ttf");

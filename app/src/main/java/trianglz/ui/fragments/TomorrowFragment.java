@@ -91,7 +91,7 @@ public class TomorrowFragment extends Fragment {
         mLayout = rootView.findViewById(R.id.tomorrow_event_column);
         List<TimeTableSlot> tomorrowSlots = (List<TimeTableSlot>) getArguments().getSerializable(Constants.KEY_TOMORROW);
         displayDailyEvents(tomorrowSlots);
-
+        TextView tomorrow6AM = rootView.findViewById(R.id.tomorrow_6am);
         TextView tomorrow7AM = rootView.findViewById(R.id.tomorrow_7am);
         TextView tomorrow8AM = rootView.findViewById(R.id.tomorrow_8am);
         TextView tomorrow9AM = rootView.findViewById(R.id.tomorrow_9am);
@@ -107,6 +107,7 @@ public class TomorrowFragment extends Fragment {
         TextView tomorrow7PM = rootView.findViewById(R.id.tomorrow_7pm);
 
         Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/sfui_semibold.ttf");
+        tomorrow6AM.setTypeface(roboto);
         tomorrow7AM.setTypeface(roboto);
         tomorrow8AM.setTypeface(roboto);
         tomorrow9AM.setTypeface(roboto);
@@ -163,7 +164,7 @@ public class TomorrowFragment extends Fragment {
         Calendar calendar = CalendarUtils.getGregorianCalendar(startTime);
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE);
-        int eventPosition = (int) (31.0 + ((hours - 7) * 60.0) + (minutes / 60.0) * 60.0);
+        int eventPosition = (int) (31.0 + ((hours - 6) * 60.0) + (minutes / 60.0) * 60.0);
 
         Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "font/circular_bold.ttf");
         Typeface roboto1 = Typeface.createFromAsset(getActivity().getAssets(), "font/circular_book.ttf");
