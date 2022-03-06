@@ -10,10 +10,18 @@
       "client_info": {
         "mobilesdk_app_id": "1:742721869641:android:ab2b939c34fcec93",
         "android_client_info": {
-          "package_name": "com.skolera.skolera_android"
+          "package_name": "com.example.bedopedia.bedopedia_android"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "742721869641-pom8qbsp92gpjquuhhhu1nc83uhvpi71.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bedopedia.bedopedia_android",
+            "certificate_hash": "6645a8a05e79b13112a492e192d5a31c134c396c"
+          }
+        },
         {
           "client_id": "742721869641-jp7c1m14tuid9899h6husi4v28t5lchc.apps.googleusercontent.com",
           "client_type": 3
@@ -25,15 +33,80 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742721869641-jp7c1m14tuid9899h6husi4v28t5lchc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "742721869641-48ra6qad1c80a9i90tqa8orhd6daut9h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.skolera.skolera"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742721869641:android:2551bcad10e44231",
+        "android_client_info": {
+          "package_name": "com.skolera.skolera_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742721869641-biamhvhk9ijh8d3kcof7i69ahsvsrhob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skolera.skolera_android",
+            "certificate_hash": "b5fc5ea8e2ba48c014818c71c2a7d0edb81c846d"
+          }
         },
-        "ads_service": {
-          "status": 2
+        {
+          "client_id": "742721869641-1jkus5hqr7vavpmpabg5fnbd1hcu5ebn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skolera.skolera_android",
+            "certificate_hash": "6645a8a05e79b13112a492e192d5a31c134c396c"
+          }
+        },
+        {
+          "client_id": "742721869641-6npd9nl55bpv1pfmicslaolueutojttv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skolera.skolera_android",
+            "certificate_hash": "818bdf0ed2661d493d517c599876ee2de5252a23"
+          }
+        },
+        {
+          "client_id": "742721869641-jp7c1m14tuid9899h6husi4v28t5lchc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHC1UFUVGb-3SH8rNNcrSe0sIz0CyHKgU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742721869641-jp7c1m14tuid9899h6husi4v28t5lchc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "742721869641-48ra6qad1c80a9i90tqa8orhd6daut9h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.skolera.skolera"
+              }
+            }
+          ]
         }
       }
     }

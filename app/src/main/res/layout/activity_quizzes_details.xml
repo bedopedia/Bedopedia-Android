@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/snow"
+    tools:context="trianglz.ui.activities.QuizzesDetailsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="10dp"
+                    android:src="@drawable/chevron_left"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless" />
+
+                <TextView
+                    android:id="@+id/tv_header"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="start|center_vertical"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/assignments"
+                    android:textSize="20sp"
+                    android:layout_marginEnd="2dp"
+                    android:textColor="@color/greyish_brown"
+                    style="@style/RobotoMediumStyle" />
+
+
+                <agency.tango.android.avatarview.views.AvatarView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/img_student" />
+            </LinearLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabRippleColor="@color/transparent"
+                app:tabSelectedTextColor="@color/jade_green"
+                app:tabIndicatorColor="@color/jade_green"
+                app:tabTextColor="@color/greyish_brown"
+                app:tabTextAppearance="@style/TabStyle">
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/open_tab"
+                    android:text="@string/open"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/closed_tab"
+                    android:text="@string/closed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/recycler_view_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/item_shimmer_layout" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/placeholder_layout"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/quizzes_placeholder" />
+
+                <TextView
+                    android:id="@+id/placeholder_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="24dp"
+                    android:layout_gravity="center"
+                    android:includeFontPadding="false"
+                    android:textSize="16sp"
+                    android:text="@string/open_quizzes_placeholder" />
+            </LinearLayout>
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>
+

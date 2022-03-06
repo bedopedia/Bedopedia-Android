@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context="trianglz.ui.fragments.QuizDetailsFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:src="@drawable/chevron_left" />
+
+                <TextView
+                    android:id="@+id/tv_quiz_name"
+                    style="@style/RobotoMediumStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/btn_back"
+                    android:background="@android:color/transparent"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Pattern Quiz"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/silver" />
+        </LinearLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/quiz_name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                style="@style/RobotoMediumStyle"
+                android:textAlignment="viewStart"
+                android:background="@color/snow"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="6dp"
+                android:text="General - End Of Module 1 Quiz" />
+
+            <TextView
+                android:id="@+id/quiz_desc_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/cool_grey"
+                android:textSize="14sp"
+                android:includeFontPadding="false"
+                android:layout_marginBottom="20dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textAlignment="viewStart"
+                android:visibility="visible"
+                android:layout_marginTop="20dp"
+                android:text="A revision on what was learned in module 1." />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                style="@style/RobotoMediumStyle"
+                android:textAlignment="viewStart"
+                android:includeFontPadding="false"
+                android:layout_marginBottom="16dp"
+                android:background="@color/snow"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="6dp"
+                android:text="@string/basic_info" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textAlignment="viewStart"
+                    android:includeFontPadding="false"
+                    android:text="@string/publish_date" />
+
+                <TextView
+                    android:id="@+id/publish_date_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@color/cool_grey"
+                    android:textSize="14sp"
+                    android:textAlignment="viewEnd"
+                    android:maxLines="1"
+                    android:includeFontPadding="false"
+                    android:text="9 May, 2019 - 2:51 PM" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textAlignment="viewStart"
+                    android:includeFontPadding="false"
+                    android:text="@string/due_date" />
+
+                <TextView
+                    android:id="@+id/due_date_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@color/cool_grey"
+                    android:textSize="14sp"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:textAlignment="viewEnd"
+                    android:includeFontPadding="false"
+                    android:text="9 May, 2019 - 2:51 PM" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:includeFontPadding="false"
+                    android:text="@string/duration" />
+
+                <TextView
+                    android:id="@+id/duration_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@color/cool_grey"
+                    android:textSize="14sp"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:textAlignment="viewEnd"
+                    android:includeFontPadding="false"
+                    android:text="30 minutes" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:includeFontPadding="false"
+                    android:text="@string/total_score" />
+
+                <TextView
+                    android:id="@+id/total_score_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@color/cool_grey"
+                    android:textSize="14sp"
+                    android:gravity="end"
+                    android:textAlignment="textEnd"
+                    android:includeFontPadding="false"
+                    android:text="10" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:includeFontPadding="false"
+                android:layout_marginBottom="16dp"
+                android:text="@string/curriculum_information"
+                android:background="@color/snow"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="6dp"
+                style="@style/RobotoMediumStyle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:includeFontPadding="false"
+                    android:text="@string/blooms_taxonomy" />
+
+                <TextView
+                    android:id="@+id/blooms_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:textColor="@color/cool_grey"
+                    android:textSize="14sp"
+                    android:gravity="end"
+                    android:textAlignment="viewEnd"
+                    android:includeFontPadding="false"
+                    android:text="Evaluatiojshxbjahjakhdsakjdhaskjdhakjsdhakjshdkjsahdkjashdkjsahdkjsadn" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:includeFontPadding="false"
+                    android:text="@string/topic" />
+
+                <TextView
+                    android:id="@+id/topic_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@color/cool_grey"
+                    android:textSize="14sp"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:textAlignment="viewEnd"
+                    android:includeFontPadding="false"
+                    android:text="Topic 1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:includeFontPadding="false"
+                    android:text="@string/subtopic" />
+
+                <TextView
+                    android:id="@+id/subtopic_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@color/cool_grey"
+                    android:textSize="14sp"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:textAlignment="viewEnd"
+                    android:includeFontPadding="false"
+                    android:text="Subtopic 2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textAlignment="viewStart"
+                    android:includeFontPadding="false"
+                    android:text="@string/lesson" />
+
+                <TextView
+                    android:id="@+id/lesson_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@color/cool_grey"
+                    android:textSize="14sp"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:textAlignment="viewEnd"
+                    android:includeFontPadding="false"
+                    android:text="A" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textAlignment="viewStart"
+                android:includeFontPadding="false"
+                android:layout_marginBottom="16dp"
+                android:text="@string/learning_objectives"
+                android:background="@color/snow"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="6dp"
+                style="@style/RobotoMediumStyle" />
+
+            <TextView
+                android:id="@+id/learning_obj_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/cool_grey"
+                android:textSize="14sp"
+                android:textAlignment="viewStart"
+                android:includeFontPadding="false"
+                android:layout_marginBottom="24dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/no_objective" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textAlignment="viewStart"
+                android:includeFontPadding="false"
+                android:layout_marginBottom="16dp"
+                android:text="@string/course_groups"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="6dp"
+                android:background="@color/snow"
+                style="@style/RobotoMediumStyle" />
+
+            <TextView
+                android:id="@+id/course_group_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/cool_grey"
+                android:textSize="14sp"
+                android:includeFontPadding="false"
+                android:textAlignment="viewStart"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="24dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

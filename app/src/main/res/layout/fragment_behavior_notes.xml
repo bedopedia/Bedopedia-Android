@@ -3,33 +3,135 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="behaviorNotes.BehaviorNotesFragment">
+    android:focusable="true"
+    android:clickable="true"
+    android:background="@color/white"
+    tools:context="trianglz.ui.fragments.BehaviorNotesFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.design.widget.TabLayout
-            style="@style/TabLayoutStyle"
-            android:id="@+id/behavior_notes_tabs"
-            android:background="@color/colorPrimary"
-            app:tabIndicatorColor="@color/colorAccent"
-            app:tabMaxWidth="0dp"
-            app:tabGravity="fill"
-            android:layout_marginTop="?attr/actionBarSize"
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="2dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
 
-        <android.support.v4.view.ViewPager
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp">
+
+                        <ImageButton
+                            android:id="@+id/back_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="2dp"
+                            android:background="@android:color/transparent"
+                            android:foreground="@drawable/round_ripple_25"
+                            android:padding="10dp"
+                            android:src="@drawable/chevron_left" />
+
+                        <TextView
+                            android:id="@+id/tv_header"
+                            style="@style/RobotoMediumStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:ellipsize="end"
+                            android:gravity="start"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="@string/behavior_notes"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/greyish_brown"
+                            android:textSize="20sp" />
+
+                        <agency.tango.android.avatarview.views.AvatarView
+                            android:id="@+id/img_student"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@android:color/transparent" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/silver" />
+                </LinearLayout>
+
+
+
+
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    app:tabRippleColor="@color/transparent"
+                    app:tabSelectedTextColor="@color/jade_green"
+                    app:tabIndicatorColor="@color/jade_green"
+                    app:tabTextColor="@color/steel"
+                    app:tabTextAppearance="@style/BehaviorNoteTabStyle">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/open_tab"
+                        android:text="@string/positiveBehaviorNotes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:text="@string/negativeBehaviorNotes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                    <com.google.android.material.tabs.TabItem
+                        android:text="@string/other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                </com.google.android.material.tabs.TabLayout>
+
+            </LinearLayout>
+
+
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:visibility="gone"
+            android:background="@color/steel_transparent" />
+
+
+        <trianglz.components.CustomRtlViewPager
             android:id="@+id/behavior_notes_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
-
 
 
     </LinearLayout>

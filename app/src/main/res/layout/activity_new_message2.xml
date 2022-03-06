@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/white"
+    tools:context="trianglz.ui.activities.NewMessageActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:foreground="@drawable/round_ripple_25"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:src="@drawable/chevron_left" />
+
+        <TextView
+            android:id="@+id/tv_header"
+            style="@style/RobotoMediumStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/btn_back"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="32dp"
+            android:background="@android:color/transparent"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="@string/new_message"
+            android:textAlignment="viewStart"
+            android:textColor="@color/greyish_brown"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="#e5e5e5" />
+
+    <TextView
+        android:id="@+id/tv_header_subject"
+        style="@style/RobotoMediumStyle"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical|start"
+        android:maxLines="1"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:text="@string/select_a_course"
+        android:textAlignment="viewStart"
+        android:textColor="@color/warm_grey"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_header_teacher"
+        style="@style/RobotoMediumStyle"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical|start"
+        android:maxLines="1"
+        android:paddingStart="18dp"
+        android:paddingEnd="15dp"
+        android:text="@string/select_teacher"
+        android:textAlignment="viewStart"
+        android:textColor="@color/silver"
+        android:textSize="14sp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>

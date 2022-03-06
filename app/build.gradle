@@ -1,15 +1,38 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'io.fabric'
+ext.versionMajor = 3
+ext.versionMinor = 0
+ext.versionPatch = 8
+ext.versionClassifier = null
+ext.isSnapshot = false
+ext.minimumSdkVersion = 23
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.skolera.skolera_android"
-        minSdkVersion 19
-        targetSdkVersion 25
-        versionCode 5
-        versionName "1.1"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        targetSdkVersion 28
+        versionCode 29
+        minSdkVersion project.ext.minimumSdkVersion
+        versionCode generateVersionCode()
+        versionName generateVersionName()
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+    dataBinding {
+        enabled = true
+    }
+    allprojects {
+        repositories {
+            maven {
+                url "https://jitpack.io"
+            }
+            maven {
+                url 'https://maven.fabric.io/public'
+            }
+            jcenter()
+
+        }
     }
     buildTypes {
         release {
@@ -17,36 +40,96 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+}
+
+private String generateVersionName() {
+    String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+    if (ext.versionClassifier == null && ext.isSnapshot) {
+        ext.versionClassifier = "SNAPSHOT"
+    }
+
+    if (ext.versionClassifier != null) {
+        versionName += "-" + ext.versionClassifier
+    }
+    return versionName;
+}
+
+private Integer generateVersionCode() {
+    return ext.minimumSdkVersion * 10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // retrofit, gson
-    compile files('libs/gradle-wrapper.jar')
-    compile 'com.android.support:appcompat-v7:27.1.1'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.squareup.retrofit2:retrofit:2.2.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
-    compile 'com.squareup.okhttp3:okhttp:3.7.0'
-    compile 'com.android.support:design:27.1.1'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.google.firebase:firebase-core:9.2.0'
-    compile 'com.google.firebase:firebase-messaging:9.2.0'
-    compile 'com.google.android.gms:play-services-location:9.2.0'
-    compile 'com.google.android.gms:play-services-places:9.2.0'
-    compile 'com.android.support:cardview-v7:27.1.1'
-    compile 'com.android.support:recyclerview-v7:27.1.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.prolificinteractive:material-calendarview:1.4.3'
-    compile 'com.github.sundeepk:compact-calendar-view:2.0.1'
-    compile 'com.jakewharton:butterknife:8.5.1'
-    compile 'com.android.support:support-v4:27.1.1'
-    compile 'ch.acra:acra:4.6.1'
-    testCompile 'junit:junit:4.12'
+    implementation files('libs/gradle-wrapper.jar')
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.android.gms:play-services-places:16.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.github.sundeepk:compact-calendar-view:2.0.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.amitshekhar.android:jackson-android-networking:1.0.2'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'agency.tango.android:avatar-view:0.0.2'
+    implementation 'agency.tango.android:avatar-view-picasso:0.0.2'
+    implementation 'com.sasank.roundedhorizontalprogress:roundedhorizontalprogress:1.0.1'
+    implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
+    implementation 'com.applandeo:material-calendar-view:1.0.1'
+    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+    implementation 'com.vanniktech:emoji-google:0.5.1'
+    implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation 'androidx.multidex:multidex:2.0.0'
+    implementation 'com.duolingo.open:rtl-viewpager:1.0.3'
+    implementation 'com.github.javiersantos:AppUpdater:2.7'
+    implementation 'com.wang.avi:library:2.1.3'
+
+    // Check for v11.4.2 or higher
+    implementation 'com.google.firebase:firebase-core:16.0.4'
+    // Add dependency
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.karumi:dexter:5.0.0'
+    implementation 'gun0912.ted:tedbottompicker:1.2.6'
+    implementation 'com.github.stfalcon:frescoimageviewer:0.5.0'
+    implementation 'com.facebook.fresco:fresco:1.11.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'net.danlew:android.joda:2.10.2'
+
+    implementation 'info.hoang8f:android-segmented:1.0.6'
+    implementation 'org.sufficientlysecure:html-textview:3.7'
+    implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'com.github.stfalcon:frescoimageviewer:0.5.0'
+
+    implementation 'com.ethanhua:skeleton:1.1.2'
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
+    implementation 'me.grantland:autofittextview:0.2.1'
+    implementation 'com.marcouberti.autofitbutton:android-auto-fit-button:0.1.1@aar'
+
+
 }
 
 

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="13dp"
+    android:layout_marginEnd="13dp"
+    android:id="@+id/card_view"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="3dp"
+    android:layout_marginBottom="8dp"
+    android:minHeight="72dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/behaviour_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@color/transparent"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:textAllCaps="false"
+            android:textColor="@color/steel"
+            android:textSize="14sp"
+            style="@style/RobotoMediumStyle"
+            app:layout_constraintBottom_toBottomOf="@id/teacher_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/teacher_tv"
+            tools:text="Yesterday" />
+        <org.sufficientlysecure.htmltextview.HtmlTextView
+            android:id="@+id/teacher_tv"
+            style="@style/RobotoMediumStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="4dp"
+            android:text="Mr.Ahmed Abdallah"
+            android:textColor="@color/gunmetal"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.sufficientlysecure.htmltextview.HtmlTextView
+            android:id="@+id/title_tv"
+            style="@style/RobotoMediumStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="Helpful and Kindness"
+            android:textColor="@color/gunmetal"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/teacher_tv" />
+
+        <org.sufficientlysecure.htmltextview.HtmlTextView
+            android:id="@+id/message_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/steel"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="THIS is a sample"
+
+            />
+        <org.sufficientlysecure.htmltextview.HtmlTextView
+            android:id="@+id/details_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/steel"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/message_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="THIS is a sample"
+
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.cardview.widget.CardView>

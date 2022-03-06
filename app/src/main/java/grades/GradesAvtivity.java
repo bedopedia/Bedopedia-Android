@@ -2,13 +2,17 @@ package grades;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import Tools.FragmentUtils;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.skolera.skolera_android.R;
+
 import java.util.List;
+
+import Tools.FragmentUtils;
 
 /**
  * Created by mohamedkhaled on 2/13/17.

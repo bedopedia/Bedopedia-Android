@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/snow"
+    android:paddingTop="22dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="2dp">
+        <ImageView
+            android:background="@color/white"
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"/>
+
+        <trianglz.components.RobotoRegularTextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:text="sakjdjdsakjadsk"
+            android:textColor="@color/black"
+            android:gravity="center_vertical|start"
+            android:textAlignment="textStart"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginEnd="5dp"
+            android:id="@+id/tv_course_name"
+            android:includeFontPadding="false"
+            />
+        <trianglz.components.LatoBoldTextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="@color/red"
+            android:layout_gravity="center_vertical"
+            android:textAlignment="textStart"
+            android:layout_marginEnd="35dp"
+            android:text="+100"
+            android:id="@+id/tv_"
+            android:gravity="start|center_vertical"
+            android:includeFontPadding="false"/>
+
+
+    </LinearLayout>
+    <trianglz.components.RobotoMediumTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:text="Pattern"
+        android:textColor="@color/black"
+        android:textAlignment="viewStart"
+        android:gravity="start"
+        android:textSize="14sp"
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="46dp"
+        tools:text="Pattern assignment"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/tv_assignment_name"
+        />
+    <trianglz.components.SfproRegularButton
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:textSize="12sp"
+        android:background="@drawable/curved_light_tan"
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="46dp"
+        android:layout_marginBottom="14dp"
+        android:text="sadkjksljsadlkjasdlkjasdlasjd"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:drawableStart="@drawable/timetable"
+        android:drawablePadding="4dp"
+        android:textAllCaps="false"
+        />
+    <View
+        android:layout_width="360dp"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="72dp"
+        android:background="@color/silver" />
+</LinearLayout>

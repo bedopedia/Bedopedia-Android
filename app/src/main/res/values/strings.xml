@@ -1,45 +1,45 @@
-<resources>
-    <string name="app_name">Skolera</string>
-    <string name="title_activity_message_thread">Message_thread</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="fragmentLoginMessage_tv">Enter your email and password to sign in.</string>
-    <string name="fragmentLoginMail_tv">Email</string>
-    <string name="fragmentLogin_btn">Login</string>
-    <string name="fragmentLoginPassword_tv">Password</string>
-    <string name="fragmentLoginForgetPassword_tv">Forget password?</string>
-    <string name="fragmentSchoolcodeMeesage_tv">Enter school code to proceed with sign in</string>
-    <string name="fragmentSchoolcodeHint_tv">School code</string>
-    <string name="fragmentSchoolcodeContinue_btn">CONTINUE</string>
-    <string name="copyRights_tv">Copyright© 2017 Skolera.</string>
-    <string name="fragmentForgetPasswordResetPassword_btn">REST PASSWORD</string>
-    <string name="fragmentForgetPassowdMessage_tv">Type your email below to reset your password.</string>
-    <string name="fragmentForgetPasswordMail_tv">Email</string>
-    <string name="ForgetPasswordTitle">Forget Password</string>
-    <string name="NotificationString">Notifications</string>
-    <string name="GradesTitle">Grades</string>
-    <string name="MyKidsTitle">My Kids</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false">Skolera</string>
+    <string name="title_activity_message_thread" translatable="false">Message_thread</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="fragmentLoginMessage_tv" translatable="false">Enter your email and password to sign in.</string>
+    <string name="fragmentLoginMail_tv" translatable="false">Email</string>
+    <string name="fragmentLogin_btn" translatable="false">Login</string>
+    <string name="fragmentLoginPassword_tv" translatable="false">Password</string>
+    <string name="fragmentLoginForgetPassword_tv" translatable="false">Forget password?</string>
+    <string name="fragmentSchoolcodeMeesage_tv" translatable="false">Enter school code to proceed with sign in</string>
+    <string name="fragmentSchoolcodeHint_tv" translatable="false">School code</string>
+    <string name="fragmentSchoolcodeContinue_btn" translatable="false">CONTINUE</string>
+    <string name="copyRights_tv" translatable="false">Copyright© 2017 Skolera.</string>
+    <string name="fragmentForgetPasswordResetPassword_btn" translatable="false">REST PASSWORD</string>
+    <string name="fragmentForgetPassowdMessage_tv" translatable="false">Type your email below to reset your password.</string>
+    <string name="fragmentForgetPasswordMail_tv" translatable="false">Email</string>
+    <string name="ForgetPasswordTitle" translatable="false">Forget Password</string>
+    <string name="NotificationString" translatable="false">Notifications</string>
+    <string name="GradesTitle" translatable="false">Grades</string>
+    <string name="MyKidsTitle" translatable="false">My Kids</string>
     <string name="fragmentStudentAttendance_tv">Attendance</string>
-    <string name="fragmentStudentTimetable_tv">Time Table</string>
+    <string name="fragmentStudentTimetable_tv">Timetable</string>
     <string name="fragmentStudentGrades_tv">Grades</string>
     <string name="fragmentStudentBehaviorNotes_tv">Behavior Notes</string>
     <string name="positiveBehaviorNotes">Positive</string>
     <string name="negativeBehaviorNotes">Negative</string>
     <string name="behaviorNotesTitle">Behavior Notes</string>
-    <string name="askTeacherTitle">Ask Teacher</string>
+    <string name="askTeacherTitle" translatable="false">Ask Teacher</string>
     <string name="attendanceTitle">Attendance</string>
     <string name="notificationString">Notification</string>
-    <string name="assignments">ASSIGNMENTS</string>
-    <string name="quizzes">QUIZZES</string>
-    <string name="events">EVENTS</string>
+    <string name="assignments">Assignments</string>
+    <string name="quizzes">Quizzes</string>
+    <string name="events">Events</string>
     <string name="LoadDialogueTitle">Loading</string>
     <string name="LoadDialogueBody">Wait while loading...</string>
     <string name="Dialogue401Title">Not Authorized</string>
     <string name="Dialogue401Body">you don\'t have the right to do this</string>
     <string name="ConnectionErrorTitle">Connection Failed</string>
     <string name="ConnectionErrorBody">Check your Netwotk connection and Try again</string>
-    <string name="Badges">Badges</string>
-    <string name="TimeTableTitle">Time Table</string>
+    <string name="Badges" translatable="false">Badges</string>
+    <string name="TimeTableTitle">Timetable</string>
     <string name="InvalidMail">invalid email</string>
     <string name="SuccessMessage">success</string>
     <string name="NotValidMail">not Valid email</string>
@@ -47,5 +47,291 @@
     <string name="AttendanceExcusedLable">Excused</string>
     <string name="AttendanceAbsentLable">Absent</string>
     <string name="crash_toast_text">The Mobile app is crashing</string>
+    <string name="forget_your_password" translatable="false">Forget your password?</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="school_code">School code</string>
+    <string name="enter_valid_email">Enter valid email</string>
+    <string name="password_is_empty">Password is empty</string>
+    <string name="email_is_empty">Email is empty</string>
+    <string name="password_length_error">Password length should be more than 6 characters</string>
+    <string name="code_is_empty">Code is empty</string>
+    <string name="code_length_error">Code length error</string>
+    <string name="notifications">Notifications</string>
+    <string name="close">Close</string>
+    <string name="skolera" translatable="false">Skolera</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="wrong_username_or_password">Wrong username or password</string>
+    <string name="not_correct_school_code">Not correct School Code"</string>
+    <string name="messages">Messages</string>
+    <string name="time_table">Timetable</string>
+    <string name="grades">Grades</string>
+    <string name="behavior_notes">Behavior notes</string>
+    <string name="attendance">Attendance</string>
+    <string name="copy_rights">All Right reserved ® Skolera LMS</string>
+    <string name="average_grade">Average grade</string>
+    <string name="absent">Absent</string>
+    <string name="attend">Attend</string>
+    <string name="out">out</string>
+    <string name="days">days</string>
+    <string name="timetable">Timetable</string>
+    <string name="tomorrow">Tomorrow</string>
 
+    <string name="today">Today</string>
+    <string name="profile">Profile</string>
+    <array name="weekdays_cust">
+        <item>S</item>
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+    </array>
+    <string name="w" translatable="false">W</string>
+    <string name="excused">Excused</string>
+    <string name="late">Late</string>
+    <string name="no_comment_is_available">No Comment available</string>
+    <string name="behaviour_notes">Behaviour notes</string>
+    <string name="subjects">Subjects</string>
+    <string name="all">All</string>
+    <string name="quarters" translatable="false">Quarters</string>
+    <string name="contact_teacher">Contact Teacher</string>
+    <string name="new_message">New message</string>
+    <string name="select_a_course">Select a course</string>
+    <string name="teacher">teacher</string>
+    <string name="teachers">teachers</string>
+    <string name="select_teacher">Select teacher</string>
+    <string name="write_a_message">write a message …</string>
+    <string name="send">Send</string>
+    <string name="grade_items">Grade items</string>
+    <string name="there_is_no_time_table">No timetable available</string>
+    <string name="current">Current</string>
+    <string name="ok">Ok</string>
+    <string name="change_language">Change language to arabic</string>
+    <string name="sign_out">Log out</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_title">No title</string>
+    <string name="system_error">System error</string>
+
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="other">Other</string>
+    <string name="continue_">Continue</string>
+    <string name="average_grade_is">Avg. grade is</string>
+    <string name="wrong_email_or_password">Wrong email or password</string>
+
+    <string name="update_is_available">Update available</string>
+    <string name="check_latest_version">A new version of app is available. Please update to version now.</string>
+    <string name="update_now">Update now</string>
+    <string name="enter_email">Enter user name</string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_school_code">School code</string>
+    <string name="wrong_school_code">Wrong school code</string>
+    <string name="username_email">Username/Email</string>
+    <string name="announcement">Announcement</string>
+    <string name="unread_notifications">Unread Notifications</string>
+    <string name="there_is_no_announcements">There is no announcements</string>
+    <string name="there_is_no_notifications">There is no notifications</string>
+    <string name="there_is_no_messages">There is no messages</string>
+    <string name="yesterday">Yesterday</string>
+
+    <string name="weekly_planner">Weekly planner</string>
+    <string name="see_more">See more</string>
+    <string name="weekly_sunday">Sunday</string>
+    <string name="weekly_monday">Monday</string>
+    <string name="weekly_tuesday">Tuesday</string>
+    <string name="weekly_wednesday">Wednesday</string>
+    <string name="weekly_thursday">Thursday</string>
+    <string name="weekly_friday">Friday</string>
+    <string name="weekly_saturday">Saturday</string>
+    <string name="class_work">Classwork</string>
+    <string name="homework">Homework</string>
+    <string name="activity">Activity</string>
+    <string name="there_is_no">No</string>
+    <string name="last_updated">Last updated</string>
+    <string name="to">To</string>
+    <string name="start_from">Start from</string>
+    <string name="there_is_no_weekly_planner">No weekly planner available</string>
+    <string name="due_date">Due Date</string>
+    <string name="no_assignment">No active assignments currently</string>
+    <string name="publish">Publish</string>
+    <string name="announcements">Announcements</string>
+    <string name="menu">Menu</string>
+    <string name="posts">Posts</string>
+    <string name="posts_text_placeholder" translatable="false">Please solve assigment number 1 and be informed that we will have a quizz…</string>
+    <string name="post_detail_place_holder" translatable="false">Dear Parents, MIS believes that Food, to a large extent, defines our life. It determines our mood, behaviors, and directs us towards specific actions. students will learn about \"Healthy Food\" on Thursday October 11, 2018. We encourage you to pack some healthy food to share with their friends. And they will also participate in activity consists of information centered on hygiene and prevention of spreading common illnesses. Students</string>
+    <string name="reply">Reply</string>
+
+    <string name="home">Home</string>
+    <string name="send_a_reply">Send a reply</string>
+    <string name="open">Open</string>
+    <string name="closed">Closed</string>
+    <string name="online_quizzes">Online Quizzes</string>
+    <string name="quiz_not_started_yet">Quiz not started yet</string>
+    <string name="grade_is">Grade is</string>
+    <string name="mark">%1$s / %2$s</string>
+    <string name="keep_up_the_good_work">Keep up the good work</string>
+    <string name="no_quiz">No active quizzes currently</string>
+    <string name="published">Published</string>
+    <string name="no_submission">No Submission</string>
+    <string name="out_of">Out of</string>
+    <string name="you_will_be_able_to_solve_the_quiz_when_it_starts">You will be able to solve the quiz when it starts</string>
+    <string name="courses">Courses</string>
+    <string name="grade">Grade</string>
+    <string name="feedback">Feedback</string>
+    <string name="submit">Submit</string>
+    <string name="enter_grade">Enter grade</string>
+    <string name="write_a_feedback">Write a feedback</string>
+    <string name="not_set">Not set yet</string>
+    <string name="no_feedback">No feedback</string>
+    <string name="assignment">Assignment</string>
+    <string name="quiz">Quiz</string>
+    <string name="calendar">Calendar</string>
+    <string name="academic">Academic</string>
+    <string name="vacations">Vacations</string>
+    <string name="personal">Personal</string>
+    <string name="create_personal_event">Create personal event</string>
+    <string name="when">When</string>
+    <string name="to_caps">To</string>
+    <string name="subject">Subject</string>
+    <string name="notes">Notes</string>
+    <string name="create">Create</string>
+    <string name="subject_name">Subject name</string>
+    <string name="add_notes">Add notes</string>
+    <string name="hint_date">24/3/2019 03:40 PM</string>
+
+
+    <string name="create_post">Create post</string>
+    <string name="create_a_post_and_share">Create a post and share it with classes</string>
+    <string name="content">Content</string>
+    <string name="post_is_empty">Post is empty</string>
+    <string name="text_editor_hint">Post details</string>
+    <string name="attachments">Attachments</string>
+    <string name="upload_file">+ Upload file</string>
+    <string name="add_attachment">Start adding your attachment</string>
+    <string name="clicking_button">By clicking the add button you will add a new attachment.</string>
+    <string name="file_is_big">You must select a file with size less than 10 MB.</string>
+    <string name="delete_entry">Delete Entry</string>
+    <string name="delete_attachment">Are you sure you want to delete this attachment?</string>
+    <string name="cannot_select_file">Cannot select file</string>
+
+    <string name="post">Post</string>
+    <string name="answer">Answers</string>
+    <string name="full_day">Full Day</string>
+    <string name="per_slot">Per slot</string>
+    <string name="solve_quiz_now">Solve Quiz now</string>
+    <string name="present">Present</string>
+    <string name="assign_for_all">Assign for all</string>
+    <string name="assign_for_selected">Assign for selected</string>
+    <string name="something_went_wrong">Something went wrong, please try again</string>
+    <string name="correct_dates">Please enter correct dates</string>
+    <string name="remove_all_status">Remove all status</string>
+    <string name="assign_action_for_all">Assign action for all students</string>
+    <string name="assign_action_for_selected">Assign action for selected students</string>
+    <string name="student_excused">The student was excused for this day</string>
+    <string name="write_reason">Write down the reason</string>
+    <string name="reason_hint">Tell more about the reason</string>
+    <string name="select_slot">Select slot</string>
+    <string name="apply">Apply</string>
+    <string name="slot">Slot</string>
+    <string name="no_slots_available">No slots available</string>
+    <string name="details">Details</string>
+    <string name="questions">Questions</string>
+    <string name="answers">Answers</string>
+    <string name="user_name">User name</string>
+    <string name="solved">Solved</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="basic_info">Basic Info</string>
+    <string name="publish_date">Publish Date</string>
+    <string name="duration">Duration</string>
+    <string name="total_score">Total Score</string>
+    <string name="curriculum_information">Curriculum Information</string>
+    <string name="blooms_taxonomy">Bloom\'s Taxonomy</string>
+    <string name="topic">Topic</string>
+    <string name="subtopic">Subtopic</string>
+    <string name="lesson">Lesson</string>
+    <string name="learning_objectives">Learning Objectives</string>
+    <string name="course_groups">Course Groups</string>
+    <string name="no_objective">There Are No Lesson Objectives</string>
+    <string name="restart_application">Are you sure you want to change the language to Arabic?</string>
+    <string name="quiz_submitted">Quiz has been submitted successfully</string>
+    <string name="see_grade">You will be able to see your grade in grades section</string>
+    <string name="go_home">Go to home</string>
+    <string name="true_answer">True</string>
+    <string name="false_answer">False</string>
+    <string name="complete_answer">Some answers are missing</string>
+    <string name="solve_now">Solve now</string>
+    <string name="submit_quiz">Submit quiz</string>
+    <string name="notification_placeholder">You don\'t have any notifications for now</string>
+    <string name="announcements_placeholder">You don\'t have any announcements for now</string>
+    <string name="messages_placeholder">You don\'t have any messages for now</string>
+    <string name="open_assignments_placeholder">You don\'t have any open assignments for now</string>
+    <string name="closed_assignments_placeholder">You don\'t have any closed assignments for now</string>
+    <string name="on_hold_quizzes_placeholder">You don\'t have any on hold quizzes for now</string>
+    <string name="on_hold_assignment_placeholder">You don\'t have any on hold assignments for now</string>
+    <string name="open_quizzes_placeholder">You don\'t have any open online quizzes for now</string>
+    <string name="closed_quizzes_placeholder">You don\'t have any closed online quizzes for now</string>
+    <string name="posts_placeholder">You don\'t have any posts for now</string>
+    <string name="attendance_placeholder">You don\'t have any attendances for now</string>
+    <string name="weeklyplanner_placeholder">You don\'t have any weekly plans for now</string>
+    <string name="courses_placeholder">You don\'t have any registered courses for now</string>
+    <string name="grades_placeholder">You don\'t have any grades for now</string>
+    <string name="no_posts">No available posts currently</string>
+
+    <string name="no_content">No content available</string>
+    <string name="settings">Settings</string>
+    <string name="change">Change</string>
+    <string name="version">Version %1$s</string>
+    <string name="change_password">Change password</string>
+    <string name="share_app">Share application</string>
+    <string name="rate_app">Rate application</string>
+    <string name="language">Language (English)</string>
+    <string name="try_app_now">Try Skolera now!</string>
+    <string name="share_via">Share Skolera via</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="update">Update</string>
+    <string name="show">Show</string>
+    <string name="hide">Hide</string>
+    <string name="choose_new_password">Please choose a new password</string>
+    <string name="not_same_password">The password and confirmation do not match</string>
+    <string name="un_authorized">Sorry, but you\'re unauthorized to this page</string>
+    <string name="semesters">Periods</string>
+    <string name="select_a_semester">Select a period</string>
+    <string name="select_quarter">Select a sub period</string>
+    <string name="total">Total</string>
+    <string name="category_total">Category total</string>
+    <string name="total_percent">Total(%)</string>
+    <string name="letter_scale">Letter scale</string>
+    <string name="gpa">GPA</string>
+    <string name="minutes">%1$s Minutes</string>
+    <string name="no_description">No description available</string>
+    <string name="more">more</string>
+    <string name="comments">Comments</string>
+    <string name="present_out_of">present %1$s out of %2$s days</string>
+    <string name="there_is_no_activities" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
+  لا يوجد انشطة
+      </div></TD>]]></string>
+    <string name="there_is_no_homework" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
+  لا يوجد واجبات منزليه
+      </div></TD>]]></string>
+    <string name="there_is_no_classwork" tools:ignore="ExtraTranslation"><![CDATA[<TD><div dir="rtl">
+  لا يوجد واجبات الفصل
+      </div></TD>]]></string>
+    <string name="on_hold">On hold</string>
+    <string name="from">From</string>
+    <string name="positive">Positive</string>
+    <string name="negative">Negative</string>
+    <string name="there_is_no_behavoir_note">No behavior Notes Available</string>
+    <string name="note"><![CDATA[<p>Note: %1$s]]></string>
+    <string name="location">Location: %1$s</string>
+    <string name="consequence">Consequence: %1$s</string>
+    <string name="thread">Thread</string>
+    <string name="thread_error">This thread is not available right now, check it on the website</string>
+    <string name="check_fees">Check school fees</string>
+    <string name="school_fees">School fees</string>
+    <string name="no_fees">There is no school fees</string>
 </resources>

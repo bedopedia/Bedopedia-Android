@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="13dp"
+    android:layout_marginEnd="13dp"
+    android:id="@+id/card_view"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="3dp"
+    android:layout_marginBottom="8dp">
+
+
+    <LinearLayout
+        android:id="@+id/layout_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp"
+        android:orientation="horizontal">
+
+        <agency.tango.android.avatarview.views.AvatarView
+            android:id="@+id/img_student"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/profile_pic"
+           />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_student_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Ahmed mostafa"
+                android:includeFontPadding="false"
+                android:textColor="@color/greyish_brown"
+                android:textSize="18sp"
+                android:textAlignment="viewStart"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tv_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginBottom="8dp"
+                android:text="3rd Gradelksjd"
+                android:textColor="@color/steel"
+                android:includeFontPadding="false"
+                android:textSize="15sp"
+                android:textAlignment="viewStart" />
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/expandable_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:el_duration="500"
+                app:el_expanded="false"
+                app:el_parallax="0.5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_state_student"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:drawablePadding="4dp"
+                        android:includeFontPadding="false"
+                        android:text="Present"
+                        android:textColor="@color/silver"
+                        android:textSize="15sp"
+                        android:textAlignment="viewStart" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/expanded_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="28dp"
+                        android:visibility="visible"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+
+                        <ImageView
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:layout_gravity="center_vertical"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/quiz_green" />
+                        <trianglz.components.SfuiSemiBoldTextView
+                            android:id="@+id/tv_quizzes"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:text="0"
+                            android:layout_marginStart="4dp"
+                            android:textAllCaps="false"
+                            android:textColor="@color/steel"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="14sp"
+                            android:includeFontPadding="false" />
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:padding="5dp"
+                            android:layout_gravity="center_vertical"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/assignment_blue" />
+                        <trianglz.components.SfuiSemiBoldTextView
+                            android:id="@+id/tv_assignment"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="4dp"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:text="10"
+                            android:textColor="@color/steel"
+                            android:textSize="14sp"
+                            android:includeFontPadding="false"
+                            android:clickable="true" />
+
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:padding="5dp"
+                            android:layout_gravity="center_vertical"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/event_yellow" />
+                        <trianglz.components.SfuiSemiBoldTextView
+                            android:id="@+id/tv_events"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="10"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="4dp"
+                            android:textColor="@color/steel"
+                            android:textSize="14sp"
+                            android:maxLines="1"
+                            android:includeFontPadding="false" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </net.cachapa.expandablelayout.ExpandableLayout>
+
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/expand_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_keyboard_arrow_down" />
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

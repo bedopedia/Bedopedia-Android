@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="36dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:background="#E8E9ED"
+    android:paddingEnd="16dp"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="24dp"
+        android:id="@+id/tv_quarter"
+        android:gravity="center_vertical|start"
+        android:textAlignment="viewStart"
+        android:textSize="16sp"
+        android:textColor="@color/gunmetal"
+        style="@style/RobotoMediumStyle"
+        android:text="Quarter 1"
+        android:layout_marginEnd="5dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_grade"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:gravity="center"
+        android:layout_gravity="end|center_vertical"
+        tools:text="100/total"
+        android:textSize="16sp"
+        android:textColor="@color/gunmetal"
+        android:text="Quarter 1"
+        android:layout_marginEnd="5dp"
+        style="@style/RobotoMediumStyle"
+        android:maxLines="1"
+        android:ellipsize="end"
+
+        />
+
+
+</LinearLayout>

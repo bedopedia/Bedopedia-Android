@@ -1,0 +1,265 @@
+package trianglz.ui.activities;
+
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
+import com.skolera.skolera_android.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+import trianglz.components.ErrorDialog;
+import trianglz.components.LocalHelper;
+import trianglz.components.TopItemDecoration;
+import trianglz.core.views.HomeView;
+import trianglz.managers.SessionManager;
+import trianglz.models.Student;
+import trianglz.ui.adapters.HomeAdapter;
+import trianglz.utils.Constants;
+import trianglz.utils.Util;
+
+public class HomeActivity extends SuperActivity implements View.OnClickListener,
+        HomeAdapter.HomeAdapterInterface, ErrorDialog.DialogConfirmationInterface {
+    private RecyclerView recyclerView;
+    private HomeAdapter homeAdapter;
+    private String id;
+    private HomeView homeView;
+    private ImageButton notificationBtn;
+    private ImageButton settingsBtn;
+    private ImageView redCircleImageView;
+    private ArrayList<Student> students;
+    private boolean canSelect = true;
+    private ImageView logoImageView;
+    private Button checkFeesBtn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        Intent intent = getIntent();
+        getValueFromIntent(intent);
+        bindViews();
+        setListeners();
+        if (students != null && !students.isEmpty()) {
+            progress.dismiss();
+            homeAdapter.addData(students);
+        }
+        homeView.refreshFireBaseToken();
+        checkVersionOnStore();
+        checkFeesBtnListener();
+    }
+
+    private void checkFeesBtnListener() {
+        checkFeesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSchoolFeeActivity();
+            }
+        });
+    }
+
+    private void openSchoolFeeActivity(){
+        Intent intent = new Intent(this, SchoolFeeActivity.class);
+        startActivity(intent);
+    }
+
+    private void getValueFromIntent(Intent intent) {
+        if (intent != null) {
+            students = intent.getParcelableArrayListExtra(Constants.CHILDREN);
+        }
+    }
+
+    private void bindViews() {
+        recyclerView = findViewById(R.id.recycler_view);
+        homeAdapter = new HomeAdapter(this, this);
+        recyclerView.setAdapter(homeAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        homeView = new HomeView(this);
+        notificationBtn = findViewById(R.id.btn_notification);
+        redCircleImageView = findViewById(R.id.img_red_circle);
+        settingsBtn = findViewById(R.id.btn_setting);
+        recyclerView.addItemDecoration(new TopItemDecoration((int) Util.convertDpToPixel(8, this), false));
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        logoImageView = findViewById(R.id.img_logo);
+        checkFeesBtn =findViewById(R.id.check_fees_btn);
+        if(!SessionManager.getInstance().getSchoolLogoHeader().isEmpty()){
+            Picasso.with(this)
+                    .load(SessionManager.getInstance().getSchoolLogoHeader())
+                    .fit()
+                    .centerInside()
+                    .placeholder(R.drawable.logo_2)
+                    .into(logoImageView);
+        }
+
+        setSchoolFeeButtonVisibility();
+
+    }
+
+    private void setListeners() {
+        notificationBtn.setOnClickListener(this);
+        settingsBtn.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SessionManager.getInstance().getNotficiationCounter() > 0) {
+            redCircleImageView.setVisibility(View.VISIBLE);
+        } else {
+            redCircleImageView.setVisibility(View.GONE);
+        }
+        canSelect = true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+    }
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_notification:
+                openNotificationsActivity();
+                break;
+            case R.id.btn_setting:
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivity(i);
+                break;
+        }
+    }
+
+    private void openNotificationsActivity() {
+        Intent myIntent = new Intent(HomeActivity.this, NotificationsActivity.class);
+        HomeActivity.this.startActivity(myIntent);
+    }
+
+    @Override
+    public void onOpenStudentClicked(Student student, int position) {
+        if (canSelect) openStudentDetailActivity(student);
+    }
+
+    @Override
+    public void onAssignmentClicked(Student student) {
+        openAssignmentDetailActivity(student);
+    }
+
+    private void openAssignmentDetailActivity(Student student) {
+
+    }
+
+    private void openStudentDetailActivity(Student student) {
+        canSelect = false;
+        Intent intent = new Intent(this, StudentMainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.STUDENT, student);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
+        startActivity(intent);
+    }
+
+
+
+    private void changeLanguage() {
+        if (LocalHelper.getLanguage(this).equals("ar")) {
+            updateViews("en");
+        } else {
+            updateViews("ar");
+        }
+    }
+
+
+    private void updateViews(String languageCode) {
+
+        LocalHelper.setLocale(this, languageCode);
+        LocalHelper.getLanguage(this);
+        new Handler().postDelayed(this::restartApp, 500);
+    }
+
+    public void restartApp() {
+        Intent intent = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
+        if (this instanceof Activity) {
+            (this).finish();
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Runtime.getRuntime().exit(0);
+            }
+        }, 0);
+
+    }
+
+
+    private void checkVersionOnStore() {
+        AppUpdater appUpdater = new AppUpdater(this)
+                .setDisplay(Display.DIALOG)
+                .showEvery(1)
+                .setUpdateFrom(UpdateFrom.GOOGLE_PLAY)
+                .setTitleOnUpdateAvailable(getResources().getString(R.string.update_is_available))
+                .setContentOnUpdateAvailable(getResources().getString(R.string.check_latest_version))
+                .setButtonUpdate(getResources().getString(R.string.cancel))
+                .setButtonUpdateClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setButtonDismiss("")
+                .setButtonDoNotShowAgain(getResources().getString(R.string.update_now))
+                .setButtonDoNotShowAgainClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        openStore();
+                    }
+                })
+                .setCancelable(false); // Dialog could not be;
+        appUpdater.start();
+    }
+
+    private void openStore() {
+        try {
+            Uri uri = Uri.parse("market://details?id=" + getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id="
+                            + getPackageName())));
+        }
+    }
+
+    private void setSchoolFeeButtonVisibility(){
+        if(SessionManager.getInstance().showSchoolFees())
+            checkFeesBtn.setVisibility(View.VISIBLE);
+        else
+            checkFeesBtn.setVisibility(View.GONE);
+    }
+    @Override
+    public void onConfirm() {
+        changeLanguage();
+    }
+
+    @Override
+    public void onCancel() {
+
+    }
+}

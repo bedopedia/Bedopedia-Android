@@ -18,14 +18,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import Models.NotificationModel;
+import trianglz.models.Notification;
 import Tools.CalendarUtils;
 
 /**
  * Created by ali on 12/02/17.
  */
 
-public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
+public class NotificationAdapter extends ArrayAdapter<Notification> {
 
 
     private Context context;
@@ -33,7 +33,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
     final private String quizzesKey = "quizzes";
     final private String myDaysKey = "mydays";
 
-    public NotificationAdapter(Context context, int resource, List<NotificationModel> items) {
+    public NotificationAdapter(Context context, int resource, List<Notification> items) {
         super(context, resource, items);
         this.context =   context;
     }
@@ -48,7 +48,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         // Get the data item for this position
-        NotificationModel notification = (NotificationModel) getItem(position);
+        Notification notification = (Notification) getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
 
         NotificationHolder notificationHolderItem;
@@ -91,13 +91,13 @@ public class NotificationAdapter extends ArrayAdapter<NotificationModel> {
         notificationHolderItem.content.setTypeface(roboto);
         notificationHolderItem.date.setTypeface(roboto);
 
-        notificationHolderItem.content.setText(notification.getContent());
+        notificationHolderItem.content.setText(notification.getMessage());
         notificationHolderItem.content.setTypeface(roboto);
 
         notificationHolderItem.studentNames.setText(notification.getStudentNames());
         notificationHolderItem.studentNames.setTypeface(roboto);
 
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Date date = null;
         try {

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="trianglz.ui.activities.LoginActivity"
+    android:id="@+id/parent_view">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="87dp"
+        android:layout_marginBottom="3dp"
+        android:paddingEnd="24dp"
+        android:paddingStart="13dp">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:foreground="@drawable/round_ripple_25"
+            android:background="@android:color/transparent"
+            android:src="@drawable/chevron_left" />
+
+    </RelativeLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_school"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/logo_icon" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="22dp"
+        android:orientation="vertical">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textAlignment="viewStart"
+            android:nextFocusDown="@id/et_password"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:met_hideUnderline="true"
+            app:met_floatingLabel="highlight"
+            app:met_floatingLabelTextSize="14sp"
+            app:met_floatingLabelTextColor="@color/jade_green"
+            android:hint="@string/username_email" />
+
+        <View
+            android:id="@+id/email_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/white_four" />
+
+        <TextView
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="5dp"
+            android:id="@+id/email_error_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:textColor="@color/pale_red"
+            android:includeFontPadding="false"
+            android:visibility="invisible"
+            android:text="dlfkdlkjfdlkfj" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_password"
+                android:layout_height="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:inputType="textPassword"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:textAlignment="viewStart"
+                android:drawablePadding="5dp"
+                android:hint="@string/password"
+                app:met_hideUnderline="true"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelTextSize="14sp"
+                app:met_floatingLabelTextColor="@color/jade_green"
+                android:imeOptions="actionDone" />
+
+            <ImageButton
+                android:id="@+id/show_hide_password_image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginBottom="4dp"
+                android:scaleType="centerCrop"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_show_password"
+                android:layout_gravity="bottom" />
+        </LinearLayout>
+
+        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            app:rcMax="100"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            app:rcProgressColor="@color/jade_green"
+            app:rcBackgroundColor="@color/white_four" />
+
+        <TextView
+            android:id="@+id/password_error_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:textColor="@color/pale_red"
+            android:visibility="invisible"
+            android:includeFontPadding="false"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="5dp"
+            android:text="dlfkdlkjfdlkfj" />
+
+    </LinearLayout>
+
+    <trianglz.components.SfproRegularButton
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:text="@string/login"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:background="@drawable/round_btn_shape"
+        style="?android:attr/borderlessButtonStyle" />
+
+
+</LinearLayout>

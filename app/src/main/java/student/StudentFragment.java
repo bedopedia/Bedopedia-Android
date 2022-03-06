@@ -10,14 +10,6 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +21,21 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.skolera.skolera_android.AskTeacherActivity;
-import com.skolera.skolera_android.R;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.skolera.skolera_android.AskTeacherActivity;
+import com.skolera.skolera_android.R;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -52,7 +53,6 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import Adapters.NotificationAdapter;
-import Models.NotificationModel;
 import Tools.CalendarUtils;
 import Tools.Dialogue;
 import Tools.ImageViewHelper;
@@ -61,8 +61,6 @@ import Tools.SharedPreferenceUtils;
 import attendance.AttendanceActivity;
 import badges.Badge;
 import badges.BadgesFragment;
-import behaviorNotes.BehaviorNote;
-import behaviorNotes.BehaviorNotesActivity;
 import grades.CourseGroup;
 import grades.GradesAvtivity;
 import login.Services.ApiClient;
@@ -72,10 +70,12 @@ import myKids.Student;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timetable.Fragments.TodayFragment;
-import timetable.Fragments.TomorrowFragment;
-import timetable.TimetableActivity;
-import timetable.TimetableSlot;
+import trianglz.models.BehaviorNote;
+import trianglz.models.Notification;
+import trianglz.models.TimeTableSlot;
+import trianglz.ui.activities.BehaviorNotesActivity;
+import trianglz.ui.activities.TimetableActivity;
+import trianglz.utils.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -117,8 +117,8 @@ public class StudentFragment extends Fragment {
     LinearLayout notesLayer;
     DrawerLayout notificationLayout;
     ListView notificationList;
-    ActionBar studentFragmentActionBar ;
-    final String thursdayKey ="thursday";
+    ActionBar studentFragmentActionBar;
+    final String thursdayKey = "thursday";
     final String badgeNameKey = "badge_name";
     final String GuruKey = "Guru";
     final String grandMaesterKey = "Grand Maester";
@@ -138,13 +138,13 @@ public class StudentFragment extends Fragment {
     public static Integer messageNumber = 0;
 
     ActionBarDrawerToggle notificationToggle;
-    List<NotificationModel> notifications;
+    List<Notification> notifications;
     ArrayList<Badge> badges;
 
-    public  List<TimetableSlot> todaySlots;
-    public  List<TimetableSlot> tomorrowSlots;
+    public List<TimeTableSlot> todaySlots;
+    public List<TimeTableSlot> tomorrowSlots;
 
-    public  List<BehaviorNote> positiveNotesList;
+    public List<BehaviorNote> positiveNotesList;
     public static List<BehaviorNote> negativeNotesList;
 
     ProgressBar attendanceProgress;
@@ -156,6 +156,7 @@ public class StudentFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
      * @return A new instance of fragment StudentFragment.
      */
     public static StudentFragment newInstance() {
@@ -166,15 +167,12 @@ public class StudentFragment extends Fragment {
     }
 
 
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         badges = new ArrayList<Badge>();
-        todaySlots = new ArrayList<TimetableSlot>();
-        tomorrowSlots = new ArrayList<TimetableSlot>();
+        todaySlots = new ArrayList<TimeTableSlot>();
+        tomorrowSlots = new ArrayList<TimeTableSlot>();
 
         positiveNotesList = new ArrayList<BehaviorNote>();
         negativeNotesList = new ArrayList<BehaviorNote>();
@@ -183,7 +181,7 @@ public class StudentFragment extends Fragment {
         progress = new ProgressDialog(getActivity());
         progress.setCancelable(false);
 
-        Bundle extras= this.getActivity().getIntent().getExtras();
+        Bundle extras = this.getActivity().getIntent().getExtras();
 
 
         studentId = extras.getString(studentIdKey);
@@ -193,9 +191,8 @@ public class StudentFragment extends Fragment {
         attendance = extras.getString(attendancesKey);
         courseGroups = new ArrayList<CourseGroup>();
 
-        sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(),"cur_user" );
+        sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(), "cur_user");
         apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
-
 
 
     }
@@ -214,15 +211,15 @@ public class StudentFragment extends Fragment {
 
 
         servicesCount = 0;
-        TextView notificationNumberText= (TextView) getActivity().findViewById(R.id.student_notification_number);
+        TextView notificationNumberText = (TextView) getActivity().findViewById(R.id.student_notification_number);
 
         if (MyKidsActivity.notificationNumber == 0) {
             notificationNumberText.setVisibility(View.INVISIBLE);
-        } else  {
+        } else {
             notificationNumberText.setVisibility(View.VISIBLE);
         }
 
-        RelativeLayout notificationButton =  (RelativeLayout) getActivity().findViewById(R.id.student_relative_layout);
+        RelativeLayout notificationButton = (RelativeLayout) getActivity().findViewById(R.id.student_relative_layout);
 
         Typeface robotoMedium = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Medium.ttf");
         Typeface robotoRegular = Typeface.createFromAsset(getActivity().getAssets(), "font/Roboto-Regular.ttf");
@@ -233,8 +230,6 @@ public class StudentFragment extends Fragment {
         gradesLabel = (TextView) view.findViewById(R.id.grades_lable);
         behaviorNotesLabel = (TextView) view.findViewById(R.id.behavior_notes_lable);
         attendaceText = (TextView) view.findViewById(R.id.attendance_ratio_text);
-
-
 
 
         attendanceLabel.setTypeface(robotoMedium);
@@ -260,11 +255,6 @@ public class StudentFragment extends Fragment {
         nextSlot = (TextView) view.findViewById(R.id.next_slot);
 
 
-
-
-
-
-
         positiveNotesCounter = (TextView) view.findViewById(R.id.positive_notes_counter);
         negativeNotesCounter = (TextView) view.findViewById(R.id.negative_notes_counter);
 
@@ -280,10 +270,10 @@ public class StudentFragment extends Fragment {
         notificationLayout = (DrawerLayout) view.findViewById(R.id.student_drawer_layout);
         notificationList = (ListView) view.findViewById(R.id.student_listview_notification);
         notificationLayout.setDrawerListener(notificationToggle);
-        notificationButton.setOnClickListener(new View.OnClickListener(){
+        notificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(notificationLayout.isDrawerOpen(notificationList)){
+                if (notificationLayout.isDrawerOpen(notificationList)) {
                     notificationLayout.closeDrawer(notificationList);
                 } else {
                     new NotificationsAsyncTask().execute();
@@ -303,7 +293,7 @@ public class StudentFragment extends Fragment {
 
 
         Button messagesButton = (Button) view.findViewById(R.id.student_home_message_notification);
-        messagesButton.setOnClickListener(new View.OnClickListener(){
+        messagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -319,7 +309,7 @@ public class StudentFragment extends Fragment {
         studentNameView.setText(studentName);
         studentLevelView.setText(studentLevel);
 
-        if(studentAvatar.substring(0,8).equals("/uploads")) {
+        if (studentAvatar.substring(0, 8).equals("/uploads")) {
             studentAvatar = ApiClient.BASE_URL + studentAvatar;
         }
         com.squareup.picasso.Callback callback = new com.squareup.picasso.Callback() {
@@ -334,25 +324,25 @@ public class StudentFragment extends Fragment {
                 studentAvatarImage.setVisibility(View.GONE);
                 String[] names = studentName.split(" ");
                 studentAvatarName.setVisibility(View.VISIBLE);
-                studentAvatarName.setText("" +names[0].charAt(0) + names[1].charAt(0) );
+                studentAvatarName.setText("" + names[0].charAt(0) + names[1].charAt(0));
 
             }
         };
-        ImageViewHelper.getImageFromUrlWithCallback(getActivity(),studentAvatar,studentAvatarImage,callback);
+        ImageViewHelper.getImageFromUrlWithCallback(getActivity(), studentAvatar, studentAvatarImage, callback);
 
 
         JsonParser parser = new JsonParser();
         JsonElement tradeElement = parser.parse(attendance);
         final JsonArray attenobdances = tradeElement.getAsJsonArray();
         Set<Date> attendaceDates = new HashSet<>();
-        absentDays=0;
+        absentDays = 0;
 
-        for(JsonElement element: attenobdances){
+        for (JsonElement element : attenobdances) {
             JsonObject day = element.getAsJsonObject();
             Date date = new Date();
             date.setTime(day.get("date").getAsLong());
-            if(!attendaceDates.contains(date)){
-                if(day.get("status").getAsString().equals("absent"))
+            if (!attendaceDates.contains(date)) {
+                if (day.get("status").getAsString().equals("absent"))
                     absentDays++;
             }
             attendaceDates.add(date);
@@ -361,8 +351,8 @@ public class StudentFragment extends Fragment {
         context = getActivity();
 
         if (attendaceDates.size() != 0)
-            attendanceProgress.setProgress((absentDays*100)/attendaceDates.size());
-        attendaceText.setText("Absent " + absentDays + " out " + attendaceDates.size() +" days");
+            attendanceProgress.setProgress((absentDays * 100) / attendaceDates.size());
+        attendaceText.setText("Absent " + absentDays + " out " + attendaceDates.size() + " days");
 
 
         attendanceLayer.setOnClickListener(new View.OnClickListener() {
@@ -371,7 +361,7 @@ public class StudentFragment extends Fragment {
             public void onClick(View v) {
 
                 Intent attendanceIntent = new Intent(getActivity(), AttendanceActivity.class);
-                attendanceIntent.putExtra(attendancesKey,attendance);
+                attendanceIntent.putExtra(attendancesKey, attendance);
                 startActivity(attendanceIntent);
             }
         });
@@ -389,7 +379,6 @@ public class StudentFragment extends Fragment {
         });
 
 
-
         notesLayer.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -405,7 +394,6 @@ public class StudentFragment extends Fragment {
         });
 
 
-
         timeTableLayer.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -413,8 +401,8 @@ public class StudentFragment extends Fragment {
                 Intent timeTableIntent = new Intent(getActivity(), TimetableActivity.class);
                 timeTableIntent.putExtra(studentIdKey, studentId);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(TomorrowFragment.KEY_NAME, (Serializable) tomorrowSlots);
-                bundle.putSerializable(TodayFragment.KEY_NAME, (Serializable) todaySlots);
+                bundle.putSerializable(Constants.KEY_TOMORROW, (Serializable) tomorrowSlots);
+                bundle.putSerializable(Constants.KEY_TODAY, (Serializable) todaySlots);
                 timeTableIntent.putExtras(bundle);
                 startActivity(timeTableIntent);
             }
@@ -426,18 +414,17 @@ public class StudentFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 BadgesFragment badgesDialog = BadgesFragment.newInstance(badges);
-                badgesDialog.show(fragmentManager,"fragment_badges");
+                badgesDialog.show(fragmentManager, "fragment_badges");
 
                 //BadgesDialog.AlertDialog(context , badges);
             }
         });
 
 
-
         if (InternetConnection.isInternetAvailable(getActivity())) {
             new StudentAsyncTask().execute();
         } else {
-            Dialogue.AlertDialog(getActivity(),getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+            Dialogue.AlertDialog(getActivity(), getString(R.string.ConnectionErrorTitle), getString(R.string.ConnectionErrorBody));
         }
 
 
@@ -446,28 +433,28 @@ public class StudentFragment extends Fragment {
     public Runnable updateNotificationRunnable = new Runnable() {
         public void run() {
 
-            TextView notificationNumberText= (TextView) getActivity().findViewById(R.id.student_notification_number);
+            TextView notificationNumberText = (TextView) getActivity().findViewById(R.id.student_notification_number);
 
             TextView messagecnt = (TextView) getActivity().findViewById(R.id.student_home_messaage_count_text);
             TextView studentTitle = (TextView) getActivity().findViewById(R.id.student_title);
 
             if (MyKidsActivity.notificationNumber == 0) {
                 notificationNumberText.setVisibility(View.INVISIBLE);
-            } else  {
+            } else {
                 notificationNumberText.setVisibility(View.VISIBLE);
             }
 
             if (messageNumber == 0) {
                 messagecnt.setVisibility(View.INVISIBLE);
-            } else  {
+            } else {
                 messagecnt.setVisibility(View.VISIBLE);
             }
             Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
 
             Toolbar studentFragmentToolbar = (Toolbar) getActivity().findViewById(R.id.custom_toolbar_id);
-            ((AppCompatActivity)getActivity()).setSupportActionBar(studentFragmentToolbar);
-            studentFragmentActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-            if(notificationLayout.isDrawerOpen(notificationList)){
+            ((AppCompatActivity) getActivity()).setSupportActionBar(studentFragmentToolbar);
+            studentFragmentActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (notificationLayout.isDrawerOpen(notificationList)) {
                 studentTitle.setText(getString(R.string.notificationString));
 //                SpannableString title = new SpannableString(getString(R.string.notificationString));
 //                title.setSpan(roboto,0,title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -480,34 +467,34 @@ public class StudentFragment extends Fragment {
 
             }
 
-            notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
-            messagecnt.setText( messageNumber.toString());
+            notificationNumberText.setText(MyKidsActivity.notificationNumber.toString());
+            messagecnt.setText(messageNumber.toString());
 
             handler.postDelayed(this, 0); //now is every 2 minutes
         }
-    } ;
+    };
 
 
-    public void loading(){
+    public void loading() {
         progress.setTitle(R.string.LoadDialogueTitle);
         progress.setMessage(getString(R.string.LoadDialogueBody));
     }
 
-    public void getStudentCourseGroups(){
+    public void getStudentCourseGroups() {
         String url = "api/students/" + studentId + "/course_groups";
         Map<String, String> params = new HashMap<>();
-        Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
+        Call<ArrayList<JsonObject>> call = apiService.getServiseArr(url, params);
 
-        call.enqueue(new Callback<ArrayList<JsonObject> >() {
+        call.enqueue(new Callback<ArrayList<JsonObject>>() {
 
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
 
                 int statusCode = response.code();
-                if(statusCode == 401) {
-                    Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                if (statusCode == 401) {
+                    Dialogue.AlertDialog(context, getString(R.string.Dialogue401Title), getString(R.string.Dialogue401Body));
                 } else if (statusCode == 200) {
-                    for (int i = 0 ; i < response.body().size() ; i++) {
+                    for (int i = 0; i < response.body().size(); i++) {
                         JsonObject courseGroupData = response.body().get(i);
                         JsonObject course = courseGroupData.get("course").getAsJsonObject();
 
@@ -521,7 +508,7 @@ public class StudentFragment extends Fragment {
                 }
                 getStudentGrades();
                 servicesCount++;
-                if(servicesCount==servicesNumber)
+                if (servicesCount == servicesNumber)
                     progress.dismiss();
 
             }
@@ -529,89 +516,88 @@ public class StudentFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 progress.dismiss();
-                Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+                Dialogue.AlertDialog(context, getString(R.string.ConnectionErrorTitle), getString(R.string.ConnectionErrorBody));
             }
         });
     }
 
-    public void getStudentGrades(){
+    public void getStudentGrades() {
         String url = "api/students/" + studentId + "/grade_certificate";
         Map<String, String> params = new HashMap<>();
-        Call<JsonObject>  call = apiService.getServise(url, params);
-        call.enqueue(new Callback<JsonObject> () {
+        Call<JsonObject> call = apiService.getServise(url, params);
+        call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
                 int statusCode = response.code();
-                if(statusCode == 401) {
-                    Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                if (statusCode == 401) {
+                    Dialogue.AlertDialog(context, getString(R.string.Dialogue401Title), getString(R.string.Dialogue401Body));
                 } else {
                     if (statusCode == 200) {
-
 
                         int i = 0;
                         for (; i < response.body().getAsJsonArray("courses_grades").size(); i++) {
 
-                            JsonObject courseData = (JsonObject ) response.body().getAsJsonArray("courses_grades").get(i);
+                            JsonObject courseData = (JsonObject) response.body().getAsJsonArray("courses_grades").get(i);
 
-                            if(courseData.has("course_id"))
-                            for(int j = 0 ; j < courseGroups.size() ; j++){
-                                if(courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt() && !courseData.get("grade").isJsonArray()) {
-                                    courseGroups.get(j).setGrade(courseData.getAsJsonObject("grade").get("numeric").getAsString());
-                                    if (courseData.get("icon").toString().equals("null"))
-                                        courseGroups.get(j).setIcon("dragon");
-                                    else
-                                        courseGroups.get(j).setIcon(courseData.get("icon").getAsString());
-                                } else {
-                                    courseGroups.get(j).setIcon("non");
+                            if (courseData.has("course_id"))
+                                for (int j = 0; j < courseGroups.size(); j++) {
+                                    if (courseGroups.get(j).getCourseId() == courseData.get("course_id").getAsInt() && !courseData.get("grade").isJsonArray()) {
+                                        courseGroups.get(j).setGrade(courseData.getAsJsonObject("grade").get("numeric").getAsString());
+                                        if (courseData.get("icon").toString().equals("null"))
+                                            courseGroups.get(j).setIcon("dragon");
+                                        else
+                                            courseGroups.get(j).setIcon(courseData.get("icon").getAsString());
+                                    } else {
+                                        courseGroups.get(j).setIcon("non");
+                                    }
                                 }
-                            }
 
                         }
                         totalGrade = response.body().getAsJsonObject("grade").get("letter").getAsString();
-                        totalGradeText.setText("Average grade:  "+totalGrade);
+                        totalGradeText.setText("Average grade:  " + totalGrade);
                     }
                 }
                 servicesCount++;
-                if(servicesCount==servicesNumber)
+                if (servicesCount == servicesNumber)
                     progress.dismiss();
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 progress.dismiss();
-                Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+                Dialogue.AlertDialog(context, getString(R.string.ConnectionErrorTitle), getString(R.string.ConnectionErrorBody));
             }
         });
     }
 
-    public void getStudentTimeTable(){
+    public void getStudentTimeTable() {
         String url = "api/students/" + studentId + "/timetable";
         Map<String, String> params = new HashMap<>();
-        Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
+        Call<ArrayList<JsonObject>> call = apiService.getServiseArr(url, params);
 
-        call.enqueue(new Callback<ArrayList<JsonObject> >() {
+        call.enqueue(new Callback<ArrayList<JsonObject>>() {
 
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
                 //progress.dismiss();
                 int statusCode = response.code();
                 if (statusCode == 401) {
-                    Dialogue.AlertDialog(context, getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                    Dialogue.AlertDialog(context, getString(R.string.Dialogue401Title), getString(R.string.Dialogue401Body));
                 } else if (statusCode == 200) {
                     Calendar calendar = CalendarUtils.getCalendarWithoutDate();
                     Date date = calendar.getTime();
                     String today = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
-                    calendar.add( Calendar.DATE, 1 );
+                    calendar.add(Calendar.DATE, 1);
                     date = calendar.getTime();
                     String tomorrow = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
                     today = today.toLowerCase();
                     tomorrow = tomorrow.toLowerCase();
-                    if (today.equals(thursdayKey)){
+                    if (today.equals(thursdayKey)) {
                         tomorrow = "sunday";
                     }
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     formatter.setTimeZone(TimeZone.getTimeZone("Egypt"));
                     for (int i = 0; i < response.body().size(); i++) {
 
@@ -621,7 +607,7 @@ public class StudentFragment extends Fragment {
                         String day = slot.get("day").getAsString();
                         String courseName = slot.get("course_name").getAsString();
                         String classRoom = slot.get("school_unit").getAsString();
-
+                        //todo add coursename
                         Date fromDate = null;
                         Date toDate = null;
                         try {
@@ -632,10 +618,10 @@ public class StudentFragment extends Fragment {
                             e.printStackTrace();
                         }
 
-                        if (day.equals(today)){
-                            todaySlots.add(new TimetableSlot(fromDate, toDate, day, courseName, classRoom));
+                        if (day.equals(today)) {
+                            todaySlots.add(new TimeTableSlot(fromDate, toDate, day, courseName, classRoom, "", ""));
                         } else if (day.equals(tomorrow)) {
-                            tomorrowSlots.add(new TimetableSlot(fromDate, toDate, day, courseName, classRoom));
+                            tomorrowSlots.add(new TimeTableSlot(fromDate, toDate, day, courseName, classRoom, "", ""));
                         }
 
                     }
@@ -645,68 +631,68 @@ public class StudentFragment extends Fragment {
                     Collections.sort(tomorrowSlots);
                     SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 
-                    for (TimetableSlot timeSlotIterator : todaySlots){
+                    for (TimeTableSlot timeSlotIterator : todaySlots) {
                         if ((timeSlotIterator.getFrom().getHours() == current.getHours() && timeSlotIterator.getFrom().getMinutes() >= current.getMinutes()) ||
-                                timeSlotIterator.getFrom().getHours() > current.getHours()){
+                                timeSlotIterator.getFrom().getHours() > current.getHours()) {
                             nextSlotFound = true;
                             nextSlot.setText("Next: " + timeSlotIterator.getCourseName() + ", " + timeSlotIterator.getDay() + " " + dateFormat.format(timeSlotIterator.getFrom()));
                             break;
                         }
                     }
-                    if(!nextSlotFound && tomorrowSlots.size() > 0){
-                        TimetableSlot timeSlot = tomorrowSlots.get(0);
+                    if (!nextSlotFound && tomorrowSlots.size() > 0) {
+                        TimeTableSlot timeSlot = tomorrowSlots.get(0);
                         nextSlot.setText("Next: " + timeSlot.getCourseName() + ", " + timeSlot.getDay() + " " + dateFormat.format(timeSlot.getFrom()));
                     }
                 }
                 servicesCount++;
-                if(servicesCount==servicesNumber)
+                if (servicesCount == servicesNumber)
                     progress.dismiss();
             }
 
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 progress.dismiss();
-                Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+                Dialogue.AlertDialog(context, getString(R.string.ConnectionErrorTitle), getString(R.string.ConnectionErrorBody));
             }
         });
     }
 
-    public void getStudentBehaviorNotes(){
+    public void getStudentBehaviorNotes() {
         String url = "api/behavior_notes";
         Map<String, String> params = new HashMap<>();
-        params.put("student_id" , studentId);
-        params.put("user_type" , "Parents");
+        params.put("student_id", studentId);
+        params.put("user_type", "Parents");
 
-        Call<JsonObject>  call = apiService.getServise(url, params);
+        Call<JsonObject> call = apiService.getServise(url, params);
 
-        call.enqueue(new Callback<JsonObject> () {
+        call.enqueue(new Callback<JsonObject>() {
 
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 //progress.dismiss();
                 int statusCode = response.code();
-                if(statusCode == 401) {
-                    Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                if (statusCode == 401) {
+                    Dialogue.AlertDialog(context, getString(R.string.Dialogue401Title), getString(R.string.Dialogue401Body));
                 } else if (statusCode == 200) {
                     JsonArray behaviourNotes = response.body().get("behavior_notes").getAsJsonArray();
-                    for(JsonElement element: behaviourNotes){
+                    for (JsonElement element : behaviourNotes) {
                         JsonObject note = element.getAsJsonObject();
                         String category = note.get("category").getAsString();
-                        String noteBody =  note.get("note").getAsString();
-                        if(category.equals("Cooperative") ||
+                        String noteBody = note.get("note").getAsString();
+                        if (category.equals("Cooperative") ||
                                 category.equals("Politeness") ||
                                 category.equals("Punctuality") ||
                                 category.equals("Leadership") ||
                                 category.equals("Honesty"))
-                            positiveNotesList.add(new BehaviorNote(category,noteBody));
+                            positiveNotesList.add(new BehaviorNote(category, noteBody));
                         else
-                            negativeNotesList.add(new BehaviorNote(category,noteBody));
+                            negativeNotesList.add(new BehaviorNote(category, noteBody));
                     }
-                    positiveNotesCounter.setText(positiveNotesList.size()+"");
-                    negativeNotesCounter.setText(negativeNotesList.size()+"");
+                    positiveNotesCounter.setText(positiveNotesList.size() + "");
+                    negativeNotesCounter.setText(negativeNotesList.size() + "");
                 }
                 servicesCount++;
-                if(servicesCount==servicesNumber)
+                if (servicesCount == servicesNumber)
                     progress.dismiss();
 
             }
@@ -715,32 +701,32 @@ public class StudentFragment extends Fragment {
             public void onFailure(Call<JsonObject> call, Throwable t) {
 
                 progress.dismiss();
-                Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+                Dialogue.AlertDialog(context, getString(R.string.ConnectionErrorTitle), getString(R.string.ConnectionErrorBody));
             }
         });
     }
 
-    public void getStudentBadges(){
+    public void getStudentBadges() {
         String url = "/api/badges/get_by_student";
         Map<String, String> params = new HashMap<>();
-        params.put("student_id" , studentId);
+        params.put("student_id", studentId);
 
-        Call<ArrayList<JsonObject> > call = apiService.getServiseArr(url, params);
-        call.enqueue(new Callback<ArrayList<JsonObject> >() {
+        Call<ArrayList<JsonObject>> call = apiService.getServiseArr(url, params);
+        call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
                 // must be called in the last service
                 int statusCode = response.code();
-                if(statusCode == 401) {
-                    Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                if (statusCode == 401) {
+                    Dialogue.AlertDialog(context, getString(R.string.Dialogue401Title), getString(R.string.Dialogue401Body));
                 } else {
                     if (statusCode == 200) {
-                        for (int i = 0 ; i < response.body().size(); i++) {
+                        for (int i = 0; i < response.body().size(); i++) {
                             JsonObject jsonBadge = response.body().get(i);
                             String reason;
-                            if (jsonBadge.get(badgeNameKey).getAsString().equals(GuruKey)){
+                            if (jsonBadge.get(badgeNameKey).getAsString().equals(GuruKey)) {
                                 reason = "High performance in a quiz";
-                            } else if (jsonBadge.get(badgeNameKey).getAsString().equals(grandMaesterKey)){
+                            } else if (jsonBadge.get(badgeNameKey).getAsString().equals(grandMaesterKey)) {
                                 reason = "Excellent performance in total grade";
                             } else {
                                 reason = "Active user of Skolera";
@@ -750,18 +736,18 @@ public class StudentFragment extends Fragment {
                                     reason,
                                     jsonBadge.get("course_name").getAsString()));
                         }
-                        badgesNumber.setText(badges.size()+"");
+                        badgesNumber.setText(badges.size() + "");
                     }
                 }
                 servicesCount++;
-                if(servicesCount==servicesNumber)
+                if (servicesCount == servicesNumber)
                     progress.dismiss();
             }
 
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 progress.dismiss();
-                Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+                Dialogue.AlertDialog(context, getString(R.string.ConnectionErrorTitle), getString(R.string.ConnectionErrorBody));
             }
         });
     }
@@ -807,50 +793,46 @@ public class StudentFragment extends Fragment {
         @Override
         protected List<Student> doInBackground(Object... param) {
 
-            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(),"cur_user" );
+            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(), "cur_user");
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
-            String id = SharedPreferenceUtils.getStringValue("user_id", "",sharedPreferences);
-            String url = "/api/users/"+id +"/notifications";
-            Map <String, String> params = new HashMap<>();
-            params.put("page" , "1");
-            params.put("per_page" , "20");
-            Call<JsonObject>  call = apiService.getServise(url, params);
+            String id = SharedPreferenceUtils.getStringValue("user_id", "", sharedPreferences);
+            String url = "/api/users/" + id + "/notifications";
+            Map<String, String> params = new HashMap<>();
+            params.put("page", "1");
+            params.put("per_page", "20");
+            Call<JsonObject> call = apiService.getServise(url, params);
 
-            call.enqueue(new Callback<JsonObject> () {
+            call.enqueue(new Callback<JsonObject>() {
 
                 @Override
-                public void onResponse(Call<JsonObject>  call, Response<JsonObject>  response) {
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     progress.dismiss();
                     int statusCode = response.code();
-                    if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                    if (statusCode == 401) {
+                        Dialogue.AlertDialog(context, getString(R.string.Dialogue401Title), getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
-                        notifications = new  ArrayList<NotificationModel>();
+                        notifications = new ArrayList<Notification>();
                         JsonObject notificationsRespone = response.body();
 
 
                         for (JsonElement pa : notificationsRespone.get("notifications").getAsJsonArray()) { // gest needed data from assig, quizz, grade item
                             JsonObject notificationObj = pa.getAsJsonObject();
-                            try {
-                                String studentNames = "";
-                                if (!notificationObj.get("additional_params").isJsonNull()) {
-                                    JsonObject additionalParams = notificationObj.getAsJsonObject("additional_params");
-                                    int i = 0 , len = additionalParams.get("studentNames").getAsJsonArray().size() ;
-                                    for (JsonElement name : additionalParams.get("studentNames").getAsJsonArray()) {
-                                        studentNames += name.getAsString();
-                                        if (i > 0 && i != len - 1) {
-                                            studentNames += ", ";
-                                        }
+                            String studentNames = "";
+                            if (!notificationObj.get("additional_params").isJsonNull()) {
+                                JsonObject additionalParams = notificationObj.getAsJsonObject("additional_params");
+                                int i = 0, len = additionalParams.get("studentNames").getAsJsonArray().size();
+                                for (JsonElement name : additionalParams.get("studentNames").getAsJsonArray()) {
+                                    studentNames += name.getAsString();
+                                    if (i > 0 && i != len - 1) {
+                                        studentNames += ", ";
                                     }
-
                                 }
-                                notifications.add(new NotificationModel(notificationObj.get("text").getAsString(), notificationObj.get("created_at").getAsString() ,notificationObj.get("logo").getAsString(), studentNames ,notificationObj.get("message").getAsString() ));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+
                             }
+                            notifications.add(new Notification(notificationObj.get("text").getAsString(), notificationObj.get("created_at").getAsString(), notificationObj.get("logo").getAsString(), studentNames, notificationObj.get("message").getAsString()));
                         }
 
-                        NotificationAdapter notificationAdapter = new NotificationAdapter(context, R.layout.notification_list_item,notifications);
+                        NotificationAdapter notificationAdapter = new NotificationAdapter(context, R.layout.notification_list_item, notifications);
                         ListView listView = (ListView) getView().findViewById(R.id.student_listview_notification);
                         listView.setAdapter(notificationAdapter);
 
@@ -860,7 +842,7 @@ public class StudentFragment extends Fragment {
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
                     progress.dismiss();
-                    Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+                    Dialogue.AlertDialog(context, getString(R.string.ConnectionErrorTitle), getString(R.string.ConnectionErrorBody));
                 }
 
 
@@ -886,22 +868,22 @@ public class StudentFragment extends Fragment {
         @Override
         protected List<Student> doInBackground(Object... param) {
 
-            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(), curUserKey );
+            SharedPreferences sharedPreferences = SharedPreferenceUtils.getSharedPreference(getActivity(), curUserKey);
             ApiInterface apiService = ApiClient.getClient(sharedPreferences).create(ApiInterface.class);
-            String id = SharedPreferenceUtils.getStringValue("user_id", "",sharedPreferences);
-            String url ="/api/users/"+id +"/notifications/mark_as_seen";
-            Map <String, Object> params = new HashMap<>();
-            params.put("type" , "android");
-            Call<JsonObject>  call = apiService.postServise(url, params);
+            String id = SharedPreferenceUtils.getStringValue("user_id", "", sharedPreferences);
+            String url = "/api/users/" + id + "/notifications/mark_as_seen";
+            Map<String, Object> params = new HashMap<>();
+            params.put("type", "android");
+            Call<JsonObject> call = apiService.postServise(url, params);
 
-            call.enqueue(new Callback<JsonObject> () {
+            call.enqueue(new Callback<JsonObject>() {
 
                 @Override
-                public void onResponse(Call<JsonObject>  call, Response<JsonObject>  response) {
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
                     int statusCode = response.code();
-                    if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                    if (statusCode == 401) {
+                        Dialogue.AlertDialog(context, getString(R.string.Dialogue401Title), getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
 
                     }
@@ -920,9 +902,9 @@ public class StudentFragment extends Fragment {
 
     }
 
-    public  void changeTheNotificationNumber() {
-        TextView notificationNumberText= (TextView) getActivity().findViewById(R.id.student_notification_number);
-        notificationNumberText.setText( MyKidsActivity.notificationNumber.toString());
+    public void changeTheNotificationNumber() {
+        TextView notificationNumberText = (TextView) getActivity().findViewById(R.id.student_notification_number);
+        notificationNumberText.setText(MyKidsActivity.notificationNumber.toString());
         Typeface roboto = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf"); //use this.getAssets if you are calling from an Activity
         notificationNumberText.setTypeface(roboto);
     }

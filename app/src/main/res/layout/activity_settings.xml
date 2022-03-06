@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_four"
+    android:orientation="vertical"
+    tools:context="trianglz.ui.activities.SettingsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="46dp"
+                android:layout_height="50dp"
+                android:background="@color/transparent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingStart="13dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="13dp"
+                android:paddingBottom="15dp"
+                android:src="@drawable/chevron_left"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <trianglz.components.SfproBoldTextView
+                android:id="@+id/sfproBoldTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/settings"
+                android:textColor="@color/greyish_brown"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/btn_back"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_four"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_change_language"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="1dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/language"
+                    android:textColor="@color/brownish_grey"
+                    android:textSize="15.4sp"
+                    android:layout_marginStart="22dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="14sp"
+                    android:includeFontPadding="false"
+                    android:gravity="center"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="98dp"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/iv_app_logo"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="3.5dp"
+                    android:src="@drawable/skolera_logo"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintBottom_toTopOf="@id/tv_version"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+
+                <TextView
+                    android:id="@+id/tv_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/version"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/iv_app_logo"
+                    app:layout_constraintStart_toStartOf="@id/iv_app_logo"
+                    app:layout_constraintTop_toBottomOf="@id/iv_app_logo" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/white_four"
+                android:gravity="center_vertical"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:text="@string/profile"
+                android:textAllCaps="true"
+                android:textColor="@color/brownish_grey"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btn_change_password"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:text="@string/change_password"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/brownish_grey"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_sign_out"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:text="@string/sign_out"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/tomato"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/white_four"
+                android:gravity="center_vertical"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:text="@string/settings"
+                android:textAllCaps="true"
+                android:textColor="@color/brownish_grey"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btn_share_app"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:text="@string/share_app"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/brownish_grey"
+                android:textSize="15sp" />
+
+
+            <Button
+                android:id="@+id/btn_rate_app"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:text="@string/rate_app"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/brownish_grey"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

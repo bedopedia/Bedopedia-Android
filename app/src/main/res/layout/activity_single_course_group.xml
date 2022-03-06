@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/white"
+    tools:context="trianglz.ui.activities.SingleCourseGroupActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:foreground="@drawable/round_ripple_25"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:src="@drawable/chevron_left" />
+
+                <TextView
+                    android:id="@+id/tv_course_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/btn_back"
+                    android:background="@android:color/transparent"
+                    android:text="English"
+                    style="@style/RobotoMediumStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="20sp"
+                     />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/silver" />
+        </LinearLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp">
+    <LinearLayout
+        android:id="@+id/layout_attendance"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:visibility="visible"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/circle_catskill_background_circle"
+            android:padding="10dp"
+            android:src="@drawable/attendance_home"
+            />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingStart="8dp"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingEnd="1dp"
+            android:paddingBottom="13dp">
+
+            <trianglz.components.SfuiSemiBoldTextView
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_alignParentTop="true"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@string/attendance"
+                android:textColor="@color/greyish_brown"
+                android:textSize="18sp"
+                android:textAlignment="viewStart"
+                />
+
+
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp">
+    <LinearLayout
+        android:id="@+id/layout_quizzes"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/circle_catskill_background_circle"
+            android:padding="10dp"
+            android:src="@drawable/quiz"
+            />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingStart="8dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="8dp"
+            >
+
+            <trianglz.components.SfuiSemiBoldTextView
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_alignParentTop="true"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:text="@string/quizzes"
+                android:textColor="@color/greyish_brown"
+                android:textSize="18sp"
+                android:textAlignment="viewStart"
+                />
+
+            <trianglz.components.SfproRegularTextView
+                android:id="@+id/tv_quizzes"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:ellipsize="end"
+                android:visibility="gone"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/steel"
+                android:textSize="14sp"
+                android:textAlignment="viewStart"
+                />
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp">
+    <LinearLayout
+        android:id="@+id/layout_assignments"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/circle_catskill_background_circle"
+            android:padding="10dp"
+            android:src="@drawable/assignment"
+            />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingStart="8dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="8dp"
+            >
+
+            <trianglz.components.SfuiSemiBoldTextView
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_alignParentTop="true"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:text="@string/assignments"
+                android:textColor="@color/greyish_brown"
+                android:textSize="18sp"
+                android:textAlignment="viewStart"
+                />
+
+            <trianglz.components.SfproRegularTextView
+                android:id="@+id/tv_assignments"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:ellipsize="end"
+                android:visibility="gone"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/steel"
+                android:textSize="14sp"
+                android:textAlignment="viewStart"
+                />
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp">
+    <LinearLayout
+        android:id="@+id/layout_posts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/circle_catskill_background_circle"
+                android:padding="10dp"
+                android:src="@drawable/posts_home"
+                />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingStart="8dp"
+                android:paddingTop="16dp"
+                android:gravity="center_vertical"
+                android:paddingEnd="8dp"
+                android:paddingBottom="13dp">
+
+                <trianglz.components.SfuiSemiBoldTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:layout_alignParentTop="true"
+                    android:ellipsize="end"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@string/posts"
+                    android:textColor="@color/greyish_brown"
+                    android:textSize="18sp"
+                    android:textAlignment="viewStart"
+                    />
+
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

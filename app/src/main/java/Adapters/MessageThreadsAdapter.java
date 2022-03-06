@@ -44,7 +44,6 @@ public class MessageThreadsAdapter extends ArrayAdapter
     }
 
     public static  class MessageThreadHolder{
-        //TODO refactor this
         TextView title;
         TextView lastMessage;
         TextView date;
@@ -74,7 +73,7 @@ public class MessageThreadsAdapter extends ArrayAdapter
 
         messageThreadHolderItem.title.setText(Message.getTitle());
         messageThreadHolderItem.lastMessage.setText(android.text.Html.fromHtml(Message.getLastMessage()).toString());
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Date date = null;
         try {

@@ -13,15 +13,6 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,32 +20,39 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.skolera.skolera_android.AskTeacherActivity;
-import com.skolera.skolera_android.R;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import Tools.SharedPreferenceUtils;
-
-import Tools.ImageViewHelper;
-import login.schoolCode;
+import com.google.android.material.navigation.NavigationView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.skolera.skolera_android.AskTeacherActivity;
+import com.skolera.skolera_android.R;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import Adapters.NotificationAdapter;
-import Models.NotificationModel;
+import Tools.Dialogue;
+import Tools.ImageViewHelper;
+import Tools.InternetConnection;
+import Tools.SharedPreferenceUtils;
 import login.Services.ApiClient;
 import login.Services.ApiInterface;
-import Tools.Dialogue;
-import Tools.InternetConnection;
+import login.schoolCode;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import trianglz.models.Notification;
 
 
 public class MyKidsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -70,7 +68,7 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
     ListView notificationList;
     ActionBarDrawerToggle notificationToggle;
     ActionBarDrawerToggle mainToggle;
-    List<NotificationModel> notifications;
+    List<Notification> notifications;
     public Handler handler ;
 
     final String curUserKey = "cur_user";
@@ -209,28 +207,24 @@ public class MyKidsActivity extends AppCompatActivity implements NavigationView.
                     if(statusCode == 401) {
                         Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
-                        notifications = new  ArrayList<NotificationModel>();
+                        notifications = new  ArrayList<Notification>();
                         JsonObject notificationsRespone = response.body();
 
-                        for (JsonElement pa : notificationsRespone.get("notifications").getAsJsonArray()) { // gest needed data from assig, quizz, grade item
+                        for (JsonElement pa : notificationsRespone.get("notifications").getAsJsonArray()) {
                             JsonObject notificationObj = pa.getAsJsonObject();
-                            try {
-                                String studentNames = "";
-                                if (!notificationObj.get("additional_params").isJsonNull()) {
-                                    JsonObject additionalParams = notificationObj.getAsJsonObject("additional_params");
-                                    int i = 0 , len = additionalParams.get("studentNames").getAsJsonArray().size() ;
-                                    for (JsonElement name : additionalParams.get("studentNames").getAsJsonArray()) {
-                                        studentNames += name.getAsString();
-                                        if (i > 0 && i != len - 1) {
-                                            studentNames += ", ";
-                                        }
+                            String studentNames = "";
+                            if (!notificationObj.get("additional_params").isJsonNull()) {
+                                JsonObject additionalParams = notificationObj.getAsJsonObject("additional_params");
+                                int i = 0 , len = additionalParams.get("studentNames").getAsJsonArray().size() ;
+                                for (JsonElement name : additionalParams.get("studentNames").getAsJsonArray()) {
+                                    studentNames += name.getAsString();
+                                    if (i > 0 && i != len - 1) {
+                                        studentNames += ", ";
                                     }
-
                                 }
-                                notifications.add(new NotificationModel(notificationObj.get("text").getAsString(), notificationObj.get("created_at").getAsString() ,notificationObj.get("logo").getAsString(), studentNames ,notificationObj.get("message").getAsString() ));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+
                             }
+                            notifications.add(new Notification(notificationObj.get("text").getAsString(), notificationObj.get("created_at").getAsString() ,notificationObj.get("logo").getAsString(), studentNames ,notificationObj.get("message").getAsString() ));
                         }
                         NotificationAdapter notificationAdapter = new NotificationAdapter(context, R.layout.notification_list_item,notifications);
                         ListView listView = (ListView) findViewById(R.id.listview_notification);

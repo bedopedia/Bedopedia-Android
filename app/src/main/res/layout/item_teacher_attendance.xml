@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="13dp"
+    android:layout_marginEnd="13dp"
+    android:id="@+id/card_view"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="3dp"
+    android:layout_marginBottom="8dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/check_attendance_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@color/transparent"
+            android:src="@drawable/curved_cool_grey" />
+
+        <agency.tango.android.avatarview.views.AvatarView
+            android:id="@+id/student_avatar"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/student_name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textAlignment="viewStart"
+            android:ellipsize="end"
+            android:text="Amanda Paul"
+            android:textColor="@color/black"
+            style="@style/RobotoMediumStyle"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+        <com.marcouberti.autofitbutton.AutoFitButton
+            android:textAllCaps="false"
+            android:id="@+id/present_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:drawablePadding="4dp"
+            android:textSize="12sp"
+            android:gravity="center_vertical|start"
+            android:includeFontPadding="false"
+            android:layout_marginEnd="10dp"
+            android:drawableStart="@drawable/not_present"
+            android:textColor="@color/warm_grey2"
+            android:textAlignment="textStart"
+            android:text="@string/present"
+            android:maxLines="1"
+            android:paddingHorizontal="4dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/curved_white_four" />
+
+        <com.marcouberti.autofitbutton.AutoFitButton
+            android:textAllCaps="false"
+            android:id="@+id/late_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|start"
+            android:includeFontPadding="false"
+            android:drawablePadding="8dp"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="7sp"
+            app:autoSizeTextType="uniform"
+            android:layout_marginEnd="10dp"
+            android:maxLines="1"
+            android:textColor="@color/warm_grey2"
+            android:layout_height="match_parent"
+            android:background="@drawable/curved_white_four"
+            android:drawableStart="@drawable/not_late"
+            android:text="@string/late"
+            style="?android:attr/borderlessButtonStyle"
+            android:paddingHorizontal="4dp" />
+
+        <com.marcouberti.autofitbutton.AutoFitButton
+            android:textAllCaps="false"
+            android:id="@+id/absent_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical|start"
+            android:includeFontPadding="false"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="7sp"
+            app:autoSizeTextType="uniform"
+            android:maxLines="1"
+            android:background="@drawable/curved_white_four"
+            android:drawableStart="@drawable/not_absent"
+            android:textColor="@color/warm_grey2"
+            android:layout_height="match_parent"
+            android:text="@string/absent"
+            style="?android:attr/borderlessButtonStyle"
+            android:paddingHorizontal="4dp" />
+
+        <com.marcouberti.autofitbutton.AutoFitButton
+            android:textAllCaps="false"
+            android:id="@+id/excused_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:includeFontPadding="false"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical|start"
+            android:maxLines="1"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="7sp"
+            app:autoSizeTextType="uniform"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/curved_white_four"
+            android:textColor="@color/warm_grey2"
+            android:drawableStart="@drawable/not_excused"
+            android:text="@string/excused"
+            android:paddingHorizontal="4dp" />
+    </LinearLayout>
+</LinearLayout>
+</androidx.cardview.widget.CardView>

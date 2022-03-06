@@ -5,18 +5,18 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +27,6 @@ import Adapters.AskTeacherAdapter;
 import Models.Message;
 import Models.MessageThread;
 import Models.User;
-import Tools.Dialogue;
 import Tools.SharedPreferenceUtils;
 import login.Services.ApiClient;
 import login.Services.ApiInterface;
@@ -35,6 +34,7 @@ import myKids.Student;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import trianglz.utils.Util;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -120,6 +120,8 @@ public class AskTeacherFragment extends Fragment {
     public void loading(){
         progress.setTitle(R.string.LoadDialogueTitle);
         progress.setMessage(getString(R.string.LoadDialogueBody));
+
+
     }
 
     private class MessageThreads extends AsyncTask {
@@ -154,7 +156,7 @@ public class AskTeacherFragment extends Fragment {
                     progress.dismiss();
                     int statusCode = response.code();
                     if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                        Util.showErrorDialog(context,getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
                         ArrayList<JsonObject> threads = response.body();
                         for (int i = 0 ; i < threads.size(); i++) {

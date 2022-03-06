@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_view"
+    android:background="@color/snow"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:clickable="true"
+    tools:context="trianglz.ui.activities.CreateTeacherPostActivity">
+
+    <ImageButton
+        android:id="@+id/close_btn"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="center"
+        android:src="@drawable/close" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="6dp"
+        android:text="@string/create_post"
+        android:textColor="@color/cerulean_blue"
+        android:textSize="24sp"
+        style="@style/RobotoMediumStyle"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="6dp"
+        android:text="@string/create_a_post_and_share"
+        android:textColor="@color/steel"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="6dp"
+        android:text="@string/content"
+        android:textColor="@color/black_87"
+        android:textSize="16sp"
+        style="@style/RobotoMediumStyle"/>
+
+    <EditText
+        android:id="@+id/post_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="104dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/curved_solid_white_radius_6"
+        android:gravity="start"
+        android:textColor="@color/black"
+        android:hint="@string/text_editor_hint"
+        android:inputType="textMultiLine"
+        android:maxHeight="104dp"
+        android:padding="8dp"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="6dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/attachments"
+            android:textColor="@color/black_87"
+            android:textSize="16sp"
+            style="@style/RobotoMediumStyle"/>
+
+        <Button
+            android:id="@+id/upload_file_btn"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:text="@string/upload_file"
+            android:textAllCaps="false"
+            android:textColor="@color/cerulean_blue"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_medium" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/attachment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/curved_solid_white_radius_6"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/attachment_icon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/add_attachment"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="34dp"
+            android:layout_marginEnd="34dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="@string/clicking_button"
+            android:textColor="@color/steel"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/post_btn"
+        android:layout_width="140dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/curved_solid_cerulean_blue"
+        android:text="@string/post"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+</LinearLayout>

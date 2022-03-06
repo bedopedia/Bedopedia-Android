@@ -1,28 +1,20 @@
 package com.skolera.skolera_android;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
+import android.media.RingtoneManager;
+import android.net.Uri;
+
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Map;
-
-import Models.Message;
-import Models.User;
-import myKids.MyKidsActivity;
-import student.StudentFragment;
-
-import static android.content.Context.MODE_PRIVATE;
+import trianglz.ui.activities.HomeActivity;
 
 /**
  * Created by ali on 27/02/17.
@@ -32,110 +24,70 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "FCM Service";
     private String messageKey = "message_content";
     private static int mdl = 0;
+
+
+    String token;
+    String tokenKey = "token";
+    String token_changedKey = "token_changed";
+    String TrueKey = "True";
+
+    @Override
+    public void onNewToken(String s) {
+        super.onNewToken(s);
+        token = s;
+        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(tokenKey,token);
+        editor.putString(token_changedKey,TrueKey);
+        editor.commit();
+    }
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        super.onMessageReceived(remoteMessage);
 
 
-        SharedPreferences sharedPreferences = getSharedPreferences("cur_user", MODE_PRIVATE);
-        if (sharedPreferences.getString("is_logged_in", "").equals("true")) {
-            Map<String, String> data = remoteMessage.getData();
+    }
+    private void sendMessageNotification(String title, String messageBody) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_ONE_SHOT);
 
-            if (data.get("event").equals("notification")) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int notifyID = 1;
+            String CHANNEL_ID = "my_channel_01";
+            CharSequence name = ("Skolera");
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setShowWhen(true)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentText(messageBody)
+                    .setContentTitle(title)
+                    .setChannelId(CHANNEL_ID)
+                    .setContentIntent(pendingIntent);
 
-               /* if (data.get("message").equals("markAsSeen")) {
-                    MyKidsActivity.notificationNumber = 0;
-                    NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    nMgr.cancelAll();
-                } else {
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.createNotificationChannel(mChannel);
 
-                }
-                */
-                try {
-                    JSONObject notification = new JSONObject(data.get("payload"));
-                    MyKidsActivity.notificationNumber = MyKidsActivity.notificationNumber + 1;
-                    android.support.v4.app.NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(this)
-                                    .setSmallIcon(R.drawable.quizzes_ico)
-                                    .setContentTitle(notification.getString("message"))
-                                    .setContentText(notification.getString("text"));
-                    Intent resultIntent = new Intent(this, MyKidsActivity.class);
+            mNotificationManager.notify(notifyID, notificationBuilder.build());
 
-                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-                    stackBuilder.addParentStack(MyKidsActivity.class);
-                    stackBuilder.addNextIntent(resultIntent);
-                    PendingIntent resultPendingIntent =
-                            stackBuilder.getPendingIntent(
-                                    0,
-                                    PendingIntent.FLAG_UPDATE_CURRENT
-                            );
-                    mBuilder.setContentIntent(resultPendingIntent);
-                    NotificationManager mNotificationManager =
-                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    mNotificationManager.notify(mdl, mBuilder.build());
-                    mdl = mdl +1;
+        } else {
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(title)
+                    .setContentText(messageBody)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-                //}
-
-
-            } else if (data.get("event").equals("message")){
-                try {
-                    JSONObject message = new JSONObject(data.get("payload"));
-                    JSONObject user = new JSONObject(message.getString("user"));
-
-                    StudentFragment.messageNumber = StudentFragment.messageNumber + 1;
-                    android.support.v4.app.NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(this)
-                                    .setSmallIcon(R.drawable.quizzes_ico)
-                                    .setContentTitle(user.getString("name"))
-                                    .setContentText(android.text.Html.fromHtml(message.getString("body")));
-                    Intent resultIntent = new Intent(this, AskTeacherActivity.class);
-
-                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-                    stackBuilder.addParentStack(MyKidsActivity.class);
-                    stackBuilder.addNextIntent(resultIntent);
-                    PendingIntent resultPendingIntent =
-                            stackBuilder.getPendingIntent(
-                                    0,
-                                    PendingIntent.FLAG_UPDATE_CURRENT
-                            );
-                    mBuilder.setContentIntent(resultPendingIntent);
-                    NotificationManager mNotificationManager =
-                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    mNotificationManager.notify(mdl, mBuilder.build());
-                    mdl = mdl +1;
-
-
-                    if (MessageThreadActivity.active) {
-
-                        User creator = new User(user.getInt("id")
-                                ,user.getString("firstname"),user.getString("lastname")
-                                ,user.getString("gender"),""
-                                ,user.getString("avatar_url"),user.getString("user_type")) ;
-
-                        Message messageContent = new Message(message.getString("body"),
-                                message.getString("created_at"), ""
-                                ,creator,message.getInt("thread_id"));
-
-
-                        Intent intent = new Intent(this, MessageThreadActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra(messageKey,messageContent);
-                        startActivity(intent);
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
+            notificationManager.notify(0, notificationBuilder.build());
         }
-
-
     }
 }

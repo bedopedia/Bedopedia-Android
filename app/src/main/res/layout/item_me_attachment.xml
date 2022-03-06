@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="3dp">
+
+    <FrameLayout
+        android:id="@+id/sender_image_layout"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="8dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/chat_me_image_background"
+        >
+
+
+        <ImageView
+            android:id="@+id/img_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:autoLink="web"
+            android:layout_gravity="right"
+            android:layout_marginEnd="5dp"
+            />
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:id="@+id/progress_bar"/>
+
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/sender_image_layout"
+        android:layout_alignParentRight="true"
+        >
+
+        <TextView
+            android:id="@+id/textview_time"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="24dp"
+            android:text="11:15 PM"
+            style="@style/chat_timings"
+            android:layout_marginTop="2dp"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -4,34 +4,34 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-
 import android.widget.TextView;
 
-import com.skolera.skolera_android.R;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.skolera.skolera_android.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import Tools.InternetConnection;
 import Tools.SharedPreferenceUtils;
 import gradeBook.Adapters.CourseAdapter;
 import login.Services.ApiClient;
 import login.Services.ApiInterface;
-import Tools.Dialogue;
-import Tools.InternetConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import trianglz.utils.Util;
 
 
 public class ActivityCourse extends AppCompatActivity {
@@ -40,8 +40,8 @@ public class ActivityCourse extends AppCompatActivity {
     Context context;
     private Double totalStudent = 0.0;
     private Double totalCategory = 0.0 ;
-     String studentId, courseGroupId,courseId;
-     String courseName;
+    String studentId, courseGroupId,courseId;
+    String courseName;
     final String studentIdKey = "student_id";
     final String assignmentsKey = "assignments";
     final String studentKey = "student";
@@ -103,7 +103,7 @@ public class ActivityCourse extends AppCompatActivity {
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     int statusCode = response.code();
                     if(statusCode == 401) {
-                        Dialogue.AlertDialog(context,getString(R.string.Dialogue401Title),getString(R.string.Dialogue401Body));
+                        Util.showErrorDialog(context,getString(R.string.Dialogue401Body));
                     } else if (statusCode == 200) {
 
                         ArrayList<ArrayList<String>> header = new ArrayList<>();
@@ -122,46 +122,98 @@ public class ActivityCourse extends AppCompatActivity {
 
                             ArrayList<ArrayList<String>> assignmentTempData = new ArrayList<>();
                             JsonObject item = entry.getValue().getAsJsonObject();
-                            if (item.has(assignmentsKey) && body.has(studentKey)  ) {
-                                JsonArray submittedAssignmentsArray = new JsonArray();
-                                if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedAssignmentsKey) ) {
-                                    submittedAssignmentsArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedAssignmentsKey).getAsJsonArray();
+                            JsonObject data = new JsonObject();
+                            if(entry.getKey().toString().equals("Coursework")){
+                                Set<Map.Entry<String, JsonElement>> tempEntries = item.getAsJsonObject("sub_categories").entrySet();
+                                for (Map.Entry<String, JsonElement> tEntry: tempEntries){
+                                    data = tEntry.getValue().getAsJsonObject();
+                                    if (data.has(assignmentsKey) && body.has(studentKey)  ) {
+                                        JsonArray submittedAssignmentsArray = new JsonArray();
+                                        if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedAssignmentsKey) ) {
+                                            submittedAssignmentsArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedAssignmentsKey).getAsJsonArray();
+                                        }
+                                        addAssignmentsToList(data.get(assignmentsKey).getAsJsonArray(), assignmentTempData, submittedAssignmentsArray , body.get(assignmentsAveragesKey).getAsJsonObject() );
+                                    }
+
+                                    if (data.has(quizzesKey)  &&  body.has(studentKey)  ) {
+                                        JsonArray submittedQuizzesArray = new JsonArray();
+                                        if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedQuizzesKey) ) {
+                                            submittedQuizzesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedQuizzesKey).getAsJsonArray();
+                                        }
+                                        addQuizzesToList(data.get(quizzesKey).getAsJsonArray(), assignmentTempData, submittedQuizzesArray , body.get(quizzesAveragesKey).getAsJsonObject() );
+                                    }
+
+                                    if (data.has(gradeItemsKey)  && body.has(studentKey)  ) {
+                                        JsonArray submittedGradesArray = new JsonArray();
+                                        if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedGradesKey)  ) {
+                                            submittedGradesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedGradesKey).getAsJsonArray();
+                                        }
+                                        addGradeItemsToList(data.get(gradeItemsKey).getAsJsonArray(), assignmentTempData, submittedGradesArray , body.get(gradesAveragesKey).getAsJsonObject() );
+                                    }
+
+                                    if(totalStudent == totalStudent.intValue()){
+                                        temp.add(totalStudent.intValue()+"");
+                                    }else{
+                                        temp.add(totalStudent.toString());
+                                    }
+                                    if(totalCategory == totalCategory.intValue()){
+                                        temp.add(totalCategory.intValue()+"");
+                                    }else{
+                                        temp.add(totalCategory.toString());
+                                    }
+
+
+                                    totalCategory = 0.0;
+                                    totalStudent = 0.0;
+                                    header.add(temp);
+                                    courseItemsTempData.add(assignmentTempData);
+
                                 }
-                                addAssignmentsToList(item.get(assignmentsKey).getAsJsonArray(), assignmentTempData, submittedAssignmentsArray , body.get(assignmentsAveragesKey).getAsJsonObject() );
-                            }
 
-                            if (item.has(quizzesKey)  &&  body.has(studentKey)  ) {
-                                JsonArray submittedQuizzesArray = new JsonArray();
-                                if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedQuizzesKey) ) {
-                                    submittedQuizzesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedQuizzesKey).getAsJsonArray();
+                            }else {
+                                data = item;
+                                if (data.has(assignmentsKey) && body.has(studentKey)  ) {
+                                    JsonArray submittedAssignmentsArray = new JsonArray();
+                                    if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedAssignmentsKey) ) {
+                                        submittedAssignmentsArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedAssignmentsKey).getAsJsonArray();
+                                    }
+                                    addAssignmentsToList(data.get(assignmentsKey).getAsJsonArray(), assignmentTempData, submittedAssignmentsArray , body.get(assignmentsAveragesKey).getAsJsonObject() );
                                 }
-                                addQuizzesToList(item.get(quizzesKey).getAsJsonArray(), assignmentTempData, submittedQuizzesArray , body.get(quizzesAveragesKey).getAsJsonObject() );
-                            }
 
-                            if (item.has(gradeItemsKey)  && body.has(studentKey)  ) {
-                                JsonArray submittedGradesArray = new JsonArray();
-                                if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedGradesKey)  ) {
-                                    submittedGradesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedGradesKey).getAsJsonArray();
+                                if (data.has(quizzesKey)  &&  body.has(studentKey)  ) {
+                                    JsonArray submittedQuizzesArray = new JsonArray();
+                                    if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedQuizzesKey) ) {
+                                        submittedQuizzesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedQuizzesKey).getAsJsonArray();
+                                    }
+                                    addQuizzesToList(data.get(quizzesKey).getAsJsonArray(), assignmentTempData, submittedQuizzesArray , body.get(quizzesAveragesKey).getAsJsonObject() );
                                 }
-                                addGradeItemsToList(item.get(gradeItemsKey).getAsJsonArray(), assignmentTempData, submittedGradesArray , body.get(gradesAveragesKey).getAsJsonObject() );
-                            }
 
-                            if(totalStudent == totalStudent.intValue()){
-                                temp.add(totalStudent.intValue()+"");
-                            }else{
-                                temp.add(totalStudent.toString());
-                            }
-                            if(totalCategory == totalCategory.intValue()){
-                                temp.add(totalCategory.intValue()+"");
-                            }else{
-                                temp.add(totalCategory.toString());
-                            }
+                                if (data.has(gradeItemsKey)  && body.has(studentKey)  ) {
+                                    JsonArray submittedGradesArray = new JsonArray();
+                                    if (body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().has(submittedGradesKey)  ) {
+                                        submittedGradesArray = body.get(studentKey).getAsJsonArray().get(0).getAsJsonObject().get(submittedGradesKey).getAsJsonArray();
+                                    }
+                                    addGradeItemsToList(data.get(gradeItemsKey).getAsJsonArray(), assignmentTempData, submittedGradesArray , body.get(gradesAveragesKey).getAsJsonObject() );
+                                }
+
+                                if(totalStudent == totalStudent.intValue()){
+                                    temp.add(totalStudent.intValue()+"");
+                                }else{
+                                    temp.add(totalStudent.toString());
+                                }
+                                if(totalCategory == totalCategory.intValue()){
+                                    temp.add(totalCategory.intValue()+"");
+                                }else{
+                                    temp.add(totalCategory.toString());
+                                }
 
 
-                            totalCategory = 0.0;
-                            totalStudent = 0.0;
-                            header.add(temp);
-                            courseItemsTempData.add(assignmentTempData);
+                                totalCategory = 0.0;
+                                totalStudent = 0.0;
+                                header.add(temp);
+                                courseItemsTempData.add(assignmentTempData);
+
+                            }
 
                         }
 
@@ -209,7 +261,7 @@ public class ActivityCourse extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
                     progress.dismiss();
-                    Dialogue.AlertDialog(context,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+                    Util.showErrorDialog(context,getString(R.string.ConnectionErrorBody));
                 }
             });
 
@@ -251,7 +303,7 @@ public class ActivityCourse extends AppCompatActivity {
         if (InternetConnection.isInternetAvailable(this)){
             new GradeBookAsyncTask().execute();
         } else {
-            Dialogue.AlertDialog(this,getString(R.string.ConnectionErrorTitle),getString(R.string.ConnectionErrorBody));
+            Util.showErrorDialog(context,getString(R.string.ConnectionErrorBody));
         }
 
     }

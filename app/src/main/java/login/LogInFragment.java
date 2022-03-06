@@ -6,12 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +18,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.skolera.skolera_android.R;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.skolera.skolera_android.R;
 
 import org.json.JSONException;
 
@@ -41,6 +42,8 @@ import myKids.MyKidsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,6 +70,12 @@ public class LogInFragment extends Fragment {
     final String userDataKey = "user_data";
     final String curUserKey = "cur_user";
     ProgressDialog progress;
+
+
+    String token;
+    String tokenKey = "token";
+    String token_changedKey = "token_changed";
+    String TrueKey = "True";
 
 
     public void loading(){
@@ -241,19 +250,30 @@ public class LogInFragment extends Fragment {
                     editor.putString(emailKey, email);
                     editor.putString(avatarUrlKey, data.get("avatar_url").getAsString());
                     editor.putString(userDataKey, data.toString());
-
                     editor.commit();
-                    try {
-                        updateToken();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( getActivity(),  new OnSuccessListener<InstanceIdResult>() {
+                            @Override
+                            public void onSuccess(InstanceIdResult instanceIdResult) {
+                                String token = instanceIdResult.getToken();
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("cur_user", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString(tokenKey,token);
+                                editor.putString(token_changedKey,TrueKey);
+                                editor.commit();
+                                try {
+                                    updateToken();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                     }
-
                     Intent i =  new Intent(getActivity(), MyKidsActivity.class);
                     startActivity(i);
                     getActivity().finish();
                 }
-            }
+
+
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
