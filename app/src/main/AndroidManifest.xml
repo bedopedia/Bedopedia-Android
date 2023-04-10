@@ -40,7 +40,8 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:exported="true">
             <intent-filter>
                 <action android:name="/safe" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -122,7 +123,8 @@
         <activity
             android:name="trianglz.ui.activities.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme_v2">
+            android:theme="@style/AppTheme_v2"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -151,7 +153,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_v2" />
 
-        <service android:name=".MyFirebaseMessagingService">
+        <service android:name=".MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
