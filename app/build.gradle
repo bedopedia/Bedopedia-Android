@@ -110,7 +110,7 @@ dependencies {
 
     // Check for v11.4.2 or higher
     // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:26.8.0')
+    implementation platform('com.google.firebase:firebase-bom:31.5.0')
 
     // Declare the dependencies for the Crashlytics and Analytics libraries
     // When using the BoM, you don't specify versions in Firebase library dependencies
@@ -136,6 +136,8 @@ dependencies {
     implementation 'com.ethanhua:skeleton:1.1.2'
     implementation 'io.supercharge:shimmerlayout:2.1.0'
     implementation 'me.grantland:autofittextview:0.2.1'
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+
 }
 
 

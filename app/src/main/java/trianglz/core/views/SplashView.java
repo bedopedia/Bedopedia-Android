@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -90,17 +93,22 @@ public class SplashView {
 
 
     public void refreshFireBaseToken() {
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener((Activity) context, new OnSuccessListener<InstanceIdResult>() {
-            @Override
-            public void onSuccess(InstanceIdResult instanceIdResult) {
-                String token = instanceIdResult.getToken();
-                Log.d("token", "onSuccess: " + token);
-                SessionManager.getInstance().setFireBaseToken(token);
-                updateToken();
 
-            }
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            return;
+                        }
+                        String token = task.getResult();
+                        Log.d("token", "onSuccess: " + token);
+                        SessionManager.getInstance().setFireBaseToken(token);
+                        updateToken();
 
-        });
+                    }
+                });
+
     }
 
 

@@ -1,8 +1,10 @@
 package trianglz.managers.api;
 
+import android.provider.Settings;
 import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import trianglz.managers.App;
 import trianglz.managers.SessionManager;
 import trianglz.managers.network.HandleArrayResponseListener;
 import trianglz.managers.network.HandleMultiPartResponseListener;
@@ -221,7 +224,11 @@ public class UserManager {
         HashMap<String, String> hashMap = SessionManager.getInstance().getHeaderHashMap();
         JSONObject params = new JSONObject();
         JSONObject tokenJson = new JSONObject();
-        String id = FirebaseInstanceId.getInstance().getId();
+        String id =   Settings.Secure.getString(App.getInstance().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
+
+
         try {
             tokenJson.put(Constants.FCM_TOKEN, token);
             tokenJson.put(Constants.KEY_LOCALE, locale);

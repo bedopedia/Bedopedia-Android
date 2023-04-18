@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +19,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.skolera.skolera_android.R;
@@ -42,6 +44,7 @@ import myKids.MyKidsActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import trianglz.managers.SessionManager;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -251,22 +254,28 @@ public class LogInFragment extends Fragment {
                     editor.putString(avatarUrlKey, data.get("avatar_url").getAsString());
                     editor.putString(userDataKey, data.toString());
                     editor.commit();
-                        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( getActivity(),  new OnSuccessListener<InstanceIdResult>() {
-                            @Override
-                            public void onSuccess(InstanceIdResult instanceIdResult) {
-                                String token = instanceIdResult.getToken();
-                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("cur_user", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString(tokenKey,token);
-                                editor.putString(token_changedKey,TrueKey);
-                                editor.commit();
-                                try {
-                                    updateToken();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+
+                    FirebaseMessaging.getInstance().getToken()
+                            .addOnCompleteListener(new OnCompleteListener<String>() {
+                                @Override
+                                public void onComplete(@NonNull Task<String> task) {
+                                    if (!task.isSuccessful()) {
+                                        return;
+                                    }
+                                    String token = task.getResult();
+                                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("cur_user", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString(tokenKey,token);
+                                    editor.putString(token_changedKey,TrueKey);
+                                    editor.commit();
+                                    try {
+                                        updateToken();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
                                 }
-                            }
-                        });
+                            });
                     }
                     Intent i =  new Intent(getActivity(), MyKidsActivity.class);
                     startActivity(i);
